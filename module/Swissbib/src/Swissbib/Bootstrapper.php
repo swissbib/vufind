@@ -337,14 +337,10 @@ class Bootstrapper
      *
      * @return void
      */
+    /*
     protected function initZendValidatorTranslations()
     {
         $callback = function ($event) {
-            /**
-             * Translator
-             *
-             * @var TranslatorImpl $translator
-             */
             $translator = $event->getApplication()->getServiceManager()
                 ->get('VuFind\Translator');
 
@@ -359,6 +355,7 @@ class Bootstrapper
 
         $this->events->attach('dispatch', $callback, 8996);
     }
+    */
 
     /**
      * Enables class loading for local composer dependencies
