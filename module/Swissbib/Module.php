@@ -88,10 +88,10 @@ class Module implements Autoloadable, Configurable, Initializable, Consolable
                     'VuFindSearch' => $matches[0] .
                         '/VuFindSearch/src/autoload_classmap.php',
                     'VuFindTheme' => $matches[0] .
-                        '/VuFindTheme/src/autoload_classmap.php',
-                    'Zend' => $matches[1] .
-                        'vendor/zendframework/zendframework/library/Zend/' .
-                        'autoload_classmap.php'
+                        '/VuFindTheme/src/autoload_classmap.php'
+                    //'Zend' => $matches[1] .
+                    //    'vendor/zendframework/zendframework/library/Zend/' .
+                    //    'autoload_classmap.php'
                 ],
                 'Zend\Loader\StandardAutoloader' => [
                     'namespaces' => [

@@ -14,6 +14,6 @@ php ${CLASSMAP_GENERATOR} --library ${APP_DIR}/module/Libadmin/src/Libadmin --ov
 php ${CLASSMAP_GENERATOR} --library ${APP_DIR}/module/VuFind/src/VuFind --overwrite --output ${APP_DIR}/module/VuFind/src/autoload_classmap.php
 php ${CLASSMAP_GENERATOR} --library ${APP_DIR}/module/VuFindSearch/src/VuFindSearch --overwrite --output ${APP_DIR}/module/VuFindSearch/src/autoload_classmap.php
 php ${CLASSMAP_GENERATOR} --library ${APP_DIR}/module/VuFindTheme/src/VuFindTheme --overwrite --output ${APP_DIR}/module/VuFindTheme/src/autoload_classmap.php
-php ${CLASSMAP_GENERATOR} --library ${APP_DIR}/vendor/zendframework/zendframework/library/Zend --overwrite --output ${APP_DIR}/vendor/zendframework/zendframework/library/Zend/autoload_classmap.php
+php ${CLASSMAP_GENERATOR} --library ${APP_DIR}/vendor/zendframework/zend-servicemanager --overwrite --output ${APP_DIR}/vendor/zendframework/autoload_classmap.php
 
 
