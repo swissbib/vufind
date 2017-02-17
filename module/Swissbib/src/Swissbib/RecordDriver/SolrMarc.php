@@ -1716,6 +1716,23 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
+     * Get citation / reference note for the record
+     *
+     * @return array
+     */
+    public function getAdditionalPhysicalForm()
+    {
+        $data = $this->getMarcSubFieldMaps(
+            530, [
+                'a' => 'form',
+                'c' => 'condition',
+                'u' => 'url',
+            ]
+        );
+        return $data;
+    }
+
+    /**
      * Get original version note for the record.
      *
      * @return array
