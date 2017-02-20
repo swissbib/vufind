@@ -123,7 +123,7 @@
   <target name="phpdoc">
     <mkdir dir="${builddir}/apidocs"/>
     <phpdoc2 title="VuFind API Documentation"
-      destdir="${builddir}/apidocs">
+             destdir="${builddir}/apidocs">
       <fileset dir=".">
         <include name="module/*/src/**/*.php" />
       </fileset>
@@ -138,6 +138,64 @@
   <!-- PHPUnit without logging output -->
   <target name="phpunitfast" description="Run tests">
     <exec dir="${srcdir}/module/VuFind/tests" command="VUFIND_MINK_DRIVER=${mink_driver} VUFIND_SELENIUM_BROWSER=${selenium_browser} VUFIND_SNOOZE_MULTIPLIER=${snooze_multiplier} VUFIND_LOCAL_DIR=${srcdir}/local VUFIND_URL=${vufindurl} ${srcdir}/vendor/bin/phpunit -dzend.enable_gc=0 ${phpunit_extra_params}" passthru="true" checkreturn="true" />
+  </target>
+
+  <target name="installsolr" description="Install Solr">
+    <!-- load previously installed version from marker file, if present -->
+    <if>
+      <available file="${srcdir}/solr/vendor/.installedVersion" />
+      <then>
+        <loadfile property="existing_solr_version" file="${srcdir}/solr/vendor/.installedVersion" />
+      </then>
+    </if>
+    <!-- only attempt to install Solr if the desired version is not already there -->
+    <if>
+      <not><equals arg1="${existing_solr_version}" arg2="${solr_version}" /></not>
+      <then>
+        <!-- make sure we don't run out of memory during installation: -->
+        <php expression="ini_set('memory_limit', '1G');" />
+
+        <!-- download from Apache if not already present in the downloads cache -->
+        <if>
+          <not><available file="${srcdir}/downloads/solr-${solr_version}.tgz" /></not>
+          <then>
+            <mkdir dir="${srcdir}/downloads" />
+            <httpget url="http://archive.apache.org/dist/lucene/solr/${solr_version}/solr-${solr_version}.tgz" dir="${srcdir}/downloads" />
+          </then>
+        </if>
+        <!-- unpack the archive into solr/vendor -->
+        <untar file="${srcdir}/downloads/solr-${solr_version}.tgz" todir="${srcdir}/solr" />
+        <delete dir="${srcdir}/solr/vendor" includeemptydirs="true" failonerror="false" />
+        <move file="${srcdir}/solr/solr-${solr_version}" tofile="${srcdir}/solr/vendor" />
+        <!-- make scripts executable -->
+        <chmod mode="0755">
+          <fileset dir="${srcdir}/solr/vendor/bin">
+            <include name="**/**" />
+            <exclude name="**/*.cmd" />
+          </fileset>
+        </chmod>
+        <!-- update the marker file with the installed version -->
+        <echo file="${srcdir}/solr/vendor/.installedVersion" message="${solr_version}" />
+      </then>
+    </if>
+  </target>
+
+  <target name="installswaggerui">
+    <delete dir="${srcdir}/public/swagger-ui" includeemptydirs="true" failonerror="false" />
+    <copy todir="${srcdir}/public/swagger-ui">
+      <fileset dir="${srcdir}/vendor/swagger-api/swagger-ui/dist" defaultexcludes="false" />
+    </copy>
+    <reflexive>
+      <fileset dir="${srcdir}/public/swagger-ui">
+        <include pattern="index.html" />
+      </fileset>
+      <filterchain>
+        <replaceregexp>
+          <regexp pattern="defaultModelRendering: 'schema'" replace="defaultModelRendering: 'model'" />
+          <regexp pattern="url = &quot;.*&quot;" replace="url = &quot;../api/v1?swagger&quot;" />
+        </replaceregexp>
+      </filterchain>
+    </reflexive>
   </target>
 
   <target name="composer" description="Install dependencies with Composer">
@@ -343,7 +401,7 @@
 
   <target name="importauthrec" description="import each of the MARC authority test records">
     <if>
-    <istrue value="${filename}"/>       <!-- To ignore the last token, as find command output list has ',' after last filename -->
+      <istrue value="${filename}"/>       <!-- To ignore the last token, as find command output list has ',' after last filename -->
       <then>
         <exec command="basename ${filename}" outputProperty="BASENAME" />
 
@@ -356,7 +414,7 @@
 
   <target name="importrec" description="import each of the MARC bibliographic test records">
     <if>
-    <istrue value="${filename}"/>       <!-- To ignore the last token, as find command output list has ',' after last filename -->
+      <istrue value="${filename}"/>       <!-- To ignore the last token, as find command output list has ',' after last filename -->
       <then>
         <exec command="basename ${filename}" outputProperty="BASENAME" />
 
