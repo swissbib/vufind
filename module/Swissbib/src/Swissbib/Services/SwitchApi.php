@@ -398,36 +398,34 @@ class SwitchApi implements ServiceLocatorAwareInterface
      */
     protected function getNationalLicenceUserCurrentInformation($nameId)
     {
-        /*Make http request to retrieve new edu-ID information usign the back-
-        channel api
-        example :
-        @codingStandardsIgnoreStart
-        (very long line)
-        curl -k 'https://test.swissbib.ch/Shibboleth.sso/AttributeResolver?entityID=https%3A%2F%2Feduid.ch%2Fidp%2Fshibboleth&nameId=AaduBHpQXrRs9BJqQcB7aLXgWTI%3D&format=urn%3Aoasis%3Anames%3Atc%3ASAML%3A2.0%3Anameid-format%3Apersistent&encoding=JSON%2FCGI'
-        @codingStandardsIgnoreEnd
-        answer :
-        {
-            "mobile" : "+41 79 200 00 00",
-            "swissLibraryPersonResidence" : "CH",
-            "homeOrganizationType" : "others",
-            "uniqueID" : "859735645906@eduid.ch",
-            "homeOrganization" : "eduid.ch",
-            "mail" : "myemail@test.ch",
-            "persistent-id" :
-                "https://eduid.ch/idp/shibboleth!https://test.swissbib.ch/
-                shibboleth!AaduBHpQXrRs9BJqQcB7aLXgWTI=",
-            "swissEduIdAssuranceLevel" :
-                "mobile:https://eduid.ch/def/loa2;
-                 mail:https://eduid.ch/def/loa2;
-                 homePostalAddress:https://eduid.ch/def/loa2",
-            "givenName" : "Hans",
-            "surname" : "Mustermann",
-            "homePostalAddress" : "Rue Neuve 5$1222 Geneve$Switzerland",
-            "swissEduIDUsage1y" : "TRUE",
-            "affiliation" : "affiliate",
-            "persistent-id" : "https://eduid.ch/idp/shibboleth!
-                https://test.swissbib.ch/shibboleth!AaduBHpQXrRs9BJqQcB7aLXgWTI="
-        }
+        // @codingStandardsIgnoreStart
+        /*
+         * Make http request to retrieve new edu-ID information usign the back-
+         * channel api
+         * example :
+         *
+         * (very long line)
+         * curl -k 'https://test.swissbib.ch/Shibboleth.sso/AttributeResolver?entityID=https%3A%2F%2Feduid.ch%2Fidp%2Fshibboleth&nameId=AaduBHpQXrRs9BJqQcB7aLXgWTI%3D&format=urn%3Aoasis%3Anames%3Atc%3ASAML%3A2.0%3Anameid-format%3Apersistent&encoding=JSON%2FCGI'
+         *
+         * answer :
+         * {
+         * "mobile" : "+41 79 200 00 00",
+         * "swissLibraryPersonResidence" : "CH",
+         * "homeOrganizationType" : "others",
+         * "uniqueID" : "859735645906@eduid.ch",
+         * "homeOrganization" : "eduid.ch",
+         * "mail" : "myemail@test.ch",
+         * "persistent-id" : "https://eduid.ch/idp/shibboleth!https://test.swissbib.ch/shibboleth!AaduBHpQXrRs9BJqQcB7aLXgWTI=",
+         * "swissEduIdAssuranceLevel" : "mobile:https://eduid.ch/def/loa2;mail:https://eduid.ch/def/loa2;homePostalAddress:https://eduid.ch/def/loa2",
+         * "givenName" : "Hans",
+         * "surname" : "Mustermann",
+         * "homePostalAddress" : "Rue Neuve 5$1222 Geneve$Switzerland",
+         * "swissEduIDUsage1y" : "TRUE",
+         * "affiliation" : "affiliate",
+         * "persistent-id" : "https://eduid.ch/idp/shibboleth!https://test.swissbib.ch/shibboleth!AaduBHpQXrRs9BJqQcB7aLXgWTI="
+         * }
+         */
+        // @codingStandardsIgnoreEnd
 
         /**
          * Client.
