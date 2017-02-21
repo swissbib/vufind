@@ -159,9 +159,7 @@ class NationalLicenceUser extends Gateway
             }
         }
 
-
-
-        $importantKeys=[
+        $importantKeys = [
             'mobile',
             'home_postal_address',
             'swiss_library_person_residence'
@@ -174,8 +172,6 @@ class NationalLicenceUser extends Gateway
                 $nationalLicenceUser->$key = null;
             }
         }
-
-
 
         if (!empty($fieldsValuesRelation)) {
             $user = $nationalLicenceUser->getRelUser();

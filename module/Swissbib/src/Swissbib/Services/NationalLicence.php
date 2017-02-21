@@ -851,11 +851,9 @@ class NationalLicence implements ServiceLocatorAwareInterface
                     $user->save();
                 }
 
-
             } catch (\Exception $e){
                 echo $e->getMessage();
             }
-
 
         }
     }
