@@ -435,7 +435,7 @@ class SwitchApi implements ServiceLocatorAwareInterface
         $client = $this->getBaseClient(
             Request::METHOD_GET,
             $this->configNL['back_channel_endpoint_path'],
-            $this->config['Site']['url']
+            $this->configNL['back_channel_endpoint_host']
         );
         $client->setParameterGet(
             [
