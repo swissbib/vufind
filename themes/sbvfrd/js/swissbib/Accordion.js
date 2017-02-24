@@ -90,6 +90,13 @@ $(document).ready(function () {
         }
     });
 
+    //on (re)load - open "collapseXX" divs
+    var expanddiv = swissbib.Accordion.getParameterByName('expanddiv');
+    if (expanddiv != null) {
+        accordionContainer.find("#" + expanddiv).collapse('show');
+        accordionContainer.find("a[href='#" + expanddiv + "']").click();
+        location.hash = expanddiv;
+    }
 
     //on (re)load - open direct link library
     var expandlib = swissbib.Accordion.getParameterByName('expandlib');
@@ -116,5 +123,13 @@ $(document).ready(function () {
         accordionContainer.find("#collapse-favorite").collapse('show');
         $.cookie(swissbib.Accordion.cookieName, null);
     }
-});
 
+    window.onload = function() {
+        if(location.hash) {
+            var elId = location.hash.replace('#','');
+            var scrollToEl = document.getElementById(elId);
+            scrollToEl.scrollIntoView(true);
+            console.log(elId);
+        }
+    }
+});

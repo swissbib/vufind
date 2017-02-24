@@ -226,6 +226,8 @@ $prevTitles      = $record->getPreviousTitles();
   $publications = $record->getPublications();
   $exhibitions = $record->getExhibitions();
   $relatedEntries = $record->getRelatedEntries();
+  $addPhysicalForm = $record->getAdditionalPhysicalForm();
+
 
   $musicalPresentation    = $record->getMusicPresentation();
   $orderClassification    = $record->getOrderClassification();
@@ -243,7 +245,7 @@ $prevTitles      = $record->getPreviousTitles();
   <? if (!empty($notes) or !empty($freq) or !empty($contDates) or !empty($diss) or
       !empty($bib) or !empty($access) or !empty($related) or !empty($credits) or !empty($awards) or
       !empty($citenotes) or !empty($orignotes) or !empty($copynotes) or !empty($binding) or !empty($histData) or
-      !empty($origtitle) or !empty($perfomer) or !empty($system) or !empty($relatedEntries) or
+      !empty($origtitle) or !empty($perfomer) or !empty($system) or !empty($relatedEntries) or !empty($addPhysicalForm) or
       !empty($langData) or !empty($audience) or !empty($eventNote) or !empty($fileNote) or !empty($publications) or
       !empty($exhibitions) or !empty($worktitle) or !empty($ownerNote) or !empty($acquisitionNote) or !empty($medium)
       or !empty($musicalPresentation) or !empty($orderClassification) or !empty($securityclassification)
@@ -377,7 +379,19 @@ $prevTitles      = $record->getPreviousTitles();
           <th><?= $this->transEsc('Citation_Note') ?>: </th>
           <td>
               <? foreach ($citenotes as $field): ?>
-                  <?= $this->escapeHtml($field) ?><br/>
+                  <? if (empty($field['location'])): ?>
+                      <? $fieldDesc = $field['source']; ?>
+                  <? else: ?>
+                      <? $fieldDesc = $field['source'] . ', ' . $field['location']; ?>
+                  <? endif; ?>
+                  <? if (empty($field['url'])): ?>
+                      <?= $this->escapeHtml($fieldDesc) ?> <br/>
+                  <? else: ?>
+                      <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                         target="_blank">
+                          <?= $this->escapeHtml($fieldDesc) ?>
+                      </a><br/>
+                  <? endif; ?>
               <? endforeach; ?>
           </td>
         </tr>
@@ -430,6 +444,31 @@ $prevTitles      = $record->getPreviousTitles();
           </td>
         </tr>
       <? endif; ?>
+
+      <? /* Display citation / reference note (field 530) */ ?>
+      <? if (!empty($addPhysicalForm)): ?>
+          <tr>
+              <th><?= $this->transEsc('AdditionalPhysicalForm') ?>: </th>
+              <td>
+                  <? foreach ($addPhysicalForm as $field): ?>
+                      <? if (empty($field['condition'])): ?>
+                          <? $fieldDesc = $field['form']; ?>
+                      <? else: ?>
+                          <? $fieldDesc = $field['form'] . ', ' . $field['condition']; ?>
+                      <? endif; ?>
+                      <? if (empty($field['url'])): ?>
+                          <?= $this->escapeHtml($fieldDesc) ?> <br/>
+                      <? else: ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                             target="_blank">
+                              <?= $this->escapeHtml($fieldDesc) ?>
+                          </a><br/>
+                      <? endif; ?>
+                  <? endforeach; ?>
+              </td>
+          </tr>
+      <? endif; ?>
+
 
       <? /* Display original version note (field 534) */ ?>
       <? if (!empty($orignotes)): ?>
