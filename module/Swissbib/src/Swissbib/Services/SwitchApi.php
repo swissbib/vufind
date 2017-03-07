@@ -437,6 +437,7 @@ class SwitchApi implements ServiceLocatorAwareInterface
             $this->configNL['back_channel_endpoint_path'],
             $this->configNL['back_channel_endpoint_host']
         );
+        $client->setOptions(['sslverifypeer' => false]);
         $client->setParameterGet(
             [
                 'entityID' => $this->configNL['back_channel_param_entityID'],
