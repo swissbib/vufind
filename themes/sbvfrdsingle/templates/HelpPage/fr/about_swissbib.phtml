@@ -16,7 +16,7 @@
 
 <h2>Comment chercher dans swissbib ?</h2>
 <p>
-    Swissbib offre une fonction de recherche simple qui peut être affinée à l'aide de <a class="help-link" href="<?=$this->url('help-home')?>?topic=search" title="<?= $this->transEsc('Search Tips') ?>">nombreuses options</a>
+    Swissbib offre une fonction de recherche simple qui peut être affinée à l'aide de <a class="help-link" data-lightbox href="<?=$this->url('help-home')?>?topic=search" title="<?= $this->transEsc('Search Tips') ?>">nombreuses options</a>
     ainsi qu'une <a href="<?= $this->url('search-advanced') ?>" class="advancedSearchLink" title="<?= $this->transEsc('Advanced Search') ?>">recherche avancée</a>.
     Les résultats s'affichent par ordre de pertinence mais peuvent également être triés par auteur, par titre ou par ordre chronologique. Les filtres
     vous permettent ensuite d'affiner votre recherche en utilisant plusieurs critères.
@@ -40,7 +40,7 @@
 </p>
 <ul class="list">
     <li>poursuivre une recherche effectuée antérieurement</li>
-    <li>enregistrer vos bibliothèques préférées comme favoris par défaut</li>
+    <li>enregistrer vos bibliothèques préférées comme Mes bibliothèques par défaut</li>
     <li>sauvegarder à long terme des listes de sélections</li>
     <li>configurer l'interface de recherche (langue, longueur des listes de résultats)</li>
 </ul>
@@ -55,15 +55,17 @@
 </p>
 <ul class="list">
     <li>
-        <strong>switchAAI:</strong> Les étudiants et le personnel des universités, hautes écoles spécialisées et autres institutions d'enseignement
-        et de recherche peuvent se connecter grâce au service national de switch. L'accès est fourni par ces institutions et est utilisé également
-        pour les services tels que VPN ou les plates-formes d'apprentissage en ligne
+        <strong>switchAAI:</strong> Les étudiants et le personnel des universités, hautes écoles spécialisées et autres
+        institutions d'enseignement et de recherche peuvent se connecter grâce au service national de switch. L'accès
+        est fourni par ces institutions et est utilisé également pour les services tels que VPN ou les plates-formes
+        d'apprentissage en ligne
         (<a href="https://www.switch.ch/services/aai/" target="_blank" title="Info sur switchAAI">plus d'informations</a>).
     </li>
     <li>
-        <strong>switch Guest Login:</strong> Cet accès switch est conçu pour les utilisatrices et les utilisateurs qui ne sont pas affiliés
-        à une haute école et qui ne peuvent donc pas se connecter en utilisant switchAAI
-        (<a href="https://www.switch.ch/aai/support/tools/guest-login/" target="_blank" title="Info sur Guest Login">plus d'informations</a>).
+        <strong>swiss edu-ID:</strong> Ce service nouveau de switch est conçu pour les utilisatrices et utilisateurs qui
+        ne sont pas affiliés à une haute école ou université et qui ne peuvent donc pas se connecter en utilisant
+        switchAAI
+        (<a href="https://projects.switch.ch/eduid/" target="_blank" title="Info sur swiss edu-ID">plus d'informations</a>).
     </li>
 </ul>
 

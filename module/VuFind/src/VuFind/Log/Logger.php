@@ -17,13 +17,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Error_Logging
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     https://vufind.org Main Site
  */
 namespace VuFind\Log;
 use Zend\Log\Logger as BaseLogger,
@@ -33,11 +33,11 @@ use Zend\Log\Logger as BaseLogger,
 /**
  * This class wraps the BaseLogger class to allow for log verbosity
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Error_Logging
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     https://vufind.org Main Site
  */
 class Logger extends BaseLogger implements ServiceLocatorAwareInterface
 {
@@ -61,18 +61,9 @@ class Logger extends BaseLogger implements ServiceLocatorAwareInterface
     {
         // DEBUGGER
         if (!$config->System->debug == false) {
-            $writer = new Writer\Stream('php://output');
-            $formatter = new \Zend\Log\Formatter\Simple(
-                '<pre>%timestamp% %priorityName%: %message%</pre>' . PHP_EOL
-            );
-            $writer->setFormatter($formatter);
-            $this->addWriters(
-                $writer,
-                'debug-'
-                . (is_int($config->System->debug) ? $config->System->debug : '5')
-            );
+            $this->addDebugWriter($config->System->debug);
         }
-        
+
         // Activate database logging, if applicable:
         if (isset($config->Logging->database)) {
             $parts = explode(':', $config->Logging->database);
@@ -128,11 +119,65 @@ class Logger extends BaseLogger implements ServiceLocatorAwareInterface
             $this->addWriters($writer, $filters);
         }
 
-        // Null writer to avoid errors
+        // Activate slack logging, if applicable:
+        if (isset($config->Logging->slack) && isset($config->Logging->slackurl)) {
+            $options = [];
+            // Get config
+            list($channel, $error_types) = explode(':', $config->Logging->slack);
+            if ($error_types == null) {
+                $error_types = $channel;
+                $channel = null;
+            }
+            if ($channel) {
+                $options['channel'] = $channel;
+            }
+            if (isset($config->Logging->slackname)) {
+                $options['name'] = $config->Logging->slackname;
+            }
+            $filters = explode(',', $error_types);
+            // Make Writers
+            $writer = new Writer\Slack(
+                $config->Logging->slackurl,
+                $this->getServiceLocator()->get('VuFind\Http')->createClient(),
+                $options
+            );
+            $writer->setContentType('application/json');
+            $formatter = new \Zend\Log\Formatter\Simple(
+                "*%priorityName%*: %message%"
+            );
+            $writer->setFormatter($formatter);
+            $this->addWriters($writer, $filters);
+        }
+
+        // Null (no-op) writer to avoid errors
         if (count($this->writers) == 0) {
-            $nullWriter = 'Zend\Log\Writer\Null';
+            $nullWriter = 'Zend\Log\Writer\Noop';
             $this->addWriter(new $nullWriter());
         }
+    }
+
+    /**
+     * Add the standard debug stream writer.
+     *
+     * @param bool|int $debug Debug mode/level
+     *
+     * @return void
+     */
+    public function addDebugWriter($debug)
+    {
+        // Only add debug writer ONCE!
+        static $hasDebugWriter = false;
+        if ($hasDebugWriter) {
+            return;
+        }
+
+        $hasDebugWriter = true;
+        $writer = new Writer\Stream('php://output');
+        $formatter = new \Zend\Log\Formatter\Simple(
+            '<pre>%timestamp% %priorityName%: %message%</pre>' . PHP_EOL
+        );
+        $writer->setFormatter($formatter);
+        $this->addWriters($writer, 'debug-' . (is_int($debug) ? $debug : '5'));
     }
 
     /**
@@ -255,6 +300,24 @@ class Logger extends BaseLogger implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Given an exception, return a severity level for logging purposes.
+     *
+     * @param \Exception $error Exception to analyze
+     *
+     * @return int
+     */
+    protected function getSeverityFromException($error)
+    {
+        // Treat unexpected or 5xx errors as more severe than 4xx errors.
+        if ($error instanceof \VuFind\Exception\HttpStatusInterface
+            && in_array($error->getHttpStatus(), [403, 404])
+        ) {
+            return BaseLogger::WARN;
+        }
+        return BaseLogger::CRIT;
+    }
+
+    /**
      * Log an exception triggered by ZF2 for administrative purposes.
      *
      * @param \Exception              $error  Exception to log
@@ -266,13 +329,20 @@ class Logger extends BaseLogger implements ServiceLocatorAwareInterface
     {
         // We need to build a variety of pieces so we can supply
         // information at five different verbosity levels:
-        $baseError = $error->getMessage();
+        $baseError = get_class($error) . ' : ' . $error->getMessage();
+        $prev = $error->getPrevious();
+        while ($prev) {
+            $baseError .= ' ; ' . get_class($prev) . ' : ' . $prev->getMessage();
+            $prev = $prev->getPrevious();
+        }
         $referer = $server->get('HTTP_REFERER', 'none');
         $basicServer
             = '(Server: IP = ' . $server->get('REMOTE_ADDR') . ', '
             . 'Referer = ' . $referer . ', '
             . 'User Agent = '
             . $server->get('HTTP_USER_AGENT') . ', '
+            . 'Host = '
+            . $server->get('HTTP_HOST') . ', '
             . 'Request URI = '
             . $server->get('REQUEST_URI') . ')';
         $detailedServer = "\nServer Context:\n"
@@ -312,9 +382,9 @@ class Logger extends BaseLogger implements ServiceLocatorAwareInterface
             5 => $baseError . $detailedServer . $detailedBacktrace
         ];
 
-        $this->log(BaseLogger::CRIT, $errorDetails);
+        $this->log($this->getSeverityFromException($error), $errorDetails);
     }
-    
+
     /**
      * Convert function argument to a loggable string
      *
@@ -324,7 +394,6 @@ class Logger extends BaseLogger implements ServiceLocatorAwareInterface
      */
     protected function argumentToString($arg)
     {
-        
         if (is_object($arg)) {
             return get_class($arg) . ' Object';
         }

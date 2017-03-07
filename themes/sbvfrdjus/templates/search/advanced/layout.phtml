@@ -6,7 +6,7 @@
   $this->layout()->searchbox = false;
 
   // Set up breadcrumbs:
-  $lastSearchLink = $this->getLastSearchLink($this->transEsc('Search'), '', '</li>');
+  $lastSearchLink = $this->searchMemory()->getLastSearchLink($this->transEsc('Search'), '', '</li>');
 
   $this->layout()->breadcrumbs = ($lastSearchLink ? $lastSearchLink : '')
   . '<li class="active">' . $this->transEsc('Advanced') . '</li>';
@@ -49,7 +49,7 @@
 
 <?=$this->flashmessages()?>
 <div class="<?=$this->layoutClass('mainbody') ?>">
-  <? $searchTabs = $this->searchtabs($this->searchClassId, $this->lookfor, $this->searchIndex, 'advanced', 'advanced'); ?>
+  <? $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, 'advanced', [], 'advanced'); ?>
   <? if (count($searchTabs) > 0): ?>
     <ul class="nav nav-tabs jus">
       <? foreach ($searchTabs as $tab): ?>
@@ -72,7 +72,7 @@
   <? if (!empty($searchFilters)): ?>
     <h4><?=$this->transEsc("adv_search_filters")?></h4>
     <ul class="list-group">
-      <label class="list-group-item checkbox"><?=$this->transEsc("adv_search_select_all")?> <input type="checkbox" checked="checked" class="checkbox-select-all"/></label>
+      <label class="list-group-item checkbox"><input type="checkbox" checked="checked" class="checkbox-select-all"/><?=$this->transEsc("adv_search_select_all")?></label>
     </ul>
     <? foreach ($searchFilters as $field => $data): ?>
       <ul class="list-group">
@@ -86,8 +86,15 @@
   <div class="sidegroup">
     <h4><?=$this->transEsc("Search Tips")?></h4>
     <ul class="list-group">
-      <a class="list-group-item help-link" href="<?=$this->url('help-home')?>?topic=advsearch" title="<?=$this->transEsc('Help with Advanced Search')?>"><?=$this->transEsc("Help with Advanced Search")?></a>
-      <a class="list-group-item help-link" href="<?=$this->url('help-home')?>?topic=search" title="<?=$this->transEsc('Help with Search Operators')?>"><?=$this->transEsc("Help with Search Operators")?></a>
+      <a class="list-group-item help-link" data-lightbox href="<?=$this->url('help-home')?>?topic=advsearch" title="<?=$this->transEsc('Help with Advanced Search')?>"><?=$this->transEsc("Help with Advanced Search")?></a>
+      <a class="list-group-item help-link" data-lightbox href="<?=$this->url('help-home')?>?topic=search" title="<?=$this->transEsc('Help with Search Operators')?>"><?=$this->transEsc("Help with Search Operators")?></a>
+    </ul>
+  </div>
+  <div class="sidegroup">
+    <h4><?=$this->transEsc('Your Account')?></h4>
+    <ul class="list-group">
+      <a class="list-group-item" href="<?= $this->url('search-history')?>" title="<?= $this->transEsc('Search History')?>"><?=$this->transEsc('Search History')?></a>
+      <a class="list-group-item" href="<?=$this->url('myresearch-settings')?>" title="<?=$this->transEsc('My_Search_Settings')?>"><?=$this->transEsc('My_Search_Settings')?></a>
     </ul>
   </div>
 </div>

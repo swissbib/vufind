@@ -17,13 +17,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Controller
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:building_a_controller Wiki
+ * @link     https://vufind.org/wiki/development:plugins:controllers Wiki
  */
 namespace VuFindConsole\Controller;
 use Zend\Code\Generator\ClassGenerator;
@@ -35,11 +35,11 @@ use Zend\Console\Console;
 /**
  * This controller handles various command-line tools for dealing with language files
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Controller
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:building_a_controller Wiki
+ * @link     https://vufind.org/wiki/development:plugins:controllers Wiki
  */
 class GenerateController extends AbstractBase
 {
@@ -194,14 +194,14 @@ class GenerateController extends AbstractBase
         $mainConfig = $this->getServiceLocator()->get('Config');
         foreach ($mainConfig['router']['routes'] as $key => $val) {
             if (isset($val['options']['route'])
-                && substr($val['options']['route'], -12) == '[:id[/:tab]]'
+                && substr($val['options']['route'], -14) == '[:id[/[:tab]]]'
             ) {
                 $newRoute = $key . '-' . strtolower($action);
                 if (isset($mainConfig['router']['routes'][$newRoute])) {
                     Console::writeLine($newRoute . ' already exists; skipping.');
                 } else {
                     $val['options']['route'] = str_replace(
-                        '[:id[/:tab]]', "[:id]/$action", $val['options']['route']
+                        '[:id[/[:tab]]]', "[:id]/$action", $val['options']['route']
                     );
                     $val['options']['defaults']['action'] = $action;
                     $config['router']['routes'][$newRoute] = $val;

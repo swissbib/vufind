@@ -17,14 +17,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  WorldCat
  * @author   Andrew S. Nagy <vufind-tech@lists.sourceforge.net>
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 namespace VuFindSearch\Backend\WorldCat;
 use VuFindSearch\ParamBag;
@@ -32,11 +32,11 @@ use VuFindSearch\ParamBag;
 /**
  * WorldCat SRU Search Interface
  *
- * @category VuFind2
+ * @category VuFind
  * @package  WorldCat
  * @author   Andrew S. Nagy <vufind-tech@lists.sourceforge.net>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 class Connector extends \VuFindSearch\Backend\SRU\Connector
 {
@@ -121,8 +121,8 @@ class Connector extends \VuFindSearch\Backend\SRU\Connector
      * Execute a search.
      *
      * @param ParamBag $params Parameters
-     * @param integer  $offset Search offset
-     * @param integer  $limit  Search limit
+     * @param int      $offset Search offset
+     * @param int      $limit  Search limit
      *
      * @return string
      */
@@ -147,5 +147,4 @@ class Connector extends \VuFindSearch\Backend\SRU\Connector
             'total' => isset($xml->numberOfRecords) ? (int)$xml->numberOfRecords : 0
         ];
     }
-
 }

@@ -18,15 +18,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search
  * @author   Andrew S. Nagy <vufind-tech@lists.sourceforge.net>
  * @author   David Maus <maus@hab.de>
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org
+ * @link     https://vufind.org
  */
 namespace VuFindSearch\Backend\Solr;
 
@@ -39,13 +39,13 @@ use VuFindSearch\ParamBag;
 /**
  * SOLR QueryBuilder.
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search
  * @author   Andrew S. Nagy <vufind-tech@lists.sourceforge.net>
  * @author   David Maus <maus@hab.de>
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org
+ * @link     https://vufind.org
  */
 class QueryBuilder implements QueryBuilderInterface
 {
@@ -120,10 +120,13 @@ class QueryBuilder implements QueryBuilderInterface
     {
         $params = new ParamBag();
 
-        // Add spelling query if applicable -- note that we mus set this up before
+        // Add spelling query if applicable -- note that we must set this up before
         // we process the main query in order to avoid unwanted extra syntax:
         if ($this->createSpellingQuery) {
-            $params->set('spellcheck.q', $query->getAllTerms());
+            $params->set(
+                'spellcheck.q',
+                $this->getLuceneHelper()->extractSearchTerms($query->getAllTerms())
+            );
         }
 
         if ($query instanceof QueryGroup) {
@@ -151,19 +154,24 @@ class QueryBuilder implements QueryBuilderInterface
                         $params->set('hl.q', $oldString);
                     }
                 }
-            } else {
-                if ($handler->hasDismax()) {
-                    $params->set('qf', implode(' ', $handler->getDismaxFields()));
-                    $params->set('qt', $handler->getDismaxHandler());
-                    foreach ($handler->getDismaxParams() as $param) {
-                        $params->add(reset($param), next($param));
-                    }
-                    if ($handler->hasFilterQuery()) {
-                        $params->add('fq', $handler->getFilterQuery());
-                    }
-                } else {
-                    $string = $handler->createSimpleQueryString($string);
+            } else if ($handler->hasDismax()) {
+                // If we're using extended dismax, we'll miss out on the question
+                // mark fix in createAdvancedInnerSearchString(), so we should
+                // apply it here. If other query munges arise that are valuable
+                // to both dismax and edismax, we should add a wrapper function
+                // around them and call it from here instead of this one very
+                // specific check.
+                $string = $this->fixTrailingQuestionMarks($string);
+                $params->set('qf', implode(' ', $handler->getDismaxFields()));
+                $params->set('qt', $handler->getDismaxHandler());
+                foreach ($handler->getDismaxParams() as $param) {
+                    $params->add(reset($param), next($param));
                 }
+                if ($handler->hasFilterQuery()) {
+                    $params->add('fq', $handler->getFilterQuery());
+                }
+            } else {
+                $string = $handler->createSimpleQueryString($string);
             }
         }
         $params->set('q', $string);
@@ -309,9 +317,17 @@ class QueryBuilder implements QueryBuilderInterface
                 [$this, 'reduceQueryGroupComponents'], $component->getQueries()
             );
             $searchString = $component->isNegated() ? 'NOT ' : '';
-            $searchString .= sprintf(
-                '(%s)', implode(" {$component->getOperator()} ", $reduced)
+            $reduced = array_filter(
+                $reduced,
+                function ($s) {
+                    return '' !== $s;
+                }
             );
+            if ($reduced) {
+                $searchString .= sprintf(
+                    '(%s)', implode(" {$component->getOperator()} ", $reduced)
+                );
+            }
         } else {
             $searchString  = $this->getLuceneHelper()
                 ->normalizeSearchString($component->getString());
@@ -319,7 +335,7 @@ class QueryBuilder implements QueryBuilderInterface
                 $component->getHandler(),
                 $searchString
             );
-            if ($searchHandler) {
+            if ($searchHandler && '' !== $searchString) {
                 $searchString
                     = $this->createSearchString($searchString, $searchHandler);
             }
@@ -339,6 +355,9 @@ class QueryBuilder implements QueryBuilderInterface
     {
         $advanced = $this->getLuceneHelper()->containsAdvancedLuceneSyntax($string);
 
+        if (null === $string) {
+            return '';
+        }
         if ($advanced && $handler) {
             return $handler->createAdvancedQueryString($string);
         } else if ($handler) {
@@ -346,6 +365,38 @@ class QueryBuilder implements QueryBuilderInterface
         } else {
             return $string;
         }
+    }
+
+    /**
+     * If the query ends in a non-escaped question mark, the user may not really
+     * intend to use the question mark as a wildcard -- let's account for that
+     * possibility.
+     *
+     * @param string $string Search query to adjust
+     *
+     * @return string
+     */
+    protected function fixTrailingQuestionMarks($string)
+    {
+        $multiword = preg_match('/[^\s]\s+[^\s]/', $string);
+        $callback = function ($matches) use ($multiword) {
+            // Make sure all question marks are properly escaped (first unescape
+            // any that are already escaped to prevent double-escapes, then escape
+            // all of them):
+            $s = $matches[1];
+            $escaped = str_replace('?', '\?', str_replace('\?', '?', $s));
+            $s = "($s) OR ($escaped)";
+            if ($multiword) {
+                $s = "($s) ";
+            }
+            return $s;
+        };
+        // Use a lookahead to skip matches found within quoted phrases.
+        $lookahead = '(?=(?:[^\"]*+\"[^\"]*+\")*+[^\"]*+$)';
+        $string = preg_replace_callback(
+            '/([^\s]+\?)(\s|$)' . $lookahead . '/', $callback, $string
+        );
+        return rtrim($string);
     }
 
     /**
@@ -372,17 +423,8 @@ class QueryBuilder implements QueryBuilderInterface
             return $string;
         }
 
-        // If the query ends in a non-escaped question mark, the user may not really
-        // intend to use the question mark as a wildcard -- let's account for that
-        // possibility
-        if (substr($string, -1) == '?' && substr($string, -2) != '\?') {
-            // Make sure all question marks are properly escaped (first unescape
-            // any that are already escaped to prevent double-escapes, then escape
-            // all of them):
-            $strippedQuery
-                = str_replace('?', '\?', str_replace('\?', '?', $string));
-            $string = "({$string}) OR (" . $strippedQuery . ")";
-        }
+        // Account for trailing question marks:
+        $string = $this->fixTrailingQuestionMarks($string);
 
         return $handler
             ? $handler->createAdvancedQueryString($string, false) : $string;

@@ -68,7 +68,7 @@
     </tr>
     <? if (isset($ilsDetails['renewable']) && $ilsDetails['renewable'] && isset($ilsDetails['renew_details']) || (isset($this->renewResult[$ilsDetails['item_id']]))):?>
     <tr>
-      <th><?=$headers['actions']?></th>
+      <th><?= isset($headers['action']) ? $headers['action'] : '' ?></th>
       <td>
           <? if ($this->renewForm): ?>
              <? if (isset($ilsDetails['renewable']) && $ilsDetails['renewable'] && isset($ilsDetails['renew_details'])): ?>

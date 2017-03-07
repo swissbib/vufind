@@ -7,7 +7,7 @@ $hasChildren = count($classification['children']) > 0;
     <a>
       <ins>&nbsp;</ins>
       <input type="hidden" value="<?= $facetKey ?>:&quot;<?= $entry['queryValue'] ?>&quot;">
-      <?= $entry['value'] ?> <?= $this->transEsc($entry['value']) ?>
+      <?= $entry['value'] ?> <?= $this->zendTranslate($entry['value'], 'drsys') ?>
       <? if ($entry['nestingLevel'] !== 0 || !$hasChildren): ?>
         (<?= $entry['count'] ?> <?= $this->transEsc('Showing') ?>)
       <? endif; ?>
@@ -19,7 +19,7 @@ $hasChildren = count($classification['children']) > 0;
                 <a>
                     <ins>&nbsp;</ins>
                     <input type="hidden" value="<?= $facetKey ?>:&quot;<?= $entry['queryValue'] ?>&quot;">
-                    <?= $entry['value'] ?> <?= $this->transEsc($entry['value']) ?>
+                    <?= $entry['value'] ?> <?= $this->zendTranslate($entry['value'], 'drsys') ?>
                     (<?= $entry['count'] ?> <?= $this->transEsc('Showing') ?>)
                 </a>
             </li>

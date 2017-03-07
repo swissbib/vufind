@@ -4,7 +4,8 @@
  *
  * PHP version 5
  *
- * Copyright (C) Villanova University 2014.
+ * Copyright (C) project swissbib, University Library Basel, Switzerland
+ * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
@@ -19,29 +20,32 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category VuFind2
- * @package  ILS_Drivers
- * @author   Demian Katz <demian.katz@villanova.edu>
+ * @category Swissbib_VuFind2
+ * @package  VuFind_ILS_Driver
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:hierarchy_components Wiki
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 namespace Swissbib\VuFind\ILS\Driver;
+
 use Zend\ServiceManager\ServiceManager;
 
 /**
  * ILS Driver Factory Class
  *
- * @category VuFind2
- * @package  ILS_Drivers
- * @author   Demian Katz <demian.katz@villanova.edu>
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Auth
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:hierarchy_components Wiki
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 class Factory
 {
     /**
      * Factory for Aleph driver.
+     *
      * @param ServiceManager $sm Service manager.
+     *
      * @return Aleph
      */
     public static function getAlephDriver(ServiceManager $sm)
@@ -67,5 +71,4 @@ class Factory
             $sm->getServiceLocator()->get('VuFind\ILSAuthenticator')
         );
     }
-
 }

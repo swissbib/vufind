@@ -14,6 +14,7 @@ $physicalDescriptions = $record->getPhysicalDescriptions(false);
 $edition              = $record->getEdition();
 $cartMathData         = $record->getCartMathData();
 $formats              = $viewRecord->getFormatList();
+$hierarchicalLevel    = $record->getHierachicalLevel();
 $hostItems            = $record->getHostItemEntry();
 $journalTitle         = $record->getContainerTitle();
 $ref                  = $record->getContainerReference();
@@ -23,6 +24,11 @@ $showFRBR = $this->configAccess()->Site->displayFrbr;
 $groupID  = $this->driver->getGroup(true);
 
 $urls = $viewRecord->getExtendedLinkDetails();
+$nl = $this->nationalLicences()->getUrl($record);
+if ($nl) {
+    $linkNL = ['url' => $nl['url'], 'desc' => "Get it Online (National Licence)"];
+    array_push($urls, $linkNL);
+}
 $link360 = $viewRecord->getLink360();
 $linkSFX = $viewRecord->getLinkSFX();
 
@@ -34,11 +40,7 @@ $linkSFX = $viewRecord->getLinkSFX();
     <div class="thumbDetailView hidden-print">
       <? /* Display thumbnail if appropriate: */ ?>
       <? $mediumThumb = $viewRecord->getThumbnail('medium'); ?>
-      <? if ($mediumThumb): ?>
           <img alt="<?=$this->transEsc('Cover Image')?>" class="recordcover" src="<?=$this->escapeHtmlAttr($mediumThumb);?>"/>
-      <? else: ?>
-          <div class="thumbico <?= $viewRecord->getThumbnailPlaceholder() ?> bigico"></div>
-      <? endif; ?>
 
       <? /* Display qrcode if appropriate: */ ?>
       <? $QRCode = $viewRecord->getQRCode("core"); ?>
@@ -110,7 +112,7 @@ $linkSFX = $viewRecord->getLinkSFX();
       <span class="label"><?= $this->transEsc('note_773') ?>: </span>
       <span>
           <? foreach ($hostItems as $hostItem): ?>
-              <? $text = array_key_exists('related', $hostItem) ? $hostItem['title'] . ', ' . $hostItem['related'] : $hostItem['title'] ?>
+              <? $text = isset($hostItem['title']) ? ( array_key_exists('related', $hostItem) ? $hostItem['title'] . ', ' . $hostItem['related'] : $hostItem['title'] ) : '' ?>
               <?= $this->escapeHtml($text) ?><br />
           <? endforeach; ?>
       </span><br />
@@ -131,6 +133,11 @@ $linkSFX = $viewRecord->getLinkSFX();
         <span><?= $formats ?></span><br />
       <? endif; ?>
 
+      <? if (!empty($hierarchicalLevel)): ?>
+          <span class="label"><?=$this->transEsc('hierarchical_level')?>: </span>
+          <span><?= $this->zendTranslate($hierarchicalLevel, 'formats') ?></span><br />
+      <? endif; ?>
+
       <? if (!empty($edition)): ?>
         <span class="label"><?=$this->transEsc('Edition')?>: </span>
         <span property="bookEdition"><?=$this->escapeHtml($edition)?></span><br />
@@ -146,6 +153,11 @@ $linkSFX = $viewRecord->getLinkSFX();
           <? endforeach; ?>
           <? if ($linkSFX): ?>
             <?= $linkSFX ?><br/>
+          <? endif; ?>
+          <? if(!empty($nl['message'])): ?>
+          <div class="flash-message alert alert-info">
+              <strong><?= $nl['message'] ?></strong>
+          </div>
           <? endif; ?>
         </span><br />
       <? endif; ?>

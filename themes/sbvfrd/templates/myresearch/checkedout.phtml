@@ -18,13 +18,67 @@
 <!--          <input type="submit" class="btn btn-default" name="renewAll" value="--><?//=$this->transEsc('renew_all')?><!--" />-->
     </div>
   <? endif; ?>
+
+    <? if ($paginator): ?>
+    <div class="hidden-print search-controls clearfix row" >
+    <div class="col-lg-6 col-md-7 col-sm-7">
+
+    <? $start = $paginator->getAbsoluteItemNumber(1);
+    $end = $paginator->getAbsoluteItemNumber($paginator->getItemCountPerPage());
+    $total = $paginator->getTotalItemCount();
+    ?>
+    <div class="hidden-sm hidden-xs">
+        <?=$this->transEsc("Showing")?>
+        <strong><?=$this->localizedNumber($start)?></strong> - <strong><?=$this->localizedNumber($end > $total ? $total : $end)?></strong>
+        <?=$this->transEsc('of')?> <strong><?=$this->localizedNumber($total)?></strong>
+    </div>
+    <div class="hidden-md hidden-lg">
+        <strong><?=$this->localizedNumber($total)?></strong> <?=$this->transEsc("Results")?>
+    </div>
+        <?=$paginator ? $this->paginationControl($paginator, 'Sliding', 'Helpers/pagination.phtml') : ''?>
+    </div>
+    </div>
+        <? foreach ($hiddenTransactions as $ilsDetails): ?>
+            <? if (isset($this->renewResult[$ilsDetails['item_id']])): ?>
+                <? $renewDetails = $this->renewResult[$ilsDetails['item_id']]; ?>
+                <? $prefix = isset($ilsDetails['title']) ? $ilsDetails['title'] : $ilsDetails['item_id']; ?>
+                <? if (isset($renewDetails['success']) && $renewDetails['success']): ?>
+                    <div class="alert alert-success"><?=$this->escapeHtml($prefix . ': ') . $this->transEsc('renew_success')?></div>
+                <? else: ?>
+                    <div class="alert alert-danger"><?=$this->escapeHtml($prefix . ': ') . $this->transEsc('renew_fail')?><?// if (isset($renewDetails['sysMessage'])): ?> <?//=$this->escapeHtml($renewDetails['sysMessage'])?><? //endif; ?></div>
+                <? endif; ?>
+            <? endif; ?>
+            <? if (isset($ilsDetails['renewable']) && $ilsDetails['renewable'] && isset($ilsDetails['renew_details'])): ?>
+                <? $safeId = preg_replace('/[^a-zA-Z0-9]/', '', $ilsDetails['renew_details']); ?>
+                <input class="pull-left flip" type="hidden" name="renewAllIDS[]" value="<?=$this->escapeHtmlAttr($ilsDetails['renew_details'])?>" />
+            <? endif; ?>
+        <? endforeach; ?>
+    <? endif; ?>
+
+    <? foreach ($this->transactions as $resource): ?>
+        <? $ilsDetails = $resource->getExtraDetail('ils_details'); ?>
+        <? if (isset($this->renewResult[$ilsDetails['item_id']])): ?>
+            <? $renewDetails = $this->renewResult[$ilsDetails['item_id']]; ?>
+            <? $prefix = isset($ilsDetails['title']) ? $ilsDetails['title'] : $ilsDetails['item_id']; ?>
+            <? if (isset($renewDetails['success']) && $renewDetails['success']): ?>
+                <div class="alert alert-success"><?=$this->escapeHtml($prefix . ': ') . $this->transEsc('renew_success')?></div>
+            <? else: ?>
+                <div class="alert alert-danger"><?=$this->escapeHtml($prefix . ': ') . $this->transEsc('renew_fail')?><?// if (isset($renewDetails['sysMessage'])): ?> <?//=$this->escapeHtml($renewDetails['sysMessage'])?><? //endif; ?></div>
+            <? endif; ?>
+        <? endif; ?>
+        <? if (isset($ilsDetails['renewable']) && $ilsDetails['renewable'] && isset($ilsDetails['renew_details'])): ?>
+            <? $safeId = preg_replace('/[^a-zA-Z0-9]/', '', $ilsDetails['renew_details']); ?>
+            <input class="pull-left flip" type="hidden" name="renewAllIDS[]" value="<?=$this->escapeHtmlAttr($ilsDetails['renew_details'])?>" />
+        <? endif; ?>
+    <? endforeach; ?>
+
     <?
     $headers = [
         'title'         => $this->transEsc('Title'),
         'library_callno' => $this->transEsc('Institution'),
         'checkedout'     => $this->transEsc('Checked Out'),
         'renewals'      => $this->transEsc('Renewals'),
-        'action',
+        'action'        => $this->transEsc('renew_select'),
     ];
 
     $flippedContent = '';
@@ -38,7 +92,7 @@
         <th><?=$headers['library_callno']?></th>
         <th><?=$headers['checkedout']?></th>
         <th><?=$headers['renewals']?></th>
-        <th class="hidden-print"><?=$headers['action']?></th>
+        <th class="hidden-print"><?= isset($headers['action']) ? $headers['action'] : '' ?></th>
     </tr>
     </thead>
     <tbody>
@@ -47,15 +101,14 @@
 
   <? $i = 0; foreach ($this->transactions as $resource): ?>
     <? $ilsDetails = $resource->getExtraDetail('ils_details'); ?>
-        <tr class="<?=$iteration % 2 == 1 ? 'even' : 'odd'?>row">
+        <tr>
           <?
           $flippedContent .= $this->render('myresearch/checkedout-flipped.phtml', array(
           'ilsDetails'    => $ilsDetails,
           'resource'   => $resource,
           'renewForm'  => $this->renewForm,
           'renewResult' => $this->renewResult,
-          'headers' => $headers,
-          'even'    => (0 === $iteration % 2)
+          'headers' => $headers
           ));
           ?>
          <td>
@@ -130,14 +183,14 @@
                  <? endif; ?>
              <? else: ?>
                  <!--          --><?//=$this->transEsc('Due')?><!-- --><?//=$this->escapeHtml($ilsDetails['duedate'])?><!----><?// if (isset($ilsDetails['dueTime'])): ?><!-- --><?//=$this->escapeHtml($ilsDetails['dueTime'])?><!----><?// endif; ?><!--<br />-->
-                 <? if ($showStatus): ?>
+                              <? if ($showStatus): ?>
                      <? if (isset($ilsDetails['dueStatus']) && $ilsDetails['dueStatus'] == "overdue"): ?>
                          <br /><div class="alert alert-danger"><?=$this->transEsc("renew_item_overdue")?></div>
                      <? elseif (isset($ilsDetails['dueStatus']) && $ilsDetails['dueStatus'] == "due"): ?>
                          <br /><div class="alert alert-info"><?=$this->transEsc("renew_item_due")?></div>
                      <? endif; ?>
+                     <? endif; ?>
                  <? endif; ?>
-             <? endif; ?>
 
          </td>
 
@@ -149,6 +202,10 @@
     </table>
     <?=$flippedContent;?>
     <? if ($this->renewForm): ?></form><? endif; ?>
+
+    <? if ($paginator): ?>
+        <?=$paginator ? $this->paginationControl($paginator, 'Sliding', 'Helpers/pagination.phtml') : ''?>
+    <? endif; ?>
 
 <? else: ?>
     <?=$this->transEsc('You do not have any items checked out')?>.

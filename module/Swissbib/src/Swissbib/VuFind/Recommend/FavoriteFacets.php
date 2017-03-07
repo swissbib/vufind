@@ -1,7 +1,6 @@
 <?php
-
 /**
- * swissbib / VuFind swissbib enhancements for Summon records
+ * Swissbib / VuFind swissbib enhancements for Summon records
  *
  * PHP version 5
  *
@@ -23,30 +22,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib_VuFind2
- * @package  Swissbib\VuFind\Recommend\FavoriteFacets
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Recommend
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
-
-
 namespace Swissbib\VuFind\Recommend;
 
 use VuFind\Recommend\FavoriteFacets as VFFavoriteFacets;
-
 
 /**
  * FavoriteFacets Recommendations Module
  *
  * This class provides special facets for the Favorites area (tags/lists)
- * The VuFind class was extended because we need the former functionality where lists are only
+ * The VuFind class was extended because we need the former functionality where
+ * lists are only
  * shown in case the menu item favorite lists is chosen by users
- * Newer version of VF2 (2.2.1) seems to display favorite lists on every "My Research" page
+ * Newer version of VF2 (2.2.1) seems to display favorite lists on every
+ * "My Research" page
  * we have to evaluate this later (project swissbib responsive design)
  *
  * @category VuFind2
- * @package  Recommendations
+ * @package  VuFind_Recommend
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:recommendation_modules Wiki
@@ -54,7 +52,7 @@ use VuFind\Recommend\FavoriteFacets as VFFavoriteFacets;
 class FavoriteFacets extends VFFavoriteFacets
 {
     /**
-     * setConfig
+     * SetConfig
      *
      * Store the configuration of the recommendation module.
      *
@@ -64,6 +62,6 @@ class FavoriteFacets extends VFFavoriteFacets
      */
     public function setConfig($settings)
     {
-        $this->mainFacets = array('lists' => 'Your Lists', 'tags' => 'Your Tags');
+        $this->mainFacets = ['lists' => 'Your Lists', 'tags' => 'Your Tags'];
     }
 }

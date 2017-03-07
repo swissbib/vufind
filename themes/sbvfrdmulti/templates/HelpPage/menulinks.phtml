@@ -1,6 +1,6 @@
 <li><a href="<?= $this->url('help-page', array('topic' => 'about')); ?>"><?= $this->transEsc('helppage.about') ?></a></li>
-<li><a href="<?= $this->url('help-page', array('topic' => 'myswissbib')); ?>"><?= $this->transEsc('helppage') ?></a></a></li>
+<li><a href="<?= $this->url('help-page', array('topic' => 'faq')); ?>"><?= $this->transEsc('helppage') ?></a></a></li>
 <li><a href="http://swissbib-baselbern.blogspot.ch/" target="_blank">Blog</a></li>
 <? if ($this->feedback()->tabEnabled()): ?>
-<li><a id="feedbackLink" class="modal-link" href="<?= $this->url('feedback-home') ?>"><?= $this->transEsc("menu.contact") ?></a></li>
+<li><a href="<?= $this->url('feedback-home') ?>"><?= $this->transEsc("menu.contact") ?></a></li>
 <? endif; ?>

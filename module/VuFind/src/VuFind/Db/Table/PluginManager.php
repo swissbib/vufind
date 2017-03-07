@@ -17,13 +17,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Db_Table
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:database_gateways Wiki
+ * @link     https://vufind.org/wiki/development:plugins:database_gateways Wiki
  */
 namespace VuFind\Db\Table;
 use Zend\ServiceManager\ConfigInterface;
@@ -31,11 +31,11 @@ use Zend\ServiceManager\ConfigInterface;
 /**
  * Database table plugin manager
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Db_Table
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:database_gateways Wiki
+ * @link     https://vufind.org/wiki/development:plugins:database_gateways Wiki
  */
 class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
 {

@@ -2,11 +2,11 @@
 
 $link360 = $driver->getLink();
 $openURL = $driver->getOpenURL();
-$linkSFX = $this->openUrl($openURL);
+$linkSFX = $this->openUrl($this->driver, 'results');
 $linkSFX_param = 'title = "' . $this->transEsc('articles.linkSFX') . '" target="_blank" class="linkbutton primary icon_link_primary btn btn-primary hidden-print"';
-$linkSFX = str_replace("<a ", "<a $linkSFX_param ", $linkSFX);
-$linkSFX = str_replace($this->transEsc('Get full text'), '<i class="fa fa-external-link"></i> <span class="hidden-xs hidden-sm">SFX Services</span>', $linkSFX);
-
+$renderedLink = $linkSFX->renderTemplate();
+$renderedLink = str_replace($this->transEsc('Get full text'), '<i class="fa fa-external-link"></i> <span class="hidden-xs hidden-sm">SFX Services</span>', $renderedLink);
+$renderedLink = str_replace("<a ", "<a $linkSFX_param ", $renderedLink);
 ?>
 
 <a title="<?= $this->transEsc('articles.link360') ?>" id="getit" class="linkbutton primary icon_link_primary btn btn-primary hidden-print" target="_blank" href="<?= $link360 ?>">
@@ -14,5 +14,5 @@ $linkSFX = str_replace($this->transEsc('Get full text'), '<i class="fa fa-extern
   <span class="hidden-xs hidden-sm">get&#160;it</span>
 </a>
 
-<?= $linkSFX ?>
+<?= $renderedLink ?>
 

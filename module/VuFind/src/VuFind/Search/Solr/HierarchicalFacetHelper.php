@@ -17,24 +17,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search
  * @author   Ere Maijala <ere.maijala@helsinki.fi>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     https://vufind.org Main Site
  */
 namespace VuFind\Search\Solr;
+
+use VuFind\I18n\TranslatableString;
 
 /**
  * Functions for manipulating facets
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search
  * @author   Ere Maijala <ere.maijala@helsinki.fi>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     https://vufind.org Main Site
  */
 class HierarchicalFacetHelper
 {
@@ -151,21 +153,23 @@ class HierarchicalFacetHelper
      * the current one
      * @param string $separator   Separator string displayed between levels
      *
-     * @return string Formatted text
+     * @return TranslatableString Formatted text
      */
     public function formatDisplayText(
         $displayText, $allLevels = false, $separator = '/'
     ) {
+        $originalText = $displayText;
         $parts = explode('/', $displayText);
         if (count($parts) > 1 && is_numeric($parts[0])) {
             if (!$allLevels && isset($parts[$parts[0] + 1])) {
-                return $parts[$parts[0] + 1];
+                $displayText = $parts[$parts[0] + 1];
+            } else {
+                array_shift($parts);
+                array_pop($parts);
+                $displayText = implode($separator, $parts);
             }
-            array_shift($parts);
-            array_pop($parts);
-            return implode($separator, $parts);
         }
-        return $displayText;
+        return new TranslatableString($originalText, $displayText);
     }
 
     /**
@@ -203,7 +207,8 @@ class HierarchicalFacetHelper
         $displayText = $item['displayText'];
         if ($displayText == $item['value']) {
             // Only show the current level part
-            $displayText = $this->formatDisplayText($displayText);
+            $displayText = $this->formatDisplayText($displayText)
+                ->getDisplayString();
         }
 
         list($level, $value) = explode('/', $item['value'], 2);
@@ -239,7 +244,7 @@ class HierarchicalFacetHelper
      *
      * @param array $list Facet list
      *
-     * @return boolean Whether any items are applied (for recursive calls)
+     * @return bool Whether any items are applied (for recursive calls)
      */
     protected function updateAppliedChildrenStatus($list)
     {
@@ -247,7 +252,7 @@ class HierarchicalFacetHelper
         foreach ($list as &$item) {
             $item['hasAppliedChildren'] = !empty($item['children'])
                 && $this->updateAppliedChildrenStatus($item['children']);
-            if ($item['isApplied']) {
+            if ($item['isApplied'] || $item['hasAppliedChildren']) {
                 $result = true;
             }
         }

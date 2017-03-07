@@ -19,24 +19,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Controller
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:building_a_controller Wiki
+ * @link     https://vufind.org/wiki/development:plugins:controllers Wiki
  */
 namespace VuFind\Controller;
+use VuFind\Exception\Forbidden as ForbiddenException;
 
 /**
  * BrowseController Class
  *
  * Controls the alphabetical browsing feature
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Controller
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:building_a_controller Wiki
+ * @link     https://vufind.org/wiki/development:plugins:controllers Wiki
  */
 class BrowseController extends AbstractBase
 {
@@ -242,7 +243,8 @@ class BrowseController extends AbstractBase
             $resultList = [];
             foreach ($results as $result) {
                 $resultList[] = [
-                    'result' => $result['displayText'],
+                    'displayText' => $result['displayText'],
+                    'value' => $result['value'],
                     'count' => $result['count']
                 ];
             }
@@ -282,7 +284,7 @@ class BrowseController extends AbstractBase
     public function tagAction()
     {
         if (!$this->tagsEnabled()) {
-            throw new \Exception('Tags disabled.');
+            throw new ForbiddenException('Tags disabled.');
         }
 
         $this->setCurrentAction('Tag');
@@ -311,7 +313,8 @@ class BrowseController extends AbstractBase
                     foreach ($tags as $tag) {
                         if ($tag['cnt'] > 0) {
                             $tagList[] = [
-                                'result' => $tag['tag'],
+                                'displayText' => $tag['tag'],
+                                'value' => $tag['tag'],
                                 'count' => $tag['cnt']
                             ];
                         }
@@ -329,7 +332,8 @@ class BrowseController extends AbstractBase
                 $resultList = [];
                 foreach ($tagList as $i => $tag) {
                     $resultList[$i] = [
-                        'result' => $tag['tag'],
+                        'displayText' => $tag['tag'],
+                        'value' => $tag['tag'],
                         'count'    => $tag['cnt']
                     ];
                 }
@@ -356,7 +360,7 @@ class BrowseController extends AbstractBase
             'query_field' => 'callnumber-first',
             'facet_field' => 'callnumber-subject'
         ];
-        $view->searchParams = [];
+        $view->searchParams = ['sort' => 'callnumber-sort'];
         return $this->performSearch($view);
     }
 
@@ -378,6 +382,7 @@ class BrowseController extends AbstractBase
             ];
         }
         $view->categoryList = $categoryList;
+        $view->dewey_flag = 1;
         if ($this->params()->fromQuery('findby')) {
             $secondaryList = $this->quoteValues(
                 $this->getFacetList(
@@ -397,6 +402,7 @@ class BrowseController extends AbstractBase
                 'query_field' => 'dewey-tens',
                 'facet_field' => 'dewey-ones'
             ];
+            $view->searchParams = ['sort' => 'dewey-sort'];
         }
         return $this->performSearch($view);
     }
@@ -533,40 +539,40 @@ class BrowseController extends AbstractBase
             return ['', $this->getAlphabetList()];
         case 'dewey':
             return [
-                'dewey-tens', $this->quoteValues(
-                    $this->getFacetList('dewey-hundreds', $category, 'index')
-                )
-            ];
+                    'dewey-tens', $this->quoteValues(
+                        $this->getFacetList('dewey-hundreds', $category, 'index')
+                    )
+                ];
         case 'lcc':
             return [
-                'callnumber-first', $this->quoteValues(
-                    $this->getFacetList('callnumber-first', $category, 'index')
-                )
-            ];
+                    'callnumber-first', $this->quoteValues(
+                        $this->getFacetList('callnumber-first', $category, 'index')
+                    )
+                ];
         case 'topic':
             return [
-                'topic_facet', $this->quoteValues(
-                    $this->getFacetList('topic_facet', $category)
-                )
-            ];
+                    'topic_facet', $this->quoteValues(
+                        $this->getFacetList('topic_facet', $category)
+                    )
+                ];
         case 'genre':
             return [
-                'genre_facet', $this->quoteValues(
-                    $this->getFacetList('genre_facet', $category)
-                )
-            ];
+                    'genre_facet', $this->quoteValues(
+                        $this->getFacetList('genre_facet', $category)
+                    )
+                ];
         case 'region':
             return [
-                'geographic_facet', $this->quoteValues(
-                    $this->getFacetList('geographic_facet', $category)
-                )
-            ];
+                    'geographic_facet', $this->quoteValues(
+                        $this->getFacetList('geographic_facet', $category)
+                    )
+                ];
         case 'era':
             return [
-                'era_facet', $this->quoteValues(
-                    $this->getFacetList('era_facet', $category)
-                )
-            ];
+                    'era_facet', $this->quoteValues(
+                        $this->getFacetList('era_facet', $category)
+                    )
+                ];
         }
     }
 
@@ -596,7 +602,6 @@ class BrowseController extends AbstractBase
         $params->setOverrideQuery($query);
         $params->getOptions()->disableHighlighting();
         $params->getOptions()->spellcheckEnabled(false);
-        $params->recommendationsEnabled(false);
         // Get limit from config
         $params->setFacetLimit($this->config->Browse->result_limit);
         $params->setLimit(0);
@@ -658,7 +663,7 @@ class BrowseController extends AbstractBase
         case 'lcc':
             return 'callnumber-first';
         case 'author':
-            return 'authorStr';
+            return 'author_facet';
         case 'topic':
             return 'topic_facet';
         case 'genre':

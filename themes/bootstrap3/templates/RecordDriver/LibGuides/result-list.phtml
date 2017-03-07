@@ -1,15 +1,12 @@
 <?
   $url = $this->driver->getUniqueId();
 ?>
-<div class="listentry col-xs-11">
-  <div class="resultItemLine1">
-    <a href="<?=$this->escapeHtmlAttr($url)?>" class="title"><?
-      $summTitle = $this->driver->getTitle();
-      if (!empty($summTitle)) {
-          echo $this->escapeHtml($this->truncate($summTitle, 180));
-      } else {
-          echo $this->transEsc('Title not available');
-      }
-    ?></a>
+<div class="media">
+  <div class="media-body">
+    <div class="resultItemLine1">
+      <a href="<?=$this->escapeHtmlAttr($url)?>" class="title">
+        <?=$this->record($this->driver)->getTitleHtml()?>
+      </a>
+    </div>
   </div>
 </div>

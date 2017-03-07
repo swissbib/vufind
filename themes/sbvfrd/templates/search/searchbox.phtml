@@ -14,8 +14,8 @@
     $basicSearch = $this->searchbox()->combinedHandlersActive() ? 'combined-searchbox' : $options->getSearchAction();
     $searchHome = $options->getSearchHomeAction();
     $advSearch = $options->getAdvancedSearchAction();
-    $lastSort = $options->getLastSort();
-    $lastLimit = $options->getLastLimit();
+    $lastSort = $this->searchMemory()->getLastSort($this->searchClassId);
+    $lastLimit = $this->searchMemory()->getLastLimit($this->searchClassId);
     $searchtabs = $this->searchtabs($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType);
 ?>
 <? if ($this->searchType == 'advanced'): ?>
@@ -63,6 +63,7 @@
            <input class="form-control search-query<? if($this->searchbox()->autocompleteEnabled($this->searchClassId)):?> autocomplete searcher:<?=$this->escapeHtmlAttr($this->searchClassId) ?><? endif ?>" id="searchForm_lookfor" type="text" name="lookfor" value="<?=$this->escapeHtmlAttr($this->lookfor)?>"/>
         </span>
         <span class="input-group-btn">
+           <span id="remove-search-text" class="fa fa-remove"></span>
            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
             <? if ($advSearch): ?>
               <a href="<?=$this->url($advSearch)?>" class="btn btn-link advancedSearchLink"><?=$this->transEsc("Advanced Search")?></a>
@@ -128,5 +129,4 @@
       }
     ?>
   </form>
-  <script type="text/javascript">$("#searchForm_lookfor").focus()</script>
 <? endif; ?>

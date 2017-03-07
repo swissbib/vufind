@@ -1,0 +1,13 @@
+<!-- User have to fill the homePostalAddress in the Swiss edu-Id account -->
+<?php
+    $encodedProviderID = urlencode($this->serverUrl() . "/" . "shibboleth");
+    $encodedTarget = urlencode($this->serverUrl().$this->url('national-licences'));
+    $swissEduIDVerifyBaseUrl = "https://eduid.ch/web/verify-attribute/?attribute=";
+?>
+
+<p>
+    <span class="text-aligned-icon icon-danger"><i class="fa fa-times"></i></span>
+    <?= $this->transEsc('snl.theAddressNotVerifiedYet') ?>
+    <a href="<?php echo($swissEduIDVerifyBaseUrl."homepostaladdress&providerId=".$encodedProviderID."&target=".$encodedTarget); ?>" target="_blank"><?= $this->transEsc('snl.theAddressNotVerifiedYet.verify') ?></a>
+    <?= $this->transEsc('snl.theAddressNotVerifiedYet.verify2') ?>
+</p>

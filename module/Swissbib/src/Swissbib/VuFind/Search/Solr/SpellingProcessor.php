@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Solr spelling processor.
  *
@@ -20,8 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category VuFind2 / Swissbib
- * @package  Search_Solr
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Search_Solr
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org  Main Page
@@ -33,24 +32,23 @@ use VuFindSearch\Query\AbstractQuery;
 use Zend\Config\Config;
 
 /**
- * extended version of the VuFind Solr Spelling Processor (based on advanced Spellers like DirectIndexSpelling
- * and .... )
+ * Extended version of the VuFind Solr Spelling Processor (based on
+ * advanced Spellers like DirectIndexSpelling and .... )
  *
- * @category VuFind2 / Swissbib
- * @package  Search_Solr
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Search_Solr
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
 class SpellingProcessor
 {
-
     /**
+     * SpellingResults
+     *
      * @var SpellingResults
      */
-
     protected $spellingResults;
-
 
     /**
      * Spelling limit
@@ -59,7 +57,11 @@ class SpellingProcessor
      */
     protected $spellingLimit = 3;
 
-
+    /**
+     * TermSpellingLimits
+     *
+     * @var int
+     */
     protected $termSpellingLimits = 3;
 
     /**
@@ -87,13 +89,11 @@ class SpellingProcessor
     /**
      * Constructor
      *
-     * @param Config $config Spelling configuration (optional)
+     * @param SpellingResults $spellingResults Spelling configuration (optional)
      */
     public function __construct(SpellingResults $spellingResults)
     {
-
         $this->spellingResults = $spellingResults;
-
     }
 
     /**
@@ -105,7 +105,6 @@ class SpellingProcessor
     {
         return $this->spellSkipNumeric;
     }
-
 
     /**
      * Get the spelling limit.
@@ -131,11 +130,10 @@ class SpellingProcessor
      */
     public function tokenize($input)
     {
+        //at the moment not used by swissbib (maybe the blacklist - not used terms
+        // like and / or / not .. but should be handled by the search engine
 
-        //at the moment not used by swissbib (maybe the blacklist - not used terms like and / or / not .. but should be handled by the search engine
-        return array();
-
-
+        return [];
     }
 
     /**
@@ -159,15 +157,20 @@ class SpellingProcessor
                         $this->spellingResults->addCollocationSOLRStructure($info);
                     }
 
-                } elseif (++$i && $i <= $this->getSpellingLimit() && array_key_exists("suggestion", $info)) {
-                    //no so called collation suggestions are based on the single term part of the spelling query
+                } elseif (++$i && $i <= $this->getSpellingLimit()
+                    && array_key_exists("suggestion", $info)
+                ) {
+                    //no so called collation suggestions are based on the
+                    // single term part of the spelling query
                     $numberTermSuggestions = 1;
                     foreach ($info['suggestion'] as $termSuggestion) {
                         $numberTermSuggestions++;
                         if ($numberTermSuggestions > $this->termSpellingLimits) {
                             break;
                         }
-                        $this->spellingResults->addTerm($term, $termSuggestion['word'], $termSuggestion['freq']);
+                        $this->spellingResults->addTerm(
+                            $term, $termSuggestion['word'], $termSuggestion['freq']
+                        );
                     }
 
                 }
@@ -197,7 +200,7 @@ class SpellingProcessor
             );
         }
         $limit = $this->getSpellingLimit();
-        $suggestions = array();
+        $suggestions = [];
         foreach ($info['suggestion'] as $suggestion) {
             if (count($suggestions) >= $limit) {
                 break;
@@ -242,7 +245,7 @@ class SpellingProcessor
      */
     public function processSuggestions($suggestions, $query, Params $params)
     {
-        $returnArray = array();
+        $returnArray = [];
         foreach ($suggestions as $term => $details) {
             // Find out if our suggestion is part of a token
             $inToken = false;
@@ -268,6 +271,7 @@ class SpellingProcessor
                 );
             }
         }
+
         return $returnArray;
     }
 
@@ -305,10 +309,10 @@ class SpellingProcessor
                 $label = $replacement;
             }
             // Basic spelling suggestion data
-            $returnArray[$targetTerm]['suggestions'][$label] = array(
+            $returnArray[$targetTerm]['suggestions'][$label] = [
                 'freq' => $freq,
                 'new_term' => $replacement
-            );
+            ];
 
             // Only generate expansions if enabled in config
             if ($this->expand) {

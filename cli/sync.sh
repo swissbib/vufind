@@ -27,4 +27,4 @@ rm -rf $VUFIND_CACHE/searchspecs/*
 rm -rf $VUFIND_CACHE/objects/*
 rm -rf $VUFIND_CACHE/languages/*
 
-service httpd restart
+service apache2 restart

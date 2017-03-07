@@ -17,13 +17,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Statistics
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.vufind.org  Main Page
+ * @link     https://vufind.org Main Page
  */
 namespace VuFind\Statistics;
 use VuFind\Statistics\Driver\PluginManager, Zend\Config\Config;
@@ -31,11 +31,11 @@ use VuFind\Statistics\Driver\PluginManager, Zend\Config\Config;
 /**
  * VuFind Search Controller
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Statistics
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.vufind.org  Main Page
+ * @link     https://vufind.org Main Page
  */
 abstract class AbstractBase
 {
@@ -178,8 +178,8 @@ abstract class AbstractBase
     /**
      * Returns a count and most used list
      *
-     * @param integer $listLength How long the top list is
-     * @param bool    $bySource   Sort data by source?
+     * @param int  $listLength How long the top list is
+     * @param bool $bySource   Sort data by source?
      *
      * @return mixed
      */
@@ -235,7 +235,7 @@ abstract class AbstractBase
         }
         if (strpos($agent, "Chrome") > -1) {
             $split = explode(' ', $agent);
-            return str_replace('/', ' ', $split[count($split)-2]);
+            return str_replace('/', ' ', $split[count($split) - 2]);
         }
         if (strpos($agent, "Firefox") > -1 || strpos($agent, "Safari") > -1) {
             $split = explode(' ', $agent);

@@ -17,14 +17,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Autocomplete
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:autosuggesters Wiki
+ * @link     https://vufind.org/wiki/development:plugins:autosuggesters Wiki
  */
 namespace VuFind\Autocomplete;
 
@@ -33,11 +33,11 @@ namespace VuFind\Autocomplete;
  *
  * This class provides suggestions by using the local Solr index.
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Autocomplete
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:autosuggesters Wiki
+ * @link     https://vufind.org/wiki/development:plugins:autosuggesters Wiki
  */
 class Solr implements AutocompleteInterface
 {
@@ -139,6 +139,18 @@ class Solr implements AutocompleteInterface
     }
 
     /**
+     * Add filters (in addition to the configured ones)
+     *
+     * @param array $filters Filters to add
+     *
+     * @return void
+     */
+    public function addFilters($filters)
+    {
+        $this->filters += $filters;
+    }
+
+    /**
      * Initialize the search object used for finding recommendations.
      *
      * @return void
@@ -148,7 +160,6 @@ class Solr implements AutocompleteInterface
         // Build a new search object:
         $this->searchObject = $this->resultsManager->get($this->searchClassId);
         $this->searchObject->getOptions()->spellcheckEnabled(false);
-        $this->searchObject->getParams()->recommendationsEnabled(false);
     }
 
     /**
@@ -207,7 +218,7 @@ class Solr implements AutocompleteInterface
         } catch (\Exception $e) {
             // Ignore errors -- just return empty results if we must.
         }
-        return array_unique($results);
+        return isset($results) ? array_unique($results) : [];
     }
 
     /**

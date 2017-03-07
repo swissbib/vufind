@@ -1,0 +1,40 @@
+<?
+// Set up page title:
+$this->headTitle($this->translate('snl.nationalLicences'));
+
+// Set up breadcrumbs:
+$this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li> <li class="active">' . $this->transEsc('snl.nationalLicences') . '</li>';
+?>
+
+<div class="<?= $this->layoutClass('mainbody') ?>">
+
+    <h1><?= $this->transEsc('snl.accessNationalLicences') ?></h1>
+    <!-- First of all chack if use is blocked -->
+    <? if ($this->user->isBlocked()): ?>
+        <div class="alert alert-danger"><?= $this->transEsc('snl.yourAccountHasBeenBlocked') ?></div>
+    <? elseif (!$this->nationalLicences()->isAuthenticatedWithSwissEduId()): ?>
+        <p><?= $this->transEsc('snl.nonSwissEduLogin1') ?></p>
+        <p><?= $this->transEsc('snl.nonSwissEduLogin2') ?></p>
+        <p><?= $this->transEsc('snl.nonSwissEduLogin3')?> <a href="http://www.nationallicences.ch/"><?= $this->transEsc('snl.nonSwissEduLogin4')?></a>.</p>
+    <? else: ?>
+        <?= $this->flashmessages(); ?>
+
+        <?= $this->context($this)->renderInContext("nationallicences/intro_text.phtml", []) ?>
+        <hr>
+        <?= $this->context($this)->renderInContext("nationallicences/terms_conditions.phtml", []) ?>
+
+
+        <? if (!$this->hasPermanentAccess): ?>
+            <hr>
+            <h3><?= $this->transEsc('snl.temporaryAccess') ?></h3>
+            <?= $this->context($this)->renderInContext("nationallicences/temporary_access.phtml", []) ?>
+            <hr>
+            <h3><?= $this->transEsc('snl.permanentAccess') ?></h3>
+            <?= $this->context($this)->renderInContext("nationallicences/permanent_access.phtml", []) ?>
+        <? endif; ?>
+    <? endif; ?>
+</div>
+
+<div class="<?= $this->layoutClass('sidebar') ?>">
+    <?= $this->context($this)->renderInContext("myresearch/menu.phtml", array('active' => 'national-licences')) ?>
+</div>

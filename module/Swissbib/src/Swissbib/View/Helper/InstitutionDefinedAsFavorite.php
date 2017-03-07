@@ -1,15 +1,12 @@
 <?php
- 
- /**
- * [...description of the type ...]
+/**
+ * InstitutionDefinedAsFavorite
  *
  * PHP version 5
  *
  * Copyright (C) project swissbib, University Library Basel, Switzerland
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
  *
- * Date: 10/15/13
- * Time: 1:26 PM
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
  * as published by the Free Software Foundation.
@@ -23,39 +20,53 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib_VuFind2
- * @package  [...package name...]
- * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
+ * @category Swissbib_VuFind2
+ * @package  View_Helper
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.swissbib.org
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-
-
-namespace Swissbib\View\Helper;
-
-
-
 namespace Swissbib\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * InstitutionDefinedAsFavorite
+ *
+ * @category Swissbib_VuFind2
+ * @package  View_Helper
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ */
+class InstitutionDefinedAsFavorite extends AbstractHelper
+{
+    /**
+     * AllFavoriteInstitutions
+     *
+     * @var array
+     */
+    protected $allFavoriteInstitutions = [];
 
-
-class InstitutionDefinedAsFavorite extends AbstractHelper {
-
-    protected $allFavoriteInstitutions = array();
-
+    /**
+     * Constructor
+     *
+     * @param array $allFavoriteInstitutionCodes AllFavoriteInstitutionCodes
+     */
     public function __construct(array $allFavoriteInstitutionCodes)
     {
         $this->allFavoriteInstitutions = $allFavoriteInstitutionCodes;
     }
 
-
-    public function isInstitutionDefinedAsFavorite($institutionCode) {
-
+    /**
+     * IsInstitutionDefinedAsFavorite
+     *
+     * @param String $institutionCode InstitutionCode
+     *
+     * @return bool
+     */
+    public function isInstitutionDefinedAsFavorite($institutionCode)
+    {
         return array_key_exists($institutionCode, $this->allFavoriteInstitutions);
-
     }
-
-
 }

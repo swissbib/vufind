@@ -1,7 +1,6 @@
 <?php
-
 /**
- * swissbib / VuFind swissbib enhancements for Summon records
+ * Swissbib / VuFind swissbib enhancements for Summon records
  *
  * PHP version 5
  *
@@ -23,13 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib_VuFind2
+ * @category Swissbib_VuFind2
  * @package  RecordDriver
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
-
 namespace Swissbib\RecordDriver;
 
 use VuFind\RecordDriver\Summon as VuFindSummon;
@@ -37,63 +35,74 @@ use VuFind\RecordDriver\Summon as VuFindSummon;
 /**
  * Enhancement for swissbib Summon records
  *
- * @category swissbib_VuFind2
- * @package  RecordDrivers
+ * @category Swissbib_VuFind2
+ * @package  RecordDriver
+ * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
 class Summon extends VuFindSummon implements SwissbibRecordDriver
 {
-
     /**
-     * @return    String    Author name(s)
+     * Get Author
+     *
+     * @return String Author name(s)
      */
     public function getAuthor()
     {
-        $author = $this->getField('Author', '-');
+        $author = $this->_getField('Author', '-');
 
         return is_array($author) ? implode('; ', $author) : $author;
     }
 
     /**
-     * @return    Array
+     * Get URI
+     *
+     * @return Array
      */
     public function getURI()
     {
-        return $this->getField('URI');
+        return $this->_getField('URI');
     }
 
     /**
-     * @return string ??
-     * return 360-summon-link (field 'link')
+     * Get Link
+     *
+     * @return String ?? return 360-summon-link (field 'link')
      */
     public function getLink()
     {
-        return $this->getField('link');
+        return $this->_getField('link');
     }
 
     /**
-     * @return    Boolean
+     * Has DirectLink
+     *
+     * @return Boolean
      */
     public function hasDirectLink()
     {
-        return in_array('DirectLink', $this->getLinkModel());
+        return in_array('DirectLink', $this->_getLinkModel());
     }
 
     /**
-     * @return    Boolean
+     * Has Fulltext
+     *
+     * @return Boolean
      */
     public function hasFulltext()
     {
-        return 1 === intval($this->getField('hasFullText'));
+        return 1 === intval($this->_getField('hasFullText'));
     }
 
     /**
-     * @return  string
+     * Get AllSubjectHeadingsAsString
+     *
+     * @return string
      */
     public function getAllSubjectHeadingsAsString()
     {
-        $ret = array();
+        $ret = [];
         $subj = $this->getAllSubjectHeadings();
         if (is_array($subj) and count($subj) > 0) {
             foreach ($subj as $sub) {
@@ -106,12 +115,14 @@ class Summon extends VuFindSummon implements SwissbibRecordDriver
     }
 
     /**
-     * @return string
+     * Get DatabaseTitle
+     *
+     * @return String
      */
     public function getDatabaseTitle()
     {
         $ret = '';
-        $db = $this->getField('DatabaseTitle');
+        $db = $this->_getField('DatabaseTitle');
         if (is_array($db)) {
             $ret = implode('; ', $db);
         }
@@ -120,7 +131,9 @@ class Summon extends VuFindSummon implements SwissbibRecordDriver
     }
 
     /**
-     * @return string
+     * Get AltTitle
+     *
+     * @return String
      */
     public function getAltTitle()
     {
@@ -128,12 +141,16 @@ class Summon extends VuFindSummon implements SwissbibRecordDriver
     }
 
     /**
+     * Get CitationFormats
+     *
      * @override
+     *
      * @return array Strings representing citation formats.
      */
     public function getCitationFormats()
     {
-        $solrDefaultAdapter = $this->hierarchyDriverManager->getServiceLocator()->get('Swissbib\RecordDriver\SolrDefaultAdapter');
+        $solrDefaultAdapter = $this->hierarchyDriverManager->getServiceLocator()
+            ->get('Swissbib\RecordDriver\SolrDefaultAdapter');
 
         return $solrDefaultAdapter->getCitationFormats();
     }
@@ -173,7 +190,7 @@ class Summon extends VuFindSummon implements SwissbibRecordDriver
      */
     public function getAllSubjectVocabularies($ignoreControlFields = false)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -188,7 +205,7 @@ class Summon extends VuFindSummon implements SwissbibRecordDriver
     }
 
     /**
-     * get Cartographic Mathematical Data
+     * Get Cartographic Mathematical Data
      *
      * @return string
      */
@@ -200,15 +217,15 @@ class Summon extends VuFindSummon implements SwissbibRecordDriver
     /**
      * Get highlighted fulltext
      *
-     * @return    String
+     * @return String
      */
-    public function getHighlightedFulltext() {
+    public function getHighlightedFulltext()
+    {
         return null;
     }
 
-
     /**
-     * get group-id from solr-field to display FRBR-Button
+     * Get group-id from solr-field to display FRBR-Button
      *
      * @return string|number
      */
@@ -250,16 +267,19 @@ class Summon extends VuFindSummon implements SwissbibRecordDriver
     /**
      * Returns the corporation names
      *
-     * @param boolean $asString
-     * @return  array|string
+     * @param Boolean $asString AsString
+     *
+     * @return array|string
      */
     public function getCorporationNames($asString = true)
     {
-        return $asString ? '' : array();
+        return $asString ? '' : [];
     }
 
     /**
-     * @return boolean
+     * DisplayHoldings
+     *
+     * @return Boolean
      */
     public function displayHoldings()
     {
@@ -267,6 +287,8 @@ class Summon extends VuFindSummon implements SwissbibRecordDriver
     }
 
     /**
+     * DisplayLinks
+     *
      * @return boolean
      */
     public function displayLinks()
@@ -275,37 +297,69 @@ class Summon extends VuFindSummon implements SwissbibRecordDriver
     }
 
     /**
-     * @param string $size
+     * GetThumbnail
+     *
+     * @param string $size Size
+     *
      * @return array|bool|string
      */
-    public function getThumbnail($size = 'small') {
+    public function getThumbnail($size = 'small')
+    {
         return parent::getThumbnail('small');
     }
 
     /**
-     * @param    String $fieldName
-     * @param    String $fallbackValue
+     * Get Field
      *
-     * @return    String
+     * @param String $fieldName     FieldName
+     * @param String $fallbackValue FallBackValue
+     *
+     * @return String
      */
-    private function getField($fieldName, $fallbackValue = '')
+    private function _getField($fieldName, $fallbackValue = '')
     {
-        return array_key_exists($fieldName, $this->fields) ? $this->fields[$fieldName] : $fallbackValue;
+        return array_key_exists($fieldName, $this->fields) ?
+            $this->fields[$fieldName] : $fallbackValue;
     }
 
     /**
-     * @return    Array
+     * Get LinkModel
+     *
+     * @return Array
      */
-    private function getLinkModel()
+    private function _getLinkModel()
     {
-        return $this->getField('LinkModel');
+        return $this->_getField('LinkModel');
     }
 
     /**
+     * Get related Entries
+     *
      * @return array
      */
     public function getRelatedEntries()
     {
         return [];
+    }
+
+    /**
+     * Checks the current record if it's supported for generating OpenURLs.
+     *
+     * @return bool
+     */
+    public function supportsOpenUrl()
+    {
+        // Summon never uses OpenURLs for anything other than COinS:
+        return true;
+    }
+
+    /**
+     * Get Hierarchical level of record
+     *
+     * @return String
+     */
+    public function getHierachicalLevel()
+    {
+
     }
 }

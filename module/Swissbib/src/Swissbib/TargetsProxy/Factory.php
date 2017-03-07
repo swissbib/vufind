@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Factory for services.
+ * Factory for TargetsProxies
  *
  * PHP version 5
  *
@@ -21,67 +20,66 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib VuFind2
- * @package  Swissbib\Services
+ * @category Swissbib_VuFind2
+ * @package  TargetsProxy
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-
-
 namespace Swissbib\TargetsProxy;
+
 use Zend\ServiceManager\ServiceManager;
 
-
-
 /**
- * Factory for Services.
+ * Factory for TargetsProxies
  *
- * @category swissbib VuFind2
- * @package  Controller
+ * @category Swissbib_VuFind2
+ * @package  TargetsProxy
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 class Factory
 {
-
     /**
      * Constructs TargetsProxy
      *
      * @param ServiceManager $sm Service manager.
+     *
      * @return TargetsProxy
      */
     public static function getTargetsProxy(ServiceManager $sm)
     {
         $config = $sm->get('VuFind\Config')->get('TargetsProxy');
-        return new TargetsProxy($config, $sm->get('Swissbib\Logger'), $sm->get('Request'));
 
+        return new TargetsProxy(
+            $config,
+            $sm->get('Swissbib\Logger'),
+            $sm->get('Request')
+        );
     }
-
 
     /**
      * Constructs IpMatcher
      *
      * @param ServiceManager $sm Service manager.
+     *
      * @return IpMatcher
      */
-    public static function getIpMatcher (ServiceManager $sm)
+    public static function getIpMatcher(ServiceManager $sm)
     {
         return new IpMatcher();
-
     }
 
     /**
      * Constructs UrlMatcher
      *
      * @param ServiceManager $sm Service manager.
+     *
      * @return UrlMatcher
      */
-    public static function getURLMatcher (ServiceManager $sm)
+    public static function getURLMatcher(ServiceManager $sm)
     {
         return new UrlMatcher();
-
     }
-
 }

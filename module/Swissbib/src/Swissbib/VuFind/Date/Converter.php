@@ -1,17 +1,45 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: vfsb
- * Date: 10/16/13
- * Time: 3:55 PM
- * To change this template use File | Settings | File Templates.
+ * Converter
+ *
+ * PHP version 5
+ *
+ * Copyright (C) project swissbib, University Library Basel, Switzerland
+ * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Date
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-
 namespace Swissbib\VuFind\Date;
 
 use VuFind\Date\Converter as VFConverter;
 use DateTime, VuFind\Exception\Date as DateException;
 
+/**
+ * Converter
+ *
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Date
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ */
 class Converter extends VFConverter
 {
     /**
@@ -27,20 +55,20 @@ class Converter extends VFConverter
     public function convert($inputFormat, $outputFormat, $dateString)
     {
         // default return format of DateTime::getLastErrors()
-        $getErrors = array(
+        $getErrors = [
             'warning_count' => 0,
-            'warnings' => array(),
+            'warnings' => [],
             'error_count' => 0,
-            'errors' => array()
-        );
+            'errors' => []
+        ];
 
         // For compatibility with PHP 5.2.x, we have to restrict the input formats
         // to a fixed list...  but we'll check to see if we have access to PHP 5.3.x
         // before failing if we encounter an input format that isn't whitelisted.
-        $validFormats = array(
+        $validFormats = [
             "m-d-Y", "m-d-y", "m/d/Y", "m/d/y", "U", "m-d-y H:i", "Y-m-d",
             "Y-m-d H:i"
-        );
+        ];
         $isValid = in_array($inputFormat, $validFormats);
         if ($isValid) {
             if ($inputFormat == 'U') {
@@ -71,13 +99,17 @@ class Converter extends VFConverter
         if ($getErrors['warning_count'] == 0
             && $getErrors['error_count'] == 0 && $date
         ) {
+
             return $date->format($outputFormat);
         } else {
             //yymd
-            //todo GH: just an intermediary solution because we get an conversion error using the content sent by Aleph
+            //todo GH: just an intermediary solution because we get an conversion
+            // error using the content sent by Aleph
             //dates with 00000000
-            //e.g.: http://alephtest.unibas.ch:1891/rest-dlf/patron/B219684/circulationActions/loans/?view=full
+            //e.g.: http://alephtest.unibas.ch:1891/rest-dlf/patron/B219684/
+            // circulationActions/loans/?view=full
             //<z30-inventory-number-date>00000000</z30-inventory-number-date>
+
             return DateTime::createFromFormat('yymd', '19000101');
         }
     }

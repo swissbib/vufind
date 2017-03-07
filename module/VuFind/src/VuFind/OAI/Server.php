@@ -17,13 +17,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  OAI_Server
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 namespace VuFind\OAI;
 use SimpleXMLElement,
@@ -34,11 +34,11 @@ use SimpleXMLElement,
  *
  * This class provides OAI server functionality.
  *
- * @category VuFind2
+ * @category VuFind
  * @package  OAI_Server
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 class Server
 {
@@ -310,6 +310,13 @@ class Server
             if ($xml === false) {
                 return false;
             }
+        }
+
+        // Headers should be returned only if the metadata format matching
+        // the supplied metadataPrefix is available.
+        // If RecordDriver returns nothing, skip this record.
+        if (empty($xml)) {
+            return true;
         }
 
         // Check for sets:
@@ -589,10 +596,11 @@ class Server
 
         // Get non-deleted records from the Solr index:
         $result = $this->listRecordsGetNonDeleted(
-            $from, $until, $solrOffset, $solrLimit, $params['set']
+            $from, $until, $solrOffset, $solrLimit,
+            isset($params['set']) ? $params['set'] : ''
         );
         $nonDeletedCount = $result->getResultTotal();
-        $format = $verb == 'ListIdentifiers' ? false : $params['metadataPrefix'];
+        $format = $params['metadataPrefix'];
         foreach ($result->getResults() as $doc) {
             if (!$this->attachNonDeleted($xml, $doc, $format, $headersOnly)) {
                 $this->unexpectedError('Cannot load document');
@@ -652,7 +660,7 @@ class Server
             if (empty($facets) || !isset($facets[$this->setField]['data']['list'])) {
                 $this->unexpectedError('Cannot find sets');
             }
-    
+
             // Extract facet values from the Solr response:
             foreach ($facets[$this->setField]['data']['list'] as $x) {
                 $set = $xml->addChild('set');
@@ -710,7 +718,6 @@ class Server
         $params->setLimit($limit);
         $params->getOptions()->disableHighlighting();
         $params->getOptions()->spellcheckEnabled(false);
-        $params->recommendationsEnabled(false);
         $params->setSort('last_indexed asc', true);
 
         // Construct a range query based on last indexed time:
@@ -724,7 +731,7 @@ class Server
             if (isset($this->setQueries[$set])) {
                 // use hidden filter here to allow for complex queries;
                 // plain old addFilter expects simple field:value queries.
-                $params->getOptions()->addHiddenFilter($this->setQueries[$set]);
+                $params->addHiddenFilter($this->setQueries[$set]);
             } else if (null !== $this->setField) {
                 $params->addFilter(
                     $this->setField . ':"' . addcslashes($set, '"') . '"'
@@ -770,13 +777,15 @@ class Server
             // Set default date range if not already provided:
             if (empty($params['from'])) {
                 $params['from'] = $this->earliestDatestamp;
-                if (strlen($params['from'])>strlen($params['until'])) {
+                if (!empty($params['until'])
+                    && strlen($params['from']) > strlen($params['until'])
+                ) {
                     $params['from'] = substr($params['from'], 0, 10);
                 }
             }
             if (empty($params['until'])) {
                 $params['until'] = date($this->iso8601);
-                if (strlen($params['until'])>strlen($params['from'])) {
+                if (strlen($params['until']) > strlen($params['from'])) {
                     $params['until'] = substr($params['until'], 0, 10);
                 }
             }
@@ -787,7 +796,7 @@ class Server
 
         // If no set field is configured and a set parameter comes in, we have a
         // problem:
-        if (is_null($this->setField) && isset($params['set'])
+        if (null === $this->setField && empty($this->setQueries)
             && !empty($params['set'])
         ) {
             throw new \Exception('noSetHierarchy:Sets not supported');
@@ -834,7 +843,7 @@ class Server
         } else if (strpos($until, 'T') && strpos($until, 'Z')) {
             return true;
         }
-        
+
         $from_time = $this->normalizeDate($from);
         $until_time = $this->normalizeDate($until, '23:59:59');
         if ($from_time > $until_time) {

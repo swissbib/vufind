@@ -17,24 +17,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search_SolrAuthor
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     https://vufind.org Main Site
  */
 namespace VuFind\Search\SolrCollection;
 
 /**
  * Solr Collection Search Options
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search_SolrAuthor
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     https://vufind.org Main Site
  */
 class Params extends \VuFind\Search\Solr\Params
 {
@@ -58,13 +58,11 @@ class Params extends \VuFind\Search\Solr\Params
      * Pull the search parameters from the query and set up additional options using
      * a record driver representing a collection.
      *
-     * @param \VuFind\RecordDriver\AbstractBase $driver  Record driver
-     * @param \Zend\StdLib\Parameters           $request Parameter object
-     * representing user request.
+     * @param \VuFind\RecordDriver\AbstractBase $driver Record driver
      *
      * @return void
      */
-    public function initFromRecordDriver($driver, $request)
+    public function initFromRecordDriver($driver)
     {
         $this->collectionID = $driver->getUniqueID();
         if ($hierarchyDriver = $driver->getHierarchyDriver()) {
@@ -77,53 +75,21 @@ class Params extends \VuFind\Search\Solr\Params
                 break;
             }
         }
-        $this->initFromRequest($request);
-    }
 
-    /**
-     * Pull the search parameters
-     *
-     * @param \Zend\StdLib\Parameters $request Parameter object representing user
-     * request.
-     *
-     * @return void
-     */
-    public function initFromRequest($request)
-    {
         if (null === $this->collectionID) {
             throw new \Exception('Collection ID missing');
         }
         if (null === $this->collectionField) {
             throw new \Exception('Collection field missing');
         }
-        parent::initFromRequest($request);
 
         // We don't spellcheck this screen; it's not for free user input anyway
-        $options = $this->getOptions();
-        $options->spellcheckEnabled(false);
+        $this->getOptions()->spellcheckEnabled(false);
 
         // Prepare the search
         $safeId = addcslashes($this->collectionID, '"');
-        $options->addHiddenFilter($this->collectionField . ':"' . $safeId . '"');
-        $options->addHiddenFilter('!id:"' . $safeId . '"');
-    }
-
-    /**
-     * Load all recommendation settings from the relevant ini file.  Returns an
-     * associative array where the key is the location of the recommendations (top
-     * or side) and the value is the settings found in the file (which may be either
-     * a single string or an array of strings).
-     *
-     * @return array associative: location (top/side) => search settings
-     */
-    protected function getRecommendationSettings()
-    {
-        // Collection recommendations
-        $searchSettings = $this->getServiceLocator()->get('VuFind\Config')
-            ->get('Collection');
-        return isset($searchSettings->Recommend)
-            ? $searchSettings->Recommend->toArray()
-            : ['side' => ['CollectionSideFacets:Facets::Collection:true']];
+        $this->addHiddenFilter($this->collectionField . ':"' . $safeId . '"');
+        $this->addHiddenFilter('!id:"' . $safeId . '"');
     }
 
     /**

@@ -19,18 +19,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category VuFind2
- * @package  Autocomplete
+ * @category Swissbib_VuFind2
+ * @package  Vufind_Autocomplete
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 namespace Swissbib\VuFind\Autocomplete;
+
 use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory for autocomplete plugins.
- *
  *
  * PHP version 5
  *
@@ -50,15 +50,12 @@ use Zend\ServiceManager\ServiceManager;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib VuFind2
- * @package  Swissbib\Vufind\Autocomplete
+ * @category Swissbib_VuFind2
+ * @package  Vufind_Autocomplete
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-
-
-
 class Factory
 {
     /**
@@ -70,10 +67,8 @@ class Factory
      */
     public static function getSolr(ServiceManager $sm)
     {
-        return new \Swissbib\VuFind\Autocomplete\Solr (
+        return new \Swissbib\VuFind\Autocomplete\Solr(
             $sm->getServiceLocator()->get('VuFind\SearchResultsPluginManager')
         );
     }
-
-
 }

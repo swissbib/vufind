@@ -28,19 +28,23 @@
   $originalSort = (isset($_GET['originalSort']) ? $_GET['originalSort'] : '');
   if (isset($this->overrideTitle)) {
     $this->layout()->breadcrumbs .= '<li class="active">' . $this->escapeHtml($this->overrideTitle) . '</li>';
-  } else {
-    $getFieldName = ('FRBR' === $type ? 'name' : 'lookfor');
-    $this->layout()->breadcrumbs .= '<li class="active">' .
-          $this->getLastSearchLink($this->transEsc('Search') . ': ' . $this->escapeHtml($this->lookfor), '', '</li> ');
   }
-  if ('FRBR' === $type) {
-    $this->layout()->breadcrumbs .= '<li class="active">' . sprintf($this->transEsc('search_breadcrumb_frbr'), $this->escapeHtml($this->lookfor)) . '</li>';
+  else {
+    $getFieldName = ('FRBR' === $type ? 'name' : 'lookfor');
+    if ('FRBR' === $type){
+      $this->layout()->breadcrumbs .= '<li class="active">' .
+          $this->searchMemory()->getLastSearchLink($this->transEsc('Search'), '', '</li> ' . '<li class="active">' . sprintf($this->transEsc('search_breadcrumb_frbr'), $this->escapeHtml($this->lookfor)) . '</li>');
+    }
+    else {
+      $this->layout()->breadcrumbs .= '<li class="active">' .
+          $this->searchMemory()->getLastSearchLink($this->transEsc('Search') . ': ' . $this->escapeHtml($this->lookfor), '', '</li> ');
+    }
   }
 
-  // Disable cart if appropriate:
-  if (!$this->params->getOptions()->supportsCart()) {
-    $this->hideCartControls = true;
-  }
+  // Enable cart if appropriate:
+  $this->showCartControls = $this->params->getOptions()->supportsCart() && $this->cart()->isActive();
+  // Enable bulk options if appropriate:
+  $this->showBulkOptions = $this->params->getOptions()->supportsCart() && $this->showBulkOptions;
 
   // Load Javascript dependencies into header:
   $this->headScript()->appendFile("check_item_statuses.js");
@@ -58,7 +62,7 @@
     <div class="results-top row">
       <div class="col-md-9">
         <h1><i class="fa fa-search"></i> <span><?=$this->transEsc('Search Results')?></span></h1>
-        <h2 class="visible-print-block"><?=$this->transEsc('Your_Search') . ": "?><span><?=$this->lookfor?>, <?=$recordTotal . ' ' . $this->transEsc('hits for your search')?></span></h2>
+        <h2 class="visible-print-block"><?=$this->transEsc('Your_Search') . ": "?><span><?=$this->escapeHtml($this->lookfor)?>, <?=$recordTotal . ' ' . $this->transEsc('hits for your search')?></span></h2>
       </div>
       <div class="col-md-3">
         <div class="searchtools">
@@ -78,7 +82,7 @@
               <ul class="dropdown-menu" role="export-menu">
                 <? foreach ($exportFormats as $format): ?>
                   <li class="<?=$this->export()->getVisibilityClassName($format)?>">
-                    <a <? if ($this->export()->needsRedirect($format)): ?>target="<?=$this->escapeHtmlAttr($format)?>Main" <? endif; ?>href="<?=$this->export()->getBulkUrl($this, $format, array());?>"><?= $this->transEsc('Export to') ?> <?= $this->escapeHtml($format) ?></a>
+                    <a <? if ($this->export()->needsRedirect($format)): ?>target="<?=$this->escapeHtmlAttr($format)?>Main" <? endif; ?>href="<?=$this->export()->getBulkUrl($this, $format, array());?>"><?= $this->transEsc('Export to') ?> <?= $this->transEsc($this->export()->getLabelForFormat($format)) ?></a>
                   </li>
                 <? endforeach; ?>
               </ul>

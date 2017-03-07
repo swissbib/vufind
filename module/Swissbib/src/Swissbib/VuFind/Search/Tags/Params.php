@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * @category VuFind2
- * @package  Search_Tags
+ * @package  VuFind_Search_Tags
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org   Main Site
@@ -31,22 +31,21 @@ namespace Swissbib\VuFind\Search\Tags;
  * Search Tags Parameters
  *
  * @category VuFind2
- * @package  Search_Tags
+ * @package  VuFind_Search_Tags
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org   Main Site
  */
 class Params extends \VuFind\Search\Tags\Params
 {
-
     /**
+     * GetTypeLabel
+     *
      * @return string
      */
     public function getTypeLabel()
     {
-        return $this->getServiceLocator()->get('Swissbib\TypeLabelMappingHelper')->getLabel($this);
+        return $this->getServiceLocator()->get('Swissbib\TypeLabelMappingHelper')
+            ->getLabel($this);
     }
-
-
-
 }

@@ -1,11 +1,10 @@
 <?php
-
 /**
  * Multiple Backend Driver : Swissbib extensions
  *
  * PHP version 5
  *
- * Copyright (C) project swissbib, University Library Basel, Switzerland, 2014
+ * Copyright (C) project swissbib, University Library Basel, Switzerland
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
  *
  * This program is free software; you can redistribute it and/or modify
@@ -21,61 +20,119 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category VuFind
- * @package  ILSdrivers
- * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
- * @author   Oliver Schihin <oliver.schihin@unibas.ch>
+ * @category Swissbib_VuFind2
+ * @package  VuFind_ILS_Driver
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/building_an_ils_driver Wiki
- * @link     http://www.swissbib.org Project Wiki
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-
 namespace Swissbib\VuFind\ILS\Driver;
+
 use VuFind\ILS\Driver\MultiBackend as VFMultiBackend,
     VuFind\Exception\ILS as ILSException,
     Zend\ServiceManager\ServiceLocatorAwareInterface,
     Zend\ServiceManager\ServiceLocatorInterface,
     Zend\Log\LoggerInterface;
 
-class MultiBackend extends VFMultiBackend {
-
-    public function getBookings($id) {
+/**
+ * MultiBackend
+ *
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Auth
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ */
+class MultiBackend extends VFMultiBackend
+{
+    /**
+     * GetBookings
+     *
+     * @param String $id Id
+     *
+     * @return array
+     */
+    public function getBookings($id)
+    {
         $source = $this->getSource($id);
         $driver = $this->getDriver($source);
         if ($driver) {
             return $driver->getBookings($this->getLocalId($id));
         }
-        return array();
+        return [];
     }
 
-    public function getPhotoCopies($id) {
+    /**
+     * GetPhotoCopies
+     *
+     * @param String $id Id
+     *
+     * @return array
+     */
+    public function getPhotoCopies($id)
+    {
         $source = $this->getSource($id);
         $driver = $this->getDriver($source);
         if ($driver) {
             return $driver->getPhotoCopies($this->getLocalId($id));
         }
-        return array();
+        return [];
     }
 
-    public function getAllowedActionsForItem($patronId, $id, $group, $bib) {
+    /**
+     * GetAllowedActionsForItem
+     *
+     * @param String $patronId PatronId
+     * @param String $id       Id
+     * @param String $group    Group
+     * @param String $bib      Bib
+     *
+     * @return array
+     */
+    public function getAllowedActionsForItem($patronId, $id, $group, $bib)
+    {
         $source = $this->getSource($patronId);
         $driver = $this->getDriver($source);
+
         if ($driver) {
-            return $driver->getAllowedActionsForItem($this->getLocalId($patronId), $id, $group, $bib);
+            return $driver->getAllowedActionsForItem(
+                $this->getLocalId($patronId), $id, $group, $bib
+            );
         }
-        return array();
+        return [];
     }
 
-    public function getRequiredDate($patron, $holdInfo=null) {
+    /**
+     * GetRequiredDate
+     *
+     * @param array $patron   Patron
+     * @param array $holdInfo HoldInfo
+     *
+     * @return array
+     */
+    public function getRequiredDate($patron, $holdInfo = null)
+    {
         $id = $patron['id'];
         $source = $this->getSource($id);
         $driver = $this->getDriver($source);
+
         if ($driver) {
             return $driver->getRequiredDate($patron, $holdInfo);
         }
-        return array();
+
+        return [];
     }
 
+    /**
+     * GetPickUpLocations
+     *
+     * @param array|Boolean $patron      Patron
+     * @param array         $holdDetails HoldDetails
+     *
+     * @throws ILSException
+     *
+     * @return mixed
+     */
     public function getPickUpLocations($patron = false, $holdDetails = null)
     {
         $source = $this->getSource($patron['cat_username'], 'login');
@@ -92,20 +149,42 @@ class MultiBackend extends VFMultiBackend {
         }
     }
 
+    /**
+     * PlaceHold
+     *
+     * @param array $holdDetails HoldDetails
+     *
+     * @throws ILSException
+     *
+     * @return mixed
+     */
     public function placeHold($holdDetails)
     {
         $source = $this->getSource($holdDetails['patron']['cat_username'], 'login');
         $driver = $this->getDriver($source);
+
         if ($driver) {
             $holdDetails = $this->stripIdPrefixes($holdDetails, $source);
+
             return $driver->placeHold($holdDetails);
         }
+
         throw new ILSException('No suitable backend driver found');
     }
 
-
     /**
-     * The following functions are implementations of a "Basel Bern" functionality, display of journal volumes to order
+     * The following functions are implementations of a "Basel Bern"
+     * functionality, display of journal volumes to order
+     *
+     * @param string $resourceId      ResourceId
+     * @param string $institutionCode InstitutionCode
+     * @param int    $offset          Offset
+     * @param int    $year            Year
+     * @param int    $volume          Volume
+     * @param int    $numItems        NumItems
+     * @param array  $extraRestParams ExtraRestParams
+     *
+     * @return mixed
      */
     public function getHoldingHoldingItems(
         $resourceId,
@@ -114,8 +193,8 @@ class MultiBackend extends VFMultiBackend {
         $year = 0,
         $volume = 0,
         $numItems = 10,
-        array $extraRestParams = array() )
-    {
+        array $extraRestParams = []
+    ) {
         $source = $this->getSource($resourceId);
         $driver = $this->getDriver($source);
         if ($driver) {
@@ -126,22 +205,48 @@ class MultiBackend extends VFMultiBackend {
                 $year,
                 $volume,
                 $numItems,
-                $extraRestParams );
+                $extraRestParams
+            );
         }
     }
 
-
-    public function getHoldingItemCount( $resourceId, $institutionCode = '', $offset = 0, $year = 0, $volume = 0 ) {
+    /**
+     * GetHoldingItemCount
+     *
+     * @param string $resourceId      ResourceId
+     * @param string $institutionCode InstitutionCode
+     * @param int    $offset          Offset
+     * @param int    $year            Year
+     * @param int    $volume          Volume
+     *
+     * @throws ILSException
+     *
+     * @return mixed
+     */
+    public function getHoldingItemCount($resourceId, $institutionCode = '',
+        $offset = 0, $year = 0, $volume = 0
+    ) {
         $source = $this->getSource($resourceId);
         $driver = $this->getDriver($source);
+
         if ($driver) {
-            return $driver->getHoldingItemCount( $resourceId, $institutionCode, $offset, $year, $volume );
+            return $driver->getHoldingItemCount(
+                $resourceId, $institutionCode, $offset, $year, $volume
+            );
         }
+
         throw new ILSException('No suitable backend driver found');
     }
 
-
-    public function getResourceFilters($resourceId) {
+    /**
+     * GetResourceFilters
+     *
+     * @param string $resourceId ResourceId
+     *
+     * @return mixed
+     */
+    public function getResourceFilters($resourceId)
+    {
         $source = $this->getSource($resourceId);
         $driver = $this->getDriver($source);
         if ($driver) {
@@ -151,16 +256,15 @@ class MultiBackend extends VFMultiBackend {
 
     /**
      * Extract source from the given ID
+     * Circumvent the private declaration in parent class
      *
      * @param string $id        The id to be split
      * @param string $delimiter The delimiter to be used from $this->delimiters
      *
-     * @return string  Source
-     *
-     * Circumvent the private declaration in parent class
+     * @return string Source
      */
-
-    public function getSource($id, $delimiter = '') {
+    public function getSource($id, $delimiter = '')
+    {
         return parent::getSource($id, $delimiter = '');
     }
 
@@ -176,15 +280,17 @@ class MultiBackend extends VFMultiBackend {
      *
      * Circumvent the private declaration in parent class
      */
-
-    public function getDriverConfig($source) {
+    public function getDriverConfig($source)
+    {
         return parent::getDriverConfig($source);
     }
 
     /**
-     * @param array
+     * GetMyAddress
      *
-     * @return mixed
+     * @param array $patron Patron
+     *
+     * @return array
      */
     public function getMyAddress(array $patron)
     {
@@ -199,7 +305,10 @@ class MultiBackend extends VFMultiBackend {
     }
 
     /**
-     * @param array
+     * ChangeMyAddress
+     *
+     * @param array $patron     Patron
+     * @param array $newAddress NewAddress
      *
      * @return mixed
      */
@@ -209,16 +318,20 @@ class MultiBackend extends VFMultiBackend {
         $driver = $this->getDriver($source);
 
         if ($driver && $this->methodSupported($driver, 'changeMyAddress')) {
-            return $driver->changeMyAddress($this->stripIdPrefixes($patron, $source), $newAddress);
+            return $driver->changeMyAddress(
+                $this->stripIdPrefixes($patron, $source), $newAddress
+            );
         }
 
         return [];
     }
 
     /**
-     * @param array $patron
-     * @param string $id
-     * @param string $group
+     * GetPickupLocations
+     *
+     * @param array  $patron Patron
+     * @param string $id     Id
+     * @param string $group  Group
      *
      * @return array
      */
@@ -228,26 +341,33 @@ class MultiBackend extends VFMultiBackend {
         $driver = $this->getDriver($source);
 
         if ($driver && $this->methodSupported($driver, 'getCopyPickUpLocations')) {
-            return $driver->getCopyPickUpLocations($this->stripIdPrefixes($patron, $source), $id, $group);
+            return $driver->getCopyPickUpLocations(
+                $this->stripIdPrefixes($patron, $source), $id, $group
+            );
         }
 
         return [];
     }
 
     /**
-     * @param array $patron
-     * @param string $id
-     * @param string $group
-     * @param array $copyRequest
+     * PutCopy
+     *
+     * @param array  $patron      Patron
+     * @param string $id          Id
+     * @param string $group       Group
+     * @param array  $copyRequest CopyRequest
      *
      * @return array
      */
-    public function putCopy(array $patron, $id, $group, array $copyRequest) {
+    public function putCopy(array $patron, $id, $group, array $copyRequest)
+    {
         $source = $this->getSource($patron['cat_username'], 'login');
         $driver = $this->getDriver($source);
 
         if ($driver && $this->methodSupported($driver, 'changeMyAddress')) {
-            return $driver->putCopy($this->stripIdPrefixes($patron, $source), $id, $group, $copyRequest);
+            return $driver->putCopy(
+                $this->stripIdPrefixes($patron, $source), $id, $group, $copyRequest
+            );
         }
 
         return [];

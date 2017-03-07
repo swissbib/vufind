@@ -52,7 +52,7 @@ $query = $this->results->getUrlQuery();
 
 
             <div class="alert">
-                <p><?=$this->transEsc('Your search terms')?>: <?= $key ?></p>
+                <p><?=$this->transEsc('Your search terms')?>: <?= $this->escapeHtml($key) ?></p>
             </div>
 
             <div class="alert">

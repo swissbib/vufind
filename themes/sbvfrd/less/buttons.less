@@ -1,0 +1,67 @@
+// Button variants
+//
+// Easily pump out default styles, as well as :hover, :focus, :active,
+// and disabled options for all buttons
+
+.button-variant(@color; @background; @border) {
+  color: @color;
+  background-color: @background;
+  border-color: @border;
+
+  &:focus,
+  &.focus {
+    color: @color;
+    background-color: transparent;
+    border-color: #e0e0e0;
+  }
+  &:hover {
+    color: @color;
+    background-color: darken(@background, 10%);
+    border-color: darken(@border, 12%);
+  }
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    color: @color;
+    background-color: transparent;
+    border-color: #e0e0e0;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: @color;
+      background-color: transparent;
+      border-color: #e0e0e0;
+    }
+  }
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &:hover,
+    &:focus,
+    &.focus {
+      background-color: @background;
+      border-color: @border;
+    }
+  }
+
+  .badge {
+    color: @background;
+    background-color: @color;
+  }
+}
+
+.nav > li > a {
+  &:hover { .outline(0px); }
+  &:focus { outline: dotted 1px white; }
+}
+.nav > li#loginOptions > a {
+  &:focus { outline: dotted 1px #80420d; }
+}
+
+.btn:focus { .outline(1px); }

@@ -6,24 +6,60 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-    <title>Simple Searchbox</title>
+    <title>Simple Searchbox swissbib</title>
 </head>
 <body>
-<div style="padding:10px;width:880px; height:25px;background-color:#FF9900">
-      <form method="get" action="http://devbabe.swissbib.ch/Search/Results" name="searchForm" id="searchForm">
-      <label for="searchForm_lookfor"><strong>devbabe</strong></label>
-      <input style="padding:1px 1px 1px 17px; background-color:#FFFFFF" id="searchForm_lookfor" type="text" name="lookfor" size="50" value="" class="autocomplete searcher:Solr typeSelector:searchForm_type"/>
+<!-- für searchbox baselbern.swissbib.ch -->
+<div style="padding:10px;width:100%; height:100%;background-color:#F99D50">
+    <form method="get" action="http://baselbern.swissbib.ch/Search/Results" name="searchForm" id="searchForm">
+        <img alt="logo" src="https://raw.githubusercontent.com/swissbib/vufind/master/themes/sbvfrdmulti/images/logo_swissbib-bern-basel.png" />
+<!--für searchbox swissbib.ch -->
+<!--<div style="padding:10px;width:100%; height:100%;background-color:#50BF9E">
+    <form method="get" action="http://www.swissbib.ch/Search/Results" name="searchForm" id="searchForm">
+        <img alt="logo" src="https://raw.githubusercontent.com/swissbib/vufind/master/themes/sbvfrd/images/logo_swissbib.png" />-->
+      <label for="searchForm_lookfor"></label>
+      <input style="padding:2px 2px 2px 2px; background-color:#FFFFFF; border: 2px transparent; border-radius:2px;" id="searchForm_lookfor" type="text" name="lookfor" size="40" value="" class="autocomplete searcher:Solr typeSelector:searchForm_type"/>
       <label for="searchForm_type"><strong>Kategorie</strong></label>
       <select id="searchForm_type" name="type">
+        <!-- im folgenden werden alle zur Zeit verfügbaren Optionen für die Abfrage spezifischer Indices aufgelistet.
+          Bitte unbenötigte Optionen löschen. -->
         <option value="AllFields">Alle Felder</option>
         <option value="Title">Titel</option>
         <option value="Author">Autor</option>
         <option value="Subject">Thema</option>
+        <option value="JournalTitle">Zeitschriftentitel</option>
+        <option value="Series">Serie/Reihe</option>
+        <option value="ISN">ISBN/ISSN/ISMN/URN</option>
+        <option value="CallNumber">Signatur</option>
         <option value="FormerOwner">Vorbesitzer</option>
         <option value="Annotator">Annotator</option>
-        <option value="RaraPerson">Rara Person</option>
+        <option value="RaraPerson">Vorbesitzer/Annotator</option>
+        <option value="DDC">Dewey-Dezimalklassifikation (DDC)</option>
+        <option value="RVK">Regensburger Verbundklassifikation (RVK)</option>
+        <option value="music">Sacherschliessung Musik</option>
+        <option value="OCM">Outline of cultural materials</option>
+        <option value="OWC">Outline of World Cultures</option>
+        <option value="SU03">Burgerbibliothek Bern. Beschlagwortung</option>
+        <option value="SU04">Berner Bibliographie. Ortsnamen</option>
+        <option value="SU05">Berner Bibliographie. Personen</option>
+        <option value="SU06">Berner Bibliographie. Sachbegriffe</option>
+        <option value="SU07">Universitätsbibliothek Bern, Christkatholische Theologie. Beschlagwortung</option>
+        <option value="SU24">Universitätsbibliothek Bern, Zentrum universitäre Weiterbildung. Beschlagwortung</option>
+        <option value="SU36">Basler Bibliographie. Beschlagwortung</option>
+        <option value="SU46">Pädagogisches Zentrum Basel. Beschlagwortung</option>
+        <option value="SU68">Musik Akademie Basel. Beschlagwortung</option>
+        <option value="SU76">Basel Ur- und Frühgeschichte. Beschlagwortung</option>
+        <option value="SU81">Bern Gosteli Archiv. Beschlagwortung</option>
+        <option value="SU82">Schweizerisches Wirtschaftsarchiv, Dokumentensammlung. Beschlagwortung</option>
+        <option value="SU88">Magglingen Sportmediathek. Beschlagwortung Deutsch</option>
+        <option value="SU89">Magglingen Sportmediathek. Beschlagwortung Französisch</option>
+        <option value="CLA01">Basler Bibliographie. Klassifikation</option>
+        <option value="CLA02">Berner Bibliographie. Klassifikation</option>
+        <option value="CLA05">Burgerbibliothek Bern, Gotthelfsammlung. Klassifikation</option>
+        <option value="CLA25">Magglingen Sportmediathek. Klassifikation</option>
+        <option value="CLA29">Bibliographie UB Basel. Klassifikation</option>
       </select>
-      <input type="submit" name="submit" value="Find" formtarget="_blank" />
+      <input type="submit" name="submit" value="Suchen" formtarget="_blank" />
       </form>
 </div>
 </body>

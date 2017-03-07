@@ -17,24 +17,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  RecordDrivers
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:record_drivers Wiki
+ * @link     https://vufind.org/wiki/development:plugins:record_drivers Wiki
  */
 namespace VuFind\RecordDriver;
 
 /**
  * Model for MARC records in WorldCat.
  *
- * @category VuFind2
+ * @category VuFind
  * @package  RecordDrivers
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:record_drivers Wiki
+ * @link     https://vufind.org/wiki/development:plugins:record_drivers Wiki
  */
 class WorldCat extends SolrMarc
 {
@@ -148,7 +148,7 @@ class WorldCat extends SolrMarc
      */
     public function getUniqueID()
     {
-        return (string)$this->marcRecord->getField('001')->getData();
+        return (string)$this->getMarcRecord()->getField('001')->getData();
     }
 
     /**
@@ -183,13 +183,13 @@ class WorldCat extends SolrMarc
     }
 
     /**
-     * Get the main author of the record.
+     * Get the main authors of the record.
      *
-     * @return string
+     * @return array
      */
-    public function getPrimaryAuthor()
+    public function getPrimaryAuthors()
     {
-        return $this->getFirstFieldValue('100', ['a']);
+        return [$this->getFirstFieldValue('100', ['a'])];
     }
 
     /**
@@ -200,7 +200,7 @@ class WorldCat extends SolrMarc
     public function getLanguages()
     {
         $retVal = [];
-        $field = $this->marcRecord->getField('008');
+        $field = $this->getMarcRecord()->getField('008');
         if ($field) {
             $content = $field->getData();
             if (strlen($content) >= 38) {
@@ -227,7 +227,7 @@ class WorldCat extends SolrMarc
      */
     public function getSortTitle()
     {
-        $field = $this->marcRecord->getField('245');
+        $field = $this->getMarcRecord()->getField('245');
         if ($field) {
             $title = $field->getSubfield('a');
             if ($title) {
@@ -279,7 +279,7 @@ class WorldCat extends SolrMarc
     }
 
     /**
-     * Get an array of all secondary authors (complementing getPrimaryAuthor()).
+     * Get an array of all secondary authors (complementing getPrimaryAuthors()).
      *
      * @return array
      */

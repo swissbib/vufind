@@ -8,6 +8,7 @@
     <xsl:output method="xml" indent="yes" encoding="utf-8"/>
     <xsl:param name="institution">My University</xsl:param>
     <xsl:param name="collection">DSpace</xsl:param>
+    <xsl:param name="urlPrefix">http</xsl:param>
     <xsl:template match="oai_dc:dc">
         <add>
             <doc>
@@ -80,7 +81,7 @@
 
                 <!-- ADVISOR / CONTRIBUTOR -->
                 <xsl:if test="//dc:contributor[normalize-space()]">
-                    <field name="author_additional">
+                    <field name="author2">
                         <xsl:value-of select="//dc:contributor[normalize-space()]" />
                     </field>
                 </xsl:if>
@@ -96,19 +97,12 @@
                 <xsl:if test="//dc:creator">
                     <xsl:for-each select="//dc:creator">
                         <xsl:if test="normalize-space()">
-                            <!-- author is not a multi-valued field, so we'll put
-                                 first value there and subsequent values in author2.
-                             -->
+                            <field name="author">
+                                <xsl:value-of select="normalize-space()"/>
+                            </field>
+                            <!-- use first author value for sorting -->
                             <xsl:if test="position()=1">
-                                <field name="author">
-                                    <xsl:value-of select="normalize-space()"/>
-                                </field>
-                                <field name="author-letter">
-                                    <xsl:value-of select="normalize-space()"/>
-                                </field>
-                            </xsl:if>
-                            <xsl:if test="position()>1">
-                                <field name="author2">
+                                <field name="author_sort">
                                     <xsl:value-of select="normalize-space()"/>
                                 </field>
                             </xsl:if>
@@ -151,7 +145,7 @@
 
                 <!-- URL -->
                <xsl:for-each select="//dc:identifier">
-                   <xsl:if test="substring(., 1, 21) = &quot;http://hdl.handle.net&quot;">
+                   <xsl:if test="substring(., 1, string-length($urlPrefix)) = $urlPrefix">
                        <field name="url">
                            <xsl:value-of select="." />
                        </field>

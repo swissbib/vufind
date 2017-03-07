@@ -30,7 +30,7 @@ swissbib.AdvancedSearch = {
   },
 
   initChosenMultiSelect: function() {
-    $('.chosen-select').chosen({no_results_text: vufindString['MultiSelectNothingFound']});
+    $('.chosen-select').chosen({no_results_text: VuFind.translate('MultiSelectNothingFound')});
   },
 
   /**

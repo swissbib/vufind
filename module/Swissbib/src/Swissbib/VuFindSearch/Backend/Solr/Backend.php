@@ -1,7 +1,6 @@
 <?php
- 
  /**
- * extended version of the VuFind Solr Backend Factory
+ * Extended version of the VuFind Solr Backend Factory
  *
  * PHP version 5
  *
@@ -23,15 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib_VuFind2
- * @package  Swissbib\VuFind\Search
+ * @category Swissbib_VuFind2
+ * @package  VuFindSearch_Backend_Solr
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
-
-
-
 namespace Swissbib\VuFindSearch\Backend\Solr;
 
 use VuFindSearch\Backend\Solr\Backend as VuFindSearchBackend;
@@ -40,30 +36,26 @@ use VuFindSearch\ParamBag;
 use VuFindSearch\Backend\Solr\Connector;
 use VuFindSearch\Response\RecordCollectionInterface;
 
-
-
-
-
-
-class Backend extends VuFindSearchBackend {
-
-
-
+/**
+ * Backend
+ *
+ * @category Swissbib_VuFind2
+ * @package  VuFindSearch_Backend_Solr
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.swissbib.org  Main Page
+ */
+class Backend extends VuFindSearchBackend
+{
     /**
-     * Constructor.
+     * Constructor
      *
      * @param Connector $connector SOLR connector
-     *
-     * @return void
      */
     public function __construct(Connector $connector)
     {
-
         parent::__construct($connector);
-
     }
-
-
 
     /**
      * Perform a search and return record collection.
@@ -76,14 +68,12 @@ class Backend extends VuFindSearchBackend {
      * @return RecordCollectionInterface
      */
     public function search(AbstractQuery $query, $offset, $limit,
-                           ParamBag $params = null
+        ParamBag $params = null
     ) {
-
-        //it was necessary to overwrite this function before Refactoring of Spellchecking
-        //I will leave it because it might be possible that we need our own backend later
+        //it was necessary to overwrite this function
+        // before Refactoring of Spellchecking
+        //I will leave it because it might be possible
+        // that we need our own backend later
         return parent::search($query, $offset, $limit, $params);
     }
-
-
-
 }

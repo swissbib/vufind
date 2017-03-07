@@ -107,7 +107,7 @@ swissbib.Holdings = {
     width = width || 650;
     height = height || 760;
 
-    window.open(url, 'eodpopup', 'height=' + height + ',width=' + width).focus();
+    window.open(url, 'eodpopup', 'scrollbars,height=' + height + ',width=' + width).focus();
   },
 
 
@@ -140,8 +140,8 @@ swissbib.Holdings = {
     // Clear content
     popup.html('');
 
-    Lightbox.changeContent('Loading...');
-    Lightbox.getByUrl(contentUrl);
+    popup.html('Loading... :)');
+    VuFind.lightbox.ajax({ url: contentUrl });
   },
 
 

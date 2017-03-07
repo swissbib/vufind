@@ -21,7 +21,7 @@ $isLoggedIn = !!$this->auth()->isLoggedIn();
       <fieldset class="form-group">
         <label for="query" class="col-sm-2 control-label"><?= $this->transEsc('Library') ?></label>
         <div class="col-sm-10">
-          <input type="text" id="query" class="form-control"/>
+          <input type="text" id="query" class="form-control" autocomplete="off" autofocus/>
         </div>
       </fieldset>
 
@@ -50,7 +50,5 @@ $isLoggedIn = !!$this->auth()->isLoggedIn();
 </div>
 
 <script type="text/javascript">
-   jQuery(function () {
-     swissbib.FavoriteInstitutions.init(<?=json_encode($autocompleterData)?>);
-   });
- </script>
+  swissbib.FavoriteInstitutions.init(<?=json_encode(array_values($autocompleterData))?>);
+</script>

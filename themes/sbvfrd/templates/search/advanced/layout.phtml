@@ -6,7 +6,7 @@
   $this->layout()->searchbox = false;
 
   // Set up breadcrumbs:
-  $lastSearchLink = $this->getLastSearchLink($this->transEsc('Search'), '', '</li>');
+  $lastSearchLink = $this->searchMemory()->getLastSearchLink($this->transEsc('Search'), '', '</li>');
 
   $this->layout()->breadcrumbs = ($lastSearchLink ? $lastSearchLink : '')
     . '<li class="active">' . $this->transEsc('Advanced') . '</li>';
@@ -102,5 +102,4 @@
     </form>
   </div>
 </div>
-
 <?= $this->render('search/advanced/sidebar') ?>

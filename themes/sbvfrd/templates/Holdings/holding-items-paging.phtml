@@ -28,7 +28,7 @@ $next = $active < $pages ? true : false;
 
       <? if ($previous): ?>
         <li>
-          <a href="<?= "javascript:swissbib.Holdings.openHoldingItemsPopup('" . $fullUrl . "&page=" . ($active - 1) . "', '-')" ?>"
+          <a href="<?= $fullUrl . "&page=" . ($active - 1) ?>"
              title="<?= $this->transEsc('Prev') ?>">
             <i class="fa fa-caret-left"></i>
           </a>
@@ -55,7 +55,7 @@ $next = $active < $pages ? true : false;
 
       <? if ($next): ?>
         <li>
-          <a href="<?= "javascript:swissbib.Holdings.openHoldingItemsPopup('" . $fullUrl . "&page=" . ($active + 1) . "', '-')" ?>"
+          <a href="<?= $fullUrl . "&page=" . ($active + 1) ?>"
              title="<?= $this->transEsc('Next'); ?>">
             <i class="fa fa-caret-right"></i>
           </a>

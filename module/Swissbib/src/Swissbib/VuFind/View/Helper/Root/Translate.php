@@ -1,11 +1,14 @@
 <?php
 /**
- * Translate view helper
+ * Translate View Helper
  *
  * PHP version 5
  *
- * Copyright (C) Villanova University 2010.
+ * Copyright (C) project swissbib, University Library Basel, Switzerland
+ * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
  *
+ * Date: 9/12/13
+ * Time: 11:46 AM
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
  * as published by the Free Software Foundation.
@@ -19,13 +22,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category VuFind2
- * @package  View_Helpers
- * @author   Demian Katz <demian.katz@villanova.edu>
+ * @category Swissbib_VuFind2
+ * @package  VuFind_View_Helper_Root
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     http://www.swissbib.org
  */
 namespace Swissbib\VuFind\View\Helper\Root;
+
 use Zend\I18n\Exception\RuntimeException,
     Zend\I18n\View\Helper\AbstractTranslatorHelper;
 use VuFind\View\Helper\Root\Translate as VFTranslate;
@@ -33,16 +37,14 @@ use VuFind\View\Helper\Root\Translate as VFTranslate;
 /**
  * Translate view helper
  *
- * @category VuFind2
- * @package  View_Helpers
- * @author   Demian Katz <demian.katz@villanova.edu>
+ * @category Swissbib_VuFind2
+ * @package  VuFind_View_Helper_Root
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     http://www.swissbib.org  Main Page
  */
 class Translate extends VFTranslate
 {
-
-
     /**
      * Translate a string
      *
@@ -53,14 +55,13 @@ class Translate extends VFTranslate
      *
      * @return string
      */
-    public function __invoke($str, $tokens = array(), $default = null)
+    public function __invoke($str, $tokens = [], $default = null)
     {
-
-        $msg = $this->processTranslation($str,$default);
+        $msg = $this->processTranslation($str, $default);
 
         // Do we need to perform substitutions?
         if (!empty($tokens)) {
-            $in = $out = array();
+            $in = $out = [];
             foreach ($tokens as $key => $value) {
                 $in[] = $key;
                 $out[] = $value;
@@ -88,30 +89,51 @@ class Translate extends VFTranslate
             return $parts;
         }
 
-        return array('default', $str);
+        return ['default', $str];
     }
 
-    public function translateFacet($facetName,$facetValue)
+    /**
+     * TranslateFacet
+     *
+     * @param String $facetName  FacetName
+     * @param String $facetValue FacetValue
+     *
+     * @return null|string
+     */
+    public function translateFacet($facetName, $facetValue)
     {
-        if (in_array($facetName,$this->translatedFacets)) {
-            $fieldToTranslateInArray =  array_filter($this->translatedFacets,function ($passedValue) use ($facetName){
-                return $passedValue === $facetName || count(preg_grep ( "/" .$facetName . ":" . "/", array ($passedValue))) > 0;
-            }) ;
+        if (in_array($facetName, $this->translatedFacets)) {
+            $fieldToTranslateInArray =  array_filter(
+                $this->translatedFacets, function ($passedValue) use ($facetName) {
+                    return $passedValue === $facetName
+                    || count(
+                        preg_grep("/" . $facetName . ":" . "/", [$passedValue])
+                    ) > 0;
+                }
+            );
 
             $translate = count($fieldToTranslateInArray) > 0;
             $fieldToEvaluate = $translate ? current($fieldToTranslateInArray) : null;
 
-            return $translate ? strstr($fieldToEvaluate,':') === FALSE ? $this->processTranslation($facetValue) :
-                //$this->processTranslation(array($facetValue , substr($fieldToEvaluate,strpos( $fieldToEvaluate,':') + 1 )))  : $facetValue;
-                $this->processTranslation($facetValue . '::' .  substr($fieldToEvaluate,strpos( $fieldToEvaluate,':') + 1 )) : $facetValue;
-
-
+            return $translate ? strstr($fieldToEvaluate, ':') === false ?
+                $this->processTranslation($facetValue) :
+                $this->processTranslation(
+                    $facetValue . '::' .
+                    substr($fieldToEvaluate, strpos($fieldToEvaluate, ':') + 1)
+                ) : $facetValue;
         } else {
             return $facetValue;
         }
     }
 
-
+    /**
+     * ProcessTranslation
+     *
+     * @param String $str     String to translate
+     * @param String $default Default value if translation failes
+     *
+     * @return string
+     */
     protected function processTranslation($str, $default = null)
     {
         try {
@@ -134,8 +156,6 @@ class Translate extends VFTranslate
             $msg = $default;
         }
 
-
         return $msg;
-
     }
 }

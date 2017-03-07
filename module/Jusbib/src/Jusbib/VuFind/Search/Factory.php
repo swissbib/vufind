@@ -1,13 +1,14 @@
 <?php
 /**
- * Factory for Jusbib helpers.
+ * Jusbib Factory
  *
  * PHP version 5
  *
  * Copyright (C) project swissbib, University Library Basel, Switzerland
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
  *
- * This program is free software; you can redistribute it and/or modify
+ * This program is
+ * free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
  * as published by the Free Software Foundation.
  *
@@ -20,42 +21,55 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib VuFind2
- * @package  Controller
+ * @category Jusbib_VuFind2
+ * @package  VuFind_Search
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 namespace Jusbib\VuFind\Search;
-use Zend\ServiceManager\ServiceManager;
 
+use Zend\ServiceManager\ServiceManager;
+use VuFind\View\Helper\Root\SearchOptions;
+use Jusbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
 
 /**
- * Factory for Jusbib helpers.
+ * Jusbib Factory
  *
- * @category jusbib VuFind2
- * @package  Jusbib\VuFind\Search
+ * @category Jusbib_VuFind2
+ * @package  VuFind_Search
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class Factory {
-
+class Factory
+{
+    /**
+     * Creates JusbibSolrFactoryHelper
+     *
+     * @param ServiceManager $sm ServiceManager
+     *
+     * @return Helper\ExtendedSolrFactoryHelper
+     */
     public static function getJusbibSOLRFactoryHelper(ServiceManager $sm)
     {
         $config = $sm->get('Vufind\Config')->get('config')->SwissbibSearchExtensions;
         $extendedTargets = explode(',', $config->extendedTargets);
 
-        return new \Jusbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper($extendedTargets);
-
+        return new ExtendedSolrFactoryHelper($extendedTargets);
     }
 
+    /**
+     * Creates Jusbib Search Options
+     *
+     * @param ServiceManager $sm ServiceManager
+     *
+     * @return SearchOptions
+     */
     public static function getJusbibSearchOptionsForHelperOptions(ServiceManager $sm)
     {
-        return new \VuFind\View\Helper\Root\SearchOptions(
+        return new SearchOptions(
             $sm->getServiceLocator()->get('Jusbib\SearchOptionsPluginManager')
         );
-
     }
-
-} 
+}

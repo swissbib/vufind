@@ -92,7 +92,7 @@ swissbib.HoldingFavorites = {
           if (callback) {
             callback(institutionCode, action, response);
           } else {
-            $('body').mask(vufindString.favoriteReload);
+            $('body').mask(VuFind.translate('favoriteReload'));
             location.reload();
           }
         };

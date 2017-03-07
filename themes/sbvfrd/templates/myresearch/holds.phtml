@@ -41,7 +41,7 @@
         'pick_up_location'     => $this->transEsc('pick_up_location'),
         'created'      => $this->transEsc('Created'),
         'status'        => $this->transEsc('Status'),
-        'action',
+        'action'        => $this->transEsc('cancel_select'),
     ];
 
     $flippedContent = '';
@@ -56,24 +56,21 @@
         <th><?=$headers['pick_up_location']?></th>
         <th><?=$headers['created']?></th>
         <th><?=$headers['status']?></th>
-        <th class="hidden-print"><?=$headers['action']?></th>
+        <th class="hidden-print"><?= isset($headers['action']) ?  $headers['action'] : '' ?></th>
     </tr>
     </thead>
     <tbody>
 
-  <? $iteration = 0; ?>
   <? foreach ($this->recordList as $resource): ?>
-    <? $iteration++; ?>
     <? $ilsDetails = $resource->getExtraDetail('ils_details'); ?>
-        <tr class="<?=$iteration % 2 == 1 ? 'even' : 'odd'?>row">
+        <tr>
             <?
             $flippedContent .= $this->render('myresearch/holds-flipped.phtml', array(
                 'ilsDetails'    => $ilsDetails,
                 'resource'   => $resource,
                 'cancelForm'  => $this->cancelForm,
                 'cancelResults' => $this->cancelResults,
-                'headers' => $headers,
-                'even'    => (0 === $iteration % 2)
+                'headers' => $headers
             ));
             ?>
             <td><?

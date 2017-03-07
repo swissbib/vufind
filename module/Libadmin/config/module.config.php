@@ -1,23 +1,23 @@
 <?php
 
-return array(
-    'router' => array(
-        'routes' => array(
-            'libraries-index' => array(
+return [
+    'router' => [
+        'routes' => [
+            'libraries-index' => [
                 'type'    => 'segment',
-                'options' => array(
+                'options' => [
                     'route'    => '/Libraries',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'libraries',
                         'action'     => 'index'
-                    )
-                )
-            )
-        )
-    ),
-    'controllers' => array(
-        'invokables' => array(
+                    ]
+                ]
+            ]
+        ]
+    ],
+    'controllers' => [
+        'invokables' => [
             'libraries' => 'Libadmin\Controller\LibrariesController'
-        )
-    )
-);
+        ]
+    ]
+];

@@ -17,25 +17,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  View_Helpers
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 namespace VuFind\View\Helper\Root;
+use VuFind\Cover\Router as CoverRouter;
 use Zend\View\Exception\RuntimeException, Zend\View\Helper\AbstractHelper;
 
 /**
  * Record driver view helper
  *
- * @category VuFind2
+ * @category VuFind
  * @package  View_Helpers
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 class Record extends AbstractHelper
 {
@@ -45,6 +46,13 @@ class Record extends AbstractHelper
      * @var \VuFind\View\Helper\Root\Context
      */
     protected $contextHelper;
+
+    /**
+     * Cover router
+     *
+     * @var CoverRouter
+     */
+    protected $coverRouter = null;
 
     /**
      * Record driver
@@ -71,6 +79,18 @@ class Record extends AbstractHelper
     }
 
     /**
+     * Inject the cover router
+     *
+     * @param CoverRouter $router Cover router
+     *
+     * @return void
+     */
+    public function setCoverRouter($router)
+    {
+        $this->coverRouter = $router;
+    }
+
+    /**
      * Render a template within a record driver folder.
      *
      * @param string $name    Template name to render
@@ -94,16 +114,17 @@ class Record extends AbstractHelper
         // in case we need to use a parent class' name to find the appropriate
         // template.
         $className = get_class($this->driver);
+        $resolver = $this->view->resolver();
         while (true) {
             // Guess the template name for the current class:
             $classParts = explode('\\', $className);
             $template = 'RecordDriver/' . array_pop($classParts) . '/' . $name;
-            try {
+            if ($resolver->resolve($template)) {
                 // Try to render the template....
                 $html = $this->view->render($template);
                 $this->contextHelper->restore($oldContext);
                 return $html;
-            } catch (RuntimeException $e) {
+            } else {
                 // If the template doesn't exist, let's see if we can inherit a
                 // template from a parent class:
                 $className = get_parent_class($className);
@@ -303,22 +324,28 @@ class Record extends AbstractHelper
     }
 
     /**
-     * Get the name of the controller used by the record route.
+     * Get HTML to render a title.
+     *
+     * @param int $maxLength Maximum length of non-highlighted title.
      *
      * @return string
      */
-    public function getController()
+    public function getTitleHtml($maxLength = 180)
     {
-        // Figure out controller using naming convention based on resource
-        // source:
-        $source = $this->driver->getResourceSource();
-        if ($source == 'VuFind') {
-            // "VuFind" is special case -- it refers to Solr, which uses
-            // the basic record controller.
-            return 'Record';
+        $highlightedTitle = $this->driver->tryMethod('getHighlightedTitle');
+        $title = trim($this->driver->tryMethod('getTitle'));
+        if (!empty($highlightedTitle)) {
+            $highlight = $this->getView()->plugin('highlight');
+            $addEllipsis = $this->getView()->plugin('addEllipsis');
+            return $highlight($addEllipsis($highlightedTitle, $title));
         }
-        // All non-Solr controllers will correspond with the record source:
-        return ucwords(strtolower($source)) . 'record';
+        if (!empty($title)) {
+            $escapeHtml = $this->getView()->plugin('escapeHtml');
+            $truncate = $this->getView()->plugin('truncate');
+            return $escapeHtml($truncate($title, $maxLength));
+        }
+        $transEsc = $this->getView()->plugin('transEsc');
+        return $transEsc('Title not available');
     }
 
     /**
@@ -331,9 +358,12 @@ class Record extends AbstractHelper
      */
     public function getLink($type, $lookfor)
     {
-        return $this->renderTemplate(
+        $link = $this->renderTemplate(
             'link-' . $type . '.phtml', ['lookfor' => $lookfor]
         );
+        $link .= $this->getView()->plugin('searchTabs')
+            ->getCurrentHiddenFilterParams($this->driver->getSourceIdentifier());
+        return $link;
     }
 
     /**
@@ -386,13 +416,126 @@ class Record extends AbstractHelper
     public function getCheckbox($idPrefix = '')
     {
         static $checkboxCount = 0;
-        $id = $this->driver->getResourceSource() . '|'
+        $id = $this->driver->getSourceIdentifier() . '|'
             . $this->driver->getUniqueId();
         $context
             = ['id' => $id, 'count' => $checkboxCount++, 'prefix' => $idPrefix];
         return $this->contextHelper->renderInContext(
             'record/checkbox.phtml', $context
         );
+    }
+
+    /**
+     * Render a cover for the current record.
+     *
+     * @param string $context Context of code being generated
+     * @param string $default The default size of the cover
+     * @param string $link    The link for the anchor
+     *
+     * @return string
+     */
+    public function getCover($context, $default, $link = false)
+    {
+        $details = $this->getCoverDetails($context, $default, $link);
+        return $details['html'];
+    }
+
+    /**
+     * Should cover images be linked to previews (when applicable) in the provided
+     * template context?
+     *
+     * @param string $context Context of code being generated
+     *
+     * @return bool
+     */
+    protected function getPreviewCoverLinkSetting($context)
+    {
+        static $previewContexts = false;
+        if (false === $previewContexts) {
+            $previewContexts = isset($this->config->Content->linkPreviewsToCovers)
+                ? array_map(
+                    'trim',
+                    explode(',', $this->config->Content->linkPreviewsToCovers)
+                ) : ['*'];
+        }
+        return in_array('*', $previewContexts)
+            || in_array($context, $previewContexts);
+    }
+
+    /**
+     * Get the rendered cover plus some useful parameters.
+     *
+     * @param string $context Context of code being generated
+     * @param string $default The default size of the cover
+     * @param string $link    The link for the anchor
+     *
+     * @return array
+     */
+    public function getCoverDetails($context, $default, $link = false)
+    {
+        $details = compact('link', 'context') + [
+            'driver' => $this->driver, 'cover' => false, 'size' => false,
+            'linkPreview' => $this->getPreviewCoverLinkSetting($context),
+        ];
+        $preferredSize = $this->getCoverSize($context, $default);
+        if (empty($preferredSize)) {    // covers disabled entirely
+            $details['html'] = '';
+        } else {
+            // Find best option if more than one size is defined (e.g. small:medium)
+            foreach (explode(':', $preferredSize) as $size) {
+                if ($details['cover'] = $this->getThumbnail($size)) {
+                    $details['size'] = $size;
+                    break;
+                }
+            }
+
+            $details['html'] = $this->contextHelper->renderInContext(
+                'record/cover.phtml', $details
+            );
+        }
+        return $details;
+    }
+
+    /**
+     * Get the configured thumbnail size for record lists
+     *
+     * @param string $context Context of code being generated
+     * @param string $default The default size of the cover
+     *
+     * @return string
+     */
+    protected function getCoverSize($context, $default = 'medium')
+    {
+        if (isset($this->config->Content->coversize)
+            && !$this->config->Content->coversize
+        ) {
+            // covers disabled entirely
+            return false;
+        }
+        // check for context-specific overrides
+        return isset($this->config->Content->coversize[$context])
+            ? $this->config->Content->coversize[$context] : $default;
+    }
+
+    /**
+     * Get the configured thumbnail alignment
+     *
+     * @param string $context telling the context asking, prepends the config key
+     *
+     * @return string
+     */
+    public function getThumbnailAlignment($context = 'result')
+    {
+        $view = $this->getView();
+        $configField = $context . 'ThumbnailsOnLeft';
+        $left = !isset($this->config->Site->$configField)
+            ? true : $this->config->Site->$configField;
+        $mirror = !isset($this->config->Site->mirrorThumbnailsRTL)
+            ? true : $this->config->Site->mirrorThumbnailsRTL;
+        if ($view->layout()->rtl && !$mirror) {
+            $left = !$left;
+        }
+        return $left ? 'left' : 'right';
     }
 
     /**
@@ -452,22 +595,9 @@ class Record extends AbstractHelper
      */
     public function getThumbnail($size = 'small')
     {
-        // Try to build thumbnail:
-        $thumb = $this->driver->tryMethod('getThumbnail', [$size]);
-
-        // No thumbnail?  Return false:
-        if (empty($thumb)) {
-            return false;
-        }
-
-        // Array?  It's parameters to send to the cover generator:
-        if (is_array($thumb)) {
-            $urlHelper = $this->getView()->plugin('url');
-            return $urlHelper('cover-show') . '?' . http_build_query($thumb);
-        }
-
-        // Default case -- return fixed string:
-        return $thumb;
+        return $this->coverRouter
+            ? $this->coverRouter->getUrl($this->driver, $size)
+            : false;
     }
 
     /**
@@ -488,13 +618,15 @@ class Record extends AbstractHelper
      * Get all the links associated with this record.  Returns an array of
      * associative arrays each containing 'desc' and 'url' keys.
      *
+     * @param bool $openUrlActive Is there an active OpenURL on the page?
+     *
      * @return array
      */
-    public function getLinkDetails()
+    public function getLinkDetails($openUrlActive = false)
     {
         // See if there are any links available:
         $urls = $this->driver->tryMethod('getURLs');
-        if (empty($urls)) {
+        if (empty($urls) || ($openUrlActive && $this->hasOpenUrlReplaceSetting())) {
             return [];
         }
 
@@ -534,5 +666,18 @@ class Record extends AbstractHelper
         };
 
         return array_map($formatLink, $urls);
+    }
+
+    /**
+     * Get all the links associated with this record depending on the OpenURL setting
+     * replace_other_urls.  Returns an array of associative arrays each containing
+     * 'desc' and 'url' keys.
+     *
+     * @return bool
+     */
+    protected function hasOpenUrlReplaceSetting()
+    {
+        return isset($this->config->OpenURL->replace_other_urls)
+            && $this->config->OpenURL->replace_other_urls;
     }
 }

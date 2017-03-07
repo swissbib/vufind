@@ -34,6 +34,7 @@
               <?=$this->transEsc('Profile')?>
               <span class="pull-right"><i class="fa fa-user"></i></span>
           </a>
+
           <? if ($this->auth()->isLoggedIn() && $this->auth()->getManager()->supportsPasswordChange() || true /*
             @todo figure out how to add supportspasswordchange
          */): ?>
@@ -46,6 +47,7 @@
               <span class="pull-right"><i class="fa fa-lock"></i></span>
             </a>
           <? endif; ?>
+
           <a href="<?=$this->url('myresearch-checkedout')?>" class="list-group-item<?=$this->active == 'checkedout' ? ' active' : ''?>">
             <?=$this->transEsc('Checked Out Items')?>
             <span class="pull-right"><i class="fa fa-book"></i></span>
@@ -66,18 +68,21 @@
               <?=$this->transEsc('Bookings')?>
               <span class="pull-right"><i class="fa fa-flag"></i></span>
           </a>
+
           <? if ($this->ils()->checkFunction('StorageRetrievalRequests')): ?>
             <a href="<?=$this->url('myresearch-storageretrievalrequests')?>" class="list-group-item<?=$this->active == 'storageRetrievalRequests' ? ' active' : ''?>">
               <?=$this->transEsc('Storage Retrieval Requests')?>
               <span class="pull-right"><i class="fa fa-archive"></i></span>
             </a>
           <? endif; ?>
+
           <? if ($this->ils()->checkFunction('ILLRequests')): ?>
-          <a href="<?=$this->url('myresearch-illrequests')?>" class="list-group-item<?=$this->active == 'ILLRequests' ? ' active' : ''?>">
-            <?=$this->transEsc('Interlibrary Loan Requests')?>
-            <span class="pull-right"><i class="fa fa-exchange"></i></span>
-          </a>
+              <a href="<?=$this->url('myresearch-illrequests')?>" class="list-group-item<?=$this->active == 'ILLRequests' ? ' active' : ''?>">
+                <?=$this->transEsc('Interlibrary Loan Requests')?>
+                <span class="pull-right"><i class="fa fa-exchange"></i></span>
+              </a>
           <? endif; ?>
+
       </div>
     <? endforeach; ?>
   <? endif; ?>

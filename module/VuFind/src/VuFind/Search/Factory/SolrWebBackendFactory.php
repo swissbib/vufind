@@ -18,13 +18,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     https://vufind.org Main Site
  */
 namespace VuFind\Search\Factory;
 use VuFindSearch\Backend\Solr\Response\Json\RecordCollectionFactory;
@@ -33,11 +33,11 @@ use VuFindSearch\Backend\Solr\Connector;
 /**
  * Factory for the website SOLR backend.
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     https://vufind.org Main Site
  */
 class SolrWebBackendFactory extends AbstractSolrBackendFactory
 {
@@ -47,10 +47,35 @@ class SolrWebBackendFactory extends AbstractSolrBackendFactory
     public function __construct()
     {
         parent::__construct();
-        $this->solrCore = 'website';
         $this->searchConfig = 'website';
         $this->searchYaml = 'websearchspecs.yaml';
         $this->facetConfig = 'website';
+    }
+
+    /**
+     * Get the Solr core.
+     *
+     * @return string
+     */
+    protected function getSolrCore()
+    {
+        $config = $this->config->get($this->searchConfig);
+        return isset($config->Index->default_core)
+            ? $config->Index->default_core : 'website';
+    }
+
+    /**
+     * Get the Solr URL.
+     *
+     * @return string
+     */
+    protected function getSolrUrl()
+    {
+        // Allow the searchConfig to override the default config if set.
+        $webconfig = $this->config->get($this->searchConfig);
+        return isset($webconfig->Index->url)
+            ? $webconfig->Index->url . '/' . $this->getSolrCore()
+            : parent::getSolrUrl();
     }
 
     /**

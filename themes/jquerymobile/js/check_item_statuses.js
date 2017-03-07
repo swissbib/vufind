@@ -1,4 +1,14 @@
 /*global path*/
+function linkCallnumbers(callnumber, callnumber_handler) {
+  if (callnumber_handler) {
+    var cns = callnumber.split(',\t');
+    for (var i = 0; i < cns.length; i++) {
+      cns[i] = '<a href="' + path + '/Alphabrowse/Home?source=' + encodeURI(callnumber_handler) + '&amp;from=' + encodeURI(cns[i]) + '">' + cns[i] + '</a>';
+    }
+    return cns.join(',\t');
+  }
+  return callnumber;
+}
 
 function checkItemStatuses() {
     var id = $.map($('.ajaxItemId'), function(i) {
@@ -6,11 +16,10 @@ function checkItemStatuses() {
     });
     if (id.length) {
         $(".ajax_availability").show();
-        $.ajax({
-            dataType: 'json',
-            url: path + '/AJAX/JSON?method=getItemStatuses',
-            data: {id:id},
-            success: function(response) {
+        $.post(
+            path + '/AJAX/JSON?method=getItemStatuses',
+            {id:id},
+            function(response) {
                 if (response.status == 'OK') {
                     $.each(response.data, function(i, result) {
                         var item = $($('.ajaxItemId')[result.record_number]);
@@ -28,7 +37,7 @@ function checkItemStatuses() {
                             item.find('.status').hide();
                         } else {
                             // Default case -- load call number and location into appropriate containers:
-                            item.find('.callnumber').empty().append(result.callnumber);
+                            item.find('.callnumber').empty().append(linkCallnumbers(result.callnumber, result.callnumber_handler));
                             item.find('.location').empty().append(
                                 result.reserve == 'true'
                                 ? result.reserve_message
@@ -41,8 +50,9 @@ function checkItemStatuses() {
                     $(".ajax_availability").empty().append(response.data);
                 }
                 $(".ajax_availability").removeClass('ajax_availability');
-            }
-        });
+            },
+            'json'
+        );
     }
 }
 

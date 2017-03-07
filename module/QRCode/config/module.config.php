@@ -1,9 +1,9 @@
 <?php
 
-return array(    
-    'service_manager' => array(
-        'invokables' => array(
+return [
+    'service_manager' => [
+        'invokables' => [
             'QRCode' => 'QRCode\Service\QRCode',
-        ),
-    ),    
-);
+        ],
+    ],
+];

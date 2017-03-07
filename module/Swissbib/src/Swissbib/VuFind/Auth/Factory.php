@@ -1,14 +1,12 @@
 <?php
 /**
- * [...description of the type ...]
+ * Factory
  *
  * PHP version 5
  *
  * Copyright (C) project swissbib, University Library Basel, Switzerland
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
  *
- * Date: 07/22/14
- * Time: 4:49 PM
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
  * as published by the Free Software Foundation.
@@ -22,33 +20,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib_VuFind2
- * @package  [...package name...]
- * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Auth
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.swissbib.org
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 namespace Swissbib\VuFind\Auth;
+
 use Zend\ServiceManager\ServiceManager;
 
 /**
  * Class Factory
  * factory for authentication (swissbib specific) authentication services
  *
- * @package Swissbib\VuFind\Auth
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Auth
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 class Factory
 {
-
     /**
      * Construct Shibboleth mock object - hand in environments
      * without specific shib service provider installation (e.g. Snowflake)
      *
-     * @param ServiceManager $sm
+     * @param ServiceManager $sm ServiceManager
+     *
      * @return ShibbolethMock
      */
     public static function getShibMock(ServiceManager $sm)
     {
-        return new ShibbolethMock($sm->getServiceLocator()->get('VuFind\ILSConnection'));
+        return new ShibbolethMock(
+            $sm->getServiceLocator()->get('VuFind\ILSConnection')
+        );
     }
 }

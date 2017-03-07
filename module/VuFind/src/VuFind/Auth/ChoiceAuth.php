@@ -17,13 +17,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Authentication
  * @author   Anna Headley <vufind-tech@lists.sourceforge.net>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:authentication_handlers Wiki
+ * @link     https://vufind.org/wiki/development:plugins:authentication_handlers Wiki
  */
 namespace VuFind\Auth;
 use VuFind\Db\Row\User, VuFind\Exception\Auth as AuthException;
@@ -37,11 +37,11 @@ use Zend\Http\PhpEnvironment\Request;
  *
  * See config.ini for more details
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Authentication
  * @author   Anna Headley <vufind-tech@lists.sourceforge.net>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:authentication_handlers Wiki
+ * @link     https://vufind.org/wiki/development:plugins:authentication_handlers Wiki
  */
 class ChoiceAuth extends AbstractBase
 {
@@ -75,11 +75,14 @@ class ChoiceAuth extends AbstractBase
 
     /**
      * Constructor
+     *
+     * @param \Zend\Session\Container $container Session container for retaining
+     * user choices.
      */
-    public function __construct()
+    public function __construct(\Zend\Session\Container $container)
     {
         // Set up session container and load cached strategy (if found):
-        $this->session = new \Zend\Session\Container('ChoiceAuth');
+        $this->session = $container;
         $this->strategy = isset($this->session->auth_method)
             ? $this->session->auth_method : false;
     }
@@ -118,6 +121,32 @@ class ChoiceAuth extends AbstractBase
         $this->strategies = array_map(
             'trim', explode(',', $this->getConfig()->ChoiceAuth->choice_order)
         );
+    }
+
+    /**
+     * Inspect the user's request prior to processing a login request; this is
+     * essentially an event hook which most auth modules can ignore. See
+     * ChoiceAuth for a use case example.
+     *
+     * @param \Zend\Http\PhpEnvironment\Request $request Request object.
+     *
+     * @throws AuthException
+     * @return void
+     */
+    public function preLoginCheck($request)
+    {
+        $this->setStrategyFromRequest($request);
+    }
+
+    /**
+     * Reset any internal status; this is essentially an event hook which most auth
+     * modules can ignore. See ChoiceAuth for a use case example.
+     *
+     * @return void
+     */
+    public function resetState()
+    {
+        $this->strategy = false;
     }
 
     /**
@@ -207,6 +236,7 @@ class ChoiceAuth extends AbstractBase
      *
      * @param string $url URL to redirect user to after logging out.
      *
+     * @throws InvalidArgumentException
      * @return string     Redirect URL (usually same as $url, but modified in
      * some authentication modules).
      */
@@ -219,8 +249,15 @@ class ChoiceAuth extends AbstractBase
 
         // If we have a selected strategy, proxy the appropriate class; otherwise,
         // perform default behavior of returning unmodified URL:
-        return $this->strategy
-            ? $this->proxyAuthMethod('logout', func_get_args()) : $url;
+        try {
+            return $this->strategy
+                ? $this->proxyAuthMethod('logout', func_get_args()) : $url;
+        } catch (InvalidArgumentException $e) {
+            // If we're in an invalid state (due to an illegal login method),
+            // we should just clear everything out so the user can try again.
+            $this->strategy = false;
+            return false;
+        }
     }
 
     /**
@@ -302,7 +339,7 @@ class ChoiceAuth extends AbstractBase
         }
 
         if (!in_array($this->strategy, $this->strategies)) {
-            throw new \Exception("Illegal setting: {$this->strategy}");
+            throw new InvalidArgumentException("Illegal setting: {$this->strategy}");
         }
         $authenticator = $this->getPluginManager()->get($this->strategy);
         $authenticator->setConfig($this->getConfig());

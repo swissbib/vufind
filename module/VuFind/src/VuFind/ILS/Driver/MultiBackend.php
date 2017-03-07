@@ -4,7 +4,7 @@
  *
  * PHP version 5
  *
- * Copyright (C) The National Library of Finland 2012.
+ * Copyright (C) The National Library of Finland 2012-2016.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
@@ -17,14 +17,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category VuFind
  * @package  ILSdrivers
  * @author   Ere Maijala <ere.maijala@helsinki.fi>
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/building_an_ils_driver Wiki
+ * @link     https://vufind.org/wiki/development:plugins:ils_drivers Wiki
  */
 namespace VuFind\ILS\Driver;
 
@@ -42,7 +42,7 @@ use VuFind\Exception\ILS as ILSException,
  * @package  ILSdrivers
  * @author   Ere Maijala <ere.maijala@helsinki.fi>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/building_an_ils_driver Wiki
+ * @link     https://vufind.org/wiki/development:plugins:ils_drivers Wiki
  */
 class MultiBackend extends AbstractBase
     implements ServiceLocatorAwareInterface, \Zend\Log\LoggerAwareInterface
@@ -67,19 +67,18 @@ class MultiBackend extends AbstractBase
     protected $defaultDriver;
 
     /**
-     * The array of cached pre-instantiated drivers
+     * The path to the driver configurations relative to the config path
+     *
+     * @var string
+     */
+    protected $driversConfigPath;
+
+    /**
+     * The array of cached drivers
      *
      * @var object[]
      */
-     protected $cache = [];
-
-    /**
-     * The array of booleans letting us know if a
-     * driver in the cache has been initialized.
-     *
-     * @var boolean[]
-     */
-     protected $isInitialized = [];
+    protected $driverCache = [];
 
     /**
      * The array of driver configuration options.
@@ -87,13 +86,6 @@ class MultiBackend extends AbstractBase
      * @var string[]
      */
     protected $config = [];
-
-    /**
-     * The separating values to be used for each ILS.
-     * Not yet implemented
-     * @var object
-     */
-    protected $delimiters = [];
 
     /**
      * Configuration loader
@@ -152,9 +144,10 @@ class MultiBackend extends AbstractBase
         $this->defaultDriver = isset($this->config['General']['default_driver'])
             ? $this->config['General']['default_driver']
             : null;
-        $this->delimiters['login'] = isset($this->config['Delimiters']['login'])
-            ? $this->config['Delimiters']['login']
-            : '.';
+        $this->driversConfigPath
+            = isset($this->config['General']['drivers_config_path'])
+            ? $this->config['General']['drivers_config_path']
+            : null;
     }
 
     /**
@@ -298,7 +291,60 @@ class MultiBackend extends AbstractBase
     {
         $driver = $this->getDriver($this->defaultDriver);
         if ($driver) {
-            return $driver->getNewItems($page, $limit, $daysOld, $fundId);
+            $result = $driver->getNewItems($page, $limit, $daysOld, $fundId);
+            if (isset($result['results'])) {
+                $result['results']
+                    = $this->addIdPrefixes($result['results'], $this->defaultDriver);
+            }
+            return $result;
+        }
+        return [];
+    }
+
+    /**
+     * Get Departments
+     *
+     * Obtain a list of departments for use in limiting the reserves list.
+     *
+     * @return array An associative array with key = dept. ID, value = dept. name.
+     */
+    public function getDepartments()
+    {
+        $driver = $this->getDriver($this->defaultDriver);
+        if ($driver) {
+            return $driver->getDepartments();
+        }
+        return [];
+    }
+
+    /**
+     * Get Instructors
+     *
+     * Obtain a list of instructors for use in limiting the reserves list.
+     *
+     * @return array An associative array with key = ID, value = name.
+     */
+    public function getInstructors()
+    {
+        $driver = $this->getDriver($this->defaultDriver);
+        if ($driver) {
+            return $driver->getInstructors();
+        }
+        return [];
+    }
+
+    /**
+     * Get Courses
+     *
+     * Obtain a list of courses for use in limiting the reserves list.
+     *
+     * @return array An associative array with key = ID, value = name.
+     */
+    public function getCourses()
+    {
+        $driver = $this->getDriver($this->defaultDriver);
+        if ($driver) {
+            return $driver->getCourses();
         }
         return [];
     }
@@ -318,7 +364,11 @@ class MultiBackend extends AbstractBase
     {
         $driver = $this->getDriver($this->defaultDriver);
         if ($driver) {
-            return $driver->findReserves($course, $inst, $dept);
+            return $this->addIdPrefixes(
+                $driver->findReserves($course, $inst, $dept),
+                $this->defaultDriver,
+                ['BIB_ID']
+            );
         }
         return [];
     }
@@ -334,7 +384,7 @@ class MultiBackend extends AbstractBase
      */
     public function getMyProfile($patron)
     {
-        $source = $this->getSource($patron['cat_username'], 'login');
+        $source = $this->getSource($patron['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             $profile = $driver
@@ -357,14 +407,14 @@ class MultiBackend extends AbstractBase
      */
     public function patronLogin($username, $password)
     {
-        $source = $this->getSource($username, 'login');
+        $source = $this->getSource($username);
         if (!$source) {
             $source = $this->getDefaultLoginDriver();
         }
         $driver = $this->getDriver($source);
         if ($driver) {
             $patron = $driver->patronLogin(
-                $this->getLocalId($username, $this->delimiters['login']), $password
+                $this->getLocalId($username), $password
             );
             $patron = $this->addIdPrefixes($patron, $source);
             return $patron;
@@ -384,7 +434,7 @@ class MultiBackend extends AbstractBase
      */
     public function getMyTransactions($patron)
     {
-        $source = $this->getSource($patron['cat_username'], 'login');
+        $source = $this->getSource($patron['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             $transactions = $driver->getMyTransactions(
@@ -433,7 +483,7 @@ class MultiBackend extends AbstractBase
      */
     public function renewMyItems($renewDetails)
     {
-        $source = $this->getSource($renewDetails['patron']['cat_username'], 'login');
+        $source = $this->getSource($renewDetails['patron']['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             $details = $driver->renewMyItems(
@@ -455,7 +505,7 @@ class MultiBackend extends AbstractBase
      */
     public function getMyFines($patron)
     {
-        $source = $this->getSource($patron['cat_username'], 'login');
+        $source = $this->getSource($patron['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             $fines = $driver->getMyFines($this->stripIdPrefixes($patron, $source));
@@ -475,7 +525,7 @@ class MultiBackend extends AbstractBase
      */
     public function getMyHolds($patron)
     {
-        $source = $this->getSource($patron['cat_username'], 'login');
+        $source = $this->getSource($patron['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             $holds = $driver->getMyHolds($this->stripIdPrefixes($patron, $source));
@@ -497,7 +547,7 @@ class MultiBackend extends AbstractBase
      */
     public function getMyStorageRetrievalRequests($patron)
     {
-        $source = $this->getSource($patron['cat_username'], 'login');
+        $source = $this->getSource($patron['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             if (!$this->methodSupported(
@@ -530,7 +580,7 @@ class MultiBackend extends AbstractBase
         if (!isset($patron['cat_username'])) {
             return false;
         }
-        $source = $this->getSource($patron['cat_username'], 'login');
+        $source = $this->getSource($patron['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             if ($this->getSource($id) != $source) {
@@ -558,7 +608,7 @@ class MultiBackend extends AbstractBase
      */
     public function checkStorageRetrievalRequestIsValid($id, $data, $patron)
     {
-        $source = $this->getSource($patron['cat_username'], 'login');
+        $source = $this->getSource($patron['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             if ($this->getSource($id) != $source
@@ -596,7 +646,7 @@ class MultiBackend extends AbstractBase
      */
     public function getPickUpLocations($patron = false, $holdDetails = null)
     {
-        $source = $this->getSource($patron['cat_username'], 'login');
+        $source = $this->getSource($patron['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             if ($holdDetails) {
@@ -630,7 +680,7 @@ class MultiBackend extends AbstractBase
      */
     public function getDefaultPickUpLocation($patron = false, $holdDetails = null)
     {
-        $source = $this->getSource($patron['cat_username'], 'login');
+        $source = $this->getSource($patron['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             if ($holdDetails) {
@@ -651,8 +701,8 @@ class MultiBackend extends AbstractBase
     /**
      * Get request groups
      *
-     * @param integer $id     BIB ID
-     * @param array   $patron Patron information returned by the patronLogin
+     * @param int   $id     BIB ID
+     * @param array $patron Patron information returned by the patronLogin
      * method.
      *
      * @return array  An array of associative arrays with requestGroupId and
@@ -663,7 +713,7 @@ class MultiBackend extends AbstractBase
         $source = $this->getSource($id);
         $driver = $this->getDriver($source);
         if ($driver) {
-            if ($this->getSource($patron['cat_username'], 'login') != $source
+            if ($this->getSource($patron['cat_username']) != $source
                 || !$this->methodSupported(
                     $driver, 'getRequestGroups', compact('id', 'patron')
                 )
@@ -697,7 +747,7 @@ class MultiBackend extends AbstractBase
      */
     public function getDefaultRequestGroup($patron, $holdDetails = null)
     {
-        $source = $this->getSource($patron['cat_username'], 'login');
+        $source = $this->getSource($patron['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             if (!empty($holdDetails)) {
@@ -734,7 +784,7 @@ class MultiBackend extends AbstractBase
      */
     public function placeHold($holdDetails)
     {
-        $source = $this->getSource($holdDetails['patron']['cat_username'], 'login');
+        $source = $this->getSource($holdDetails['patron']['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             if ($this->getSource($holdDetails['id']) != $source) {
@@ -762,9 +812,7 @@ class MultiBackend extends AbstractBase
      */
     public function cancelHolds($cancelDetails)
     {
-        $source = $this->getSource(
-            $cancelDetails['patron']['cat_username'], 'login'
-        );
+        $source = $this->getSource($cancelDetails['patron']['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             return $driver->cancelHolds(
@@ -812,7 +860,7 @@ class MultiBackend extends AbstractBase
      */
     public function placeStorageRetrievalRequest($details)
     {
-        $source = $this->getSource($details['patron']['cat_username'], 'login');
+        $source = $this->getSource($details['patron']['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver
             && is_callable([$driver, 'placeStorageRetrievalRequest'])
@@ -843,9 +891,7 @@ class MultiBackend extends AbstractBase
      */
     public function cancelStorageRetrievalRequests($cancelDetails)
     {
-        $source = $this->getSource(
-            $cancelDetails['patron']['cat_username'], 'login'
-        );
+        $source = $this->getSource($cancelDetails['patron']['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver
             && $this->methodSupported(
@@ -983,13 +1029,13 @@ class MultiBackend extends AbstractBase
      * Place ILL Request
      *
      * Attempts to place an ILL request on a particular item and returns
-     * an array with result details or a PEAR error on failure of support classes
+     * an array with result details (or throws an exception on failure of support
+     * classes)
      *
      * @param array $details An array of item and patron data
      *
      * @return mixed An array of data on the request including
      * whether or not it was successful and a system message (if available)
-     * @access public
      */
     public function placeILLRequest($details)
     {
@@ -998,7 +1044,8 @@ class MultiBackend extends AbstractBase
         if ($driver
             && $this->methodSupported($driver, 'placeILLRequest', compact($details))
         ) {
-            $details = $this->stripIdPrefixes($details, $source, ['id']);
+            // Patron is not stripped so that the correct library can be determined
+            $details = $this->stripIdPrefixes($details, $source, ['id'], ['patron']);
             return $driver->placeILLRequest($details);
         }
         throw new ILSException('No suitable backend driver found');
@@ -1015,7 +1062,7 @@ class MultiBackend extends AbstractBase
      */
     public function getMyILLRequests($patron)
     {
-        $source = $this->getSource($patron['cat_username'], 'login');
+        $source = $this->getSource($patron['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver) {
             if (!$this->methodSupported(
@@ -1048,9 +1095,7 @@ class MultiBackend extends AbstractBase
      */
     public function cancelILLRequests($cancelDetails)
     {
-        $source = $this->getSource(
-            $cancelDetails['patron']['cat_username'], 'login'
-        );
+        $source = $this->getSource($cancelDetails['patron']['cat_username']);
         $driver = $this->getDriver($source);
         if ($driver
             && $this->methodSupported(
@@ -1133,9 +1178,13 @@ class MultiBackend extends AbstractBase
             $source = $this->getSourceFromParams($params);
         }
         if (!$source) {
-            $patron = $this->ilsAuth->storedCatalogLogin();
-            if ($patron && isset($patron['cat_username'])) {
-                $source = $this->getSource($patron['cat_username'], 'login');
+            try {
+                $patron = $this->ilsAuth->getStoredCatalogCredentials();
+                if ($patron && isset($patron['cat_username'])) {
+                    $source = $this->getSource($patron['cat_username']);
+                }
+            } catch (ILSException $e) {
+                return [];
             }
         }
 
@@ -1186,40 +1235,35 @@ class MultiBackend extends AbstractBase
     /**
      * Extract local ID from the given prefixed ID
      *
-     * @param string $id        The id to be split
-     * @param string $delimiter The delimiter to be used
+     * @param string $id The id to be split
      *
      * @return string  Local ID
      */
-    protected function getLocalId($id, $delimiter = '.')
+    protected function getLocalId($id)
     {
-        $pos = strpos($id, $delimiter);
+        $pos = strpos($id, '.');
         if ($pos > 0) {
             return substr($id, $pos + 1);
         }
-        $this->debug("Could not find local id in '$id' using '$delimiter'");
+        $this->debug("Could not find local id in '$id'");
         return $id;
     }
 
     /**
      * Extract source from the given ID
      *
-     * @param string $id        The id to be split
-     * @param string $delimiter The delimiter to be used from $this->delimiters
+     * @param string $id The id to be split
      *
      * @return string  Source
      */
-    protected function getSource($id, $delimiter = '')
+    protected function getSource($id)
     {
-        $delimiter = $delimiter && isset($this->delimiters[$delimiter])
-            ? $this->delimiters[$delimiter]
-            : '.';
-        $pos = strpos($id, $delimiter);
+        $pos = strpos($id, '.');
         if ($pos > 0) {
             return substr($id, 0, $pos);
         }
 
-        $this->debug("Could not find source id in '$id' using '$delimiter'");
+        $this->debug("Could not find source id in '$id'");
         return '';
     }
 
@@ -1246,9 +1290,7 @@ class MultiBackend extends AbstractBase
             if (is_array($value) && (is_int($key) || $key === 'patron')) {
                 $source = $this->getSourceFromParams($value);
             } elseif ($key === 0 || $key === 'id' || $key === 'cat_username') {
-                $source = $this->getSource(
-                    $value, $key === 'cat_username' ? 'login' : ''
-                );
+                $source = $this->getSource($value);
             }
             if ($source && isset($this->drivers[$source])) {
                 return $source;
@@ -1278,83 +1320,40 @@ class MultiBackend extends AbstractBase
             }
         }
 
-        if (!isset($this->isInitialized[$source])
-            || !$this->isInitialized[$source]
-        ) {
-            $driverInst = null;
-
-            // And we don't have a copy in our cache...
-            if (!isset($this->cache[$source])) {
-                // Get an uninitialized copy
-                $driverInst = $this->getUninitializedDriver($source);
-            } else {
-                // Otherwise, use the uninitialized cached copy
-                $driverInst = $this->cache[$source];
-            }
-
-            // If we have a driver, initialize it.  That version has already
-            // been cached.
-            if ($driverInst) {
-                $this->initializeDriver($driverInst, $source);
-            } else {
+        // Check for a cached driver
+        if (!array_key_exists($source, $this->driverCache)) {
+            // Create the driver
+            $this->driverCache[$source] = $this->createDriver($source);
+            if (null === $this->driverCache[$source]) {
                 $this->debug("Could not initialize driver for source '$source'");
                 return null;
             }
         }
-        return $this->cache[$source];
+        return $this->driverCache[$source];
     }
 
     /**
-     * Find the correct driver for the correct configuration file
-     * for the given source.  For performance reasons, we do not
-     * want to initialize the driver yet if it hasn't been already.
+     * Create a driver for the given source.
      *
-     * @param string $source the source title for the driver.
+     * @param string $source Source id for the driver.
      *
-     * @return mixed On success an uninitialized driver object, otherwise null.
+     * @return mixed On success a driver object, otherwise null.
      */
-    protected function getUninitializedDriver($source)
+    protected function createDriver($source)
     {
-        // We don't really care if it's initialized here.  If it is, then there's
-        // still no added overhead of returning an initialized driver.
-        if (isset($this->cache[$source])) {
-            return $this->cache[$source];
+        if (!isset($this->drivers[$source])) {
+            return null;
         }
-
-        if (isset($this->drivers[$source])) {
-            $driver = $this->drivers[$source];
-            $config = $this->getDriverConfig($source);
-            if (!$config) {
-                $this->error("No configuration found for source '$source'");
-                return null;
-            }
-            $driverInst = clone($this->getServiceLocator()->get($driver));
-            $driverInst->setConfig($config);
-            $this->cache[$source] = $driverInst;
-            $this->isInitialized[$source] = false;
-            return $driverInst;
+        $driver = $this->drivers[$source];
+        $config = $this->getDriverConfig($source);
+        if (!$config) {
+            $this->error("No configuration found for source '$source'");
+            return null;
         }
-
-        return null;
-    }
-
-    /**
-     * Initialize an uninitialized driver.
-     *
-     * @param object $driver The driver object to be initialized
-     * @param string $source The source related to the driver for caching purposes.
-     *
-     * @return void
-     */
-    protected function initializeDriver($driver, $source)
-    {
-        if (!isset($this->isInitialized[$source])
-            || !$this->isInitialized[$source]
-        ) {
-            $driver->init();
-            $this->isInitialized[$source] = true;
-            $this->cache[$source] = $driver;
-        }
+        $driverInst = clone($this->getServiceLocator()->get($driver));
+        $driverInst->setConfig($config);
+        $driverInst->init();
+        return $driverInst;
     }
 
     /**
@@ -1371,7 +1370,11 @@ class MultiBackend extends AbstractBase
     {
         // Determine config file name based on class name:
         try {
-            $config = $this->configLoader->get($source);
+            $path = empty($this->driversConfigPath)
+                ? $source
+                : $this->driversConfigPath . '/' . $source;
+
+            $config = $this->configLoader->get($path);
         } catch (\Zend\Config\Exception\RuntimeException $e) {
             // Configuration loading failed; probably means file does not
             // exist -- just return an empty array in that case:
@@ -1395,7 +1398,7 @@ class MultiBackend extends AbstractBase
     protected function addIdPrefixes($data, $source,
         $modifyFields = ['id', 'cat_username']
     ) {
-        if (!isset($data) || empty($data) || !is_array($data)) {
+        if (empty($source) || empty($data) || !is_array($data)) {
             return $data;
         }
 
@@ -1409,10 +1412,7 @@ class MultiBackend extends AbstractBase
                     && $value !== ''
                     && in_array($key, $modifyFields)
                 ) {
-                    $delimiter = $key === 'cat_username'
-                        ? $this->delimiters['login']
-                        : '.';
-                    $data[$key] = "$source$delimiter$value";
+                    $data[$key] = "$source.$value";
                 }
             }
         }
@@ -1426,12 +1426,13 @@ class MultiBackend extends AbstractBase
     * array or array of arrays
     * @param string $source       Source code
     * @param array  $modifyFields Fields to be modified in the array
+    * @param array  $ignoreFields Fields to be ignored during recursive processing
     *
     * @return mixed     Modified array or empty/null if that input was
     *                   empty/null
     */
     protected function stripIdPrefixes($data, $source,
-        $modifyFields = ['id', 'cat_username']
+        $modifyFields = ['id', 'cat_username'], $ignoreFields = []
     ) {
         if (!isset($data) || empty($data)) {
             return $data;
@@ -1440,16 +1441,16 @@ class MultiBackend extends AbstractBase
 
         foreach ($array as $key => $value) {
             if (is_array($value)) {
+                if (in_array($key, $ignoreFields)) {
+                    continue;
+                }
                 $array[$key] = $this->stripIdPrefixes(
                     $value, $source, $modifyFields
                 );
             } else {
-                $delimiter = $key === 'cat_username'
-                    ? $this->delimiters['login']
-                    : '.';
-                $prefixLen = strlen($source) + strlen($delimiter);
+                $prefixLen = strlen($source) + 1;
                 if ((!is_array($data) || in_array($key, $modifyFields))
-                    && strncmp($source . $delimiter, $value, $prefixLen) == 0
+                    && strncmp("$source.", $value, $prefixLen) == 0
                 ) {
                     $array[$key] = substr($value, $prefixLen);
                 }

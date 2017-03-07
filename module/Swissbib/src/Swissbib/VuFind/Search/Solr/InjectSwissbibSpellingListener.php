@@ -1,7 +1,6 @@
 <?php
- 
  /**
- * [...description of the type ...]
+ * InjectSwissbibSpellingListener
  *
  * PHP version 5
  *
@@ -23,30 +22,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib_VuFind2
- * @package  [...package name...]
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Search_Solr
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
-
-
 namespace Swissbib\VuFind\Search\Solr;
 
 use VuFind\Search\Solr\InjectSpellingListener as VFSpellingListener;
-use VuFindSearch\Service;
 use Zend\EventManager\EventInterface;
 use VuFindSearch\ParamBag;
 use VuFindSearch\Backend\Solr\Response\Json\Spellcheck;
 use VuFindSearch\Query\Query;
 
-
-
-
-class InjectSwissbibSpellingListener  extends VFSpellingListener {
-
-
-
+/**
+ * InjectSwissbibSpellingListener
+ *
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Search_Solr
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
+ */
+class InjectSwissbibSpellingListener  extends VFSpellingListener
+{
     /**
      * Set up spelling parameters.
      *
@@ -64,7 +64,8 @@ class InjectSwissbibSpellingListener  extends VFSpellingListener {
                 $sc = $params->get('swissbibspellcheck');
                 if (!empty($sc) && $sc[0] != 'false') {
 
-                    //remove the homegrown parameter only needed to activate the spellchecker in case of zero hits
+                    //remove the homegrown parameter only needed to activate
+                    // the spellchecker in case of zero hits
                     $params->remove("swissbibspellcheck");
                     $this->active = true;
                     if (empty($this->dictionaries)) {
@@ -86,30 +87,30 @@ class InjectSwissbibSpellingListener  extends VFSpellingListener {
                 }
             }
         }
+
         return $event;
     }
 
-
+    /**
+     * AggregateSpellcheck
+     *
+     * @param Spellcheck $spellcheck Spellcheck
+     * @param string     $query      Query
+     *
+     * @return void
+     */
     protected function aggregateSpellcheck(Spellcheck $spellcheck, $query)
     {
-        /*
-            while (next($this->dictionaries) !== false) {
-                $params = new ParamBag();
-                $params->set('spellcheck', 'true');
-                $params->set('spellcheck.dictionary', current($this->dictionaries));
-                $queryObj = new Query($query, 'AllFields');
-                $collection = $this->backend->search($queryObj, 0, 0, $params);
-                $spellcheck->mergeWith($collection->getSpellcheck());
-            }
-        */
-        foreach ( $this->dictionaries as $dictionary) {
+        foreach ($this->dictionaries as $dictionary) {
             $params = new ParamBag();
+
             $params->set('spellcheck', 'true');
             $params->set('spellcheck.dictionary', $dictionary);
+
             $queryObj = new Query($query, 'AllFields');
             $collection = $this->backend->search($queryObj, 0, 0, $params);
+
             $spellcheck->mergeWith($collection->getSpellcheck());
         }
-
     }
 }

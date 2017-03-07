@@ -1,50 +1,873 @@
 <h1>FAQ</h1>
+<p>Les FAQ donnent des réponses aux champs thématiques dans swissbib Basel Bern indiqués ci-dessous:</p>
 <nav>
     <ul>
-        <li><a href="#q1">Quel est le moyen le plus rapide pour avoir accès à mes prêts?</a></li>
-        <li><a href="#q2">Puis-je faire une recherche dans une bibliothèque particulière?</a></li>
-        <li><a href="#q3">Pouvez vous m'envoyer certains documents par la poste?</a></li>
-        <li><a href="#q4">Pourquoi n'ai-je pas toujours accès au texte intégral de livres ou articles en ligne?</a></li>
-        <li><a href="#q5">Puis-je exporter les résultats dans un logiciel de gestion bibliographique?</a></li>
-        <li><a href="#q6">Vous n'avez pas trouvé ce que vous cherchiez?</a></li>
-        <li><a href="#q7">Où pouvez vous continuer à chercher?</a></li>
-        <li><a href="#q8">Vous ne trouvez pas votre question?</a></li>
+        <li><a href="#faq1">Compte lecteur / Mon swissbib</a></li>
+        <li><a href="#faq2">Conseils de recherche / Accès en ligne</a></li>
+        <li><a href="#faq3">Commander</a></li>
+        <li><a href="#faq4">Questions techniques</a></li>
     </ul>
 </nav>
-<br />
-<dl>
-    <dt><a name="q1"></a>Quel est le moyen le plus rapide pour avoir accès à mes prêts?</dt>
-    <dd><p><a href="<?= $this->url('myresearch-userlogin') ?>">Identifiez-vous</a>, puis cliquez sur My swissbib (en haut à droite).</p></dd>
-    <dt><a name="q2"></a>Puis-je faire une recherche dans une bibliothèque particulière?</dt>
-    <dd><p>Les résultats de votre recherche peuvent se limiter à la bibliothèque de votre choix en cherchant sous "Recherche Affinée" à droite. L'autre alternative est de sélectionner la bibliothèque de votre choix dans "Recherche Avancée". Les bibliothèques peuvent être ainsi enregistrées à long terme en tant que <a href="<?=$this->url('myresearch-favorite-institutions')?>"><?=$this->transEsc('mylibraries')?></a> sous My swissbib.</p></dd>
-    <dt><a name="q3"></a>Pouvez vous m'envoyer certains documents par la poste?</dt>
-    <dd><p>Certaines bibliothèques peuvent vous envoyer les documents à votre adresse postale ou bien les expédient à la bibliothèque de votre choix afin que vous puissiez les réceptionner. Après vous êtes identifié, cliquez sur "Réserver" dans l'exemplaire du titre de votre choix: selon la bibliothèque, plusieurs lieux de retraits vous seront proposés. Voir les détails sous <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"><?= $this->transEsc('helppage.delivery') ?></a>.</p></dd>
-    <dt><a name="q4"></a>Pourquoi n'ai-je pas toujours accès au texte intégral de livres ou articles en ligne?</dt>
-    <dd><p>L'accès au texte intégral fonctionne uniquement à partir d'un poste du réseau universitaire et ce, si le contenu a fait l'objet d'une licence.</p></dd>
-    <dd><p>Si vous ne vous trouvez pas sur le campus, identifiez-vous en tant que membre de l'université par le VPN (<a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://mobile.unibas.ch') ?>" target="_blank">Bâle</a>, <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.vpn.unibe.ch') ?>" target="_blank">Berne</a>), et affinez les résultats de votre recherche à l'aide du filtre "Uni Basel online" ou bien "Uni Bern online" (côté droit).</p></dd>
-    <dt><a name="q5"></a>Puis-je exporter les résultats dans un logiciel de gestion bibliographique?</dt>
-    <dd><p>Oui. Cliquez sur le symbole d'export à partir des résultats de la recherche ou bien encore à partir des titres individuels<i class="fa fa-share"></i>.</p></dd>
-    <dt><a name="q6"></a>Vous n'avez pas trouvé ce que vous cherchiez?</dt>
-    <dd>
-        <ul>
-            <li>Elargissez votre recherche sur <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('https://www.swissbib.ch') ?>" target="_blank" title="swissbib">swissbib.ch</a> (Catalogue national) et réservez tout à votre aise à partir du <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>">service postal des bibliothèques du réseau IDS</a>.</li>
-            <li>Envoyez nous votre demande de prêts inter-bibliothèques en remplissant le formulaire de réservations sur <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/kurier-und-fernleihe/fernleihformular') ?>" target="_blank">BU Bâle</a> / <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibe.ch/content/bestellen__ausleihen/fernleihe/bestellformular') ?>" target="_blank">BU Berne</a></li>
-            <li>Envoyez nous votre proposition d'acquisitions sur <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/anschaffungsvorschlag') ?>" target="_blank">BU Bâle</a> / <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibe.ch/content/bestellen__ausleihen/anschaffungsvorschlaege') ?>" target="_blank">BU Berne</a></li>
-        </ul>
-    </dd>
-    <dt><a name="q7"></a>Où pouvez vous continuer à chercher?</dt>
-    <dd>
-        <ul>
-            <li><a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('https://www.swissbib.ch') ?>" target="_blank" title="swissbib">swissbib</a>: fonds de toutes les bibliothèques universitaires suisses</li>
-            <li><a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://aleph.unibas.ch/ALEPH') ?>" target="_blank" title="swissbib">Catalogue du réseau IDS Bâle Berne</a>: conseillé pour la recherche de collections spécialisées (documents historiques, fonds musicaux)</li>
-            <li><a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://aleph.unibas.ch/F/?func=option-update-lng&file_name=find-b&p_con_lng=GER&local_base=dsv05') ?>" target="_blank" title="swissbib">Catalogue du réseau HAN</a>: Répertoire des manuscrits, des archives et des dons (Appenzell Rhodes-Extérieures, Bâle, Berne, Lucerne, Soleure et Saint-Gall)</li>
-        </ul>
-    </dd>
-    <dt><a name="q8"></a>Vous ne trouvez pas votre question?</dt>
-    <dd><p>Nous vous aidons volontier pour vos recherches ainsi que pour les réservations dans notre catalogue et prenons en compte vos suggestions et critiques:</p>
-        <ul>
-            <li>Pour les questions concernant votre compte usager ou bien certains documents, merci de bien vouloir vous adresser à la bibliothèque d'origine, c'est à dire à la <a href="<?= $this->basePath('Libraries') ?>" title="Liste der Institutionen">bibliothèque</a> d'où provient le document.</li>
-            <li>Pour vos questions et suggestions concernant l'interface de recherche de swissbib Basel Bern: <a id="feedbackLink" class="modal-link" href="<?= $this->url('feedback-home') ?>"><?= $this->transEsc("menu.contact") ?></a></li>
-        </ul>
-    </dd>
-</dl>
+
+<h2><a id="faq1"></a>Compte lecteur / Mon swissbib</h2>
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse1" aria-expanded="false">
+                    Comment puis-je m’inscrire?</a>
+            </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse">
+            <div class="panel-body"><p>Le lien pour <a
+                        href="<?= $this->url('myresearch-userlogin') ?>">se connecter</a> se trouve en haut à droite dans l’en-tête orange du site web. Cliquez dessus et entrez votre numéro d’utilisateur ainsi que votre mot de passe.</p>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse2" aria-expanded="false">
+                    J’ai oublié mon mot de passe, que dois-je faire?</a>
+            </h4>
+        </div>
+        <div id="collapse2" class="panel-collapse collapse">
+            <div class="panel-body"><p><a
+                        href="<?= $this->url('feedback-home') ?>">Contactez</a> votre bibliothèque.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse3" aria-expanded="false">
+                    Que puis-je trouver sur mon compte lecteur?</a>
+            </h4>
+        </div>
+        <div id="collapse3" class="panel-collapse collapse">
+            <div class="panel-body"><p>Votre compte lecteur vous renseigne sur vos documents empruntés, réservations, photocopies,
+                    frais et données d’adresse. En outre, vous pouvez gérer vos bibliothèques, recherches sauvegardées,
+                    listes de sélection et paramètres.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse4" aria-expanded="false">
+                    Comment puis-je prolonger mes documents empruntés?</a>
+            </h4>
+        </div>
+        <div id="collapse4" class="panel-collapse collapse">
+            <div class="panel-body"><p>Sélectionnez  <i>Documents empruntés</i> sur votre compte lecteur.  La liste de vos documents empruntés apparaît maintenant. A droite de chaque document se trouve une petite case.  Afin de prolonger les documents désirés, cochez les cases correspondantes et cliquez ensuite sur <i>Prolonger le prêt des documents sélectionnés</i>.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse5" aria-expanded="false">
+                    Où puis-je changer mon adresse et mon numéro de téléphone?</a>
+            </h4>
+        </div>
+        <div id="collapse5" class="panel-collapse collapse">
+            <div class="panel-body"><p>Sélectionnez <i>Changer l’adresse</i> sur votre compte lecteur, puis effectuez les changements nécessaires et cliquez sur <i>Sauvegarder.</i></p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse6" aria-expanded="false">
+                    Où puis-je changer mon mot de passe?</a>
+            </h4>
+        </div>
+        <div id="collapse6" class="panel-collapse collapse">
+            <div class="panel-body"><p>Sélectionnez <i>Modifiez le mot de passe</i> sur votre compte lecteur et suivez les consignes.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse7" aria-expanded="false">
+                    Je n’ai pas encore de carte de lecteur. Où puis-je m’inscrire?</a>
+            </h4>
+        </div>
+        <div id="collapse7" class="panel-collapse collapse">
+            <div class="panel-body"><p>Vous pouvez vous inscrire depuis chez vous ou auprès d’une bibliothèque IDS à
+                    <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL(
+                        'http://www.ub.unibas.ch/bibliotheksnetz/verbund-basel/bibliotheken-im-verbund/liste-der-bibliotheken/'
+                    ) ?>" target="_blank">Bâle</a> ou <a
+                        href="<?= $this->redirectProtocolWrapper()->getWrappedURL(
+                            'http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/berner_ids_bibliotheken/liste/index_ger.html'
+                        ) ?>" target="_blank">Berne</a> via le <a
+                        href="<?= $this->redirectProtocolWrapper()->getWrappedURL(
+                            'http://aleph.unibas.ch/F/?func=bor-new-0'
+                        ) ?>" target="_blank">formulaire web</a>.
+                    Pour activer votre compte, présentez-vous au guichet du Prêt d’une bibliothèque IDS à Bâle ou Berne, muni d’une pièce d’identité officielle.
+
+                <p>Si vous possédez un <a
+                        href="<?= $this->redirectProtocolWrapper()->getWrappedURL(
+                            'http://www.nb.admin.ch/dienstleistungen/benutzung_anderer_bibliotheken/00577/01534/index.html?lang=de'
+                        ) ?>" target="_blank">Bibliopass</a>, vous pouvez présenter celui-ci avec une pièce d’identité officielle, afin qu’on puisse le faire valider.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse8" aria-expanded="false">
+                    Ma carte de lecteur est-elle aussi valable dans d’autres bibliothèques?</a>
+            </h4>
+        </div>
+        <div id="collapse8" class="panel-collapse collapse">
+            <div class="panel-body"><p>Oui, votre carte de lecteur est valable dans toutes les bibliothèques <a
+                        href="<?= $this->redirectProtocolWrapper()->getWrappedURL(
+                            'https://www.informationsverbund.ch/21.0.html'
+                        ) ?>" target="_blank">IDS ou NEBIS</a>.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse9" aria-expanded="false">
+                    Je suis étudiant-e à l’Université de Bâle, à l’Université de Berne ou à la Haute Ecole Pédagogique de Berne.
+                    Ai-je besoin d’une carte de lecteur pour emprunter des documents?</a>
+            </h4>
+        </div>
+        <div id="collapse9" class="panel-collapse collapse">
+            <div class="panel-body"><p>Non, car les cartes d’étudiants peuvent êtres validées en tant que cartes de lecteur.
+                    Votre numéro de lecteur correspond au numéro d’immatriculation (sans traits d’union) au verso de votre carte.
+                </p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse10" aria-expanded="false">
+                    Je suis collaborateur-trice à l’Université de Bâle ou Berne. Ai-je besoin d’une carte de lecteur pour emprunter des documents?</a>
+            </h4>
+        </div>
+        <div id="collapse10" class="panel-collapse collapse">
+            <div class="panel-body"><p>Non, car les cartes de collaborateurs-trices peuvent être validées en tant que cartes de lecteur.
+                    Votre numéro de lecteur correspond au numéro personnel à six chiffres ayant le préfixe MBS01 à Bâle et BEM à Berne.</p>
+
+                <p>Les collaborateurs-trices  de l’Université de Berne doivent se présenter au guichet du Prêt d’une <a
+                        href="<?= $this->redirectProtocolWrapper()->getWrappedURL(
+                            'http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/berner_ids_bibliotheken/liste/index_ger.html'
+                        ) ?>" target="_blank">bibliothèque IDS bernoise</a> pour faire valider leur carte.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse11"
+                   aria-expanded="false">
+                    J’ai perdu ma carte de lecteur, que dois-je faire?</a>
+            </h4>
+        </div>
+        <div id="collapse11" class="panel-collapse collapse">
+            <div class="panel-body"><p>Sur présentation d’une pièce d’identité officielle, vous pouvez obtenir une nouvelle carte auprès d’une bibliothèque IDS à <a href="<?= $this->redirectProtocolWrapper()
+                        ->getWrappedURL(
+                            'http://www.ub.unibas.ch/bibliotheksnetz/verbund-basel/bibliotheken-im-verbund/liste-der-bibliotheken/'
+                        ) ?>" target="_blank">Bâle</a> ou <a
+                        href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL(
+                                'http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/berner_ids_bibliotheken/liste/index_ger.html'
+                            ) ?>" target="_blank">Berne</a>.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse12"
+                   aria-expanded="false">
+                    Que signifie <i>Mes bibliothèques</i> <i class="fa fa-heart"></i> ?</a>
+            </h4>
+        </div>
+        <div id="collapse12" class="panel-collapse collapse">
+            <div class="panel-body"><p> Pour vous faciliter l’accès aux fonds des bibliothèques que vous consultez fréquemment,
+                    la fonction <i>Mes bibliothèques</i> a été introduite.</p>
+
+                <p>Après vous être connecté-e et avoir fait une demande de recherche, vos bibliothèques sélectionnées dans
+                    <i>Mes bibliothèques</i> apparaissent à droite dans le menu déroulant <i>Affiner la recherche</i>.
+                    Vous pouvez désormais rechercher dans les fonds de l’une de ces bibliothèques. Dans la <i>liste des résultats</i>, le symbole du cœur
+                        <i class="fa fa-heart"></i> marqué vous indique si le titre est disponible dans l’une des bibliothèques sélectionnées. Afin d’ajouter une bibliothèque à <i>Mes bibliothèques</i>, identifiez-vous sur votre compte lecteur. Cliquez sur <i>Mes bibliothèques</i> qui se trouve sous la rubrique <i>Mon swissbib</i>. Puis entrez votre bibliothèque désirée dans la case.
+
+                <p></div>
+        </div>
+    </div>
+
+<h2><a id="faq2"></a>Searching and finding information online</h2>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse13"
+                   aria-expanded="false">
+                    What is the difference between <i>Books & more</i> and <i>Articles
+                        & more</i> ?</a>
+            </h4>
+        </div>
+        <div id="collapse13" class="panel-collapse collapse">
+            <div class="panel-body"><p>Under <i>Books & more</i> you will find
+                    primarily books, e-books, journals, e-journals, databases,
+                    CDs and DVDs. Usually the item will only be labelled with the
+                    title but will not indicate individual articles or chapters.
+                </p>
+
+                <p> Under <i>Articles & more</i> on the other hand you will find
+                    individual articles or chapters from various e-journals,
+                    e-books and databases. For more information on how to find
+                    <i>Articles & more</i> refer to this <a
+                        href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL(
+                                'https://tube.switch.ch/embed/4665cf1c'
+                            ) ?>" target="_blank">video</a>.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse14"
+                   aria-expanded="false">
+                    How can I find items with information on a specific
+                    topic?</a>
+            </h4>
+        </div>
+        <div id="collapse14" class="panel-collapse collapse">
+            <div class="panel-body"><p>Enter the title of a book or related terms
+                    into the search box in the orange header of the page. Narrow
+                    your results list by using filters from the <i>Refine
+                        search</i> options on the right. For a step-by-step guide
+                    check out this <a href="<?= $this->redirectProtocolWrapper()
+                        ->getWrappedURL(
+                            'https://tube.switch.ch/embed/bf25f32d'
+                        ) ?>" target="_blank">video</a>.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse15"
+                   aria-expanded="false">
+                    How can I narrow down my search results?</a>
+            </h4>
+        </div>
+        <div id="collapse15" class="panel-collapse collapse">
+            <div class="panel-body"><p>On the right side of your results list
+                    under <i>Refine search</i> there are different filters to
+                    help you narrow down your search: for example, if you are
+                    only looking for French materials, click on the
+                    <i>Language</i> filter French.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse16"
+                   aria-expanded="false">
+                    How can I narrow my search to specific libraries?</a>
+            </h4>
+        </div>
+        <div id="collapse16" class="panel-collapse collapse">
+            <div class="panel-body"><p>You can choose the preferred libraries
+                    from the <i>Refine</i> search option on the right or you can
+                    add specific libraries to your <i>My libraries</i> list in
+                    <i>My swissbib</i>.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse17"
+                   aria-expanded="false">
+                    How can I access electronic items?</a>
+            </h4>
+        </div>
+        <div id="collapse17" class="panel-collapse collapse">
+            <div class="panel-body"><p>In <i>Books & more</i> narrow your
+                    list of results using the filter <i>Available online</i>
+                    from the <i>Refine search</i> filters by choosing your
+                    preferred library location.
+                    If your library does not appear no electronic media is
+                    licenced for your search topic. For free access to
+                    electronic ressources use the filter <i>Free access
+                        Online</i>.</p>
+
+                <p>In <i>Articles & more</i> there are two ways to access
+                    electronic media:</p>
+                <ul style="list-style-type:disc">
+                    <li>By clicking <i>Get it</i>, you can directly access
+                        the full text or PDF.
+                    </li>
+                    <li>The support program <i>SFX Services</i> will take you
+                        directly to the SFX menu, where you can access the
+                        full text or PDF and also view ordering options.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse18"
+                   aria-expanded="false">
+                    What does <i>Advanced search</i> mean?</a>
+
+            </h4>
+        </div>
+        <div id="collapse18" class="panel-collapse collapse">
+            <div class="panel-body"><p>With the advanced search, you can
+                    combine search specifications, for example the title,
+                    author or subject, in one search.
+
+                <p>Refer to our <a href="<?= $this->url(
+                        'help-page', ['topic' => 'search']
+                    ); ?>">expert advice page</a>.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse19"
+                   aria-expanded="false">
+                    Is there any other advice on searching that will help me
+                    with my research?</a>
+            </h4>
+        </div>
+        <div id="collapse19" class="panel-collapse collapse">
+            <div class="panel-body"><p>Yes, refer to our <a
+                        href="<?= $this->url(
+                            'help-page', ['topic' => 'search']
+                        ); ?>">expert advice page</a>.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse20"
+                   aria-expanded="false">
+                    Can I save my searches or particular results of my
+                    search?</a>
+            </h4>
+        </div>
+        <div id="collapse20" class="panel-collapse collapse">
+            <div class="panel-body"><p>Yes, click the <i
+                        class="fa fa-plus-square"></i> symbol on the results
+                    page to save your search. You can recall your saved
+                    searches though <i>Saved searches</i> in <i>My
+                        swissbib</i>.</p>
+
+                <p>In order to save individual items, you can make a list in
+                    <i>My swissbib</i> by clicking the <i
+                        class="fa fa-plus-square"></i> symbol at the item you
+                    wish to save and choosing a saved list. You can edit this
+                    list any time to add or delete items.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse21"
+                   aria-expanded="false">
+                    Can I request to be notified whenever new items on a
+                    certain subject becomes available?</a>
+            </h4>
+        </div>
+        <div id="collapse21" class="panel-collapse collapse">
+            <div class="panel-body"><p>Yes, click the <i
+                        class="fa fa-plus-square"></i> symbol in the results
+                    list. Now you can save the search for a particular
+                    subject and will be notified when new items become
+                    available in the catalogue that relates to that subject.
+                </p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse22"
+                   aria-expanded="false">
+                    Can I save search settings so that I do not need to reset
+                    them each time?</a>
+            </h4>
+        </div>
+        <div id="collapse22" class="panel-collapse collapse">
+            <div class="panel-body"><p>Yes, in <i>My swissbib</i> you will
+                    find the <i>Settings</i>. There you can customize and
+                    save the number of results shown on one page, the
+                    language setting and the search filters. Your personal
+                    customization will only be saved if you are logged in.
+                </p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse23"
+                   aria-expanded="false">
+                    How can I export search results into other catalogue
+                    systems?</a>
+            </h4>
+        </div>
+        <div id="collapse23" class="panel-collapse collapse">
+            <div class="panel-body"><p>Either click on the results list or on
+                    the individual items and select the <i
+                        class="fa fa-share"></i> symbol to export your list
+                    of results.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse24"
+                   aria-expanded="false">
+                    How can I send my search results via email?</a>
+            </h4>
+        </div>
+        <div id="collapse24" class="panel-collapse collapse">
+            <div class="panel-body"><p>Either click on the results list or on
+                    the individual items and select the <i
+                        class="fa fa-share"></i> symbol.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse25"
+                   aria-expanded="false">
+                    Can I generate the citation for an item?</a>
+            </h4>
+        </div>
+        <div id="collapse25" class="panel-collapse collapse">
+            <div class="panel-body"><p>Yes, click the citation symbol <i
+                        class="fa fa-pencil"></i>, now the bibliography
+                    indication for your chosen media will appear in two different
+                    citation styles.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse26"
+                   aria-expanded="false">
+                    I was not able to find what I needed in swissbib Basel
+                    Bern. Where can I keep looking?</a>
+            </h4>
+        </div>
+        <div id="collapse26" class="panel-collapse collapse">
+            <div class="panel-body"><p>You can keep looking in the following
+                    catalogues:</p>
+                <ul style="list-style-type:disc">
+                    <li><a href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL('https://www.swissbib.ch/') ?>"
+                           target="_blank">swissbib CH</a>: access to
+                        materials from libraries all over Switzerland
+                    </li>
+                    <li><a href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL(
+                                'http://aleph.unibas.ch/F?con_lng=GER&func=find-b-0'
+                            ) ?>" target="_blank">Catalogue of IDS Basel
+                            Bern</a>: access to specialist items, for example
+                        historical or musical material
+                    </li>
+                    <li><a href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL(
+                                'http://aleph.unibas.ch/F/?func=option-update-lng&file_name=find-b&p_con_lng=GER&local_base=dsv05'
+                            ) ?>" target="_blank">Catalogue of the HAN
+                            network</a>: a directory for manuscripts,
+                        archives and scholarly notes (Appenzell Ausserrhoden,
+                        Basel, Bern, Luzern, Solothurn und St.Gallen)
+                    </li>
+                    <li><a href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL('http://www.worldcat.org/') ?>"
+                           target="_blank">World Cat</a>: worldwide library
+                        stocks
+                    </li>
+                </ul>
+                <p>You can fill out an order form (<a
+                        href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL(
+                                'http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/kurier-und-fernleihe/fernleihformular/'
+                            ) ?>" target="_blank">Basel</a>, <a
+                        href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL(
+                                'http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/fernleihe___document_delivery/bestellformular/index_ger.html'
+                            ) ?>" target="_blank">Bern</a>) and then the
+                    library will handle the search. Ordering items will incur
+                    a fee.</p>
+
+                <p>You can also suggest items that your library should
+                    purchase. Fill in the purchasing form (<a
+                        href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL(
+                                'http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/anschaffungsvorschlag/'
+                            ) ?>" target="_blank">Basel</a>, <a
+                        href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL(
+                                'http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/anschaffungsvorschlaege/index_ger.html'
+                            ) ?>" target="_blank">Bern</a>) and send it to
+                    your library.</p></div>
+        </div>
+    </div>
+
+<h2><a id="faq3"></a>Ordering</h2>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse27"
+                   aria-expanded="false">
+                    How do I order an item?</a>
+            </h4>
+        </div>
+        <div id="collapse27" class="panel-collapse collapse">
+            <div class="panel-body">
+                <p>
+                <ol type="1">
+                    <li>In <i>Books & more</i>, click on the title of the
+                        item that you would like to order.
+                    </li>
+                    <li>Choose a library under <i>Locations and request</i>
+                        of the item you have chosen.
+                    </li>
+                    <li>If you are not logged in yet, click on <i>Log in</i>
+                        under the name of the library.
+                    </li>
+                    <li>Now click on <i>Order</i>. If this option does not
+                        appear, it means that the item is not available
+                        electronically.
+                    </li>
+                    <li>Different libraries offer various pick-up and
+                        delivery options. You can find details on the website
+                        <a href="<?= $this->basePath('Libraries') ?>"
+                           title="Liste der Institutionen">of the respective
+                            library</a>.
+                    </li>
+                </ol>
+                </p>
+                <p>You can watch the <a
+                        href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL(
+                                'https://tube.switch.ch/videos/768768cb'
+                            ) ?>" target="_blank">video</a> for more detailed
+                    instructions.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse28"
+                   aria-expanded="false">
+                    How do I reserve an item that has already been taken
+                    out?</a>
+            </h4>
+        </div>
+        <div id="collapse28" class="panel-collapse collapse">
+            <div class="panel-body">
+                <p>
+                <ol type="1">
+                    <li>Choose a library under <i>Locations and request</i>
+                        of the item you have chosen.
+                    </li>
+                    <li>If you are not logged in yet, click on <i>Log in</i> under
+                        the name of the library.
+                    </li>
+                    <li>Now click on <i>Reserve</i>. If this option does not
+                        appear, it means that the item is not available
+                        electronically.
+                    </li>
+                    <li>Different libraries offer various pick-up and
+                        delivery options. You can find details on the website
+                        of the respective library.
+                    </li>
+                </ol>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse29"
+                   aria-expanded="false">
+                    Can I request for an item to be sent from one library to
+                    other library?</a>
+            </h4>
+        </div>
+        <div id="collapse29" class="panel-collapse collapse">
+            <div class="panel-body"><p>Yes, as long as both libraries are
+                    linked by a common dispatch service:</p>
+                <ul style="list-style-type:disc">
+                    <li>The internal dispatch service between <a
+                            href="<?= $this->redirectProtocolWrapper()
+                                ->getWrappedURL(
+                                    'http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/kurier-und-fernleihe/'
+                                ) ?>" target="_blank">Basel</a> and <a
+                            href="<?= $this->redirectProtocolWrapper()
+                                ->getWrappedURL(
+                                    'http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/kurier/index_ger.html'
+                                ) ?>" target="_blank">Bern</a> is free, and
+                        the item will arrive after one working day.
+                    </li>
+                    <li><a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"> IDS delivery service</a> operates between
+                        Aarau, Basel, Bern, Luzern, St.Gallen and Zurich. The
+                        dispatch costs 5 CHF, which you will need to pay in
+                        cash when you pick up the item. The item will arrive
+                        after two working days. If you want to order items
+                        from Luzern, St.Gallen or Zurich, you can order them
+                        through the <a
+                            href="<?= $this->redirectProtocolWrapper()
+                                ->getWrappedURL(
+                                    'https://www.swissbib.ch/'
+                                ) ?>" target="_blank">swissbib CH
+                            catalogue</a>. Instructions on how to order items
+                        can be found in our <a
+                            href="<?= $this->redirectProtocolWrapper()
+                                ->getWrappedURL(
+                                    'http://swissbib-baselbern.blogspot.ch/2016/06/uber-swissbibch-medien-bestellen.html'
+                                ) ?>" target="_blank">blog post</a>.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse30"
+                   aria-expanded="false">
+                    Can I order an item to be posted to my home address?</a>
+            </h4>
+        </div>
+        <div id="collapse30" class="panel-collapse collapse">
+            <div class="panel-body"><p>Some libraries will send items to your
+                    home address.</p>
+                <ol type="1">
+                    <li>Choose the item you need under <i>Locations and
+                            request</i> of a library.
+                    </li>
+                    <li>If you are not logged in yet, click on <i>Log in</i>
+                        under the name of the library.
+                    </li>
+                    <li>Now click on <i>Order</i>. If this option does not
+                        appear, it means that the item is not available
+                        electronically. In this case, click on the <i
+                            class="fa fa-info-circle"></i> symbol under the
+                        location name. There you will find the address and
+                        opening times of the library.
+                    </li>
+                    <li>Under <i>Pickup / delivery location</i>, choose <i>Home
+                            address</i> and then <i>Order</i>.
+                    </li>
+                </ol>
+                <p>The cost of this service is CHF 12 per item.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse31" aria-expanded="false">
+                    Can I return items that I have taken out to a different library?</a>
+            </h4>
+        </div>
+        <div id="collapse31" class="panel-collapse collapse">
+            <div class="panel-body"><p>Yes, as long as both libraries have
+                    the same delivery service: <a
+                        href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL(
+                                'http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/kurier-und-fernleihe/'
+                            ) ?>" target="_blank">Basel</a>, <a
+                        href="<?= $this->redirectProtocolWrapper()
+                            ->getWrappedURL(
+                                'http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/kurier/index_ger.html'
+                            ) ?>" target="_blank">Bern</a>, <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"> IDS delivery service</a>.</p>
+
+                <p>The return of items is free.</p>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse32"
+                   aria-expanded="false">
+                    How do I order a photocopy?</a>
+            </h4>
+        </div>
+        <div id="collapse32" class="panel-collapse collapse">
+            <div class="panel-body">
+                <p>
+                <ol type="1">
+                    <li>In <i>Books and more</i>, click on the item that you
+                        want photocopied sections of.
+                    </li>
+                    <li>For your chosen book, click on a library under <i>Locations
+                            and request</i>.
+                    </li>
+                    <li>If you are not logged in yet, click on <i>Log in</i>
+                        under the name of the library.
+                    </li>
+                    <li>Now click on <i>Order a copy</i>. If the option does
+                        not appear, it is not possible to order a photocopy
+                        electronically. In this case, click on the <i
+                            class="fa fa-info-circle"></i> symbol under the
+                        location name. There you will find the address and
+                        opening hours of the library.
+                    </li>
+                    <li>Choose a type of delivery (by post or email) and
+                        indicate the authors/contributors, title, page
+                        numbers, year/volume in the respective boxes.
+                    </li>
+                </ol>
+                </p>
+                <p>20 pages of photocopies cost CHF 5 for private customers
+                    and CHF 25 for corporate customers. The bill for this
+                    cost will be issued through the IDS Basel Bern. The order
+                    will be processed within 24 hours from Monday to
+                    Friday.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse33"
+                   aria-expanded="false">
+                    How much does it cost to have items and copies delivered,
+                    and how quickly will they be delivered?</a>
+            </h4>
+        </div>
+        <div id="collapse33" class="panel-collapse collapse">
+            <div class="panel-body"><p>The cost and delivery time is not the
+                    same for every delivery service:</p>
+                <ul style="list-style-type:disc">
+                    <li>The internal delivery service in <a
+                            href="<?= $this->redirectProtocolWrapper()
+                                ->getWrappedURL(
+                                    'http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/kurier-und-fernleihe/'
+                                ) ?>" target="_blank">Basel</a> and <a
+                            href="<?= $this->redirectProtocolWrapper()
+                                ->getWrappedURL(
+                                    'http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/kurier/index_ger.html'
+                                ) ?>" target="_blank">Bern</a> is free, and
+                        delivery takes one working day.
+                    </li>
+                    <li>The <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"> IDS delivery service</a> runs between Basel,
+                        Bern, Luzern, St.Gallen and Zurich. One delivery
+                        costs 5 CHF, which you will need to pay in cash when
+                        you come to pick up your order. Delivery takes two
+                        working days.
+                    </li>
+                    <li>Delivery to your home address will cost 12 CHF per
+                        item. Between Monday and Friday, the item(s) will be
+                        processed and sent off within 24 hours.
+                    </li>
+                    <li>20 pages of photocopies cost 5 CHF for private
+                        customers and 25 CHF for corporate customers. Between
+                        Monday and Friday, the item(s) will be processed
+                        within 24 hours.
+                    </li>
+                </ul>
+                <p>The costs noted above only apply to the libraries of the
+                    University of Basel and Bern. You can find costs of
+                    other <a href="<?= $this->basePath('Libraries') ?>"
+                             title="Liste der Institutionen">libraries</a> on
+                    their respective websites.</p></div>
+        </div>
+    </div>
+
+<h2><a id="faq4"></a>Technical questions</h2>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse34"
+                   aria-expanded="false">
+                    Why does the link for full text/PDF not work?</a>
+            </h4>
+        </div>
+        <div id="collapse34" class="panel-collapse collapse">
+            <div class="panel-body"><p>Possible reasons include:</p>
+                <ul style="list-style-type:disc">
+                    <li>You have not accessed the network of the library that
+                        has copyright for this item.
+                    </li>
+                    <li>You have not activated the <i>VPN-Client</i> (<a
+                            href="<?= $this->redirectProtocolWrapper()
+                                ->getWrappedURL(
+                                    'https://mobile.unibas.ch/home.html'
+                                ) ?>" target="_blank">Basel</a> or <a
+                            href="<?= $this->redirectProtocolWrapper()
+                                ->getWrappedURL(
+                                    'http://www.unibe.ch/universitaet/campus__und__infrastruktur/rund_um_computer/internetzugang/zugang_auf_interne_ressourcen_mit_vpn/index_ger.html'
+                                ) ?>" target="_blank">Bern</a>) , which gives
+                        you access.
+                    </li>
+                    <li>You are not a member of the network and can only
+                        access public items outside of the library. You can
+                        filter your results for <i>Free Access Online</i>
+                        under <i>Refine search</i>.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse35"
+                   aria-expanded="false">
+                    Why can I not renew my loans?</a>
+            </h4>
+        </div>
+        <div id="collapse35" class="panel-collapse collapse">
+            <div class="panel-body"><p>Possible reasons include:</p>
+                <ul style="list-style-type:disc">
+                    <li>You have already renewed your loans five times and
+                        have to return them. If the item is not reserved, you
+                        can borrow the item again.
+                    </li>
+                    <li>The item was requested by other person, so you will
+                        need to bring it back.
+                    </li>
+                    <li>The loaning conditions are not the same for all
+                        libraries, so it is possible that you cannot renew
+                        your loan for that reason.
+                    </li>
+                </ul>
+                <p>If none of these reasons apply, please <a
+                        href="<?= $this->url('feedback-home') ?>">contact</a>
+                    your library.</p>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse36"
+                   aria-expanded="false">
+                    Why can I not log in?</a>
+            </h4>
+        </div>
+        <div id="collapse36" class="panel-collapse collapse">
+            <div class="panel-body"><p>Possible reasons include:</p>
+                <ul style="list-style-type:disc">
+                    <li>You are not registered and therefore do not have a
+                        user account.
+                    </li>
+                    <li>You have used an outdated or wrong password.</li>
+                </ul>
+                <p>If none of these reasons apply, please <a
+                        href="<?= $this->url('feedback-home') ?>">contact</a>
+                    your library.</p>
+
+            </div>
+        </div>
+        <div>
+            <h2>Did you not find the answer to your question?</h2>
+
+            <p>We are happy to help you with your research and ordering from
+                the catalogue and we will also gladly respond to your
+                suggestions or criticisms: <a
+                    href="<?= $this->url('feedback-home') ?>">Contact</a>
+            </p>
+        </div>
+    </div>
+</div>

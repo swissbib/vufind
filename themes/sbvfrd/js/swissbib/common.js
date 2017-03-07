@@ -3,23 +3,26 @@
  *
  * @type {{initExportHandling: Function, exportFormHandler: Function, onExportFormHandlerSuccess: Function}}
  */
-swissbib.common = {
+//swissbib.common = {
 
   /**
    * initializes form handling for export form
    */
+/*
   initExportHandling: function() {
     Lightbox.addFormHandler(
       'exportForm',
       swissbib.common.exportFormHandler
     );
   },
+*/
 
   /**
    * adds the ajax handling for export form
    *
    * @param evt
    */
+  /*
   exportFormHandler: function(evt) {
     var data = Lightbox.getFormData($(evt.target));
     if (swissbib.common.exportNeedsRedirect(data)) {
@@ -44,12 +47,14 @@ swissbib.common = {
 
     return false;
   },
+  */
 
   /**
    * adds success callback for export handling
    *
    * @param data
    */
+  /*
   onExportFormHandlerSuccess: function(data) {
     if(data.data.needs_redirect && this.target) {
       this.target.location.href = data.data.result_url;
@@ -58,12 +63,14 @@ swissbib.common = {
       Lightbox.changeContent(data.data.result_additional);
     }
   },
+  */
 
   /**
    * check if opening a new window is necessary
    *
    * @param data
    */
+  /*
   exportNeedsRedirect: function(data) {
     var format = data.format;
     var redirect = false;
@@ -77,10 +84,12 @@ swissbib.common = {
     return redirect
   }
 };
+*/
 
-
+/*
 $(document).ready(
     function() {
       swissbib.common.initExportHandling();
     }
 );
+*/

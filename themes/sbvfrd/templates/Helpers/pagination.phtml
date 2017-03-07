@@ -1,0 +1,35 @@
+<? if ($this->pageCount): ?>
+<div class="pagination-container hidden-print">
+  <ul class="pagination">
+
+    <li class="hidden-sm hidden-xs page">
+      <a href="#"><?= $this->transEsc('pagination.page') ?>:</a>
+    </li>
+    <? if (isset($this->previous)): ?>
+      <? $newParams = $this->params; $newParams['page'] = $this->previous; ?>
+      <li><a href="<?= $this->currentPath() . '?' . http_build_query($newParams); ?>"><i class="fa fa-caret-left"></i></a></li>
+    <? else: ?>
+       <li class="inactive"> <a href="#"><i class="fa fa-caret-left"></i></a></li>
+    <? endif; ?>
+
+    <li class="page-numbers">
+      <a>
+          <span class="<?= isset($this->previous) ? 'standard' : 'marked' ?>">
+            <?= $this->localizedNumber($this->current) ?>
+          </span>
+        <?= $this->transEsc('of') ?>
+          <span class="<?= isset($this->next) ? 'standard' : 'marked' ?>">
+            <?= $this->localizedNumber($this->pageCount) ?>
+          </span>
+      </a>
+    </li>
+
+    <? if (isset($this->next)): ?>
+      <? $newParams = $this->params; $newParams['page'] = $this->next; ?>
+      <li><a href="<?= $this->currentPath() . '?' . http_build_query($newParams); ?>"><i class="fa fa-caret-right"></i></a></li>
+    <? else: ?>
+       <li class="inactive"><a href="#"><i class="fa fa-caret-right"></i></a></li>
+    <? endif; ?>
+  </ul>
+</div>
+<? endif; ?>

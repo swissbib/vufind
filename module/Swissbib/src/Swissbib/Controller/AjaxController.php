@@ -1,7 +1,6 @@
 <?php
-
 /**
- * swissbib / VuFind: enhancements for AjaxController in Swissbib module
+ * Swissbib / VuFind: enhancements for AjaxController in Swissbib module
  *
  * PHP version 5
  *
@@ -23,38 +22,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib_VuFind2
- * @package  RecordDriver
+ * @category Swissbib_VuFind2
+ * @package  Controller
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
-
-
 namespace Swissbib\Controller;
 
 use VuFind\Controller\AjaxController as VFAjaxController;
 
-
-
-class AjaxController extends VFAjaxController {
-
-
+/**
+ * Swissbib / VuFind: enhancements for AjaxController in Swissbib module
+ *
+ * @category Swissbib_VuFind2
+ * @package  Controller
+ * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://vufind.org
+ */
+class AjaxController extends VFAjaxController
+{
     /**
+     * Utility function for clients to control the workflow with shibboleth login
+     * we can't login in popup dialogs (makes it to complex if at all possible)
+     *
      * @return \Zend\Http\Response
-     *
-     * utility function for clients to control the workflow
-     * with shibboleth login we can't login in popup dialogs (makes it to complex if at all possible)
-     *
      */
     public function shibloginAction()
     {
-
         $this->outputMode = 'json';
         $config = $this->getConfig();
         if ((!isset($config->Mail->require_login) || $config->Mail->require_login)
-            &&  strcmp(strtolower($config->Authentication->method), "shibboleth") == 0 &&
-            !$this->getUser()
+            && strcmp(strtolower($config->Authentication->method), "shibboleth") == 0
+            && !$this->getUser()
         ) {
             //no JSON.parse in client
             return $this->output(
@@ -65,9 +66,6 @@ class AjaxController extends VFAjaxController {
             return $this->output(
                 "false", self::STATUS_OK
             );
-
         }
-
     }
-
 }

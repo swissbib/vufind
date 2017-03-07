@@ -17,24 +17,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Content
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 namespace VuFind\Content\Reviews;
 
 /**
  * Amazon review content loader.
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Content
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 class Amazon extends \VuFind\Content\AbstractAmazon
 {
@@ -120,6 +120,8 @@ class Amazon extends \VuFind\Content\AbstractAmazon
                 // CSS for iframe (explicit dimensions needed for IE
                 // compatibility -- using 100% has bad results there):
                 $css = "width: 700px; height: 500px;";
+                // Replacement for http/https compatibility
+                $iframe = str_replace('http://', '//', $iframe);
                 $result[] = [
                     'Rating' => '',
                     'Summary' => '',

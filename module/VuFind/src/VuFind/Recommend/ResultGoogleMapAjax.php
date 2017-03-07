@@ -17,13 +17,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Recommendations
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:recommendation_modules Wiki
+ * @link     https://vufind.org/wiki/development:plugins:recommendation_modules Wiki
  */
 namespace VuFind\Recommend;
 
@@ -33,12 +33,12 @@ namespace VuFind\Recommend;
  * This class gathers information from the Wikipedia API and publishes the results
  * to a module at the top of an author's results page
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Recommendations
  * @author   Lutz Biedinger <lutz.biedinger@gmail.com>
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:recommendation_modules Wiki
+ * @link     https://vufind.org/wiki/development:plugins:recommendation_modules Wiki
  * @view     AuthorInfoFacets.phtml
  */
 class ResultGoogleMapAjax implements RecommendInterface
@@ -49,6 +49,23 @@ class ResultGoogleMapAjax implements RecommendInterface
      * @var \VuFind\Search\Base\Results
      */
     protected $searchObject;
+
+    /**
+     * Google Maps API key.
+     *
+     * @var string
+     */
+    protected $googleMapApiKey;
+
+    /**
+     * Constructor
+     *
+     * @param string $key API key
+     */
+    public function __construct($key)
+    {
+        $this->googleMapApiKey = $key;
+    }
 
     /**
      * Store the configuration of the recommendation module.
@@ -91,6 +108,16 @@ class ResultGoogleMapAjax implements RecommendInterface
     public function process($results)
     {
         $this->searchObject = $results;
+    }
+
+    /**
+     * Get the Google Maps API key.
+     *
+     * @return string
+     */
+    public function getGoogleMapApiKey()
+    {
+        return $this->googleMapApiKey;
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * swissbib Authentication view helper
+ * Swissbib Authentication view helper
  *
  * PHP version 5
  *
@@ -22,36 +22,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib_VuFind2
- * @package  [...package name...]
+ * @category Swissbib_VuFind2
+ * @package  VuFind_View_Helper_Root
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
 namespace Swissbib\VuFind\View\Helper\Root;
-use Zend\View\Exception\RuntimeException;
+
 use VuFind\View\Helper\Root\Auth as VFAuthHelper;
 
 /**
  * Authentication view helper
  *
+ * @category Swissbib_VuFind2
+ * @package  VuFind_View_Helper_Root
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     http://www.swissbib.org  Main Page
  */
 class Auth extends VFAuthHelper
 {
-
     /**
      * Authentication classes where Ajax Login is not possible
-     * @var array
      *
+     * @var array
      */
     protected $noAjaxConfig;
 
     /**
      * Constructor
      *
-     * @param \VuFind\Auth\Manager $manager Authentication manager
+     * @param \VuFind\Auth\Manager $manager      Manager
+     * @param array                $noAjaxConfig NoAjaxConfig
      */
     public function __construct(\VuFind\Auth\Manager $manager, array $noAjaxConfig)
     {
@@ -61,6 +64,8 @@ class Auth extends VFAuthHelper
     }
 
     /**
+     * GetLoginTargets
+     *
      * @return \VuFind\Auth\AbstractBase
      */
     public function getLoginTargets()
@@ -68,11 +73,16 @@ class Auth extends VFAuthHelper
         return $this->getManager()->getLoginTargets();
     }
 
-
+    /**
+     * IsAjaxLoginAllowed
+     *
+     * @return bool
+     */
     public function isAjaxLoginAllowed()
     {
-        return ! in_array($this->getManager()->getAuthClassForTemplateRendering(),$this->noAjaxConfig) ;
+        return !in_array(
+            $this->getManager()->getAuthClassForTemplateRendering(),
+            $this->noAjaxConfig
+        );
     }
-
-
 }

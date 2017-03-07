@@ -31,16 +31,16 @@ use Zend\ServiceManager\ServiceManager;
 /**
  * Recommendation Module Factory Class
  *
- * @category VuFind2
- * @package  Recommendations
- * @author   Demian Katz <demian.katz@villanova.edu>
- * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:hierarchy_components Wiki
+ * @category           VuFind2
+ * @package            Recommendations
+ * @author             Demian Katz <demian.katz@villanova.edu>
+ * @license            http://opensource.org/licenses/gpl-2.0.php GNU General
+ *                     Public License
+ * @link               http://vufind.org/wiki/vufind2:hierarchy_components Wiki
  * @codeCoverageIgnore
  */
 class Factory
 {
-
     /**
      * Factory for SideFacets module.
      *
@@ -51,8 +51,20 @@ class Factory
     public static function getSideFacets(ServiceManager $sm)
     {
         return new SideFacets(
-            $sm->getServiceLocator()->get('VuFind\Config')
+            $sm->getServiceLocator()->get('VuFind\Config'),
+            $sm->getServiceLocator()->get('VuFind\HierarchicalFacetHelper')
         );
     }
 
+    /**
+     * Factory for TopIpRange module.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return TopIpRange
+     */
+    public static function getTopIpRange(ServiceManager $sm)
+    {
+        return new TopIpRange();
+    }
 }

@@ -18,13 +18,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search
  * @author   David Maus <maus@hab.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org
+ * @link     https://vufind.org
  */
 namespace VuFindTest\Backend\Solr;
 
@@ -35,11 +35,11 @@ use VuFindSearch\Backend\Solr\QueryBuilder;
 /**
  * Unit tests for SOLR query builder
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search
  * @author   David Maus <maus@hab.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org
+ * @link     https://vufind.org
  */
 class QueryBuilderTest extends \VuFindTest\Unit\TestCase
 {
@@ -102,6 +102,27 @@ class QueryBuilderTest extends \VuFindTest\Unit\TestCase
     }
 
     /**
+     * Return array of [test query, expected result] arrays.
+     *
+     * @return array
+     */
+    protected function getQuestionTests()
+    {
+        // @codingStandardsIgnoreStart
+        return [
+            ['this?', '(this?) OR (this\?)'], // trailing question mark
+            ['this? that', '((this?) OR (this\?)) that'], // question mark after first word
+            ['start this? that', 'start ((this?) OR (this\?)) that'], // question mark after the middle word
+            ['start AND this? AND that', 'start AND ((this?) OR (this\?)) AND that'], // question mark with boolean operators
+            ['start t?his that', 'start t?his that'], // question mark as a wildcard in the middle of a word
+            ['start? this?', '((start?) OR (start\?)) ((this?) OR (this\?))'], // multiple ? terms
+            ['this? that? this?', '((this?) OR (this\?)) ((that?) OR (that\?)) ((this?) OR (this\?))'], // repeating ? term
+            ['"this? that?"', '"this? that?"'], // ? terms inside quoted phrase
+        ];
+        // @codingStandardsIgnoreEnd
+    }
+
+    /**
      * Test generation with a query handler
      *
      * @return void
@@ -109,15 +130,34 @@ class QueryBuilderTest extends \VuFindTest\Unit\TestCase
     public function testQueryHandler()
     {
         // Set up an array of expected inputs and outputs:
-        // @codingStandardsIgnoreStart
-        $tests = [
-            ['this?', '((this?) OR (this\?))'],// trailing question mark
-        ];
-        // @codingStandardsIgnoreEnd
-
+        $tests = $this->getQuestionTests();
         $qb = new QueryBuilder(
             [
                 'test' => []
+            ]
+        );
+        foreach ($tests as $test) {
+            list($input, $output) = $test;
+            $q = new Query($input, 'test');
+            $response = $qb->build($q);
+            $processedQ = $response->get('q');
+            $this->assertEquals('(' . $output . ')', $processedQ[0]);
+        }
+    }
+
+    /**
+     * Test generation with a query handler with edismax
+     *
+     * @return void
+     */
+    public function testQueryHandlerWithEdismax()
+    {
+        // Set up an array of expected inputs and outputs:
+        $tests = $this->getQuestionTests();
+
+        $qb = new QueryBuilder(
+            [
+                'test' => ['DismaxHandler' => 'edismax', 'DismaxFields' => ['foo']]
             ]
         );
         foreach ($tests as $test) {
@@ -302,7 +342,7 @@ class QueryBuilderTest extends \VuFindTest\Unit\TestCase
 
         $response = $qb->build($q);
         $processedQ = $response->get('q');
-        $this->assertEquals('((_query_:"{!dismax qf=\"field_a\" }value1") OR (_query_:"{!dismax qf=\"field_b\" }value2"))', $processedQ[0]);
+        $this->assertEquals('((_query_:"{!dismax qf=\"field_a\" mm=\\\'100%\\\'}value1") OR (_query_:"{!dismax qf=\"field_b\" mm=\\\'100%\\\'}value2"))', $processedQ[0]);
     }
 
     /**
@@ -333,6 +373,78 @@ class QueryBuilderTest extends \VuFindTest\Unit\TestCase
 
         $response = $qb->build($q);
         $processedQ = $response->get('q');
-        $this->assertEquals('((field_a:(value*)^100 OR field_c:(value*)^200) OR (_query_:"{!dismax qf=\"field_b\" }value2"))', $processedQ[0]);
+        $this->assertEquals('((field_a:(value*)^100 OR field_c:(value*)^200) OR (_query_:"{!dismax qf=\"field_b\" mm=\\\'100%\\\'}value2"))', $processedQ[0]);
+    }
+
+    /**
+     * Test generation with multiple quoted phrases.
+     *
+     * @return void
+     */
+    public function testMultipleQuotedPhrases()
+    {
+        $qb = new QueryBuilder(
+            [
+                'a' => [
+                    'QueryFields' => [
+                        'field_a' => [['or', '~']],
+                    ]
+                ]
+            ]
+        );
+
+        $q = new Query('"foo" "bar" "baz"', 'a');
+
+        $response = $qb->build($q);
+        $processedQ = $response->get('q');
+        $this->assertEquals('(field_a:("foo" OR "bar" OR "baz"))', $processedQ[0]);
+    }
+
+    /**
+     * Test generation with mix of quoted and unquoted phrases
+     *
+     * @return void
+     */
+    public function testMixedQuotedPhrases()
+    {
+        $qb = new QueryBuilder(
+            [
+                'a' => [
+                    'QueryFields' => [
+                        'field_a' => [['or', '~']],
+                    ]
+                ]
+            ]
+        );
+
+        $q = new Query('708396 "708398" 708399 "708400"', 'a');
+
+        $response = $qb->build($q);
+        $processedQ = $response->get('q');
+        $this->assertEquals('(field_a:(708396 OR "708398" OR 708399 OR "708400"))', $processedQ[0]);
+    }
+
+    /**
+     * Test generation with mix of quoted and unquoted phrases
+     *
+     * @return void
+     */
+    public function testMixedQuotedPhrasesWithEscapedQuote()
+    {
+        $qb = new QueryBuilder(
+            [
+                'a' => [
+                    'QueryFields' => [
+                        'field_a' => [['or', '~']],
+                    ]
+                ]
+            ]
+        );
+
+        $q = new Query('708396 "708398" 708399 "foo\"bar"', 'a');
+
+        $response = $qb->build($q);
+        $processedQ = $response->get('q');
+        $this->assertEquals('(field_a:(708396 OR "708398" OR 708399 OR "foo\"bar"))', $processedQ[0]);
     }
 }

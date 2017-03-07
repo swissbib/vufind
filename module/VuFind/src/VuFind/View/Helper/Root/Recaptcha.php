@@ -17,25 +17,25 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  View_Helpers
  * @author   Chris Hallberg <crhallberg@gmail.com>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 namespace VuFind\View\Helper\Root;
-use Zend\View\Helper\AbstractHelper, Zend\Mvc\Controller\Plugin\FlashMessenger;
+use Zend\View\Helper\AbstractHelper;
 
 /**
  * Recaptcha view helper
  *
- * @category VuFind2
+ * @category VuFind
  * @package  View_Helpers
  * @author   Chris Hallberg <crhallberg@gmail.com>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 class Recaptcha extends AbstractHelper
 {
@@ -54,6 +54,20 @@ class Recaptcha extends AbstractHelper
     protected $active;
 
     /**
+     * HTML prefix for ReCaptcha output.
+     *
+     * @var string
+     */
+    protected $prefixHtml = '';
+
+    /**
+     * HTML suffix for ReCaptcha output.
+     *
+     * @var string
+     */
+    protected $suffixHtml = '';
+
+    /**
      * Constructor
      *
      * @param \ZendService\Recaptcha\Recaptcha $rc     Custom formatted Recaptcha
@@ -62,7 +76,7 @@ class Recaptcha extends AbstractHelper
     public function __construct($rc, $config)
     {
         $this->recaptcha = $rc;
-        $this->active = isset($config->Captcha);
+        $this->active = isset($config->Captcha->forms);
     }
 
     /**
@@ -78,64 +92,26 @@ class Recaptcha extends AbstractHelper
     /**
      * Generate <div> with ReCaptcha from render.
      *
-     * @param boolean $useRecaptcha Boolean of active state, for compact templating
+     * @param bool $useRecaptcha Boolean of active state, for compact templating
+     * @param bool $wrapHtml     Include prefix and suffix?
      *
      * @return string $html
      */
-    public function html($useRecaptcha = true)
+    public function html($useRecaptcha = true, $wrapHtml = true)
     {
         if (!isset($useRecaptcha) || !$useRecaptcha) {
             return false;
         }
-
-        if ($this->recaptcha->getPublicKey() === null) {
-            throw new Exception('Missing public key');
+        if (!$wrapHtml) {
+            return $this->recaptcha->getHtml();
         }
-
-        $host = \ZendService\Recaptcha\Recaptcha::API_SERVER;
-
-        $params = $this->recaptcha->getParams();
-        if ((bool) $params['ssl'] === true) {
-            $host = \ZendService\Recaptcha\Recaptcha::API_SECURE_SERVER;
-        }
-
-        $errorPart = '';
-        if (!empty($params['error'])) {
-            $errorPart = '&error=' . urlencode($params['error']);
-        }
-
-        $options = $this->recaptcha->getOptions();
-        if (!empty($options)) {
-            $encoded = \Zend\Json\Json::encode($options);
-        } else {
-            $encoded = "{}";
-        }
-        $challengeField = 'recaptcha_challenge_field';
-        $responseField  = 'recaptcha_response_field';
-        if (!empty($name)) {
-            $challengeField = $name . '[' . $challengeField . ']';
-            $responseField  = $name . '[' . $responseField . ']';
-        }
-
-        return $this->view->render(
-            'Service/recaptcha.phtml',
-            [
-                'challengeField'   => $challengeField,
-                'errorPart'        => $errorPart,
-                'host'             => $host,
-                'options'          => $encoded,
-                'publicKey'        => $this->recaptcha->getPublicKey(),
-                'responseField'    => $responseField,
-                'theme'            => $options['theme'],
-                'useRecaptcha'     => $useRecaptcha,
-            ]
-        );
+        return $this->prefixHtml . $this->recaptcha->getHtml() . $this->suffixHtml;
     }
 
     /**
      * Return whether Captcha is active in the config
      *
-     * @return boolean
+     * @return bool
      */
     public function active()
     {

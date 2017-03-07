@@ -1,6 +1,6 @@
 <?php
 /**
- * Factory for Helpers used in the search process.
+ * Factory
  *
  * PHP version 5
  *
@@ -20,33 +20,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib VuFind2
- * @package  Swissbib\VuFind\Search\Helper
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Search_Helper
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-
-
-
-
-
 namespace Swissbib\VuFind\Search\Helper;
 use Zend\ServiceManager\ServiceManager;
 
-
 /**
- * Factory for controllers.
+ * Factory
  *
- * @category swissbib VuFind2
- * @package  Controller
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Search_Helper
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 class Factory
 {
-
     /**
      * Construct the RecordController.
      *
@@ -62,7 +55,13 @@ class Factory
         return new ExtendedSolrFactoryHelper($extendedTargets);
     }
 
-
+    /**
+     * GetTypeLabelMappingHelper
+     *
+     * @param ServiceManager $sm ServiceManager
+     *
+     * @return TypeLabelMappingHelper
+     */
     public static function getTypeLabelMappingHelper(ServiceManager $sm)
     {
         return new TypeLabelMappingHelper();

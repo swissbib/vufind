@@ -17,13 +17,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Recommendations
  * @author   Luke O'Sullivan <vufind-tech@lists.sourceforge.net>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.vufind.org  Main Page
+ * @link     https://vufind.org Main Page
  */
 namespace VuFind\Recommend;
 
@@ -37,11 +37,11 @@ use VuFindSearch\Query\Query,
  *
  * Originally developed by Luke O'Sullivan at Swansea University.
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Recommendations
  * @author   Luke O'Sullivan <vufind-tech@lists.sourceforge.net>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.vufind.org  Main Page
+ * @link     https://vufind.org Main Page
  */
 class RandomRecommend implements RecommendInterface
 {
@@ -151,7 +151,7 @@ class RandomRecommend implements RecommendInterface
 
         // all other params are filters and their values respectively
         for ($i = 5; $i < count($settings); $i += 2) {
-            if (isset($settings[$i+1])) {
+            if (isset($settings[$i + 1])) {
                 $this->filters[] = $settings[$i] . ':' . $settings[$i + 1];
             }
         }

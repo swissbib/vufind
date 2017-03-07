@@ -1,6 +1,6 @@
 <?php
 /**
- * swissbib / VuFind swissbib enhancements for Summon records
+ * Swissbib / VuFind swissbib enhancements for Summon records
  *
  * PHP version 5
  *
@@ -28,9 +28,7 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
-
 namespace Swissbib\RecordDriver;
-
 
 /**
  * Class SwissbibRecordDriver
@@ -59,14 +57,14 @@ interface SwissbibRecordDriver
     public function getAltTitle();
 
     /**
-     * get Cartographic Mathematical Data
+     * Get Cartographic Mathematical Data
      *
      * @return string
      */
     public function getCartMathData();
 
     /**
-     * get group-id from solr-field to display FRBR-Button
+     * Get group-id from solr-field to display FRBR-Button
      *
      * @return string|number
      */
@@ -133,12 +131,21 @@ interface SwissbibRecordDriver
      *
      * @param boolean $asString define return type
      *
-     * @return  array|string
+     * @return array|string
      */
     public function getCorporationNames($asString = true);
 
     /**
+     * DisplayHoldings
+     *
      * @return boolean
      */
     public function displayHoldings();
+
+    /**
+     * Get Hierarchical level of record
+     * 
+     * @return String
+     */
+    public function getHierachicalLevel();
 }

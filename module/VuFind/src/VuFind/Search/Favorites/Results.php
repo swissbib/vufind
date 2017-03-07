@@ -17,29 +17,35 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search_Favorites
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     https://vufind.org Main Site
  */
 namespace VuFind\Search\Favorites;
 use VuFind\Exception\ListPermission as ListPermissionException,
-    VuFind\Search\Base\Results as BaseResults;
+    VuFind\Search\Base\Results as BaseResults,
+    VuFind\Record\Cache,
+    ZfcRbac\Service\AuthorizationServiceAwareInterface,
+    ZfcRbac\Service\AuthorizationServiceAwareTrait;
 
 /**
  * Search Favorites Results
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search_Favorites
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     https://vufind.org Main Site
  */
 class Results extends BaseResults
+    implements AuthorizationServiceAwareInterface
 {
+    use AuthorizationServiceAwareTrait;
+
     /**
      * Object if user is logged in, false otherwise.
      *
@@ -120,8 +126,8 @@ class Results extends BaseResults
     protected function performSearch()
     {
         $list = $this->getListObject();
-        $account = $this->getParams()->getAuthManager();
-        $this->user = $account ? $account->isLoggedIn() : false;
+        $auth = $this->getAuthorizationService();
+        $this->user = $auth ? $auth->getIdentity() : false;
 
         // Make sure the user and/or list objects make it possible to view
         // the current result set -- we need to check logged in status and
@@ -167,8 +173,10 @@ class Results extends BaseResults
                 ]
             ];
         }
-        $this->results = $this->getServiceLocator()->get('VuFind\RecordLoader')
-            ->loadBatch($recordsToRequest);
+
+        $recordLoader = $this->getServiceLocator()->get('VuFind\RecordLoader');
+        $recordLoader->setCacheContext(Cache::CONTEXT_FAVORITE);
+        $this->results = $recordLoader->loadBatch($recordsToRequest);
     }
 
     /**

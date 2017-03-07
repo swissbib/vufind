@@ -19,12 +19,7 @@
             <div class="col-sm-<?=floor(12/$perPage) ?>">
               <a class="hover-overlay" href="<?=$this->recordLink()->getUrl($data)?>">
                 <? $thumb = $this->record($data)->getThumbnail('large'); ?>
-                <? if ($thumb):  ?>
                   <img src="<?=$thumb ?>" title="<?=$data->getTitle() ?>"/>
-                <? else: ?>
-                  <? $thumb = $this->record($data)->getThumbnailPlaceholder(); ?>
-                  <div class="thumbico <?= $thumb ?> bigico" title="<?=$data->getTitle() ?>"></div>
-                <? endif; ?>
                 <div class="content">
                   <? $formats = $data->getFormats(); ?>
                   <i class="fa fa-x<? if (count($formats) > 0): ?> fa-<?=preg_replace('/[^a-z0-9]/', '', strtolower($formats[0]))?>" title="<?=$formats[0] ?><? endif; ?>"></i>

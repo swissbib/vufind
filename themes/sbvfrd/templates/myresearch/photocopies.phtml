@@ -42,12 +42,11 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
             <?php foreach ($photoCopies as $index => $photoCopy): ?>
 
-            <tr class="<?=$iteration % 2 == 1 ? 'even' : 'odd'?>row">
+            <tr>
                 <?
                 $flippedContent .= $this->render('myresearch/photocopies-flipped.phtml', array(
                     'photoCopy'    => $photoCopy,
-                    'headers' => $headers,
-                    'even'    => (0 === $iteration % 2)
+                    'headers' => $headers
                 ));
                 ?>
                 <td>

@@ -20,24 +20,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Resolver_Drivers
  * @author   Graham Seaman <Graham.Seaman@rhul.ac.uk>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:link_resolver_drivers Wiki
+ * @link     https://vufind.org/wiki/development:plugins:link_resolver_drivers Wiki
  */
 namespace VuFind\Resolver\Driver;
 
 /**
  * SFX Link Resolver Driver
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Resolver_Drivers
  * @author   Graham Seaman <Graham.Seaman@rhul.ac.uk>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:link_resolver_drivers Wiki
+ * @link     https://vufind.org/wiki/development:plugins:link_resolver_drivers Wiki
  */
 class Sfx implements DriverInterface
 {
@@ -111,8 +111,15 @@ class Sfx implements DriverInterface
             $record['title'] = (string)$target->target_public_name;
             $record['href'] = (string)$target->target_url;
             $record['service_type'] = (string)$target->service_type;
-            $record['coverage'] = (string)$target->coverage->coverage_text
-                ->threshold_text->coverage_statement;
+            if (isset($target->coverage->coverage_text)) {
+                $coverageText = & $target->coverage->coverage_text;
+                $record['coverage'] = (string)$coverageText
+                    ->threshold_text->coverage_statement;
+                if (isset($coverageText->embargo_text->embargo_statement)) {
+                    $record['coverage'] .= ' ' . (string)$coverageText
+                        ->embargo_text->embargo_statement;
+                }
+            }
             array_push($records, $record);
         }
         return $records;

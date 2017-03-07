@@ -17,13 +17,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  ILS_Drivers
  * @author   Adam Brin <abrin@brynmawr.com>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:building_an_ils_driver Wiki
+ * @link     https://vufind.org/wiki/development:plugins:ils_drivers Wiki
  */
 namespace VuFind\ILS\Driver;
 use VuFind\Exception\ILS as ILSException;
@@ -34,11 +34,11 @@ use VuFind\Exception\ILS as ILSException;
  * This class uses screen scraping techniques to gather record holdings written
  * by Adam Bryn of the Tri-College consortium.
  *
- * @category VuFind2
+ * @category VuFind
  * @package  ILS_Drivers
  * @author   Adam Brin <abrin@brynmawr.com>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:building_an_ils_driver Wiki
+ * @link     https://vufind.org/wiki/development:plugins:ils_drivers Wiki
  */
 class Innovative extends AbstractBase implements
     \VuFindHttp\HttpServiceAwareInterface
@@ -144,7 +144,7 @@ class Innovative extends AbstractBase implements
         // '<table class="bibItems" '
         $r = substr($result, stripos($result, 'bibItems'));
         // strip out the rest of the first table tag.
-        $r = substr($r, strpos($r, ">")+1);
+        $r = substr($r, strpos($r, ">") + 1);
         // strip out the next table closing tag and everything after it.
         $r = substr($r, 0, stripos($r, "</table"));
 
@@ -189,28 +189,28 @@ class Innovative extends AbstractBase implements
                 } else if ($count > 1) { // not the first row, has holding info
                     //look for location column
                     if (stripos($keys[$i], $loc_col_name) > -1) {
-                        $ret[$count-2]['location'] = strip_tags($cols[$i]);
+                        $ret[$count - 2]['location'] = strip_tags($cols[$i]);
                     }
                     // Does column hold reserves information?
                     if (stripos($keys[$i], $reserves_col_name) > -1) {
                         if (stripos($cols[$i], $reserves_key_name) > -1) {
-                            $ret[$count-2]['reserve'] = 'Y';
+                            $ret[$count - 2]['reserve'] = 'Y';
                         } else {
-                            $ret[$count-2]['reserve'] = 'N';
+                            $ret[$count - 2]['reserve'] = 'N';
                         }
                     }
                     // Does column hold call numbers?
                     if (stripos($keys[$i], $call_col_name) > -1) {
-                        $ret[$count-2]['callnumber'] = strip_tags($cols[$i]);
+                        $ret[$count - 2]['callnumber'] = strip_tags($cols[$i]);
                     }
                     // Look for status information.
                     if (stripos($keys[$i], $status_col_name) > -1) {
                         if (stripos($cols[$i], $stat_avail) > -1) {
-                            $ret[$count-2]['status'] = "Available On Shelf";
-                            $ret[$count-2]['availability'] = 1;
+                            $ret[$count - 2]['status'] = "Available On Shelf";
+                            $ret[$count - 2]['availability'] = 1;
                         } else {
-                            $ret[$count-2]['status'] = "Available to request";
-                            $ret[$count-2]['availability'] = 0;
+                            $ret[$count - 2]['status'] = "Available to request";
+                            $ret[$count - 2]['availability'] = 0;
                         }
                         if (stripos($cols[$i], $stat_due) > -1) {
                             $t = trim(
@@ -220,17 +220,17 @@ class Innovative extends AbstractBase implements
                                 )
                             );
                             $t = substr($t, 0, stripos($t, " "));
-                            $ret[$count-2]['duedate'] = $t;
+                            $ret[$count - 2]['duedate'] = $t;
                         }
                     }
                     //$ret[$count-2][$keys[$i]] = $cols[$i];
                     //$ret[$count-2]['id'] = $bibid;
-                    $ret[$count-2]['id'] = $id;
-                    $ret[$count-2]['number'] = ($count -1);
+                    $ret[$count - 2]['id'] = $id;
+                    $ret[$count - 2]['number'] = ($count - 1);
                     // Return a fake barcode so hold link is enabled
                     // TODO: Should be dependent on settings variable, if bib level
                     // holds.
-                    $ret[$count-2]['barcode'] = '1234567890123';
+                    $ret[$count - 2]['barcode'] = '1234567890123';
                 }
             }
             $count++;

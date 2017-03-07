@@ -15,7 +15,7 @@ $query = $this->results->getUrlQuery();
     $suggestions instanceof Swissbib\VuFind\Search\Solr\SpellingResults &&  $suggestions->hasSuggestions()) : ?>
 
     <div class="alert">
-        <p><?=$this->transEsc('Your search terms')?>: <?= $suggestions->getSpellingQuery()->getAllTerms() ?></p>
+        <p><?=$this->transEsc('Your search terms')?>: <?= $this->escapeHtml($suggestions->getSpellingQuery()->getAllTerms()) ?></p>
     </div>
 
     <div class="alert">
@@ -52,7 +52,7 @@ $query = $this->results->getUrlQuery();
     </div>
     <div class="alert">
         <h4><?=$this->transEsc('nohit_tip') ?></h4>
-        <p><a class="help-link" href="<?=$this->url('help-home')?>?topic=search"><?= $this->transEsc('Search Tips') ?></a></p>
+        <p><a class="help-link" data-lightbox href="<?=$this->url('help-home')?>?topic=search"><?= $this->transEsc('Search Tips') ?></a></p>
         <p><a href="<?=$this->url('search-advanced')?>"><?=$this->transEsc('Advanced Search')?></a> <?=$this->transEsc('nohit_text5') ?> </p>
     </div>
 <? endif; ?>

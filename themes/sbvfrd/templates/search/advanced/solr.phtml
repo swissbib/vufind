@@ -40,21 +40,21 @@ $favoriteLanguages = array('ger', 'eng', 'fre', 'ita');
 
               <?php if (strtolower($field) === "format_str_mv") : ?>
 
-                <option value='~format_str_mv:"BK01*"' title="article"><?= $this->transEsc('BK01*') ?></option>
-                <option value='~format_str_mv:"BK02*"' title="book"><?= $this->transEsc('BK02*') ?></option>
-                <option value='~format_str_mv:"CR03*"' title="continuing"><?= $this->transEsc('CR03*') ?></option>
-                <option value='~format_str_mv:"CL0*"' title="collection"><?= $this->transEsc('CL0*') ?></option>
-                <option value='~format_str_mv:"MU01*"' title="sheet_music"><?= $this->transEsc('MU01*') ?></option>
-                <option value='~format_str_mv:"MU03*"' title="sound"><?= $this->transEsc('MU03*') ?></option>
-                <option value='~format_str_mv:"MU04*"' title="music"><?= $this->transEsc('MU04*') ?></option>
-                <option value='~format_str_mv:"MP0*"' title="map"><?= $this->transEsc('MP0*') ?></option>
-                <option value='~format_str_mv:"VM01*"' title="film"><?= $this->transEsc('VM01*') ?></option>
-                <option value='~format_str_mv:"VM02*"' title="picture"><?= $this->transEsc('VM02*') ?></option>
-                <option value='~format_str_mv:"VM03*"' title="mx_game"><?= $this->transEsc('VM03*') ?></option>
-                <option value='~format_str_mv:"VM04*"' title="object"><?= $this->transEsc('VM04*') ?></option>
-                <option value='~format_str_mv:"CF0*"' title="software"><?= $this->transEsc('CF0*') ?></option>
+                <option value='~format_str_mv:"BK01*"' title="article"><?= $this->zendTranslate('BK01*', 'formats') ?></option>
+                <option value='~format_str_mv:"BK02*"' title="book"><?= $this->zendTranslate('BK02*', 'formats') ?></option>
+                <option value='~format_str_mv:"CR03*"' title="continuing"><?= $this->zendTranslate('CR03*', 'formats') ?></option>
+                <option value='~format_str_mv:"CL0*"' title="collection"><?= $this->zendTranslate('CL0*', 'formats') ?></option>
+                <option value='~format_str_mv:"MU01*"' title="sheet_music"><?= $this->zendTranslate('MU01*', 'formats') ?></option>
+                <option value='~format_str_mv:"MU03*"' title="sound"><?= $this->zendTranslate('MU03*', 'formats') ?></option>
+                <option value='~format_str_mv:"MU04*"' title="music"><?= $this->zendTranslate('MU04*', 'formats') ?></option>
+                <option value='~format_str_mv:"MP0*"' title="map"><?= $this->zendTranslate('MP0*', 'formats') ?></option>
+                <option value='~format_str_mv:"VM01*"' title="film"><?= $this->zendTranslate('VM01*', 'formats') ?></option>
+                <option value='~format_str_mv:"VM02*"' title="picture"><?= $this->zendTranslate('VM02*', 'formats') ?></option>
+                <option value='~format_str_mv:"VM03*"' title="mx_game"><?= $this->zendTranslate('VM03*', 'formats') ?></option>
+                <option value='~format_str_mv:"VM04*"' title="object"><?= $this->zendTranslate('VM04*', 'formats') ?></option>
+                <option value='~format_str_mv:"CF0*"' title="software"><?= $this->zendTranslate('CF0*', 'formats') ?></option>
 
-                <optgroup label="<?= $this->transEsc('all_formats') ?>">
+                <optgroup label="<?= $this->zendTranslate('all_formats', 'formats') ?>">
               <?php endif; ?>
 
               <? foreach ($sorted as $index => $display): ?>

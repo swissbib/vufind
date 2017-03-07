@@ -94,7 +94,7 @@
     </tr>
     <? if ($this->cancelForm && isset($ilsDetails['cancel_details']) || (isset($this->cancelResults['items']))): ?>
     <tr>
-        <th><?=$headers['action']?></th>
+        <th><?= isset($headers['action']) ? $headers['action'] : '' ?></th>
         <td>
             <? if ($this->cancelForm && isset($ilsDetails['cancel_details'])): ?>
                 <? $safeId = preg_replace('/[^a-zA-Z0-9]/', '', $resource->getUniqueId()); ?>

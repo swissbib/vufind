@@ -1,8 +1,4 @@
 <h1>Recherche</h1>
-<p>Dans swissbib Basel Bern une recherche peut être effectuée dans deux bases de données différentes: <strong>Livres et plus</strong> ainsi que <strong>Articles et plus</strong> (voir également <a href="<?= $this->url('help-page', array('topic' => 'about')); ?>"><?= $this->transEsc('helppage.about') ?></a>). Choisissez la base de donnée que vous souhaitez consulter en sélectionnant l'onglet correspondant en-dessus de la barre de recherche.</p>
-
-<iframe width="230" height="160" src="https://tube.switch.ch/embed/8e47b4c8" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-
 <h2>Combiner des critères de recherche</h2>
 <p>Les opérateurs booléens (AND, OR, NOT) permettent de relier de façon logique des critères de recherche les uns aux autres. Les opérateurs booléens sont écrits en majuscules.</p>
 <table class="table table-striped">
@@ -25,7 +21,7 @@
     </tr>
     <tr>
         <td>Combinaisons plus complexes</td>
-        <td>Voir sous <a class="help-link" href="<?=$this->url('help-home')?>?topic=search" title="<?=$this->transEsc('Help with Search Operators')?>"><?=$this->transEsc("Help with Search Operators")?></a>.
+        <td>Voir sous <a class="help-link" data-lightbox href="<?=$this->url('help-home')?>?topic=search" title="<?=$this->transEsc('Help with Search Operators')?>"><?=$this->transEsc("Help with Search Operators")?></a>.
         </td>
     </tr>
     </tbody>
@@ -80,14 +76,3 @@
     </tr>
     </tbody>
 </table>
-<h2>Affiner la recherche</h2>
-<p>Utilisez les filtres situés dans la colonne de droite (à côté des résultats de votre recherche) afin de limiter le nombre de notices, par exemple en choisissant la langue, la bibliothèque, l'accès en ligne, la thématique etc.</p>
-<p>Dans "Articles et plus" vous pouvez élargir la liste des résultats de la colonne de droite afin d'inclure des articles sans texte intégral ou bien des articles de journaux. Vous pouvez ainsi affiner la liste des résultats en obtenant uniquement les textes reconnus par la communauté scientifique (peer-reviewed journals).</p>
-<h2>Recherche avancée</h2>
-<p>Dans la recherche avancée vous pouvez associer les uns aux autres des mots-clés de différents champs. Par exemple un mot-clé du titre et un nom d'auteur.</p>
-<p>Afin d'associer les différents critères de recherche, les opérateurs booléens AND, OR, NOT sont à votre disposition.</p>
-<p>A l'aide de la recherche affinée vous pouvez directement filtrer selon les différents critères la liste de vos résultats (la langue, le format, la bibliothèque, la date de parution).</p>
-<p><strong>Exemple:</strong> Effectuez une recherche des ouvrages de l'auteur Begon. Dans le titre doivent apparaître soit le mot "Oekologie" soit le mot "Ecology". Ces ouvrages doivent être écrits soit en allemand soit en anglais, ils doivent être parus entre 2005 et 2015 et sont disponibles à la BU de Bâle.</p>
-<a href="<?= $this->basePath('themes/sbvfrdmulti/images/HelpPage/en/advancedsearch.jpg') ?>" class="help">
-    <img class="img-responsive" src="<?= $this->basePath('themes/sbvfrdmulti/images/HelpPage/fr/advancedsearch.jpg') ?>" alt="Zoom" width="600">
-</a>

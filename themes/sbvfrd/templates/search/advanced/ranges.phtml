@@ -10,7 +10,8 @@
         <? if ($current['type'] == 'date'): ?>
           <?
           $this->headScript()->appendFile('vendor/bootstrap-slider.js');
-          $min = !empty($current['values'][0]) ? min($current['values'][0], 1450) : 1450;
+          $this->headLink()->appendStylesheet('vendor/bootstrap-slider.min.css');
+          $min = !empty($current['values'][0]) ? min($current['values'][0], 300) : 300;
           $future = date('Y', time()+31536000);
           $max = !empty($current['values'][1]) ? max($future, $current['values'][1]) : $future;
           $low  = !empty($current['values'][0]) ? $current['values'][0] : $min;

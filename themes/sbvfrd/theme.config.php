@@ -7,10 +7,13 @@ return array(
     'compiled.less'
   ),
 
+  'css' => array(
+  ),
+
   'js'      => array(
     'vendor/jquery/plugin/jquery.cookie.js',
     'vendor/jquery/plugin/loadmask/jquery.loadmask.js',
-    'vendor/chosen/chosen.jquery.min.js',
+      'vendor/chosen/chosen.jquery.min.js',
 
     'vendor/jstorage/jstorage.min.js', //used for favorites - there is still some amount of JS code inline of the page -> Todo: Refactoring in upcoming Sprints
     'vendor/handlebars/handlebars.js', //wird in swissbib/AdvancedSearch.js verwendet
@@ -19,6 +22,7 @@ return array(
 
     'vendor/jsTree/jstree.min.js',
 
+    'autocomplete.js',
     'swissbib/swissbib.js',
     'swissbib/common.js',
     'swissbib/AdvancedSearch.js',
@@ -39,15 +43,14 @@ return array(
       'auth'                      => 'Swissbib\View\Helper\Swissbib\Factory::getAuth',
       'layoutClass'               => 'Swissbib\View\Helper\Swissbib\Factory::getLayoutClass',
       'searchtabs'                => 'Swissbib\View\Helper\Swissbib\Factory::getSearchTabs',
-      'searchParams'              => 'Swissbib\View\Helper\Swissbib\Factory::getSearchParams',
-      'searchOptions'             => 'Swissbib\View\Helper\Swissbib\Factory::getSearchOptions',
-      'searchBox'                 => 'Swissbib\View\Helper\Swissbib\Factory::getSearchBox',
       'includeTemplate'           => 'Swissbib\View\Helper\Swissbib\Factory::getIncludeTemplate',
       'translateFacets'           => 'Swissbib\View\Helper\Swissbib\Factory::getFacetTranslator',
       'formatRelatedEntries'      => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
+      'piwik'                     => 'Swissbib\View\Helper\Swissbib\Factory::getPiwik',
+      'nationalLicences'          => 'Swissbib\View\Helper\Swissbib\Factory::getNationalLicences',
     ),
     'invokables' => array(
-      'translate' => 'Swissbib\VuFind\View\Helper\Root\Translate',
+      //'translate' => 'Swissbib\VuFind\View\Helper\Root\Translate',
     )
   )
 );

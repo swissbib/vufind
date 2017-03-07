@@ -1,6 +1,6 @@
 <?php
 /**
- * Solr spelling processor.
+ * Factory
  *
  * PHP version 5
  *
@@ -19,39 +19,48 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category VuFind2 / Swissbib
- * @package  Search_Solr
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Search_Solr
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org  Main Page
  */
-
 namespace Swissbib\VuFind\Search\Solr;
-
 
 use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory to create specialized types in the Search/Solr namespace
  *
- * @category VuFind2 / Swissbib
- * @package  Search_Solr
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Search_Solr
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class Factory {
-
-
-
-    public static function getSpellchecker(ServiceManager $sm) {
+class Factory
+{
+    /**
+     * GetSpellchecker
+     *
+     * @param ServiceManager $sm ServiceManager
+     *
+     * @return SpellingProcessor
+     */
+    public static function getSpellchecker(ServiceManager $sm)
+    {
         return new SpellingProcessor($sm->get("sbSpellingResults"));
     }
 
-    public static function getSpellingResults(ServiceManager $sm) {
+    /**
+     * GetSpellingResults
+     *
+     * @param ServiceManager $sm ServiceManagers
+     *
+     * @return SpellingResults
+     */
+    public static function getSpellingResults(ServiceManager $sm)
+    {
         return new SpellingResults();
     }
-
-
-
 }

@@ -12,13 +12,24 @@ $responsible          = $viewRecord->getResponsible($titleStatement, $record);
 $this->headTitle($this->translate('request_place_text') . ': ' . $this->driver->getBreadcrumb());
 
 // Set up breadcrumbs:
-$this->layout()->breadcrumbs = '<li>' . $this->getLastSearchLink($this->transEsc('Search'), '', '</li> ')
+$this->layout()->breadcrumbs = '<li>' . $this->searchMemory()->getLastSearchLink($this->transEsc('Search'), '', '</li> ')
     . '<li>' . $this->recordLink()->getBreadcrumb($this->driver) . '</li> '
     . '<li class="active">' . $this->transEsc('request_place_text') . '</li>';
+
+$today = strtotime('now');
+
+$unsetPickup[] = 'POPA';
+
+// unterdrückt Pickup locations während Schliesszeiten
+//if ($today > strtotime('2016-07-15') && $today < strtotime('2016-07-28')):
+//    $unsetPickup[] = 'A296';
+//endif;
+
+
 ?>
 <p class="lead"><?=$this->transEsc('request_place_text')?></p>
-<p><?=$this->transEsc('request_title') ?>: <a href="<?=$this->recordLink()->getUrl($this->driver) ?>" target="_blank"> <?= $this->escapeHtml($shortTitle) ?> <? if (!empty($responsible)): ?> <?=' / ' . $this->escapeHtml($responsible)?><? endif; ?></a><p>
-<p><?=$this->transEsc('hold_text4') ?> <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>" target="_blank"><?=$this->transEsc('hold_text5')?></a>.</p><br/>
+<p><?=$this->transEsc('request_title') ?>: <a href="<?=$this->recordLink()->getUrl($this->driver) ?>" target="_blank" data-lightbox-ignore> <?= $this->escapeHtml($shortTitle) ?> <? if (!empty($responsible)): ?> <?=' / ' . $this->escapeHtml($responsible)?><? endif; ?></a><p>
+<p><?=$this->transEsc('hold_text4') ?> <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>" target="_blank" data-lightbox-ignore><?=$this->transEsc('hold_text5')?></a>.</p><br/>
 <? if ($this->helpText): ?>
     <p class="helptext"><?=$this->helpText?></p>
 <? endif; ?>
@@ -60,7 +71,7 @@ $this->layout()->breadcrumbs = '<li>' . $this->getLastSearchLink($this->transEsc
                         <select id="pickUpLocation" name="gatheredDetails[pickUpLocation]" class="form-control">
                             <option value="" selected="selected">[<?=$this->transEsc('select pickup location')?>:]</option>
                             <? foreach ($this->pickup as $lib): ?>
-                                <?php if($lib['locationID'] === 'POPA'): ?>
+                                <?php if(in_array($lib['locationID'], $unsetPickup)): ?>
                                     <? unset($lib); ?>
                                 <?php else: ?>
                                     <option value="<?=$this->escapeHtml($lib['locationID'])?>">

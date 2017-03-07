@@ -1,18 +1,22 @@
 <h1>User account / My swissbib</h1>
-<p>Your account (<a href="<?= $this->url('myresearch-checkedout') ?>">My swissbib</a>) contains information about your loans, orders, reminders and  fees. Use it to renew your loans or<a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://aleph.unibas.ch/F/?func=file&file_name=login-session&con_lng') ?>"> update personal data</a>  and <a href="<?= $this->url('myresearch-settings'); ?>"><?= $this->transEsc('My_Search_Settings') ?></a>.</p>
+<p>Your account (<a href="<?= $this->url('myresearch-checkedout') ?>">My swissbib</a>) contains information about your loans, orders, reminders and  fees. Use it to renew your loans or<a href="<?= $this->url('myresearch-changeaddress'); ?>"> update personal data</a>  and <a href="<?= $this->url('myresearch-settings'); ?>"><?= $this->transEsc('My_Search_Settings') ?></a>.</p>
 <h2>No account yet?</h2>
-<p><a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://aleph.unibas.ch/F/?func=bor-new-0') ?>" target="_blank"><?= $this->transEsc('Create New Account') ?></a> (or ask a librarian in one of our libraries in <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/bibliotheksnetz/verbund-basel/bibliotheken-im-verbund/liste-der-bibliotheken') ?>" target="_blank">Basel</a> or <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibe.ch/content/ueber_uns/bibliotheken_der_ub/berner_ids_bibliotheken') ?>" target="_blank">Bern</a>)</p>
+<p><a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://aleph.unibas.ch/F/?func=bor-new-0') ?>" target="_blank"><?= $this->transEsc('Create New Account') ?></a> (or ask a librarian in one of our libraries in <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/bibliotheksnetz/verbund-basel/bibliotheken-im-verbund/liste-der-bibliotheken') ?>" target="_blank">Basel</a> or <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/berner_ids_bibliotheken/liste/index_ger.html') ?>" target="_blank">Bern</a>)</p>
 <p>Accounts from other <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.informationsverbund.ch/21.0.html') ?>" target="_blank" title="IDS-Bibliothek">IDS-libraries</a> are also <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.informationsverbund.ch/6.0.html') ?>" target="_blank">valid</a> for swissbib Basel Bern, as well as students' cards and university staff cards from Basel and Bern.</p>
 <h2>Forgot your password?</h2>
-<p>Get in touch with your <a href="<?= $this->basePath('Libraries') ?>" title="Liste der Institutionen">library</a>.</p>
+<p>Get in touch with:</p>
+<ul>
+    <li>Region Basel: <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#105;&#110;&#102;&#111;&#45;&#117;&#98;&#64;&#117;&#110;&#105;&#98;&#97;&#115;&#46;&#99;&#104;">&#105;&#110;&#102;&#111;&#45;&#117;&#98;&#64;&#117;&#110;&#105;&#98;&#97;&#115;&#46;&#99;&#104;</a></li>
+    <li>Region Bern: <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#105;&#110;&#102;&#111;&#64;&#117;&#98;&#46;&#117;&#110;&#105;&#98;&#101;&#46;&#99;&#104;">&#105;&#110;&#102;&#111;&#64;&#117;&#98;&#46;&#117;&#110;&#105;&#98;&#101;&#46;&#99;&#104;</a></li>
+</ul>
 <h2>Lost your user-ID?</h2>
-<p>Contact your library: <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/bibliotheksnetz/verbund-basel/bibliotheken-im-verbund/liste-der-bibliotheken') ?>" target="_blank">libraries in Basel</a>, <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibe.ch/content/ueber_uns/bibliotheken_der_ub/berner_ids_bibliotheken') ?>" target="_blank">libraries in Bern</a>. A replacement fee is due, please bring an ID-Card along.</p>
+<p>Contact your library: <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/bibliotheksnetz/verbund-basel/bibliotheken-im-verbund/liste-der-bibliotheken') ?>" target="_blank">libraries in Basel</a>, <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/berner_ids_bibliotheken/liste/index_ger.html') ?>" target="_blank">libraries in Bern</a>. A replacement fee is due, please bring an ID-Card along.</p>
 <h1>Personalised settings</h1>
 <h2>Saved searches</h2>
 <p>When not logged in your search history is saved for the duration of your browser session only. A log-in enables you to save your search history permanently.</p>
 <h2>Preferences</h2>
 <p>Choose your interface language, number of hits per page, as well as search criteria for sorting your results lists. Preferences are only available when logged-in.</p>
-<h2>Favorites</h2>
-<p>Mark a library as favorite via search <a href="<?=$this->url('myresearch-favorite-institutions')?>"><?=$this->transEsc('mylibraries')?></a> or choose a particular library from the list <i class="fa fa-heart-o"></i>. Favorites in your search lists are marked with a <i class="fa fa-heart"></i>. If logged-in your search results can be filtered by your favorites.</p>
+<h2>My libraries</h2>
+<p>Mark a library as My library via search <a href="<?=$this->url('myresearch-favorite-institutions')?>"><?=$this->transEsc('mylibraries')?></a> or choose a particular library from the list <i class="fa fa-heart-o"></i>. My libraries in your search lists are marked with a <i class="fa fa-heart"></i>. If logged-in your search results can be filtered by your libraries.</p>
 <h2>Lists</h2>
 <p>When logged-in you can create lists by clicking <i class="fa fa-list-ul"></i>. Lists help you keep track of specific results.</p>

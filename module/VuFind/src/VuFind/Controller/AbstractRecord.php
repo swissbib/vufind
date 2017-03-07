@@ -17,27 +17,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Controller
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:building_a_controller Wiki
+ * @link     https://vufind.org/wiki/development:plugins:controllers Wiki
  */
 namespace VuFind\Controller;
-use VuFind\Exception\Mail as MailException,
-    VuFind\RecordDriver\AbstractBase as AbstractRecordDriver,
-    Zend\Session\Container as SessionContainer;
+use VuFind\Exception\Forbidden as ForbiddenException,
+    VuFind\Exception\Mail as MailException,
+    VuFind\RecordDriver\AbstractBase as AbstractRecordDriver;
 
 /**
  * VuFind Record Controller
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Controller
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:building_a_controller Wiki
+ * @link     https://vufind.org/wiki/development:plugins:controllers Wiki
  */
 class AbstractRecord extends AbstractBase
 {
@@ -105,8 +105,20 @@ class AbstractRecord extends AbstractBase
      */
     public function addcommentAction()
     {
+        // Make sure comments are enabled:
+        if (!$this->commentsEnabled()) {
+            throw new ForbiddenException('Comments disabled');
+        }
+
+        $recaptchaActive = $this->recaptcha()->active('userComments');
+
         // Force login:
         if (!($user = $this->getUser())) {
+            // Validate CAPTCHA before redirecting to login:
+            if (!$this->formWasSubmitted('comment', $recaptchaActive)) {
+                return $this->redirectToRecord('', 'UserComments');
+            }
+
             // Remember comment since POST data will be lost:
             return $this->forceLogin(
                 null, ['comment' => $this->params()->fromPost('comment')]
@@ -120,6 +132,11 @@ class AbstractRecord extends AbstractBase
         $comment = $this->params()->fromPost('comment');
         if (empty($comment)) {
             $comment = $this->followup()->retrieveAndClear('comment');
+        } else {
+            // Validate CAPTCHA now only if we're not coming back post-login:
+            if (!$this->formWasSubmitted('comment', $recaptchaActive)) {
+                return $this->redirectToRecord('', 'UserComments');
+            }
         }
 
         // At this point, we should have a comment to save; if we do not,
@@ -128,14 +145,12 @@ class AbstractRecord extends AbstractBase
         if (!empty($comment)) {
             $table = $this->getTable('Resource');
             $resource = $table->findResource(
-                $driver->getUniqueId(), $driver->getResourceSource(), true, $driver
+                $driver->getUniqueId(), $driver->getSourceIdentifier(), true, $driver
             );
             $resource->addComment($comment, $user);
-            $this->flashMessenger()->setNamespace('success')
-                ->addMessage('add_comment_success');
+            $this->flashMessenger()->addMessage('add_comment_success', 'success');
         } else {
-            $this->flashMessenger()->setNamespace('error')
-                ->addMessage('add_comment_fail_blank');
+            $this->flashMessenger()->addMessage('add_comment_fail_blank', 'error');
         }
 
         return $this->redirectToRecord('', 'UserComments');
@@ -148,6 +163,11 @@ class AbstractRecord extends AbstractBase
      */
     public function deletecommentAction()
     {
+        // Make sure comments are enabled:
+        if (!$this->commentsEnabled()) {
+            throw new ForbiddenException('Comments disabled');
+        }
+
         // Force login:
         if (!($user = $this->getUser())) {
             return $this->forceLogin();
@@ -155,11 +175,9 @@ class AbstractRecord extends AbstractBase
         $id = $this->params()->fromQuery('delete');
         $table = $this->getTable('Comments');
         if (!is_null($id) && $table->deleteIfOwnedByUser($id, $user)) {
-            $this->flashMessenger()->setNamespace('success')
-                ->addMessage('delete_comment_success');
+            $this->flashMessenger()->addMessage('delete_comment_success', 'success');
         } else {
-            $this->flashMessenger()->setNamespace('error')
-                ->addMessage('delete_comment_failure');
+            $this->flashMessenger()->addMessage('delete_comment_failure', 'error');
         }
         return $this->redirectToRecord('', 'UserComments');
     }
@@ -173,7 +191,7 @@ class AbstractRecord extends AbstractBase
     {
         // Make sure tags are enabled:
         if (!$this->tagsEnabled()) {
-            throw new \Exception('Tags disabled');
+            throw new ForbiddenException('Tags disabled');
         }
 
         // Force login:
@@ -188,8 +206,8 @@ class AbstractRecord extends AbstractBase
         if ($tags = $this->params()->fromPost('tag')) {
             $tagParser = $this->getServiceLocator()->get('VuFind\Tags');
             $driver->addTags($user, $tagParser->parse($tags));
-            $this->flashMessenger()->setNamespace('success')
-                ->addMessage(['msg' => 'add_tag_success']);
+            $this->flashMessenger()
+                ->addMessage(['msg' => 'add_tag_success'], 'success');
             return $this->redirectToRecord();
         }
 
@@ -208,7 +226,7 @@ class AbstractRecord extends AbstractBase
     {
         // Make sure tags are enabled:
         if (!$this->tagsEnabled()) {
-            throw new \Exception('Tags disabled');
+            throw new ForbiddenException('Tags disabled');
         }
 
         // Force login:
@@ -222,13 +240,12 @@ class AbstractRecord extends AbstractBase
         // Save tags, if any:
         if ($tag = $this->params()->fromPost('tag')) {
             $driver->deleteTags($user, [$tag]);
-            $this->flashMessenger()->setNamespace('success')
-                ->addMessage(
-                    [
-                        'msg' => 'tags_deleted',
-                        'tokens' => ['%count%' => 1]
-                    ]
-                );
+            $this->flashMessenger()->addMessage(
+                [
+                    'msg' => 'tags_deleted',
+                    'tokens' => ['%count%' => 1]
+                ], 'success'
+            );
         }
 
         return $this->redirectToRecord();
@@ -260,6 +277,7 @@ class AbstractRecord extends AbstractBase
     public function ajaxtabAction()
     {
         $this->loadRecord();
+        // Set layout to render content only:
         $this->layout()->setTemplate('layout/lightbox');
         return $this->showTab(
             $this->params()->fromPost('tab', $this->getDefaultTab()), true
@@ -282,12 +300,19 @@ class AbstractRecord extends AbstractBase
         $driver = $this->loadRecord();
         $post = $this->getRequest()->getPost()->toArray();
         $tagParser = $this->getServiceLocator()->get('VuFind\Tags');
-        $post['mytags'] = $tagParser->parse($post['mytags']);
-        $driver->saveToFavorites($post, $user);
+        $post['mytags']
+            = $tagParser->parse(isset($post['mytags']) ? $post['mytags'] : '');
+        $results = $driver->saveToFavorites($post, $user);
 
         // Display a success status message:
-        $this->flashMessenger()->setNamespace('success')
-            ->addMessage('bulk_save_success');
+        $listUrl = $this->url()->fromRoute('userList', ['id' => $results['listId']]);
+        $message = [
+            'html' => true,
+            'msg' => $this->translate('bulk_save_success') . '. '
+            . '<a href="' . $listUrl . '" class="gotolist">'
+            . $this->translate('go_to_list') . '</a>.'
+        ];
+        $this->flashMessenger()->addMessage($message, 'success');
 
         // redirect to followup url saved in saveAction
         if ($url = $this->getFollowupUrl()) {
@@ -309,7 +334,7 @@ class AbstractRecord extends AbstractBase
     {
         // Fail if lists are disabled:
         if (!$this->listsEnabled()) {
-            throw new \Exception('Lists disabled');
+            throw new ForbiddenException('Lists disabled');
         }
 
         // Process form submission:
@@ -343,7 +368,7 @@ class AbstractRecord extends AbstractBase
         // Find out if the item is already part of any lists; save list info/IDs
         $listIds = [];
         $resources = $user->getSavedData(
-            $driver->getUniqueId(), null, $driver->getResourceSource()
+            $driver->getUniqueId(), null, $driver->getSourceIdentifier()
         );
         foreach ($resources as $userResource) {
             $listIds[] = $userResource->list_id;
@@ -412,12 +437,10 @@ class AbstractRecord extends AbstractBase
                     $view->to, $view->from, $view->message, $driver,
                     $this->getViewRenderer(), $view->subject, $cc
                 );
-                $this->flashMessenger()->setNamespace('success')
-                    ->addMessage('email_success');
+                $this->flashMessenger()->addMessage('email_success', 'success');
                 return $this->redirectToRecord();
             } catch (MailException $e) {
-                $this->flashMessenger()->setNamespace('error')
-                    ->addMessage($e->getMessage());
+                $this->flashMessenger()->addMessage($e->getMessage(), 'error');
             }
         }
 
@@ -456,12 +479,10 @@ class AbstractRecord extends AbstractBase
                     ['driver' => $driver, 'to' => $view->to]
                 );
                 $sms->text($view->provider, $view->to, null, $body);
-                $this->flashMessenger()->setNamespace('success')
-                    ->addMessage('sms_success');
+                $this->flashMessenger()->addMessage('sms_success', 'success');
                 return $this->redirectToRecord();
             } catch (MailException $e) {
-                $this->flashMessenger()->setNamespace('error')
-                    ->addMessage($e->getMessage());
+                $this->flashMessenger()->addMessage($e->getMessage(), 'error');
             }
         }
 
@@ -497,8 +518,8 @@ class AbstractRecord extends AbstractBase
         $export = $this->getServiceLocator()->get('VuFind\Export');
         if (empty($format) || !$export->recordSupportsFormat($driver, $format)) {
             if (!empty($format)) {
-                $this->flashMessenger()->setNamespace('error')
-                    ->addMessage('export_invalid_format');
+                $this->flashMessenger()
+                    ->addMessage('export_invalid_format', 'error');
             }
             $view->setTemplate('record/export-menu');
             return $view;
@@ -552,9 +573,15 @@ class AbstractRecord extends AbstractBase
         // common scenario) and the GET parameters (a fallback used by some
         // legacy routes).
         if (!is_object($this->driver)) {
-            $this->driver = $this->getRecordLoader()->load(
+            $recordLoader = $this->getRecordLoader();
+            $cacheContext = $this->getRequest()->getQuery()->get('cacheContext');
+            if (isset($cacheContext)) {
+                $recordLoader->setCacheContext($cacheContext);
+            }
+            $this->driver = $recordLoader->load(
                 $this->params()->fromRoute('id', $this->params()->fromQuery('id')),
-                $this->searchClassId
+                $this->searchClassId,
+                false
             );
         }
         return $this->driver;
@@ -572,7 +599,7 @@ class AbstractRecord extends AbstractBase
     {
         $details = $this->getRecordRouter()
             ->getTabRouteDetails($this->loadRecord(), $tab);
-        $target = $this->getLightboxAwareUrl($details['route'], $details['params']);
+        $target = $this->url()->fromRoute($details['route'], $details['params']);
 
         // Special case: don't use anchors in jquerymobile theme, since they
         // mess things up!
@@ -587,43 +614,36 @@ class AbstractRecord extends AbstractBase
     }
 
     /**
-     * Get the tab configuration for this controller.
+     * Alias to getRecordTabConfig for backward compatibility.
+     *
+     * @deprecated use getRecordTabConfig instead
      *
      * @return array
      */
     protected function getTabConfiguration()
     {
-        $cfg = $this->getServiceLocator()->get('Config');
-        return $cfg['vufind']['recorddriver_tabs'];
+        return $this->getRecordTabConfig();
     }
 
     /**
-     * Get a default tab by looking up the provided record driver in the tab
-     * configuration array.
+     * Support method to load tab information from the RecordTabPluginManager.
      *
-     * @param AbstractRecordDriver $driver Record driver
-     *
-     * @return string
+     * @return void
      */
-    protected function getDefaultTabForRecord(AbstractRecordDriver $driver)
+    protected function loadTabDetails()
     {
-        // Load configuration:
-        $config = $this->getTabConfiguration();
-
-        // Get the current record driver's class name, then start a loop
-        // in case we need to use a parent class' name to find the appropriate
-        // setting.
-        $className = get_class($driver);
-        while (true) {
-            if (isset($config[$className]['defaultTab'])) {
-                return $config[$className]['defaultTab'];
-            }
-            $className = get_parent_class($className);
-            if (empty($className)) {
-                // No setting found...
-                return null;
-            }
-        }
+        $driver = $this->loadRecord();
+        $request = $this->getRequest();
+        $rtpm = $this->getServiceLocator()->get('VuFind\RecordTabPluginManager');
+        $details = $rtpm->getTabDetailsForRecord(
+            $driver, $this->getRecordTabConfig(), $request,
+            $this->fallbackDefaultTab
+        );
+        $this->allTabs = $details['tabs'];
+        $this->defaultTab = $details['default'] ? $details['default'] : false;
+        $this->backgroundTabs = $rtpm->getBackgroundTabNames(
+            $driver, $this->getRecordTabConfig()
+        );
     }
 
     /**
@@ -635,24 +655,8 @@ class AbstractRecord extends AbstractBase
     {
         // Load default tab if not already retrieved:
         if (null === $this->defaultTab) {
-            // Load record driver tab configuration:
-            $driver = $this->loadRecord();
-            $this->defaultTab = $this->getDefaultTabForRecord($driver);
-
-            // Missing/invalid record driver configuration? Fall back to configured
-            // default:
-            $tabs = $this->getAllTabs();
-            if (empty($this->defaultTab) || !isset($tabs[$this->defaultTab])) {
-                $this->defaultTab = $this->fallbackDefaultTab;
-            }
-
-            // Is configured tab also invalid? If so, pick first existing tab:
-            if (empty($this->defaultTab) || !isset($tabs[$this->defaultTab])) {
-                $keys = array_keys($tabs);
-                $this->defaultTab = isset($keys[0]) ? $keys[0] : '';
-            }
+            $this->loadTabDetails();
         }
-
         return $this->defaultTab;
     }
 
@@ -664,13 +668,22 @@ class AbstractRecord extends AbstractBase
     protected function getAllTabs()
     {
         if (null === $this->allTabs) {
-            $driver = $this->loadRecord();
-            $request = $this->getRequest();
-            $this->allTabs = $this->getServiceLocator()
-                ->get('VuFind\RecordTabPluginManager')
-                ->getTabsForRecord($driver, $this->getTabConfiguration(), $request);
+            $this->loadTabDetails();
         }
         return $this->allTabs;
+    }
+
+    /**
+     * Get names of tabs to be loaded in the background.
+     *
+     * @return array
+     */
+    protected function getBackgroundTabs()
+    {
+        if (null === $this->backgroundTabs) {
+            $this->loadTabDetails();
+        }
+        return $this->backgroundTabs;
     }
 
     /**
@@ -707,16 +720,26 @@ class AbstractRecord extends AbstractBase
             return $patron;
         }
 
+        $config = $this->getConfig();
+
         $view = $this->createViewModel();
         $view->tabs = $this->getAllTabs();
         $view->activeTab = strtolower($tab);
         $view->defaultTab = strtolower($this->getDefaultTab());
+        $view->backgroundTabs = $this->getBackgroundTabs();
+        $view->loadInitialTabWithAjax
+            = isset($config->Site->loadInitialTabWithAjax)
+            ? (bool) $config->Site->loadInitialTabWithAjax : false;
 
         // Set up next/previous record links (if appropriate)
         if ($this->resultScrollerActive()) {
             $driver = $this->loadRecord();
             $view->scrollData = $this->resultScroller()->getScrollData($driver);
         }
+
+        $view->callnumberHandler = isset($config->Item_Status->callnumber_handler)
+            ? $config->Item_Status->callnumber_handler
+            : false;
 
         $view->setTemplate($ajax ? 'record/ajaxtab' : 'record/view');
         return $view;

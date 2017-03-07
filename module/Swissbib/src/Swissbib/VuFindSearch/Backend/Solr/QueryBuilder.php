@@ -1,7 +1,6 @@
 <?php
- 
  /**
- * [...description of the type ...]
+ * QueryBuilder
  *
  * PHP version 5
  *
@@ -23,81 +22,106 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib_VuFind2
- * @package  [...package name...]
+ * @category Swissbib_VuFind2
+ * @package  VuFindSearch_Backend_Solr
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
-
-
 namespace Swissbib\VuFindSearch\Backend\Solr;
-
 
 use VuFindSearch\Backend\Solr\QueryBuilder as VFBuilder;
 
+/**
+ * QueryBuilder
+ *
+ * @category Swissbib_VuFind2
+ * @package  VuFindSearch_Backend_Solr
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.swissbib.org  Main Page
+ */
+class QueryBuilder extends VFBuilder
+{
+    /**
+     * DisMaxSearchFields
+     *
+     * @var array
+     */
+    protected $disMaxSearchFields = [];
 
-class QueryBuilder extends VFBuilder {
-
-
-    protected $disMaxSearchFields = array();
-
-    public function __construct(array $specs = array())
+    /**
+     * Constructor
+     *
+     * @param array $specs Specs
+     */
+    public function __construct(array $specs = [])
     {
         parent::__construct($specs);
 
-        if (array_key_exists("allfields", $this->specs) && array_key_exists("DismaxFields",  $this->specs["allfields"]->toArray())) {
+        if (array_key_exists("allfields", $this->specs)
+            && array_key_exists(
+                "DismaxFields",  $this->specs["allfields"]->toArray()
+            )
+        ) {
             $tempArray = $this->specs["allfields"]->toArray();
             $this->disMaxSearchFields = $tempArray["DismaxFields"];
         }
 
-        $this->disMaxSearchFields = array_map(function($item) {
+        $this->disMaxSearchFields = array_map(
+            function ($item) {
 
-            if (strpos($item, "^") > 0) {
-                return substr($item, 0, strpos($item, "^")  );
+                if (strpos($item, "^") > 0) {
+                    return substr($item, 0, strpos($item, "^"));
 
-            } else {
-                return $item;
-            }
+                } else {
+                    return $item;
+                }
 
+            }, $this->disMaxSearchFields
+        );
 
-        }, $this->disMaxSearchFields );
         //this search field isn't defined in searchspec
         $this->disMaxSearchFields[] = "hierarchy_parent_id";
         $this->disMaxSearchFields[] = "id";
-
-
-
-
     }
 
-
-    protected function prepareForLuceneSyntax($input) {
+    /**
+     * PrepareForLuceneSyntax
+     *
+     * @param String $input Input
+     *
+     * @return mixed
+     */
+    protected function prepareForLuceneSyntax($input)
+    {
 
         $alreadyPrepared = parent::prepareForLuceneSyntax($input);
 
         preg_match_all("/(?P<name>\w+?:|[ ]:)/", $input, $matches);
 
-        if (count($matches["name"] > 0) ) {
+        if (count($matches["name"] > 0)) {
 
             foreach ($matches["name"] as $fieldNameWithColon) {
 
-                $fieldNameNoColon = substr($fieldNameWithColon, 0, strpos($fieldNameWithColon, ":"));
+                $fieldNameNoColon = substr(
+                    $fieldNameWithColon, 0, strpos($fieldNameWithColon, ":")
+                );
 
                 if (!in_array($fieldNameNoColon, $this->disMaxSearchFields)) {
-                    $alreadyPrepared = str_replace($fieldNameWithColon, $fieldNameNoColon . " ", $alreadyPrepared);
+                    $alreadyPrepared = str_replace(
+                        $fieldNameWithColon,
+                        $fieldNameNoColon . " ",
+                        $alreadyPrepared
+                    );
                 }
             };
-
-
         }
 
         //$alreadyPrepared = str_replace('-', ' ', $alreadyPrepared);
         //$alreadyPrepared = str_replace(array("-","="), ' ', $alreadyPrepared);
-        $alreadyPrepared = str_replace(array("="), ' ', $alreadyPrepared);
+        $alreadyPrepared = str_replace(["="], ' ', $alreadyPrepared);
+
         return $alreadyPrepared;
-
     }
-
-
 }

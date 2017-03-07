@@ -1,0 +1,24 @@
+<div id="swissbib-feedback-form">
+  <h2><?= $this->transEsc("feedback.title")?></h2>
+  <p><?= $this->transEsc("feedback.intro.jus")?></p>
+
+  <?=$this->flashmessages() ?>
+
+  <? if (isset($form)): ?>
+    <?= $this->form()->openTag($form) ?>
+
+    <?= $this->render('form/form-group.phtml', ['field' => $form->get('question')]) ?>
+    <?= $this->render('form/form-group.phtml', ['field' => $form->get('name')]) ?>
+    <?= $this->render('form/form-group.phtml', ['field' => $form->get('email')]) ?>
+
+    <?= $this->formRow($form->get('security')) ?>
+    <input type="hidden" name="form-name" value="swissbibfeedback">
+
+    <div class="form-group">
+      <div class="col-sm-9 col-sm-offset-3">
+        <input class="btn btn-primary" name="<?= $form->get('submit')->getName() ?>" type="submit" value="<?= $this->transEsc($form->get('submit')->getValue()) ?>">
+      </div>
+    </div>
+    <?= $this->form()->closeTag() ?>
+  <? endif; ?>
+</div>

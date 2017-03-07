@@ -17,13 +17,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  View_Helpers
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 namespace VuFind\View\Helper\Root;
 use Zend\View\Exception\RuntimeException, Zend\View\Helper\AbstractHelper;
@@ -31,11 +31,11 @@ use Zend\View\Exception\RuntimeException, Zend\View\Helper\AbstractHelper;
 /**
  * Recommendation module view helper
  *
- * @category VuFind2
+ * @category VuFind
  * @package  View_Helpers
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 class Recommend extends AbstractHelper
 {
@@ -59,16 +59,17 @@ class Recommend extends AbstractHelper
         // in case we need to use a parent class' name to find the appropriate
         // template.
         $className = get_class($recommend);
+        $resolver = $this->getView()->resolver();
         while (true) {
             // Guess the template name for the current class:
             $classParts = explode('\\', $className);
             $template = 'Recommend/' . array_pop($classParts) . '.phtml';
-            try {
+            if ($resolver->resolve($template)) {
                 // Try to render the template....
                 $html = $this->getView()->render($template);
                 $contextHelper($this->getView())->restore($oldContext);
                 return $html;
-            } catch (RuntimeException $e) {
+            } else {
                 // If the template doesn't exist, let's see if we can inherit a
                 // template from a parent recommendation class:
                 $className = get_parent_class($className);

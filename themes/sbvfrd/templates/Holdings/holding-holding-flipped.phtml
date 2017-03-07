@@ -37,7 +37,7 @@ if (!empty($holding['opac_note'])) {
 $holdingActionString = $this->holdingActions($holding, 'holdingActionsHolding');
 if(preg_match('/[\s\S]*<ul[\s\S]*<\/ul>[\s\S]*/', $holdingActionString)): ?>
 <tr>
-  <th><?= $headers['action'] ?></th>
+  <th><?= isset($headers['action']) ? $headers['action'] : '' ?></th>
   <td><?=$holdingActionString?> </td>
 </tr>
 <? endif; ?>

@@ -1,0 +1,38 @@
+
+    <? if ($this->swissLibraryPersonResidence): ?>
+        <? if ($this->swissLibraryPersonResidence === 'CH'): ?>
+            <? if ($this->hasVerifiedHomePostalAddress): ?>
+                <?= $this->context($this)->renderInContext("nationallicences/fragments/request_permanent_access.phtml", []) ?>
+            <? else:; ?>
+                <?= $this->context($this)->renderInContext("nationallicences/fragments/verify_home_postal_address.phtml", []) ?>
+            <? endif; ?>
+        <? else:; ?>
+            <!-- User have a foreign adress -->
+            <p>
+                <span class="text-aligned-icon icon-danger"><i class="fa fa-times"></i></span>
+                <?= $this->transEsc('snl.thisServiceIsOnlyForSwissResidents') ?>
+            </p>
+        <? endif; ?>
+    <? else:; ?>
+        <? if ($this->homePostalAddress): ?>
+            <? if ($this->isHomePostalAddressInSwitzerland): ?>
+                <? if ($this->hasVerifiedHomePostalAddress): ?>
+                    <?= $this->context($this)->renderInContext("nationallicences/fragments/request_permanent_access.phtml", []) ?>
+                <? else:; ?>
+                    <?= $this->context($this)->renderInContext("nationallicences/fragments/verify_home_postal_address.phtml", []) ?>
+                <? endif; ?>
+            <? else:; ?>
+                <!-- User have a foreign adress -->
+                <p>
+                    <span class="text-aligned-icon icon-danger"><i class="fa fa-times"></i></span>
+                    <?= $this->transEsc('snl.thisServiceIsOnlyForSwissResidents') ?>
+                </p>
+            <? endif; ?>
+        <? else:; ?>
+            <!-- User have to fill the homePostalAddress in the Swiss edu-Id account -->
+            <?= $this->context($this)->renderInContext("nationallicences/fragments/verify_home_postal_address.phtml", []) ?>
+        <? endif; ?>
+    <? endif; ?>
+
+
+

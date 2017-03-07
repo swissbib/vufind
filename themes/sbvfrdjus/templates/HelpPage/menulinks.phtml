@@ -1,5 +1,5 @@
-<li><a class="help-link" href="<?=$this->url('help-home')?>?topic=search"><?= $this->transEsc('Search Tips') ?></a></li>
+<li><a class="help-link" data-lightbox href="<?=$this->url('help-home')?>?topic=search"><?= $this->transEsc('Search Tips') ?></a></li>
 <li><a href="<?= $this->url('help-page', array('topic' => 'about_jusbib')); ?>"><?= $this->transEsc('helppage.about_jusbib') ?></a></li>
 <? if ($this->feedback()->tabEnabled()): ?>
-    <li><a id="feedbackLink" class="modal-link" href="<?= $this->url('feedback-home') ?>"><?= $this->transEsc("menu.contact") ?></a></li>
+    <li><a href="<?= $this->url('feedback-home') ?>"><?= $this->transEsc("menu.contact") ?></a></li>
 <? endif; ?>

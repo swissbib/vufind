@@ -18,16 +18,18 @@ if (!$hasAuthors) {
   <ul class="list-group">
 
     <?php if (!empty($authors['main'])): ?>
+
       <li class="list-group-item">
-        <a href="<?= $viewRecord->getLink('author', $authors['main']) ?>"
-           title="<?= $this->escapeHtml($authors['main']) ?>"><?= $this->escapeHtml($authors['main']) ?></a>
+        <? reset($authors['main']); $authorMain = key($authors['main']); ?>
+        <a href="<? $authorMain ?><?= $viewRecord->getLink('author', $authorMain) ?>"
+           title="<? $authorMain ?><?= $this->escapeHtml($authorMain) ?>"><?= $this->escapeHtml($authorMain) ?></a>
       </li>
     <?php endif; ?>
 
     <?php if (!empty($authors['secondary'])): ?>
       <? $tauthors = array(); //de-dublication in PHP style...?>
 
-      <?php foreach ($authors['secondary'] as $secondaryAuthor): ?>
+      <?php foreach ($authors['secondary'] as $secondaryAuthor => $secondaryAuthorRoles): ?>
         <? $tauthors[$secondaryAuthor] = $secondaryAuthor ?>
       <?php endforeach; ?>
 
@@ -45,7 +47,7 @@ if (!$hasAuthors) {
         <? $authors['corporate'] = array($authors['corporate']);?>
       <? endif; ?>
 
-      <?php foreach ($authors['corporate'] as $corporateAuthor): ?>
+      <?php foreach ($authors['corporate'] as $corporateAuthor => $corporateAuthorRoles): ?>
         <li class="list-group-item">
           <a href="<?= $viewRecord->getLink('author', $corporateAuthor) ?>" title="<?= $this->escapeHtml($corporateAuthor) ?>">
             <?= $this->escapeHtml($corporateAuthor) ?>

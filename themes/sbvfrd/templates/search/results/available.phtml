@@ -1,15 +1,15 @@
 <?php
 
 /** @var    \Swissbib\RecordDriver\SolrMarc $driver */
-$institutions    = $driver->getInstitutions();
-$institutions    = $this->filterUntranslatedInstitutions($institutions);
-$amountHoldings  = sizeof($institutions);
-$urldisplay      = $this->urlDisplay($driver);
-$digibernURL     = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ?  preg_grep('/digibern/', $urldisplay['urls'][0]) : false;
-$retrosURL       = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/seals/', $urldisplay['urls'][0]) : false;
-$freeURL         = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/sfx./', $urldisplay['urls'][0],PREG_GREP_INVERT) : false;
-$borisURL        = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/boris.unibe/', $urldisplay['urls'][0]) : false;
-
+$institutions           = $driver->getInstitutions();
+$institutions           = $this->filterUntranslatedInstitutions($institutions);
+$amountHoldings         = sizeof($institutions);
+$urldisplay             = $this->urlDisplay($driver);
+$digibernURL            = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/digibern/', $urldisplay['urls'][0]) : false;
+$retrosURL              = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/seals/', $urldisplay['urls'][0]) : false;
+$freeURL                = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/sfx./', $urldisplay['urls'][0],PREG_GREP_INVERT) : false;
+$borisURL               = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/boris.unibe/', $urldisplay['urls'][0]) : false;
+$nationallizenzen       = $this->nationalLicences()->getUrl($driver);
 ?>
 
 <? if ($amountHoldings === 1): ?>
@@ -18,94 +18,51 @@ $borisURL        = (is_array($urldisplay['urls']) && count($urldisplay['urls']) 
       <span class="hidden-xs hidden-sm">1 <?= $this->transEsc('result.library') ?></span>
     </a>
     <span class="visible-print-inline"><i class="fa fa-institution"></i></span>
-    <? if (in_array('RETROS', $urldisplay['unions'])): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($urldisplay['urls'][1]['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm">retro.seals</span>
-        </a>
-    <? elseif($retrosURL): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($retrosURL['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm">retro.seals</span>
-        </a>
-    <? elseif($digibernURL): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($digibernURL['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm">digibern</span>
-        </a>
-    <? elseif(in_array('FREE', $urldisplay['institutions']) && !empty($freeURL['url'])): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($freeURL['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm"><?= $this->transEsc('Free access') ?></span>
-        </a>
-    <? elseif($borisURL): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($borisURL['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm">BORIS</span>
-        </a>
-    <? endif; ?>
-
-
 <? elseif ($amountHoldings > 1): ?>
-  <a class="btn btn-primary dropdown-toggle hidden-print" id="dropdownLibraries" data-toggle="dropdown">
-      <span><? if ($this->isFavoriteInstitution($institutions)): ?><i class="fa fa-heart"></i><? else: ?><i class="fa fa-institution"></i></span><? endif; ?>
-    <span class="hidden-xs hidden-sm"><?= $amountHoldings ?> <?= $this->transEsc('result.libraries') ?></span>
-  </a>
-  <span class="visible-print-inline"><i class="fa fa-institution"></i></span>
-    <? if (in_array('RETROS', $urldisplay['unions'])): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($urldisplay['urls'][1]['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm">retro.seals</span>
-        </a>
-    <? elseif($retrosURL): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($retrosURL['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm">retro.seals</span>
-        </a>
-    <? elseif($digibernURL): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($digibernURL['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm">digibern</span>
-        </a>
-    <? elseif(in_array('FREE', $urldisplay['institutions']) && !empty($freeURL['url'])): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($freeURL['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm"><?= $this->transEsc('Free access') ?></span>
-        </a>
-    <? elseif($borisURL): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($borisURL['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm">BORIS</span>
-        </a>
+    <a class="btn btn-primary dropdown-toggle hidden-print" id="dropdownLibraries" data-toggle="dropdown">
+        <span><? if ($this->isFavoriteInstitution($institutions)): ?><i class="fa fa-heart"></i><? else: ?><i class="fa fa-institution"></i></span><? endif; ?>
+        <span class="hidden-xs hidden-sm"><?= $amountHoldings ?> <?= $this->transEsc('result.libraries') ?></span>
+    </a>
+    <span class="visible-print-inline"><i class="fa fa-institution"></i></span>
+<? endif ?>
+
+<? if (in_array('RETROS', $urldisplay['unions'])): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($urldisplay['urls'][1]['url']) ?>" target="_blank">
+      <span><i class="fa fa-external-link"></i></span>
+      <span class="hidden-xs hidden-sm">E-Periodica</span>
+    </a>
+<? elseif($retrosURL): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($retrosURL['url']) ?>" target="_blank">
+      <span><i class="fa fa-external-link"></i></span>
+      <span class="hidden-xs hidden-sm">E-Periodica</span>
+    </a>
+<? elseif($digibernURL): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($digibernURL['url']) ?>" target="_blank">
+      <span><i class="fa fa-external-link"></i></span>
+      <span class="hidden-xs hidden-sm">digibern</span>
+    </a>
+<? elseif(in_array('FREE', $urldisplay['institutions']) && !empty($freeURL['url'])): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($freeURL['url']) ?>" target="_blank">
+      <span><i class="fa fa-external-link"></i></span>
+      <span class="hidden-xs hidden-sm"><?= $this->transEsc('Free access') ?></span>
+    </a>
+<? elseif($borisURL): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($borisURL['url']) ?>" target="_blank">
+        <span><i class="fa fa-external-link"></i></span>
+        <span class="hidden-xs hidden-sm">BORIS</span>
+    </a>
+<? elseif($nationallizenzen): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($nationallizenzen['url']) ?>" target="_blank">
+        <span><i class="fa fa-external-link"></i></span>
+        <span class="hidden-xs hidden-sm nlItem">Get it Online</span>
+    </a>
+    <div style="display: none"><?= $this->redirectProtocolWrapper()->getWrappedURL($nationallizenzen['url']) ?></div>
+    <? if(!empty($nationallizenzen['message'])): ?>
+        <div class="flash-message alert alert-info">
+            <strong><?= $nationallizenzen['message'] ?></strong>
+        </div>
     <? endif; ?>
 
-<? else: ?>
-    <? if (in_array('RETROS', $urldisplay['unions'])): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($urldisplay['urls'][1]['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm">retro.seals</span>
-        </a>
-    <? elseif($retrosURL): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($retrosURL['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm">retro.seals</span>
-        </a>
-    <? elseif($digibernURL): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($digibernURL['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm">digibern</span>
-        </a>
-    <? elseif(in_array('FREE', $urldisplay['institutions']) && !empty($freeURL['url'])): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($freeURL['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm"><?= $this->transEsc('Free access') ?></span>
-        </a>
-    <? elseif($borisURL): ?>
-        <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($borisURL['url']) ?>" target="_blank">
-          <span><i class="fa fa-external-link"></i></span>
-          <span class="hidden-xs hidden-sm">BORIS</span>
-        </a>
-    <? else: ?>
-        <p class="hidden-sm hidden-xs hidden-print">There are no holdings available in the system</p>
-    <? endif; ?>
+<? elseif($amountHoldings !== 1 && !($amountHoldings > 1) ): ?>
+        <p class="hidden-sm hidden-xs hidden-print"><?= $this->transEsc('No Holdings available in the system') ?></p>
 <? endif; ?>

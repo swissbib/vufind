@@ -1,7 +1,4 @@
 <h1>Search</h1>
-<p>swissbib Basel Bern contains two separate databases: <strong>Books & more</strong> and <strong>Articles & more</strong> (see <a href="<?= $this->url('help-page', array('topic' => 'about')); ?>"><?= $this->transEsc('helppage.about') ?></a>). Choose your preferred database by clicking on the corresponding tab above the search box.</p>
-
-<iframe width="230" height="160" src="https://tube.switch.ch/embed/8e47b4c8" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 
 <h2>Combine search terms</h2>
 <p>With the help of Boolean operators (AND, OR, NOT) search terms can be combined. Boolean operators need to be in capitals.</p>
@@ -25,7 +22,7 @@
     </tr>
     <tr>
         <td>More advanced combinations</td>
-        <td>See <a class="help-link" href="<?=$this->url('help-home')?>?topic=search" title="<?=$this->transEsc('Help with Search Operators')?>"><?=$this->transEsc("Help with Search Operators")?></a>.
+        <td>See <a class="help-link" data-lightbox  href="<?=$this->url('help-home')?>?topic=search" title="<?=$this->transEsc('Help with Search Operators')?>"><?=$this->transEsc("Help with Search Operators")?></a>.
         </td>
     </tr>
     </tbody>
@@ -80,14 +77,3 @@
     </tr>
     </tbody>
 </table>
-<h2>Search filters</h2>
-<p>On the right hand side of your search results you can find search filters to further refine your result, like language, library, online-access, topic etc.</p>
-<p>In Articles & more you can expand your search in the right column by adding articles without access to full text or newspaper articles. Your results can be filtered to contain only peer reviewed articles.</p>
-<h2>Advanced Search</h2>
-<p>Advanced search lets you combine search terms accross fields like title field and author name.</p>
-<p>Combine search terms by using Boolean operaters AND, OR, NOT.</p>
-<p>Refine Search lets you filter your results directly by language, format, library, year of publication.</p>
-<p><strong>Example:</strong> Search books by author Begon, title must contain Oekologie or Ecology, books should be in German or English, published between 2005 and 2015, available at University library UB Basel.</p>
-<a href="<?= $this->basePath('themes/sbvfrdmulti/images/HelpPage/en/advancedsearch.jpg') ?>" class="help">
-    <img class="img-responsive" src="<?= $this->basePath('themes/sbvfrdmulti/images/HelpPage/en/advancedsearch.jpg') ?>" alt="Zoom" width="600">
-</a>

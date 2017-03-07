@@ -20,15 +20,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  ILS_Drivers
  * @author   Jochen Lienhard <lienhard@ub.uni-freiburg.de>
  * @author   Oliver Goldschmidt <o.goldschmidt@tu-harburg.de>
  * @author   André Lahmann <lahmann@ub.uni-leipzig.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:building_an_ils_driver Wiki
+ * @link     https://vufind.org/wiki/development:plugins:ils_drivers Wiki
  */
 namespace VuFind\ILS\Driver;
 use DOMDocument, VuFind\Exception\ILS as ILSException,
@@ -38,16 +38,16 @@ use DOMDocument, VuFind\Exception\ILS as ILSException,
 /**
  * ILS Driver for VuFind to query availability information via DAIA.
  *
- * @category VuFind2
+ * @category VuFind
  * @package  ILS_Drivers
  * @author   Jochen Lienhard <lienhard@ub.uni-freiburg.de>
  * @author   Oliver Goldschmidt <o.goldschmidt@tu-harburg.de>
  * @author   André Lahmann <lahmann@ub.uni-leipzig.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:building_an_ils_driver Wiki
+ * @link     https://vufind.org/wiki/development:plugins:ils_drivers Wiki
  */
 class DAIA extends AbstractBase implements
-   HttpServiceAwareInterface, LoggerAwareInterface
+    HttpServiceAwareInterface, LoggerAwareInterface
 {
     use \VuFindHttp\HttpServiceAwareTrait;
     use \VuFind\Log\LoggerAwareTrait;
@@ -58,6 +58,20 @@ class DAIA extends AbstractBase implements
      * @var string
      */
     protected $baseUrl;
+
+    /**
+     * Timeout in seconds to be used for DAIA http requests
+     *
+     * @var string
+     */
+    protected $daiaTimeout = null;
+
+    /**
+     * Flag to switch on/off caching for DAIA items
+     *
+     * @var bool
+     */
+    protected $daiaCacheEnabled = false;
 
     /**
      * DAIA query identifier prefix
@@ -74,11 +88,45 @@ class DAIA extends AbstractBase implements
     protected $daiaResponseFormat;
 
     /**
-     * DAIA legacySupport flag
+     * Flag to enable multiple DAIA-queries
      *
-     * @var boolean
+     * @var bool
      */
-    protected $legacySupport = false;
+    protected $multiQuery = false;
+
+    /**
+     * Acceptable ContentTypes delivered by DAIA server in HTTP header
+     *
+     * @var array
+     */
+    protected $contentTypesResponse;
+
+    /**
+     * ContentTypes to use in DAIA HTTP requests in HTTP header
+     *
+     * @var array
+     */
+    protected $contentTypesRequest = [
+        'xml'  => 'application/xml',
+        'json' => 'application/json',
+    ];
+
+    /**
+     * Date converter object
+     *
+     * @var \VuFind\Date\Converter
+     */
+    protected $dateConverter;
+
+    /**
+     * Constructor
+     *
+     * @param \VuFind\Date\Converter $converter Date converter
+     */
+    public function __construct(\VuFind\Date\Converter $converter)
+    {
+        $this->dateConverter = $converter;
+    }
 
     /**
      * Initialize the driver.
@@ -91,32 +139,73 @@ class DAIA extends AbstractBase implements
      */
     public function init()
     {
-        // DAIA.ini sections changed, therefore move old [Global] section to
-        // new [DAIA] section as fallback
-        if (isset($this->config['Global']) && !isset($this->config['DAIA'])) {
-            $this->config['DAIA'] = $this->config['Global'];
-            $this->legacySupport = true;
-        }
-
         if (isset($this->config['DAIA']['baseUrl'])) {
             $this->baseUrl = $this->config['DAIA']['baseUrl'];
+        } elseif (isset($this->config['Global']['baseUrl'])) {
+            throw new ILSException(
+                'Deprecated [Global] section in DAIA.ini present, but no [DAIA] ' .
+                'section found: please update DAIA.ini (cf. config/vufind/DAIA.ini).'
+            );
         } else {
             throw new ILSException('DAIA/baseUrl configuration needs to be set.');
+        }
+        // use DAIA specific timeout setting for http requests if configured
+        if ((isset($this->config['DAIA']['timeout']))) {
+            $this->daiaTimeout = $this->config['DAIA']['timeout'];
         }
         if (isset($this->config['DAIA']['daiaResponseFormat'])) {
             $this->daiaResponseFormat = strtolower(
                 $this->config['DAIA']['daiaResponseFormat']
             );
         } else {
-            $this->debug("No daiaResponseFormat setting found, using default: xml");
-            $this->daiaResponseFormat = "xml";
+            $this->debug('No daiaResponseFormat setting found, using default: xml');
+            $this->daiaResponseFormat = 'xml';
         }
         if (isset($this->config['DAIA']['daiaIdPrefix'])) {
             $this->daiaIdPrefix = $this->config['DAIA']['daiaIdPrefix'];
         } else {
-            $this->debug("No daiaIdPrefix setting found, using default: ppn:");
-            $this->daiaIdPrefix = "ppn:";
+            $this->debug('No daiaIdPrefix setting found, using default: ppn:');
+            $this->daiaIdPrefix = 'ppn:';
         }
+        if (isset($this->config['DAIA']['multiQuery'])) {
+            $this->multiQuery = $this->config['DAIA']['multiQuery'];
+        } else {
+            $this->debug('No multiQuery setting found, using default: false');
+        }
+        if (isset($this->config['DAIA']['daiaContentTypes'])) {
+            $this->contentTypesResponse = $this->config['DAIA']['daiaContentTypes'];
+        } else {
+            $this->debug('No ContentTypes for response defined. Accepting any.');
+        }
+        if (isset($this->config['DAIA']['daiaCache'])) {
+            $this->daiaCacheEnabled = $this->config['DAIA']['daiaCache'];
+        } else {
+            $this->debug('Caching not enabled, disabling it by default.');
+        }
+        if (isset($this->config['General'])
+            && isset($this->config['General']['cacheLifetime'])
+        ) {
+            $this->cacheLifetime = $this->config['General']['cacheLifetime'];
+        } else {
+            $this->debug(
+                'Cache lifetime not set, using VuFind\ILS\Driver\AbstractBase ' .
+                'default value.'
+            );
+        }
+    }
+
+    /**
+     * DAIA specific override of method to ensure uniform cache keys for cached
+     * VuFind objects.
+     *
+     * @param string|null $suffix Optional suffix that will get appended to the
+     * object class name calling getCacheKey()
+     *
+     * @return string
+     */
+    protected function getCacheKey($suffix = null)
+    {
+        return parent::getCacheKey(md5($this->baseURL) . $suffix);
     }
 
     /**
@@ -148,7 +237,9 @@ class DAIA extends AbstractBase implements
      */
     public function getHoldLink($id, $details)
     {
-        return ($details['ilslink'] != '') ? $details['ilslink'] : null;
+        return (isset($details['ilslink']) && $details['ilslink'] != '')
+            ? $details['ilslink']
+            : null;
     }
 
     /**
@@ -159,19 +250,40 @@ class DAIA extends AbstractBase implements
      *
      * @param string $id The record id to retrieve the holdings for
      *
-     * @throws ILSException
      * @return mixed     On success, an associative array with the following keys:
      * id, availability (boolean), status, location, reserve, callnumber.
      */
     public function getStatus($id)
     {
-        if ($this->daiaResponseFormat == 'xml') {
-            return $this->getXMLStatus($id);
-        } elseif ($this->daiaResponseFormat == 'json') {
-            return $this->getJSONStatus($id);
-        } else {
-            throw new ILSException('No matching format found for status retrieval.');
+        // check ids for existing availability data in cache and skip these ids
+        if ($this->daiaCacheEnabled
+            && $item = $this->getCachedData($this->generateURI($id))
+        ) {
+            if ($item != null) {
+                return $item;
+            }
         }
+
+        // let's retrieve the DAIA document by URI
+        try {
+            $rawResult = $this->doHTTPRequest($this->generateURI($id));
+            // extract the DAIA document for the current id from the
+            // HTTPRequest's result
+            $doc = $this->extractDaiaDoc($id, $rawResult);
+            if (!is_null($doc)) {
+                // parse the extracted DAIA document and return the status info
+                $data = $this->parseDaiaDoc($id, $doc);
+                // cache the status information
+                if ($this->daiaCacheEnabled) {
+                    $this->putCachedData($this->generateURI($id), $data);
+                }
+                return $data;
+            }
+        } catch (ILSException $e) {
+            $this->debug($e->getMessage());
+        }
+
+        return [];
     }
 
     /**
@@ -179,29 +291,85 @@ class DAIA extends AbstractBase implements
      *
      * This is responsible for retrieving the status information for a
      * collection of records.
+     * As the DAIA Query API supports querying multiple ids simultaneously
+     * (all ids divided by "|") getStatuses(ids) would call getStatus(id) only
+     * once, id containing the list of ids to be retrieved. This would cause some
+     * trouble as the list of ids does not necessarily correspond to the VuFind
+     * Record-id. Therefore getStatuses(ids) has its own logic for multiQuery-support
+     * and performs the HTTPRequest itself, retrieving one DAIA response for all ids
+     * and uses helper functions to split this one response into documents
+     * corresponding to the queried ids.
      *
      * @param array $ids The array of record ids to retrieve the status for
      *
-     * @throws ILSException
-     * @return array     An array of getStatus() return values on success.
+     * @return array    An array of status information values on success.
      */
     public function getStatuses($ids)
     {
-        $items = [];
+        $status = [];
 
-        if ($this->daiaResponseFormat == 'xml') {
-            foreach ($ids as $id) {
-                $items[] = $this->getXMLShortStatus($id);
+        // check cache for given ids and skip these ids if availability data is found
+        foreach ($ids as $key => $id) {
+            if ($this->daiaCacheEnabled
+                && $item = $this->getCachedData($this->generateURI($id))
+            ) {
+                if ($item != null) {
+                    $status[] = $item;
+                    unset($ids[$key]);
+                }
             }
-        } elseif ($this->daiaResponseFormat == 'json') {
-            foreach ($ids as $id) {
-                $items[] = $this->getJSONStatus($id);
-            }
-        } else {
-            throw new ILSException('No matching format found for status retrieval.');
         }
 
-        return $items;
+        // only query DAIA service if we have some ids left
+        if (count($ids) > 0) {
+            try {
+                if ($this->multiQuery) {
+                    // perform one DAIA query with multiple URIs
+                    $rawResult = $this
+                        ->doHTTPRequest($this->generateMultiURIs($ids));
+                    // the id used in VuFind can differ from the document-URI
+                    // (depending on how the URI is generated)
+                    foreach ($ids as $id) {
+                        // it is assumed that each DAIA document has a unique URI,
+                        // so get the document with the corresponding id
+                        $doc = $this->extractDaiaDoc($id, $rawResult);
+                        if (!is_null($doc)) {
+                            // a document with the corresponding id exists, which
+                            // means we got status information for that record
+                            $data = $this->parseDaiaDoc($id, $doc);
+                            // cache the status information
+                            if ($this->daiaCacheEnabled) {
+                                $this->putCachedData($this->generateURI($id), $data);
+                            }
+                            $status[] = $data;
+                        }
+                        unset($doc);
+                    }
+                } else {
+                    // multiQuery is not supported, so retrieve DAIA documents one by
+                    // one
+                    foreach ($ids as $id) {
+                        $rawResult = $this->doHTTPRequest($this->generateURI($id));
+                        // extract the DAIA document for the current id from the
+                        // HTTPRequest's result
+                        $doc = $this->extractDaiaDoc($id, $rawResult);
+                        if (!is_null($doc)) {
+                            // parse the extracted DAIA document and save the status
+                            // info
+                            $data = $this->parseDaiaDoc($id, $doc);
+                            // cache the status information
+                            if ($this->daiaCacheEnabled) {
+                                $this->putCachedData($this->generateURI($id), $data);
+                            }
+                            $status[] = $data;
+                        }
+                    }
+                }
+            } catch (ILSException $e) {
+                $this->debug($e->getMessage());
+            }
+        }
+        return $status;
     }
 
     /**
@@ -213,8 +381,6 @@ class DAIA extends AbstractBase implements
      * @param string $id     The record id to retrieve the holdings for
      * @param array  $patron Patron data
      *
-     * @throws \VuFind\Exception\Date
-     * @throws ILSException
      * @return array         On success, an associative array with the following
      * keys: id, availability (boolean), status, location, reserve, callnumber,
      * duedate, number, barcode.
@@ -241,6 +407,36 @@ class DAIA extends AbstractBase implements
     }
 
     /**
+     * Support method to handle date uniformly
+     *
+     * @param string $date String representing a date
+     *
+     * @return string Formatted date
+     */
+    protected function convertDate($date)
+    {
+        try {
+            return $this->dateConverter
+                ->convertToDisplayDate('Y-m-d', $date);
+        } catch (\Exception $e) {
+            $this->debug('Date conversion failed: ' . $e->getMessage());
+            return '';
+        }
+    }
+
+    /**
+     * Support method to handle datetime uniformly
+     *
+     * @param string $datetime String representing a datetime
+     *
+     * @return string Formatted datetime
+     */
+    protected function convertDatetime($datetime)
+    {
+        return $this->convertDate($datetime);
+    }
+
+    /**
      * Perform an HTTP request.
      *
      * @param string $id id for query in daia
@@ -250,613 +446,869 @@ class DAIA extends AbstractBase implements
      */
     protected function doHTTPRequest($id)
     {
-        $contentTypes = [
-            "xml"  => "application/xml",
-            "json" => "application/json",
-        ];
-
         $http_headers = [
-            "Content-type: " . $contentTypes[$this->daiaResponseFormat],
-            "Accept: " .  $contentTypes[$this->daiaResponseFormat]
+            'Content-type: ' . $this->contentTypesRequest[$this->daiaResponseFormat],
+            'Accept: ' . $this->contentTypesRequest[$this->daiaResponseFormat],
         ];
 
         $params = [
-            "id" => $this->daiaIdPrefix . $id,
-            "format" => $this->daiaResponseFormat,
+            'id' => $id,
+            'format' => $this->daiaResponseFormat,
         ];
 
         try {
-            if ($this->legacySupport) {
-                // HttpRequest for DAIA legacy support as all
-                // the parameters are contained in the baseUrl
-                $result = $this->httpService->get(
-                    $this->baseUrl . $id,
-                    [], null, $http_headers
-                );
-            } else {
-                $result = $this->httpService->get(
-                    $this->baseUrl,
-                    $params, null, $http_headers
-                );
-            }
+            $result = $this->httpService->get(
+                $this->baseUrl,
+                $params, $this->daiaTimeout, $http_headers
+            );
         } catch (\Exception $e) {
-            throw new ILSException($e->getMessage());
+            throw new ILSException(
+                'HTTP request exited with Exception ' . $e->getMessage() .
+                ' for record: ' . $id
+            );
         }
 
         if (!$result->isSuccess()) {
-            // throw ILSException disabled as this will be shown in VuFind-Frontend
-            //throw new ILSException('HTTP error ' . $result->getStatusCode() .
-            //                       ' retrieving status for record: ' . $id);
-            // write to Debug instead
-            $this->debug(
+            throw new ILSException(
                 'HTTP status ' . $result->getStatusCode() .
                 ' received, retrieving availability information for record: ' . $id
             );
 
-            // return false as DAIA request failed
-            return false;
         }
-        return ($result->getBody());
 
+        // check if result matches daiaResponseFormat
+        if ($this->contentTypesResponse != null) {
+            if ($this->contentTypesResponse[$this->daiaResponseFormat]) {
+                $contentTypesResponse = array_map(
+                    'trim',
+                    explode(
+                        ',',
+                        $this->contentTypesResponse[$this->daiaResponseFormat]
+                    )
+                );
+                list($responseMediaType) = array_pad(
+                    explode(
+                        ';',
+                        $result->getHeaders()->get('ContentType')->getFieldValue(),
+                        2
+                    ),
+                    2,
+                    null
+                ); // workaround to avoid notices if encoding is not set in header
+                if (!in_array(trim($responseMediaType), $contentTypesResponse)) {
+                    throw new ILSException(
+                        'DAIA-ResponseFormat not supported. Received: ' .
+                        $responseMediaType . ' - ' .
+                        'Expected: ' .
+                        $this->contentTypesResponse[$this->daiaResponseFormat]
+                    );
+                }
+            }
+        }
+
+        return ($result->getBody());
     }
 
     /**
-     * Get Status of JSON Result
+     * Generate a DAIA URI necessary for the query
      *
-     * This method gets a json result from the DAIA server and
-     * analyses it. Than a vufind result is build.
+     * @param string $id Id of the record whose DAIA document should be queried
      *
-     * @param string $id The id of the bib record
+     * @return string     URI of the DAIA document
      *
-     * @return array()      of items
+     * @see http://gbv.github.io/daia/daia.html#query-parameters
      */
-    protected function getJSONStatus($id)
+    protected function generateURI($id)
     {
-        // get daia json request for id and decode it
-        $daia = json_decode($this->doHTTPRequest($id), true);
-        $result = [];
-        if (array_key_exists("message", $daia)) {
-            // analyse the message for the error handling and debugging
+        return $this->daiaIdPrefix . $id;
+    }
+
+    /**
+     * Combine several ids to DAIA Query API conform URIs
+     *
+     * @param array $ids Array of ids which shall be converted into URIs and
+     *                  combined for querying multiple DAIA documents.
+     *
+     * @return string   Combined URIs (delimited by "|")
+     *
+     * @see http://gbv.github.io/daia/daia.html#query-parameters
+     */
+    protected function generateMultiURIs($ids)
+    {
+        $multiURI = '';
+        foreach ($ids as $id) {
+            $multiURI .= $this->generateURI($id) . '|';
         }
-        if (array_key_exists("instituion", $daia)) {
-            // information about the institution that grants or
-            // knows about services and their availability
-            // this fields could be analyzed: href, content, id
+        return rtrim($multiURI, '|');
+    }
+
+    /**
+     * Parse a DAIA document depending on its type.
+     *
+     * Parse a DAIA document depending on its type and return a VuFind
+     * compatible array of status information.
+     * Supported types are:
+     *      - array (for JSON results)
+     *
+     * @param string $id      Record Id corresponding to the DAIA document
+     * @param mixed  $daiaDoc The DAIA document, only array is supported
+     *
+     * @return array An array with status information for the record
+     * @throws ILSException
+     */
+    protected function parseDaiaDoc($id, $daiaDoc)
+    {
+        if (is_array($daiaDoc)) {
+            return $this->parseDaiaArray($id, $daiaDoc);
+        } else {
+            throw new ILSException(
+                'Unsupported document type (did not match Array or DOMNode).'
+            );
         }
-        if (array_key_exists("document", $daia)) {
-            // analyse the items
-            $dummy_item = ["id" => "0815",
-                "availability" => true,
-                "status" => "Available",
-                "location" => "physical location no HTML",
-                "reserve" => "N",
-                "callnumber" => "007",
-                "number" => "1",
-                "item_id" => "0815",
-                "barcode" => "1"];
-            // each document may contain: id, href, message, item
-            foreach ($daia["document"] as $document) {
-                $doc_id = null;
-                $doc_href = null;
-                $doc_message = null;
-                if (array_key_exists("id", $document)) {
-                    $doc_id = $document["id"];
-                }
-                if (array_key_exists("href", $document)) {
-                    // url of the document
-                    $doc_href = $document["href"];
-                }
-                if (array_key_exists("message", $document)) {
-                    // array of messages with language code and content
-                    $doc_message = $document["message"];
-                }
-                // if one or more items exist, iterate and build result-item
-                if (array_key_exists("item", $document)) {
-                    $number = 0;
-                    foreach ($document["item"] as $item) {
-                        $result_item = [];
-                        $result_item["id"] = $id;
-                        $result_item["item_id"] = $id;
-                        $number++; // count items
-                        $result_item["number"] = $number;
-                        // set default value for barcode
-                        $result_item["barcode"] = "1";
-                        // set default value for reserve
-                        $result_item["reserve"] = "N";
-                        // get callnumber
-                        if (isset($item["label"])) {
-                            $result_item["callnumber"] = $item["label"];
-                        } else {
-                            $result_item["callnumber"] = "Unknown";
+    }
+
+    /**
+     * Extract a DAIA document identified by an id
+     *
+     * This method loops through all the existing DAIA document-elements in
+     * the given DAIA response and returns the first document whose id matches
+     * the given id.
+     *
+     * @param string $id           Record Id of the DAIA document in question.
+     * @param string $daiaResponse Raw response from DAIA request.
+     *
+     * @return Array|DOMNode|null   The DAIA document identified by id and
+     *                                  type depending on daiaResponseFormat.
+     * @throws ILSException
+     */
+    protected function extractDaiaDoc($id, $daiaResponse)
+    {
+        $docs = [];
+        if ($this->daiaResponseFormat == 'xml') {
+            try {
+                $docs = $this->convertDaiaXmlToJson($daiaResponse);
+            } catch (\Exception $e) {
+                throw new ILSException($e->getMessage());
+            }
+        } elseif ($this->daiaResponseFormat == 'json') {
+            $docs = json_decode($daiaResponse, true);
+        }
+
+        if (count($docs)) {
+            // check for error messages and write those to log
+            if (isset($docs['message'])) {
+                $this->logMessages($docs['message'], 'document');
+            }
+
+            // do DAIA documents exist?
+            if (isset($docs['document']) && $this->multiQuery) {
+                // now loop through the found DAIA documents
+                foreach ($docs['document'] as $doc) {
+                    // DAIA documents should use URIs as value for id
+                    if (isset($doc['id'])
+                        && $doc['id'] == $this->generateURI($id)
+                    ) {
+                        // we've found the document element with the matching URI
+                        // if the document has an item, then we return it
+                        if (isset($doc['item'])) {
+                            return $doc;
                         }
-                        // get location
-                        if (isset($item["storage"])) {
-                            $result_item["location"] = $item["storage"]["content"];
-                        } else {
-                            $result_item["location"] = "Unknown";
-                        }
-                        // status and availability will be calculated in own function
-                        $result_item = $this->calculateStatus($item)+$result_item;
-                        // add result_item to the result array
-                        $result[] = $result_item;
-                    } // end iteration on item
+                    }
                 }
-            } // end iteration on document
-            // $result[]=$dummy_item;
+            } elseif (isset($docs['document'])) {
+                // since a document exists but multiQuery is disabled, the first
+                // document is returned if it contains an item
+                $doc = array_shift($docs['document']);
+                if (isset($doc['item'])) {
+                    return $doc;
+                }
+            }
+            // no (id matching) document element found
+            return null;
+        } else {
+            throw new ILSException('Unsupported document format.');
         }
+    }
+
+    /**
+     * Converts a DAIA XML response to an array identical with a DAIA JSON response
+     * for the sent query.
+     *
+     * @param string $daiaResponse Response in XML format from DAIA service
+     *
+     * @return mixed
+     */
+    protected function convertDaiaXmlToJson($daiaResponse)
+    {
+        $dom = new DOMDocument();
+        $dom->loadXML($daiaResponse);
+
+        // prepare DOMDocument as json_encode does not support save attributes if
+        // elements have values (see http://stackoverflow.com/a/20506281/2115462)
+        $prepare = function ($domNode) use (&$prepare) {
+            foreach ($domNode->childNodes as $node) {
+                if ($node->hasChildNodes()) {
+                    $prepare($node);
+                } else {
+                    if (($domNode->hasAttributes() && strlen($domNode->nodeValue))
+                        || (in_array(
+                            $domNode->nodeName,
+                            ['storage', 'limitation', 'department', 'institution']
+                        ) && strlen($domNode->nodeValue))) {
+                        if (trim($node->textContent)) {
+                            $domNode->setAttribute('content', $node->textContent);
+                            $node->nodeValue = '';
+                        }
+                    }
+                }
+            }
+        };
+        $prepare($dom);
+
+        // now let json_encode/decode convert XML into an array
+        $daiaArray = json_decode(
+            json_encode(simplexml_load_string($dom->saveXML())),
+            true
+        );
+
+        // merge @attributes fields in parent array
+        $merge = function ($array) use (&$merge) {
+            foreach ($array as $key => $value) {
+                if (is_array($value)) {
+                    $value = $merge($value);
+                }
+                if ($key === '@attributes') {
+                    $array = array_merge($array, $value);
+                    unset($array[$key]);
+                } else {
+                    $array[$key] = $value;
+                }
+            }
+            return $array;
+        };
+        $daiaArray = $merge($daiaArray);
+
+        // restructure the array, moving single elements to their parent's index [0]
+        $restructure = function ($array) use (&$restructure) {
+            $elements = [
+                'document', 'item', 'available', 'unavailable', 'limitation',
+                'message'
+            ];
+            foreach ($array as $key => $value) {
+                if (is_array($value)) {
+                    $value = $restructure($value);
+                }
+                if (in_array($key, $elements, true)
+                    && !isset($array[$key][0])
+                ) {
+                    unset($array[$key]);
+                    $array[$key][] = $value;
+                } else {
+                    $array[$key] = $value;
+                }
+            }
+            return $array;
+        };
+        $daiaArray = $restructure($daiaArray);
+
+        return $daiaArray;
+    }
+
+    /**
+     * Parse an array with DAIA status information.
+     *
+     * @param string $id        Record id for the DAIA array.
+     * @param array  $daiaArray Array with raw DAIA status information.
+     *
+     * @return array            Array with VuFind compatible status information.
+     */
+    protected function parseDaiaArray($id, $daiaArray)
+    {
+        $doc_id = null;
+        $doc_href = null;
+        if (isset($daiaArray['id'])) {
+            $doc_id = $daiaArray['id'];
+        }
+        if (isset($daiaArray['href'])) {
+            // url of the document (not needed for VuFind)
+            $doc_href = $daiaArray['href'];
+        }
+        if (isset($daiaArray['message'])) {
+            // log messages for debugging
+            $this->logMessages($daiaArray['message'], 'document');
+        }
+        // if one or more items exist, iterate and build result-item
+        if (isset($daiaArray['item']) && is_array($daiaArray['item'])) {
+            $number = 0;
+            foreach ($daiaArray['item'] as $item) {
+                $result_item = [];
+                $result_item['id'] = $id;
+                // custom DAIA field
+                $result_item['doc_id'] = $doc_id;
+                $result_item['item_id'] = $item['id'];
+                // custom DAIA field used in getHoldLink()
+                $result_item['ilslink']
+                    = (isset($item['href']) ? $item['href'] : $doc_href);
+                // count items
+                $number++;
+                $result_item['number'] = $this->getItemNumber($item, $number);
+                // set default value for barcode
+                $result_item['barcode'] = $this->getItemBarcode($item);
+                // set default value for reserve
+                $result_item['reserve'] = $this->getItemReserveStatus($item);
+                // get callnumber
+                $result_item['callnumber'] = $this->getItemCallnumber($item);
+                // get location
+                $result_item['location'] = $this->getItemDepartment($item);
+                // custom DAIA field
+                $result_item['locationid'] = $this->getItemDepartmentId($item);
+                // get location link
+                $result_item['locationhref'] = $this->getItemDepartmentLink($item);
+                // custom DAIA field
+                $result_item['storage'] = $this->getItemStorage($item);
+                // custom DAIA field
+                $result_item['storageid'] = $this->getItemStorageId($item);
+                // custom DAIA field
+                $result_item['storagehref'] = $this->getItemStorageLink($item);
+                // status and availability will be calculated in own function
+                $result_item = $this->getItemStatus($item) + $result_item;
+                // add result_item to the result array
+                $result[] = $result_item;
+            } // end iteration on item
+        }
+
         return $result;
     }
 
     /**
-     * Calaculate Status and Availability of an item
+     * Returns an array with status information for provided item.
      *
-     * If availability is false the string of status will be shown in vufind
-     *
-     * @param string $item json DAIA item
-     *
-     * @return array("status"=>"only for VIPs" ... )
-     */
-    protected function calculateStatus($item)
-    {
-        $availability = false;
-        $status = null;
-        $duedate = null;
-        if (array_key_exists("available", $item)) {
-            // check if item is loanable or presentation
-            foreach ($item["available"] as $available) {
-                if ($available["service"] == "loan") {
-                    $availability = true;
-                }
-                if ($available["service"] == "presentation") {
-                    $availability = true;
-                }
-            }
-        }
-        if (array_key_exists("unavailable", $item)) {
-            foreach ($item["unavailable"] as $unavailable) {
-                if ($unavailable["service"] == "loan") {
-                    if (isset($unavailable["expected"])) {
-                        $duedate = $unavailable["expected"];
-                    }
-                    $status = "dummy text";
-                }
-            }
-        }
-        return (["status" => $status,
-            "availability" => $availability,
-            "duedate" => $duedate]);
-    }
-
-    /**
-     * Flatten a DAIA response to an array of holding information.
-     *
-     * @param string $id Document to look up.
+     * @param array $item Array with DAIA item data
      *
      * @return array
      */
-    protected function getXMLStatus($id)
+    protected function getItemStatus($item)
     {
-        $daia = new DOMDocument();
-        $response = $this->doHTTPRequest($id);
-        if ($response) {
-            $daia->loadXML($response);
-        }
-        // get Availability information from DAIA
-        $documentlist = $daia->getElementsByTagName('document');
+        $availability = false;
+        $status = ''; // status cannot be null as this will crash the translator
+        $duedate = null;
+        $serviceLink = '';
+        $queue = '';
+        $item_notes = [];
+        $item_limitation_types = [];
+        $services = [];
 
-        // handle empty DAIA response
-        if ($documentlist->length == 0
-            && $daia->getElementsByTagName("message") != null
-        ) {
-            // analyse the message for the error handling and debugging
-        }
-
-        $status = [];
-        for ($b = 0; $documentlist->item($b) !== null; $b++) {
-            $itemlist = $documentlist->item($b)->getElementsByTagName('item');
-            $ilslink = '';
-            if ($documentlist->item($b)->attributes->getNamedItem('href') !== null) {
-                $ilslink = $documentlist->item($b)->attributes
-                    ->getNamedItem('href')->nodeValue;
-            }
-            $emptyResult = [
-                    'callnumber' => '-',
-                    'availability' => '0',
-                    'number' => 1,
-                    'reserve' => 'No',
-                    'duedate' => '',
-                    'queue'   => '',
-                    'delay'   => '',
-                    'barcode' => 'No samples',
-                    'status' => '',
-                    'id' => $id,
-                    'location' => '',
-                    'ilslink' => $ilslink,
-                    'label' => 'No samples'
-            ];
-            for ($c = 0; $itemlist->item($c) !== null; $c++) {
-                $result = [
-                    'callnumber' => '',
-                    'availability' => '0',
-                    'number' => ($c+1),
-                    'reserve' => 'No',
-                    'duedate' => '',
-                    'queue'   => '',
-                    'delay'   => '',
-                    'barcode' => 1,
-                    'status' => '',
-                    'id' => $id,
-                    'item_id' => '',
-                    'recallhref' => '',
-                    'location' => '',
-                    'location.id' => '',
-                    'location.href' => '',
-                    'label' => '',
-                    'notes' => [],
-                ];
-                if ($itemlist->item($c)->attributes->getNamedItem('id') !== null) {
-                    $result['item_id'] = $itemlist->item($c)->attributes
-                        ->getNamedItem('id')->nodeValue;
-                }
-                if ($itemlist->item($c)->attributes->getNamedItem('href') !== null) {
-                    $result['recallhref'] = $itemlist->item($c)->attributes
-                        ->getNamedItem('href')->nodeValue;
-                }
-                $departmentElements = $itemlist->item($c)
-                    ->getElementsByTagName('department');
-                if ($departmentElements->length > 0) {
-                    if ($departmentElements->item(0)->nodeValue) {
-                        $result['location']
-                            = $departmentElements->item(0)->nodeValue;
-                        $result['location.id'] = $departmentElements
-                            ->item(0)->attributes->getNamedItem('id')->nodeValue;
-                        $result['location.href'] = $departmentElements
-                            ->item(0)->attributes->getNamedItem('href')->nodeValue;
-                    }
-                }
-                $storageElements
-                    = $itemlist->item($c)->getElementsByTagName('storage');
-                if ($storageElements->length > 0) {
-                    if ($storageElements->item(0)->nodeValue) {
-                        $result['location'] = $storageElements->item(0)->nodeValue;
-                        //$result['location.id'] = $storageElements->item(0)
-                        //  ->attributes->getNamedItem('id')->nodeValue;
-                        $href = $storageElements->item(0)->attributes
-                            ->getNamedItem('href');
-                        if ($href !== null) {
-                            //href attribute is recommended but not mandatory
-                            $result['location.href'] = $storageElements->item(0)
-                                ->attributes->getNamedItem('href')->nodeValue;
-                        }
-                        //$result['barcode'] = $result['location.id'];
-                    }
-                }
-                $barcodeElements
-                    = $itemlist->item($c)->getElementsByTagName('identifier');
-                if ($barcodeElements->length > 0) {
-                    if ($barcodeElements->item(0)->nodeValue) {
-                        $result['barcode'] = $barcodeElements->item(0)->nodeValue;
-                    }
-                }
-                $labelElements = $itemlist->item($c)->getElementsByTagName('label');
-                if ($labelElements->length > 0) {
-                    if ($labelElements->item(0)->nodeValue) {
-                        $result['label'] = $labelElements->item(0)->nodeValue;
-                        $result['callnumber']
-                            = urldecode($labelElements->item(0)->nodeValue);
-                    }
-                }
-                $messageElements
-                    = $itemlist->item($c)->getElementsByTagName('message');
-                if ($messageElements->length > 0) {
-                    for ($m = 0; $messageElements->item($m) !== null; $m++) {
-                        $errno = $messageElements->item($m)->attributes
-                            ->getNamedItem('errno')->nodeValue;
-                        if ($errno === '404') {
-                            $result['status'] = 'missing';
-                        } else if ($this->logger) {
-                            $lang = $messageElements->item($m)->attributes
-                                ->getNamedItem('lang')->nodeValue;
-                            $logString = "[DAIA] message for {$lang}: "
-                                . $messageElements->item($m)->nodeValue;
-                            $this->debug($logString);
-                        }
-                    }
-                }
-
-                //$loanAvail = 0;
-                //$loanExp = 0;
-                //$presAvail = 0;
-                //$presExp = 0;
-
-                $unavailableElements = $itemlist->item($c)
-                    ->getElementsByTagName('unavailable');
-                if ($unavailableElements->item(0) !== null) {
-                    for ($n = 0; $unavailableElements->item($n) !== null; $n++) {
-                        $service = $unavailableElements->item($n)->attributes
-                            ->getNamedItem('service');
-                        $expectedNode = $unavailableElements->item($n)->attributes
-                            ->getNamedItem('expected');
-                        $queueNode = $unavailableElements->item($n)->attributes
-                            ->getNamedItem('queue');
-                        if ($service !== null) {
-                            $service = $service->nodeValue;
-                            if ($service === 'presentation') {
-                                $result['presentation.availability'] = '0';
-                                $result['presentation_availability'] = '0';
-                                if ($expectedNode !== null) {
-                                    $result['presentation.duedate']
-                                        = $expectedNode->nodeValue;
-                                }
-                                if ($queueNode !== null) {
-                                    $result['presentation.queue']
-                                        = $queueNode->nodeValue;
-                                }
-                                $result['availability'] = '0';
-                            } elseif ($service === 'loan') {
-                                $result['loan.availability'] = '0';
-                                $result['loan_availability'] = '0';
-                                if ($expectedNode !== null) {
-                                    $result['loan.duedate']
-                                        = $expectedNode->nodeValue;
-                                }
-                                if ($queueNode !== null) {
-                                    $result['loan.queue'] = $queueNode->nodeValue;
-                                }
-                                $result['availability'] = '0';
-                            } elseif ($service === 'interloan') {
-                                $result['interloan.availability'] = '0';
-                                if ($expectedNode !== null) {
-                                    $result['interloan.duedate']
-                                        = $expectedNode->nodeValue;
-                                }
-                                if ($queueNode !== null) {
-                                    $result['interloan.queue']
-                                        = $queueNode->nodeValue;
-                                }
-                                $result['availability'] = '0';
-                            } elseif ($service === 'openaccess') {
-                                $result['openaccess.availability'] = '0';
-                                if ($expectedNode !== null) {
-                                    $result['openaccess.duedate']
-                                        = $expectedNode->nodeValue;
-                                }
-                                if ($queueNode !== null) {
-                                    $result['openaccess.queue']
-                                        = $queueNode->nodeValue;
-                                }
-                                $result['availability'] = '0';
-                            }
-                        }
-                        // TODO: message/limitation
-                        if ($expectedNode !== null) {
-                            $result['duedate'] = $expectedNode->nodeValue;
-                        }
-                        if ($queueNode !== null) {
-                            $result['queue'] = $queueNode->nodeValue;
-                        }
-                    }
-                }
-
-                $availableElements = $itemlist->item($c)
-                    ->getElementsByTagName('available');
-                if ($availableElements->item(0) !== null) {
-                    for ($n = 0; $availableElements->item($n) !== null; $n++) {
-                        $service = $availableElements->item($n)->attributes
-                            ->getNamedItem('service');
-                        $delayNode = $availableElements->item($n)->attributes
-                            ->getNamedItem('delay');
-                        if ($service !== null) {
-                            $service = $service->nodeValue;
-                            if ($service === 'presentation') {
-                                $result['presentation.availability'] = '1';
-                                $result['presentation_availability'] = '1';
-                                if ($delayNode !== null) {
-                                    $result['presentation.delay']
-                                        = $delayNode->nodeValue;
-                                }
-                                $result['availability'] = '1';
-                            } elseif ($service === 'loan') {
-                                $result['loan.availability'] = '1';
-                                $result['loan_availability'] = '1';
-                                if ($delayNode !== null) {
-                                    $result['loan.delay'] = $delayNode->nodeValue;
-                                }
-                                $result['availability'] = '1';
-                            } elseif ($service === 'interloan') {
-                                $result['interloan.availability'] = '1';
-                                if ($delayNode !== null) {
-                                    $result['interloan.delay']
-                                        = $delayNode->nodeValue;
-                                }
-                                $result['availability'] = '1';
-                            } elseif ($service === 'openaccess') {
-                                $result['openaccess.availability'] = '1';
-                                if ($delayNode !== null) {
-                                    $result['openaccess.delay']
-                                        = $delayNode->nodeValue;
-                                }
-                                $result['availability'] = '1';
-                            }
-                        }
-                        // TODO: message/limitation
-                        if ($delayNode !== null) {
-                            $result['delay'] = $delayNode->nodeValue;
-                        }
-                    }
-                }
-                // document has no availability elements, so set availability
-                // and barcode to -1
-                if ($availableElements->item(0) === null
-                    && $unavailableElements->item(0) === null
+        if (isset($item['available'])) {
+            // check if item is loanable or presentation
+            foreach ($item['available'] as $available) {
+                if (isset($available['service'])
+                    && in_array($available['service'], ['loan', 'presentation'])
                 ) {
-                    $result['availability'] = '-1';
-                    $result['barcode'] = '-1';
+                    $services['available'][] = $available['service'];
                 }
-                $result['ilslink'] = $ilslink;
-                $status[] = $result;
-                /* $status = "available";
-                if (loanAvail) return 0;
-                if (presAvail) {
-                    if (loanExp) return 1;
-                    return 2;
+                // attribute service can be set once or not
+                if (isset($available['service'])
+                    && in_array(
+                        $available['service'],
+                        ['loan', 'presentation', 'openaccess']
+                    )
+                ) {
+                    // set item available if service is loan, presentation or
+                    // openaccess
+                    $availability = true;
+                    if ($available['service'] == 'loan'
+                        && isset($available['href'])
+                    ) {
+                        // save the link to the ils if we have a href for loan
+                        // service
+                        $serviceLink = $available['href'];
+                    }
                 }
-                if (loanExp) return 3;
-                if (presExp) return 4;
-                return 5;
-                */
-            }
-            if (count($status) === 0) {
-                $status[] = $emptyResult;
+
+                // use limitation element for status string
+                if (isset($available['limitation'])) {
+                    $item_notes = array_merge(
+                        $item_notes,
+                        $this->getItemLimitationContent($available['limitation'])
+                    );
+                    $item_limitation_types = array_merge(
+                        $item_limitation_types,
+                        $this->getItemLimitationTypes($available['limitation'])
+                    );
+                }
+
+                // log messages for debugging
+                if (isset($available['message'])) {
+                    $this->logMessages($available['message'], 'item->available');
+                }
             }
         }
-        return $status;
+
+        if (isset($item['unavailable'])) {
+            foreach ($item['unavailable'] as $unavailable) {
+                if (isset($unavailable['service'])
+                    && in_array($unavailable['service'], ['loan', 'presentation'])
+                ) {
+                    $services['unavailable'][] = $unavailable['service'];
+                }
+                // attribute service can be set once or not
+                if (isset($unavailable['service'])
+                    && in_array(
+                        $unavailable['service'],
+                        ['loan', 'presentation', 'openaccess']
+                    )
+                ) {
+                    if ($unavailable['service'] == 'loan'
+                        && isset($unavailable['href'])
+                    ) {
+                        //save the link to the ils if we have a href for loan service
+                        $serviceLink = $unavailable['href'];
+                    }
+
+                    // use limitation element for status string
+                    if (isset($unavailable['limitation'])) {
+                        $item_notes = array_merge(
+                            $item_notes,
+                            $this->getItemLimitationContent(
+                                $unavailable['limitation']
+                            )
+                        );
+                        $item_limitation_types = array_merge(
+                            $item_limitation_types,
+                            $this->getItemLimitationTypes($unavailable['limitation'])
+                        );
+                    }
+                }
+                // attribute expected is mandatory for unavailable element
+                if (!empty($unavailable['expected'])) {
+                    try {
+                        $duedate = $this->dateConverter
+                            ->convertToDisplayDate(
+                                'Y-m-d', $unavailable['expected']
+                            );
+                    } catch (\Exception $e) {
+                        $this->debug('Date conversion failed: ' . $e->getMessage());
+                        $duedate = null;
+                    }
+                }
+
+                // attribute queue can be set
+                if (isset($unavailable['queue'])) {
+                    $queue = $unavailable['queue'];
+                }
+
+                // log messages for debugging
+                if (isset($unavailable['message'])) {
+                    $this->logMessages($unavailable['message'], 'item->unavailable');
+                }
+            }
+        }
+
+        /*'returnDate' => '', // false if not recently returned(?)*/
+
+        if (!empty($serviceLink)) {
+            $return['ilslink'] = $serviceLink;
+        }
+
+        $return['item_notes']      = $item_notes;
+        $return['status']          = $this->getStatusString($item);
+        $return['availability']    = $availability;
+        $return['duedate']         = $duedate;
+        $return['requests_placed'] = $queue;
+        $return['services']        = $this->getAvailableItemServices($services);
+
+        // In this DAIA driver implementation addLink and is_holdable are assumed
+        // Boolean as patron based availability requires either a patron-id or -type.
+        // This should be handled in a custom DAIA driver
+        $return['addLink']     = $this->checkIsRecallable($item);
+        $return['is_holdable'] = $this->checkIsRecallable($item);
+        $return['holdtype']    = $this->getHoldType($item);
+
+        // Check if we the item is available for storage retrieval request if it is
+        // not holdable.
+        $return['addStorageRetrievalRequestLink'] = !$return['is_holdable']
+            ? $this->checkIsStorageRetrievalRequest($item) : false;
+
+        // add a custom Field to allow passing custom DAIA data to the frontend in
+        // order to use it for more precise display of availability
+        $return['customData']      = $this->getCustomData($item);
+
+        $return['limitation_types'] = $item_limitation_types;
+        
+        return $return;
     }
 
     /**
-     * Return an abbreviated set of status information.
+     * Helper function to allow custom data in status array.
      *
-     * @param string $id The record id to retrieve the status for
+     * @param array $item Array with DAIA item data
      *
-     * @return mixed     On success, an associative array with the following keys:
-     * id, availability (boolean), status, location, reserve, callnumber, duedate,
-     * number
+     * @return array
      */
-    public function getXMLShortStatus($id)
+    protected function getCustomData($item)
     {
-        $daia = new DOMDocument();
-        $response = $this->doHTTPRequest($id);
-        if ($response) {
-            $daia->loadXML($response);
+        return [];
+    }
+
+    /**
+     * Helper function to return an appropriate status string for current item.
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return string
+     */
+    protected function getStatusString($item)
+    {
+        // status cannot be null as this will crash the translator
+        return '';
+    }
+
+    /**
+     * Helper function to determine if item is recallable.
+     * DAIA does not genuinly allow distinguishing between holdable and recallable
+     * items. This could be achieved by usage of limitations but this would not be
+     * shared functionality between different DAIA implementations (thus should be
+     * implemented in custom drivers). Therefore this returns whether an item
+     * is recallable based on unavailable services and the existence of an href.
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return bool
+     */
+    protected function checkIsRecallable($item)
+    {
+        // This basic implementation checks the item for being unavailable for loan
+        // and presentation but with an existing href (as a flag for further action).
+        $services = ['available' => [], 'unavailable' => []];
+        $href = false;
+        if (isset($item['available'])) {
+            // check if item is loanable or presentation
+            foreach ($item['available'] as $available) {
+                if (isset($available['service'])
+                    && in_array($available['service'], ['loan', 'presentation'])
+                ) {
+                    $services['available'][] = $available['service'];
+                }
+            }
         }
-        // get Availability information from DAIA
-        $itemlist = $daia->getElementsByTagName('item');
-        $label = "Unknown";
-        $storage = "Unknown";
-        $presenceOnly = '1';
-        $holding = [];
-        for ($c = 0; $itemlist->item($c) !== null; $c++) {
-            $earliest_href = '';
-            $storageElements = $itemlist->item($c)->getElementsByTagName('storage');
-            if ($storageElements->item(0) && $storageElements->item(0)->nodeValue) {
-                if ($storageElements->item(0)->nodeValue === 'Internet') {
-                    $href = $storageElements->item(0)->attributes
-                        ->getNamedItem('href')->nodeValue;
-                    $storage = '<a href="' . $href . '">' . $href . '</a>';
-                } else {
-                    $storage = $storageElements->item(0)->nodeValue;
+
+        if (isset($item['unavailable'])) {
+            foreach ($item['unavailable'] as $unavailable) {
+                if (isset($unavailable['service'])
+                    && in_array($unavailable['service'], ['loan', 'presentation'])
+                ) {
+                    $services['unavailable'][] = $unavailable['service'];
+                    // attribute href is used to determine whether item is recallable
+                    // or not
+                    $href = isset($unavailable['href']) ? true : $href;
                 }
             }
-            $labelElements = $itemlist->item($c)->getElementsByTagName('label');
-            if ($labelElements->item(0)->nodeValue) {
-                $label = $labelElements->item(0)->nodeValue;
-            }
-            $availableElements = $itemlist->item($c)
-                ->getElementsByTagName('available');
-            if ($availableElements->item(0) !== null) {
-                $availability = 1;
-                $status = 'Available';
-                $href = $availableElements->item(0)->attributes
-                    ->getNamedItem('href');
-                if ($href !== null) {
-                    $earliest_href = $href->nodeValue;
-                }
-                for ($n = 0; $availableElements->item($n) !== null; $n++) {
-                    $svc = $availableElements->item($n)->getAttribute('service');
-                    if ($svc === 'loan') {
-                        $presenceOnly = '0';
-                    }
-                    // $status .= ' ' . $svc;
-                }
-            } else {
-                $leanable = 1;
-                $unavailableElements = $itemlist->item($c)
-                    ->getElementsByTagName('unavailable');
-                if ($unavailableElements->item(0) !== null) {
-                    $earliest = [];
-                    $queue = [];
-                    $hrefs = [];
-                    for ($n = 0; $unavailableElements->item($n) !== null; $n++) {
-                        $unavailHref = $unavailableElements->item($n)->attributes
-                            ->getNamedItem('href');
-                        if ($unavailHref !== null) {
-                            $hrefs['item' . $n] = $unavailHref->nodeValue;
-                        }
-                        $expectedNode = $unavailableElements->item($n)->attributes
-                            ->getNamedItem('expected');
-                        if ($expectedNode !== null) {
-                            //$duedate = $expectedNode->nodeValue;
-                            //$duedate_arr = explode('-', $duedate);
-                            //$duedate_timestamp = mktime(
-                            //    '0', '0', '0', $duedate_arr[1], $duedate_arr[2],
-                            //    $duedate_arr[0]
-                            //);
-                            //array_push($earliest, array(
-                            //    'expected' => $expectedNode->nodeValue,
-                            //    'recall' => $unavailHref->nodeValue);
-                            //array_push($earliest, $expectedNode->nodeValue);
-                            $earliest['item' . $n] = $expectedNode->nodeValue;
-                        } else {
-                            array_push($earliest, "0");
-                        }
-                        $queueNode = $unavailableElements->item($n)->attributes
-                            ->getNamedItem('queue');
-                        if ($queueNode !== null) {
-                            $queue['item' . $n] = $queueNode->nodeValue;
-                        } else {
-                            array_push($queue, "0");
-                        }
-                    }
-                }
-                if (count($earliest) > 0) {
-                    arsort($earliest);
-                    $earliest_counter = 0;
-                    foreach ($earliest as $earliest_key => $earliest_value) {
-                        if ($earliest_counter === 0) {
-                            $earliest_duedate = $earliest_value;
-                            $earliest_href = isset($hrefs[$earliest_key])
-                                 ? $hrefs[$earliest_key] : '';
-                            $earliest_queue = isset($queue[$earliest_key])
-                                 ? $queue[$earliest_key] : '';
-                        }
-                        $earliest_counter = 1;
-                    }
-                } else {
-                    $leanable = 0;
-                }
-                $messageElements = $itemlist->item($c)
-                    ->getElementsByTagName('message');
-                if ($messageElements->length > 0) {
-                    $errno = $messageElements->item(0)->attributes
-                        ->getNamedItem('errno')->nodeValue;
-                    if ($errno === '404') {
-                        $status = 'missing';
-                    }
-                }
-                if (!isset($status)) {
-                    $status = 'Unavailable';
-                }
-                $availability = 0;
-            }
-            $reserve = 'N';
-            if (isset($earliest_queue) && $earliest_queue > 0) {
-                $reserve = 'Y';
-            }
-            $holding[] = [
-                'availability' => $availability,
-                'id'            => $id,
-                'status'        => isset($status) ? "$status" : '',
-                'location'      => isset($storage) ? "$storage" : '',
-                'reserve'       => isset($reserve) ? $reserve : '',
-                'queue'         => isset($earliest_queue) ? $earliest_queue : '',
-                'callnumber'    => isset($label) ? "$label" : '',
-                'duedate'       => isset($earliest_duedate) ? $earliest_duedate : '',
-                'leanable'      => isset($leanable) ? $leanable : '',
-                'recallhref'    => isset($earliest_href) ? $earliest_href : '',
-                'number'        => ($c+1),
-                'presenceOnly'  => isset($presenceOnly) ? $presenceOnly : '',
-            ];
         }
-        return $holding;
+
+        // Check if we have at least one service unavailable and a href field is set
+        // (either as flag or as actual value for the next action).
+        return ($href && count(
+            array_diff($services['unavailable'], $services['available'])
+        ));
+    }
+
+    /**
+     * Helper function to determine if the item is available as storage retrieval.
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return bool
+     */
+    protected function checkIsStorageRetrievalRequest($item)
+    {
+        // This basic implementation checks the item for being available for loan
+        // and presentation but with an existing href (as a flag for further action).
+        $services = ['available' => [], 'unavailable' => []];
+        $href = false;
+        if (isset($item['available'])) {
+            // check if item is loanable or presentation
+            foreach ($item['available'] as $available) {
+                if (isset($available['service'])
+                    && in_array($available['service'], ['loan', 'presentation'])
+                ) {
+                    $services['available'][] = $available['service'];
+                    // attribute href is used to determine whether item is
+                    // requestable or not
+                    $href = isset($available['href']) ? true : $href;
+                }
+            }
+        }
+
+        if (isset($item['unavailable'])) {
+            foreach ($item['unavailable'] as $unavailable) {
+                if (isset($unavailable['service'])
+                    && in_array($unavailable['service'], ['loan', 'presentation'])
+                ) {
+                    $services['unavailable'][] = $unavailable['service'];
+                }
+            }
+        }
+
+        // Check if we have at least one service unavailable and a href field is set
+        // (either as flag or as actual value for the next action).
+        return ($href && count(
+            array_diff($services['available'], $services['unavailable'])
+        ));
+    }
+
+    /**
+     * Helper function to determine the holdtype availble for current item.
+     * DAIA does not genuinly allow distinguishing between holdable and recallable
+     * items. This could be achieved by usage of limitations but this would not be
+     * shared functionality between different DAIA implementations (thus should be
+     * implemented in custom drivers). Therefore getHoldType always returns recall.
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return string 'recall'|null
+     */
+    protected function getHoldType($item)
+    {
+        // return holdtype (hold, recall or block if patron is not allowed) for item
+        return $this->checkIsRecallable($item) ? 'recall' : null;
+    }
+
+    /**
+     * Returns the evaluated value of the provided limitation element
+     *
+     * @param array $limitations Array with DAIA limitation data
+     *
+     * @return array
+     */
+    protected function getItemLimitation($limitations)
+    {
+        $itemLimitation = [];
+        foreach ($limitations as $limitation) {
+            // return the first limitation with content set
+            if (isset($limitation['content'])) {
+                $itemLimitation[] = $limitation['content'];
+            }
+        }
+        return $itemLimitation;
+    }
+
+    /**
+     * Returns the value of item.department.content (e.g. to be used in VuFind
+     * getStatus/getHolding array as location)
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return string
+     */
+    protected function getItemDepartment($item)
+    {
+        return isset($item['department']) && isset($item['department']['content'])
+        && !empty($item['department']['content'])
+            ? $item['department']['content']
+            : 'Unknown';
+    }
+
+    /**
+     * Returns the value of item.department.id (e.g. to be used in VuFind
+     * getStatus/getHolding array as location)
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return string
+     */
+    protected function getItemDepartmentId($item)
+    {
+        return isset($item['department']) && isset($item['department']['id'])
+            ? $item['department']['id'] : '';
+    }
+
+    /**
+     * Returns the value of item.department.href (e.g. to be used in VuFind
+     * getStatus/getHolding array for linking the location)
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return string
+     */
+    protected function getItemDepartmentLink($item)
+    {
+        return isset($item['department']['href'])
+            ? $item['department']['href'] : false;
+    }
+
+    /**
+     * Returns the value of item.storage.content (e.g. to be used in VuFind
+     * getStatus/getHolding array as location)
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return string
+     */
+    protected function getItemStorage($item)
+    {
+        return isset($item['storage']) && isset($item['storage']['content'])
+        && !empty($item['storage']['content'])
+            ? $item['storage']['content']
+            : 'Unknown';
+    }
+
+    /**
+     * Returns the value of item.storage.id (e.g. to be used in VuFind
+     * getStatus/getHolding array as location)
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return string
+     */
+    protected function getItemStorageId($item)
+    {
+        return isset($item['storage']) && isset($item['storage']['id'])
+            ? $item['storage']['id'] : '';
+    }
+
+    /**
+     * Returns the value of item.storage.href (e.g. to be used in VuFind
+     * getStatus/getHolding array for linking the location)
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return string
+     */
+    protected function getItemStorageLink($item)
+    {
+        return isset($item['storage']) && isset($item['storage']['href'])
+            ? $item['storage']['href'] : '';
+    }
+
+    /**
+     * Returns the evaluated values of the provided limitations element
+     *
+     * @param array $limitations Array with DAIA limitation data
+     *
+     * @return array
+     */
+    protected function getItemLimitationContent($limitations)
+    {
+        $itemLimitationContent = [];
+        foreach ($limitations as $limitation) {
+            // return the first limitation with content set
+            if (isset($limitation['content'])) {
+                $itemLimitationContent[] = $limitation['content'];
+            }
+        }
+        return $itemLimitationContent;
+    }
+
+    /**
+     * Returns the evaluated values of the provided limitations element
+     *
+     * @param array $limitations Array with DAIA limitation data
+     *
+     * @return array
+     */
+    protected function getItemLimitationTypes($limitations)
+    {
+        $itemLimitationTypes = [];
+        foreach ($limitations as $limitation) {
+            // return the first limitation with content set
+            if (isset($limitation['id'])) {
+                $itemLimitationTypes[] = $limitation['id'];
+            }
+        }
+        return $itemLimitationTypes;
+    }
+
+    /**
+     * Returns the value for "number" in VuFind getStatus/getHolding array
+     *
+     * @param array $item    Array with DAIA item data
+     * @param int   $counter Integer counting items as alternative return value
+     *
+     * @return mixed
+     */
+    protected function getItemNumber($item, $counter)
+    {
+        return $counter;
+    }
+
+    /**
+     * Returns the value for "location" in VuFind getStatus/getHolding array
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return string
+     */
+    protected function getItemBarcode($item)
+    {
+        return '1';
+    }
+
+    /**
+     * Returns the value for "reserve" in VuFind getStatus/getHolding array
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return string
+     */
+    protected function getItemReserveStatus($item)
+    {
+        return 'N';
+    }
+
+    /**
+     * Returns the value for "callnumber" in VuFind getStatus/getHolding array
+     *
+     * @param array $item Array with DAIA item data
+     *
+     * @return string
+     */
+    protected function getItemCallnumber($item)
+    {
+        return isset($item['label']) && !empty($item['label'])
+            ? $item['label']
+            : 'Unknown';
+    }
+
+    /**
+     * Returns the available services of the given set of available and unavailable
+     * services
+     *
+     * @param array $services Array with DAIA services available/unavailable
+     *
+     * @return array
+     */
+    protected function getAvailableItemServices($services)
+    {
+        $availableServices = [];
+        if (isset($services['available'])) {
+            foreach ($services['available'] as $service) {
+                if (!isset($services['unavailable'])
+                    || !in_array($service, $services['unavailable'])
+                ) {
+                    $availableServices[] = $service;
+                }
+            }
+        }
+        return array_intersect(['loan', 'presentation'], $availableServices);
+    }
+
+    /**
+     * Logs content of message elements in DAIA response for debugging
+     *
+     * @param array  $messages Array with message elements to be logged
+     * @param string $context  Description of current message context
+     *
+     * @return void
+     */
+    protected function logMessages($messages, $context)
+    {
+        foreach ($messages as $message) {
+            if (isset($message['content'])) {
+                $this->debug(
+                    'Message in DAIA response (' . (string) $context . '): ' .
+                    $message['content']
+                );
+            }
+        }
     }
 }

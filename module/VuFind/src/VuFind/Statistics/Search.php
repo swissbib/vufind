@@ -17,24 +17,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Statistics
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 namespace VuFind\Statistics;
 
 /**
  * VuFind Statistics Class for Searches
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Statistics
  * @author   Chris Hallberg <challber@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 class Search extends AbstractBase
 {
@@ -62,8 +62,8 @@ class Search extends AbstractBase
      * Returns a set of basic statistics including total searches,
      * number of empty searches and most popular search terms.
      *
-     * @param integer $listLength Number of top searches to return
-     * @param bool    $bySource   Separate searches by search source?
+     * @param int  $listLength Number of top searches to return
+     * @param bool $bySource   Separate searches by search source?
      *
      * @return array
      */
@@ -75,7 +75,7 @@ class Search extends AbstractBase
                 $sources = $driver->getFullList('searchSource');
                 $hashes = [];
                 // Generate hashes (faster than grouping by looping)
-                for ($i = 0;$i<count($summary);$i++) {
+                for ($i = 0;$i < count($summary);$i++) {
                     if (!isset($sources[$i]['searchSource'])) {
                         $sources[$i]['searchSource'] = 'Search';
                     } else {
@@ -113,7 +113,8 @@ class Search extends AbstractBase
                             'source' => $source
                         ];
                         // Insert sort (limit to listLength)
-                        for ($i = 0;$i<$listLength-1 && $i<count($reference);$i++) {
+                        $refCount = count($reference);
+                        for ($i = 0; $i < $listLength - 1 && $i < $refCount; $i++) {
                             if ($count > $reference[$i]['count']) {
                                 // Insert in order
                                 array_splice($reference, $i, 0, [$newRecord]);

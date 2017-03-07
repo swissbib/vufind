@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Sierra (III) ILS Driver for Vufind2
+ * Sierra (III) ILS Driver for VuFind
  *
  * PHP version 5
  *
@@ -20,27 +20,30 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category VuFind2
+ * @category VuFind
  * @package  ILS_Drivers
  * @author   Julia Bauder <bauderj@grinnell.edu>
  * @license  http://opensource.org/licenses/GPL-3.0 GNU General Public License
- * @link     http://vufind.org/wiki/building_an_ils_driver Wiki
+ * @link     https://vufind.org/wiki/development:plugins:ils_drivers Wiki
  */
 namespace VuFind\ILS\Driver;
 
-use VuFind\Exception\ILS as ILSException;
+use VuFind\Exception\ILS as ILSException,
+    VuFind\I18n\Translator\TranslatorAwareInterface;
 
 /**
- * Sierra (III) ILS Driver for Vufind2
+ * Sierra (III) ILS Driver for VuFind
  *
- * @category VuFind2
+ * @category VuFind
  * @package  ILS_Drivers
  * @author   Julia Bauder <bauderj@grinnell.edu>
  * @license  http://opensource.org/licenses/GPL-3.0 GNU General Public License
- * @link     http://vufind.org/wiki/building_an_ils_driver Wiki
+ * @link     https://vufind.org/wiki/development:plugins:ils_drivers Wiki
  */
-class Sierra extends AbstractBase
+class Sierra extends AbstractBase implements TranslatorAwareInterface
 {
+    use \VuFind\I18n\Translator\TranslatorAwareTrait;
+
     /**
      * Database connection
      *
@@ -79,7 +82,7 @@ class Sierra extends AbstractBase
         // see Millennium manual page #105781 for the logic behind this
         for ($i = $numberLength; $i > 0; $i--) {
             $j = $numberLength - $i;
-            $partialCheck = $partialCheck + ($digitArray[$j] * ($i+1));
+            $partialCheck = $partialCheck + ($digitArray[$j] * ($i + 1));
         }
         $checkdigit = $partialCheck % 11;
         if ($checkdigit == 10) {
@@ -115,6 +118,39 @@ class Sierra extends AbstractBase
     }
 
     /**
+     * Modify location string to add status information, if necessary
+     *
+     * @param string $location Original location string
+     * @param string $cattime  Date and time item record was created
+     *
+     * @return string
+     */
+    protected function getLocationText($location, $cattime)
+    {
+        // No "just cataloged" setting? Default to unmodified location.
+        if (!isset($this->config['Catalog']['just_cataloged_time'])) {
+            return $location;
+        }
+
+        // Convert hours to seconds:
+        $seconds = 60 * 60 * $this->config['Catalog']['just_cataloged_time'];
+
+        // Was this a recently cataloged item? If so, return a special string
+        // based on the append setting....
+        if (time() - $seconds < strtotime($cattime)) {
+            if (isset($this->config['Catalog']['just_cataloged_append'])
+                && $this->config['Catalog']['just_cataloged_append'] == 'Y'
+            ) {
+                return $location . ' ' . $this->translate('just_cataloged');
+            }
+            return $this->translate('just_cataloged');
+        }
+
+        // Default case: return the location unmodified:
+        return $location;
+    }
+
+    /**
      * Some call number processing used for both getStatus and getHoldings
      *
      * @param string $callnumber Call number
@@ -135,11 +171,15 @@ class Sierra extends AbstractBase
             $results = pg_query_params(
                 $this->db, $query, [$this->idStrip($id)]
             );
-            $callnumberarray = pg_fetch_array($results, 0, PGSQL_NUM);
-            $callnumber = $callnumberarray[0];
+            if (pg_num_rows($results) > 0) {
+                $callnumberarray = pg_fetch_array($results, 0, PGSQL_NUM);
+                $callnumber = $callnumberarray[0];
+                // stripping subfield codes from call numbers
+                $callnumber = preg_replace('/\|(a|b)/', ' ', $callnumber);
+            } else {
+                $callnumber = '';
+            }
         }
-        // stripping subfield codes from call numbers
-        $callnumber = preg_replace('/\|(a|b)/', ' ', $callnumber);
         return $callnumber;
     }
 
@@ -163,7 +203,6 @@ class Sierra extends AbstractBase
                 . " dbname=" . $this->config['Catalog']['dna_db']
                 . " user=" . $this->config['Catalog']['dna_user']
                 . " password=" . $this->config['Catalog']['dna_password'];
-
             $this->db = pg_connect($conn_string);
         } catch (\Exception $e) {
             throw new ILSException($e->getMessage());
@@ -360,7 +399,8 @@ class Sierra extends AbstractBase
                     . "location_name.name, "
                     . "varfield_view.field_content, "
                     . "varfield_view.varfield_type_code, "
-                    . "checkout.due_gmt "
+                    . "checkout.due_gmt, "
+                    . "item_view.record_creation_date_gmt "
                     . "FROM sierra_view.item_view "
                     . "LEFT JOIN sierra_view.varfield_view "
                     . "ON (item_view.id = varfield_view.record_id) "
@@ -394,11 +434,11 @@ class Sierra extends AbstractBase
                 } else {
                     $availability = false;
                 }
-
+                $location = $this->getLocationText($resultArray[1], $resultArray[5]);
                 $itemInfo = [
                     "id" => $id,
                     "status" => $resultArray[0],
-                    "location" => $resultArray[1],
+                    "location" => $location,
                     "reserve" => "N",
                     "callnumber" => $finalcallnumber,
                     "availability" => $availability
@@ -439,9 +479,10 @@ class Sierra extends AbstractBase
                         location_name.name,
                         checkout.due_gmt,
                         varfield_view.field_content,
-                        varfield_view.varfield_type_code
-                            FROM
-                            sierra_view.item_view
+                        varfield_view.varfield_type_code,
+                        item_view.record_creation_date_gmt
+                        FROM
+                        sierra_view.item_view
                         LEFT JOIN sierra_view.location
                         ON (item_view.location_code = location.code)
                         LEFT JOIN sierra_view.location_name
@@ -456,7 +497,9 @@ class Sierra extends AbstractBase
             pg_prepare($this->db, "prep_query", $query1);
             foreach ($itemIds as $item) {
                 $callnumber = null;
+                $barcode = null;
                 $results1 = pg_execute($this->db, "prep_query", [$item]);
+                $number = null;
                 while ($row1 = pg_fetch_row($results1)) {
                     if ($row1[4] == "b") {
                         $barcode = $row1[3];
@@ -478,12 +521,12 @@ class Sierra extends AbstractBase
                 } else {
                     $availability = false;
                 }
-
+                $location = $this->getLocationText($resultArray[1], $resultArray[5]);
                 $itemInfo = [
                     "id" => $id,
                     "availability" => $availability,
                     "status" => $resultArray[0],
-                    "location" => $resultArray[1],
+                    "location" => $location,
                     "reserve" => "N",
                     "callnumber" => $finalcallnumber,
                     "duedate" => $resultArray[2],

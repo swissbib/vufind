@@ -1,7 +1,4 @@
 <h1>Ricerca</h1>
-<p>swissbib Basel Bern è suddiviso in due banche dati separate: <strong>Libri & più</strong> e <strong>Articoli & più</strong> (vedi anche <a href="<?= $this->url('help-page', array('topic' => 'about')); ?>"><?= $this->transEsc('helppage.about') ?></a>). Scegli la banca dati nella quale vuoi eseguire la tua ricerca mediante un clic sulla relativa etichetta soprastante il campo di ricerca.</p>
-
-<iframe width="230" height="160" src="https://tube.switch.ch/embed/8e47b4c8" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 
 <h2>Combinare più termini</h2>
 <p>Gli operatori booleani (AND, OR e NOT) permettono di combinare in maniera logica diversi termini di ricerca. Gli operatori devono essere scritti in caratteri maiuscoli.</p>
@@ -25,7 +22,7 @@
     </tr>
     <tr>
         <td>Ricerche più complesse</td>
-        <td>Vedi <a class="help-link" href="<?=$this->url('help-home')?>?topic=search" title="<?=$this->transEsc('Help with Search Operators')?>"><?=$this->transEsc("Help with Search Operators")?></a>.
+        <td>Vedi <a class="help-link" data-lightbox href="<?=$this->url('help-home')?>?topic=search" title="<?=$this->transEsc('Help with Search Operators')?>"><?=$this->transEsc("Help with Search Operators")?></a>.
         </td>
     </tr>
     </tbody>
@@ -80,14 +77,3 @@
     </tr>
     </tbody>
 </table>
-<h2>Affinare la ricerca</h2>
-<p>Usa i filtri nella colonna a destra dell'elenco dei risultati per precisare la tua ricerca secondo vari criteri, ad es. lingua di pubblicazione, biblioteca prestante, disponibilità online, soggetto, ecc.</p>
-<p>In Articoli & più è possibile aumentare il numero dei risultati spuntando, nella colonna a destra, le caselle "anche articoli senza testo integrale", risp. "anche giornali". È altresì possibile concentrare la ricerca sui testi cosiddetti "peer reviewed", cioé sottoposti ad una valutazione esperta eseguita da specialisti del campo.</p>
-<h2>Ricerca avanzata</h2>
-<p>Nella ricerca avanzata si possono combinare termini di campi diversi, per es. una parola del titolo con il nome dell'autore.</p>
-<p>Sono anche qui a disposizione gli operatori booleani AND, OR e NOT per combinare i termini di ricerca.</p>
-<p>Sotto Affinare la tua ricerca vi è la possibilità di selezionare direttamente dei filtri (lingua, formato, biblioteca prestante, anno di pubblicazione).</p>
-<p><strong>Esempio:</strong> Cerca libri dell'autore Begon, il cui titolo contenga le parole "Oekologie" o "ecology", pubblicati o in tedesco o in francese tra gli anni 2005 e 2015, e disponibili alla UB Basel-Hauptbibliothek.</p>
-<a href="<?= $this->basePath('themes/sbvfrdmulti/images/HelpPage/it/advancedsearch.jpg') ?>" class="help">
-    <img class="img-responsive" src="<?= $this->basePath('themes/sbvfrdmulti/images/HelpPage/it/advancedsearch.jpg') ?>" alt="Zoom" width="600">
-</a>

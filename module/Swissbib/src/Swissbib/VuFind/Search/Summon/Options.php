@@ -20,42 +20,54 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib_VuFind2
- * @package  Search_Summon
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Search_Summon
  * @author   Oliver Schihin <oliver.schihin@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  * @link     http://www.vufind.org  Main Page
  */
-
 namespace Swissbib\Vufind\Search\Summon;
 
 use VuFind\Search\Summon\Options as VFSummonOptions;
 
-
+/**
+ * Summon Search Options
+ *
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Search_SolrClassification
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.swissbib.org  Main Page
+ */
 class Options extends VFSummonOptions
 {
-  /**
-   * Set default limit
-   *
-   * @param    Integer $limit
-   */
-  public function setDefaultLimit($limit)
-  {
-    $maxLimit = max($this->getLimitOptions());
-    if ($limit > $maxLimit) {
-      $this->defaultLimit = $maxLimit;
-    } else {
-      $this->defaultLimit = intval($limit);
+    /**
+     * Set default limit
+     *
+     * @param Integer $limit DefaultLimit
+     *
+     * @return void
+     */
+    public function setDefaultLimit($limit)
+    {
+        $maxLimit = max($this->getLimitOptions());
+        if ($limit > $maxLimit) {
+            $this->defaultLimit = $maxLimit;
+        } else {
+            $this->defaultLimit = intval($limit);
+        }
     }
-  }
 
-
-  /**
-   * @param String    $defaultSort
-   */
-  public function setDefaultSort($defaultSort)
-  {
-    $this->defaultSort = $defaultSort;
-  }
+    /**
+     * Set default sort
+     *
+     * @param String $defaultSort DefaultSort
+     *
+     * @return void
+     */
+    public function setDefaultSort($defaultSort)
+    {
+        $this->defaultSort = $defaultSort;
+    }
 }

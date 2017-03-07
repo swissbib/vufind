@@ -1,0 +1,8 @@
+<? if ($external === true): ?>
+    <div class="alert alert-info">
+        <strong><?=$this->transEsc('Access')?></strong>
+        <p>
+            <?=$this->transEsc('external_access_info')?> (<a target="_blank" class="color singleLink" href="http://mobile.unibas.ch/home.html" title="Uni Basel">Uni Basel</a> / <a target="_blank" class="color singleLink" href="http://www.vpn.unibe.ch/" title="Uni Basel">Uni Bern</a>).
+        </p>
+    </div>
+<? endif; ?>

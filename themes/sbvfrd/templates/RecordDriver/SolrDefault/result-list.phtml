@@ -27,11 +27,7 @@ $formats = $viewRecord->getFormatList();
 
   <div class="hidden-xs col-sm-3 col-md-2 no-gutter hidden-print">
     <a href="<?=$this->recordLink()->getUrl($this->driver)?>" class="img-responsive">
-      <? if ( !($thumbnail === false) ):  ?>
         <img alt="<?= $this->escapeHtml($shortTitle) ?>" class="recordcover" src="<?= $thumbnail ?>"/>
-      <? else: ?>
-		  <div class="thumbico <?= $viewRecord->getThumbnailPlaceholder() ?>"></div>
-      <? endif; ?>
     </a>
   </div>
 

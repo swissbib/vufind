@@ -1,0 +1,40 @@
+<div id="swissbib-feedback-form">
+  <h2><?= $this->transEsc("feedback.title")?></h2>
+  <p><?= $this->transEsc("feedback.intro")?></p>
+
+  <?=$this->flashmessages() ?>
+
+  <? if (isset($form)): ?>
+    <?= $this->form()->openTag($form) ?>
+
+    <?= $this->render('form/form-group.phtml', ['field' => $form->get('questionType')]) ?>
+    <?= $this->render('form/form-group.phtml', ['field' => $form->get('question')]) ?>
+    <?= $this->render('form/form-group.phtml', ['field' => $form->get('name')]) ?>
+    <?= $this->render('form/form-group.phtml', ['field' => $form->get('userNumber')]) ?>
+    <?= $this->render('form/form-group.phtml', ['field' => $form->get('email')]) ?>
+
+    <?= $this->formRow($form->get('security')) ?>
+    <input type="hidden" name="form-name" value="swissbibfeedback">
+
+    <div class="form-group">
+      <div class="col-sm-9 col-sm-offset-3">
+        <input class="btn btn-primary" name="<?= $form->get('submit')->getName() ?>" type="submit" value="<?= $this->transEsc($form->get('submit')->getValue()) ?>">
+      </div>
+    </div>
+    <h3><?= $this->transEsc("feedback.contact") ?></h3>
+      <p><?= $this->transEsc("feedback.contact.phone") ?></p>
+        <ul>
+          <li><?= $this->transEsc("feedback.contact.phone.bs") ?></li>
+          <li><?= $this->transEsc("feedback.contact.phone.be") ?></li>
+        </ul>
+      <p><?= $this->transEsc("feedback.contact.email") ?> <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#119;&#105;&#115;&#115;&#98;&#105;&#98;&#45;&#98;&#97;&#115;&#101;&#108;&#98;&#101;&#114;&#110;&#64;&#117;&#110;&#105;&#98;&#97;&#115;&#46;&#99;&#104;">&#115;&#119;&#105;&#115;&#115;&#98;&#105;&#98;&#45;&#98;&#97;&#115;&#101;&#108;&#98;&#101;&#114;&#110; &#97;&#116; &#117;&#110;&#105;&#98;&#97;&#115;&#46;&#99;&#104;</a></p>
+          <p><?= $this->transEsc("feedback.contact.person") ?> <a href="<?= $this->basePath('Libraries') ?>"><?= $this->transEsc("feedback.contact.librariesLinkText") ?></a></p>
+
+    <!-- Chatfunktion zum Testen - Integration im Kontaktformular-->
+    <div class="row needs-js">
+      chat loading...
+    </div>
+
+    <?= $this->form()->closeTag() ?>
+  <? endif; ?>
+</div>

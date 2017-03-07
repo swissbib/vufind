@@ -31,7 +31,7 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('help-page') . '">' 
       </a>
     <?php endforeach; ?>
       <? if ($this->feedback()->tabEnabled()): ?>
-      <a id="feedbackLink" class="modal-link list-group-item" href="<?= $this->url('feedback-home') ?>"><?= $this->transEsc("menu.contact") ?></a>
+      <a class="list-group-item" href="<?= $this->url('feedback-home') ?>"><?= $this->transEsc("menu.contact") ?></a>
       <? endif; ?>
   </ul>
 </div>

@@ -1,0 +1,92 @@
+/* --- Autocomplete --- */
+.twitter-typeahead {
+  background: #FFF;
+  border-radius: 4px;
+  vertical-align: top;
+}
+.twitter-typeahead .tt-hint {
+  display: none;
+}
+@media (max-width: 767px) {
+  .twitter-typeahead {
+    width: 100%;
+  }
+}
+.tt-dropdown-menu {
+  margin-bottom: 20px;
+  padding-left: 0;
+}
+.tt-suggestion {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tt-suggestion:first-child {
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+.tt-suggestion:last-child {
+  margin-bottom: 0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.tt-suggestion.disabled,
+.tt-suggestion.disabled:hover,
+.tt-suggestion.disabled:focus {
+  background-color: #eeeeee;
+  color: #777777;
+  cursor: not-allowed;
+}
+.tt-suggestion.disabled .list-group-item-heading,
+.tt-suggestion.disabled:hover .list-group-item-heading,
+.tt-suggestion.disabled:focus .list-group-item-heading {
+  color: inherit;
+}
+.tt-suggestion.disabled .list-group-item-text,
+.tt-suggestion.disabled:hover .list-group-item-text,
+.tt-suggestion.disabled:focus .list-group-item-text {
+  color: #777777;
+}
+.tt-suggestion.active,
+.tt-suggestion.active:hover,
+.tt-suggestion.active:focus {
+  z-index: 2;
+  color: #ffffff;
+  background-color: #265680;
+  border-color: #265680;
+}
+.tt-suggestion.active .list-group-item-heading,
+.tt-suggestion.active:hover .list-group-item-heading,
+.tt-suggestion.active:focus .list-group-item-heading,
+.tt-suggestion.active .list-group-item-heading > small,
+.tt-suggestion.active:hover .list-group-item-heading > small,
+.tt-suggestion.active:focus .list-group-item-heading > small,
+.tt-suggestion.active .list-group-item-heading > .small,
+.tt-suggestion.active:hover .list-group-item-heading > .small,
+.tt-suggestion.active:focus .list-group-item-heading > .small {
+  color: inherit;
+}
+.tt-suggestion.active .list-group-item-text,
+.tt-suggestion.active:hover .list-group-item-text,
+.tt-suggestion.active:focus .list-group-item-text {
+  color: #93bcdf;
+}
+.tt-suggestion i.fa {
+  cursor: inherit;
+}
+.tt-suggestion.active {
+  white-space: inherit;
+}
+.tt-suggestion.tt-cursor {
+  background-color: #265680;
+  color: #FFF;
+}
+.tt-suggestion p {
+  margin: 0;
+}

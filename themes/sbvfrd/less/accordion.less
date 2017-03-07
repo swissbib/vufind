@@ -12,7 +12,7 @@
   margin-top: 20px;
 
   i {
-    color: @favorite_dark;
+    //color: @favorite_dark;
   }
 
   .holdingsAjaxSpinner {
@@ -48,27 +48,27 @@
 
         &[aria-expanded=false] {
 
-            &:hover:before {
-              color: @theme-color;
-            }
+          &:hover:before {
+            color: @theme-color;
+          }
 
-            &:before {
-              .icon();
-              content: '\f0da';
-            }
+          &:before {
+            .icon();
+            content: '\f0da';
+          }
 
         }
 
         &[aria-expanded=true] {
 
-            &:hover:before {
-              color: @theme-color;
-            }
+          &:hover:before {
+            color: @theme-color;
+          }
 
-            &:before {
-              .icon();
-              content: '\f0d7';
-            }
+          &:before {
+            .icon();
+            content: '\f0d7';
+          }
 
         }
       }
@@ -77,6 +77,17 @@
 
     .panel-body {
       padding: 0;
+
+      p:first-child {
+        padding: 10px 0 0 0;
+      }
+
+      ul a {
+        text-decoration: underline;
+      }
+      ol a {
+        text-decoration: underline;
+      }
     }
 
     /** 2nd level specific/overwrites **/

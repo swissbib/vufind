@@ -17,24 +17,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Controller
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:building_a_controller Wiki
+ * @link     https://vufind.org/wiki/development:plugins:controllers Wiki
  */
 namespace VuFind\Controller;
 
 /**
  * Hierarchy Controller
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Controller
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:building_a_controller Wiki
+ * @link     https://vufind.org/wiki/development:plugins:controllers Wiki
  */
 class HierarchyController extends AbstractBase
 {
@@ -80,7 +80,7 @@ class HierarchyController extends AbstractBase
      */
     public function searchtreeAction()
     {
-        $this->writeSession();  // avoid session write timing bug
+        $this->disableSessionWrites();  // avoid session write timing bug
         $config = $this->getConfig();
         $limit = isset($config->Hierarchy->treeSearchLimit)
             ? $config->Hierarchy->treeSearchLimit : -1;
@@ -93,7 +93,7 @@ class HierarchyController extends AbstractBase
             ->get('VuFind\SearchResultsPluginManager')->get('Solr');
         $results->getParams()->setBasicSearch($lookfor, $searchType);
         $results->getParams()->addFilter('hierarchy_top_id:' . $hierarchyID);
-        $facets = $results->getFullFieldFacets(['id'], false, $limit+1);
+        $facets = $results->getFullFieldFacets(['id'], false, $limit + 1);
 
         $callback = function ($data) {
             return $data['value'];
@@ -117,7 +117,7 @@ class HierarchyController extends AbstractBase
      */
     public function gettreeAction()
     {
-        $this->writeSession();  // avoid session write timing bug
+        $this->disableSessionWrites();  // avoid session write timing bug
         // Retrieve the record from the index
         $id = $this->params()->fromQuery('id');
         $loader = $this->getServiceLocator()->get('VuFind\RecordLoader');
@@ -150,7 +150,7 @@ class HierarchyController extends AbstractBase
      */
     public function gettreejsonAction()
     {
-        $this->writeSession();  // avoid session write timing bug
+        $this->disableSessionWrites();  // avoid session write timing bug
         // Retrieve the record from the index
         $id = $this->params()->fromQuery('id');
         $loader = $this->getServiceLocator()->get('VuFind\RecordLoader');

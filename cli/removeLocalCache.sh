@@ -18,7 +18,7 @@ if [ "$UID"  -eq 0 ]; then
 
     echo "now restart apache ..."
 
-    service httpd restart
+    service apache2 restart
 
 else
         echo "You have to be root to start this script!"

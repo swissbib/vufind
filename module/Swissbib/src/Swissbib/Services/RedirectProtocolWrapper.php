@@ -1,7 +1,6 @@
 <?php
- 
  /**
- * [...description of the type ...]
+ * RedirectProtocolWrapper
  *
  * PHP version 5
  *
@@ -23,46 +22,62 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib_VuFind2
- * @package  [...package name...]
+ * @category Swissbib_VuFind2
+ * @package  Services
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
-
-
 namespace Swissbib\Services;
 
+/**
+ * RedirectProtocolWrapper
+ *
+ * @category Swissbib_VuFind2
+ * @package  Services
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ */
+class RedirectProtocolWrapper
+{
+    /**
+     * VuFindConfig
+     *
+     * @var Config
+     */
+    protected $vfConfig = null;
 
-class RedirectProtocolWrapper {
-
-    private $vfConfig = null;
-
-    public function __construct($config) {
-
+    /**
+     * Constructor
+     *
+     * @param Config $config VuFindConfig
+     */
+    public function __construct($config)
+    {
         $this->vfConfig = $config;
-
     }
 
-    /*
-     * wrapper Function to wrap URL'S for another service
-     * for swissbib we use the service for http URL's which should used within a https environment
+    /**
+     * Wrapper Function to wrap URL'S for another service for swissbib we use the
+     * service for http URL's which should used within a https environment
+     *
+     * @param String $url Url
+     *
+     * @return String
      */
-    public function getWrappedURL($url) {
-
+    public function getWrappedURL($url)
+    {
         $wrapper = $this->vfConfig->Content->redirectProtocolWrapper;
 
-        if (!empty ($wrapper)) {
-
-            //& has to be escaped otherwise the wrapper service isn't able to group parts of the QUERY_STRING correctly
+        if (!empty($wrapper)) {
+            //& has to be escaped otherwise the wrapper service isn't able to
+            // group parts of the QUERY_STRING correctly
             $url = preg_replace("/&/", "ESCAPED_AND_PERCENT", $url);
-            $url = $this->vfConfig->Content->redirectProtocolWrapper . "?" . "targetURL=" . $url ;
-
+            $url = $this->vfConfig->Content->redirectProtocolWrapper . "?" .
+                "targetURL=" . $url;
         }
 
         return $url;
-
     }
-
-
-} 
+}

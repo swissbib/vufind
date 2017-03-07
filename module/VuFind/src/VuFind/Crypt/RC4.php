@@ -18,13 +18,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Crypt
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.vufind.org  Main Page
+ * @link     https://vufind.org Main Page
  */
 namespace VuFind\Crypt;
 
@@ -32,11 +32,11 @@ namespace VuFind\Crypt;
  * RC4 encryption class (wrapper around code borrowed from a third-party
  * developer -- see embedded copyright information on encrypt method)
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Crypt
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.vufind.org  Main Page
+ * @link     https://vufind.org Main Page
  */
 class RC4
 {
@@ -60,12 +60,12 @@ class RC4
          * Website: http://farhadi.ir/
          */
         $s = [];
-        for ($i = 0; $i<256; $i++) {
+        for ($i = 0; $i < 256; $i++) {
             $s[$i] = $i;
         }
         $j = 0;
         $x;
-        for ($i = 0; $i<256; $i++) {
+        for ($i = 0; $i < 256; $i++) {
             $j = ($j + $s[$i] + ord($key[$i % strlen($key)])) % 256;
             $x = $s[$i];
             $s[$i] = $s[$j];
@@ -75,7 +75,7 @@ class RC4
         $j = 0;
         $ct = '';
         $y;
-        for ($y = 0; $y<strlen($pt); $y++) {
+        for ($y = 0; $y < strlen($pt); $y++) {
             $i = ($i + 1) % 256;
             $j = ($j + $s[$i]) % 256;
             $x = $s[$i];

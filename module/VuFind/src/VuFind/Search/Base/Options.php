@@ -17,28 +17,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search_Base
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.vufind.org  Main Page
+ * @link     https://vufind.org Main Page
  */
 namespace VuFind\Search\Base;
-use VuFind\I18n\Translator\TranslatorAwareInterface,
-    Zend\Session\Container as SessionContainer;
+use VuFind\I18n\Translator\TranslatorAwareInterface;
 
 /**
  * Abstract options search model.
  *
  * This abstract class defines the option methods for modeling a search in VuFind.
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search_Base
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.vufind.org  Main Page
+ * @link     https://vufind.org Main Page
  */
 abstract class Options implements TranslatorAwareInterface
 {
@@ -50,6 +49,13 @@ abstract class Options implements TranslatorAwareInterface
      * @var array
      */
     protected $sortOptions = [];
+
+    /**
+     * Available sort options for facets
+     *
+     * @var array
+     */
+    protected $facetSortOptions = [];
 
     /**
      * Overall default sort option
@@ -143,11 +149,39 @@ abstract class Options implements TranslatorAwareInterface
     protected $viewOptions = [];
 
     /**
+     * Default delimiter used for delimited facets
+     *
+     * @var string
+     */
+    protected $defaultFacetDelimiter;
+
+    /**
+     * Facet settings
+     *
+     * @var array
+     */
+    protected $delimitedFacets = [];
+
+    /**
+     * Convenient field => delimiter lookup array derived from $delimitedFacets.
+     *
+     * @var array
+     */
+    protected $processedDelimitedFacets = null;
+
+    /**
      * Facet settings
      *
      * @var array
      */
     protected $translatedFacets = [];
+
+    /**
+     * Text domains for translated facets
+     *
+     * @var array
+     */
+    protected $translatedFacetsTextDomains = [];
 
     /**
      * Spelling setting
@@ -206,15 +240,54 @@ abstract class Options implements TranslatorAwareInterface
     protected $facetsIni = 'facets';
 
     /**
+     * Active list view option (see [List] in searches.ini).
+     *
+     * @var string
+     */
+    protected $listviewOption = "full";
+
+    /**
+     * Configuration loader
+     *
+     * @var \VuFind\Config\PluginManager
+     */
+    protected $configLoader;
+
+    /**
+     * Maximum number of results (no limit by default)
+     *
+     * @var int
+     */
+    protected $resultLimit = -1;
+
+    /**
+     * Is the first/last navigation scroller enabled?
+     *
+     * @var bool
+     */
+    protected $firstlastNavigation = false;
+
+    /**
      * Constructor
      *
      * @param \VuFind\Config\PluginManager $configLoader Config loader
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(\VuFind\Config\PluginManager $configLoader)
     {
         $this->limitOptions = [$this->defaultLimit];
+        $this->setConfigLoader($configLoader);
+    }
+
+    /**
+     * Set the config loader
+     *
+     * @param \VuFind\Config\PluginManager $configLoader Config loader
+     *
+     * @return void
+     */
+    public function setConfigLoader(\VuFind\Config\PluginManager $configLoader)
+    {
+        $this->configLoader = $configLoader;
     }
 
     /**
@@ -373,6 +446,16 @@ abstract class Options implements TranslatorAwareInterface
     }
 
     /**
+     * Get an array of sort options for facets.
+     *
+     * @return array
+     */
+    public function getFacetSortOptions()
+    {
+        return $this->facetSortOptions;
+    }
+
+    /**
      * Get the default sort option for the specified search handler.
      *
      * @param string $handler Search handler being used
@@ -432,6 +515,71 @@ abstract class Options implements TranslatorAwareInterface
     }
 
     /**
+    * Returns the defaultFacetDelimiter value.
+    *
+    * @return string
+    */
+    public function getDefaultFacetDelimiter()
+    {
+        return $this->defaultFacetDelimiter;
+    }
+
+    /**
+    * Set the defaultFacetDelimiter value.
+    *
+    * @param string $defaultFacetDelimiter A default delimiter to be used with
+    * delimited facets
+    *
+    * @return void
+    */
+    public function setDefaultFacetDelimiter($defaultFacetDelimiter)
+    {
+        $this->defaultFacetDelimiter = $defaultFacetDelimiter;
+        $this->processedDelimitedFacets = null; // clear processed value cache
+    }
+
+    /**
+     * Get a list of delimited facets
+     *
+     * @param bool $processed False = return raw values; true = process values into
+     * field => delimiter associative array.
+     *
+     * @return array
+     */
+    public function getDelimitedFacets($processed = false)
+    {
+        if (!$processed) {
+            return $this->delimitedFacets;
+        }
+        if (null === $this->processedDelimitedFacets) {
+            $this->processedDelimitedFacets = [];
+            $defaultDelimiter = $this->getDefaultFacetDelimiter();
+            foreach ($this->delimitedFacets as $current) {
+                $parts = explode('|', $current, 2);
+                if (count($parts) == 2) {
+                    $this->processedDelimitedFacets[$parts[0]] = $parts[1];
+                } else {
+                    $this->processedDelimitedFacets[$parts[0]] = $defaultDelimiter;
+                }
+            }
+        }
+        return $this->processedDelimitedFacets;
+    }
+
+    /**
+    * Set the delimitedFacets value.
+    *
+    * @param array $delimitedFacets An array of delimited facet names
+    *
+    * @return void
+    */
+    public function setDelimitedFacets($delimitedFacets)
+    {
+        $this->delimitedFacets = $delimitedFacets;
+        $this->processedDelimitedFacets = null; // clear processed value cache
+    }
+
+    /**
      * Get a list of facets that are subject to translation.
      *
      * @return array
@@ -439,6 +587,43 @@ abstract class Options implements TranslatorAwareInterface
     public function getTranslatedFacets()
     {
         return $this->translatedFacets;
+    }
+
+    /**
+     * Configure facet translation using an array of field names with optional
+     * colon-separated text domains.
+     *
+     * @param array $facets Incoming configuration.
+     *
+     * @return void
+     */
+    public function setTranslatedFacets($facets)
+    {
+        // Reset properties:
+        $this->translatedFacets = $this->translatedFacetsTextDomains = [];
+
+        // Fill in new data:
+        foreach ($facets as $current) {
+            $parts = explode(':', $current);
+            $this->translatedFacets[] = $parts[0];
+            if (isset($parts[1])) {
+                $this->translatedFacetsTextDomains[$parts[0]] = $parts[1];
+            }
+        }
+    }
+
+    /**
+     * Look up the text domain for use when translating a particular facet
+     * field.
+     *
+     * @param string $field Field name being translated
+     *
+     * @return string
+     */
+    public function getTextDomainForTranslatedFacet($field)
+    {
+        return isset($this->translatedFacetsTextDomains[$field])
+            ? $this->translatedFacetsTextDomains[$field] : 'default';
     }
 
     /**
@@ -506,6 +691,16 @@ abstract class Options implements TranslatorAwareInterface
     }
 
     /**
+     * Get a string of the listviewOption (full or tab).
+     *
+     * @return string
+     */
+    public function getListViewOption()
+    {
+        return $this->listviewOption;
+    }
+
+    /**
      * Return the route name for the search results action.
      *
      * @return string
@@ -538,6 +733,17 @@ abstract class Options implements TranslatorAwareInterface
     }
 
     /**
+     * Return the route name for the search results action.
+     * false to cover unimplemented drivers
+     *
+     * @return false
+     */
+    public function getFacetListAction()
+    {
+        return false;
+    }
+
+    /**
      * Does this search option support the cart/book bag?
      *
      * @return bool
@@ -546,98 +752,6 @@ abstract class Options implements TranslatorAwareInterface
     {
         // Assume true by default.
         return true;
-    }
-
-    /**
-     * Get a session namespace specific to the current class.
-     *
-     * @return SessionContainer
-     */
-    public function getSession()
-    {
-        static $session = false;
-        if (!$session) {
-            $session = new SessionContainer(get_class($this));
-        }
-        return $session;
-    }
-
-    /**
-     * Remember the last sort option used.
-     *
-     * @param string $last Option to remember.
-     *
-     * @return void
-     */
-    public function rememberLastSort($last)
-    {
-        $session = $this->getSession();
-        if (!$session->getManager()->getStorage()->isImmutable()) {
-            $session->lastSort = $last;
-        }
-    }
-
-    /**
-     * Retrieve the last sort option used.
-     *
-     * @return string
-     */
-    public function getLastSort()
-    {
-        $session = $this->getSession();
-        return isset($session->lastSort) ? $session->lastSort : null;
-    }
-
-    /**
-     * Remember the last limit option used.
-     *
-     * @param string $last Option to remember.
-     *
-     * @return void
-     */
-    public function rememberLastLimit($last)
-    {
-        $session = $this->getSession();
-        if (!$session->getManager()->getStorage()->isImmutable()) {
-            $session->lastLimit = $last;
-        }
-    }
-
-    /**
-     * Retrieve the last limit option used.
-     *
-     * @return string
-     */
-    public function getLastLimit()
-    {
-        $session = $this->getSession();
-        return isset($session->lastLimit) ? $session->lastLimit : null;
-    }
-
-    /**
-     * Remember the last view option used.
-     *
-     * @param string $last Option to remember.
-     *
-     * @return void
-     */
-    public function rememberLastView($last)
-    {
-        $session = $this->getSession();
-        if (!$session->getManager()->getStorage()->isImmutable()) {
-            $session->lastView = $last;
-        }
-    }
-
-    /**
-     * Retrieve the last view option used.
-     *
-     * @return string
-     */
-    public function getLastView()
-    {
-        $session = $this->getSession();
-        return isset($session->lastView) ? $session->lastView : null;
     }
 
     /**
@@ -706,8 +820,77 @@ abstract class Options implements TranslatorAwareInterface
      */
     public function getVisibleSearchResultLimit()
     {
-        // No limit by default:
-        return -1;
+        return intval($this->resultLimit);
+    }
+
+    /**
+     * Load all recommendation settings from the relevant ini file.  Returns an
+     * associative array where the key is the location of the recommendations (top
+     * or side) and the value is the settings found in the file (which may be either
+     * a single string or an array of strings).
+     *
+     * @param string $handler Name of handler for which to load specific settings.
+     *
+     * @return array associative: location (top/side/etc.) => search settings
+     */
+    public function getRecommendationSettings($handler = null)
+    {
+        // Load the necessary settings to determine the appropriate recommendations
+        // module:
+        $searchSettings = $this->configLoader->get($this->getSearchIni());
+
+        // Load a type-specific recommendations setting if possible, or the default
+        // otherwise:
+        $recommend = [];
+
+        if (null !== $handler
+            && isset($searchSettings->TopRecommendations->$handler)
+        ) {
+            $recommend['top'] = $searchSettings->TopRecommendations
+                ->$handler->toArray();
+        } else {
+            $recommend['top']
+                = isset($searchSettings->General->default_top_recommend)
+                ? $searchSettings->General->default_top_recommend->toArray()
+                : false;
+        }
+        if (null !== $handler
+            && isset($searchSettings->SideRecommendations->$handler)
+        ) {
+            $recommend['side'] = $searchSettings->SideRecommendations
+                ->$handler->toArray();
+        } else {
+            $recommend['side']
+                = isset($searchSettings->General->default_side_recommend)
+                ? $searchSettings->General->default_side_recommend->toArray()
+                : false;
+        }
+        if (null !== $handler
+            && isset($searchSettings->NoResultsRecommendations->$handler)
+        ) {
+            $recommend['noresults'] = $searchSettings->NoResultsRecommendations
+                ->$handler->toArray();
+        } else {
+            $recommend['noresults']
+                = isset($searchSettings->General->default_noresults_recommend)
+                ? $searchSettings->General->default_noresults_recommend
+                    ->toArray()
+                : false;
+        }
+
+        return $recommend;
+    }
+
+    /**
+     * Get the identifier used for naming the various search classes in this family.
+     *
+     * @return string
+     */
+    public function getSearchClassId()
+    {
+        // Parse identifier out of class name of format VuFind\Search\[id]\Options:
+        $class = explode('\\', get_class($this));
+        return $class[2];
     }
 
     /**
@@ -720,8 +903,19 @@ abstract class Options implements TranslatorAwareInterface
     public function __sleep()
     {
         $vars = get_object_vars($this);
+        unset($vars['configLoader']);
         unset($vars['translator']);
         $vars = array_keys($vars);
         return $vars;
+    }
+
+    /**
+     * Should we include first/last options in result scroller navigation?
+     *
+     * @return bool
+     */
+    public function supportsFirstLastNavigation()
+    {
+        return $this->firstlastNavigation;
     }
 }

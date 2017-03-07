@@ -20,35 +20,32 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib VuFind2
- * @package  Swissbib\RecordDriver
+ * @category Swissbib_VuFind2
+ * @package  RecordDriver
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-
-
-
-
-
 namespace Swissbib\RecordDriver;
+
 use Zend\ServiceManager\ServiceManager;
 
-
 /**
- * Factory for controllers.
+ * Factory
  *
- * @category swissbib VuFind2
- * @package  Controller
+ * @category Swissbib_VuFind2
+ * @package  RecordDriver
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 class Factory
 {
-
     /**
-     * @param ServiceManager $sm
+     * Get SolrDefaultAdapter
+     *
+     * @param ServiceManager $sm ServiceManager
+     *
      * @return SolrDefaultAdapter
      */
     public static function getSolrDefaultAdapter(ServiceManager $sm)
@@ -57,9 +54,11 @@ class Factory
         return new SolrDefaultAdapter($config);
     }
 
-
     /**
-     * @param ServiceManager $sm
+     * Get SolrMarcRecordDriver
+     *
+     * @param ServiceManager $sm ServiceManager
+     *
      * @return SolrMarc
      */
     public static function getSolrMarcRecordDriver(ServiceManager $sm)
@@ -82,38 +81,49 @@ class Factory
 
     }
 
-
+    /**
+     * SummonRecordDriver
+     *
+     * @param ServiceManager $sm ServiceManager
+     *
+     * @return Summon
+     */
     public static function getSummonRecordDriver(ServiceManager $sm)
     {
         $baseConfig = $sm->getServiceLocator()->get('VuFind\Config')->get('config');
-        $summonConfig = $sm->getServiceLocator()->get('VuFind\Config')->get('Summon');
+        $summonConfig = $sm->getServiceLocator()->get('VuFind\Config')
+            ->get('Summon');
 
         return new Summon(
             $baseConfig, // main config
             $summonConfig // record config
         );
-
     }
 
-
     /**
-     * @param ServiceManager $sm
+     * Get WorldCatRecordDriver
+     *
+     * @param ServiceManager $sm ServiceManager
+     *
      * @return WorldCat
      */
     public static function getWorldCatRecordDriver(ServiceManager $sm)
     {
         $baseConfig = $sm->getServiceLocator()->get('VuFind\Config')->get('config');
-        $worldcatConfig = $sm->getServiceLocator()->get('VuFind\Config')->get('WorldCat');
+        $worldcatConfig = $sm->getServiceLocator()->get('VuFind\Config')
+            ->get('WorldCat');
 
         return new WorldCat(
             $baseConfig, // main config
             $worldcatConfig // record config
         );
-
     }
 
     /**
-     * @param ServiceManager $sm
+     * Get RecordDriverMissing
+     *
+     * @param ServiceManager $sm ServiceManager
+     *
      * @return Missing
      */
     public static function getRecordDriverMissing(ServiceManager $sm)
@@ -121,7 +131,5 @@ class Factory
         $baseConfig = $sm->getServiceLocator()->get('VuFind\Config')->get('config');
 
         return new Missing($baseConfig);
-
     }
-
 }

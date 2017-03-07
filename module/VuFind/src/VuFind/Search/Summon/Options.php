@@ -17,40 +17,40 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search_Summon
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.vufind.org  Main Page
+ * @link     https://vufind.org Main Page
  */
 namespace VuFind\Search\Summon;
 
 /**
  * Summon Search Options
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Search_Summon
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.vufind.org  Main Page
+ * @link     https://vufind.org Main Page
  */
 class Options extends \VuFind\Search\Base\Options
 {
-    /**
-     * Maximum number of results
-     *
-     * @var int
-     */
-    protected $resultLimit = 400;
-
     /**
      * Maximum number of topic recommendations to show (false for none)
      *
      * @var int|bool
      */
     protected $maxTopicRecommendations = false;
+
+    /**
+     * Relevance sort override for empty searches
+     *
+     * @var string
+     */
+    protected $emptySearchRelevanceOverride = null;
 
     /**
      * Constructor
@@ -66,10 +66,9 @@ class Options extends \VuFind\Search\Base\Options
         if (isset($facetSettings->Advanced_Facet_Settings->translated_facets)
             && count($facetSettings->Advanced_Facet_Settings->translated_facets) > 0
         ) {
-            $list = $facetSettings->Advanced_Facet_Settings->translated_facets;
-            foreach ($list as $c) {
-                $this->translatedFacets[] = $c;
-            }
+            $this->setTranslatedFacets(
+                $facetSettings->Advanced_Facet_Settings->translated_facets->toArray()
+            );
         }
         if (isset($facetSettings->Advanced_Facet_Settings->special_facets)) {
             $this->specialAdvancedFacets
@@ -112,6 +111,8 @@ class Options extends \VuFind\Search\Base\Options
         }
         if (isset($searchSettings->General->result_limit)) {
             $this->resultLimit = $searchSettings->General->result_limit;
+        } else {
+            $this->resultLimit = 400;   // default
         }
 
         // Search handler setup:
@@ -142,6 +143,10 @@ class Options extends \VuFind\Search\Base\Options
                 $this->defaultSortByHandler[$key] = $val;
             }
         }
+        if (isset($searchSettings->General->empty_search_relevance_override)) {
+            $this->emptySearchRelevanceOverride
+                = $searchSettings->General->empty_search_relevance_override;
+        }
 
         // Load view preferences (or defaults if none in .ini file):
         if (isset($searchSettings->Views)) {
@@ -152,6 +157,10 @@ class Options extends \VuFind\Search\Base\Options
             $this->viewOptions = [$this->defaultView => $this->defaultView];
         } else {
             $this->viewOptions = ['list' => 'List'];
+        }
+        // Load list view for result (controls AJAX embedding vs. linking)
+        if (isset($searchSettings->List->view)) {
+            $this->listviewOption = $searchSettings->List->view;
         }
     }
 
@@ -177,15 +186,23 @@ class Options extends \VuFind\Search\Base\Options
     }
 
     /**
-     * If there is a limit to how many search results a user can access, this
-     * method will return that limit.  If there is no limit, this will return
-     * -1.
+     * Return the route name for the search results action.
      *
-     * @return int
+     * @return string
      */
-    public function getVisibleSearchResultLimit()
+    public function getFacetListAction()
     {
-        return intval($this->resultLimit);
+        return 'summon-facetlist';
+    }
+
+    /**
+     * Get the relevance sort override for empty searches.
+     *
+     * @return string Sort field or null if not set
+     */
+    public function getEmptySearchRelevanceOverride()
+    {
+        return $this->emptySearchRelevanceOverride;
     }
 
     /**

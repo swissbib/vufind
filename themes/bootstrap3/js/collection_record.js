@@ -3,14 +3,18 @@ function toggleCollectionInfo() {
 }
 
 function showMoreInfoToggle() {
+  // no rows in table? don't bother!
+  if ($("#collectionInfo").find('tr').length < 1) {
+    return;
+  }
   toggleCollectionInfo();
   $("#moreInfoToggle").removeClass('hidden');
-  $("#moreInfoToggle").click(function(e) {
+  $("#moreInfoToggle").click(function moreInfoToggleClick(e) {
     e.preventDefault();
     toggleCollectionInfo();
   });
 }
 
-$(document).ready(function() {
+$(document).ready(function collectionRecordReady() {
   showMoreInfoToggle();
 });

@@ -10,10 +10,77 @@ var swissbib = {
    */
   initOnReady: function () {
     this.initBackgrounds();
+    this.initFocus();
+    this.initRemoveSearchText();
     this.initUserVoiceFeedback();
     this.initBulkExport();
     this.AdvancedSearch.init();
     this.initHierarchyTree();
+    //this.initNationaLicensesFlow();
+  },
+
+  /**
+   * Initialize focus either
+   * - on search box at the end of text
+   * - or on login-field, if present
+   * - or on favorites-library-field, if present
+   */
+  initFocus: function() {
+    var favoritesLibraryField = window.location.pathname.match(/Favorites$/) !== null ? document.getElementById('query') : null;
+    var loginField = document.getElementById('login_username');
+    var searchField = document.getElementById('searchForm_lookfor');
+
+    if (favoritesLibraryField !== null) {
+      favoritesLibraryField.focus();
+    }
+    else if (loginField !== null) {
+      loginField.focus();
+    }
+    else if (searchField !== null) {
+      var textLength = searchField.value.length;
+      // For IE Only
+      if (document.selection) {
+        searchField.focus();
+        var oSel = document.selection.createRange();
+        // Reset position to 0 & then set at end
+        oSel.moveStart('character', -textLength);
+        oSel.moveStart('character', textLength);
+        oSel.moveEnd('character', 0);
+        oSel.select();
+      }
+      else if (searchField.selectionStart || searchField.selectionStart == '0') {
+        // Firefox/Chrome
+        searchField.selectionStart = textLength;
+        searchField.selectionEnd = textLength;
+        searchField.focus();
+      }
+    }
+  },
+
+  /**
+   * Initializes remove search text icon on main search field
+   */
+  initRemoveSearchText: function() {
+    var $searchInputField = $('#searchForm_lookfor');
+    var $removeSearchTextIcon = $('#remove-search-text');
+
+    if ($searchInputField.val() !== '') {
+      $removeSearchTextIcon.show();
+    }
+
+    $removeSearchTextIcon.click(function() {
+      $searchInputField.val('');
+      $searchInputField.focus();
+      $removeSearchTextIcon.hide();
+    });
+
+    $searchInputField.on('input', function() {
+      if ($searchInputField.val() === '') {
+        $removeSearchTextIcon.hide();
+      } else {
+        $removeSearchTextIcon.show();
+      }
+    });
   },
 
   /**
@@ -69,23 +136,6 @@ var swissbib = {
     fullUrl = baseUrl + '&' + idArgs.join('&');
 
     window.open(fullUrl);
-  },
-
-  /**
-   *
-   */
-  updatePageForLogin: function() {
-    swissbib.updatePageForLoginParent();
-
-    if($('#user-favorites').length > 0) {
-      Lightbox.addCloseAction(function(){document.location.reload(true);});
-    }
-
-    //console.log(window.location.pathname.substring('Search/History'));
-
-    if(window.location.pathname.indexOf('Search/History') !== -1) {
-      Lightbox.addCloseAction(function(){document.location.reload(true);});
-    }
   },
 
   /**
@@ -181,7 +231,33 @@ var swissbib = {
         results = regex.exec(location.search);
 
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-  }
+  },
+
+  initNationaLicensesFlow: (function() {
+
+    $('.nlItem').on("click", function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      var publisherURL = $(this).parent().next().text();
+      //use a callback function to analyze the response
+      //JSON as response object
+      /*
+      {
+      status: ['publisherRequest'|'initializelogin']
+      idpURL: 'url of the swisseduidIDP' - shouldn't be a fix value as part of the java script code
+      }
+       */
+      $.ajax({
+            "url": '/NationalLicences/signPost?publisher=' + encodeURIComponent(publisherURL)
+          }
+      )
+    });
+
+    //delete it when we have implemented a correct response
+    return false;
+
+  })
+
 };
 
 
@@ -197,10 +273,3 @@ $(document).on('show.bs.collapse', swissbib.initBackgroundsRecursive);
 $(document).on('hide.bs.collapse', swissbib.initBackgroundsRecursive);
 $(document).on('shown.bs.collapse', swissbib.destructBackgroundsRecursive);
 $(document).on('hidden.bs.collapse', swissbib.destructBackgroundsRecursive);
-
-
-/**
- * Hook into VuFind method
- */
-swissbib.updatePageForLoginParent = updatePageForLogin;
-updatePageForLogin = swissbib.updatePageForLogin;

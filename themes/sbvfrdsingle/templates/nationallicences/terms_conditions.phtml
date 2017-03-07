@@ -1,0 +1,32 @@
+
+<h3><?= $this->transEsc('snl.termsAndConditions') ?></h3>
+<p>
+    <a id="accept_terms_conditions" href="<?= $this->url('national-licences', ['action' => 'accept-terms-conditions']) ?>">
+        <input
+            id="checkbox_accept_terms_conditions"
+            class="form-control text-aligned-checkbox"
+            type="checkbox" <?= $this->user->condition_accepted == true ? 'checked disabled' : ''?>
+        ></a><?= $this->transEsc('snl.terms_conditions.accept') ?>
+    <a href="http://www.consortium.ch/wp-content/uploads/2015/05/NL_private_users_terms_v1.pdf"><?= $this->transEsc('snl.terms_conditions.text') ?></a>
+    <?= $this->transEsc('snl.terms_conditions.text2') ?>
+
+</p>
+<script>
+    //Needed to make the checkbox works in Chrome and IE
+    $("#accept_terms_conditions").click(function(event)
+    {
+        var link = $(this);
+        var target = link.attr("target");
+        if($.trim(target).length > 0) {
+            window.open(link.attr("href"), target);
+        }
+        else {
+            window.location = link.attr("href");
+        }
+        event.preventDefault();
+    });
+
+    $("#checkbox_accept_terms_conditions").click(function(){
+        $("#accept_terms_conditions").click();
+    });
+</script>

@@ -20,25 +20,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib VuFind2
+ * @category Swissbib_VuFind2
  * @package  Controller
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-
-
-
-
-
 namespace Swissbib\Controller;
-use Zend\ServiceManager\ServiceManager;
 
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory for controllers.
  *
- * @category swissbib VuFind2
+ * @category Swissbib_VuFind2
  * @package  Controller
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -46,7 +41,6 @@ use Zend\ServiceManager\ServiceManager;
  */
 class Factory
 {
-
     /**
      * Construct the RecordController.
      *
@@ -60,4 +54,39 @@ class Factory
             $sm->getServiceLocator()->get('VuFind\Config')->get('config')
         );
     }
+
+    /**
+     * Construct the NationalLicenceController by injecting the
+     * NationalLicence service.
+     *
+     * @param ServiceManager $sm Service manager.
+     *                            
+     * @return NationalLicencesController
+     */
+    public function getNationalLicenceController(ServiceManager $sm)
+    {
+        $sl = $sm->getServiceLocator();
+
+        return new NationalLicencesController(
+            $sl->get('Swissbib\NationalLicenceService')
+        );
+    }
+
+    /**
+     * Construct the MyResearchNationalLicensesController by injecting the
+     * NationalLicence service.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return MyResearchNationalLicensesController
+     */
+    public function getMyResearchNationalLicenceController(ServiceManager $sm)
+    {
+        $sl = $sm->getServiceLocator();
+
+        return new MyResearchNationalLicensesController(
+            $sl->get('Swissbib\NationalLicenceService')
+        );
+    }
+
 }

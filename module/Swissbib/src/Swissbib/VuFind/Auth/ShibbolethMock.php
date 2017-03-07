@@ -1,14 +1,12 @@
 <?php
 /**
- * [...description of the type ...]
+ * ShibbolethMock
  *
  * PHP version 5
  *
  * Copyright (C) project swissbib, University Library Basel, Switzerland
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
  *
- * Date: 7/22/14
- * Time: 4:49 PM
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
  * as published by the Free Software Foundation.
@@ -22,44 +20,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @category swissbib_VuFind2
- * @package  [...package name...]
- * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Auth
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.swissbib.org
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-
 namespace Swissbib\VuFind\Auth;
-
 
 use VuFind\Auth\AbstractBase;
 use VuFind\Exception\Auth as AuthException;
 use Zend\Crypt\Password\Bcrypt;
 
-
 /**
  * Class ShibbolethMock
- * This driver should be used in environments where Shibboleth deployment (Service Provider) is difficult or impossible
+ * This driver should be used in environments where Shibboleth deployment
+ * (Service Provider) is difficult or impossible
  *
- * Always the same user (stored in the VuFind database) is returned instead of an authenticated user against an IDP
+ * Always the same user (stored in the VuFind database) is returned instead of
+ * an authenticated user against an IDP
  * (name and password can be configured)
- * For swissbib a shibboleth based authentication works in combination with a MultiBackend Catalog configuration
+ * For swissbib a shibboleth based authentication works in combination with a
+ * MultiBackend Catalog configuration
  * (actually not part of the original VuFind authentication)
  *
- * @package Swissbib\VuFind\Auth
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Auth
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 class ShibbolethMock extends AbstractBase
 {
-
-
     /**
      * Catalog connection
      *
      * @var \VuFind\ILS\Connection
      */
     protected $catalog = null;
-
-
 
     /**
      * Set the ILS connection for this object.
@@ -70,8 +68,6 @@ class ShibbolethMock extends AbstractBase
     {
         $this->setCatalog($connection);
     }
-
-
 
     /**
      * Attempt to authenticate the current user.  Throws exception if login fails.
@@ -102,7 +98,11 @@ class ShibbolethMock extends AbstractBase
     }
 
     /**
-     * @param \VuFind\ILS\Connection $catalog
+     * Set Catalog
+     *
+     * @param \VuFind\ILS\Connection $catalog Connection
+     *
+     * @return void
      */
     public function setCatalog(\VuFind\ILS\Connection $catalog)
     {
@@ -110,6 +110,8 @@ class ShibbolethMock extends AbstractBase
     }
 
     /**
+     * Get Catalog
+     *
      * @return \VuFind\ILS\Connection
      */
     public function getCatalog()
@@ -117,16 +119,17 @@ class ShibbolethMock extends AbstractBase
         return $this->catalog;
     }
 
-
     /**
      * Check that the user's password matches the provided value.
      *
      * @param string $password Password to check.
      * @param object $userRow  The user row.  We pass this instead of the password
-     * because we may need to check different values depending on the password
-     * hashing configuration.
+     *                         because we may need to check different values
+     *                         depending on the password hashing configuration.
      *
-     * @return bool
+     * @throws \VuFind\Exception\PasswordSecurity
+     *
+     * @return Boolean
      */
     protected function checkPassword($password, $userRow)
     {
@@ -139,6 +142,7 @@ class ShibbolethMock extends AbstractBase
             }
 
             $bcrypt = new Bcrypt();
+
             return $bcrypt->verify($password, $userRow->pass_hash);
         }
 
@@ -146,13 +150,17 @@ class ShibbolethMock extends AbstractBase
         return $password == $userRow->password;
     }
 
+    /**
+     * Is Password Hashing enabled
+     *
+     * @return Boolean
+     */
     protected function passwordHashingEnabled()
     {
         $config = $this->getConfig();
         return isset($config->Authentication->hash_passwords)
             ? $config->Authentication->hash_passwords : false;
     }
-
 
     /**
      * Get login targets (ILS drivers/source ID's)
@@ -162,9 +170,6 @@ class ShibbolethMock extends AbstractBase
     public function getLoginTargets()
     {
         return is_callable($this->getCatalog(), 'getLoginDrivers') ?
-            $this->getCatalog()->getLoginDrivers() : array();
+            $this->getCatalog()->getLoginDrivers() : [];
     }
-
-
-
 }

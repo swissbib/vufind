@@ -17,24 +17,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Controller
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     https://vufind.org Main Site
  */
 namespace VuFind\Controller;
 
 /**
  * Author Search Options
  *
- * @category VuFind2
+ * @category VuFind
  * @package  Controller
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     https://vufind.org Main Site
  */
 class AuthorController extends AbstractSearch
 {
@@ -46,7 +46,14 @@ class AuthorController extends AbstractSearch
     public function resultsAction()
     {
         $this->searchClassId = 'SolrAuthor';
-        $this->saveToHistory = false;
+
+        // Save author searches if next_prev_navigation is enabled - otherwise
+        // there are wacky results when trying to page through results (the
+        // next/prev links only appear for records which were included in the
+        // results for the previous keyword search, and the next/prev links will
+        // iterate you through that search).
+        $this->saveToHistory = $this->resultScrollerActive();
+
         return parent::resultsAction();
     }
 
@@ -78,5 +85,16 @@ class AuthorController extends AbstractSearch
         }
         return $this->createViewModel();
     }
-}
 
+    /**
+     * Is the result scroller active?
+     *
+     * @return bool
+     */
+    protected function resultScrollerActive()
+    {
+        $config = $this->getServiceLocator()->get('VuFind\Config')->get('config');
+        return (isset($config->Record->next_prev_navigation)
+            && $config->Record->next_prev_navigation);
+    }
+}

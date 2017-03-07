@@ -44,11 +44,7 @@
     </div>
     <div class="col-sm-2 hidden-xs left no-gutter hidden-print">
         <a href="<?=$this->recordLink()->getUrl($record)?>" class="title img-responsive">
-        <? if (!($thumbnail === false)): ?>
             <img class="recordcover" src="<?= $thumbnail ?>" />
-        <? else: ?>
-            <div class="thumbico <?= $viewRecord->getThumbnailPlaceholder() ?>"></div>
-        <? endif; ?>
         </a>
     </div>
     <div class="col-sm-6 col-xs-10 middle">
@@ -133,7 +129,7 @@
     <? endif; ?>
 
         <?
-        $openUrl = $this->driver->openURLActive('record') ? $this->driver->getOpenURL() : false;
+        $openUrl = method_exists ( $this->driver , 'openURLActive' ) && $this->driver->openURLActive('record') ? $this->driver->getOpenURL() : false;
         // Account for replace_other_urls setting
         $urls = ($openUrl && $this->driver->replaceURLsWithOpenURL()) ? array() : $this->record($this->driver)->getLinkDetails();
         ?>

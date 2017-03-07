@@ -325,7 +325,7 @@ header {
         .btn-default {
           min-width: 0;
           width: 37px;
-          border-radius: 0 2px 2px 0;
+          /*border-radius: 0 2px 2px 0;*/
           padding: 5px 0;
 
           i {
@@ -641,9 +641,11 @@ ul[aria-labelledby=dropdownLibraries] {
   }
   [data-toggle="collapse"].title:after {
     content: '\25B2';
+    float: right;
   }
   [data-toggle="collapse"].title.collapsed:after {
     content: '\25BC';
+    float: right;
   }
   [data-toggle="collapse"][href*="publishDate"].title,
   [data-toggle="collapse"][href*="PublicationDate"].title {
@@ -669,12 +671,19 @@ ul[aria-labelledby=dropdownLibraries] {
     padding-right: 2px;
     background-color: transparent;
   }
+  .badge a {color:@link-color}
   .list-group-item {
     text-overflow: ellipsis;
     overflow: hidden;
     border: 1px solid #CCC;
-    padding-left: 8px;
+    //padding-left: 8px;
     padding-right: 8px;
+  }
+  .facetOR > a , .facetAND > a {
+    color: @font-color;
+  }
+  .facetOR:hover , .facetAND:hover {
+    background-color: @list-group-hover-bg;
   }
   .list-group-item.title {
     margin-bottom: 0;
@@ -693,8 +702,9 @@ ul[aria-labelledby=dropdownLibraries] {
   }
   .collapse .list-group-item[id^=more],
   .collapsing .list-group-item[id^=more],
-  .collapse .list-group-item[class*=narrowGroupHidden]:last-child,
-  .collapsing .list-group-item[class*=narrowGroupHidden]:last-child {
+  .controlElement {
+  //.collapse .list-group-item[class*=narrowGroupHidden]:last-child,
+  //.collapsing .list-group-item[class*=narrowGroupHidden]:last-child {
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
     color: @link-color;
@@ -810,7 +820,8 @@ ul[aria-labelledby=dropdownLibraries] {
 
 
     h3 {
-      font-size: 16px;
+      font-weight: 400;
+      font-size: 18px;
       margin-bottom: 26px;
     }
 
@@ -1164,9 +1175,10 @@ footer {
     }
 
     label {
-      font-size: 18px;
+      /* interferres with jus-advanced-search. no sideeffects seen (so far) */
+      /*font-size: 18px;*/
+      /*margin-top: 20px;*/
       margin-bottom: 10px;
-      margin-top: 20px;
 
       &.ranges {
         margin-bottom: 0;
@@ -1516,10 +1528,10 @@ footer {
    * vufind css (is restricted to .facet children)
    */
   .jstree-open > .jstree-ocl:before {
-    content: "\f0d7";
+    content: "\f068";
   }
   .jstree-closed > .jstree-ocl:before {
-    content: "\f0da";
+    content: "\f067";
   }
   .jstree-leaf > .jstree-ocl:before {
     content: " ";
@@ -1542,7 +1554,9 @@ footer {
    * custom css
    */
   a.jstree-hovered,
-  a.jstree-clicked {
+  a.jstree-clicked,
+  a.jstree-clicked > .badge,
+  a.jstree-clicked i {
     background: @link-color;
     color: @white;
     box-shadow: none;
@@ -1559,15 +1573,17 @@ footer {
     vertical-align:top;
   }
   .jstree-anchor {
-    line-height: 20px;
+    line-height: 25px;
     height: auto !important;
     & > i {
       display: none;
     }
   }
-  .jstree-closed > .jstree-ocl,
-  .jstree-open > .jstree-ocl {
-    background-image: none;
+  .jstree-open > .jstree-ocl,
+  .jstree-closed > .jstree-ocl {
+    background-position: -40px -129px !important; //overwrite jstree responsive !important
+    background: url("@{theme-base-path}images/custom-jstree-40px.png");
+    background-size: 120px 200px;
   }
   .jstree-leaf {
     height: auto;
@@ -1585,32 +1601,47 @@ footer {
     line-height: 25px;
   }
   .jstree-leaf > .jstree-ocl {
-    background-position: -40px -168px;
+    background-position: -40px -128px;
   }
   ul.jstree-children > li:last-child {
-    background-image: none;
+    background: url("@{theme-base-path}css/jsTree/themes/default/40px.png");
+    background-size: 120px 200px;
+    background-position: -80px -188px;
+    background-repeat: no-repeat;
   }
   .jstree-node {
     margin-left: 35px;
     padding-right: 20px;
   }
+  .jstree-last {
+    background: url("@{theme-base-path}css/jsTree/themes/default/40px.png");
+    background-size: 120px 200px;
+    background-position: -80px -188px;
+    background-repeat: no-repeat;
+  }
 }
 
-.hierarchy-tree .jstree-ocl:before {
-  margin-left: 26px;
-  font-size: 25px;
+.hierarchy-tree .jstree-ocl:before,
+.jstree-default  .jstree-ocl:before {
+  margin-left: 30px;
+  font-size: 15px;
 }
 
-.hierarchy-tree .jstree-container-ul, .hierarchy-tree .jstree-children {
+.hierarchy-tree .jstree-container-ul,
+.hierarchy-tree .jstree-children,
+.jstree-default .jstree-container-ul,
+.jstree-default .jstree-children {
   padding-left: 0;
 }
 
-.hierarchy-tree .jstree-anchor {
+.hierarchy-tree .jstree-anchor,
+.jstree-default .jstree-anchor {
   margin-left: 6px;
 }
 
 #hierarchyTreeHolder {
   border: none;
+  overflow: hidden;
 
   .form-control {
     margin: 10px 0;
@@ -1625,8 +1656,137 @@ footer {
   margin-left: -20px;
 }
 
+.sidebar {
+  .jstree-default {
+    .jstree-container-ul > .jstree-node {
+      background-color: @white;
+      border-bottom: none;
+      background-image: none;
+      margin-left: 0;
+      padding: 0;
+
+      & > .jstree-ocl {
+        background-image: none;
+      }
+      & > .jstree-ocl:before {
+        margin-left: 0;
+      }
+      & > .jstree-icon,
+      & > .jstree-icon:empty {
+        width: 14px;
+        padding: 0 20px 0 12px;
+        height: 34px;
+        line-height: 34px;
+        display: block;
+        float: left;
+      }
+      & > .jstree-children > .jstree-node {
+        margin-left: 0;
+      }
+      & > .jstree-anchor {
+        margin-left: 0;
+        display: block;
+        background-image: none;
+        .main,
+        .main > i {
+          line-height: 34px;
+        }
+        .badge {
+          line-height: 28px;
+        }
+      }
+    }
+    .jstree-ocl:before {
+      font-size: 12px;
+      margin-left: 25px;
+    }
+    .jstree-node {
+      color: @font-color;
+      margin-left: 14px;
+      padding-right: 0;
+      background-position: -83px 0px;
+
+      .jstree-anchor {
+        display: block;
+        margin-left: -14px;
+      }
+
+      .jstree-icon,
+      .jstree-icon:empty {
+        float: left;
+        height: 20px;
+        margin-right: 2px;
+      }
+    }
+    a.jstree-hovered {
+      background-color: rgba(120,120,120,0.1);
+      color: @font-color;
+      .jstree-node {
+        background-color: @white;
+      }
+      & > .badge {
+        background-color: transparent;
+        color: @font-color;
+      }
+    }
+    li.jstree-facet ul {
+      padding-left: 0;
+    }
+    .jstree-leaf > .jstree-ocl {
+      background-position: -43px -128px;
+    }
+    ul.jstree-children > li:last-child {
+      background-position: -83px -187px;
+    }
+    a.jstree-clicked {
+      background: @link-color-transparent;
+    }
+    a.jstree-clicked > .badge, a.jstree-clicked i {
+      background: transparent;
+    }
+    a.jstree-hovered.jstree-clicked,
+    a.jstree-hovered.jstree-clicked > .badge,
+    a.jstree-hovered.jstree-clicked i  {
+      background-color: @link-color;
+      color: @white;
+      box-shadow: none;
+    }
+    .badge {
+      line-height: 18px;
+    }
+    span.main.applied i {
+      padding-top: 5px;
+    }
+    .jstree-open > .jstree-ocl,
+    .jstree-closed > .jstree-ocl {
+      background-position: -43px -128px !important; //overwrite jstree responsive !important
+    }
+  }
+  .jstree-facet .jstree-container-ul  li.active {
+    background-color: @white;
+    color: @font-color;
+  }
+  .jstree-facet .jstree-container-ul li.active a.jstree-anchor {
+    background-color: transparent;
+    color: @font-color;
+  }
+  .jstree-facet .jstree-container-ul li.active > i {
+    background-color: transparent;
+    color: @white;
+  }
+  .jstree-facet .jstree-container-ul li.active > a.jstree-anchor {
+    background-color: @link-color-transparent;
+    color: @white;
+  }
+  .jstree-facet .list-group-item.active,
+  .jstree-facet .list-group-item.active:hover,
+  .jstree-facet .list-group-item.active:focus {
+    border: 1px solid @content-box-border-color;
+  }
+}
+
 #treeSearch {
-  margin: 10px 0 20px 0;
+  margin: 10px 0;
 }
 
 .nav.nav-tabs.jus {
@@ -1667,8 +1827,37 @@ div.resultView form.form-inline div.btn-group input[name="print"] {
   background: lighten(#F7F7F7, 20%);
   font-weight: bold;
   background-color: #F7F7F7;
-
-
-
 }
 
+#remove-search-text {
+  position: absolute;
+  left: -40px;
+  top: 0;
+  z-index: 10;
+  padding: 9px 12px;
+  font-size: 18px;
+  color: @link-color;
+  cursor: pointer;
+  display: none;
+
+  &:hover {
+    color: @highlight-color;
+  }
+}
+
+#swissbib-feedback-form {
+  label.label-radio {
+    font-weight: normal;
+    padding-left: 8px;
+  }
+  textarea.form-control {
+    min-height: 120px;
+  }
+  form {
+    margin: 20px 0;
+  }
+}
+
+a > i.fa-info-circle {
+  cursor: pointer;
+}

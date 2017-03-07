@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inspections version="1.0" is_locked="false">
+  <option name="myName" value="Swissbib Default" />
+  <option name="myLocal" value="false" />
+  <inspection_tool class="PhpCSValidationInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <option name="CODING_STANDARD" value="PEAR" />
+  </inspection_tool>
+  <inspection_tool class="PhpTraditionalSyntaxArrayLiteralInspection" enabled="true" level="WARNING" enabled_by_default="true" />
+</inspections>
+

@@ -37,6 +37,23 @@ $noSelectedOptionLabel = isset($noSelectedOptionLabel) ? $noSelectedOptionLabel 
                 <? endforeach; ?>
             </select>
             <? break; ?>
+        <? case 'radio': ?>
+            <? $idCount = 0 ?>
+            <? $fieldValue = $field->getValue(); ?>
+            <? if (empty($fieldValue)): ?>
+                <? $fieldValue = reset($field->getOptions()['value_options']) ?>
+            <? endif; ?>
+            <? foreach ($field->getOptions()['value_options'] as $key => $value): ?>
+                <input type="<?= $this->escapeHtmlAttr($field->getAttribute('type')) ?>"
+                       name="<?= $this->escapeHtmlAttr($field->getAttribute('name')) ?>"
+                       value="<?= $this->escapeHtmlAttr($value) ?>"
+                       id="feedbackform-radio-<?= $field->getName() . '-' . $idCount ?>"
+                       <?= $value === $fieldValue ? ' checked' : ''?>>
+                <label class="label-radio" for="feedbackform-radio-<?= $field->getName() . '-' . $idCount++ ?>">
+                    <?= $this->transEsc($key) ?>
+                </label><br>
+            <? endforeach; ?>
+            <? break; ?>
         <? endswitch; ?>
         <div class="help-block with-errors">
             <? foreach($field->getMessages() as $message): ?>

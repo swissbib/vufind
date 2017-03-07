@@ -3,7 +3,8 @@ $record         = $this->driver;
 $viewRecord     = $this->record($record);
 
 $subjectVocabularies = $record->getAllSubjectVocabularies(true);
-$placeNames = $record->getHierarchicalPlaceNames();
+$hierarchicalPlaceNames = $record->getHierarchicalPlaceNames();
+$placeNames = $record->getPlaceNames();
 
 /* Display Standard-IDs */
 $isbns  = $record->getISBNs();
@@ -13,11 +14,14 @@ $dois   = $record->getDOIs();
 $urns   = $record->getURNs();
 
 $alttitle = $record->getAltTitle();
+$formerTitle = $record->getFormerTitle();
 
-$series      = $record->getSeries();
-$recordLinks = $record->getAllRecordLinks();
-$nextTitles  = $record->getNewerTitles();
-$prevTitles  = $record->getPreviousTitles();
+$series          = $record->getSeries();
+$collectionTitle = $record->getCollectionTitle();
+$archVolTitle    = $record->getArchivalVolumeTitle();
+$recordLinks     = $record->getAllRecordLinks();
+$nextTitles      = $record->getNewerTitles();
+$prevTitles      = $record->getPreviousTitles();
 ?>
 
 <table class="table table-striped" summary="<?=$this->transEsc('Description')?>">
@@ -95,6 +99,18 @@ $prevTitles  = $record->getPreviousTitles();
         </tr>
     <? endif; ?>
 
+    <? if (!empty($formerTitle)): ?>
+        <? $contentDisplayed = true; ?>
+        <tr>
+            <th> <?=$this->transEsc('Former_Title') ?>: </th>
+            <td>
+                <? foreach ($formerTitle as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
     <? if (!empty($series)): ?>
     <? $contentDisplayed = true; ?>
     <tr>
@@ -115,6 +131,28 @@ $prevTitles  = $record->getPreviousTitles();
         <? endforeach; ?>
         </td>
     </tr>
+    <? endif; ?>
+
+    <? if (!empty($collectionTitle)): ?>
+        <? $contentDisplayed = true; ?>
+        <tr>
+            <th><?= $this->transEsc('Collection') ?>: </th>
+            <td>
+                <? foreach ($collectionTitle as $field): ?>
+                        <?= $this->escapeHtml($field) ?> <br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+    <? if (!empty($archVolTitle)): ?>
+        <? $contentDisplayed = true; ?>
+        <tr>
+            <th><?= $this->transEsc('Part') ?>: </th>
+            <td>
+                <?= $this->escapeHtml($archVolTitle) ?> <br/>
+            </td>
+        </tr>
     <? endif; ?>
 
     <? /* Display and link to related items (field configured in config_base.ini -> marc_links) */ ?>
@@ -169,19 +207,48 @@ $prevTitles  = $record->getPreviousTitles();
   $related    = $record->getRelationshipNotes();
   $credits    = $record->getProductionCredits();
   $origtitle  = $record->getOriginalTitle();
+  $worktitle  = $record->getWorkTitle();
   $perfomer   = $record->getPerformerNote();
+  $fileNote   = $record->getFileNote();
+  $eventNote  = $record->getEventNote();
+  $audience   = $record->getTargetAudienceNotes();
   $awards     = $record->getAwards();
   $citenotes  = $record->getCitationNotes();
   $orignotes  = $record->getOriginalVersionNotes();
+  $histData   = $record->getHistData();
+  $langData   = $record->getLangData();
   $copynotes  = $record->getCopyNotes();
+  $binding    = $record->getBinding();
   $system     = $record->getSystemDetails();
+  $medium     = $record->getPhysicalMedium();
+  $acquisitionNote = $record->getAcquisitionNote();
+  $ownerNote  = $record->getOwnerNote();
+  $publications = $record->getPublications();
+  $exhibitions = $record->getExhibitions();
   $relatedEntries = $record->getRelatedEntries();
+
+  $musicalPresentation    = $record->getMusicPresentation();
+  $orderClassification    = $record->getOrderClassification();
+  $securityclassification    = $record->getSecurityClassification();
+  $reproduction    = $record->getReproduction();
+  $reproductionClassification    = $record->getReproductionClassification();
+  $archivalLevel    = $record->getArchivalLevel();
+  $findingAids    = $record->getFindingAids();
+  $accumulationFrequency   = $record->getAccumulationFrequency();
+  $addedwork   = $record->getAddedWork();
+
+
   ?>
 
   <? if (!empty($notes) or !empty($freq) or !empty($contDates) or !empty($diss) or
       !empty($bib) or !empty($access) or !empty($related) or !empty($credits) or !empty($awards) or
-      !empty($citenotes) or !empty($orignotes) or !empty($copynotes) or
-      !empty($origtitle) or !empty($perfomer) or !empty($system) or !empty($relatedEntries)): ?>
+      !empty($citenotes) or !empty($orignotes) or !empty($copynotes) or !empty($binding) or !empty($histData) or
+      !empty($origtitle) or !empty($perfomer) or !empty($system) or !empty($relatedEntries) or
+      !empty($langData) or !empty($audience) or !empty($eventNote) or !empty($fileNote) or !empty($publications) or
+      !empty($exhibitions) or !empty($worktitle) or !empty($ownerNote) or !empty($acquisitionNote) or !empty($medium)
+      or !empty($musicalPresentation) or !empty($orderClassification) or !empty($securityclassification)
+      or !empty($reproduction) or !empty($reproductionClassification) or !empty($archivalLevel)
+      or !empty($findingAids) or !empty($accumulationFrequency) or !empty($addedwork)): ?>
     <? $contentDisplayed = true; ?>
 
       <? /* Display general notes (field 500) */ ?>
@@ -292,6 +359,18 @@ $prevTitles  = $record->getPreviousTitles();
         </tr>
       <? endif; ?>
 
+      <? /* Display title of work (field 240 or 130) */ ?>
+      <? if (!empty($worktitle)): ?>
+          <tr>
+              <th><?= $this->transEsc('Work_Title') ?>: </th>
+              <td>
+                  <? foreach ($worktitle as $field): ?>
+                      <?= $this->escapeHtml($field) ?><br/>
+                  <? endforeach; ?>
+              </td>
+          </tr>
+      <? endif; ?>
+
       <? /* Display citation / reference note (field 510) */ ?>
       <? if (!empty($citenotes)): ?>
         <tr>
@@ -304,13 +383,49 @@ $prevTitles  = $record->getPreviousTitles();
         </tr>
       <? endif; ?>
 
-      <? /* Display participant / performers note */ ?>
+      <? /* Display participant / performers note (field 511) */ ?>
       <? if (!empty($perfomer)): ?>
         <tr>
           <th><?= $this->transEsc('Performer') ?>: </th>
           <td>
               <? foreach ($perfomer as $field): ?>
                   <?= $this->escapeHtml($field) ?><br/>
+              <? endforeach; ?>
+          </td>
+        </tr>
+      <? endif; ?>
+
+      <? /* Display type of computer file or data note (field 516) */ ?>
+      <? if (!empty($fileNote)): ?>
+          <tr>
+              <th><?= $this->transEsc('File_Note') ?>: </th>
+              <td>
+                  <? foreach ($fileNote as $field): ?>
+                      <?= $this->escapeHtml($field) ?><br/>
+                  <? endforeach; ?>
+              </td>
+          </tr>
+      <? endif; ?>
+
+      <? /* Display date/time and place of an event note (field 518) */ ?>
+      <? if (!empty($eventNote)): ?>
+          <tr>
+              <th><?= $this->transEsc('Event_Note') ?>: </th>
+              <td>
+                  <? foreach ($eventNote as $field): ?>
+                      <?= $this->escapeHtml($field) ?><br/>
+                  <? endforeach; ?>
+              </td>
+          </tr>
+      <? endif; ?>
+
+      <? /* Display target audience note (field 521) */ ?>
+      <? if (!empty($audience)): ?>
+        <tr>
+          <th><?=$this->transEsc('Audience')?>: </th>
+          <td>
+              <? foreach ($audience as $field): ?>
+                  <?=$this->escapeHtml($field)?><br/>
               <? endforeach; ?>
           </td>
         </tr>
@@ -328,6 +443,30 @@ $prevTitles  = $record->getPreviousTitles();
         </tr>
       <? endif; ?>
 
+      <? /* Display biographical info and administrative history (field 545) */ ?>
+      <? if (!empty($histData)): ?>
+          <tr>
+              <th><?= $this->transEsc('Bio_Adm_Hist') ?>: </th>
+              <td>
+                  <? foreach ($histData as $field): ?>
+                      <?= $this->escapeHtml($field) ?><br/>
+                  <? endforeach; ?>
+              </td>
+          </tr>
+      <? endif; ?>
+
+      <? /* Display language info (field 546) */ ?>
+      <? if (!empty($langData)): ?>
+          <tr>
+              <th><?= $this->transEsc('Language_Note') ?>: </th>
+              <td>
+                  <? foreach ($langData as $field): ?>
+                      <?= $this->escapeHtml($field) ?><br/>
+                  <? endforeach; ?>
+              </td>
+          </tr>
+      <? endif; ?>
+
       <? /* Display copy and version identification note (fields 562 and 590) */ ?>
       <? if (!empty($copynotes)): ?>
         <tr>
@@ -340,6 +479,18 @@ $prevTitles  = $record->getPreviousTitles();
         </tr>
       <? endif; ?>
 
+      <? /* Display binding (field 563) */ ?>
+      <? if (!empty($binding)): ?>
+          <tr>
+              <th><?= $this->transEsc('Binding') ?>: </th>
+              <td>
+                  <? foreach ($binding as $field): ?>
+                      <?= $this->escapeHtml($field) ?><br/>
+                  <? endforeach; ?>
+              </td>
+          </tr>
+      <? endif; ?>
+
       <? /* Display system information note (field 538) */ ?>
       <? if (!empty($system)): ?>
         <tr>
@@ -350,6 +501,66 @@ $prevTitles  = $record->getPreviousTitles();
             <? endforeach; ?>
           </td>
         </tr>
+      <? endif; ?>
+
+      <? /* Display Physical Medium (field 340) */ ?>
+      <? if (!empty($medium)): ?>
+          <tr>
+              <th><?= $this->transEsc('PhysicalMedium') ?>: </th>
+              <td>
+                  <? foreach ($medium as $field): ?>
+                      <?= $this->escapeHtml($field) ?><br/>
+                  <? endforeach; ?>
+              </td>
+          </tr>
+      <? endif; ?>
+
+      <? /* Display Immediate Source of Acquisition Note (field 541) */ ?>
+      <? if (!empty($acquisitionNote)): ?>
+          <tr>
+              <th><?= $this->transEsc('AcquisitionNote') ?>: </th>
+              <td>
+                  <? foreach ($acquisitionNote as $field): ?>
+                      <?= $this->escapeHtml($field) ?><br/>
+                  <? endforeach; ?>
+              </td>
+          </tr>
+      <? endif; ?>
+
+      <? /* Display Ownership and Custodial History Note (field 561) */ ?>
+      <? if (!empty($ownerNote)): ?>
+          <tr>
+              <th><?= $this->transEsc('CustodialHistory') ?>: </th>
+              <td>
+                  <? foreach ($ownerNote as $field): ?>
+                      <?= $this->escapeHtml($field) ?><br/>
+                  <? endforeach; ?>
+              </td>
+          </tr>
+      <? endif; ?>
+
+      <? /* Display Publications About Described Materials Note (field 581) */ ?>
+      <? if (!empty($publications)): ?>
+          <tr>
+              <th><?= $this->transEsc('Publications') ?>: </th>
+              <td>
+                  <? foreach ($publications as $field): ?>
+                      <?= $this->escapeHtml($field) ?><br/>
+                  <? endforeach; ?>
+              </td>
+          </tr>
+      <? endif; ?>
+
+      <? /* Display Exhibitions note (field 585) */ ?>
+      <? if (!empty($exhibitions)): ?>
+          <tr>
+              <th><?= $this->transEsc('Exhibitions') ?>: </th>
+              <td>
+                  <? foreach ($exhibitions as $field): ?>
+                      <?= $this->escapeHtml($field) ?><br/>
+                  <? endforeach; ?>
+              </td>
+          </tr>
       <? endif; ?>
 
       <? /* Display award notes (field 586) */ ?>
@@ -365,14 +576,125 @@ $prevTitles  = $record->getPreviousTitles();
       <? endif; ?>
   <? endif; ?>
 
+    <? /* Display "Musikalische Ausgabeformat" for HAN (field 254) */ ?>
+    <? if (!empty($musicalPresentation)): ?>
+        <tr>
+            <th><?= $this->transEsc('MusicPresentation') ?>: </th>
+            <td>
+                <? foreach ($musicalPresentation as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+    <? /* Display "Ordnung&Klassifikation" for HAN (field 351) */ ?>
+    <? if (!empty($orderClassification)): ?>
+        <tr>
+            <th><?= $this->transEsc('OrderClassification') ?>: </th>
+            <td>
+                <? foreach ($orderClassification as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+    <? /* Display "Zugangsbestimmungen" for HAN (field 351) */ ?>
+    <? if (!empty($securityclassification)): ?>
+        <th><?= $this->transEsc('SecurityClassification') ?>: </th>
+            <td>
+                <? foreach ($securityclassification as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+    <? /* Display "Reproduktion / Reproduktionen eines Originals" for HAN (field 533) */ ?>
+    <? if (!empty($reproduction)): ?>
+        <tr>
+            <th><?= $this->transEsc('Reproduction') ?>: </th>
+            <td>
+                <? foreach ($reproduction as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+    <? /* Display "Reproduktionsbestimmung" for HAN (field 540) */ ?>
+    <? if (!empty($reproductionClassification)): ?>
+        <tr>
+            <th><?= $this->transEsc('ReproductionClassification') ?>: </th>
+            <td>
+                <? foreach ($reproductionClassification as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+    <? /* Display "Verwandte Verzeichnungseinheit" for HAN (field 544) */ ?>
+    <? if (!empty($archivalLevel)): ?>
+        <tr>
+            <th><?= $this->transEsc('ArchivalLevel') ?>: </th>
+            <td>
+                <? foreach ($archivalLevel as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+    <? /* Display "Findhilfsmittel" for HAN (field 555) */ ?>
+    <? if (!empty($findingAids)): ?>
+        <tr>
+            <th><?= $this->transEsc('FindingAids') ?>: </th>
+            <td>
+                <? foreach ($findingAids as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+    <? /* Display "Ansammlung&Nutzungshäufigkeit" for HAN (field 584) */ ?>
+    <? if (!empty($accumulationFrequency)): ?>
+        <tr>
+            <th><?= $this->transEsc('AccumulationFrequency') ?>: </th>
+            <td>
+                <? foreach ($accumulationFrequency as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+
+    <? /* Display "Nebeneintragung/weiteres enthaltenes Werk" for HAN (field 730) */ ?>
+    <? if (!empty($addedwork)): ?>
+        <tr>
+            <th><?= $this->transEsc('AddedWork') ?>: </th>
+            <td>
+                <? foreach ($addedwork as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
     <?
     /** == Rara-Elements (place name, special entries == */
     ?>
-    <? if ($placeNames): ?>
+    <? if (!empty($placeNames)||($hierarchicalPlaceNames)): ?>
     <? $contentDisplayed = true; ?>
-        <th><?= $this->transEsc('PublicationPlace') ?></th>
+        <th><?= $this->transEsc('PublicationPlace')?>: </th>
         <td>
             <? foreach ($placeNames as $field): ?>
+                <?= $this->escapeHtml($field) ?><br />
+            <? endforeach; ?>
+            <? foreach ($hierarchicalPlaceNames as $field): ?>
                 <?= $this->escapeHtml($field) ?><br />
             <? endforeach; ?>
         </td>

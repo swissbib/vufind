@@ -17,13 +17,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category VuFind2
+ * @category VuFind
  * @package  View_Helpers
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 namespace VuFind\View\Helper\Root;
 use Zend\View\Helper\AbstractHelper;
@@ -31,11 +31,11 @@ use Zend\View\Helper\AbstractHelper;
 /**
  * Prints a human readable format from a number of milliseconds
  *
- * @category VuFind2
+ * @category VuFind
  * @package  View_Helpers
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ * @link     https://vufind.org/wiki/development Wiki
  */
 class Printms extends AbstractHelper
 {
@@ -48,21 +48,21 @@ class Printms extends AbstractHelper
      */
     public function __invoke($ms)
     {
-        $seconds = floor($ms/1000);
+        $seconds = floor($ms / 1000);
         $ms = ($ms % 1000);
 
-        $minutes = floor($seconds/60);
+        $minutes = floor($seconds / 60);
         $seconds = ($seconds % 60);
 
-        $hours = floor($minutes/60);
+        $hours = floor($minutes / 60);
         $minutes = ($minutes % 60);
 
         if ($hours) {
-            $days = floor($hours/60);
+            $days = floor($hours / 60);
             $hours = ($hours % 60);
 
             if ($days) {
-                $years = floor($days/365);
+                $years = floor($days / 365);
                 $days = ($days % 365);
 
                 if ($years) {

@@ -42,12 +42,11 @@
         <tbody>
 
         <? foreach ($this->fines as $record): ?>
-        <tr class="<?=$iteration % 2 == 1 ? 'even' : 'odd'?>row">
+        <tr>
             <?
             $flippedContent .= $this->render('myresearch/fines-flipped.phtml', array(
                 'record'    => $record,
-                'headers' => $headers,
-                'even'    => (0 === $iteration % 2)
+                'headers' => $headers
             ));
             ?>
             <td>

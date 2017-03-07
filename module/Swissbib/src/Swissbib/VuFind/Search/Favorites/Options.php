@@ -20,27 +20,24 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * @category VuFind2
- * @package  Search_Favorites
+ * @package  VuFind_Search_Favorites
  * @author   Demian Katz <demian.katz@villanova.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org   Main Site
  */
 namespace Swissbib\VuFind\Search\Favorites;
 
+use VuFind\Search\Favorites\Options as VFFavoriteOptions;
+
 /**
  * Search Favorites Options
  *
- * @category VuFind2
- * @package  Search_Favorites
- * @author   Demian Katz <demian.katz@villanova.edu>
+ * @category Swissbib_VuFind2
+ * @package  VuFind_Search_Favorites
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://vufind.org   Main Site
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-
-use VuFind\Search\Favorites\Options as VFFavoriteOptions;
-
-
 class Options extends VFFavoriteOptions
 {
-
 }

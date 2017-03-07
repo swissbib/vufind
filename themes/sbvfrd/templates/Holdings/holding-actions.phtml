@@ -9,7 +9,8 @@ if (count($actions) > 0):
    <?php foreach($actions as $key => $action): ?>
 
 		<li class="<?=$action['class']?>">
-			<a href="<?=$action['href']?>" <?php if(isset($action['target'])): ?>target="<?=$action['target']?>"<?php endif; ?> title="<?=$this->escapeHtml($action['label'])?>">
+			<a href="<?=$action['href']?>" <?php if(isset($action['target'])): ?>target="<?=$action['target']?>"<?php endif; ?> title="<?=$this->escapeHtml($action['label'])?>"
+				<?php if($action['class'] === 'sign_in'): ?> data-lightbox-ignore <?php endif; ?>>
 				<span><?=$this->escapeHtml($action['label'])?></span>
 			</a>
 		</li>

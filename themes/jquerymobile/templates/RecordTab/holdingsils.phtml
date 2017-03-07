@@ -2,12 +2,20 @@
     // Set up convenience variables:
     $account = $this->auth()->getManager();
     $user = $account->isLoggedIn();
-    $holdings = $this->driver->getRealTimeHoldings();
     $offlineMode = $this->ils()->getOfflineMode();
+    try {
+        $holdings = $this->driver->getRealTimeHoldings();
+    } catch (\VuFind\Exception\ILS $e) {
+        $holdings = [];
+        $offlineMode = 'ils-offline';
+    }
 
     // Set page title.
     $this->headTitle($this->translate('Holdings') . ': ' . $this->driver->getBreadcrumb());
 ?>
+
+<?=$this->context($this)->renderInContext('librarycards/selectcard.phtml', array('user' => $this->auth()->isLoggedIn())); ?>
+
 <? if ($offlineMode == "ils-offline"): ?>
   <div class="sysInfo">
     <h2><?=$this->transEsc('ils_offline_title')?></h2>
@@ -34,31 +42,41 @@
     <a rel="external" class="holdPlace" href="<?=$this->recordLink()->getRequestUrl($holdingTitleHold, false)?>"><?=$this->transEsc('title_hold_place')?></a>
 <? endif; ?>
 <? foreach ($holdings as $holding): ?>
-<h4><?=$this->transEsc('location_' . $holding['location'], array(), $holding['location'])?></h4>
+<h4>
+  <? $locationText = $this->transEsc('location_' . $holding['location'], array(), $holding['location']); ?>
+  <? if (isset($holding['locationhref']) && $holding['locationhref']): ?>
+    <a href="<?=$holding['locationhref']?>" rel="external"><?=$locationText?></a>
+  <? else: ?>
+    <?=$locationText?>
+  <? endif; ?>
+</h4>
 <table class="holdings" summary="<?=$this->transEsc('Holdings details from')?> <?=$this->transEsc($holding['location'])?>">
   <? $callNos = $this->tab->getUniqueCallNumbers($holding['items']); if (!empty($callNos)): ?>
   <tr>
     <th><?=$this->transEsc("Call Number")?>: </th>
     <td>
       <? foreach ($callNos as $callNo): ?>
-        <?=$this->escapeHtml($callNo)?><br />
+        <? if ($this->callnumberHandler): ?>
+          <a href="<?=$this->url('alphabrowse-home') ?>?source=<?=$this->escapeHtmlAttr($this->callnumberHandler) ?>&amp;from=<?=$this->escapeHtmlAttr($callNo) ?>"><?=$this->escapeHtml($callNo)?></a>
+        <? else: ?>
+          <?=$this->escapeHtml($callNo)?>
+        <? endif; ?>
+        <br />
       <? endforeach; ?>
     </td>
   </tr>
   <? endif; ?>
-  <? foreach ($this->ils()->getHoldingsTextFieldNames() as $textField): ?>
-    <? if (!empty($holding[$textField])): ?>
-      <tr>
-        <? // Translation for summary is a special case for backwards-compatibility ?>
-        <th><?=$textField == 'summary' ? $this->transEsc("Volume Holdings") : $this->transEsc(ucfirst($textField))?>: </th>
-        <td>
-          <? foreach ($holding[$textField] as $current): ?>
-            <?=$this->escapeHtml($current)?><br/>
-          <? endforeach; ?>
-        </td>
-      </tr>
-    <? endif; ?>
-  <? endforeach; ?>
+  <? if (isset($holding['textfields'])): foreach ($holding['textfields'] as $textFieldName => $textFields): ?>
+    <tr>
+      <? // Translation for summary is a special case for backwards-compatibility ?>
+      <th><?=$textFieldName == 'summary' ? $this->transEsc("Volume Holdings") : $this->transEsc(ucfirst($textFieldName))?>:</th>
+      <td>
+        <? foreach ($textFields as $current): ?>
+          <?=$this->escapeHtml($current)?><br/>
+        <? endforeach; ?>
+      </td>
+    </tr>
+  <? endforeach; endif; ?>
   <? foreach ($holding['items'] as $row): ?>
     <? $check = (isset($row['check']) && $row['check']); ?>
     <? if (isset($row['barcode']) && $row['barcode'] != ""): ?>
@@ -92,6 +110,18 @@
                 <br />
                 <a rel="external" class="holdPlace<?=$check ? ' checkRequest' : ''?>" href="<?=$this->recordLink()->getRequestUrl($row['link'], false)?>"><span><?=$this->transEsc($check ? "Check Recall" : "Recall This")?></span></a>
               <? endif; ?>
+            <? endif; ?>
+            <? if (isset($row['item_notes'])): ?>
+              <ul>
+                <li>
+                  <?=$this->transEsc("Item Notes")?>:
+                  <ul>
+                    <? foreach ($row['item_notes'] as $item_note): ?>
+                      <li><?=$this->escapeHtml($item_note) ?></li>
+                    <? endforeach; ?>
+                  </ul>
+                </li>
+              </ul>
             <? endif; ?>
           <? endif; ?>
         </td>
