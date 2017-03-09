@@ -346,6 +346,23 @@ return [
                 ]
             ]
         ],
+        'VuFind\RecordDriver\SolrMarc' => [
+            'tabs' => [
+                'Holdings' => 'HoldingsILS',
+                'Description' => 'Description',
+                'TOC' => 'TOC',
+                'UserComments' => 'UserComments',
+                'Reviews' => 'Reviews',
+                'Excerpt' => 'Excerpt',
+                'Preview' => 'preview',
+                'HierarchyTree' => 'HierarchyTree',
+                'HierarchyTreeArchival' => 'HierarchyTreeArchival',
+                'Map' => 'Map',
+                'Similar' => 'SimilarItemsCarousel',
+                'Details' => 'StaffViewMARC',
+            ],
+            'defaultTab' => null,
+        ],
         // This section contains service manager configurations for all VuFind
         // pluggable components:
         'plugin_managers' => [
@@ -399,11 +416,6 @@ return [
                     'series' => 'Swissbib\VuFind\Hierarchy\Factory::getHierarchyDriverSeries',
                 ]
             ],
-            'hierarchy_treedatasource' => [
-                'factories' => [
-                    'solr' => 'Swissbib\VuFind\Hierarchy\Factory::getSolrTreeDataSource',
-                ],
-            ],
             'hierarchy_treedataformatter' => [
                 'invokables' => [
                     'json' => 'Swissbib\VuFind\Hierarchy\TreeDataFormatter\Json',
@@ -418,6 +430,10 @@ return [
                 'invokables' => [
                     'articledetails' => 'Swissbib\RecordTab\ArticleDetails',
                     'description'    => 'Swissbib\RecordTab\Description'
+                ],
+                'factories' => [
+                    'hierarchytree' => 'Swissbib\RecordTab\Factory::getHierarchyTree',
+                    'hierarchytreearchival' => 'Swissbib\RecordTab\Factory::getHierarchyTreeArchival'
                 ]
             ],
         ]
