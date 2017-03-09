@@ -30,8 +30,10 @@ AllFields:
     - ctrlnum^1000
     - publishDate
     - isbn
+    - cancisbn_isn_mv
     - variant_isbn_isn_mv
     - issn
+    - incoissn_isn_mv
     - localcode                     # local codes (field 909)
     - id
   DismaxParams:
@@ -128,7 +130,9 @@ ISN:
   DismaxFields:
     - isbn
     - variant_isbn_isn_mv
+    - cancisbn_isn_mv
     - issn
+    - incoissn_isn_mv
     - ismn_isn_mv
     - doi_isn_mv
     - urn_isn_mv
@@ -136,10 +140,16 @@ ISN:
     issn:
       - [and, 100]
       - [or, ~]
+    incoissn_isn_mv:
+      - [and, 100]
+      - [or, ~]
     isbn:
       - [and, 100]
       - [or, ~]
     variant_isbn_isn_mv:
+      - [and, 100]
+      - [or, ~]
+    cancisbn_isn_mv:
       - [and, 100]
       - [or, ~]
     ismn_isn_mv:
