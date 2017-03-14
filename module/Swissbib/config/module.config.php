@@ -344,24 +344,24 @@ return [
                     'Description'  => 'articledetails',
                     'TOC'          => null, // Disable TOC tab
                 ]
-            ]
-        ],
-        'VuFind\RecordDriver\SolrMarc' => [
-            'tabs' => [
-                'Holdings' => 'HoldingsILS',
-                'Description' => 'Description',
-                'TOC' => 'TOC',
-                'UserComments' => 'UserComments',
-                'Reviews' => 'Reviews',
-                'Excerpt' => 'Excerpt',
-                'Preview' => 'preview',
-                'HierarchyTree' => 'HierarchyTree',
-                'HierarchyTreeArchival' => 'HierarchyTreeArchival',
-                'Map' => 'Map',
-                'Similar' => 'SimilarItemsCarousel',
-                'Details' => 'StaffViewMARC',
             ],
-            'defaultTab' => null,
+            'VuFind\RecordDriver\SolrMarc' => [
+                'tabs' => [
+                    'Holdings' => 'HoldingsILS',
+                    'Description' => 'Description',
+                    'TOC' => 'TOC',
+                    'UserComments' => 'UserComments',
+                    'Reviews' => 'Reviews',
+                    'Excerpt' => 'Excerpt',
+                    'Preview' => 'preview',
+                    'HierarchyTree' => 'HierarchyTree',
+                    'HierarchyTreeArchival' => 'HierarchyTreeArchival',
+                    'Map' => 'Map',
+                    'Similar' => 'SimilarItemsCarousel',
+                    'Details' => 'StaffViewMARC',
+                ],
+                'defaultTab' => null,
+            ],
         ],
         // This section contains service manager configurations for all VuFind
         // pluggable components:
@@ -414,6 +414,7 @@ return [
             'hierarchy_driver' => [
                 'factories' => [
                     'series' => 'Swissbib\VuFind\Hierarchy\Factory::getHierarchyDriverSeries',
+                    'archival' => 'Swissbib\VuFind\Hierarchy\Factory::getHierarchyDriverArchival',
                 ]
             ],
             'hierarchy_treedataformatter' => [
