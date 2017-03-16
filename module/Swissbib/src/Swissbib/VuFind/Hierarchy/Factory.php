@@ -70,7 +70,9 @@ class Factory
      */
     public static function getHierarchyDriverArchival(ServiceManager $sm)
     {
-        return \VuFind\Hierarchy\Driver\Factory::get($sm->getServiceLocator(), 'HierarchySeries');
+        return \VuFind\Hierarchy\Driver\Factory::get(
+            $sm->getServiceLocator(), 'HierarchySeries'
+        );
     }
 
 

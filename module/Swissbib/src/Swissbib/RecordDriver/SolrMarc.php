@@ -1887,8 +1887,10 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         $separator = isset($this->mainConfig->Record->marcPublicationInfoSeparator)
             ? $this->mainConfig->Record->marcPublicationInfoSeparator : ' ';
 
-        return $this->getFieldArray('730', ['a', 'g', 'k', 'm', 'n', 'o', 'p',
-            'r', 's'], true, $separator);
+        return $this->getFieldArray(
+            '730', ['a', 'g', 'k', 'm', 'n', 'o', 'p', 'r', 's'],
+            true, $separator
+        );
     }
 
     /**

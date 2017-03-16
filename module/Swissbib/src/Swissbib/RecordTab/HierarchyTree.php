@@ -53,7 +53,6 @@ class HierarchyTree extends VuFindHierarchyTree
      */
     public function isActive()
     {
-        //if ($this->getRecordDriver()->getHierarchyType() === 'archival') return false;
         $trees = $this->getTreeList();
 
         return !empty($trees) && in_array(
