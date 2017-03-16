@@ -18,7 +18,7 @@ if (isset($holding['itemsLink']) && $holding['itemsLink']['count']) {
   $popupLinkLabel	= $this->transEsc('holdings_items_found');
   $moreDetailsLink= '<a href="' . $popupHref . '" title="Show Holdings">' . $popupLinkLabel . '</a>';
 } else {
-  if ($holding['institution_chb'] === 'C001') {
+  if (preg_match('/C00[0-9]/', $holding['institution_chb'])) {
     $moreDetailsLink = $this->transEsc('holdings_noitems');
   } elseif ($holding['itemsLink']['count'] === 0) {
     $moreDetailsLink = $this->transEsc('lookOnSite');
