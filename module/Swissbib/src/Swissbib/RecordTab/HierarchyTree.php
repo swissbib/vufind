@@ -62,7 +62,7 @@ class HierarchyTree extends VuFindHierarchyTree
     }
 
     /**
-     * renderTree
+     * RenderTree
      *
      * @param string $baseUrl VuFind base URL
      * @param string $id      id if the record

@@ -249,7 +249,6 @@ class JSTree extends VfJsTree implements ServiceLocatorAwareInterface
      * @param string $context       Record or Collection
      * @param string $collectionID  Collection ID
      * @param string $htmlID        ID used on html tag, must be unique
-     * @param string $hierarchyType hierarchy type can be 'series' or 'archival'
      *
      * @return string
      */
