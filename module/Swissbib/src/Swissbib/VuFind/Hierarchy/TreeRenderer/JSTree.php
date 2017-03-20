@@ -249,7 +249,7 @@ class JSTree extends VfJsTree implements ServiceLocatorAwareInterface
      * @param string $context       Record or Collection
      * @param string $collectionID  Collection ID
      * @param string $htmlID        ID used on html tag, must be unique
-     * @param string $hierarchyType type of the hierarchy (series, archival)
+     * @param string $hierarchyType hierarchy type can be 'series' or 'archival'
      *
      * @return string
      */
@@ -257,7 +257,7 @@ class JSTree extends VfJsTree implements ServiceLocatorAwareInterface
         $htmlID = ''
     ) {
         $tab = 'HierarchyTree';
-        if (substr($node->id,0,3) == 'HAN') {
+        if (substr($node->id, 0, 3) == 'HAN') {
             $tab = 'HierarchyTreeArchival';
         }
         $params = [

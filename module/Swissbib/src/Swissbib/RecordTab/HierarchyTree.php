@@ -61,6 +61,15 @@ class HierarchyTree extends VuFindHierarchyTree
         );
     }
 
+    /**
+     * renderTree
+     *
+     * @param string $baseUrl VuFind base URL
+     * @param string $id      id if the record
+     * @param string $context context (record or collenction)
+     *
+     * @return string
+     */
     public function renderTree($baseUrl, $id = null, $context = 'Record')
     {
         $id = (null === $id) ? $this->getActiveTree() : $id;
