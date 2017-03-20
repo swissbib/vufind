@@ -245,19 +245,24 @@ class JSTree extends VfJsTree implements ServiceLocatorAwareInterface
     /**
      * Use the router to build the appropriate URL based on context
      *
-     * @param object $node         JSON object of a node/top node
-     * @param string $context      Record or Collection
-     * @param string $collectionID Collection ID
-     * @param string $htmlID       ID used on html tag, must be unique
+     * @param object $node          JSON object of a node/top node
+     * @param string $context       Record or Collection
+     * @param string $collectionID  Collection ID
+     * @param string $htmlID        ID used on html tag, must be unique
+     * @param string $hierarchyType type of the hierarchy (series, archival)
      *
      * @return string
      */
     protected function getContextualUrl($node, $context, $collectionID = '',
         $htmlID = ''
     ) {
+        $tab = 'HierarchyTree';
+        if (substr($node->id,0,3) == 'HAN') {
+            $tab = 'HierarchyTreeArchival';
+        }
         $params = [
             'id' => $node->id,
-            'tab' => 'HierarchyTree'
+            'tab' => $tab
         ];
         $options = [
             'query' => [

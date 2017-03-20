@@ -60,4 +60,18 @@ class HierarchyTree extends VuFindHierarchyTree
             ['Default', 'series']
         );
     }
+
+    public function renderTree($baseUrl, $id = null, $context = 'Record')
+    {
+        $id = (null === $id) ? $this->getActiveTree() : $id;
+        $recordDriver = $this->getRecordDriver();
+        $hierarchyDriver = $recordDriver->tryMethod('getHierarchyDriverArchival');
+        if (is_object($hierarchyDriver)) {
+            $tree = $hierarchyDriver->render($recordDriver, $context, 'List', $id);
+            return str_replace(
+                '%%%%VUFIND-BASE-URL%%%%', rtrim($baseUrl, '/'), $tree
+            );
+        }
+        return '';
+    }
 }

@@ -2,6 +2,8 @@
 /**
  * Hierarchy Driver Factory Class *
  *
+ * PHP version 7
+ *
  * Copyright (C) project swissbib, University Library Basel, Switzerland
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
  *
@@ -71,7 +73,7 @@ class Factory
     public static function getHierarchyDriverArchival(ServiceManager $sm)
     {
         return \VuFind\Hierarchy\Driver\Factory::get(
-            $sm->getServiceLocator(), 'HierarchySeries'
+            $sm->getServiceLocator(), 'HierarchyArchival'
         );
     }
 

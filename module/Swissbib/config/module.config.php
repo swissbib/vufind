@@ -345,7 +345,7 @@ return [
                     'TOC'          => null, // Disable TOC tab
                 ]
             ],
-            'VuFind\RecordDriver\SolrMarc' => [
+            'Swissbib\RecordDriver\SolrMarc' => [
                 'tabs' => [
                     'Holdings' => 'HoldingsILS',
                     'Description' => 'Description',
