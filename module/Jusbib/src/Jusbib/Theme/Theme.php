@@ -28,7 +28,6 @@
  */
 namespace Jusbib\Theme;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -40,7 +39,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class Theme implements ServiceLocatorAwareInterface
+class Theme
 {
     /**
      * ServiceLocator

@@ -29,7 +29,6 @@ use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use Zend\Http\Client;
 use Zend\Http\Request;
 use Zend\Http\Response;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -41,7 +40,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class SwitchApi implements ServiceLocatorAwareInterface
+class SwitchApi
 {
     /**
      * ServiceLocator.

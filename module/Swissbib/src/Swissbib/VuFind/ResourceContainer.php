@@ -31,7 +31,6 @@
 namespace Swissbib\VuFind;
 
 use VuFindTheme\ResourceContainer as VfResourceContainer;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Config\Config;
 
@@ -45,7 +44,6 @@ use Zend\Config\Config;
  * @link     http://www.swissbib.org  Main Page
  */
 class ResourceContainer extends VfResourceContainer
-    implements ServiceLocatorAwareInterface
 {
     /**
      * ServiceLocator

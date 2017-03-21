@@ -35,7 +35,6 @@ use Zend\Config\Config;
 use Zend\Di\ServiceLocator;
 use Zend\Http\Client as HttpClient;
 use Zend\Http\Response;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Cache\Storage\Adapter\Filesystem as FileSystemCache;
 use Zend\Http\Client\Adapter\Exception\RuntimeException as HttpException;
@@ -53,7 +52,7 @@ use Swissbib\Libadmin\Writer as LibadminWriter;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class Importer implements ServiceLocatorAwareInterface
+class Importer
 {
     /**
      * ServiceLocator

@@ -179,10 +179,8 @@ class Factory
         $config = $sm->get('Config');
 
         return new $className(
-            new \Zend\ServiceManager\Config(
-                //we need the swissbib specific configurations
-                $config['swissbib']['plugin_managers'][$configKey]
-            )
+            //we need the swissbib specific configurations
+            $sm, $config['swissbib']['plugin_managers'][$configKey]
         );
     }
 

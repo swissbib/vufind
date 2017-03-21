@@ -30,7 +30,6 @@ namespace Swissbib\VuFind\Hierarchy\TreeRenderer;
 
 use VuFind\Hierarchy\TreeRenderer\JSTree as VfJsTree;
 use VuFindSearch\Query\Query;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -43,7 +42,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class JSTree extends VfJsTree implements ServiceLocatorAwareInterface
+class JSTree extends VfJsTree
 {
     /**
      * ServiceLocator
