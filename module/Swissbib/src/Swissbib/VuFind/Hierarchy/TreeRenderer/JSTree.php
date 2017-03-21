@@ -245,10 +245,10 @@ class JSTree extends VfJsTree implements ServiceLocatorAwareInterface
     /**
      * Use the router to build the appropriate URL based on context
      *
-     * @param object $node          JSON object of a node/top node
-     * @param string $context       Record or Collection
-     * @param string $collectionID  Collection ID
-     * @param string $htmlID        ID used on html tag, must be unique
+     * @param object $node         JSON object of a node/top node
+     * @param string $context      Record or Collection
+     * @param string $collectionID Collection ID
+     * @param string $htmlID       ID used on html tag, must be unique
      *
      * @return string
      */
