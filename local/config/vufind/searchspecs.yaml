@@ -222,7 +222,7 @@ WNEL:
 
 WFC:
   DismaxFields:
-    - classif_912
+    - classif_912_BSBE
   QueryFields:
     classif_912:
       - [onephrase, ~]
