@@ -630,10 +630,10 @@ class NationalLicence implements ServiceLocatorAwareInterface
         //Header
         $str = '';
         foreach ($fieldVuFindUser as $field) {
-            $str = $str . $field . ',';
+            $str = $str . $field . "\t";
         }
         foreach ($fieldsNationalLicenceUser as $field) {
-            $str = $str . $field . ',';
+            $str = $str . $field . "\t";
         }
         $str = $str . "\r\n";
         fwrite($file, $str);
@@ -647,10 +647,10 @@ class NationalLicence implements ServiceLocatorAwareInterface
         foreach ($users as $user) {
             $str = '';
             foreach ($fieldVuFindUser as $field) {
-                $str = $str . $user->getRelUser()->$field . ',';
+                $str = $str . $user->getRelUser()->$field . "\t";
             }
             foreach ($fieldsNationalLicenceUser as $field) {
-                $str = $str . $user->$field . ',';
+                $str = $str . $user->$field . "\t";
             }
             $str = $str . "\r\n";
             fwrite($file, $str);
