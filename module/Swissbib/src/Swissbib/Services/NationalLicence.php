@@ -625,6 +625,11 @@ class NationalLicence implements ServiceLocatorAwareInterface
             = $this->config['national_licence_user_fields_to_export'];
         $fieldVuFindUser = $this->config['vufind_user_fields_to_export'];
 
+        if (!file_exists(dirname($path))) {
+            mkdir(dirname($path), 0777, true);
+        }
+
+
         $file = fopen($path, 'w+') or die('Unable to open file!');
 
         //Header
