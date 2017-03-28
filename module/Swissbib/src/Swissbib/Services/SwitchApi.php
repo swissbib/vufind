@@ -190,7 +190,10 @@ class SwitchApi implements ServiceLocatorAwareInterface
                 'maxredirects' => 0,
                 'timeout' => 30,
                 'adapter'   => 'Zend\Http\Client\Adapter\Curl',
-                'curloptions' => [CURLOPT_SSL_VERIFYHOST => false]
+                'curloptions' => [
+                    CURLOPT_SSL_VERIFYHOST => false,
+                    CURLOPT_SSL_VERIFYPEER => false
+                ]
             ]
         );
         $client->setHeaders(
@@ -367,11 +370,6 @@ class SwitchApi implements ServiceLocatorAwareInterface
     {
         $updatedUser
             = (array)$this->getNationalLicenceUserCurrentInformation($nameId);
-
-        //to test the email sending on test server
-        if($updatedUser["uniqueID"]=="800343219023@eduid.ch") {
-            $updatedUser["swissEduIDUsage1y"] = "FALSE";
-        }
         $nationalLicenceFieldRelation = [
             'mobile' => 'mobile',
             'persistent_id' => 'persistent-id',
