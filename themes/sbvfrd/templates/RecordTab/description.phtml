@@ -236,6 +236,7 @@ $prevTitles      = $record->getPreviousTitles();
   $findingAids    = $record->getFindingAids();
   $accumulationFrequency   = $record->getAccumulationFrequency();
   $addedwork   = $record->getAddedWork();
+  $supplement   = $record->getSupplement();
 
 
   ?>
@@ -248,7 +249,7 @@ $prevTitles      = $record->getPreviousTitles();
       !empty($exhibitions) or !empty($worktitle) or !empty($ownerNote) or !empty($acquisitionNote) or !empty($medium)
       or !empty($musicalPresentation) or !empty($orderClassification) or !empty($securityclassification)
       or !empty($reproduction) or !empty($reproductionClassification) or !empty($archivalLevel)
-      or !empty($findingAids) or !empty($accumulationFrequency) or !empty($addedwork)): ?>
+      or !empty($findingAids) or !empty($accumulationFrequency) or !empty($addedwork) or !empty($supplement)): ?>
     <? $contentDisplayed = true; ?>
 
       <? /* Display general notes (field 500) */ ?>
@@ -610,6 +611,20 @@ $prevTitles      = $record->getPreviousTitles();
             </td>
         </tr>
     <? endif; ?>
+
+    <? /* Display "Begleitmaterial" for HAN (field 525) */ ?>
+    <? if (!empty($supplement)): ?>
+        <tr>
+            <th><?= $this->transEsc('Supplement') ?>: </th>
+            <td>
+                <? foreach ($supplement as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+
 
     <? /* Display "Reproduktion / Reproduktionen eines Originals" for HAN (field 533) */ ?>
     <? if (!empty($reproduction)): ?>

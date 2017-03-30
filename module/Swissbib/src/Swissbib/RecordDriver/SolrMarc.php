@@ -1471,7 +1471,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getAltTitle()
     {
-        return $this->getFieldArray('246', ['a', 'b']);
+        return $this->getFieldArray('246', ['a', 'b', 'i']);
     }
 
     /**
@@ -1816,6 +1816,16 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
+     * Get information for the record (HAN: field 525)
+     *
+     * @return array
+     */
+    public function getSupplement()
+    {
+        return $this->getFieldArray('525');
+    }
+
+    /**
      * Get information for the record (HAN: field 355)
      *
      * @return array
@@ -2026,7 +2036,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     public function getAllSubjectVocabularies($ignoreControlFields = false)
     {
         $subjectVocabularies = [];
-        $fieldIndexes = [600, 610, 611, 630, 648, 650, 651, 655, 656, 690, 691];
+        $fieldIndexes = [600, 610, 611, 630, 648, 650, 651, 653, 655, 656, 690, 691];
         $vocabConfigs = [
             'lcsh' => [
                 'ind' => 0
@@ -2088,6 +2098,48 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 'ind' => 7,
                 'fieldsOnly' => [690],
                 'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolled.topical' => [
+                'ind' => 0,
+                'fieldsOnly' => [653],
+                'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolled.personal' => [
+                'ind' => 1,
+                'fieldsOnly' => [653],
+                'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolled.coporate' => [
+                'ind' => 2,
+                'fieldsOnly' => [653],
+                'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolled.meeting' => [
+                'ind' => 3,
+                'fieldsOnly' => [653],
+                'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolled.chronological' => [
+                'ind' => 4,
+                'fieldsOnly' => [653],
+                'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolled.geographic' => [
+                'ind' => 5,
+                'fieldsOnly' => [653],
+                'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolled.genre' => [
+                 'ind' => 6,
+                 'fieldsOnly' => [653],
+                 'detect' => false // extract vocabulary from sub field 2
             ],
         ];
         $fieldMapping = [
