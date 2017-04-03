@@ -174,7 +174,6 @@ class SwitchApi implements ServiceLocatorAwareInterface
         return $client;
     }
 
-
     /**
      * Get an instance of the HTTP Client with some basic configuration
      * for shibboleth back-channel queries.

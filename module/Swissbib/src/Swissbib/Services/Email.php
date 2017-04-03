@@ -28,11 +28,8 @@ use Zend\Di\ServiceLocator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Mime;
-use Zend\ServiceManager\ServiceManager;
-//use Zend\Mail\Transport\Sendmail as SendmailTransport;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
-use Zend\Mail\Transport\SmtpOptions;
 use Zend\Mail\Transport\Sendmail as SendmailTransport;
 
 /**

@@ -629,7 +629,6 @@ class NationalLicence implements ServiceLocatorAwareInterface
             mkdir(dirname($path), 0777, true);
         }
 
-
         $file = fopen($path, 'w+') or die('Unable to open file!');
 
         //Header
@@ -859,7 +858,6 @@ class NationalLicence implements ServiceLocatorAwareInterface
             } catch (\Exception $e){
                 echo $e->getMessage();
             }
-
         }
     }
 
