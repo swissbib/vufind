@@ -164,12 +164,44 @@ class SwitchApi implements ServiceLocatorAwareInterface
             throw new \Exception(
                 'Was not possible to find the SWITCH API ' .
                 'credentials. Make sure you have correctly configured the ' .
-                '"SWITCH_API_USER" and "SWITCH_API_PASSW" either in the ' .
-                'apache setup or before launching the script.'
+                '"SWITCH_API_USER" and "SWITCH_API_PASSW" in ' .
+                'config.ini.'
             );
 
         }
         $client->setAuth($username, $passw);
+
+        return $client;
+    }
+
+    /**
+     * Get an instance of the HTTP Client with some basic configuration
+     * for shibboleth back-channel queries.
+     *
+     * @return Client
+     * @throws \Exception
+     */
+    protected function getBaseClientBackChannel()
+    {
+        $client = new Client(
+            $this->configNL['back_channel_endpoint_host'] .
+            $this->configNL['back_channel_endpoint_path'], [
+                'maxredirects' => 0,
+                'timeout' => 30,
+                'adapter'   => 'Zend\Http\Client\Adapter\Curl',
+                'curloptions' => [
+                    CURLOPT_SSL_VERIFYHOST => false,
+                    CURLOPT_SSL_VERIFYPEER => false
+                ]
+            ]
+        );
+        $client->setHeaders(
+            [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+            ]
+        );
+        $client->setMethod(Request::METHOD_GET);
 
         return $client;
     }
@@ -208,7 +240,7 @@ class SwitchApi implements ServiceLocatorAwareInterface
                 ],
             ],
         ];
-        $str = json_encode($params, JSON_PRETTY_PRINT);
+        //$str = json_encode($params, JSON_PRETTY_PRINT);
         //echo "<pre> $str < /pre>";
         $rawData = json_encode($params, JSON_UNESCAPED_SLASHES);
         $client->setRawBody($rawData);
@@ -232,7 +264,6 @@ class SwitchApi implements ServiceLocatorAwareInterface
     {
         $internalId = $this->createSwitchUser($userExternalId);
         $switchUser = $this->getSwitchUserInfo($internalId);
-        $id = 'national_licence_programme_group_id';
         foreach ($switchUser->groups as $group) {
             $v = $this->configNL['national_licence_programme_group_id'];
             if ($group->value === $v) {
@@ -346,7 +377,8 @@ class SwitchApi implements ServiceLocatorAwareInterface
             'edu_id' => 'uniqueID',
             'home_postal_address' => 'homePostalAddress',
             'affiliation' => 'affiliation',
-            'active_last_12_month' => 'swissEduIDUsage1y'
+            'active_last_12_month' => 'swissEduIDUsage1y',
+            'assurance_level' => 'swissEduIdAssuranceLevel'
         ];
         $userFieldsRelation = [
             'username' => 'persistent-id',
@@ -397,28 +429,53 @@ class SwitchApi implements ServiceLocatorAwareInterface
      */
     protected function getNationalLicenceUserCurrentInformation($nameId)
     {
-        //Make http request fro retrieve new edu-ID information usign the back-
-        //channel api
+        // @codingStandardsIgnoreStart
+        /*
+         * Make http request to retrieve new edu-ID information usign the back-
+         * channel api
+         * example :
+         *
+         * (very long line)
+         * curl -k 'https://test.swissbib.ch/Shibboleth.sso/AttributeResolver?entityID=https%3A%2F%2Feduid.ch%2Fidp%2Fshibboleth&nameId=AaduBHpQXrRs9BJqQcB7aLXgWTI%3D&format=urn%3Aoasis%3Anames%3Atc%3ASAML%3A2.0%3Anameid-format%3Apersistent&encoding=JSON%2FCGI'
+         *
+         * answer :
+         * {
+         * "mobile" : "+41 79 200 00 00",
+         * "swissLibraryPersonResidence" : "CH",
+         * "homeOrganizationType" : "others",
+         * "uniqueID" : "859735645906@eduid.ch",
+         * "homeOrganization" : "eduid.ch",
+         * "mail" : "myemail@test.ch",
+         * "persistent-id" : "https://eduid.ch/idp/shibboleth!https://test.swissbib.ch/shibboleth!AaduBHpQXrRs9BJqQcB7aLXgWTI=",
+         * "swissEduIdAssuranceLevel" : "mobile:https://eduid.ch/def/loa2;mail:https://eduid.ch/def/loa2;homePostalAddress:https://eduid.ch/def/loa2",
+         * "givenName" : "Hans",
+         * "surname" : "Mustermann",
+         * "homePostalAddress" : "Rue Neuve 5$1222 Geneve$Switzerland",
+         * "swissEduIDUsage1y" : "TRUE",
+         * "affiliation" : "affiliate",
+         * "persistent-id" : "https://eduid.ch/idp/shibboleth!https://test.swissbib.ch/shibboleth!AaduBHpQXrRs9BJqQcB7aLXgWTI="
+         * }
+         */
+        // @codingStandardsIgnoreEnd
+
         /**
          * Client.
          *
          * @var Client $client
          */
-        $client = $this->getBaseClient(
-            Request::METHOD_GET,
-            $this->configNL['back_channel_endpoint_path'],
-            $this->config['Site']['url']
-        );
+        $client = $this->getBaseClientBackChannel();
         $client->setParameterGet(
             [
                 'entityID' => $this->configNL['back_channel_param_entityID'],
                 'nameId' => $nameId,
+                'format' => "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+                'encoding' => "JSON/CGI"
             ]
         );
         $response = $client->send();
         $statusCode = $response->getStatusCode();
         $body = $response->getBody();
-        if ($statusCode !== 200) {
+        if ($statusCode !== 200 or $body == "{}") {
             throw new \Exception(
                 "There was a problem retrieving data for user " .
                 "with name id: $nameId. Status code: $statusCode result: $body"
