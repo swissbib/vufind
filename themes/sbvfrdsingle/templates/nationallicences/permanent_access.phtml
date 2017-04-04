@@ -1,5 +1,5 @@
-
-    <? if ($this->swissLibraryPersonResidence): ?>
+    <!-- TODO : put back if($this->swissLibraryPersonResidence):  -->
+    <? if (false): ?>
         <? if ($this->swissLibraryPersonResidence === 'CH'): ?>
             <? if ($this->hasVerifiedHomePostalAddress): ?>
                 <?= $this->context($this)->renderInContext("nationallicences/fragments/request_permanent_access.phtml", []) ?>
@@ -16,7 +16,7 @@
     <? else:; ?>
         <? if ($this->homePostalAddress): ?>
             <? if ($this->isHomePostalAddressInSwitzerland): ?>
-                <? if ($this->hasVerifiedHomePostalAddress): ?>
+                <? if (false): ?>
                     <?= $this->context($this)->renderInContext("nationallicences/fragments/request_permanent_access.phtml", []) ?>
                 <? else:; ?>
                     <?= $this->context($this)->renderInContext("nationallicences/fragments/verify_home_postal_address.phtml", []) ?>

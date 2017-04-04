@@ -6,8 +6,12 @@
 ?>
 
 <p>
-    <span class="text-aligned-icon icon-danger"><i class="fa fa-times"></i></span>
-    <?= $this->transEsc('snl.theAddressNotVerifiedYet') ?>
-    <a href="<?php echo($swissEduIDVerifyBaseUrl."homepostaladdress&providerId=".$encodedProviderID."&target=".$encodedTarget); ?>" target="_blank"><?= $this->transEsc('snl.theAddressNotVerifiedYet.verify') ?></a>
-    <?= $this->transEsc('snl.theAddressNotVerifiedYet.verify2') ?>
+    <p><?= $this->transEsc('snl.introBullet2') ?></p>
+    <p>
+        <a href="<?php echo($swissEduIDVerifyBaseUrl."homepostaladdress&providerId=".$encodedProviderID."&target=".$encodedTarget); ?>">
+            <button class="btn btn-primary">
+                <?= $this->transEsc('snl.theAddressNotVerifiedYet.verify') ?>
+            </button>
+        </a>
+    </p>
 </p>
