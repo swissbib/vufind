@@ -146,7 +146,15 @@ class NationalLicencesController extends BaseController
 
         if ($hasAccessToNationalLicenceContent) {
             $this->flashMessenger()->addSuccessMessage(
-                $this->translate('snl.nationalLicenceCompliant')
+                [
+                    'msg'=>
+                        $this->translate('snl.nationalLicenceCompliant') .
+                        ' <a href="/Search/Results?filter[]=union%3A"NATIONALLICENCE"">' .
+                        $this->translate('snl.nationalLicencesContent') .
+                        "</a>.",
+                    'html'=>true
+                ]
+
             );
         } else {
             $this->flashMessenger()->addInfoMessage(
