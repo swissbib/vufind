@@ -8,8 +8,79 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
 <div class="<?= $this->layoutClass('mainbody') ?>">
 
+
+    <style>
+        .stepwizard-step p {
+            margin-top: 5px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        .stepwizard-row {
+            display: table-row;
+        }
+        .stepwizard {
+            display: table;
+            width: 100%;
+            position: relative;
+        }
+        .stepwizard-step button[disabled] {
+            /*opacity: 1 !important;
+            filter: alpha(opacity=100) !important;*/
+        }
+        .stepwizard-row:before {
+            top: 14px;
+            bottom: 0;
+            position: absolute;
+            content: " ";
+            width: 100%;
+            height: 1px;
+            background-color: #ccc;
+            z-order: 0;
+        }
+        .stepwizard-step {
+            display: table-cell;
+            text-align: center;
+            position: relative;
+        }
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+        }
+    </style>
+
+
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step">
+                <a href="#step-1" type="button" class="btn btn-default btn-circle">1</a>
+                <p>Create your account</p>
+            </div>
+            <div class="stepwizard-step">
+                <a href="#step-2" type="button" class="btn btn-default btn-circle">2</a>
+                <p>Accept SWITCH terms of use</p>
+            </div>
+            <div class="stepwizard-step">
+                <a href="#step-3" type="button" class="btn btn-default btn-circle btn-primary">3</a>
+                <p><strong>Accept Swiss National Licences terms of use</strong></p>
+            </div>
+            <div class="stepwizard-step">
+                <a href="#step-4" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">4</a>
+                <p>Confirm your phone number</p>
+            </div>
+            <div class="stepwizard-step">
+                <a href="#step-5" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">5</a>
+                <p>Confirm your swiss address</p>
+            </div>
+        </div>
+    </div>
+
     <h1><?= $this->transEsc('snl.accessNationalLicences') ?></h1>
-    <!-- First of all chack if use is blocked -->
+    <!-- First of all check if use is blocked -->
     <? if ($this->user->isBlocked()): ?>
         <div class="alert alert-danger"><?= $this->transEsc('snl.yourAccountHasBeenBlocked') ?></div>
     <? elseif (!$this->nationalLicences()->isAuthenticatedWithSwissEduId()): ?>
