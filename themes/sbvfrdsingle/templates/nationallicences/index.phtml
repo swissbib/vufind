@@ -15,7 +15,7 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
     <? elseif (!$this->nationalLicences()->isAuthenticatedWithSwissEduId()): ?>
         <p><?= $this->transEsc('snl.nonSwissEduLogin1') ?></p>
         <p><?= $this->transEsc('snl.nonSwissEduLogin2') ?></p>
-        <p><?= $this->transEsc('snl.nonSwissEduLogin3')?> <a href="http://www.nationallicences.ch/"><?= $this->transEsc('snl.nonSwissEduLogin4')?></a>.</p>
+        <p><?= $this->transEsc('snl.nonSwissEduLogin3')?> <a href="<?= $this->transEsc('snl.url') ?>"><?= $this->transEsc('snl.nonSwissEduLogin4')?></a>.</p>
     <? else: ?>
         <?= $this->flashmessages(); ?>
 
