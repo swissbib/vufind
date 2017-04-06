@@ -72,7 +72,7 @@ $options = $this->searchOptions($this->searchClassId);
     <? $allowExclude = $this->recommend->excludeAllowed($title); ?>
     <? $facets_before_more = $this->recommend->getShowMoreSetting($title); ?>
     <? $showMoreInLightbox = $this->recommend->getShowInLightboxSetting($title); ?>
-    <ul class="list-group" id="side-panel-<?=$this->escapeHtmlAttr($title) ?>">
+    <ul class="list-group facet" id="side-panel-<?=$this->escapeHtmlAttr($title) ?>">
       <li class="list-group-item title<? if(in_array($title, $collapsedFacets)): ?> collapsed<? endif ?>" data-toggle="collapse" href="#side-collapse-<?=$this->escapeHtmlAttr($title) ?>">
         <?=$this->transEsc($cluster['label'])?>
       </li>

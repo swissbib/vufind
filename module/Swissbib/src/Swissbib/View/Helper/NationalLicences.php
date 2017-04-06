@@ -405,6 +405,9 @@ class NationalLicences extends AbstractHelper
         case 'NL-oxford':
             $urlBlueprintKey = 'nl-oxford-' . $urlBlueprintKey;
             break;
+        case 'NL-springer':
+            $urlBlueprintKey = 'nl-springer-' . $urlBlueprintKey;
+            break;
         }
 
         $blueprintUrl = "";

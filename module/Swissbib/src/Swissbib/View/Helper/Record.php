@@ -84,6 +84,7 @@ class Record extends VuFindRecord
                 '956' => [
                     'x|^VIEW && y|^Porträt',
                     'B|^ECOD',
+                    'B|^SGBN && u|aleph.sg.ch',
                 ],
                 '950' => [
                     // we don't display doi links from National Licences,
