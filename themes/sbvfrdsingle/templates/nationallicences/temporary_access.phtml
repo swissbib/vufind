@@ -8,7 +8,7 @@ $swissEduIDVerifyBaseUrl = "https://eduid.ch/web/verify-attribute/?attribute=";
 
 <? if ($this->user->request_temporary_access): ?>
     <? if ($this->temporaryAccessValid): ?>
-        <p>
+        <p xmlns="http://www.w3.org/1999/html">
             <?= $this->transEsc('snl.youHaveAlreadyRequestedTemporary') ?>
             <?= $this->transEsc('snl.itExpiresOn') ." ". $this->user->getExpirationDate()->format('d-m-Y') ?>.
         </p>
@@ -22,26 +22,18 @@ $swissEduIDVerifyBaseUrl = "https://eduid.ch/web/verify-attribute/?attribute=";
     <!-- User didn't have requested a temporary access yet -->
     <!-- Check if the user has a phone number in its edu-ID account -->
 
-    <!-- TODO : put back if ($this->mobile):  -->
-    <? if (false): ?>
+    <? if ($this->mobile): ?>
         <!-- Check if it's a swiss phone number -->
-        <? if ($this->isSwissPhoneNumber): ?>
-            <p><?= $this->transEsc('snl.temporaryAccessCanOnlyRequestedOnceValid14Days') ?></p>
-            <p>
-                <span class="text-aligned-icon icon-success"><i class="fa fa-check"></i></span>
-                <?= $this->transEsc('snl.youHaveSwissMobilePhoneNumebr') ?>
-            </p>
-            <a href="<?= $this->url('national-licences', ['action' => 'activate-temporary-access']) ?>"
-                <button class="btn btn-primary" <?= $this->hasAcceptedTermsAndConditions? "" : "disabled"; ?>><?= $this->transEsc('snl.temporaryAccess.activate') ?></button>
-            </a>
-        <? else:; ?>
+        <? if (!$this->isSwissPhoneNumber): ?>
             <!-- It's not a swiss phone number -->
             <p>
-                <span class="text-aligned-icon icon-danger"><i class="fa fa-times"></i></span>
                 <?= $this->transEsc('snl.youDontHaveSwissMobilePhoneNumeber') ?>
             </p>
-            <a href="<?php echo($swissEduIDVerifyBaseUrl."mobile&providerId=".$encodedProviderID."&target=".$encodedTarget); ?>"><?= $this->transEsc('snl.modify') ?></a>
-            <?= $this->transEsc('snl.yourMobilePhoneInYourEduIdaccount') ?>
+            <a href="<?php echo($swissEduIDVerifyBaseUrl."mobile&providerId=".$encodedProviderID."&target=".$encodedTarget); ?>">
+                <button class="btn btn-primary" <?= $this->hasAcceptedTermsAndConditions? "" : "disabled"; ?>>
+                    <?= $this->transEsc('snl.addswissnumber') ?>
+                </button>
+            </a>
         <? endif; ?>
     <? else:; ?>
         <!-- User don't have a mobile phone number in their edu-ID account-->
