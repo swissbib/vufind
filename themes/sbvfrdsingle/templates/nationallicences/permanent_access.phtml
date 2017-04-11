@@ -2,6 +2,8 @@
         <? if ($this->swissLibraryPersonResidence === 'CH'): ?>
             <? if (!$this->hasVerifiedHomePostalAddress): ?>
                 <?= $this->context($this)->renderInContext("nationallicences/fragments/verify_home_postal_address.phtml", []) ?>
+            <? else:; ?>
+                <?= $this->context($this)->renderInContext("nationallicences/fragments/verified_address_in_switzerland.phtml", []) ?>
             <? endif; ?>
         <? else:; ?>
             <!-- User have a foreign adress -->
@@ -15,6 +17,8 @@
             <? if ($this->isHomePostalAddressInSwitzerland): ?>
                 <? if (!$this->hasVerifiedHomePostalAddress): ?>
                     <?= $this->context($this)->renderInContext("nationallicences/fragments/verify_home_postal_address.phtml", []) ?>
+                <? else:; ?>
+                    <?= $this->context($this)->renderInContext("nationallicences/fragments/verified_address_in_switzerland.phtml", []) ?>
                 <? endif; ?>
             <? else:; ?>
                 <!-- User have a foreign adress -->

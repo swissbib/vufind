@@ -8,7 +8,7 @@ $swissEduIDVerifyBaseUrl = "https://eduid.ch/web/verify-attribute/?attribute=";
 
 <? if ($this->user->request_temporary_access): ?>
     <? if ($this->temporaryAccessValid): ?>
-        <p xmlns="http://www.w3.org/1999/html">
+        <p>
             <?= $this->transEsc('snl.youHaveAlreadyRequestedTemporary') ?>
             <?= $this->transEsc('snl.itExpiresOn') ." ". $this->user->getExpirationDate()->format('d-m-Y') ?>.
         </p>
@@ -34,6 +34,11 @@ $swissEduIDVerifyBaseUrl = "https://eduid.ch/web/verify-attribute/?attribute=";
                     <?= $this->transEsc('snl.addswissnumber') ?>
                 </button>
             </a>
+        <? else: ?>
+            <p>
+                <span class="text-aligned-icon icon-success"><i class="fa fa-check"></i></span>
+                <?= $this->transEsc('snl.youHaveSwissMobilePhoneNumebr') ?>
+            </p>
         <? endif; ?>
     <? else:; ?>
         <!-- User don't have a mobile phone number in their edu-ID account-->
