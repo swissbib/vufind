@@ -157,13 +157,9 @@ class NationalLicencesController extends BaseController
                     'html'=>true
                 ]
             );
-        } else {
-            $this->flashMessenger()->addInfoMessage(
-                $this->translate('snl.youDontHaveAccessToNationalLicencesError')
-            );
         }
 
-        //$this->activateTemporaryAccessAction();
+        $this->activateTemporaryAccess();
 
         $view = new ViewModel(
             [
@@ -230,7 +226,7 @@ class NationalLicencesController extends BaseController
      *
      * @return void
      */
-    public function activateTemporaryAccessAction()
+    public function activateTemporaryAccess()
     {
         $accessCreatedSuccessfully = false;
         try {
@@ -240,7 +236,6 @@ class NationalLicencesController extends BaseController
             $this->flashMessenger()->addMessage(
                 $this->translate($e->getMessage(), 'error')
             );
-            $this->redirect()->toRoute('national-licences');
 
             return;
         }
@@ -250,7 +245,6 @@ class NationalLicencesController extends BaseController
                     'snl.wasNotPossibleToCreateTemporaryAccessError', 'error'
                 )
             );
-            $this->redirect()->toRoute('national-licences');
 
             return;
         }
@@ -260,7 +254,6 @@ class NationalLicencesController extends BaseController
                 'success'
             )
         );
-        $this->redirect()->toRoute('national-licences');
     }
 
     /**
