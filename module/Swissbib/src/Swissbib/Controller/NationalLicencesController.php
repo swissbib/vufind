@@ -161,6 +161,8 @@ class NationalLicencesController extends BaseController
 
         $this->activateTemporaryAccess();
 
+        $this->activatePermanentAccess();
+
         $view = new ViewModel(
             [
                 'swissLibraryPersonResidence' => $swissLibraryPersonResidence,
@@ -214,8 +216,8 @@ class NationalLicencesController extends BaseController
         try {
             $this->nationalLicenceService->acceptTermsConditions();
         } catch (\Exception $e) {
-            $this->flashMessenger()->addMessage(
-                $this->translate($e->getMessage(), 'error')
+            $this->flashMessenger()->addErrorMessage(
+                $this->translate($e->getMessage())
             );
         }
         return $this->redirect()->toRoute('national-licences');
@@ -233,25 +235,24 @@ class NationalLicencesController extends BaseController
             $accessCreatedSuccessfully
                 = $this->nationalLicenceService->createTemporaryAccessForUser();
         } catch (\Exception $e) {
-            $this->flashMessenger()->addMessage(
-                $this->translate($e->getMessage(), 'error')
+            $this->flashMessenger()->addErrorMessage(
+                $this->translate($e->getMessage())
             );
 
             return;
         }
         if (!$accessCreatedSuccessfully) {
-            $this->flashMessenger()->addMessage(
+            $this->flashMessenger()->addErrorMessage(
                 $this->translate(
-                    'snl.wasNotPossibleToCreateTemporaryAccessError', 'error'
+                    'snl.wasNotPossibleToCreateTemporaryAccessError'
                 )
             );
 
             return;
         }
-        $this->flashMessenger()->addMessage(
+        $this->flashMessenger()->addSuccessMessage(
             $this->translate(
-                'snl.yourTemporaryAccessWasCreatedSuccessfully',
-                'success'
+                'snl.yourTemporaryAccessWasCreatedSuccessfully'
             )
         );
     }
@@ -262,21 +263,20 @@ class NationalLicencesController extends BaseController
      *
      * @return void
      */
-    public function activatePermanentAccessAction()
+    public function activatePermanentAccess()
     {
         try {
             $this->nationalLicenceService->setNationalLicenceCompliantFlag();
-            $this->flashMessenger()->addMessage(
+            $this->flashMessenger()->addSuccessMessage(
                 $this->translate(
-                    'snl.yourRequestPermanentAccessSuccessful', 'success'
+                    'snl.yourRequestPermanentAccessSuccessful'
                 )
             );
         } catch (\Exception $e) {
-            $this->flashMessenger()->addMessage(
-                $this->translate($e->getMessage(), 'error')
+            $this->flashMessenger()->addErrorMessage(
+                $this->translate($e->getMessage())
             );
         }
-        $this->redirect()->toRoute('national-licences');
     }
 
     /**
@@ -304,13 +304,13 @@ class NationalLicencesController extends BaseController
             $this->nationalLicenceService->extendAccountIfCompliant();
             if ($this->nationalLicenceService->isSetMessage()) {
                 $message = $this->nationalLicenceService->getMessage();
-                $this->flashMessenger()->addMessage(
-                    $this->translate($message['text'], $message['type'])
+                $this->flashMessenger()->addInfoMessage(
+                    $this->translate($message['text'])
                 );
             }
         } catch (\Exception $e) {
-            $this->flashMessenger()->addMessage(
-                $this->translate($e->getMessage(), 'error')
+            $this->flashMessenger()->addErrorMessage(
+                $this->translate($e->getMessage())
             );
         }
         //redirect to home page
