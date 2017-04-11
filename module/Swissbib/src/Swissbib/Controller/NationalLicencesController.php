@@ -163,6 +163,8 @@ class NationalLicencesController extends BaseController
             );
         }
 
+        //$this->activateTemporaryAccessAction();
+
         $view = new ViewModel(
             [
                 'swissLibraryPersonResidence' => $swissLibraryPersonResidence,

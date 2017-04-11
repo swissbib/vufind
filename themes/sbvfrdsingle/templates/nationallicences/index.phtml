@@ -104,6 +104,32 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
             <?= $this->context($this)->renderInContext("nationallicences/permanent_access.phtml", []) ?>
         <? endif; ?>
     <? endif; ?>
+
+
+
+
+
+    <h2>To remove</h2>
+
+    <a href="<?= $this->url('national-licences', ['action' => 'activate-temporary-access']) ?>"
+    <button class="btn btn-primary"><?= $this->transEsc('snl.temporaryAccess.activate') ?></button>
+    </a>
+
+    <br><br>
+    <a href="<?= $this->url('national-licences', ['action' => 'activate-permanent-access']) ?>">
+        <button class="btn btn-primary"><?= $this->transEsc('snl.permanentAccess.activate') ?></button>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
 </div>
 
 <div class="<?= $this->layoutClass('sidebar') ?>">
