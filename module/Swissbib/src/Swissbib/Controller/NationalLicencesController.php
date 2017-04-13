@@ -121,8 +121,8 @@ class NationalLicencesController extends BaseController
                     ]
                 );
         } catch (\Exception $e) {
-            $this->flashMessenger()->addMessage(
-                $this->translate($e->getMessage(), 'error')
+            $this->flashMessenger()->addErrorMessage(
+                $this->translate($e->getMessage())
             );
         }
 
@@ -157,11 +157,16 @@ class NationalLicencesController extends BaseController
                     'html'=>true
                 ]
             );
-        }
+        } /*else {
+            if ($isSwissPhoneNumber && !$temporaryAccessValid) {
+                $this->activateTemporaryAccess();
+            }
+            $this->activatePermanentAccess();
+        }*/
 
         $this->activateTemporaryAccess();
-
         $this->activatePermanentAccess();
+
 
         $view = new ViewModel(
             [

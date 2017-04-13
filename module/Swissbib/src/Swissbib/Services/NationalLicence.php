@@ -327,6 +327,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
             throw new \Exception('snl.pleaseAcceptTermsAndConditions');
         }
 
+        //TODO add a translated text snl. here
         if (!$this->isNationalLicenceCompliant()) {
             throw new \Exception(
                 'User is not compliant with the Swiss National Licence'
