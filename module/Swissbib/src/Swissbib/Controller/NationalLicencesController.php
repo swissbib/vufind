@@ -144,17 +144,17 @@ class NationalLicencesController extends BaseController
             = $this->nationalLicenceService
                 ->hasAccessToNationalLicenceContent($user);
 
-        $NLUrl="/Search/Results?filter%5B%5D=union%3A%22NATIONALLICENCE%22";
+        $NLUrl = "/Search/Results?filter%5B%5D=union%3A%22NATIONALLICENCE%22";
 
         if ($hasAccessToNationalLicenceContent) {
             $this->flashMessenger()->addSuccessMessage(
                 [
-                    'msg'=>
+                    'msg' =>
                         $this->translate('snl.nationalLicenceCompliant') .
                         ' <a href="' . $NLUrl . '">' .
                         $this->translate('snl.nationalLicencesContent') .
                         "</a>.",
-                    'html'=>true
+                    'html' => true
                 ]
             );
         } /*else {
