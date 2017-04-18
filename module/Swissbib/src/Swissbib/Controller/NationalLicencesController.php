@@ -167,7 +167,6 @@ class NationalLicencesController extends BaseController
         $this->activateTemporaryAccess();
         $this->activatePermanentAccess();
 
-
         $view = new ViewModel(
             [
                 'swissLibraryPersonResidence' => $swissLibraryPersonResidence,
