@@ -237,8 +237,8 @@ $prevTitles      = $record->getPreviousTitles();
   $archivalLevel    = $record->getArchivalLevel();
   $findingAids    = $record->getFindingAids();
   $accumulationFrequency   = $record->getAccumulationFrequency();
-  $addedwork   = $record->getAddedWork();
   $supplement   = $record->getSupplement();
+  $relatedWork = $record->getRelatedWork();
 
 
   ?>
@@ -251,7 +251,7 @@ $prevTitles      = $record->getPreviousTitles();
       !empty($exhibitions) or !empty($worktitle) or !empty($ownerNote) or !empty($acquisitionNote) or !empty($medium)
       or !empty($musicalPresentation) or !empty($orderClassification) or !empty($securityclassification)
       or !empty($reproduction) or !empty($reproductionClassification) or !empty($archivalLevel)
-      or !empty($findingAids) or !empty($accumulationFrequency) or !empty($addedwork) or !empty($supplement)): ?>
+      or !empty($findingAids) or !empty($accumulationFrequency) or !empty($relatedWork) or !empty($supplement)): ?>
     <? $contentDisplayed = true; ?>
 
       <? /* Display general notes (field 500) */ ?>
@@ -329,7 +329,7 @@ $prevTitles      = $record->getPreviousTitles();
       <? /* Display linking entry notes (field 580) */ ?>
       <? if (!empty($related)): ?>
           <tr>
-              <th><?= $this->transEsc('Related Items') ?>: </th>
+              <th><?= $this->transEsc('Related Items Note') ?>: </th>
               <td>
                   <? foreach ($related as $field): ?>
                       <?= $this->escapeHtml($field) ?><br/>
@@ -362,7 +362,7 @@ $prevTitles      = $record->getPreviousTitles();
         </tr>
       <? endif; ?>
 
-      <? /* Display title of work (field 240 or 130) */ ?>
+      <? /* Display title of work (field 240 or 130 or 730) */ ?>
       <? if (!empty($worktitle)): ?>
           <tr>
               <th><?= $this->transEsc('Work_Title') ?>: </th>
@@ -725,13 +725,12 @@ $prevTitles      = $record->getPreviousTitles();
         </tr>
     <? endif; ?>
 
-
-    <? /* Display "Nebeneintragung/weiteres enthaltenes Werk" for HAN (field 730) */ ?>
-    <? if (!empty($addedwork)): ?>
+    <? /* Display "Nebeneintratung Werk 700/710" */ ?>
+    <? if (!empty($relatedWork)): ?>
         <tr>
-            <th><?= $this->transEsc('AddedWork') ?>: </th>
+            <th><?= $this->transEsc('RelatedWork') ?>: </th>
             <td>
-                <? foreach ($addedwork as $field): ?>
+                <? foreach ($relatedWork as $field): ?>
                     <?= $this->escapeHtml($field) ?><br/>
                 <? endforeach; ?>
             </td>

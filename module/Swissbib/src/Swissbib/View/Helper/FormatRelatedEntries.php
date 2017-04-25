@@ -120,8 +120,12 @@ class FormatRelatedEntries extends AbstractHelper
             $formattedEntry .= ', ' . $relatedPerson['forename'];
         }
 
+        if (isset($relatedPerson['numeration'])) {
+            $formattedEntry .= ' ' . $relatedPerson['numeration'];
+        }
+
         if (isset($relatedPerson['1titles'])) {
-            $formattedEntry .= ' ' . $relatedPerson['1titles'];
+            $formattedEntry .= ', ' . $relatedPerson['1titles'];
         }
 
         if (isset($relatedPerson['dates'])) {
