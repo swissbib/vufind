@@ -168,4 +168,11 @@ class Factory
             $locator->get('Swissbib\Services\RedirectProtocolWrapper')
         );
     }
+
+    public static function getConfig(ServiceManager $sm)
+    {
+        $locator = $sm->getServiceLocator();
+
+        return new  Config($locator);
+    }
 }

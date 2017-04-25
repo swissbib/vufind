@@ -98,7 +98,7 @@ class SearchController extends VuFindSearchController
     public function advancedAction()
     {
         $viewModel = parent::advancedAction();
-        $viewModel->options = $this->getServiceLocator()
+        $viewModel->options = $this->serviceLocator
             ->get('VuFind\SearchOptionsPluginManager')->get($this->searchClassId);
         $results = $this->getResultsManager()->get($this->searchClassId);
 
@@ -123,7 +123,7 @@ class SearchController extends VuFindSearchController
      */
     protected function getFacetConfig()
     {
-        return $this->getServiceLocator()->get('VuFind\Config')->get('facets')
+        return $this->serviceLocator->get('VuFind\Config')->get('facets')
             ->get('Results_Settings');
     }
 
@@ -136,7 +136,7 @@ class SearchController extends VuFindSearchController
     protected function getResultsManager()
     {
         if (!isset($this->extendedTargets)) {
-            $mainConfig = $this->getServiceLocator()->get('Vufind\Config')
+            $mainConfig = $this->serviceLocator->get('Vufind\Config')
                 ->get('config');
             $extendedTargetsSearchClassList
                 = $mainConfig->SwissbibSearchExtensions->extendedTargets;
@@ -147,7 +147,7 @@ class SearchController extends VuFindSearchController
         }
 
         if (in_array($this->searchClassId, $this->extendedTargets)) {
-            return $this->getServiceLocator()
+            return $this->serviceLocator
                 ->get('VuFind\SearchResultsPluginManager');
         }
 

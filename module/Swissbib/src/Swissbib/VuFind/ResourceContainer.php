@@ -67,6 +67,19 @@ class ResourceContainer extends VfResourceContainer
     protected $ignoredJsFiles;
 
     /**
+     *  Constructor
+     *
+     * @param ServiceLocatorInterface $sm Service manager
+     */
+     public function __construct(ServiceLocatorInterface $sm)
+     {
+         $this->serviceLocator = $sm;
+         $config               = new Config($this->serviceLocator);
+         $this->ignoredCssFiles = $config->swissbib->ignore_css_assets->toArray();
+         $this->ignoredJsFiles  = $config->swissbib->ignore_js_assets->toArray();
+     }
+
+    /**
      * Inject service locator
      *
      * @param ServiceLocatorInterface $serviceLocator ServiceLocator
@@ -76,20 +89,6 @@ class ResourceContainer extends VfResourceContainer
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
-        $config               = new Config($serviceLocator->get('Config'));
-
-        $this->ignoredCssFiles = $config->swissbib->ignore_css_assets->toArray();
-        $this->ignoredJsFiles  = $config->swissbib->ignore_js_assets->toArray();
-    }
-
-    /**
-     * Get service locator
-     *
-     * @return ServiceLocatorInterface
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
     }
 
     /**

@@ -58,25 +58,13 @@ class Config extends AbstractHelper
     protected $config;
 
     /**
-     * Inject service locator
+     * Constructor
      *
-     * @param ServiceLocatorInterface $serviceLocator ServiceLocator
-     *
-     * @return void
+     * @param ServiceLocatorInterface $serviceLocator Service locator
      */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
-    }
-
-    /**
-     * Get service locator
-     *
-     * @return ServiceLocatorInterface
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
     }
 
     /**
@@ -87,7 +75,7 @@ class Config extends AbstractHelper
     protected function getConfig()
     {
         if (!$this->config) {
-            $this->config = $this->serviceLocator->getServiceLocator()
+            $this->config = $this->serviceLocator
                 ->get('VuFind\Config')->get('config');
         }
 
