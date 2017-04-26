@@ -28,11 +28,8 @@ use Zend\Di\ServiceLocator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Mime;
-use Zend\ServiceManager\ServiceManager;
-//use Zend\Mail\Transport\Sendmail as SendmailTransport;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
-use Zend\Mail\Transport\SmtpOptions;
 use Zend\Mail\Transport\Sendmail as SendmailTransport;
 
 /**
@@ -158,8 +155,7 @@ class Email implements ServiceLocatorAwareInterface
             );
         }
         // and finally we create the actual email
-        $emailAddressFrom = $this->config
-            ->get('NationalLicences')['EmailService']['default_email_address_from'];
+        $emailAddressFrom = $this->config->get('config')['Site']['email'];
         $message = new Message();
         $message->setBody($mimeMessage);
         $message->addTo($to)
@@ -168,12 +164,6 @@ class Email implements ServiceLocatorAwareInterface
         $transport = null;
         if ($tlsActive) {
             $transport = new SmtpTransport();
-            $options
-                = new SmtpOptions(
-                    $this->config
-                        ->get('NationalLicences')['EmailService']['SmtpOptions']
-                );
-            $transport->setOptions($options);
         } else {
             $transport = new SendmailTransport();
         }

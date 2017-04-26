@@ -138,15 +138,15 @@ class NationalLicenceUser extends Gateway
     ) {
         //Check and convert in the right format
         if (isset($fieldsValues['active_last_12_month'])) {
-            $swissEduIdUsagely = $fieldsValues['active_last_12_month'];
-            if (!is_bool($swissEduIdUsagely)) {
-                if (is_string($swissEduIdUsagely)) {
+            $swissEduIdUsage1y = $fieldsValues['active_last_12_month'];
+            if (!is_bool($swissEduIdUsage1y)) {
+                if (is_string($swissEduIdUsage1y)) {
                     $fieldsValues['active_last_12_month']
                         = $fieldsValues['active_last_12_month'] === 'TRUE';
                 } else {
                     throw new \Exception(
                         "Impossible to read the " .
-                        "swissEduIdUsagely attributes. Format is incorrect."
+                        "swissEduIDUsage1y attributes. Format is incorrect."
                     );
                 }
             }
@@ -158,6 +158,21 @@ class NationalLicenceUser extends Gateway
                 $nationalLicenceUser->$key = $value;
             }
         }
+
+        $importantKeys = [
+            'mobile',
+            'home_postal_address',
+            'swiss_library_person_residence'
+        ];
+
+        //we need to check if the user removed these
+        //attributes from his Switch edu-ID account
+        foreach ($importantKeys as $key) {
+            if (!array_key_exists($key, $fieldsValues)) {
+                $nationalLicenceUser->$key = null;
+            }
+        }
+
         if (!empty($fieldsValuesRelation)) {
             $user = $nationalLicenceUser->getRelUser();
             foreach ($fieldsValuesRelation as $key => $value) {
