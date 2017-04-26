@@ -169,7 +169,8 @@ class NationalLicencesController extends BaseController
                         "</a>. " .
                         $this->translate(
                             'snl.theAddressNotVerifiedYet.verify'
-                        ) . " " .
+                        ) .
+                        " " .
                         $this->translate(
                             'snl.forPermanent'
                         ),

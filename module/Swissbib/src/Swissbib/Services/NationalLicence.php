@@ -169,8 +169,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
 
         if (!$hasVerifiedSwissAddress) {
             throw new \Exception('snl.theAddressNotVerifiedYet');
-        }
-        else {
+        } else {
             $this->setPermanentAccess($user);
             $this->switchApiService->setNationalCompliantFlag($user->getEduId());
 
