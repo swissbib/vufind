@@ -18,7 +18,9 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            'search' => 'Jusbib\Controller\SearchController',
+        ],
+        'factories' => [
+            'search' => 'Jusbib\Controller\Factory::getSearchController',
         ]
     ],
     'service_manager' => [

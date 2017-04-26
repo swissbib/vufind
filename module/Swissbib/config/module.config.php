@@ -229,7 +229,6 @@ return [
             'helppage'             => 'Swissbib\Controller\HelpPageController',
             'libadminsync'         => 'Swissbib\Controller\LibadminSyncController',
             'my-research'          => 'Swissbib\Controller\MyResearchController',
-            'search'               => 'Swissbib\Controller\SearchController',
             'summon'               => 'Swissbib\Controller\SummonController',
             'holdings'             => 'Swissbib\Controller\HoldingsController',
             'tab40import'          => 'Swissbib\Controller\Tab40ImportController',
@@ -244,6 +243,7 @@ return [
             'console'              => 'Swissbib\Controller\ConsoleController',
         ],
         'factories'  => [
+            'search' => 'Swissbib\Controller\Factory::getSearchController',
             'record' => 'Swissbib\Controller\Factory::getRecordController',
             'cart'   => 'VuFind\Controller\Factory::getCartController',
             'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
@@ -252,11 +252,11 @@ return [
     ],
     'service_manager' => [
         'invokables' => [
-            'VuFindTheme\ResourceContainer'                 => 'Swissbib\VuFind\ResourceContainer',
             'Swissbib\QRCode'                               => 'Swissbib\CRCode\QrCodeService',
             'MarcFormatter'                                 => 'Swissbib\XSLT\MARCFormatter',
         ],
         'factories' => [
+            'VuFindTheme\ResourceContainer'                 =>  'Swissbib\VuFind\ResourceContainer',
             'Swissbib\HoldingsHelper'                       =>  'Swissbib\RecordDriver\Helper\Factory::getHoldingsHelper',
             'Swissbib\Services\RedirectProtocolWrapper'     =>  'Swissbib\Services\Factory::getProtocolWrapper',
             'Swissbib\TargetsProxy\TargetsProxy'            =>  'Swissbib\TargetsProxy\Factory::getTargetsProxy',
@@ -324,10 +324,10 @@ return [
             'qrCodeHolding'                  => 'Swissbib\View\Helper\QrCodeHolding',
             'holdingItemsPaging'             => 'Swissbib\View\Helper\HoldingItemsPaging',
             'filterUntranslatedInstitutions' => 'Swissbib\View\Helper\FilterUntranslatedInstitutions',
-            'configAccess'                   => 'Swissbib\View\Helper\Config',
             'layoutClass'                    => 'Swissbib\View\Helper\LayoutClass'
         ],
         'factories'  => [
+            'configAccess'                              =>  'Swissbib\View\Helper\Factory::getConfig',
             'institutionSorter'                         =>  'Swissbib\View\Helper\Factory::getInstitutionSorter',
             'extractFavoriteInstitutionsForHoldings'    =>  'Swissbib\View\Helper\Factory::getFavoriteInstitutionsExtractor',
             'institutionDefinedAsFavorite'              =>  'Swissbib\View\Helper\Factory::getInstitutionsAsDefinedFavorites',
