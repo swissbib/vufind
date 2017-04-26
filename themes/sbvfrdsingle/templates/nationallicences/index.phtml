@@ -57,23 +57,27 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
     <div class="stepwizard">
         <div class="stepwizard-row setup-panel">
             <div class="stepwizard-step">
-                <a href="#step-1" type="button" class="btn btn-default btn-circle">1</a>
-                <p>Create your account</p>
+                <a type="button" class="btn btn-default btn-circle">1</a>
+                <p>Create your Switch edu-ID account</p>
             </div>
             <div class="stepwizard-step">
-                <a href="#step-2" type="button" class="btn btn-default btn-circle">2</a>
-                <p>Accept SWITCH terms of use</p>
+                <a
+                    type="button"
+                    class="btn btn-default btn-circle"
+                    <?= $this->hasAcceptedTermsAndConditions? "" : "btn-primary"; ?>
+                 >2</a>
+                <p>
+                    <?= $this->hasAcceptedTermsAndConditions? "" : "<strong>"; ?>
+                    Accept Swiss National Licences terms of use
+                    <?= $this->hasAcceptedTermsAndConditions? "" : "</strong>"; ?>
+                </p>
             </div>
             <div class="stepwizard-step">
-                <a href="#step-3" type="button" class="btn btn-default btn-circle btn-primary">3</a>
-                <p><strong>Accept Swiss National Licences terms of use</strong></p>
-            </div>
-            <div class="stepwizard-step">
-                <a href="#step-4" type="button" class="btn btn-default btn-circle">4</a>
+                <a type="button" class="btn btn-default btn-circle">3</a>
                 <p>Confirm your phone number</p>
             </div>
             <div class="stepwizard-step">
-                <a href="#step-5" type="button" class="btn btn-default btn-circle">5</a>
+                <a type="button" class="btn btn-default btn-circle">4</a>
                 <p>Confirm your swiss address</p>
             </div>
         </div>
