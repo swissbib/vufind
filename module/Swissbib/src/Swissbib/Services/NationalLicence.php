@@ -139,6 +139,46 @@ class NationalLicence implements ServiceLocatorAwareInterface
         throw new \Exception("Was not possible to activate temporary access");
     }
 
+
+    /**
+     * Create permanent access for the user. If the user id is
+     * not provided the current user in the $_SERVER variable will be used.
+     *
+     * @param int $persistentId Persistent id
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function createPermanentAccessForUser($persistentId = null)
+    {
+        /**
+         * National licence user.
+         *
+         * @var NationalLicenceUser $user
+         */
+        $user = $this->getCurrentNationalLicenceUser($persistentId);
+
+        $this->checkIfUserIsBlocked($user);
+
+        if (!$user->hasAcceptedTermsAndConditions()) {
+            throw new \Exception('snl.pleaseAcceptTermsAndConditions');
+        }
+
+        $hasVerifiedSwissAddress = $this->hasVerifiedSwissAddress($user);
+
+
+        if (!$hasVerifiedSwissAddress) {
+            throw new \Exception('snl.theAddressNotVerifiedYet');
+        }
+        else {
+            $this->setPermanentAccess($user);
+            $this->switchApiService->setNationalCompliantFlag($user->getEduId());
+
+            return true;
+        }
+        throw new \Exception("Was not possible to activate permanent access");
+    }
+
     /**
      * Get the current national licence user if it exists.
      *
@@ -307,35 +347,6 @@ class NationalLicence implements ServiceLocatorAwareInterface
         }
 
         return $user;
-    }
-
-    /**
-     * This method sets the national-licence-compliant flag in the SWITCH API.
-     *
-     * @param NationalLicenceUser $user NationalLicenceUser
-     *
-     * @return void
-     * @throws \Exception
-     */
-    public function setNationalLicenceCompliantFlag($user = null)
-    {
-        if (empty($user)) {
-            $user = $this->getCurrentNationalLicenceUser();
-        }
-
-        if (!$user->hasAcceptedTermsAndConditions()) {
-            throw new \Exception('snl.pleaseAcceptTermsAndConditions');
-        }
-
-        //TODO add a translated text snl. here
-        if (!$this->isNationalLicenceCompliant()) {
-            throw new \Exception(
-                'User is not compliant with the Swiss National Licence'
-            );
-        }
-        $this->switchApiService->setNationalCompliantFlag($user->getEduId());
-
-        $this->setPermanentAccess($user);
     }
 
     /**

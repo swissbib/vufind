@@ -146,7 +146,7 @@ class NationalLicencesController extends BaseController
 
         $NLUrl = "/Search/Results?filter%5B%5D=union%3A%22NATIONALLICENCE%22";
 
-        if ($hasAccessToNationalLicenceContent) {
+        if ($hasPermanentAccess) {
             $this->flashMessenger()->addSuccessMessage(
                 [
                     'msg' =>
@@ -157,15 +157,34 @@ class NationalLicencesController extends BaseController
                     'html' => true
                 ]
             );
-        } /*else {
-            if ($isSwissPhoneNumber && !$temporaryAccessValid) {
+        } else if ($temporaryAccessValid) {
+            $this->flashMessenger()->addSuccessMessage(
+                [
+                    'msg' =>
+                        $this->translate(
+                            'snl.yourTemporaryAccessWasCreatedSuccessfully'
+                        ) .
+                        ' <a href="' . $NLUrl . '">' .
+                        $this->translate('snl.nationalLicencesContent') .
+                        "</a>. " .
+                        $this->translate(
+                            'snl.theAddressNotVerifiedYet.verify'
+                        ) . " " .
+                        $this->translate(
+                            'snl.forPermanent'
+                        ),
+                    'html' => true
+                ]
+            );
+        } else {
+            if (!$temporaryAccessValid && !$hasPermanentAccess) {
                 $this->activateTemporaryAccess();
             }
-            $this->activatePermanentAccess();
-        }*/
+        }
 
-        $this->activateTemporaryAccess();
-        $this->activatePermanentAccess();
+        if (!$hasPermanentAccess && $hasVerifiedHomePostalAddress) {
+            $this->activatePermanentAccess();
+        }
 
         $view = new ViewModel(
             [
@@ -239,7 +258,7 @@ class NationalLicencesController extends BaseController
             $accessCreatedSuccessfully
                 = $this->nationalLicenceService->createTemporaryAccessForUser();
         } catch (\Exception $e) {
-            $this->flashMessenger()->addErrorMessage(
+            $this->flashMessenger()->addInfoMessage(
                 $this->translate($e->getMessage())
             );
 
@@ -254,11 +273,8 @@ class NationalLicencesController extends BaseController
 
             return;
         }
-        $this->flashMessenger()->addSuccessMessage(
-            $this->translate(
-                'snl.yourTemporaryAccessWasCreatedSuccessfully'
-            )
-        );
+
+        return $this->redirect()->toRoute('national-licences');
     }
 
     /**
@@ -269,18 +285,32 @@ class NationalLicencesController extends BaseController
      */
     public function activatePermanentAccess()
     {
+        $accessCreatedSuccessfully = false;
         try {
-            $this->nationalLicenceService->setNationalLicenceCompliantFlag();
-            $this->flashMessenger()->addSuccessMessage(
-                $this->translate(
-                    'snl.yourRequestPermanentAccessSuccessful'
-                )
-            );
+            $accessCreatedSuccessfully
+                = $this->nationalLicenceService->createPermanentAccessForUser();
         } catch (\Exception $e) {
-            $this->flashMessenger()->addErrorMessage(
+            $this->flashMessenger()->addInfoMessage(
                 $this->translate($e->getMessage())
             );
+
+            return;
         }
+        if (!$accessCreatedSuccessfully) {
+            $this->flashMessenger()->addErrorMessage(
+                $this->translate(
+                    'snl.requestPermanentAccessNotSuccessful'
+                )
+            );
+
+            return;
+        }
+        $this->flashMessenger()->addSuccessMessage(
+            $this->translate(
+                'snl.yourRequestPermanentAccessSuccessful'
+            )
+        );
+        return $this->redirect()->toRoute('national-licences');
     }
 
     /**
