@@ -497,7 +497,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
     /**
      * Check if it is a swiss address.
      *
-     * @param string $homeAddressString Home address from Swiss edu-ID account
+     * @param string $homeAddressString Home address from SWITCH edu-ID account
      *
      * @return bool True if it's a Swiss address False otherwise
      */
