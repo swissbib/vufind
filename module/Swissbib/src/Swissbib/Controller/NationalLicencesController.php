@@ -158,22 +158,23 @@ class NationalLicencesController extends BaseController
                 ]
             );
         } else if ($temporaryAccessValid) {
+            $message
+                =  $this->translate(
+                    'snl.yourTemporaryAccessWasCreatedSuccessfully'
+                ) .
+                ' <a href="' . $NLUrl . '">' .
+                $this->translate('snl.nationalLicencesContent') .
+                "</a>. " .
+                $this->translate(
+                    'snl.theAddressNotVerifiedYet.verify'
+                ) .
+                " " .
+                $this->translate(
+                    'snl.forPermanent'
+                );
             $this->flashMessenger()->addSuccessMessage(
                 [
-                    'msg' =>
-                        $this->translate(
-                            'snl.yourTemporaryAccessWasCreatedSuccessfully'
-                        ) .
-                        ' <a href="' . $NLUrl . '">' .
-                        $this->translate('snl.nationalLicencesContent') .
-                        "</a>. " .
-                        $this->translate(
-                            'snl.theAddressNotVerifiedYet.verify'
-                        ) .
-                        " " .
-                        $this->translate(
-                            'snl.forPermanent'
-                        ),
+                    'msg' => $message,
                     'html' => true
                 ]
             );
