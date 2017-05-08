@@ -2639,17 +2639,27 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
-     * Get hierarchy type
-     * Directly use driver config
+     * Get the Hierarchy Type (default if none)
      *
-     * @return bool|string
+     * @return string
      */
     public function getHierarchyType()
     {
-        $type = parent::getHierarchyType();
-
-        return $type ? $type : $this->mainConfig->Hierarchy->driver;
+        if (
+            isset($this->fields['hierarchy_top_id'])
+            || isset($this->fields['hierarchytype'])
+        ) {
+            $hierarchyType = isset($this->fields['hierarchytype'])
+                ? $this->fields['hierarchytype'] : false;
+            if (!$hierarchyType) {
+                $hierarchyType = isset($this->mainConfig->Hierarchy->driver)
+                    ? $this->mainConfig->Hierarchy->driver : false;
+            }
+            return $hierarchyType;
+        }
+        return $this->mainConfig->Hierarchy->driver;
     }
+
 
     /**
      * Get marc field
