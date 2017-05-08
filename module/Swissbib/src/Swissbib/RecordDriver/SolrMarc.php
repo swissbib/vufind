@@ -1120,7 +1120,8 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 if ($author['@ind2'] !== '2') {
 
                     $name = isset($author['name']) ? $author['name'] : '';
-                    $forename = isset($author['forename']) ? $author['forename'] : '';
+                    $forename = isset($author['forename']) ?
+                        $author['forename'] : '';
                     $stringAuthors[] = trim($name . ', ' . $forename);
                 }
             }
@@ -1714,7 +1715,10 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             if ($field === '700') {
                 $data = $this->getMarcSubFieldMaps($field, $this->personFieldMap);
             }
-            else $data = $this->getMarcSubFieldMaps($field, $this->corporationFieldMap);
+            else {
+                $data = $this->getMarcSubFieldMaps($field,
+                    $this->corporationFieldMap);
+            }
 
 
             if ($asStrings) {
@@ -2645,8 +2649,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getHierarchyType()
     {
-        if (
-            isset($this->fields['hierarchy_top_id'])
+        if (isset($this->fields['hierarchy_top_id'])
             || isset($this->fields['hierarchytype'])
         ) {
             $hierarchyType = isset($this->fields['hierarchytype'])
