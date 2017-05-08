@@ -165,7 +165,6 @@ class NationalLicence implements ServiceLocatorAwareInterface
 
         $hasVerifiedSwissAddress = $this->hasVerifiedSwissAddress($user);
 
-
         if (!$hasVerifiedSwissAddress) {
             throw new \Exception('snl.theAddressNotVerifiedYet');
         } else {
