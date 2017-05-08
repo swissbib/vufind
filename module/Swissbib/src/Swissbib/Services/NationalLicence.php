@@ -138,8 +138,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
         }
         throw new \Exception("Was not possible to activate temporary access");
     }
-
-
+    
     /**
      * Create permanent access for the user. If the user id is
      * not provided the current user in the $_SERVER variable will be used.
