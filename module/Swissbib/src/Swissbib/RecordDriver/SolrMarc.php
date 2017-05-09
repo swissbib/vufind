@@ -1120,7 +1120,8 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 if ($author['@ind2'] !== '2') {
 
                     $name = isset($author['name']) ? $author['name'] : '';
-                    $forename = isset($author['forename']) ? $author['forename'] : '';
+                    $forename = isset($author['forename']) ?
+                        $author['forename'] : '';
                     $stringAuthors[] = trim($name . ', ' . $forename);
                 }
             }
@@ -1714,7 +1715,10 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             if ($field === '700') {
                 $data = $this->getMarcSubFieldMaps($field, $this->personFieldMap);
             }
-            else $data = $this->getMarcSubFieldMaps($field, $this->corporationFieldMap);
+            else {
+                $data = $this->getMarcSubFieldMaps($field,
+                    $this->corporationFieldMap);
+            }
 
 
             if ($asStrings) {
@@ -2679,17 +2683,26 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
-     * Get hierarchy type
-     * Directly use driver config
+     * Get the Hierarchy Type (default if none)
      *
-     * @return bool|string
+     * @return string
      */
     public function getHierarchyType()
     {
-        $type = parent::getHierarchyType();
-
-        return $type ? $type : $this->mainConfig->Hierarchy->driver;
+        if (isset($this->fields['hierarchy_top_id'])
+            || isset($this->fields['hierarchytype'])
+        ) {
+            $hierarchyType = isset($this->fields['hierarchytype'])
+                ? $this->fields['hierarchytype'] : false;
+            if (!$hierarchyType) {
+                $hierarchyType = isset($this->mainConfig->Hierarchy->driver)
+                    ? $this->mainConfig->Hierarchy->driver : false;
+            }
+            return $hierarchyType;
+        }
+        return $this->mainConfig->Hierarchy->driver;
     }
+
 
     /**
      * Get marc field
