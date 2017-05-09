@@ -1842,6 +1842,23 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
+     * Get access restriction note for the record
+     *
+     * @return array
+     */
+    public function getAccess()
+    {
+        $data = $this->getMarcSubFieldMaps(
+            506, [
+                'a' => 'accessrestrict',
+                'c' => 'usability',
+                'u' => 'url',
+            ]
+        );
+        return $data;
+    }
+
+    /**
      * Get citation / reference note for the record
      *
      * @return array
@@ -1926,13 +1943,19 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
-     * Get Ownership and Custodial History Note (MARC21: field 561)
+     * Get information for the record (HAN: field 561)
      *
      * @return array
      */
     public function getOwnerNote()
     {
-        return $this->getFieldArray('561');
+        $data = $this->getMarcSubFieldMaps(
+            561, [
+                'a' => 'custodhist',
+                'u' => 'url',
+            ]
+        );
+        return $data;
     }
 
     /**
@@ -2038,15 +2061,25 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         return $this->getFieldArray('533', ['a', 'b', 'c', 'n'], true, $separator);
     }
 
+
     /**
-     * Get information for the record (HAN: field 533)
+     * Get reproducitonClassification note for the record
      *
      * @return array
      */
     public function getReproductionClassification()
     {
-        return $this->getFieldArray('540', ['a',  'n',]);
+        $data = $this->getMarcSubFieldMaps(
+            540, [
+                'a' => 'regularisation',
+                'c' => 'resource',
+                'n' => 'notice',
+                'u' => 'url',
+            ]
+        );
+        return $data;
     }
+
 
     /**
      * Get information for the record (HAN: field 544)
@@ -2065,7 +2098,14 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getFindingAids()
     {
-        return $this->getFieldArray('555');
+        $data = $this->getMarcSubFieldMaps(
+            555, [
+                'a' => 'cumulativeindex',
+                'c' => 'degreecontrol',
+                'u' => 'url',
+            ]
+        );
+        return $data;
     }
 
     /**
@@ -2275,43 +2315,43 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 'detect' => false // extract vocabulary from sub field 2
             ],
 
-            'uncontrolled.topical' => [
+            'uncontrolledtopical' => [
                 'ind' => 0,
                 'fieldsOnly' => [653],
                 'detect' => false // extract vocabulary from sub field 2
             ],
 
-            'uncontrolled.personal' => [
+            'uncontrolledpersonal' => [
                 'ind' => 1,
                 'fieldsOnly' => [653],
                 'detect' => false // extract vocabulary from sub field 2
             ],
 
-            'uncontrolled.coporate' => [
+            'uncontrolledcoporate' => [
                 'ind' => 2,
                 'fieldsOnly' => [653],
                 'detect' => false // extract vocabulary from sub field 2
             ],
 
-            'uncontrolled.meeting' => [
+            'uncontrolledmeeting' => [
                 'ind' => 3,
                 'fieldsOnly' => [653],
                 'detect' => false // extract vocabulary from sub field 2
             ],
 
-            'uncontrolled.chronological' => [
+            'uncontrolledchronological' => [
                 'ind' => 4,
                 'fieldsOnly' => [653],
                 'detect' => false // extract vocabulary from sub field 2
             ],
 
-            'uncontrolled.geographic' => [
+            'uncontrolledgeographic' => [
                 'ind' => 5,
                 'fieldsOnly' => [653],
                 'detect' => false // extract vocabulary from sub field 2
             ],
 
-            'uncontrolled.genre' => [
+            'uncontrolledgenre' => [
                  'ind' => 6,
                  'fieldsOnly' => [653],
                  'detect' => false // extract vocabulary from sub field 2
