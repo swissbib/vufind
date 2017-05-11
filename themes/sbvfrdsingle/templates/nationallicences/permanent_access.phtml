@@ -1,10 +1,9 @@
-
     <? if ($this->swissLibraryPersonResidence): ?>
         <? if ($this->swissLibraryPersonResidence === 'CH'): ?>
-            <? if ($this->hasVerifiedHomePostalAddress): ?>
-                <?= $this->context($this)->renderInContext("nationallicences/fragments/request_permanent_access.phtml", []) ?>
-            <? else:; ?>
+            <? if (!$this->hasVerifiedHomePostalAddress): ?>
                 <?= $this->context($this)->renderInContext("nationallicences/fragments/verify_home_postal_address.phtml", []) ?>
+            <? else:; ?>
+                <?= $this->context($this)->renderInContext("nationallicences/fragments/verified_address_in_switzerland.phtml", []) ?>
             <? endif; ?>
         <? else:; ?>
             <!-- User have a foreign adress -->
@@ -16,10 +15,10 @@
     <? else:; ?>
         <? if ($this->homePostalAddress): ?>
             <? if ($this->isHomePostalAddressInSwitzerland): ?>
-                <? if ($this->hasVerifiedHomePostalAddress): ?>
-                    <?= $this->context($this)->renderInContext("nationallicences/fragments/request_permanent_access.phtml", []) ?>
-                <? else:; ?>
+                <? if (!$this->hasVerifiedHomePostalAddress): ?>
                     <?= $this->context($this)->renderInContext("nationallicences/fragments/verify_home_postal_address.phtml", []) ?>
+                <? else:; ?>
+                    <?= $this->context($this)->renderInContext("nationallicences/fragments/verified_address_in_switzerland.phtml", []) ?>
                 <? endif; ?>
             <? else:; ?>
                 <!-- User have a foreign adress -->
@@ -29,7 +28,7 @@
                 </p>
             <? endif; ?>
         <? else:; ?>
-            <!-- User have to fill the homePostalAddress in the Swiss edu-Id account -->
+            <!-- User have to fill the homePostalAddress in the SWITCH edu-ID account -->
             <?= $this->context($this)->renderInContext("nationallicences/fragments/verify_home_postal_address.phtml", []) ?>
         <? endif; ?>
     <? endif; ?>

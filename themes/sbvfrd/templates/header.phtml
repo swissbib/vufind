@@ -37,7 +37,7 @@
             <li id="loginOptions"<? if ($account->isLoggedIn()): ?> class="hidden"<? endif ?>>
               <? if ($sessionInitiator = $account->getSessionInitiator($this->serverUrl($this->url('myresearch-home')))): ?>
                 <a href="<?= $this->escapeHtmlAttr($sessionInitiator) ?>"><i
-                      class="fa fa-sign-in"></i><?= $this->transEsc("Institutional Login") ?></a>
+                      class="fa fa-sign-in"></i><?= $this->transEsc("Login") ?></a>
               <? else: ?>
                   <?php $useModalPopupClass = $this->auth()->isAjaxLoginAllowed() ? 'class="modal-link"' : '' ?>
                 <a href="<?= $this->url('myresearch-userlogin') ?>" <?= $useModalPopupClass ?>
