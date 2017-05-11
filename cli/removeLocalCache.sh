@@ -10,7 +10,7 @@ LOGFILE=$VUFIND_DEPLOY_LOG/remove.local.cache.$TIMESTAMP.log
 
 if [ "$UID"  -eq 0 ]; then
 
-    echo "Tryinig to remove local cache"
+    echo "Trying to remove local cache"
     # no removal of hierarchy cache
     rm -rf $VUFIND_CACHE/searchspecs/*
     rm -rf $VUFIND_CACHE/objects/*
