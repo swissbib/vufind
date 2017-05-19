@@ -240,6 +240,7 @@ $prevTitles      = $record->getPreviousTitles();
   $accumulationFrequency   = $record->getAccumulationFrequency();
   $supplement   = $record->getSupplement();
   $relatedWork = $record->getRelatedWork();
+  $access = $record->getAccess()
 
 
   ?>
@@ -252,7 +253,8 @@ $prevTitles      = $record->getPreviousTitles();
       !empty($exhibitions) or !empty($worktitle) or !empty($ownerNote) or !empty($acquisitionNote) or !empty($medium)
       or !empty($musicalPresentation) or !empty($orderClassification) or !empty($securityclassification)
       or !empty($reproduction) or !empty($reproductionClassification) or !empty($archivalLevel)
-      or !empty($findingAids) or !empty($accumulationFrequency) or !empty($relatedWork) or !empty($supplement) or !empty($specialCodedDate)): ?>
+      or !empty($findingAids) or !empty($accumulationFrequency) or !empty($relatedWork) or !empty($supplement) 
+      or !empty($specialCodedDate) or !empty($access)): ?>
     <? $contentDisplayed = true; ?>
 
       <? /* Display general notes (field 500) */ ?>
@@ -317,14 +319,26 @@ $prevTitles      = $record->getPreviousTitles();
 
       <? /* Display access restriction notes (field 506) */ ?>
       <? if (!empty($access)): ?>
-        <tr>
-          <th><?= $this->transEsc('Access') ?>: </th>
-          <td>
-              <? foreach ($access as $field): ?>
-                  <?= $this->escapeHtml($field) ?><br/>
-              <? endforeach; ?>
-          </td>
-        </tr>
+          <tr>
+              <th><?= $this->transEsc('Access') ?>: </th>
+              <td>
+                  <? foreach ($access as $field): ?>
+                      <? if (empty($field['usability'])): ?>
+                          <? $fieldDesc = $field['accessrestrict']; ?>
+                      <? else: ?>
+                          <? $fieldDesc = $field['accessrestrict'] . ', ' . $field['usability']; ?>
+                      <? endif; ?>
+                      <? if (empty($field['url'])): ?>
+                          <?= $this->escapeHtml($fieldDesc) ?> <br/>
+                      <? else: ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                             target="_blank">
+                              <?= $this->escapeHtml($fieldDesc) ?>
+                          </a><br/>
+                      <? endif; ?>
+                  <? endforeach; ?>
+              </td>
+          </tr>
       <? endif; ?>
 
       <? /* Display linking entry notes (field 580) */ ?>
@@ -574,7 +588,15 @@ $prevTitles      = $record->getPreviousTitles();
               <th><?= $this->transEsc('CustodialHistory') ?>: </th>
               <td>
                   <? foreach ($ownerNote as $field): ?>
-                      <?= $this->escapeHtml($field) ?><br/>
+                          <? $fieldDesc = $field['custodhist']; ?>
+                      <? if (empty($field['url'])): ?>
+                          <?= $this->escapeHtml($fieldDesc) ?> <br/>
+                      <? else: ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                             target="_blank">
+                              <?= $this->escapeHtml($fieldDesc) ?>
+                          </a><br/>
+                      <? endif; ?>
                   <? endforeach; ?>
               </td>
           </tr>
@@ -684,7 +706,19 @@ $prevTitles      = $record->getPreviousTitles();
             <th><?= $this->transEsc('ReproductionClassification') ?>: </th>
             <td>
                 <? foreach ($reproductionClassification as $field): ?>
-                    <?= $this->escapeHtml($field) ?><br/>
+                    <? if (empty($field['resource'])): ?>
+                        <? $fieldDesc = $field['regularisation']; ?>
+                    <? else: ?>
+                        <? $fieldDesc = $field['regularisation'] . ', ' . $field['resource']; ?>
+                    <? endif; ?>
+                    <? if (empty($field['url'])): ?>
+                        <?= $this->escapeHtml($fieldDesc) ?> <br/>
+                    <? else: ?>
+                        <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                           target="_blank">
+                            <?= $this->escapeHtml($fieldDesc) ?>
+                        </a><br/>
+                    <? endif; ?>
                 <? endforeach; ?>
             </td>
         </tr>
@@ -708,7 +742,19 @@ $prevTitles      = $record->getPreviousTitles();
             <th><?= $this->transEsc('FindingAids') ?>: </th>
             <td>
                 <? foreach ($findingAids as $field): ?>
-                    <?= $this->escapeHtml($field) ?><br/>
+                    <? if (empty($field['degreecontrol'])): ?>
+                        <? $fieldDesc = $field['cumulativeindex']; ?>
+                    <? else: ?>
+                        <? $fieldDesc = $field['cumulativeindex'] . ', ' . $field['degreecontrol']; ?>
+                    <? endif; ?>
+                    <? if (empty($field['url'])): ?>
+                        <?= $this->escapeHtml($fieldDesc) ?> <br/>
+                    <? else: ?>
+                        <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                           target="_blank">
+                            <?= $this->escapeHtml($fieldDesc) ?>
+                        </a><br/>
+                    <? endif; ?>
                 <? endforeach; ?>
             </td>
         </tr>
