@@ -1349,6 +1349,62 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
+     * Get date from 046
+     *
+     * @param Boolean $asStrings AsStrings
+     *
+     * @return array
+     */
+    public function getSpecialCodedDate($asStrings = true)
+    {
+        $data = $this->getMarcSubFieldMaps(
+            '046', [
+                'b' => 'date1BCE',
+                'c' => 'date1',
+                'd' => 'date2BCE',
+                'e' => 'date2',
+            ]
+        );
+        if ($asStrings) {
+            $strings = [];
+
+            foreach ($data as $date) {
+                $string = '';
+
+                if (isset($date['date1BCE'])) {
+                    $string
+                        = implode(
+                            '.', array_reverse(explode('.', $date['date1BCE']))
+                        )
+                        . ' (v. Chr.)';
+                }
+                if (isset($date['date1'])) {
+                    $string
+                        .= implode('.', array_reverse(explode('.', $date['date1'])));
+                }
+                if (isset($date['date2BCE'])) {
+                    $string
+                        .= '-' . implode(
+                            '.', array_reverse(explode('.', $date['date2BCE']))
+                        )
+                        . ' (v. Chr.)';
+                }
+                if (isset($date['date2'])) {
+                    $string
+                        .= '-' . implode(
+                            '.', array_reverse(explode('.', $date['date2']))
+                        );
+                }
+
+                $strings[] = trim($string);
+            }
+
+            $data = $strings;
+        }
+        return $data;
+    }
+
+    /**
      * Get Immediate Source of Acquisition Note (MARC21 field 541)
      *
      * @param Boolean $asStrings AsStrings

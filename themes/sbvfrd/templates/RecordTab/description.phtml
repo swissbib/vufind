@@ -227,6 +227,7 @@ $prevTitles      = $record->getPreviousTitles();
   $exhibitions = $record->getExhibitions();
   $relatedEntries = $record->getRelatedEntries();
   $addPhysicalForm = $record->getAdditionalPhysicalForm();
+  $specialCodedDate = $record->getSpecialCodedDate();
 
 
   $musicalPresentation    = $record->getMusicPresentation();
@@ -251,7 +252,7 @@ $prevTitles      = $record->getPreviousTitles();
       !empty($exhibitions) or !empty($worktitle) or !empty($ownerNote) or !empty($acquisitionNote) or !empty($medium)
       or !empty($musicalPresentation) or !empty($orderClassification) or !empty($securityclassification)
       or !empty($reproduction) or !empty($reproductionClassification) or !empty($archivalLevel)
-      or !empty($findingAids) or !empty($accumulationFrequency) or !empty($relatedWork) or !empty($supplement)): ?>
+      or !empty($findingAids) or !empty($accumulationFrequency) or !empty($relatedWork) or !empty($supplement) or !empty($specialCodedDate)): ?>
     <? $contentDisplayed = true; ?>
 
       <? /* Display general notes (field 500) */ ?>
@@ -719,6 +720,18 @@ $prevTitles      = $record->getPreviousTitles();
             <th><?= $this->transEsc('AccumulationFrequency') ?>: </th>
             <td>
                 <? foreach ($accumulationFrequency as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+
+    <? if (!empty($specialCodedDate)): ?>
+        <tr>
+            <th><?= $this->transEsc('DateOrigin') ?>: </th>
+            <td>
+                <? foreach ($specialCodedDate as $field): ?>
                     <?= $this->escapeHtml($field) ?><br/>
                 <? endforeach; ?>
             </td>
