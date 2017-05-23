@@ -69,7 +69,7 @@ class Aleph extends VuFindDriver
                 'Call to doXRequest without X-Server configuration in Aleph.ini'
             );
         }
-        $url = "http://$this->host/X?op=$op";
+        $url = "https://$this->host/X?op=$op";
         if (isset($params['verification'])) {
             $params['verification']
                 = mb_strtoupper($params['verification'], 'UTF-8');
@@ -1217,6 +1217,7 @@ EOT;
                 $url, Request::METHOD_GET, $timeout
             );
             $client->setMethod($method);
+            $client->setOptions(['sslverifypeer' => false]);
             if ($body != null) {
                 $client->setRawBody($body);
             }
