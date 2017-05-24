@@ -253,31 +253,19 @@ class JSTree extends VfJsTree implements ServiceLocatorAwareInterface
      * @return string
      */
     protected function getContextualUrl($node, $context, $collectionID = '',
-        $htmlID = ''
+                                        $htmlID = ''
     ) {
-        $tab = 'HierarchyTree';
-        if (substr($node->id, 0, 3) == 'HAN') {
-            $tab = 'HierarchyTreeArchival';
-        }
         $params = [
             'id' => $node->id,
-            'tab' => $tab
+            'tab' => 'Holdings'
         ];
-        $options = [
-            'query' => [
-                'recordID' => $node->id,
-                'htmlID' => $htmlID
-            ]
-        ];
+        $options = [];
         if ($context == 'Collection') {
             return $this->router->fromRoute('collection', $params, $options)
             . '#tabnav';
         } else {
-            $options['query']['hierarchy'] = $collectionID;
             $url = $this->router->fromRoute($node->type, $params, $options);
-            return $node->type == 'collection'
-                ? $url . '#tabnav'
-                : $url . '#tree-' . preg_replace('/\W/', '-', $node->id);
+            return $url . '#tabnav';
         }
     }
 }
