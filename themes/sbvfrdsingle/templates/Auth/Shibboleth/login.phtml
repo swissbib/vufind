@@ -6,8 +6,7 @@ $encodedprivateUserURL = "https://login.eduid.ch/idp/profile/SAML2/Unsolicited/S
 ?>
 
 
-<h2><?= $this->transEsc('login.choose.option') ?></h2>
-<p>&nbsp;</p>
+<?= $this->transEsc('login.choose.option') ?>
 
 
 <script type="text/javascript"><!--
@@ -81,9 +80,15 @@ $encodedprivateUserURL = "https://login.eduid.ch/idp/profile/SAML2/Unsolicited/S
 
     <thead>
     <tr>
-        <td><h3><?= $this->transEsc('login.aai') ?></h3></td>
+        <td>
+            <h3><?= $this->transEsc('login.aai') ?></h3>
+            <?= $this->transEsc('logininfo.li.1') ?>
+        </td>
         <td class="nodivider right">&nbsp;</td>
-        <td><h3><?= $this->transEsc('login.guest') ?></h3></td>
+        <td>
+            <h3><?= $this->transEsc('login.guest') ?></h3>
+            <?= $this->transEsc('logininfo.li.2') ?>
+        </td>
     </tr>
     </thead>
     <tbody>
@@ -108,9 +113,11 @@ $encodedprivateUserURL = "https://login.eduid.ch/idp/profile/SAML2/Unsolicited/S
              with http and https endpoints
              <input type="button" onclick="window.location = 'https://aai.guest-login.ch/idp/profile/SAML2/Unsolicited/SSO?providerId=https%3A%2F%2Ftestvf.swissbib.ch%2Fshibboleth&target=https%3A%2F%2Ftestvf.swissbib.ch%2FMyResearch%2FHome&shire=https%3A%2F%2Ftestvf.swissbib.ch%2FShibboleth.sso%2FSAML2%2FPOST'" value="Guest Login"/>
              -->
-
-                <input type="button" onclick="window.location = '<?= $encodedprivateUserURL ?>'"
-                       value="<?= $this->transEsc('login.guest2') ?>"/>
+                <a href="<?= $encodedprivateUserURL ?>">
+                    <button class="btn btn-primary">
+                        <?= $this->transEsc('login.guest2') ?>
+                    </button>
+                </a>
             </p>
         </td>
 
@@ -120,16 +127,10 @@ $encodedprivateUserURL = "https://login.eduid.ch/idp/profile/SAML2/Unsolicited/S
 </table>
 
 <div class="status information">
-    <p>
-        <?= $this->transEsc('logininfo.line.1') ?>
-    </p>
-    <ul class="list">
-        <li><?= $this->transEsc('logininfo.li.1') ?></li>
-        <li><?= $this->transEsc('logininfo.li.2') ?></li>
-    </ul>
-    <p><?= $this->transEsc('logininfo.line.2') ?></p>
 
-    <p><?= $this->transEsc('logininfo.line.3') ?></p>
+    <p><?= $this->transEsc('logininfo.line.2') ?><?= $this->transEsc('logininfo.line.3') ?></p>
+
+
 
     <h3><?= $this->transEsc('logininfo.title.1') ?></h3>
 

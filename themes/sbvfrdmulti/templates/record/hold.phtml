@@ -75,7 +75,7 @@ $unsetPickup[] = 'POPA';
                                     <? unset($lib); ?>
                                 <?php else: ?>
                                     <option value="<?=$this->escapeHtml($lib['locationID'])?>">
-                                        <?=$this->escapeHtml($this->transEsc($lib['locationDisplay']))?>
+                                        <?=$this->transEsc($lib['locationDisplay'])?>
                                     </option>
                                 <?php endif; ?>
                             <? endforeach; ?>

@@ -21,32 +21,34 @@ $swissEduIDVerifyBaseUrl = "https://eduid.ch/web/verify-attribute/?attribute=";
 <? else:; ?>
     <!-- User didn't have requested a temporary access yet -->
     <!-- Check if the user has a phone number in its edu-ID account -->
+
     <? if ($this->mobile): ?>
         <!-- Check if it's a swiss phone number -->
-        <? if ($this->isSwissPhoneNumber): ?>
-            <p><?= $this->transEsc('snl.temporaryAccessCanOnlyRequestedOnceValid14Days') ?></p>
+        <? if (!$this->isSwissPhoneNumber): ?>
+            <!-- It's not a swiss phone number -->
+            <p>
+                <?= $this->transEsc('snl.youDontHaveSwissMobilePhoneNumeber') ?>
+            </p>
+            <a href="<?php echo($swissEduIDVerifyBaseUrl."mobile&providerId=".$encodedProviderID."&target=".$encodedTarget); ?>">
+                <button class="btn btn-primary" <?= $this->hasAcceptedTermsAndConditions? "" : "disabled"; ?>>
+                    <?= $this->transEsc('snl.addswissnumber') ?>
+                </button>
+            </a>
+        <? else: ?>
             <p>
                 <span class="text-aligned-icon icon-success"><i class="fa fa-check"></i></span>
                 <?= $this->transEsc('snl.youHaveSwissMobilePhoneNumebr') ?>
             </p>
-            <a href="<?= $this->url('national-licences', ['action' => 'activate-temporary-access']) ?>"
-                <button class="btn btn-primary" <?= $this->hasAcceptedTermsAndConditions? "" : "disabled"; ?>><?= $this->transEsc('snl.temporaryAccess.activate') ?></button>
-            </a>
-        <? else:; ?>
-            <!-- It's not a swiss phone number -->
-            <p>
-                <span class="text-aligned-icon icon-danger"><i class="fa fa-times"></i></span>
-                <?= $this->transEsc('snl.youDontHaveSwissMobilePhoneNumeber') ?>
-            </p>
-            <a href="<?php echo($swissEduIDVerifyBaseUrl."mobile&providerId=".$encodedProviderID."&target=".$encodedTarget); ?>"><?= $this->transEsc('snl.modify') ?></a>
-            <?= $this->transEsc('snl.yourMobilePhoneInYourEduIdaccount') ?>
         <? endif; ?>
     <? else:; ?>
         <!-- User don't have a mobile phone number in their edu-ID account-->
+        <p><?= $this->transEsc('snl.introBullet1') ?></p>
         <p>
-            <span class="text-aligned-icon icon-danger"><i class="fa fa-times"></i></span> <?= $this->transEsc('snl.youDontHaveMobilePhoneNumeber') ?>
-            <a href="<?php echo($swissEduIDVerifyBaseUrl."mobile&providerId=".$encodedProviderID."&target=".$encodedTarget); ?>"><?= $this->transEsc('snl.add') ?></a>
-            <?= $this->transEsc('snl.add2') ?>
+            <a href="<?php echo($swissEduIDVerifyBaseUrl."mobile&providerId=".$encodedProviderID."&target=".$encodedTarget); ?>">
+                <button class="btn btn-primary">
+                    <?= $this->transEsc('snl.add') ?>
+                </button>
+            </a>
         </p>
     <? endif; ?>
 <? endif; ?>

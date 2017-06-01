@@ -4,6 +4,7 @@ return array(
 
   'less' => array(
     'active' => false,
+    'components/js-tree.less',
     'compiled.less'
   ),
 
