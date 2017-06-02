@@ -1120,9 +1120,14 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 if ($author['@ind2'] !== '2') {
 
                     $name = isset($author['name']) ? $author['name'] : '';
-                    $forename = isset($author['forename']) ?
-                        $author['forename'] : '';
-                    $stringAuthors[] = trim($name . ', ' . $forename);
+                    $name .=
+                        isset($author['forename']) ? ', ' . $author['forename'] : '';
+                    $name .=
+                        isset($author['numeration']) ?
+                            ' ' . $author['numeration'] : '';
+                    $name .=
+                        isset($author['1titles']) ? ', ' . $author['1titles'] : '';
+                    $stringAuthors[] = trim($name);
                 }
             }
 
