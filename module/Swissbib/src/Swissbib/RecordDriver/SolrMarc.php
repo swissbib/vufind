@@ -82,9 +82,16 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         '_e' => 'relator', // R
         'f' => 'date_of_work',
         'g' => 'misc',
+        'i' => 'relationship',
+        '_k' => 'form_subheading', //R
         'l' => 'language',
-        '_n' => 'number_of_parts', // R
+        '_m' => 'music_performance_medium',
+        '_n' => 'parts_number',
+        'o' => 'arranged_music',
+        '_p' => 'parts_name',
         'q' => 'fullername',
+        'r' => 'music_key',
+        's' => 'version',
         'D' => 'forename',
         't' => 'title_of_work',
         '4' => 'relator_code',
@@ -105,7 +112,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         'c' => 'meeting_location',
         '_d' => 'meeting_date',
         '_e' => 'relator',
-        'f' => 'date',
+        'f' => 'date_of_work',
         'g' => 'misc',
         'h' => 'medium',
         'i' => 'relationship',
@@ -113,10 +120,11 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         'l' => 'language',
         '_m' => 'music_performance_medium',
         '_n' => 'parts_number',
+        'o' => 'arranged_music',
         '_p' => 'parts_name',
         'r' => 'music_key',
         's' => 'version',
-        't' => 'title',
+        't' => 'title_of_work',
         'u' => 'affiliation',
         'x' => 'issn',
         '3' => 'materials_specified',
@@ -1085,6 +1093,8 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         if ($asString) {
             $name = isset($data['name']) ? $data['name'] : '';
             $name .= isset($data['forename']) ? ', ' . $data['forename'] : '';
+            $name .= isset($data['numeration']) ? ' ' . $data['numeration'] : '';
+            $name .= isset($data['1titles']) ? ', ' . $data['1titles'] : '';
 
             return trim($name);
         }
@@ -1107,9 +1117,18 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             $stringAuthors = [];
 
             foreach ($authors as $author) {
-                $name = isset($author['name']) ? $author['name'] : '';
-                $forename = isset($author['forename']) ? $author['forename'] : '';
-                $stringAuthors[] = trim($name . ', ' . $forename);
+                if ($author['@ind2'] !== '2') {
+
+                    $name = isset($author['name']) ? $author['name'] : '';
+                    $name .=
+                        isset($author['forename']) ? ', ' . $author['forename'] : '';
+                    $name .=
+                        isset($author['numeration']) ?
+                            ' ' . $author['numeration'] : '';
+                    $name .=
+                        isset($author['1titles']) ? ', ' . $author['1titles'] : '';
+                    $stringAuthors[] = trim($name);
+                }
             }
 
             $authors = $stringAuthors;
@@ -1336,6 +1355,62 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
+     * Get date from 046
+     *
+     * @param Boolean $asStrings AsStrings
+     *
+     * @return array
+     */
+    public function getSpecialCodedDate($asStrings = true)
+    {
+        $data = $this->getMarcSubFieldMaps(
+            '046', [
+                'b' => 'date1BCE',
+                'c' => 'date1',
+                'd' => 'date2BCE',
+                'e' => 'date2',
+            ]
+        );
+        if ($asStrings) {
+            $strings = [];
+
+            foreach ($data as $date) {
+                $string = '';
+
+                if (isset($date['date1BCE'])) {
+                    $string
+                        = implode(
+                            '.', array_reverse(explode('.', $date['date1BCE']))
+                        )
+                        . ' (v. Chr.)';
+                }
+                if (isset($date['date1'])) {
+                    $string
+                        .= implode('.', array_reverse(explode('.', $date['date1'])));
+                }
+                if (isset($date['date2BCE'])) {
+                    $string
+                        .= '-' . implode(
+                            '.', array_reverse(explode('.', $date['date2BCE']))
+                        )
+                        . ' (v. Chr.)';
+                }
+                if (isset($date['date2'])) {
+                    $string
+                        .= '-' . implode(
+                            '.', array_reverse(explode('.', $date['date2']))
+                        );
+                }
+
+                $strings[] = trim($string);
+            }
+
+            $data = $strings;
+        }
+        return $data;
+    }
+
+    /**
      * Get Immediate Source of Acquisition Note (MARC21 field 541)
      *
      * @param Boolean $asStrings AsStrings
@@ -1471,7 +1546,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getAltTitle()
     {
-        return $this->getFieldArray('246', ['a', 'b']);
+        return $this->getFieldArray('246', ['a', 'b', 'i']);
     }
 
     /**
@@ -1588,13 +1663,15 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         $fieldsToCheck = [
         '240' ,
         '130',
+        '730',    
          ];
 
         foreach ($fieldsToCheck as $field) {
             $data = $this->getMarcSubFieldMaps(
                 $field, [
                 'a' => 'title',
-                'm' => 'medium',
+                'g' => 'misc',
+                '_m' => 'medium',
                 'n' => 'count',
                 'r' => 'key',
                 's' => 'version',
@@ -1615,8 +1692,33 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                     if (isset($worktitle['title'])) {
                         $string = $worktitle['title'];
                     }
-                    if (isset($worktitle['medium'])) {
-                        $string .= ', ' . $worktitle['medium'];
+                    if (isset($worktitle['1medium'])) {
+                        $string .= ', ' .
+                            $worktitle['1medium'];
+                    }
+                    if (isset($worktitle['2medium'])) {
+                        $string .= ', ' .
+                            $worktitle['2medium'];
+                    }
+                    if (isset($worktitle['3medium'])) {
+                        $string .= ', ' .
+                            $worktitle['3medium'];
+                    }
+                    if (isset($worktitle['4medium'])) {
+                        $string .= ', ' .
+                            $worktitle['4medium'];
+                    }
+                    if (isset($worktitle['5medium'])) {
+                        $string .= ', ' .
+                            $worktitle['5medium'];
+                    }
+                    if (isset($worktitle['6medium'])) {
+                        $string .= ', ' .
+                            $worktitle['6medium'];
+                    }
+                    if (isset($worktitle['7medium'])) {
+                        $string .= ', ' .
+                            $worktitle['7medium'];
                     }
                     if (isset($worktitle['count'])) {
                         $string .= ', ' . $worktitle['count'];
@@ -1636,8 +1738,11 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                     if (isset($worktitle['arranged'])) {
                         $string .= ', ' . $worktitle['arranged'];
                     }
+                    if (isset($worktitle['misc'])) {
+                        $string .= '. ' . $worktitle['misc'];
+                    }
                     if (isset($worktitle['date'])) {
-                        $string .= '(' . $worktitle['date'] . ')';
+                        $string .= ' (' . $worktitle['date'] . ')';
                     }
 
                     $strings[] = trim($string);
@@ -1651,6 +1756,135 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         }
          return $data;
     }
+
+    /**
+     * Get list works from 700/710
+     *
+     * @param Boolean $asStrings AsString
+     *
+     * @return array
+     */
+    public function getRelatedWork($asStrings = true)
+    {
+        $fieldsToCheck = [
+            '700' ,
+            '710',
+        ];
+
+
+        foreach ($fieldsToCheck as $field) {
+            if ($field === '700') {
+                $data = $this->getMarcSubFieldMaps($field, $this->personFieldMap);
+            }
+            else {
+                $data = $this->getMarcSubFieldMaps($field,
+                    $this->corporationFieldMap);
+            }
+
+
+            if ($asStrings) {
+                $strings = [];
+
+                foreach ($data as $worktitle) {
+                    if ($worktitle['@ind2'] === '2') {
+                    
+
+                        $string = '';
+                        
+                        if (isset($worktitle['relationship'])) {
+                            $string = $worktitle['relationship'] . ': ';
+                        }
+                        
+                        if (isset($worktitle['name'])) {
+                            $string .= $worktitle['name'];
+                        }
+
+                        if (isset($worktitle['forename'])) {
+                            $string .= ', ' . $worktitle['forename'];
+                        }
+
+                        if (isset($worktitle['dates'])) {
+                            $string .= ' ('. $worktitle['dates'] . ')';
+                        }
+
+                        if (isset($worktitle['title_of_work'])) {
+                            $string .= ' : ' . $worktitle['title_of_work'];
+                        }
+
+                        if (isset($worktitle['1music_performance_medium'])) {
+                            $string .= ', ' .
+                                $worktitle['1music_performance_medium'];
+                        }
+
+                        if (isset($worktitle['2music_performance_medium'])) {
+                            $string .= ', ' .
+                                $worktitle['2music_performance_medium'];
+                        }
+
+                        if (isset($worktitle['3music_performance_medium'])) {
+                            $string .= ', ' .
+                                $worktitle['3music_performance_medium'];
+                        }
+
+                        if (isset($worktitle['4music_performance_medium'])) {
+                            $string .= ', ' .
+                                $worktitle['4music_performance_medium'];
+                        }
+
+                        if (isset($worktitle['5music_performance_medium'])) {
+                            $string .= ', ' .
+                                $worktitle['5music_performance_medium'];
+                        }
+
+                        if (isset($worktitle['6music_performance_medium'])) {
+                            $string .= ', ' .
+                                $worktitle['6music_performance_medium'];
+                        }
+
+                        if (isset($worktitle['7music_performance_medium'])) {
+                            $string .= ', ' .
+                                $worktitle['7music_performance_medium'];
+                        }
+
+                        if (isset($worktitle['1parts_number'])) {
+                            $string .= ', ' . $worktitle['1parts_number'];
+                        }
+                        if (isset($worktitle['music_key'])) {
+                            $string .= ', ' . $worktitle['music_key'];
+                        }
+                        if (isset($worktitle['version'])) {
+                            $string .= ', ' . $worktitle['version'];
+                        }
+                        if (isset($worktitle['1parts_name'])) {
+                            $string .= ', ' . $worktitle['1parts_name'];
+                        }
+                        if (isset($worktitle['1form_subheadings'])) {
+                            $string .= ', ' . $worktitle['1form_subheadings'];
+                        }
+                        if (isset($worktitle['arranged_music'])) {
+                            $string .= ', ' . $worktitle['arranged_music'];
+                        }
+                        if (isset($worktitle['misc'])) {
+                            $string .= '. ' . $worktitle['misc'];
+                        }
+                        if (isset($worktitle['date_of_work'])) {
+                            $string .= ' (' . $worktitle['date_of_work'] . ')';
+                        }
+
+                        $strings[] = trim($string);
+                    }
+                }
+
+                if ($strings) {
+                    $relatedWorks = $strings;
+                    break;
+                }
+            }
+        }
+        return $relatedWorks;
+    }
+
+
 
     /**
      * Get Physical Medium (MARC21: field 340)
@@ -1670,6 +1904,23 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     public function getContResourceDates()
     {
         return $this->getFieldArray('362');
+    }
+
+    /**
+     * Get access restriction note for the record
+     *
+     * @return array
+     */
+    public function getAccess()
+    {
+        $data = $this->getMarcSubFieldMaps(
+            506, [
+                'a' => 'accessrestrict',
+                'c' => 'usability',
+                'u' => 'url',
+            ]
+        );
+        return $data;
     }
 
     /**
@@ -1757,13 +2008,19 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
-     * Get Ownership and Custodial History Note (MARC21: field 561)
+     * Get information for the record (HAN: field 561)
      *
      * @return array
      */
     public function getOwnerNote()
     {
-        return $this->getFieldArray('561');
+        $data = $this->getMarcSubFieldMaps(
+            561, [
+                'a' => 'custodhist',
+                'u' => 'url',
+            ]
+        );
+        return $data;
     }
 
     /**
@@ -1837,6 +2094,16 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
+     * Get information for the record (HAN: field 525)
+     *
+     * @return array
+     */
+    public function getSupplement()
+    {
+        return $this->getFieldArray('525');
+    }
+
+    /**
      * Get information for the record (HAN: field 355)
      *
      * @return array
@@ -1859,15 +2126,25 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         return $this->getFieldArray('533', ['a', 'b', 'c', 'n'], true, $separator);
     }
 
+
     /**
-     * Get information for the record (HAN: field 533)
+     * Get reproducitonClassification note for the record
      *
      * @return array
      */
     public function getReproductionClassification()
     {
-        return $this->getFieldArray('540', ['a',  'n',]);
+        $data = $this->getMarcSubFieldMaps(
+            540, [
+                'a' => 'regularisation',
+                'c' => 'resource',
+                'n' => 'notice',
+                'u' => 'url',
+            ]
+        );
+        return $data;
     }
+
 
     /**
      * Get information for the record (HAN: field 544)
@@ -1886,7 +2163,14 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getFindingAids()
     {
-        return $this->getFieldArray('555');
+        $data = $this->getMarcSubFieldMaps(
+            555, [
+                'a' => 'cumulativeindex',
+                'c' => 'degreecontrol',
+                'u' => 'url',
+            ]
+        );
+        return $data;
     }
 
     /**
@@ -1897,20 +2181,6 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     public function getAccumulationFrequency()
     {
         return $this->getFieldArray('584');
-    }
-    /**
-     * Get information for the record (HAN: field 730)
-     *
-     * @return array
-     */
-    public function getAddedWork()
-    {
-        $separator = isset($this->mainConfig->Record->marcPublicationInfoSeparator)
-            ? $this->mainConfig->Record->marcPublicationInfoSeparator : ' ';
-
-        return $this->getFieldArray(
-            '730', ['a', 'g', 'k', 'm', 'n', 'o', 'p','r', 's'], true, $separator
-        );
     }
 
     /**
@@ -2046,7 +2316,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     public function getAllSubjectVocabularies($ignoreControlFields = false)
     {
         $subjectVocabularies = [];
-        $fieldIndexes = [600, 610, 611, 630, 648, 650, 651, 655, 656, 690, 691];
+        $fieldIndexes = [600, 610, 611, 630, 648, 650, 651, 653, 655, 656, 690, 691];
         $vocabConfigs = [
             'lcsh' => [
                 'ind' => 0
@@ -2108,6 +2378,48 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 'ind' => 7,
                 'fieldsOnly' => [690],
                 'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolledtopical' => [
+                'ind' => 0,
+                'fieldsOnly' => [653],
+                'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolledpersonal' => [
+                'ind' => 1,
+                'fieldsOnly' => [653],
+                'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolledcoporate' => [
+                'ind' => 2,
+                'fieldsOnly' => [653],
+                'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolledmeeting' => [
+                'ind' => 3,
+                'fieldsOnly' => [653],
+                'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolledchronological' => [
+                'ind' => 4,
+                'fieldsOnly' => [653],
+                'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolledgeographic' => [
+                'ind' => 5,
+                'fieldsOnly' => [653],
+                'detect' => false // extract vocabulary from sub field 2
+            ],
+
+            'uncontrolledgenre' => [
+                 'ind' => 6,
+                 'fieldsOnly' => [653],
+                 'detect' => false // extract vocabulary from sub field 2
             ],
         ];
         $fieldMapping = [
@@ -2432,17 +2744,26 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
-     * Get hierarchy type
-     * Directly use driver config
+     * Get the Hierarchy Type (default if none)
      *
-     * @return bool|string
+     * @return string
      */
     public function getHierarchyType()
     {
-        $type = parent::getHierarchyType();
-
-        return $type ? $type : $this->mainConfig->Hierarchy->driver;
+        if (isset($this->fields['hierarchy_top_id'])
+            || isset($this->fields['hierarchytype'])
+        ) {
+            $hierarchyType = isset($this->fields['hierarchytype'])
+                ? $this->fields['hierarchytype'] : false;
+            if (!$hierarchyType) {
+                $hierarchyType = isset($this->mainConfig->Hierarchy->driver)
+                    ? $this->mainConfig->Hierarchy->driver : false;
+            }
+            return $hierarchyType;
+        }
+        return $this->mainConfig->Hierarchy->driver;
     }
+
 
     /**
      * Get marc field
