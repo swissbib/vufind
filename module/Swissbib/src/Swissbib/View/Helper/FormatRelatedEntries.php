@@ -109,7 +109,7 @@ class FormatRelatedEntries extends AbstractHelper
     {
         $formattedEntry = '';
         $translatedRelatorCode = $this->translator->translate(
-            'relator_' . $relatedPerson['relator_code'], 'relators'
+            $relatedPerson['relator_code'], 'CreatorRoles'
         );
 
         if (isset($relatedPerson['name'])) {
@@ -120,8 +120,12 @@ class FormatRelatedEntries extends AbstractHelper
             $formattedEntry .= ', ' . $relatedPerson['forename'];
         }
 
+        if (isset($relatedPerson['numeration'])) {
+            $formattedEntry .= ' ' . $relatedPerson['numeration'];
+        }
+
         if (isset($relatedPerson['1titles'])) {
-            $formattedEntry .= ' ' . $relatedPerson['1titles'];
+            $formattedEntry .= ', ' . $relatedPerson['1titles'];
         }
 
         if (isset($relatedPerson['dates'])) {
@@ -144,7 +148,7 @@ class FormatRelatedEntries extends AbstractHelper
     {
         $formattedEntry = '';
         $translatedRelatorCode = $this->translator->translate(
-            'relator_' . $relatedCorporation['relator_code'], 'relators'
+            $relatedCorporation['relator_code'], 'CreatorRoles'
         );
 
         if (isset($relatedCorporation['name'])) {

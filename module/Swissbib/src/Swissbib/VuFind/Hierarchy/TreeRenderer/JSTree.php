@@ -253,7 +253,7 @@ class JSTree extends VfJsTree implements ServiceLocatorAwareInterface
      * @return string
      */
     protected function getContextualUrl($node, $context, $collectionID = '',
-        $htmlID = ''
+                                        $htmlID = ''
     ) {
         $params = [
             'id' => $node->id,

@@ -94,7 +94,7 @@ class HoldingActions extends AbstractTranslatorHelper
                         ) || array_search(
                             'semesterapparat',
                             $item['availability'][$itemkey]
-                        ) ? $this->translate('Recall This')
+                        )? $this->translate('Recall This')
                             : $this->translate('hold_place'),
                         'href' => $recordLink->getHoldUrl($item['holdLink'])
                     ];
