@@ -1777,8 +1777,10 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 $data = $this->getMarcSubFieldMaps($field, $this->personFieldMap);
             }
             else {
-                $data = $this->getMarcSubFieldMaps($field,
-                    $this->corporationFieldMap);
+                $data = $this->getMarcSubFieldMaps(
+                    $field,
+                    $this->corporationFieldMap
+                );
             }
 
 
