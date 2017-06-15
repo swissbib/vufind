@@ -95,6 +95,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         'D' => 'forename',
         't' => 'title_of_work',
         '4' => 'relator_code',
+        '5' => 'institution',
         '_8' => 'extras',
         '9' => 'unknownNumber',
         'P' => 'originField', //swissbib specific subfield, indicates
