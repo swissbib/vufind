@@ -1327,6 +1327,25 @@ class Holdings
     }
 
     /**
+     * Get backlink for Hemu network
+     *
+     * @param String $networkCode     Code of network
+     * @param String $institutionCode Code of Institution
+     * @param Array  $item            Item
+     * @param Array  $data            Data
+     *
+     * @return String
+     */
+    protected function getBackLinkHemu($networkCode, $institutionCode, array $item,
+        array $data
+    ) {
+        $values = [
+            'bib-system-number' => $item['bibsysnumber']
+        ];
+        return $this->compileString($data['pattern'], $values);
+    }
+
+    /**
      * Compile string
      * Replace {varName} pattern with names and data from array
      * creates an URL string for backlinks according to data delivered

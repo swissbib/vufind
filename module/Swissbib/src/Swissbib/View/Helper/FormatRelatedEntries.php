@@ -132,7 +132,18 @@ class FormatRelatedEntries extends AbstractHelper
             $formattedEntry .= ' (' . $relatedPerson['dates'] . ')';
         }
 
-        $formattedEntry .= ' (' . $translatedRelatorCode . ')';
+        $formattedEntry .= ' (' . $translatedRelatorCode;
+
+        if (isset($relatedPerson['institution'])) {
+            if (preg_match('/^CH-/', $relatedPerson['institution'])) {
+                $item = explode(' ', $relatedPerson['institution'], 2);
+                $formattedEntry .= ', ' . $item[1] . ')';
+            } else {
+                $formattedEntry .= ', ' . $relatedPerson['institution'] . ')';
+            }
+        } else {
+            $formattedEntry .= ')';
+        }
 
         return $formattedEntry;
     }
@@ -159,7 +170,18 @@ class FormatRelatedEntries extends AbstractHelper
                 $formattedEntry .= '. ' . $relatedCorporation['1unit'];
         }
 
-        $formattedEntry .= ' (' . $translatedRelatorCode . ')';
+        $formattedEntry .= ' (' . $translatedRelatorCode;
+
+        if (isset($relatedCorporation['institution'])) {
+            if (preg_match('/^CH-/', $relatedCorporation['institution'])) {
+                $item = explode(' ', $relatedCorporation['institution'], 2);
+                $formattedEntry .= ', ' . $item[1] . ')';
+            } else {
+                $formattedEntry .= ', ' . $relatedCorporation['institution'] . ')';
+            }
+        } else {
+            $formattedEntry .= ')';
+        }
 
         return $formattedEntry;
     }
