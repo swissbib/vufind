@@ -75,7 +75,7 @@ class MARCFormatter implements ServiceManagerAwareInterface
         "LIBIB" => "http://aleph.lbfl.li/F/?local_base=LLB01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
         "NEBIS" => "http://opac.nebis.ch/F/?local_base=EBI01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
         "OCoLC" => "http://www.worldcat.org/oclc/%s",
-        "RERO" => "http://opac.rero.ch/gateway?beginsrch=1&lng=de&inst=consortium&search=KEYWORD&function=CARDSCR&t1=%s&u1=12",
+        "RERO" => "http://data.test.rero.ch/01-%s/html",
         "RETROS" => "http://www.e-periodica.ch/oai/dataprovider?verb=GetRecord&metadataPrefix=oai_dc&identifier=%s",
         "SBT" => "http://aleph.sbt.ti.ch/F?local_base=SBT01&con_lng=ITA&func=find-b&find_code=SYS&request=%s",
         "SERVAL" => "http://serval.unil.ch/oaiprovider?verb=GetRecord&metadataPrefix=mods&identifier=oai:serval.unil.ch:%s",
