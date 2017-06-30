@@ -29,7 +29,10 @@ namespace Swissbib\VuFind\Search\Solr;
 
 use VuFind\Search\Solr\Params as VuFindSolrParams;
 use VuFindSearch\ParamBag;
-use Swissbib\Favorites\Manager;
+use VuFind\Search\Solr\HierarchicalFacetHelper;
+use VuFind\Auth\Manager as VuFindAuthManager;
+use Swissbib\VuFind\Search\Helper\TypeLabelMappingHelper;
+use Swissbib\Favorites\Manager as SwissbibFavoritesManager;
 
 /**
  * Class to extend the core VF2 SOLR functionality related to Parameters
@@ -53,6 +56,49 @@ class Params extends VuFindSolrParams
         'isActive' => false
     ];
 
+
+    /**
+     * VuFindAuthManager
+     * @var VuFindAuthManager
+     */
+    protected $authManager;
+
+    /**
+     * TypeLabelMappingHelper
+     * @var TypeLabelMappingHelper
+     */
+    protected $typeLabelMappingHelper;
+
+
+    /**
+     * SwissbibFavoritesManager
+     * @var SwissbibFavoritesManager
+     */
+    protected $favoritesManager;
+
+
+    /**
+     * Constructor
+     *
+     * @param \VuFind\Search\Base\Options  $options      Options to use
+     * @param \VuFind\Config\PluginManager $configLoader Config loader
+     * @param TypeLabelMappingHelper       $mappingHelper HelperClass mappings
+     * @param SwissbibFavoritesManager     $favoritesManager swissbib favorites Manager
+     * @param HierarchicalFacetHelper      $facetHelper  Hierarchical facet helper
+     */
+    public function __construct($options, \VuFind\Config\PluginManager $configLoader,
+                                VuFindAuthManager $authManager,
+                                TypeLabelMappingHelper $mappingHelper,
+                                SwissbibFavoritesManager $favoritesManager,
+                                HierarchicalFacetHelper $facetHelper = null
+    ) {
+        parent::__construct($options, $configLoader,
+                            $facetHelper);
+        $this->authManager = $authManager;
+        $this->typeLabelMappingHelper = $mappingHelper;
+        $this->favoritesManager = $favoritesManager;
+    }
+
     /**
      * Override to prevent problems with namespace
      * See implementation of parent for details
@@ -74,12 +120,12 @@ class Params extends VuFindSolrParams
      */
     protected function initLimit($request)
     {
-        $auth = $this->serviceLocator->get('VuFind\AuthManager');
+        //$auth = $this->serviceLocator->get('VuFind\AuthManager');
         $defLimit = $this->getOptions()->getDefaultLimit();
         $limitOptions = $this->getOptions()->getLimitOptions();
         $view = $this->getView();
 
-        $this->handleLimit($auth, $request, $defLimit, $limitOptions, $view);
+        $this->handleLimit($this->authManager, $request, $defLimit, $limitOptions, $view);
     }
 
     /**
@@ -107,11 +153,11 @@ class Params extends VuFindSolrParams
      */
     protected function initSort($request)
     {
-        $auth = $this->serviceLocator->get('VuFind\AuthManager');
+        //$auth = $this->serviceLocator->get('VuFind\AuthManager');
         $defaultSort = $this->getOptions()->getDefaultSortByHandler();
         $this->setSort(
             $this->handleSort(
-                $auth, $request, $defaultSort, $this->getSearchClassId()
+                $this->authManager, $request, $defaultSort, $this->getSearchClassId()
             )
         );
     }
@@ -161,7 +207,7 @@ class Params extends VuFindSolrParams
      */
     public function getTypeLabel()
     {
-        return $this->getServiceLocator()->get('Swissbib\TypeLabelMappingHelper')
+        return $this->typeLabelMappingHelper
             ->getLabel($this);
     }
 
@@ -192,20 +238,13 @@ class Params extends VuFindSolrParams
      */
     protected function addUserInstitutions(ParamBag $backendParams)
     {
-        /**
-         * Manager
-         *
-         * @var Manager $favoritesManger
-         */
-        $favoritesManger = $this->getServiceLocator()
-            ->get('Swissbib\FavoriteInstitutions\Manager');
 
         /**
          * FavoriteInstitutions array
          *
          * @var String[] $favoriteInstitutions
          */
-        $favoriteInstitutions = $favoritesManger->getUserInstitutions();
+        $favoriteInstitutions = $this->favoritesManager->getUserInstitutions();
 
         if (sizeof($favoriteInstitutions) >  0) {
             //facet parameter has to be true in case it's false

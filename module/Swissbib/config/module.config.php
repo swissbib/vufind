@@ -372,6 +372,7 @@ return [
                     'Summon' => 'Swissbib\VuFind\Search\Factory\SummonBackendFactory',
                 ]
             ],
+
             'auth' => [
                 'factories' => [
                     'shibboleth' => 'Swissbib\VuFind\Auth\Factory::getShibboleth',
@@ -462,13 +463,19 @@ return [
             ],
             'vufind_search_params'  => [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Params\PluginFactory'],
+                'factories' => [
+                    'solr' => 'Swissbib\VuFind\Search\Params\Factory::getSolr',
+                ],
+
             ],
             'vufind_search_results' => [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Results\PluginFactory'],
                 'factories' => [
                     'favorites' => 'Swissbib\VuFind\Search\Results\Factory::getFavorites',
+                    'solr' => 'Swissbib\VuFind\Search\Results\Factory::getSolr',
                 ],
             ]
+
         ],
 
         'db_table' => [
