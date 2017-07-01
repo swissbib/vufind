@@ -232,7 +232,7 @@ return [
             //first move from invokable to factory
             //haven't looked into the real implementation so far (GH)
             //'summon'               => 'Swissbib\Controller\SummonController',
-            'holdings'             => 'Swissbib\Controller\HoldingsController',
+            //'holdings'             => 'Swissbib\Controller\HoldingsController',
             'tab40import'          => 'Swissbib\Controller\Tab40ImportController',
             'institutionFavorites' => 'Swissbib\Controller\FavoritesController',
             'hierarchycache'       => 'Swissbib\Controller\HierarchyCacheController',
@@ -251,6 +251,7 @@ return [
             'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
             'summon' => 'Swissbib\Controller\Factory::getSummonController',
+            'holdings'=> 'Swissbib\Controller\Factory::getHoldingsController'
 
         ]
     ],
