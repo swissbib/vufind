@@ -227,6 +227,13 @@ WFC:
     classif_912:
       - [onephrase, ~]
 
+WLD:
+  DismaxFields:
+    - origcountry_isn_mv
+  QueryFields:
+    origcountry_isn_mv:
+      - [onephrase, ~]
+
 FormerOwner:
   DismaxFields:
     - author_fmo_txt_mv
@@ -584,6 +591,20 @@ DDC:
     - classif_ddc
   QueryFields:
     classif_ddc:
+         - [onephrase, ~]
+
+SDNB:
+  DismaxFields:
+    - sdnb_str_mv
+  QueryFields:
+    sdnb_str_mv:
+         - [onephrase, ~]
+
+LOC:
+  DismaxFields:
+    - location_str_mv
+  QueryFields:
+    location_str_mv:
          - [onephrase, ~]
 
 Autosuggest:

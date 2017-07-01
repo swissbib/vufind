@@ -136,7 +136,7 @@ class FormatRelatedEntries extends AbstractHelper
 
         if (isset($relatedPerson['institution'])) {
             if (preg_match('/^CH-/', $relatedPerson['institution'])) {
-                $item = explode(' ', $relatedPerson['institution'], 2);
+                $item = explode(' * ', $relatedPerson['institution'], 2);
                 $formattedEntry .= ', ' . $item[1] . ')';
             } else {
                 $formattedEntry .= ', ' . $relatedPerson['institution'] . ')';
@@ -174,7 +174,7 @@ class FormatRelatedEntries extends AbstractHelper
 
         if (isset($relatedCorporation['institution'])) {
             if (preg_match('/^CH-/', $relatedCorporation['institution'])) {
-                $item = explode(' ', $relatedCorporation['institution'], 2);
+                $item = explode(' * ', $relatedCorporation['institution'], 2);
                 $formattedEntry .= ', ' . $item[1] . ')';
             } else {
                 $formattedEntry .= ', ' . $relatedCorporation['institution'] . ')';

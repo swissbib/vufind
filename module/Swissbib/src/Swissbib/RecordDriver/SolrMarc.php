@@ -1664,7 +1664,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         $fieldsToCheck = [
         '240' ,
         '130',
-        '730',    
+        '730',
          ];
 
         foreach ($fieldsToCheck as $field) {
@@ -1772,7 +1772,6 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             '710',
         ];
 
-
         foreach ($fieldsToCheck as $field) {
             if ($field === '700') {
                 $data = $this->getMarcSubFieldMaps($field, $this->personFieldMap);
@@ -1782,7 +1781,6 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                     $this->corporationFieldMap
                 );
             }
-
 
             if ($asStrings) {
                 $strings = [];
@@ -1806,7 +1804,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                         }
 
                         if (isset($worktitle['dates'])) {
-                            $string .= ' ('. $worktitle['dates'] . ')';
+                            $string .= ' (' . $worktitle['dates'] . ')';
                         }
 
                         if (isset($worktitle['title_of_work'])) {
@@ -1885,8 +1883,6 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         }
         return $relatedWorks;
     }
-
-
 
     /**
      * Get Physical Medium (MARC21: field 340)
@@ -2128,7 +2124,6 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         return $this->getFieldArray('533', ['a', 'b', 'c', 'n'], true, $separator);
     }
 
-
     /**
      * Get reproducitonClassification note for the record
      *
@@ -2146,7 +2141,6 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         );
         return $data;
     }
-
 
     /**
      * Get information for the record (HAN: field 544)
@@ -2765,7 +2759,6 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         }
         return $this->mainConfig->Hierarchy->driver;
     }
-
 
     /**
      * Get marc field
