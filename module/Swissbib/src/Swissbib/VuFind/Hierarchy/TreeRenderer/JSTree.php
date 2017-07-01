@@ -31,6 +31,7 @@ namespace Swissbib\VuFind\Hierarchy\TreeRenderer;
 use VuFind\Hierarchy\TreeRenderer\JSTree as VfJsTree;
 use VuFindSearch\Query\Query;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use VuFindSearch\Service as VFSearchService;
 
 /**
  * Temporary override to fix problem with invalid solr data
@@ -54,33 +55,26 @@ class JSTree extends VfJsTree
     /**
      * Search Serivice
      *
-     * @var VuFindSearch\Service
+     * @var \VuFindSearch\Service
      */
     protected $searchService;
 
-    /**
-     * Set service locator
-     *
-     * @param ServiceLocatorInterface $serviceLocator ServiceLocator
-     *
-     * @return void
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-        $this->searchService = $serviceLocator->getServiceLocator()
-            ->get('VuFind\Search');
-    }
+
 
     /**
-     * Get service locator
+     * Constructor
      *
-     * @return ServiceLocatorInterface
+     * @param \Zend\Mvc\Controller\Plugin\Url $router Router plugin for urls
      */
-    public function getServiceLocator()
+    public function __construct(\Zend\Mvc\Controller\Plugin\Url $router,
+                VFSearchService $searchService)
     {
-        return $this->serviceLocator;
+        parent::__construct($router);
+        $this->searchService = $searchService;
+
     }
+
+
 
     /**
      * Prevent error from missing hierarchy title data
