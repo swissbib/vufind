@@ -229,7 +229,9 @@ return [
             'helppage'             => 'Swissbib\Controller\HelpPageController',
             'libadminsync'         => 'Swissbib\Controller\LibadminSyncController',
             'my-research'          => 'Swissbib\Controller\MyResearchController',
-            'summon'               => 'Swissbib\Controller\SummonController',
+            //first move from invokable to factory
+            //haven't looked into the real implementation so far (GH)
+            //'summon'               => 'Swissbib\Controller\SummonController',
             'holdings'             => 'Swissbib\Controller\HoldingsController',
             'tab40import'          => 'Swissbib\Controller\Tab40ImportController',
             'institutionFavorites' => 'Swissbib\Controller\FavoritesController',
@@ -248,6 +250,8 @@ return [
             'cart'   => 'VuFind\Controller\Factory::getCartController',
             'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
+            'summon' => 'Swissbib\Controller\Factory::getSummonController',
+
         ]
     ],
     'service_manager' => [
@@ -280,8 +284,9 @@ return [
             'Swissbib\Logger'                               =>  'Swissbib\Services\Factory::getSwissbibLogger',
             'Swissbib\RecordDriver\SolrDefaultAdapter'      =>  'Swissbib\RecordDriver\Factory::getSolrDefaultAdapter',
             'VuFind\Export'                                 =>  'Swissbib\Services\Factory::getExport',
-            'sbSpellingProcessor'                           =>  'Swissbib\VuFind\Search\Solr\Factory::getSpellchecker',
-            'sbSpellingResults'                             =>  'Swissbib\VuFind\Search\Solr\Factory::getSpellingResults',
+            //no longer needed but test it more profoundly
+            //'sbSpellingProcessor'                           =>  'Swissbib\VuFind\Search\Solr\Factory::getSpellchecker',
+            //'sbSpellingResults'                             =>  'Swissbib\VuFind\Search\Solr\Factory::getSpellingResults',
 
             'Swissbib\Hierarchy\SimpleTreeGenerator'        =>  'Swissbib\Hierarchy\Factory::getSimpleTreeGenerator',
             'Swissbib\Hierarchy\MultiTreeGenerator'         =>  'Swissbib\Hierarchy\Factory::getMultiTreeGenerator',
