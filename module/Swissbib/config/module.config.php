@@ -479,6 +479,7 @@ return [
                 'factories' => [
                     'favorites' => 'Swissbib\VuFind\Search\Results\Factory::getFavorites',
                     'solr' => 'Swissbib\VuFind\Search\Results\Factory::getSolr',
+                    'solrauthorfacets' => 'Swissbib\VuFind\Search\Results\Factory::getSolrAuthorFacets',
                 ],
             ]
 

@@ -98,7 +98,14 @@
 
   <? if ( $recordTotal > 0 ): // only display these at very top if we have results ?>
     <? foreach ($this->results->getRecommendations('top') as $current): ?>
-      <?=$this->recommend($current)?>
+      <? if (!$current instanceof \VuFind\Recommend\AuthorFacets ):
+              //todo - its very necessary to get a better understanding how things are done in VuFind
+              //this is really a hack
+              //we are in the labyrinth of the various VuFind recommendation types which are no longer
+              //compatible to the swissbib way of doing things
+              ?>
+        <?=$this->recommend($current)?>
+      <? endif; ?>
     <? endforeach; ?>
   <? endif; ?>
   <?=$this->flashmessages()?>
