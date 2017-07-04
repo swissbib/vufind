@@ -194,4 +194,40 @@ class LocationMap extends LocationMapBase
 
         return $this->buildSimpleLocationMapLink($mapLinkPattern, $hsg_param);
     }
+
+    /**
+     * Check if map link is possible for LUUHL (ZHB Lucerne University Library)
+     * Make sure signature is present
+     *
+     * @param Array    $item           Item
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function isItemValidForLocationMapLUUHL(array $item,
+        HoldingsHelper $holdingsHelper
+    ) {
+        $hasSignature = isset($item['signature']) && !empty($item['signature'])
+            && $item['signature'] !== '-';
+
+        return $hasSignature;
+    }
+
+    /**
+     * Build custom link for LUUHL (ZHB Lucerne University Library)
+     *
+     * @param Array    $item           Item
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function buildLocationMapLinkLUUHL(array $item,
+        HoldingsHelper $holdingsHelper
+    ) {
+        $mapLinkPattern  = $this->config->get('LUUHL');
+        $luuhl_param = $item['signature'];
+
+        return $this->buildSimpleLocationMapLink($mapLinkPattern, $luuhl_param);
+    }
+
 }
