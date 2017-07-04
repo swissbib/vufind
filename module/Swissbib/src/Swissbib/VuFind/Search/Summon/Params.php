@@ -175,7 +175,8 @@ class Params extends VFSummonParams
                     } else {
                         // Standard case:
                         $exclude = $filt['operator'] === 'NOT' ? 'true' : 'false';
-                        $params->add('filters', "{$filt['field']},{$safeValue},{$exclude}");
+                        $params->add('filters',
+                            "{$filt['field']},{$safeValue},{$exclude}");
                     }
                 }
             }
