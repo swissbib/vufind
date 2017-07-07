@@ -198,6 +198,7 @@ class LocationMap extends LocationMapBase
     /**
      * Check if map link is possible for LUUHL (ZHB Lucerne University Library)
      * Make sure signature is present
+     * Make sure item is in accesible stacks
      *
      * @param Array    $item           Item
      * @param Holdings $holdingsHelper HoldingsHelper
@@ -210,7 +211,13 @@ class LocationMap extends LocationMapBase
         $hasSignature = isset($item['signature']) && !empty($item['signature'])
             && $item['signature'] !== '-';
 
-        return $hasSignature;
+        $accessibleConfigKey = $item['institution'] . '_codes';
+        $isAccessible = isset($item['location_code'])
+            && $this->isValueInConfigList(
+                $accessibleConfigKey, $item['location_code']
+            );
+
+        return $hasSignature && $isAccessible;
     }
 
     /**
