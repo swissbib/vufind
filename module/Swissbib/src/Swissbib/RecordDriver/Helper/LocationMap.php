@@ -196,7 +196,8 @@ class LocationMap extends LocationMapBase
     }
 
     /**
-     * Check if map link is possible for LUUHL (Part of ZHB UPG Lucerne University Library)
+     * Check if map link is possible for LUUHL (Part of ZHB UPG Lucerne 
+     * University Library)
      * Make sure signature is present
      * Make sure item is in accesible stacks
      *
@@ -238,7 +239,8 @@ class LocationMap extends LocationMapBase
     }
 
     /**
-     * Check if map link is possible for LUNI3 (Part of ZHB UPG Lucerne University Library)
+     * Check if map link is possible for LUNI3 (Part of ZHB UPG Lucerne 
+     * University Library)
      * Make sure signature is present
      * Make sure item is in accesible stacks
      *
@@ -280,7 +282,8 @@ class LocationMap extends LocationMapBase
     }
 
     /**
-     * Check if map link is possible for LUKIL (Part of ZHB UPG Lucerne University Library)
+     * Check if map link is possible for LUKIL (Part of ZHB UPG Lucerne 
+     * University Library)
      * Make sure signature is present
      * Make sure item is in accesible stacks
      *
@@ -322,7 +325,8 @@ class LocationMap extends LocationMapBase
     }
 
     /**
-     * Check if map link is possible for LUPHL (Part of ZHB UPG Lucerne University Library)
+     * Check if map link is possible for LUPHL (Part of ZHB UPG Lucerne 
+     * University Library)
      * Make sure signature is present
      * Make sure item is in accesible stacks
      *
