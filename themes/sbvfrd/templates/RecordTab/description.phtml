@@ -665,10 +665,16 @@ $prevTitles      = $record->getPreviousTitles();
 
     <? /* Display "Zugangsbestimmungen" for HAN (field 355) */ ?>
     <? if (!empty($securityclassification)): ?>
+        <tr>
         <th><?= $this->transEsc('SecurityClassification') ?>: </th>
             <td>
                 <? foreach ($securityclassification as $field): ?>
-                    <?= $this->escapeHtml($field) ?><br/>
+                    <? if (empty($field['date'])): ?>
+                        <? $fieldDesc = $field['security']; ?>
+                    <? else: ?>
+                        <? $fieldDesc = $field['security'] . ', Frist: ' . $field['date']; ?>
+                    <? endif; ?>
+                    <?= $this->escapeHtml($fieldDesc) ?><br/>
                 <? endforeach; ?>
             </td>
         </tr>
