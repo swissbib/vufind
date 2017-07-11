@@ -37,7 +37,7 @@ $options = $this->searchOptions($this->searchClassId);
           if (isset($filter['specialType']) && $filter['specialType'] == 'keyword') {
             $removeLink = $this->currentPath().$results->getUrlQuery()->replaceTerm($filter['value'], '');
           } else {
-            $removeLink = $this->currentPath().$results->getUrlQuery()->removeFacet($filter['field'], $filter['value'], true, $filter['operator']);}
+            $removeLink = $this->currentPath().$results->getUrlQuery()->removeFacet($filter['field'], $filter['value'], $filter['operator']);}
             //$removeLink = $this->currentPath().$results->getUrlQuery()->removeFacet($filter['field'], $this->translateFacets($filter['field'],$filter['value']), true, $filter['operator']);}
           if ($filter['displayText'] == '[* TO *]') {
             $filter['displayText'] = $this->translate('filter_wildcard');
