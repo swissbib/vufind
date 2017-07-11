@@ -226,32 +226,48 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            'helppage'             => 'Swissbib\Controller\HelpPageController',
-            'libadminsync'         => 'Swissbib\Controller\LibadminSyncController',
-            'my-research'          => 'Swissbib\Controller\MyResearchController',
+            //'helppage'             => 'Swissbib\Controller\HelpPageController',
+            //'libadminsync'         => 'Swissbib\Controller\LibadminSyncController',
+            //'my-research'          => 'Swissbib\Controller\MyResearchController',
             //first move from invokable to factory
             //haven't looked into the real implementation so far (GH)
             //'summon'               => 'Swissbib\Controller\SummonController',
             //'holdings'             => 'Swissbib\Controller\HoldingsController',
-            'tab40import'          => 'Swissbib\Controller\Tab40ImportController',
-            'institutionFavorites' => 'Swissbib\Controller\FavoritesController',
-            'hierarchycache'       => 'Swissbib\Controller\HierarchyCacheController',
+            //'tab40import'          => 'Swissbib\Controller\Tab40ImportController',
+            //'institutionFavorites' => 'Swissbib\Controller\FavoritesController',
+            //'hierarchycache'       => 'Swissbib\Controller\HierarchyCacheController',
             'shibtest'             => 'Swissbib\Controller\ShibtestController',
-            'ajax'                 => 'Swissbib\Controller\AjaxController',
-            'upgrade'              => 'Swissbib\Controller\NoProductiveSupportController',
-            'install'              => 'Swissbib\Controller\NoProductiveSupportController',
-            'feedback'             => 'Swissbib\Controller\FeedbackController',
-            'cover'                => 'Swissbib\Controller\CoverController',
+            //'ajax'                 => 'Swissbib\Controller\AjaxController',
+            //'upgrade'              => 'Swissbib\Controller\NoProductiveSupportController',
+            //'install'              => 'Swissbib\Controller\NoProductiveSupportController',
+            //'feedback'             => 'Swissbib\Controller\FeedbackController',
+            //'cover'                => 'Swissbib\Controller\CoverController',
+            //todo: I can't find console in the VuFind-module
+            //what is the swissbib purpose of this Type??
             'console'              => 'Swissbib\Controller\ConsoleController',
         ],
         'factories'  => [
+            'ajax' => 'Swissbib\Controller\Factory::getAjaxController',
             'search' => 'Swissbib\Controller\Factory::getSearchController',
             'record' => 'Swissbib\Controller\Factory::getRecordController',
             'cart'   => 'VuFind\Controller\Factory::getCartController',
             'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
             'summon' => 'Swissbib\Controller\Factory::getSummonController',
-            'holdings'=> 'Swissbib\Controller\Factory::getHoldingsController'
+            'holdings'=> 'Swissbib\Controller\Factory::getHoldingsController',
+            'feedback'  => 'Swissbib\Controller\Factory::getFeedbackController',
+            'cover'     => 'Swissbib\Controller\Factory::getCoverController',
+            'upgrade'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
+            'install'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
+            //nicht getestet
+            'tab40import'   => 'Swissbib\Controller\Factory::getTab40ImportController',
+            'institutionFavorites' => 'Swissbib\Controller\Factory::getFavoritesController',
+            'hierarchycache'       => 'Swissbib\Controller\Factory::getHierarchyCacheController',
+            //nicht getestet
+            'helppage'    => 'Swissbib\Controller\Factory::getHelpPageController',
+            'libadminsync' => 'Swissbib\Controller\Factory::getLibadminSyncController',
+            'my-research'   => 'Swissbib\Controller\Factory::getMyResearchController',
+
 
         ]
     ],
