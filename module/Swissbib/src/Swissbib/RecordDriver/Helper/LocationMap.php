@@ -194,4 +194,177 @@ class LocationMap extends LocationMapBase
 
         return $this->buildSimpleLocationMapLink($mapLinkPattern, $hsg_param);
     }
+
+    /**
+     * Check if map link is possible for LUUHL (Part of ZHB UPG Lucerne 
+     * University Library)
+     * Make sure signature is present
+     * Make sure item is in accesible stacks
+     *
+     * @param Array    $item           Item
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function isItemValidForLocationMapLUUHL(array $item,
+        HoldingsHelper $holdingsHelper
+    ) {
+        $hasSignature = isset($item['signature']) && !empty($item['signature'])
+            && $item['signature'] !== '-';
+
+        $accessibleConfigKey = $item['institution'] . '_codes';
+        $isAccessible = isset($item['location_code'])
+            && $this->isValueInConfigList(
+                $accessibleConfigKey, $item['location_code']
+            );
+
+        return $hasSignature && $isAccessible;
+    }
+
+    /**
+     * Build custom link for LUUHL (Part of ZHB UPG Lucerne University Library)
+     *
+     * @param Array    $item           Item
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function buildLocationMapLinkLUUHL(array $item,
+        HoldingsHelper $holdingsHelper
+    ) {
+        $mapLinkPattern  = $this->config->get('LUUHL');
+        $luuhl_param = $item['signature'];
+
+        return $this->buildSimpleLocationMapLink($mapLinkPattern, $luuhl_param);
+    }
+
+    /**
+     * Check if map link is possible for LUNI3 (Part of ZHB UPG Lucerne 
+     * University Library)
+     * Make sure signature is present
+     * Make sure item is in accesible stacks
+     *
+     * @param Array    $item           Item
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function isItemValidForLocationMapLUNI3(array $item,
+        HoldingsHelper $holdingsHelper
+    ) {
+        $hasSignature = isset($item['signature']) && !empty($item['signature'])
+            && $item['signature'] !== '-';
+
+        $accessibleConfigKey = $item['institution'] . '_codes';
+        $isAccessible = isset($item['location_code'])
+            && $this->isValueInConfigList(
+                $accessibleConfigKey, $item['location_code']
+            );
+
+        return $hasSignature && $isAccessible;
+    }
+
+    /**
+     * Build custom link for LUNI3 (Part of ZHB UPG Lucerne University Library)
+     *
+     * @param Array    $item           Item
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function buildLocationMapLinkLUNI3(array $item,
+        HoldingsHelper $holdingsHelper
+    ) {
+        $mapLinkPattern  = $this->config->get('LUNI3');
+        $luni3_param = $item['signature'];
+
+        return $this->buildSimpleLocationMapLink($mapLinkPattern, $luni3_param);
+    }
+
+    /**
+     * Check if map link is possible for LUKIL (Part of ZHB UPG Lucerne 
+     * University Library)
+     * Make sure signature is present
+     * Make sure item is in accesible stacks
+     *
+     * @param Array    $item           Item
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function isItemValidForLocationMapLUKIL(array $item,
+        HoldingsHelper $holdingsHelper
+    ) {
+        $hasSignature = isset($item['signature']) && !empty($item['signature'])
+            && $item['signature'] !== '-';
+
+        $accessibleConfigKey = $item['institution'] . '_codes';
+        $isAccessible = isset($item['location_code'])
+            && $this->isValueInConfigList(
+                $accessibleConfigKey, $item['location_code']
+            );
+
+        return $hasSignature && $isAccessible;
+    }
+
+    /**
+     * Build custom link for LUKIL (Part of ZHB UPG Lucerne University Library)
+     *
+     * @param Array    $item           Item
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function buildLocationMapLinkLUKIL(array $item,
+        HoldingsHelper $holdingsHelper
+    ) {
+        $mapLinkPattern  = $this->config->get('LUKIL');
+        $lukil_param = $item['signature'];
+
+        return $this->buildSimpleLocationMapLink($mapLinkPattern, $lukil_param);
+    }
+
+    /**
+     * Check if map link is possible for LUPHL (Part of ZHB UPG Lucerne 
+     * University Library)
+     * Make sure signature is present
+     * Make sure item is in accesible stacks
+     *
+     * @param Array    $item           Item
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function isItemValidForLocationMapLUPHL(array $item,
+        HoldingsHelper $holdingsHelper
+    ) {
+        $hasSignature = isset($item['signature']) && !empty($item['signature'])
+            && $item['signature'] !== '-';
+
+        $accessibleConfigKey = $item['institution'] . '_codes';
+        $isAccessible = isset($item['location_code'])
+            && $this->isValueInConfigList(
+                $accessibleConfigKey, $item['location_code']
+            );
+
+        return $hasSignature && $isAccessible;
+    }
+
+    /**
+     * Build custom link for LUPHL (Part of ZHB UPG Lucerne University Library)
+     *
+     * @param Array    $item           Item
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function buildLocationMapLinkLUPHL(array $item,
+        HoldingsHelper $holdingsHelper
+    ) {
+        $mapLinkPattern  = $this->config->get('LUPHL');
+        $luphl_param = $item['signature'];
+
+        return $this->buildSimpleLocationMapLink($mapLinkPattern, $luphl_param);
+    }
+
 }

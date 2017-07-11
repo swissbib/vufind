@@ -2108,7 +2108,13 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getSecurityClassification()
     {
-        return $this->getFieldArray('355');
+        $data = $this->getMarcSubFieldMaps(
+            355, [
+                'a' => 'security',
+                'h' => 'date',
+            ]
+        );
+        return $data;
     }
 
     /**
