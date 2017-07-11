@@ -22,6 +22,7 @@ AllFields:
     - publplace_additional_gnd_txt_mv^100
     - series^200
     - topic^500                           # all verbal topics, i.e. 6xx
+    #- related_gnd_txt_mv^500             # GND related terms 5xx
     - addfields_txt_mv^50                 # additional fields
     - publplace_txt_mv^25                 # publication country and place, i.e. 752ad
     - publplace_dsv11_txt_mv^25
