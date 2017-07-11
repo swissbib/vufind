@@ -69,7 +69,7 @@ class RecordController extends VuFindRecordController
             //another issue - should be solved by snowfake because it was
             // implemented by them)
             //some work for a redesign
-            $this->getServiceLocator()->get("MarcFormatter");
+            $this->serviceLocator->get("MarcFormatter");
 
             return parent::homeAction();
         } catch (RecordMissingException $e) {
@@ -375,7 +375,7 @@ class RecordController extends VuFindRecordController
         //The MarcFormatter is using a ServiceManager in a static
         // function in an XSLT-Template
         //This call injects the ServiceManager indirectly
-        $this->getServiceLocator()->get("MarcFormatter");
+        $this->serviceLocator->get("MarcFormatter");
 
         return parent::ajaxtabAction();
     }
