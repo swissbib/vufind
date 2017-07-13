@@ -52,16 +52,13 @@ class SummonController extends VuFindSummonController
      *
      * @return \VuFind\Search\Summon\Results
      */
+    /*
     protected function getAdvancedFacets()
     {
         // Check if we have facet results cached, and build them if we don't.
         $cache = $this->getServiceLocator()->get('VuFind\CacheManager')
             ->getCache('object');
 
-        /**
-         * Loads the Summon Results object. This is necessary because otherwise
-         * it would fail to load the object from cache.
-         */
         $loadResults = $this->getResultsManager()->get('Summon');
         $loadParams  = $loadResults->getParams();
         $loadParams->getOptions();
@@ -87,18 +84,21 @@ class SummonController extends VuFindSummonController
 
         return $results;
     }
+    */
 
     /**
      * HomePageFacets
      *
      * @return void|\VuFind\Search\Summon\Results
      */
+    /*
     protected function getHomePageFacets()
     {
         return $this->getFacetResults(
             'initHomePageFacets', 'summonSearchHomeFacets'
         );
     }
+    */
 
     /**
      * Return a Search Results object containing requested facet information.  This
