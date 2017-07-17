@@ -79,7 +79,7 @@ $options = $this->searchOptions($this->searchClassId);
       <div id="side-collapse-<?=$this->escapeHtmlAttr($title) ?>" class="collapse<? if(!in_array($title, $collapsedFacets)): ?> in<? endif ?>">
         <? if (isset($rangeFacets[$title])): ?>
           <? if ($rangeFacets[$title]['type'] == 'date'): ?>
-            <? $this->headScript()->appendFile('vendor/bootstrap-slider.js'); ?>
+            <? $this->headScript()->appendFile('vendor/bootstrap-slider.min.js'); ?>
             <?
             $min = !empty($rangeFacets[$title]['values'][0]) ? min($rangeFacets[$title]['values'][0], 300) : 300;
             $future = date('Y', time()+31536000);
@@ -127,7 +127,7 @@ JS;
                 </div>
               </div>
               <? if ($rangeFacets[$title]['type'] == 'date'): ?>
-                  <? $this->headScript()->appendFile('vendor/bootstrap-slider.js'); ?>
+                  <? $this->headScript()->appendFile('vendor/bootstrap-slider.min.js'); ?>
                   <? $this->headLink()->appendStylesheet('vendor/bootstrap-slider.min.css'); ?>
                   <div class="slider-container"><input type="text" class="hidden" id="<?=$this->escapeHtmlAttr($title)?><?=$this->escapeHtml($rangeFacets[$title]['type'])?>Slider"/></div>
               <? endif; ?>
