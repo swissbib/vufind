@@ -5,6 +5,18 @@
   <? $displayTestSystem = !empty($displayTestSystem) && ($displayTestSystem == "true" || $displayTestSystem == "1") ? "1" : 0; ?>
   <? if (!isset($this->layout()->renderingError)): ?>
     <div class="col-md-12">
+      <? $surveyUrl = $this->configAccess()->Survey->url ?>
+      <? $cookieName = 'umfrage20170720'; ?>
+      <? if (isset($surveyUrl) && !isset($_COOKIE[$cookieName])): ?>
+        <? $expires = date("D, d M Y H:i:s", strtotime("+30days")); ?>
+        <div class="row">
+          <div style="background-color:lightyellow;padding:5px;text-align:center;border-radius:3px">
+            <a style="color:green;" href="<?=$surveyUrl?>" target="_blank" onclick="alert('hallo');document.cookie='<?=$cookieName?>=clicked; expires=<?=$expires?>; path=/'">
+                Nehme an Unserer Mini-Umfrage teil!
+            </a>
+          </div>
+        </div>
+      <? endif; ?>
       <div class="collapse navbar-collapse" id="header-collapse">
 
 
