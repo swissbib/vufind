@@ -52,12 +52,12 @@ class LayoutClass extends \VuFind\View\Helper\Bootstrap3\LayoutClass
 
         switch ($class) {
         case 'mainbody':
-            $classString .= $this->left ?
+            $classString .= $this->sidebarOnLeft ?
                 'col-md-9 col-md-push-3 col-table-fix-md' :
                 'col-md-9 col-table-fix-md';
             break;
         case 'sidebar':
-            $classString .= $this->left
+            $classString .= $this->sidebarOnLeft
                 ? 'sidebar col-md-3 col-md-pull-9 col-table-fix-md hidden-print'
                 : 'sidebar col-md-3 col-table-fix-md hidden-print';
         }
