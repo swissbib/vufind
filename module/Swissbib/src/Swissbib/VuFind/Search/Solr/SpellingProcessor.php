@@ -29,7 +29,8 @@ namespace Swissbib\VuFind\Search\Solr;
 
 use VuFindSearch\Backend\Solr\Response\Json\Spellcheck;
 use VuFindSearch\Query\AbstractQuery;
-use Zend\Config\Config;
+use Zend\Config\Config as ZendConfig;
+use VuFind\Search\Solr\SpellingProcessor as VFSpellingProcessor;
 
 /**
  * Extended version of the VuFind Solr Spelling Processor (based on
@@ -41,7 +42,7 @@ use Zend\Config\Config;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class SpellingProcessor
+class SpellingProcessor extends VFSpellingProcessor
 {
     /**
      * SpellingResults
@@ -90,9 +91,13 @@ class SpellingProcessor
      * Constructor
      *
      * @param SpellingResults $spellingResults Spelling configuration (optional)
+     * todo: so far no unit tests - by now I simply extended the class because I had a problem with the setSpellingProcessor
+     * method in VuFind\Search\Solr\Results
+     *
      */
-    public function __construct(SpellingResults $spellingResults)
+    public function __construct(SpellingResults $spellingResults, ZendConfig $config)
     {
+        parent::__construct($config);
         $this->spellingResults = $spellingResults;
     }
 
