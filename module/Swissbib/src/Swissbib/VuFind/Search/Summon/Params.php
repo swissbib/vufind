@@ -85,12 +85,13 @@ class Params extends VFSummonParams
      * Constructor
      *
      * Params constructor.
-     * @param \VuFind\Search\Base\Options $options          Options to use
-     * @param \VuFind\Config\PluginManager $configLoader    Config loader
-     * @param VuFindAuthManager $authManager                auth manager
-     * @param TypeLabelMappingHelper $mappingHelper         HelperClass mappings
-     * @param SwissbibFavoritesManager $favoritesManager    sb favorites Manager
-     * @param HierarchicalFacetHelper|null $facetHelper     Hierarchical facethelper
+     *
+     * @param \VuFind\Search\Base\Options  $options          Options to use
+     * @param \VuFind\Config\PluginManager $configLoader     Config loader
+     * @param VuFindAuthManager            $authManager      auth manager
+     * @param TypeLabelMappingHelper       $mappingHelper    HelperClass mappings
+     * @param SwissbibFavoritesManager     $favoritesManager sb favorites Manager
+     * @param HierarchicalFacetHelper|null $facetHelper      Hierarchical facethelper
      */
     public function __construct($options, \VuFind\Config\PluginManager $configLoader,
         VuFindAuthManager $authManager,
@@ -119,8 +120,10 @@ class Params extends VFSummonParams
         $defLimit = $this->getOptions()->getDefaultLimit();
         $limitOptions = $this->getOptions()->getLimitOptions();
         $view = $this->getView();
-        $this->handleLimit($this->authManager, $request, $defLimit, $limitOptions,
-            $view);
+        $this->handleLimit(
+            $this->authManager, $request, $defLimit, $limitOptions,
+            $view
+        );
     }
 
     /**

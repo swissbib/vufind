@@ -172,7 +172,7 @@ class Factory
     /**
      * GetConfig
      *
-     * @param  ServiceManager $sm ServiceManager
+     * @param ServiceManager $sm ServiceManager
      *
      * @return Config
      */
