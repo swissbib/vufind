@@ -234,7 +234,8 @@ class Bootstrapper
                         if (in_array(
                             $languageChange,
                             array_keys($config->Languages->toArray())
-                        )) {
+                        )
+                        ) {
                             $locale = $languageChange;
                         }
                     }

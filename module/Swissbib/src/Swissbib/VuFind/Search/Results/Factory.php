@@ -65,14 +65,14 @@ class Factory
         return $solr;
     }
 
-
     /**
      * Factory for Solr Authors.
      * Achtung: hier müssen wir dringend ein Refactoring machen
-     * swissbib hat sich vor einiger Zeit mal dazu entschieden, Autorensuchen wie normale Suchen zu behandlen
-     * VuFind hat für die Autoren einen eiegenen Index und damit auch ein eigenes System,
-     * wie Recommendations auf Basis der unterschiedlichen Suchen aufgebaut werden
-     * die unterschiedlichen Recommendation wiederum ergeben dann Probleme z.B. hier
+     * swissbib hat sich vor einiger Zeit mal dazu entschieden, Autorensuchen wie
+     * normale Suchen zu behandlen VuFind hat für die Autoren einen eiegenen Index
+     * und damit auch ein eigenes System, wie Recommendations auf Basis der
+     * unterschiedlichen Suchen aufgebaut werden die unterschiedlichen
+     * Recommendation wiederum ergeben dann Probleme z.B. hier
      * themes/sbvfrd/templates/search/results.phtml Zeile 108
      *
      * @param ServiceManager $sm Service manager.
@@ -84,9 +84,6 @@ class Factory
         //weil Autoren wie Facets behandelt werden erfolgt der Aufruf von getSolr
         return static::getSolr($sm);
     }
-
-
-
 
     /**
      * Factory for Favorites results object.

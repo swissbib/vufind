@@ -41,7 +41,6 @@ use Zend\ServiceManager\ServiceManager;
  */
 class Factory
 {
-
     /**
      * Construct a generic controller.
      *
@@ -78,8 +77,6 @@ class Factory
             substr($name, 3), isset($args[0]) ? $args[0] : null
         );
     }
-
-
 
     /**
      * Construct the RecordController.

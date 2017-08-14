@@ -33,7 +33,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use VuFind\Search\Params\PluginFactory as VuFindParamsPluginFactory;
 
 use Swissbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
-use Swissbib\VuFind\Search\Solr\Params;
 
 /**
  * PluginFactory
@@ -86,7 +85,7 @@ class PluginFactory extends VuFindParamsPluginFactory
      * @return object
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator,
-                                          $name, $requestedName, array $extraParams = []
+        $name, $requestedName, array $extraParams = []
     ) {
         $options   = $serviceLocator->getServiceLocator()
             ->get('VuFind\SearchOptionsPluginManager')->get($requestedName);
@@ -95,7 +94,7 @@ class PluginFactory extends VuFindParamsPluginFactory
             ->get('Swissbib\ExtendedSolrFactoryHelper');
 
         $this->defaultNamespace = $extendedTargetHelper
-                ->getNamespace($name, $requestedName);
+            ->getNamespace($name, $requestedName);
 
         $authManager = $serviceLocator->getServiceLocator()->get('VuFind\AuthManager');
         $labelMappingHelper = $serviceLocator->getServiceLocator()->get('Swissbib\TypeLabelMappingHelper');

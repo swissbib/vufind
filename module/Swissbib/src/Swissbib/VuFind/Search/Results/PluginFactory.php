@@ -95,16 +95,18 @@ class PluginFactory extends VuFindResultsPluginFactory
             ->getNamespace($name, $requestedName);
 
         /**
-         * swissbib specific Results type for Solr
+         * Swissbib specific Results type for Solr
+         *
          * @var \Swissbib\VuFind\Search\Solr\Results $sbSolrResults
          */
         $sbSolrResults =  parent::createServiceWithName($serviceLocator, $name, $requestedName);
         $facetConfigs = $serviceLocator->getServiceLocator()->get('VuFind\Config')
             ->get($sbSolrResults->getOptions()->getFacetsIni());
-
+        
         //todo
-        //perhaps not a really nice way to provide the config dependency via Setter methods
-        //analyze the complete complex Facets in VuFind 4 perhaps a easier way to implement our
+        //perhaps not a really nice way to provide the config dependency
+        //via Setter methods analyze the complete complex Facets
+        //in VuFind 4 perhaps a easier way to implement our
         //query facets (MyLibraries) is possible
         $sbSolrResults->setFacetsConfig($facetConfigs);
         return $sbSolrResults;
