@@ -56,9 +56,9 @@ class Results extends VuFindSolrResults
      */
     protected $sbSuggestions;
 
-
     /**
      * Configuration for QueryFacets for swissbib MyLibraries
+     *
      * @var \Zend\Config\Config
      */
     protected $facetsConfig;
@@ -100,9 +100,11 @@ class Results extends VuFindSolrResults
 
     /**
      * facets Configuration
+     *
      * @param \Zend\Config\Config $facetsIni
      */
-    public function setFacetsConfig(\Zend\Config\Config $facetsConfig) {
+    public function setFacetsConfig(\Zend\Config\Config $facetsConfig)
+    {
         $this->facetsConfig = $facetsConfig;
     }
 

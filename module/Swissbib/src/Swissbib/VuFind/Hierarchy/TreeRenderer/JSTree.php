@@ -59,22 +59,19 @@ class JSTree extends VfJsTree
      */
     protected $searchService;
 
-
-
     /**
      * Constructor
      *
-     * @param \Zend\Mvc\Controller\Plugin\Url $router Router plugin for urls
+     * @param \Zend\Mvc\Controller\Plugin\Url $router        Router plugin for urls
+     * @param VFSearchService                 $searchService search service
      */
     public function __construct(\Zend\Mvc\Controller\Plugin\Url $router,
-                VFSearchService $searchService)
-    {
+        VFSearchService $searchService
+    ) {
         parent::__construct($router);
         $this->searchService = $searchService;
 
     }
-
-
 
     /**
      * Prevent error from missing hierarchy title data

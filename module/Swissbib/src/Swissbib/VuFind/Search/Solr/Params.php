@@ -56,44 +56,46 @@ class Params extends VuFindSolrParams
         'isActive' => false
     ];
 
-
     /**
      * VuFindAuthManager
+     *
      * @var VuFindAuthManager
      */
     protected $authManager;
 
     /**
      * TypeLabelMappingHelper
+     *
      * @var TypeLabelMappingHelper
      */
     protected $typeLabelMappingHelper;
 
-
     /**
      * SwissbibFavoritesManager
+     *
      * @var SwissbibFavoritesManager
      */
     protected $favoritesManager;
 
-
     /**
      * Constructor
      *
-     * @param \VuFind\Search\Base\Options  $options      Options to use
-     * @param \VuFind\Config\PluginManager $configLoader Config loader
-     * @param TypeLabelMappingHelper       $mappingHelper HelperClass mappings
+     * @param \VuFind\Search\Base\Options  $options          Options to use
+     * @param \VuFind\Config\PluginManager $configLoader     Config loader
+     * @param TypeLabelMappingHelper       $mappingHelper    HelperClass mappings
      * @param SwissbibFavoritesManager     $favoritesManager swissbib favorites Manager
-     * @param HierarchicalFacetHelper      $facetHelper  Hierarchical facet helper
+     * @param HierarchicalFacetHelper      $facetHelper      Hierarchical facet helper
      */
     public function __construct($options, \VuFind\Config\PluginManager $configLoader,
-                                VuFindAuthManager $authManager,
-                                TypeLabelMappingHelper $mappingHelper,
-                                SwissbibFavoritesManager $favoritesManager,
-                                HierarchicalFacetHelper $facetHelper = null
+        VuFindAuthManager $authManager,
+        TypeLabelMappingHelper $mappingHelper,
+        SwissbibFavoritesManager $favoritesManager,
+        HierarchicalFacetHelper $facetHelper = null
     ) {
-        parent::__construct($options, $configLoader,
-                            $facetHelper);
+        parent::__construct(
+            $options, $configLoader,
+            $facetHelper
+        );
         $this->authManager = $authManager;
         $this->typeLabelMappingHelper = $mappingHelper;
         $this->favoritesManager = $favoritesManager;

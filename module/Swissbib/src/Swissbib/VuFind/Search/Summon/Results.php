@@ -92,9 +92,11 @@ class Results extends VFSummonResults
 
     /**
      * facets Configuration
+     *
      * @param \Zend\Config\Config $facetsIni
      */
-    public function setFacetsConfig(\Zend\Config\Config $facetsConfig) {
+    public function setFacetsConfig(\Zend\Config\Config $facetsConfig)
+    {
         $this->facetsConfig = $facetsConfig;
     }
 

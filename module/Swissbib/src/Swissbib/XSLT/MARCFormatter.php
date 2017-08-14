@@ -30,9 +30,6 @@
  */
 namespace Swissbib\XSLT;
 
-use Zend\ServiceManager\ServiceManager;
-use Zend\ServiceManager\ServiceManagerAwareInterface;
-
 /**
  * MARCFormatter
  *

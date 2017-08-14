@@ -58,7 +58,7 @@ $query = $this->results->getUrlQuery();
             <div class="alert">
                 <h4><?=$this->transEsc('nohit_spelling') ?></h4>
                 <!--                suggestions for: --><?//= $key ?>
-                <? foreach ($suggestionValue as $keyValue) : ?>
+                <? foreach (array_keys($suggestionValue['suggestions']) as $keyValue) : ?>
                     <? foreach ($keyValue as $value): ?>
                         <p><a href="<?=$this->url('summon-search')?>?lookfor=<?=urlencode($value['new_term'])?>"><?=$this->escapeHtml($value['new_term']) ?></a></p>
                     <? endforeach ?>
