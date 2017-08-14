@@ -199,8 +199,8 @@ class RecordController extends VuFindRecordController
 
         // Block invalid requests:
         if (!$catalog->checkRequestIsValid(
-            $driver->getUniqueID(), $gatheredDetails, $patron
-        )) {
+            $driver->getUniqueID(), $gatheredDetails, $patron)
+        ) {
             return $this->blockedholdAction();
         }
 
@@ -223,8 +223,8 @@ class RecordController extends VuFindRecordController
                 $this->flashMessenger()
                     ->addMessage('hold_invalid_request_group', 'error');
             } elseif (!$this->holds()->validatePickUpInput(
-                $gatheredDetails['pickUpLocation'], $extraHoldFields, $pickup
-            )) {
+                $gatheredDetails['pickUpLocation'], $extraHoldFields, $pickup)
+            ){
                 $this->flashMessenger()
                     ->addMessage('hold_invalid_pickup', 'error');
             } else {

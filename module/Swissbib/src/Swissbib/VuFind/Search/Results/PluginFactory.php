@@ -102,7 +102,7 @@ class PluginFactory extends VuFindResultsPluginFactory
         $sbSolrResults =  parent::createServiceWithName($serviceLocator, $name, $requestedName);
         $facetConfigs = $serviceLocator->getServiceLocator()->get('VuFind\Config')
             ->get($sbSolrResults->getOptions()->getFacetsIni());
-
+        
         //todo
         //perhaps not a really nice way to provide the config dependency
         //via Setter methods analyze the complete complex Facets

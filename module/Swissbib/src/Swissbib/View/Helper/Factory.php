@@ -173,6 +173,7 @@ class Factory
      * GetConfig
      *
      * @param  ServiceManager $sm ServiceManager
+     *
      * @return Config
      */
     public static function getConfig(ServiceManager $sm)
