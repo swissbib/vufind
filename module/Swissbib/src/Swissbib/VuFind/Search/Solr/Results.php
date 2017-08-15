@@ -99,9 +99,11 @@ class Results extends VuFindSolrResults
     }
 
     /**
-     * facets Configuration
+     * Facets Configuration
      *
-     * @param \Zend\Config\Config $facetsIni
+     * @param \Zend\Config\Config $facetsConfig the facet config
+     *
+     * @return void
      */
     public function setFacetsConfig(\Zend\Config\Config $facetsConfig)
     {
@@ -130,8 +132,8 @@ class Results extends VuFindSolrResults
 
         $orFacets = [];
         if (count($configQueryFacetSettings) > 0 && array_key_exists(
-            'orFacets', $configQueryFacetSettings
-        )) {
+            'orFacets', $configQueryFacetSettings)
+        ) {
             $orFacets = explode(',', $configQueryFacetSettings['orFacets']);
         }
 
