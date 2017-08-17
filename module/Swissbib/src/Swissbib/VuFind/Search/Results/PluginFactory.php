@@ -82,7 +82,7 @@ class PluginFactory extends VuFindResultsPluginFactory
      * @return object
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator,
-        $name, $requestedName
+        $name, $requestedName,  array $extraParams = []
     ) {
         /**
          * ExtendedSolrFactoryHelper
@@ -99,7 +99,7 @@ class PluginFactory extends VuFindResultsPluginFactory
          *
          * @var \Swissbib\VuFind\Search\Solr\Results $sbSolrResults
          */
-        $sbSolrResults =  parent::createServiceWithName($serviceLocator, $name, $requestedName);
+        $sbSolrResults =  parent::createServiceWithName($serviceLocator, $name, $requestedName, $extraParams);
         $facetConfigs = $serviceLocator->getServiceLocator()->get('VuFind\Config')
             ->get($sbSolrResults->getOptions()->getFacetsIni());
         
