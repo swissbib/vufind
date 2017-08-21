@@ -28,7 +28,6 @@
 namespace Swissbib\VuFind\Search\Results;
 
 use Swissbib\VuFind\Search\Favorites\Results;
-use Swissbib\VuFind\Search\Solr\SpellingProcessor as SwissBibSpellingProcessor;
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -60,7 +59,7 @@ class Factory
 
         $solr->setSpellingProcessor(
             $sm->getServiceLocator()
-            ->get("sbSpellingProcessor")
+                ->get("sbSpellingProcessor")
         );
         return $solr;
     }

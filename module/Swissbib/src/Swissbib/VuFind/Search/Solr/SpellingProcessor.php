@@ -93,7 +93,6 @@ class SpellingProcessor extends VFSpellingProcessor
      * @param SpellingResults $spellingResults Spelling configuration (optional)
      * todo: so far no unit tests - by now I simply extended the class because I had a problem with the setSpellingProcessor
      * method in VuFind\Search\Solr\Results
-     *
      */
     public function __construct(SpellingResults $spellingResults, ZendConfig $config)
     {

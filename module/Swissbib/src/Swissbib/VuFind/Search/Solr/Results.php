@@ -132,7 +132,8 @@ class Results extends VuFindSolrResults
 
         $orFacets = [];
         if (count($configQueryFacetSettings) > 0 && array_key_exists(
-            'orFacets', $configQueryFacetSettings)
+            'orFacets', $configQueryFacetSettings
+        )
         ) {
             $orFacets = explode(',', $configQueryFacetSettings['orFacets']);
         }
