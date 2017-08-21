@@ -82,9 +82,10 @@ class Params extends VuFindSolrParams
      *
      * @param \VuFind\Search\Base\Options  $options          Options to use
      * @param \VuFind\Config\PluginManager $configLoader     Config loader
+     * @param VuFindAuthManager       authManaegr    AuthManager
      * @param TypeLabelMappingHelper       $mappingHelper    HelperClass mappings
-     * @param SwissbibFavoritesManager     $favoritesManager swissbib favorites Manager
-     * @param HierarchicalFacetHelper      $facetHelper      Hierarchical facet helper
+     * @param SwissbibFavoritesManager $favoritesManager swissbib favorites Manager
+     * @param HierarchicalFacetHelper    $facetHelper      Hierarchical facet helper
      */
     public function __construct($options, \VuFind\Config\PluginManager $configLoader,
         VuFindAuthManager $authManager,
@@ -127,7 +128,9 @@ class Params extends VuFindSolrParams
         $limitOptions = $this->getOptions()->getLimitOptions();
         $view = $this->getView();
 
-        $this->handleLimit($this->authManager, $request, $defLimit, $limitOptions, $view);
+        $this->handleLimit(
+            $this->authManager, $request, $defLimit, $limitOptions, $view
+        );
     }
 
     /**

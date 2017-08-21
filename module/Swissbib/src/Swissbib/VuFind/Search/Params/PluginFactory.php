@@ -96,14 +96,20 @@ class PluginFactory extends VuFindParamsPluginFactory
         $this->defaultNamespace = $extendedTargetHelper
             ->getNamespace($name, $requestedName);
 
-        $authManager = $serviceLocator->getServiceLocator()->get('VuFind\AuthManager');
-        $labelMappingHelper = $serviceLocator->getServiceLocator()->get('Swissbib\TypeLabelMappingHelper');
-        $favoriteInstitutionsManager = $serviceLocator->getServiceLocator()->get('Swissbib\FavoriteInstitutions\Manager');
+        $authManager = $serviceLocator->getServiceLocator()->get(
+            'VuFind\AuthManager'
+        );
+        $labelMappingHelper = $serviceLocator->getServiceLocator()->get(
+            'Swissbib\TypeLabelMappingHelper'
+        );
+        $favoriteInstitutionsManager =$serviceLocator->getServiceLocator()->get(
+            'Swissbib\FavoriteInstitutions\Manager'
+        );
         $class = $this->getClassName($name, $requestedName);
         $configLoader = $serviceLocator->getServiceLocator()->get('VuFind\Config');
         // Clone the options instance in case caller modifies it:
-        return new $class(clone($options), $configLoader, $authManager, $labelMappingHelper,
-            $favoriteInstitutionsManager,
+        return new $class(clone($options), $configLoader, $authManager,
+            $labelMappingHelper, $favoriteInstitutionsManager,
             ...$extraParams);
 
     }

@@ -54,14 +54,18 @@ class Factory
         $config = $sm
             ->get('VuFind\Config')->get('config');
         /**
+         * SpellConfig
+         *
          *  @var $spellConfig ZendConfig
-         * todo: no unit test so far - what happens if we provide an empty configuration
+         * todo: no unit test so far - what happens if we provide an empty configu
          * should be better as null
          */
         $spellConfig = isset($config->Spelling)
             ? $config->Spelling : new ZendConfig([]);
 
         /**
+         * Spelling Results
+         *
          *  @var $spellingResults SpellingResults
          */
         $spellingResults = $sm->get("sbSpellingResults");

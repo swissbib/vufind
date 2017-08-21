@@ -53,6 +53,8 @@ class Factory
         $factory = new PluginFactory();
 
         /**
+         * Create Service With Name Solr
+         *
          * @var $solr \Swissbib\VuFind\Search\Solr\Results
          */
         $solr = $factory->createServiceWithName($sm, 'solr', 'Solr');
