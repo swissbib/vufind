@@ -95,7 +95,12 @@ class Factory
     public static function getFavorites(ServiceManager $sm)
     {
         $factory = new PluginFactory();
-        $obj = $factory->createServiceWithName($sm, 'favorites', 'Favorites');
+        $tm = $sm->getServiceLocator()->get('VuFind\DbTablePluginManager');
+        $obj = $factory->createServiceWithName(
+            $sm, 'favorites', 'Favorites',
+            [$tm->get('Resource'), $tm->get('UserList')]
+        );
+
         $init = new \ZfcRbac\Initializer\AuthorizationServiceInitializer();
         $init->initialize($obj, $sm);
         return $obj;

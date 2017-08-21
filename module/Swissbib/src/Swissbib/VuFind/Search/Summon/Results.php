@@ -56,6 +56,13 @@ class Results extends VFSummonResults
     protected $target = 'summon';
 
     /**
+     * Configuration for QueryFacets for swissbib MyLibraries
+     *
+     * @var \Zend\Config\Config
+     */
+    protected $facetsConfig;
+    
+    /**
      * Turn the list of spelling suggestions into an array of urls
      *   for on-screen use to implement the suggestions.
      *

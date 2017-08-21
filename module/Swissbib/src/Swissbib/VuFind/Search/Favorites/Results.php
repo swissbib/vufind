@@ -44,6 +44,13 @@ use VuFind\Search\Favorites\Results as VFFavoriteResults;
 class Results extends VFFavoriteResults
 {
     /**
+     * Configuration for QueryFacets for swissbib MyLibraries
+     *
+     * @var \Zend\Config\Config
+     */
+    protected $facetsConfig;
+
+    /**
      * Returns the stored list of facets for the last search
      *
      * @param array $filter Array of field => on-screen description listing
@@ -113,4 +120,17 @@ class Results extends VFFavoriteResults
 
         return $retVal;
     }
+
+    /**
+     * Facets Configuration
+     *
+     * @param \Zend\Config\Config $facetsConfig the facet config
+     *
+     * @return void
+     */
+    public function setFacetsConfig(\Zend\Config\Config $facetsConfig)
+    {
+        $this->facetsConfig = $facetsConfig;
+    }
+
 }
