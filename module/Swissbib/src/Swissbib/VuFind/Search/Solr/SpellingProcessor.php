@@ -91,7 +91,7 @@ class SpellingProcessor extends VFSpellingProcessor
      * Constructor
      *
      * @param SpellingResults $spellingResults Spelling configuration (optional)
-     * @param ZendConfig $config configuration
+     * @param ZendConfig      $config          configuration
      *
      * todo: so far no unit tests - by now I simply extended the class
      * todo: because I had a problem with the setSpellingProcessor
