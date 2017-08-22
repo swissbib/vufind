@@ -5,7 +5,6 @@
         <li><a href="#faq1">User account / My swissbib</a></li>
         <li><a href="#faq2">Search / Online access</a></li>
         <li><a href="#faq3">Ordering</a></li>
-        <li><a href="#faq4">Technical questions</a></li>
     </ul>
 </nav>
 
@@ -24,6 +23,27 @@
             </div>
         </div>
     </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse36"
+                           aria-expanded="false">
+                            Why can I not log in?</a>
+                    </h4>
+                </div>
+                <div id="collapse36" class="panel-collapse collapse">
+                    <div class="panel-body"><p>Possible reasons include:</p>
+                        <ul style="list-style-type:disc">
+                            <li>You are not registered and therefore do not have a
+                                user account.
+                            </li>
+                            <li>You have used an outdated or wrong password.</li>
+                        </ul>
+                        <p>If none of these reasons apply, please <a
+                                href="<?= $this->url('feedback-home') ?>">contact</a>
+                            your library.</p></div>
+                    </div>
+                </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
@@ -66,6 +86,35 @@
                         items</i> to confirm your renewal.</p></div>
         </div>
     </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse35"
+                           aria-expanded="false">
+                            Why can I not renew my loans?</a>
+                    </h4>
+                </div>
+                <div id="collapse35" class="panel-collapse collapse">
+                    <div class="panel-body"><p>Possible reasons include:</p>
+                        <ul style="list-style-type:disc">
+                            <li>You have already renewed your loans five times and
+                                have to return them. If the item is not reserved, you
+                                can borrow the item again.
+                            </li>
+                            <li>The item was requested by other person, so you will
+                                need to bring it back.
+                            </li>
+                            <li>The loaning conditions are not the same for all
+                                libraries, so it is possible that you cannot renew
+                                your loan for that reason.
+                            </li>
+                        </ul>
+                        <p>If none of these reasons apply, please <a
+                                href="<?= $this->url('feedback-home') ?>">contact</a>
+                            your library.</p>
+                    </div>
+                </div>
+            </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
@@ -317,6 +366,40 @@
                             <li>The support program <i>SFX Services</i> will take you
                                 directly to the SFX menu, where you can access the
                                 full text or PDF and also view ordering options.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+	    <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse34"
+                           aria-expanded="false">
+                            Why does the link for full text/PDF not work?</a>
+                    </h4>
+                </div>
+                <div id="collapse34" class="panel-collapse collapse">
+                    <div class="panel-body"><p>Possible reasons include:</p>
+                        <ul style="list-style-type:disc">
+                            <li>You have not accessed the network of the library that
+                                has copyright for this item.
+                            </li>
+                            <li>You have not activated the <i>VPN-Client</i> (<a
+                                    href="<?= $this->redirectProtocolWrapper()
+                                        ->getWrappedURL(
+                                            'https://mobile.unibas.ch/home.html'
+                                        ) ?>" target="_blank">Basel</a> or <a
+                                    href="<?= $this->redirectProtocolWrapper()
+                                        ->getWrappedURL(
+                                            'http://www.unibe.ch/universitaet/campus__und__infrastruktur/rund_um_computer/internetzugang/zugang_auf_interne_ressourcen_mit_vpn/index_ger.html'
+                                        ) ?>" target="_blank">Bern</a>) , which gives
+                                you access.
+                            </li>
+                            <li>You are not a member of the network and can only
+                                access public items outside of the library. You can
+                                filter your results for <i>Free Access Online</i>
+                                under <i>Refine search</i>.
                             </li>
                         </ul>
                     </div>
@@ -790,94 +873,6 @@
                             their respective websites.</p></div>
                 </div>
             </div>
-
-        <h2><a id="faq4"></a>Technical questions</h2>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse34"
-                           aria-expanded="false">
-                            Why does the link for full text/PDF not work?</a>
-                    </h4>
-                </div>
-                <div id="collapse34" class="panel-collapse collapse">
-                    <div class="panel-body"><p>Possible reasons include:</p>
-                        <ul style="list-style-type:disc">
-                            <li>You have not accessed the network of the library that
-                                has copyright for this item.
-                            </li>
-                            <li>You have not activated the <i>VPN-Client</i> (<a
-                                    href="<?= $this->redirectProtocolWrapper()
-                                        ->getWrappedURL(
-                                            'https://mobile.unibas.ch/home.html'
-                                        ) ?>" target="_blank">Basel</a> or <a
-                                    href="<?= $this->redirectProtocolWrapper()
-                                        ->getWrappedURL(
-                                            'http://www.unibe.ch/universitaet/campus__und__infrastruktur/rund_um_computer/internetzugang/zugang_auf_interne_ressourcen_mit_vpn/index_ger.html'
-                                        ) ?>" target="_blank">Bern</a>) , which gives
-                                you access.
-                            </li>
-                            <li>You are not a member of the network and can only
-                                access public items outside of the library. You can
-                                filter your results for <i>Free Access Online</i>
-                                under <i>Refine search</i>.
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse35"
-                           aria-expanded="false">
-                            Why can I not renew my loans?</a>
-                    </h4>
-                </div>
-                <div id="collapse35" class="panel-collapse collapse">
-                    <div class="panel-body"><p>Possible reasons include:</p>
-                        <ul style="list-style-type:disc">
-                            <li>You have already renewed your loans five times and
-                                have to return them. If the item is not reserved, you
-                                can borrow the item again.
-                            </li>
-                            <li>The item was requested by other person, so you will
-                                need to bring it back.
-                            </li>
-                            <li>The loaning conditions are not the same for all
-                                libraries, so it is possible that you cannot renew
-                                your loan for that reason.
-                            </li>
-                        </ul>
-                        <p>If none of these reasons apply, please <a
-                                href="<?= $this->url('feedback-home') ?>">contact</a>
-                            your library.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse36"
-                           aria-expanded="false">
-                            Why can I not log in?</a>
-                    </h4>
-                </div>
-                <div id="collapse36" class="panel-collapse collapse">
-                    <div class="panel-body"><p>Possible reasons include:</p>
-                        <ul style="list-style-type:disc">
-                            <li>You are not registered and therefore do not have a
-                                user account.
-                            </li>
-                            <li>You have used an outdated or wrong password.</li>
-                        </ul>
-                        <p>If none of these reasons apply, please <a
-                                href="<?= $this->url('feedback-home') ?>">contact</a>
-                            your library.</p>
-
-                    </div>
-                </div>
                 <div>
                     <h2>Did you not find the answer to your question?</h2>
 
