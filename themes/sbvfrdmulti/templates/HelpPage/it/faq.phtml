@@ -697,16 +697,22 @@
                     <div class="panel-body"><p>Yes, as long as both libraries are
                             linked by a common dispatch service:</p>
                         <ul style="list-style-type:disc">
-                            <li>The internal dispatch service between <a
+                            <li>The internal delivery service in <a
                                     href="<?= $this->redirectProtocolWrapper()
                                         ->getWrappedURL(
                                             'http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/kurier-und-fernleihe/'
-                                        ) ?>" target="_blank">Basel</a> and <a
+                                        ) ?>" target="_blank">Basel</a> is free, and
+                                delivery takes one working day.
+                            </li>
+				<li>The internal delivery service in <a
                                     href="<?= $this->redirectProtocolWrapper()
                                         ->getWrappedURL(
                                             'http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/kurier/index_ger.html'
-                                        ) ?>" target="_blank">Bern</a> is free, and
-                                the item will arrive after one working day.
+                                        ) ?>" target="_blank">Bern</a> is free. Please check our <a
+                                    href="<?= $this->redirectProtocolWrapper()
+                                        ->getWrappedURL(
+                                            'http://www.unibe.ch/university/services/university_library/services/borrowing/courier/delivery_times_bernese_courier/index_eng.html'
+                                        ) ?>" target="_blank">website</a> for delivery times.
                             </li>
                             <li><a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"> IDS delivery service</a> operates between
                                 Aarau, Basel, Bern, Luzern, St.Gallen and Zurich. The
@@ -843,12 +849,18 @@
                                     href="<?= $this->redirectProtocolWrapper()
                                         ->getWrappedURL(
                                             'http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/kurier-und-fernleihe/'
-                                        ) ?>" target="_blank">Basel</a> and <a
+                                        ) ?>" target="_blank">Basel</a> is free, and
+                                delivery takes one working day.
+                            </li>
+				<li>The internal delivery service in <a
                                     href="<?= $this->redirectProtocolWrapper()
                                         ->getWrappedURL(
                                             'http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/kurier/index_ger.html'
-                                        ) ?>" target="_blank">Bern</a> is free, and
-                                delivery takes one working day.
+                                        ) ?>" target="_blank">Bern</a> is free. Please check our <a
+                                    href="<?= $this->redirectProtocolWrapper()
+                                        ->getWrappedURL(
+                                            'http://www.unibe.ch/university/services/university_library/services/borrowing/courier/delivery_times_bernese_courier/index_eng.html'
+                                        ) ?>" target="_blank">website</a> for delivery times.
                             </li>
                             <li>The <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"> IDS delivery service</a> runs between Basel,
                                 Bern, Luzern, St.Gallen and Zurich. One delivery
