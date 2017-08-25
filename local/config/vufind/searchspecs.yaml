@@ -587,6 +587,16 @@ LOC:
 
 # Section for Rara-Queries
 
+PublPlace:
+  DismaxFields:
+    - publplace_txt_mv
+    - publplace_additional_gnd_txt_mv
+  QueryFields:
+    publplace_txt_mv:
+      - [and, ~]
+    publplace_additional_gnd_txt_mv:
+      - [and, ~]
+
 Printer:
   DismaxFields:
     - author_prt_txt_mv
