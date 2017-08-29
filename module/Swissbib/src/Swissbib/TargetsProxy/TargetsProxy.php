@@ -105,16 +105,19 @@ class TargetsProxy
     /**
      * Initialize proxy with config
      *
-     * @param Config     $config  Config
-     * @param ZendLogger $logger  ZendLogger
-     * @param Request    $request Request
+     * @param VFConfigPluginManager     $configPluginManager  Config
+     * @param ZendLogger                $logger  ZendLogger
+     * @param Request                   $request Request
      */
-    public function __construct(VFConfigPluginManager $configPluginManager, ZendLogger $logger, Request $request)
+    public function __construct(VFConfigPluginManager $configPluginManager,
+                                ZendLogger $logger, Request $request)
     {
         $this->configPluginManager = $configPluginManager;
         $this->logger = $logger;
         $trustedProxies = explode(
-            ',', $this->configPluginManager->get('TargetsProxy')->get('TrustedProxy')->get('loadbalancer')
+            ',',
+            $this->configPluginManager->get('TargetsProxy')->get('TrustedProxy')
+                ->get('loadbalancer')
         );
 
         // Populate client info properties from request
@@ -251,7 +254,8 @@ class TargetsProxy
              *
              * @var \Zend\Config\Config $targetConfig
              */
-            $targetConfig = $this->configPluginManager->get('TargetsProxy')->get($targetKey);
+            $targetConfig =
+                $this->configPluginManager->get('TargetsProxy')->get($targetKey);
             $patternsIP = '';
             $patternsURL = '';
 

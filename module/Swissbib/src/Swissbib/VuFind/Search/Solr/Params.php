@@ -77,18 +77,18 @@ class Params extends VuFindSolrParams
      */
     protected $favoritesManager;
 
+    // @codingStandardsIgnoreStart
     /**
      * Constructor
      *
-    // @codingStandardsIgnoreStart
      * @param \VuFind\Search\Base\Options  $options          Options to use
      * @param \VuFind\Config\PluginManager $configLoader     Config loader
      * @param VuFindAuthManager            authManaegr        AuthManager
      * @param TypeLabelMappingHelper       $mappingHelper    HelperClass mappings
      * @param SwissbibFavoritesManager     $favoritesManager swissbib favorites Manager
      * @param HierarchicalFacetHelper      $facetHelper      Hierarchical facet helper
-    // @codingStandardsIgnoreEnd
      */
+    // @codingStandardsIgnoreEnd
     public function __construct($options, \VuFind\Config\PluginManager $configLoader,
         VuFindAuthManager $authManager,
         TypeLabelMappingHelper $mappingHelper,
