@@ -10,13 +10,13 @@ if (!$gndHeadings) {
 ?>
 <h4 class="list-group-item title"><?=$this->transEsc('Related Subjects')?></h4>
 <ul class="list-group">
+  <? $subjects = array(); ?>
   <?php foreach ($gndHeadings as $fieldIndex => $fieldData): ?>
     <?php foreach ($fieldData as $fieldValues): ?>
-      <li class="list-group-item">
         <?php
           $urlValues  = array();
 
-            // Add quotes if required
+          // Add quotes if required
           foreach ($fieldValues as $fieldValue) {
             if (strpos($fieldValue, ' ') !== false) {
               $urlValues[] = '"' . addslashes($fieldValue) . '"';
@@ -28,9 +28,14 @@ if (!$gndHeadings) {
           $lookFor    = implode(' ', $urlValues);
           $searchUrl  = $this->url('search-results') . '?lookfor=' . urlencode($lookFor) . '&amp;type=Subject';
 
-          echo '<a href="' . $searchUrl . '" title="' . $this->escapeHtml(implode(' > ', $fieldValues)) . '">' . $this->escapeHtml(implode(' > ', $fieldValues)) . '</a>';
+          if (!in_array($fieldValues, $subjects)) {
+            echo '<li class="list-group-item">';
+            echo '<a href="' . $searchUrl . '" title="' . $this->escapeHtml(implode(' > ', $fieldValues)) . '">' . $this->escapeHtml(implode(' > ', $fieldValues)) . '</a>';
+            echo '</li>';
+          }
+        array_push($subjects, $fieldValues);
         ?>
-      </li>
     <?php endforeach; ?>
   <?php endforeach; ?>
+  <? $subjects ?>
 </ul>
