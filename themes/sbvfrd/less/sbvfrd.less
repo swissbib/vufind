@@ -1305,52 +1305,53 @@ footer {
     background: none;
     box-shadow: none;
     height: 14px !important;
-    margin-top: -10px !important;
+    margin-top: -22px !important;
     width: 97% !important;
 
     & .slider-selection {
       background: none;
       box-shadow: none;
     }
+  }
 
-    & .slider-handle {
-      opacity: 1;
-      background-color: @link-color;
-      border-radius: 2px;
-      border: none;
-      text-align: center;
-      letter-spacing: 3px;
-      text-indent: 3px;
-      font-size: 16px;
-      vertical-align: middle;
-      height: auto;
-      width: auto;
-      padding: 1px 3px;
-      margin-top: 0 !important;
+  & .slider-handle {
+    opacity: 1;
+    background-color: @link-color;
+    background-image: none;
+    border-radius: 2px;
+    border: none;
+    text-align: center;
+    letter-spacing: 3px;
+    text-indent: 3px;
+    font-size: 16px;
+    vertical-align: middle;
+    height: auto;
+    width: auto;
+    padding: 1px 3px;
+    margin-top: 0 !important;
 
-      &:active,
-      &:focus,
-      &:hover {
-        background-color: @theme-color;
-      }
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: @theme-color;
+    }
+
+    &:before {
+      content: "\f0d9 \f0da";
+      font-family: FontAwesome;
+      color: @white;
+    }
+
+    &[style*="0%"] {
+      min-width: 27px;
 
       &:before {
-        content: "\f0d9 \f0da";
-        font-family: FontAwesome;
-        color: @white;
+        content: "\f0da";
       }
+    }
 
-      &[style*="0%"] {
-        min-width: 27px;
-
-        &:before {
-          content: "\f0da";
-        }
-      }
-
-      &[style*="100%"]:before {
-        content: "\f0d9";
-      }
+    &[style*="100%"]:before {
+      content: "\f0d9";
     }
   }
 }
