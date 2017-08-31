@@ -1,8 +1,8 @@
 <?php
 /** @var Array[] $holdings */
 /** @var String $record */
-/** @var String $institution */
 /** @var String $recordTitle */
+/** @var String $institution */
 
 $idTable = 'holdings-holding-' . $record . '-' . $institution;
 $flippedContent = '';
@@ -58,7 +58,8 @@ $headers = [
                 array(
                     'item'        => $item,
                     'record'      => $record,
-                    'recordTitle' => $recordTitle
+                    'recordTitle' => $recordTitle,
+                    'institution' => $institution
                 )
             );
 
@@ -68,6 +69,7 @@ $headers = [
                     'item'        => $item,
                     'record'      => $record,
                     'recordTitle' => $recordTitle,
+                    'institution' => $institution,
                     'headers'     => $headers,
                     'even'        => (0 === $index++ % 2)
                 )
