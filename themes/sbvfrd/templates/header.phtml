@@ -5,7 +5,12 @@
   <? $displayTestSystem = !empty($displayTestSystem) && ($displayTestSystem == "true" || $displayTestSystem == "1") ? "1" : 0; ?>
   <? if (!isset($this->layout()->renderingError)): ?>
     <div class="col-md-12">
-      <? $surveyUrl = $this->configAccess()->Survey->url ?>
+      <?
+        if ($this->layout()->userLang == "en") $surveyUrl = $this->configAccess()->Survey->url_en;
+        elseif ($this->layout()->userLang == "de") $surveyUrl = $this->configAccess()->Survey->url_de;
+        elseif ($this->layout()->userLang == "fr") $surveyUrl = $this->configAccess()->Survey->url_fr;
+        elseif ($this->layout()->userLang == "it") $surveyUrl = $this->configAccess()->Survey->url_it;
+      ?>
       <? $cookieName = $this->configAccess()->Survey->cookieName; ?>
       <? $cookiePersistenceInDays = $this->configAccess()->Survey->cookiePersistenceInDays; ?>
       <? if (isset($surveyUrl) && !isset($_COOKIE[$cookieName])): ?>
