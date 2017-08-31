@@ -5,7 +5,6 @@
         <li><a href="#faq1">Benutzungskonto / My swissbib</a>
         <li><a href="#faq2">Suchtipps / Online-Zugriff</a></li>
         <li><a href="#faq3">Bestellen</a></li>
-        <li><a href="#faq4">Technische Fragen</a></li>
     </ul>
 </nav>
 
@@ -22,6 +21,22 @@
             <div class="panel-body"><p>Der Link zum <a href="<?= $this->url('myresearch-userlogin') ?>">Anmelden</a> befindet sich oben rechts im orangen Kopfbereich der Webseite. Nach dem Draufklicken geben Sie Ihre Benutzungsnummer und Ihr Passwort ein.</p></div>
         </div>
     </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse36" aria-expanded="false">
+                    Wieso kann ich mich nicht anmelden?</a>
+            </h4>
+        </div>
+        <div id="collapse36" class="panel-collapse collapse">
+            <div class="panel-body"><p>Mögliche Gründe sind:</p>
+                <ul style="list-style-type:disc">
+                    <li>Sie sind noch nicht registriert und haben folglich kein Benutzungskonto.</li>
+                    <li>Sie haben kein aktuelles oder ein falsches Passwort verwendet.</li>
+                </ul>
+                <p>Trifft keiner dieser Gründe zu, nehmen Sie <a href="<?= $this->url('feedback-home') ?>">Kontakt</a> mit Ihrer Bibliothek auf.</p></div>
+            </div>
+        </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
@@ -53,6 +68,24 @@
         </div>
         <div id="collapse4" class="panel-collapse collapse">
             <div class="panel-body"><p>Wählen Sie in Ihrem Benutzungskonto <i>Ausleihen</i> an. Nun erscheint die Liste der von Ihnen ausgeliehenen Medien. Neben dem jeweiligen Medium befindet sich rechts ein Kästchen. Dieses klicken Sie bei den zu verlängernden Medien an und wählen anschliessend <i>Ausgewählte Ausleihen verlängern</i> an.</p></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse35" aria-expanded="false">
+                    Wieso kann ich meine Medien nicht verlängern?</a>
+            </h4>
+        </div>
+        <div id="collapse35" class="panel-collapse collapse">
+            <div class="panel-body"><p>Mögliche Gründe sind:</p>
+                <ul style="list-style-type:disc">
+                    <li>Sie haben die Medien bereits fünf Mal verlängert und müssen Sie zurückgeben. Wenn keine Reservation vorliegt, können Sie sie wieder neu ausleihen.</li>
+                    <li>Die Medien wurden von anderen Personen reserviert, Sie müssen die Medien zurückbringen.</li>
+                    <li>Für Fernleihen muss eine Verlängerung beantragt werden, diese kann nicht in allen Fällen garantiert werden. Wenden Sie sich an die Bibliothek, über die Sie das Medium bezogen haben. Für Medien, die Sie über die UB Bern bezogen haben, benutzen Sie das Verlängerungsformular auf der Website der UB Bern.</li>
+                </ul>
+                <p>Bei Fragen nehmen Sie <a href="<?= $this->url('feedback-home') ?>">Kontakt</a> mit Ihrer Bibliothek auf.</p>
+            </div>
         </div>
     </div>
     <div class="panel panel-default">
@@ -216,6 +249,23 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse34" aria-expanded="false">
+                    Warum funktioniert der Link zum Volltext/PDF nicht?</a>
+            </h4>
+        </div>
+        <div id="collapse34" class="panel-collapse collapse">
+            <div class="panel-body"><p>Mögliche Gründe sind:</p>
+                <ul style="list-style-type:disc">
+                    <li>Sie befinden sich nicht im Netz der Bibliothek, die die Lizenzrechte für dieses Medium erworben hat.</li>
+                    <li>Sie haben als Angehörige Ihrer Universität den <i>VPN-Client</i> (<a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('https://mobile.unibas.ch/home.html') ?>" target="_blank">Basel</a>, <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.unibe.ch/universitaet/campus__und__infrastruktur/rund_um_computer/internetzugang/zugang_auf_interne_ressourcen_mit_vpn/index_ger.html') ?>" target="_blank">Bern</a>) nicht aktiviert.</li>
+                    <li>Als Nichtuniversitätsangehörige haben Sie ausserhalb der Bibliothek nur auf die frei zugänglichen Inhalte Zugriff. Diese können Sie in der rechten Spalte unter <i>Suche verfeinern</i> mit dem Filter <i>Freier Zugang - Online</i> anzeigen lassen.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
                 <a data-toggle="collapse" href="#collapse18" aria-expanded="false">
                     Was bedeutet <i>erweiterte Suche</i> ?</a>
             </h4>
@@ -341,7 +391,7 @@
                     <li>Wählen Sie nun <i>Bestellen</i> an. Wenn diese Option nicht angezeigt wird, kann das Medium nicht elektronisch bestellt werden. In diesem Fall klicken Sie auf das Informations-Symbol <i class="fa fa-info-circle"></i> unterhalb des Standorts. So erfahren Sie Adresse und Öffnungszeiten der Bibliothek.</li>
                     <li>Die verschiedenen Bibliotheken bieten unterschiedliche Abhol- und Liefermöglichkeiten an. Details finden Sie auf der Webseite der jeweiligen <a href="<?= $this->basePath('Libraries') ?>" title="Liste der Institutionen">Bibliothek</a>.</li>
                 </ol></p>
-                <p>Eine ausführliche Anleitung finden Sie im <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('https://tube.switch.ch/videos/768768cb') ?>" target="_blank">Video</a>.</p></div>
+                <p>Eine ausführliche Anleitung finden Sie im <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('https://tube.switch.ch/videos/94f0f8b8') ?>" target="_blank">Video</a>.</p></div>
         </div>
     </div>
     <div class="panel panel-default">
@@ -372,7 +422,8 @@
         <div id="collapse29" class="panel-collapse collapse">
             <div class="panel-body"><p>Ja, sofern die beiden Bibliotheken an einem gemeinsamen Kuriersystem angebunden sind:</p>
                 <ul style="list-style-type:disc">
-                    <li>Der ortsinterne Kurierdienst in <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/kurier-und-fernleihe/') ?>" target="_blank">Basel</a> bzw. <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/kurier/index_ger.html') ?>" target="_blank">Bern</a> ist gratis, die Lieferfrist beträgt einen Arbeitstag.</li>
+                    <li>Der ortsinterne Kurierdienst in <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/kurier-und-fernleihe/') ?>" target="_blank">Basel</a> ist gratis, die Lieferfrist beträgt einen Arbeitstag.</li>
+                    <li>Der ortsinterne Kurierdienst in <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/kurier/index_ger.html') ?>" target="_blank">Bern</a> ist gratis, die Lieferfristen entnehmen Sie unserer <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/kurier/lieferfristen_berner_kurier/index_ger.html') ?>" target="_blank">Webseite</a>.</li>                   
                     <li>Der <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"><?= $this->transEsc('IDS-Kurierdienst') ?></a> verkehrt zwischen Aarau, Basel, Bern, Luzern, St.Gallen und Zürich. Die Kurierbestellung kostet 5 CHF, welche Sie beim Abholen bar bezahlen müssen. Die Lieferfrist beträgt zwei Arbeitstage. Wenn Sie Medien aus Luzern, St.Gallen oder Zürich ausleihen möchten, bestellen Sie diese über den Katalog <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('https://www.swissbib.ch/') ?>" target="_blank">swissbib CH</a>. Eine Anleitung dazu finden Sie in unserem <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://swissbib-baselbern.blogspot.ch/2016/06/uber-swissbibch-medien-bestellen.html') ?>" target="_blank">Blogbeitrag</a>.</li>
                 </ul>
             </div>
@@ -438,7 +489,8 @@
         <div id="collapse33" class="panel-collapse collapse">
             <div class="panel-body"><p>Die Kosten und Lieferfristen sind nicht bei allen Kurierdiensten dieselben:</p>
                 <ul style="list-style-type:disc">
-                    <li>Der ortsinterne Kurierdienst in <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/kurier-und-fernleihe/') ?>" target="_blank">Basel</a> bzw. <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/kurier/index_ger.html') ?>" target="_blank">Bern</a> ist gratis, die Lieferfrist beträgt einen Arbeitstag.</li>
+                    <li>Der ortsinterne Kurierdienst in <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/ub-hauptbibliothek/dienstleistungen/ausleihe/kurier-und-fernleihe/') ?>" target="_blank">Basel</a> ist gratis, die Lieferfrist beträgt einen Arbeitstag.</li>
+                    <li>Der ortsinterne Kurierdienst in <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/kurier/index_ger.html') ?>" target="_blank">Bern</a> ist gratis, die Lieferfristen entnehmen Sie unserer <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/service/ausleihe/kurier/lieferfristen_berner_kurier/index_ger.html') ?>" target="_blank">Webseite</a>.</li>                   
                     <li>Der <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"><?= $this->transEsc('IDS-Kurierdienst') ?></a> verkehrt zwischen Basel, Bern, Luzern, St.Gallen und Zürich. Die Kurierbestellung kostet 5 CHF, welche Sie beim Abholen bar bezahlen müssen. Die Lieferfrist beträgt zwei Arbeitstage.</li>
                     <li>Der Postversand an Ihre Heimadresse kostet 12 CHF pro Medium. Die Bearbeitung und der Versand erfolgen von Montag bis Freitag innerhalb von 24 Stunden.</li>
                     <li>Bei Kopienbestellungen betragen die Kosten pro 20 Seiten für Privatkunden 5 CHF, für Firmenkunden 25 CHF. Die Kosten werden vom IDS Basel Bern in Rechnung gestellt. Die Bestellungen werden von Montag bis Freitag innerhalb von 24 Stunden bearbeitet.</li>
@@ -446,63 +498,8 @@
                 <p>Die oben genannten Gebühren gelten nur für die Bibliotheken der Universitäten Basel und Bern. Die Gebühren der anderen <a href="<?= $this->basePath('Libraries') ?>" title="Liste der Institutionen">Bibliotheken</a> erfahren Sie auf deren Webseite.</p></div>
         </div>
     </div>
-
-
-<h2><a id="faq4""></a>Technische Fragen</h2>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" href="#collapse34" aria-expanded="false">
-                    Warum funktioniert der Link zum Volltext/PDF nicht?</a>
-            </h4>
-        </div>
-        <div id="collapse34" class="panel-collapse collapse">
-            <div class="panel-body"><p>Mögliche Gründe sind:</p>
-                <ul style="list-style-type:disc">
-                    <li>Sie befinden sich nicht im Netz der Bibliothek, die die Lizenzrechte für dieses Medium erworben hat.</li>
-                    <li>Sie haben als Angehörige Ihrer Universität den <i>VPN-Client</i> (<a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('https://mobile.unibas.ch/home.html') ?>" target="_blank">Basel</a>, <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.unibe.ch/universitaet/campus__und__infrastruktur/rund_um_computer/internetzugang/zugang_auf_interne_ressourcen_mit_vpn/index_ger.html') ?>" target="_blank">Bern</a>) nicht aktiviert.</li>
-                    <li>Als Nichtuniversitätsangehörige haben Sie ausserhalb der Bibliothek nur auf die frei zugänglichen Inhalte Zugriff. Diese können Sie in der rechten Spalte unter <i>Suche verfeinern</i> mit dem Filter <i>Freier Zugang - Online</i> anzeigen lassen.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" href="#collapse35" aria-expanded="false">
-                    Wieso kann ich meine Medien nicht verlängern?</a>
-            </h4>
-        </div>
-        <div id="collapse35" class="panel-collapse collapse">
-            <div class="panel-body"><p>Mögliche Gründe sind:</p>
-                <ul style="list-style-type:disc">
-                    <li>Sie haben die Medien bereits fünf Mal verlängert und müssen Sie zurückgeben. Wenn keine Reservation vorliegt, können Sie sie wieder neu ausleihen.</li>
-                    <li>Die Medien wurden von anderen Personen reserviert, Sie müssen die Medien zurückbringen.</li>
-                    <li>Die Leihbedingungen sind nicht bei allen Bibliotheken dieselben, es kann sein, dass Sie deshalb Medien nicht verlängern können.</li>
-                </ul>
-                <p>Trifft keiner dieser Gründe zu, nehmen Sie <a href="<?= $this->url('feedback-home') ?>">Kontakt</a> mit Ihrer Bibliothek auf.</p>
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" href="#collapse36" aria-expanded="false">
-                    Wieso kann ich mich nicht anmelden?</a>
-            </h4>
-        </div>
-        <div id="collapse36" class="panel-collapse collapse">
-            <div class="panel-body"><p>Mögliche Gründe sind:</p>
-                <ul style="list-style-type:disc">
-                    <li>Sie sind noch nicht registriert und haben folglich kein Benutzungskonto.</li>
-                    <li>Sie haben kein aktuelles oder ein falsches Passwort verwendet.</li>
-                </ul>
-                <p>Trifft keiner dieser Gründe zu, nehmen Sie <a href="<?= $this->url('feedback-home') ?>">Kontakt</a> mit Ihrer Bibliothek auf.</p>
-            </div>
-        </div>
         <div>
             <h2>Sie haben für Ihre Frage keine Antwort gefunden?</h2>
             <p>Gerne unterstützen wir Sie bei der Recherche und beim Bestellen in unserem Katalog oder nehmen Ihre Anregungen und Kritik entgegen: <a href="<?= $this->url('feedback-home') ?>">Kontakt</a></p>
         </div>
     </div>
-</div>

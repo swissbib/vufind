@@ -235,30 +235,6 @@ WLD:
     origcountry_isn_mv:
       - [onephrase, ~]
 
-FormerOwner:
-  DismaxFields:
-    - author_fmo_txt_mv
-  QueryFields:
-    author_fmo_txt_mv:
-      - [and, ~]
-
-Annotator:
-  DismaxFields:
-    - author_ann_txt_mv
-  QueryFields:
-    author_ann_txt_mv:
-      - [and, ~]
-
-RaraPerson:
-  DismaxFields:
-    - author_fmo_txt_mv
-    - author_ann_txt_mv
-  QueryFields:
-    author_ann_txt_mv:
-      - [and, ~]
-    author_fmo_txt_mv:
-      - [and, ~]
-
 Title:
   DismaxHandler: edismax
   DismaxFields:
@@ -608,6 +584,191 @@ LOC:
   QueryFields:
     location_str_mv:
          - [onephrase, ~]
+
+# Section for Rara-Queries
+
+PublPlace:
+  DismaxFields:
+    - publplace_txt_mv
+    - publplace_additional_gnd_txt_mv
+  QueryFields:
+    publplace_txt_mv:
+      - [and, ~]
+    publplace_additional_gnd_txt_mv:
+      - [and, ~]
+
+Printer:
+  DismaxFields:
+    - author_prt_txt_mv
+  QueryFields:
+    author_prt_txt_mv:
+      - [and, ~]
+
+Bookseller:
+  DismaxFields:
+    - author_bsl_txt_mv
+  QueryFields:
+    author_bsl_txt_mv:
+      - [and, ~]
+
+Publisher:
+  DismaxFields:
+    - author_pbl_txt_mv
+  QueryFields:
+    author_pbl_txt_mv:
+      - [and, ~]
+
+RaraPBP:
+  DismaxFields:
+    - author_prt_txt_mv
+    - author_bsl_txt_mv
+    - author_pbl_txt_mv
+  QueryFields:
+    author_prt_txt_mv:
+      - [and, ~]
+    author_bsl_txt_mv:
+      - [and, ~]
+    author_pbl_txt_mv:
+      - [and, ~]
+
+FormerOwner:
+  DismaxFields:
+    - author_fmo_txt_mv
+  QueryFields:
+    author_fmo_txt_mv:
+      - [and, ~]
+
+Annotator:
+  DismaxFields:
+    - author_ann_txt_mv
+  QueryFields:
+    author_ann_txt_mv:
+      - [and, ~]
+
+Inscriber:
+  DismaxFields:
+    - author_ins_txt_mv
+  QueryFields:
+    author_ins_txt_mv:
+      - [and, ~]
+
+Binder:
+  DismaxFields:
+    - author_bnd_txt_mv
+  QueryFields:
+    author_bnd_txt_mv:
+      - [and, ~]
+
+Honoree:
+  DismaxFields:
+    - author_hnr_txt_mv
+  QueryFields:
+    author_hnr_txt_mv:
+      - [and, ~]
+
+Dedicatee:
+  DismaxFields:
+    - author_dte_txt_mv
+  QueryFields:
+    author_dte_txt_mv:
+      - [and, ~]
+
+RaraPerson:
+  DismaxFields:
+    - author_fmo_txt_mv
+    - author_ann_txt_mv
+    - author_ins_txt_mv
+    - author_bnd_txt_mv
+    - author_hnr_txt_mv
+    - author_dte_txt_mv
+  QueryFields:
+    author_ann_txt_mv:
+      - [and, ~]
+    author_fmo_txt_mv:
+      - [and, ~]
+    author_ins_txt_mv:
+      - [and, ~]
+    author_bnd_txt_mv:
+      - [and, ~]
+    author_hnr_txt_mv:
+      - [and, ~]
+    author_dte_txt_mv:
+      - [and, ~]
+
+Praeses:
+  DismaxFields:
+    - author_pra_txt_mv
+  QueryFields:
+    author_pra_txt_mv:
+      - [and, ~]
+
+Respondent:
+  DismaxFields:
+    - author_rsp_txt_mv
+  QueryFields:
+    author_rsp_txt_mv:
+      - [and, ~]
+
+RaraDiss:
+  DismaxFields:
+    - author_pra_txt_mv
+    - author_rsp_txt_mv
+  QueryFields:
+    author_pra_txt_mv:
+      - [and, ~]
+    author_rsp_txt_mv:
+      - [and, ~]
+
+Cartographer:
+  DismaxFields:
+    - author_ctg_txt_mv
+  QueryFields:
+    author_ctg_txt_mv:
+      - [and, ~]
+
+Illustrator:
+  DismaxFields:
+    - author_ill_txt_mv
+  QueryFields:
+    author_ill_txt_mv:
+      - [and, ~]
+
+Printmaker:
+  DismaxFields:
+    - author_prm_txt_mv
+  QueryFields:
+    author_prm_txt_mv:
+      - [and, ~]
+
+Etcher:
+  DismaxFields:
+    - author_etr_txt_mv
+  QueryFields:
+    author_etr_txt_mv:
+      - [and, ~]
+
+Engraver:
+  DismaxFields:
+    - author_egr_txt_mv
+  QueryFields:
+    author_egr_txt_mv:
+      - [and, ~]
+
+RaraIllustrator:
+  DismaxFields:
+    - author_ill_txt_mv
+    - author_prm_txt_mv
+    - author_etr_txt_mv
+    - author_egr_txt_mv
+  QueryFields:
+    author_ill_txt_mv:
+      - [and, ~]
+    author_prm_txt_mv:
+      - [and, ~]
+    author_etr_txt_mv:
+      - [and, ~]
+    author_egr_txt_mv:
+      - [and, ~]
 
 Autosuggest:
   DismaxHandler: dismax
