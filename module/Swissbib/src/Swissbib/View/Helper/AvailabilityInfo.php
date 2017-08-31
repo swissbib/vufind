@@ -363,14 +363,14 @@ class AvailabilityInfo extends AbstractHelper
 
         } else {
             switch ($institution) {
-                case 'NATIONALLICENCE':
-                    $info = $escapedTranslation('onlineAvailableForSwiss');
+            case 'NATIONALLICENCE':
+                $info = $escapedTranslation('onlineAvailableForSwiss');
                 break;
-                case 'RETROS':
-                    $info = $escapedTranslation('onlineAvailable');
+            case 'RETROS':
+                $info = $escapedTranslation('onlineAvailable');
                 break;
-                default:
-                    $info = $escapedTranslation('no_ava_info');
+            default:
+                $info = $escapedTranslation('no_ava_info');
             }
         }
 
