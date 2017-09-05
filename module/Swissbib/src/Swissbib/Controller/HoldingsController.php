@@ -73,6 +73,7 @@ class HoldingsController extends BaseController
             $holdingsData = [];
         }
 
+        $holdingsData['driver'] = $record;
         $holdingsData['record'] = $idRecord;
         $holdingsData['recordTitle'] = $record->getTitle();
         $holdingsData['institution'] = $institution;

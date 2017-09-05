@@ -30,7 +30,15 @@ $holdingActionsContent = $this->holdingActions($item, 'holdingActionsItem', $rec
 if (preg_match('/[\s\S]*<ul[\s\S]*<\/ul>[\s\S]*/', $holdingActionsContent)): ?>
   <tr>
     <th><?= isset($headers['action']) ? $headers['action'] : '' ?></th>
-    <td><?= $holdingActionsContent; ?> </td>
+    <td>
+    <?php if ($institution == 'NATIONALLICENCE'): ?>
+      <?php $nlUrl = $this->nationalLicences()->getUrl($driver)['url']; ?>
+      <?php $wrappedURL = $this->redirectProtocolWrapper()->getWrappedURL($nlUrl) ?>
+      <a href="<?= $this->escapeHtml($wrappedURL) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>">Get it Online (National Licence)</a>
+    <?php else: ?>
+      <?= $holdingActionsContent ?>
+    <?php endif; ?>
+    </td>
   </tr>
 <? endif; ?>
 <tr>
