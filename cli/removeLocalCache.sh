@@ -10,7 +10,21 @@ LOGFILE=$VUFIND_DEPLOY_LOG/remove.local.cache.$TIMESTAMP.log
 
 if [ "$UID"  -eq 0 ]; then
 
-    for cacheDir in local/classic/local/cache local/baselbern/local/cache local/jus/local/cache
+    declare -a hosts=("local/classic/local/cache"
+                     "local/baselbern/local/cache"
+                     "local/jus/local/cache"
+                     "local/classic/test/cache"
+                     "local/baselbern/test/cache"
+                     "local/jus/justest/cache"
+                     "local/classic/develop/cache"
+                     "local/baselbern/devbabe/cache"
+                     "local/jus/jusdev/cache"
+                     "local/classic/productive/cache"
+                     "local/baselbern/productive/cache"
+                     "local/jus/productive/cache"
+                     )
+
+    for cacheDir in "${hosts[@]}"
     do
         VUFIND_CACHE=$VUFIND_BASE/${cacheDir}
         echo "Trying to remove local cache: ${VUFIND_CACHE}"

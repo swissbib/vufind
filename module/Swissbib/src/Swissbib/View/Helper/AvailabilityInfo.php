@@ -113,7 +113,7 @@ class AvailabilityInfo extends AbstractHelper
      *
      * @return String
      */
-    public function __invoke($availability)
+    public function __invoke($availability, $institution)
     {
         $escapedTranslation = $this->getView()->plugin('transEsc');
 
@@ -362,7 +362,18 @@ class AvailabilityInfo extends AbstractHelper
             }
 
         } else {
-            $info = $escapedTranslation('no_ava_info');
+            switch ($institution) {
+            case 'NATIONALLICENCE':
+                $info = $escapedTranslation('onlineAvailableForSwiss');
+                break;
+            case 'RETROS':
+            case 'BORIS':
+            case 'ECOD':
+                $info = $escapedTranslation('onlineAvailable');
+                break;
+            default:
+                $info = $escapedTranslation('no_ava_info');
+            }
         }
 
         return $info;
