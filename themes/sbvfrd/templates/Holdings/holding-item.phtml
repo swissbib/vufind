@@ -1,7 +1,9 @@
 <?php
 /** @var Array $item */
+/** @var String $driver */
 /** @var String $record */
 /** @var String $recordTitle */
+/** @var String $institution */
 
 $mapLink = '';
 
@@ -20,11 +22,19 @@ if (isset($item['locationMap']) && $item['locationMap']) {
 
 ?>
 <tr>
-  <td><?= $this->holdingActions($item, 'holdingActionsItem', $record) ?> </td>
+  <td>
+    <?php if ($institution == 'NATIONALLICENCE'): ?>
+      <?php $nlUrl = $this->nationalLicences()->getUrl($driver)['url']; ?>
+      <?php $wrappedURL = $this->redirectProtocolWrapper()->getWrappedURL($nlUrl) ?>
+      <a href="<?= $this->escapeHtml($wrappedURL) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>">Get it Online (National Licence)</a>
+    <?php else: ?>
+      <?= $this->holdingActions($item, 'holdingActionsItem', $record) ?>
+    <?php endif; ?>
+  </td>
   <td> <? if ($item['network'] === 'HAN'): ?>
       <div class='availability fa-check'><div> <?= $this->transEsc('use-on-site'); ?> </div></div>
     <? else: ?>
-    <?= $this->availabilityInfo($item['availability']) ?>
+    <?= $this->availabilityInfo($item['availability'], $institution) ?>
       <? if (($item['network'] === 'IDSBB') && (isset($item['holding_status']) | isset($item['process_status'])) && (($item['holding_status'] === '55') | ($item['process_status'] === 'ES'))): ?>
         <? $addressURL = $this->redirectProtocolWrapper()->getWrappedURL('http://aleph.unibas.ch/F/?func=item-loan&adm_library=DSV51&doc_number='. $item['localid'] . '&item_sequence='. $item['sequencenumber']); ?>
         <a href="<?= $this->escapeHtml($addressURL)?>" target="_blank" title="<?= $this->transEsc('Address') ?>"><?= $this->transEsc('Address') ?></a>

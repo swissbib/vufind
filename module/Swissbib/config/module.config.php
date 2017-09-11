@@ -250,7 +250,6 @@ return [
             'ajax' => 'Swissbib\Controller\Factory::getAjaxController',
             'search' => 'Swissbib\Controller\Factory::getSearchController',
             'record' => 'Swissbib\Controller\Factory::getRecordController',
-            'cart'   => 'VuFind\Controller\Factory::getCartController',
             'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
             'summon' => 'Swissbib\Controller\Factory::getSummonController',
