@@ -842,23 +842,25 @@ class NationalLicence implements ServiceLocatorAwareInterface
                             $user->save();
                         }
                     }
+                }
 
-                    /*
+
+                /*
                     for the users :
-                    - who have an active temporary access
+                    - who have an active access
                     - and verified their address within 14 days after
                       activating the temporary access
                     We create the permanent access
                     */
 
-                    if ($this->hasVerifiedSwissAddress($user)
-                        && !$this->hasPermanentAccess($user)
-                    ) {
-                        echo "Set permanent access (temporary access still valid)";
-                        $this->createPermanentAccessForUser(
-                            $user->getPersistentId()
-                        );
-                    }
+                if ($this->hasVerifiedSwissAddress($user)
+                    && $this->isNationalLicenceCompliant($user)
+                    && !($this->hasPermanentAccess($user))
+                ) {
+                    echo "Set permanent access (access was still valid)";
+                    $this->createPermanentAccessForUser(
+                        $user->getPersistentId()
+                    );
                 }
 
                 /*
@@ -892,7 +894,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
                 // This also takes care of expired temporary accesses
 
                 if ($this->switchApiService->userIsOnNationalCompliantSwitchGroup($e)
-                    && !$this->isNationalLicenceCompliant($user)
+                    && !($this->isNationalLicenceCompliant($user))
                 ) {
                     echo "Unset national compliant flag.....\r\n";
                     //Unset the national licence compliant flag
