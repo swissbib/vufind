@@ -844,7 +844,6 @@ class NationalLicence implements ServiceLocatorAwareInterface
                     }
                 }
 
-
                 /*
                     for the users :
                     - who have an active access
