@@ -855,11 +855,11 @@ class NationalLicence implements ServiceLocatorAwareInterface
                         && !$this->hasPermanentAccess($user)
                     ) {
                         echo "Set permanent access (temporary access still valid)";
-                        $this->createPermanentAccessForUser($user->getPersistentId());
+                        $this->createPermanentAccessForUser(
+                            $user->getPersistentId()
+                        );
                     }
                 }
-
-                $e = $user->getEduId();
 
                 /*
                     for the users :
@@ -871,8 +871,14 @@ class NationalLicence implements ServiceLocatorAwareInterface
                     verified their address
                 */
 
+                $e = $user->getEduId();
+                $onNationalCompliantSwitchGroup
+                    = $this->switchApiService->userIsOnNationalCompliantSwitchGroup(
+                        $e
+                    );
+
                 if ($this->isNationalLicenceCompliant($user)
-                    && !$this->switchApiService->userIsOnNationalCompliantSwitchGroup($e)
+                    && !$onNationalCompliantSwitchGroup
                 ) {
                     echo "Set permanent access (new access)";
                     $this->createPermanentAccessForUser($user->getPersistentId());
