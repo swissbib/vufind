@@ -842,15 +842,48 @@ class NationalLicence implements ServiceLocatorAwareInterface
                             $user->save();
                         }
                     }
+
+                    /*
+                    for the users :
+                    - who have an active temporary access
+                    - and verified their address within 14 days after
+                      activating the temporary access
+                    We create the permanent access
+                    */
+
+                    if ($this->hasVerifiedSwissAddress($user)
+                        && !$this->hasPermanentAccess($user)
+                    ) {
+                        echo "Set permanent access (temporary access still valid)";
+                        $this->createPermanentAccessForUser($user->getPersistentId());
+                    }
                 }
+
+                $e = $user->getEduId();
+
+                /*
+                    for the users :
+                    - who didn't activated their temporary access
+                    - or verified their address more than 14 days after
+                      activating the temporary access
+                    The crontab will activate the nationalLicencesCompliant
+                    Flag at Switch as soon as they
+                    verified their address
+                */
+
+                if ($this->isNationalLicenceCompliant($user)
+                    && !$this->switchApiService->userIsOnNationalCompliantSwitchGroup($e)
+                ) {
+                    echo "Set permanent access (new access)";
+                    $this->createPermanentAccessForUser($user->getPersistentId());
+                }
+
                 //if user is not anymore compliant with their homePostalAddress
                 //No address -->remove flag
                 //Postal address not verified anymore --> remove user to national
                 // compliant group
                 //Postal address not in CH -->remove user to national compliant group
                 // This also takes care of expired temporary accesses
-
-                $e = $user->getEduId();
 
                 if ($this->switchApiService->userIsOnNationalCompliantSwitchGroup($e)
                     && !$this->isNationalLicenceCompliant($user)
