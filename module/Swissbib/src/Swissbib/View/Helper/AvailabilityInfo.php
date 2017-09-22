@@ -110,6 +110,7 @@ class AvailabilityInfo extends AbstractHelper
      * Convert availability info into html string
      *
      * @param Boolean|Array $availability Availability
+     * @param String        $institution  Institution
      *
      * @return String
      */
