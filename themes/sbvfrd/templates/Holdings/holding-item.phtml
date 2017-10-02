@@ -26,7 +26,7 @@ if (isset($item['locationMap']) && $item['locationMap']) {
     <?php if ($institution == 'NATIONALLICENCE'): ?>
       <?php $nlUrl = $this->nationalLicences()->getUrl($driver)['url']; ?>
       <?php $wrappedURL = $this->redirectProtocolWrapper()->getWrappedURL($nlUrl) ?>
-      <a href="<?= $this->escapeHtml($wrappedURL) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>">Get it Online (National Licence)</a>
+      <a href="<?= $this->escapeHtml($wrappedURL) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>">Get it Online</a>
     <?php else: ?>
       <?= $this->holdingActions($item, 'holdingActionsItem', $record) ?>
     <?php endif; ?>
