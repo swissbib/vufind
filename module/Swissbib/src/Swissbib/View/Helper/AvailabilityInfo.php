@@ -369,6 +369,7 @@ class AvailabilityInfo extends AbstractHelper
                 break;
             case 'RETROS':
             case 'BORIS':
+            case 'EDOC':
             case 'ECOD':
                 $info = $escapedTranslation('onlineAvailable');
                 break;
