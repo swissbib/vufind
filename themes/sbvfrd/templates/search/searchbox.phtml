@@ -26,7 +26,7 @@
         $withTabsClass = '';
     ?>
     <? if (count($searchtabs) > 0): ?>
-      <?= $this->context($this)->renderInContext('search/searchTabs', ['searchTabs' => $searchtabs]); ?>
+      <?= $this->context($this)->renderInContext('search/searchTabs', ['searchTabs' => $searchtabs['tabs']]); ?>
 
       <? $withTabsClass = ' tabsVisible' ?>
     <? endif; ?>
@@ -55,7 +55,7 @@
 
     <div class="search-tabs-box">
     <? if (count($searchtabs) > 0): ?>
-      <?= $this->context($this)->renderInContext('search/searchTabs', ['searchTabs' => $searchtabs]); ?>
+      <?= $this->context($this)->renderInContext('search/searchTabs', ['searchTabs' => $searchtabs['tabs']]); ?>
 
     <? endif; ?>
     </div>
