@@ -507,6 +507,25 @@ class NationalLicence implements ServiceLocatorAwareInterface
         return $state === 'Switzerland';
     }
 
+
+    /**
+     * Check if a user is an SWITCH edu-ID user
+     *
+     * @param NationalLicenceUser $user NationalLicenceUser
+     *
+     * @return bool True if it's a SWITCH edu-ID user
+     */
+    public function isEduIDUser($user)
+    {
+        $persistentId = $user->getPersistentId();
+        if (0 === strpos($persistentId, "https://eduid.ch/idp/shibboleth")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     /**
      * Set request permanent access to user.
      *
@@ -806,6 +825,10 @@ class NationalLicence implements ServiceLocatorAwareInterface
          */
         foreach ($users as $user) {
             echo "\r\n" . 'Processing user ' . $user->getEduId() . ".\r\n";
+            if (!$this->isEduIDUser($user)) {
+                echo "Not edu-ID user : skip.";
+                continue;
+            }
             //Update attributes from the edu-Id account
             try{
                 $user = $this->switchApiService->getUserUpdatedInformation(
