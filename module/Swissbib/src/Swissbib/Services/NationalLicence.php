@@ -507,7 +507,6 @@ class NationalLicence implements ServiceLocatorAwareInterface
         return $state === 'Switzerland';
     }
 
-
     /**
      * Check if a user is an SWITCH edu-ID user
      *
@@ -524,7 +523,6 @@ class NationalLicence implements ServiceLocatorAwareInterface
             return false;
         }
     }
-
 
     /**
      * Set request permanent access to user.
