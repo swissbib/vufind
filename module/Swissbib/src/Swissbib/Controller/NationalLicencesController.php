@@ -54,10 +54,10 @@ class NationalLicencesController extends BaseController
      *
      * @param NationalLicence $nationalLicenceService NationalLicence.
      */
-    public function __construct(NationalLicence $nationalLicenceService, ServiceLocator $sm)
+    public function __construct(ServiceLocator $sl)
     {
-        $this->nationalLicenceService = $nationalLicenceService;
-        $this->nationalLicenceService->setServiceLocator($sm);
+        $this->nationalLicenceService = $sl->get('Swissbib\NationalLicenceService');
+        $this->nationalLicenceService->setServiceLocator($sl);
     }
 
     /**

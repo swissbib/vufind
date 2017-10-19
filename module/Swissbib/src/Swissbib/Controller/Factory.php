@@ -107,7 +107,7 @@ class Factory
         $sl = $sm->getServiceLocator();
 
         return new NationalLicencesController(
-            $sl->get('Swissbib\NationalLicenceService'), $sl
+            $sl
         );
     }
 
