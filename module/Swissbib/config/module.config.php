@@ -501,9 +501,9 @@ return [
         ],
 
         'db_table' => [
-            'invokeables' => [
-                'nationallicence' => 'Swissbib\VuFind\Db\Table\NationalLicenceUser'
-            ]
+            'factories' => [
+                'nationallicence' => 'Swissbib\VuFind\Db\Table\Factory:getNationalLicenceUser'
+]
         ]
     ],
 ];

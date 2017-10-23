@@ -104,10 +104,8 @@ class Factory
      */
     public function getNationalLicenceController(ServiceManager $sm)
     {
-        $sl = $sm->getServiceLocator();
-
         return new NationalLicencesController(
-            $sl
+            $sm->getServiceLocator()
         );
     }
 

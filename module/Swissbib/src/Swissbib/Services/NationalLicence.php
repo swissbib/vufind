@@ -219,7 +219,7 @@ class NationalLicence
      */
     protected function getTable($table)
     {
-        return $this->getServiceLocator()
+        return $this->serviceLocator
             ->get('VuFind\DbTablePluginManager')
             ->get($table);
     }
