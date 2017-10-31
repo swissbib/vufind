@@ -71,7 +71,7 @@ class Factory
      * @return object
      */
     public static function getGenericTable($name, ServiceManager $sm,
-                                           $rowName = null, $args = []
+        $rowName = null, $args = []
     ) {
         // Prepend the current namespace unless we receive a FQCN:
         $class = (strpos($name, '\\') === false)

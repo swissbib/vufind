@@ -102,7 +102,7 @@ class PluginFactory extends VuFindParamsPluginFactory
         $labelMappingHelper = $serviceLocator->getServiceLocator()->get(
             'Swissbib\TypeLabelMappingHelper'
         );
-        $favoriteInstitutionsManager =$serviceLocator->getServiceLocator()->get(
+        $favoriteInstitutionsManager = $serviceLocator->getServiceLocator()->get(
             'Swissbib\FavoriteInstitutions\Manager'
         );
         $class = $this->getClassName($name, $requestedName);
