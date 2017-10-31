@@ -227,7 +227,6 @@ $config = [
             'VuFind\SearchRunner' => 'VuFind\Service\Factory::getSearchRunner',
             'VuFind\SearchSpecsReader' => 'VuFind\Service\Factory::getSearchSpecsReader',
             'VuFind\SearchTabsHelper' => 'VuFind\Service\Factory::getSearchTabsHelper',
-            'VuFind\NationalLicences' => 'VuFind\Service\Factory::getNationalLicences',
             'VuFind\SessionManager' => 'VuFind\Session\ManagerFactory',
             'VuFind\SessionPluginManager' => 'VuFind\Service\Factory::getSessionPluginManager',
             'VuFind\SMS' => 'VuFind\SMS\Factory',

@@ -409,6 +409,16 @@ return [
                     'amazon' => 'Swissbib\Content\Covers\Factory::getAmazon',
                 ],
             ],
+            'db_table' => [
+                'factories' => [
+                    'nationallicence' => 'Swissbib\VuFind\Db\Table\Factory::getNationalLicenceUser',
+                ]
+            ],
+            'db_row' => [
+                'factories' => [
+                    'nationallicence' => 'Swissbib\VuFind\Db\Row\Factory::getNationalLicenceUser',
+                ]
+            ],
             'recommend' => [
                 'factories' => [
                     'favoritefacets' => 'Swissbib\Services\Factory::getFavoriteFacets',
@@ -497,13 +507,6 @@ return [
                     'solrauthorfacets' => 'Swissbib\VuFind\Search\Results\Factory::getSolrAuthorFacets',
                 ],
             ]
-
-        ],
-
-        'db_table' => [
-            'factories' => [
-                'nationallicence' => 'Swissbib\VuFind\Db\Table\Factory:getNationalLicenceUser'
-]
         ]
-    ],
+    ]
 ];

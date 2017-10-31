@@ -46,12 +46,11 @@ class NationalLicenceUser extends Gateway
      * @param PluginManager $tm      Table manager
      * @param array         $cfg     Zend Framework configuration
      */
-    public function __construct(Adapter $adapter, PluginManager $tm, $cfg)
+    public function __construct(Adapter $adapter, PluginManager $tm, $cfg, $row)
     {
         parent::__construct(
             $adapter, $tm, $cfg,
-            'Swissbib\VuFind\Db\Row\NationalLicenceUser',
-            'national_licence_user'
+            $row, "national_licence_user"
         );
     }
 
