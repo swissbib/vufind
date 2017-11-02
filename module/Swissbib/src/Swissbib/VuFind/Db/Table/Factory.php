@@ -21,8 +21,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * @category Swissbib_VuFind2
+ * @package  VuFind_Db_Table
  * @author   Matthias Edel <matthias.edel@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     https://vufind.org Main Site
  */
 namespace Swissbib\VuFind\Db\Table;
 use Zend\ServiceManager\ServiceManager;
@@ -131,6 +133,8 @@ class Factory
     {
         $sessionManager = $sm->getServiceLocator()->get('VuFind\SessionManager');
         $session = new \Zend\Session\Container('List', $sessionManager);
-        return static::getGenericTable('NationalLicenceUser', $sm, 'nationallicence', [$session]);
+        return static::getGenericTable(
+            'NationalLicenceUser', $sm, 'nationallicence', [$session]
+        );
     }
 }

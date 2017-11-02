@@ -45,6 +45,7 @@ class NationalLicenceUser extends Gateway
      * @param Adapter       $adapter Database adapter
      * @param PluginManager $tm      Table manager
      * @param array         $cfg     Zend Framework configuration
+     * @param Row           $row     row object
      */
     public function __construct(Adapter $adapter, PluginManager $tm, $cfg, $row)
     {

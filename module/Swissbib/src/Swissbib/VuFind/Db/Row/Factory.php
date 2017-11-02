@@ -21,8 +21,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * @category Swissbib_VuFind2
+ * @package  VuFind_Db_Row
  * @author   Matthias Edel <matthias.edel@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     https://vufind.org Main Site
  */
 namespace Swissbib\VuFind\Db\Row;
 use Zend\ServiceManager\ServiceManager;
@@ -87,7 +89,9 @@ class Factory
     public static function getNationalLicenceUser(ServiceManager $sm)
     {
         $sessionManager = $sm->getServiceLocator()->get('VuFind\SessionManager');
-        $session = new \Zend\Session\Container('NationalLicenceUser', $sessionManager);
+        $session = new \Zend\Session\Container(
+            'NationalLicenceUser', $sessionManager
+        );
         return static::getGenericRow('NationalLicenceUser', $sm, [$session]);
     }
 }
