@@ -306,7 +306,7 @@ class NationalLicenceUser extends Gateway
     {
         $date = new \DateTime();
         $date->modify("-$months month");
-        $numberOfTemporaryRequests = $this->select(
+        $numberOfPermanentRequests = $this->select(
             function (Select $select) use ($date) {
                 $select->where->greaterThan(
                     'request_permanent_access_created',
@@ -315,7 +315,7 @@ class NationalLicenceUser extends Gateway
             }
         );
 
-        return count($numberOfTemporaryRequests);
+        return count($numberOfPermanentRequests);
     }
 
     /**

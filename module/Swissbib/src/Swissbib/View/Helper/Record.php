@@ -112,6 +112,7 @@ class Record extends VuFindRecord
                         'B|^SNL$ && P|^856$',
                         'B|^RETROS$ && P|^856$',
                         'B|^BORIS && P|^856$',
+                        'B|^EDOC && P|^856$',
                         'B|^FREE && P|^856$',
                         'B|^HAN$ && P|^856$',
                         'B|^IDSSG$ && P|^856$ && z|^download \(pdf\)',

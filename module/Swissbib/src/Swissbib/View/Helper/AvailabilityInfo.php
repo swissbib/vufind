@@ -114,7 +114,7 @@ class AvailabilityInfo extends AbstractHelper
      *
      * @return String
      */
-    public function __invoke($availability, $institution)
+    public function __invoke($availability, $institution = "")
     {
         $escapedTranslation = $this->getView()->plugin('transEsc');
 
@@ -369,7 +369,9 @@ class AvailabilityInfo extends AbstractHelper
                 break;
             case 'RETROS':
             case 'BORIS':
+            case 'EDOC':
             case 'ECOD':
+            case 'ALEXREPO':
                 $info = $escapedTranslation('onlineAvailable');
                 break;
             default:
