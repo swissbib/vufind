@@ -244,10 +244,12 @@ function setupAutocomplete() {
   // If .autocomplete class is missing, autocomplete is disabled and we should bail out.
   var searchbox = $('#searchForm_lookfor.autocomplete');
   if (searchbox.length < 1) {
-      return;
+    return;
   }
+  var cacheObj = {};
   // Search autocomplete
   searchbox.autocomplete({
+    cacheObj: cacheObj,
     maxResults: 10,
     loadingString: VuFind.translate('loading') + '...',
     handler: function vufindACHandler(input, cb) {
@@ -283,7 +285,11 @@ function setupAutocomplete() {
   });
   // Update autocomplete on type change
   $('#searchForm_type').change(function searchTypeChange() {
-    searchbox.autocomplete('clear cache');
+    for (var i in cacheObj) {
+      for (var j in cacheObj[i]) {
+        delete cacheObj[i][j];
+      }
+    }
   });
 }
 
@@ -434,11 +440,11 @@ $(document).ready(function commonDocReady() {
   // retain filter sessionStorage
   $('.searchFormKeepFilters').click(function retainFiltersInSessionStorage() {
     sessionStorage.setItem('vufind_retain_filters', this.checked ? 'true' : 'false');
+    $('.applied-filter').prop('checked', this.checked);
   });
   if (sessionStorage.getItem('vufind_retain_filters')) {
     var state = (sessionStorage.getItem('vufind_retain_filters') === 'true');
-    $('.searchFormKeepFilters').prop('checked', state);
-    $('#applied-filter').prop('checked', state);
+    $('.searchFormKeepFilters,.applied-filter').prop('checked', state);
   }
 
   setupIeSupport();
