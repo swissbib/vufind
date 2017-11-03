@@ -18,7 +18,7 @@ if (isset($holding['itemsLink']) && $holding['itemsLink']['count']) {
 } else {
   if (preg_match('/C00[0-9]/', $holding['institution_chb'])) {
     $moreDetailsLink = $this->transEsc('holdings_noitems');
-  } elseif ($holding['itemsLink']['count'] === 0) {
+  } elseif (isset($holding['itemsLink']) && $holding['itemsLink']['count'] === 0) {
   $moreDetailsLink = $this->transEsc('lookOnSite');
 }
     else {

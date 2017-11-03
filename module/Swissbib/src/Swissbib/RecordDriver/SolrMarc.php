@@ -1767,6 +1767,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getRelatedWork($asStrings = true)
     {
+        $relatedWorks = null;
         $fieldsToCheck = [
             '700' ,
             '710',

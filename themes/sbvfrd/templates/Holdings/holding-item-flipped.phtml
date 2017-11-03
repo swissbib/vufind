@@ -34,7 +34,7 @@ if (preg_match('/[\s\S]*<ul[\s\S]*<\/ul>[\s\S]*/', $holdingActionsContent)): ?>
     <?php if ($institution == 'NATIONALLICENCE'): ?>
       <?php $nlUrl = $this->nationalLicences()->getUrl($driver)['url']; ?>
       <?php $wrappedURL = $this->redirectProtocolWrapper()->getWrappedURL($nlUrl) ?>
-      <a href="<?= $this->escapeHtml($wrappedURL) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>">Get it Online (National Licence)</a>
+      <a href="<?= $this->escapeHtml($wrappedURL) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>">Get it Online</a>
     <?php else: ?>
       <?= $holdingActionsContent ?>
     <?php endif; ?>

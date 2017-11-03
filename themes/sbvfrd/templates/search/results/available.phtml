@@ -9,6 +9,8 @@ $digibernURL            = (is_array($urldisplay['urls']) && count($urldisplay['u
 $retrosURL              = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/seals/', $urldisplay['urls'][0]) : false;
 $freeURL                = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/sfx./', $urldisplay['urls'][0],PREG_GREP_INVERT) : false;
 $borisURL               = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/boris.unibe/', $urldisplay['urls'][0]) : false;
+$edocURL                = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/edoc.unibas/', $urldisplay['urls'][0]) : false;
+$alexURL                = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/alexandria.unisg/', $urldisplay['urls'][0]) : false;
 $nationallizenzen       = $this->nationalLicences()->getUrl($driver);
 ?>
 
@@ -40,6 +42,16 @@ $nationallizenzen       = $this->nationalLicences()->getUrl($driver);
     <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($retrosURL['url']) ?>" target="_blank">
       <span><i class="fa fa-external-link"></i></span>
       <span class="hidden-xs hidden-sm">E-Periodica</span>
+    </a>
+<? elseif($edocURL): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($edocURL['url']) ?>" target="_blank">
+        <span><i class="fa fa-external-link"></i></span>
+        <span class="hidden-xs hidden-sm">edoc</span>
+    </a>
+<? elseif($alexURL): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($alexURL['url']) ?>" target="_blank">
+        <span><i class="fa fa-external-link"></i></span>
+        <span class="hidden-xs hidden-sm">Alexandria</span>
     </a>
 <? elseif($digibernURL): ?>
     <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($digibernURL['url']) ?>" target="_blank">
