@@ -19,5 +19,3 @@ before_script:
 
 script:
   - phing composer phpunitfast phpcs-console php-cs-fixer-dryrun eslint
-
-dist: precise
