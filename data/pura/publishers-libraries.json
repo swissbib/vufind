@@ -1,0 +1,34 @@
+{
+  "publishers" : [
+    {
+      "name": "Cambridge University Press",
+      "home_url" : "https://www.cambridge.org/core/journals/",
+      "wayfless_url" : "https://www.cambridge.org/core/journals/",
+      "description" : "a collection of journals",
+      "switch_group_id" : "1d3bcd7b-da70-440d-b777-5bb2d11f1234",
+      "libraries_with_contract" : [
+        "Z01","RE01001"
+      ]
+    },
+    {
+      "name": "Munzinger",
+      "home_url" : "https://www.munzinger.de",
+      "wayfless_url" : "",
+      "description" : "a collection of journals",
+      "switch_group_id" : "",
+      "libraries_with_contract" : [
+        "Z01"
+      ]
+    }
+  ],
+  "libraries" : [
+    {
+      "bib_code" : "Z01",
+      "name" : "Zentralbibliothek Zurich"
+    },
+    {
+      "bib_code" : "RE01001",
+      "name" : "BCU Fribourg"
+    }
+  ]
+}
