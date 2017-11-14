@@ -1,0 +1,18 @@
+<?
+// Set up page title:
+$this->headTitle($this->translate('pura.remoteAccessForPrivateUsers'));
+
+// Set up breadcrumbs:
+$this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li> <li class="active">' . $this->transEsc('pura.remoteAccessForPrivateUsers') . '</li>';
+?>
+
+<div class="<?= $this->layoutClass('mainbody') ?>">
+
+    <h1>Hello!</h1>
+
+
+</div>
+
+<div class="<?= $this->layoutClass('sidebar') ?>">
+    <?= $this->context($this)->renderInContext("myresearch/menu.phtml", array('active' => 'pura')) ?>
+</div>

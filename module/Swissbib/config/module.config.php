@@ -71,6 +71,20 @@ return [
                     ],
                 ]
             ],
+            // Pura
+            'pura' => [
+                'type'    => 'segment',
+                'options' => [
+                    'route'    => '/MyResearch/Pura[/:action]',
+                    'defaults' => [
+                        'controller' => 'pura',
+                        'action'     => 'index'
+                    ],
+                    'constraints' => [
+                        'action'   => '[a-zA-Z][a-zA-Z0-9_-]*'
+                    ],
+                ]
+            ],
             'help-page' => [
                 'type'    => 'segment',
                 'options' => [
@@ -246,6 +260,7 @@ return [
         'factories'  => [
             'record' => 'Swissbib\Controller\Factory::getRecordController',
             'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
+            'pura' => 'Swissbib\Controller\Factory::getPuraController',
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
         ]
     ],
@@ -297,6 +312,7 @@ return [
             'Swissbib\NationalLicenceService'               =>  'Swissbib\Services\Factory::getNationalLicenceService',
             'Swissbib\SwitchApiService'                     =>  'Swissbib\Services\Factory::getSwitchApiService',
             'Swissbib\EmailService'                         =>  'Swissbib\Services\Factory::getEmailService',
+            'Swissbib\PuraService'                          =>  'Swissbib\Services\Factory::getPuraService',
         ]
     ],
     'view_helpers'    => [

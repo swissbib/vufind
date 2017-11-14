@@ -226,6 +226,22 @@ class Factory
         );
     }
 
+
+
+    /**
+     * Construct the Service\Pura service.
+     *
+     * @param ServiceManager $sm Service manager
+     *
+     * @return Pura
+     */
+    public static function getPuraService(ServiceManager $sm)
+    {
+        return new Pura(
+            $sm->get('VuFind\Config')->get('NationalLicences')
+        );
+    }
+
     /**
      * Get SwitchApi service.
      *
