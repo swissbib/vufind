@@ -65,16 +65,7 @@ class PuraController extends BaseController
      */
     public function indexAction()
     {
-        $publishers = [
-            '1' => [
-                'name' => 'Cambridge',
-                'url' => 'http://www.cambridge.com',
-            ],
-            '2' => [
-                'name' => 'Munzinger',
-                'url' => 'http://www.munzinger.com',
-            ]
-        ];
+        $publishers = $this->puraService->getPublishersForALibrary("Z01");
         $view = new ViewModel(
             [
                 'publishers' => $publishers,
