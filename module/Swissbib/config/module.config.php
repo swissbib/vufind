@@ -242,9 +242,6 @@ return [
             //'install'              => 'Swissbib\Controller\NoProductiveSupportController',
             //'feedback'             => 'Swissbib\Controller\FeedbackController',
             //'cover'                => 'Swissbib\Controller\CoverController',
-            //todo: I can't find console in the VuFind-module
-            //what is the swissbib purpose of this Type??
-            'console'              => 'Swissbib\Controller\ConsoleController',
         ],
         'factories'  => [
             'ajax' => 'Swissbib\Controller\Factory::getAjaxController',
@@ -266,8 +263,7 @@ return [
             'helppage'    => 'Swissbib\Controller\Factory::getHelpPageController',
             'libadminsync' => 'Swissbib\Controller\Factory::getLibadminSyncController',
             'my-research'   => 'Swissbib\Controller\Factory::getMyResearchController',
-
-
+            'console'       => 'Swissbib\Controller\Factory::getConsoleController'
         ]
     ],
     'service_manager' => [
@@ -409,6 +405,16 @@ return [
                     'amazon' => 'Swissbib\Content\Covers\Factory::getAmazon',
                 ],
             ],
+            'db_table' => [
+                'factories' => [
+                    'nationallicence' => 'Swissbib\VuFind\Db\Table\Factory::getNationalLicenceUser',
+                ]
+            ],
+            'db_row' => [
+                'factories' => [
+                    'nationallicence' => 'Swissbib\VuFind\Db\Row\Factory::getNationalLicenceUser',
+                ]
+            ],
             'recommend' => [
                 'factories' => [
                     'favoritefacets' => 'Swissbib\Services\Factory::getFavoriteFacets',
@@ -497,13 +503,6 @@ return [
                     'solrauthorfacets' => 'Swissbib\VuFind\Search\Results\Factory::getSolrAuthorFacets',
                 ],
             ]
-
-        ],
-
-        'db_table' => [
-            'factories' => [
-                'nationallicence' => 'Swissbib\VuFind\Db\Table\Factory:getNationalLicenceUser'
-]
         ]
-    ],
+    ]
 ];

@@ -54,7 +54,7 @@ class ConsoleController extends BaseController
          *
          * @var NationalLicence $nationalLicenceService
          */
-        $nationalLicenceService = $this->getServiceLocator()
+        $nationalLicenceService = $this->serviceLocator
             ->get('Swissbib\NationalLicenceService');
         $nationalLicenceService->sendExportEmail();
     }
@@ -73,7 +73,7 @@ class ConsoleController extends BaseController
         //http://stackoverflow.com/questions/27295895/how-can-i-
         //create-a-url-in-a-console-controller-in-zf2
         $event = $this->getEvent();
-        $http = $this->getServiceLocator()->get('HttpRouter');
+        $http = $this->serviceLocator->get('HttpRouter');
         $router = $event->setRouter($http);
         $request = new \Zend\Http\Request();
         $request->setUri('');
@@ -85,7 +85,7 @@ class ConsoleController extends BaseController
          *
          * @var NationalLicence $nationalLicenceService
          */
-        $nationalLicenceService = $this->getServiceLocator()
+        $nationalLicenceService = $this->serviceLocator
             ->get('Swissbib\NationalLicenceService');
         $nationalLicenceService->checkAndUpdateNationalLicenceUserInfo();
     }

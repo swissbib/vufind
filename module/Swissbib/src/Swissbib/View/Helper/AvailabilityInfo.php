@@ -114,7 +114,7 @@ class AvailabilityInfo extends AbstractHelper
      *
      * @return String
      */
-    public function __invoke($availability, $institution)
+    public function __invoke($availability, $institution = "")
     {
         $escapedTranslation = $this->getView()->plugin('transEsc');
 

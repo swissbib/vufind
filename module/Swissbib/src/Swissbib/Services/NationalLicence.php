@@ -198,7 +198,7 @@ class NationalLicence
          * @var \Swissbib\VuFind\Db\Table\NationalLicenceUser $userTable
          */
         $userTable = $this->getTable(
-            '\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser'
+            'nationallicence'
         );
         $user = $userTable->getUserByPersistentId($persistentId);
         if (empty($user)) {
@@ -326,7 +326,7 @@ class NationalLicence
          * @var \Swissbib\VuFind\Db\Table\NationalLicenceUser $userTable
          */
         $userTable = $this->getTable(
-            '\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser'
+            'nationallicence'
         );
         $user = $userTable->getUserByPersistentId($persistentId);
 
