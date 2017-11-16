@@ -19,6 +19,16 @@
       "libraries_with_contract" : [
         "Z01"
       ]
+    },
+    {
+      "name": "Thieme",
+      "home_url" : "https://www.thieme.de",
+      "wayfless_url" : "",
+      "description" : "a collection of journals",
+      "switch_group_id" : "",
+      "libraries_with_contract" : [
+        "RE01001"
+      ]
     }
   ],
   "libraries" : [

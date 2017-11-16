@@ -1,6 +1,6 @@
 <?php
 /**
- * Service for manage the National Licence users.
+ * Service to manage Private Users remote access.
  *
  * PHP version 5
  * Copyright (C) project swissbib, University Library Basel, Switzerland
@@ -18,22 +18,20 @@
  *
  * @category Swissbib_VuFind2
  * @package  Services
- * @author   Simone Cogno <scogno@snowflake.ch>
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 namespace Swissbib\Services;
 
-use Swissbib\Libadmin\Exception\Exception;
-use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class NationalLicence.
+ * Class Pura.
  *
  * @category Swissbib_VuFind2
  * @package  Service
- * @author   Simone Cogno <scogno@snowflake.ch>
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
@@ -45,38 +43,67 @@ class Pura
      * @var ServiceLocatorInterface
      */
     protected $serviceLocator;
+
     /**
      * Config.
      *
      * @var array $config
      */
     protected $config;
+
     /**
-     * Switch api.
+     * List of all publishers whith their
+     * contracts with libraries as well as
+     * url and name and similar information
      *
-     * @var SwitchApi $switchApi
+     * @var array $publishers
      */
-    protected $switchApiService;
-    /**
-     * Email service.
-     *
-     * @var Email $emailService
-     */
-    protected $emailService;
-    /**
-     * Message.
-     *
-     * @var array $message
-     */
-    protected $message;
+    protected $publishers;
 
     /**
      * NationalLicence constructor.
      *
-     * @param array     $config           Config
+     * @param object $config Config
+     * @param array $publishers List of Publishers
      */
-    public function __construct($config)
+    public function __construct($config, array $publishers)
     {
         $this->config = $config;
+        $this->publishers = $publishers;
+    }
+
+    /**
+     * Get the list of publishers which have a contract with this library
+     *
+     * @param $libraryCode (the library code, for example Z01)
+     * @return array PublishersWithContracts with that library
+     */
+    public function getPublishersForALibrary($libraryCode)
+    {
+        $publishersWithContracts=[];
+        foreach ($this->publishers as $publisher) {
+            if ($this->hasContract($libraryCode,$publisher))
+            {
+                array_push($publishersWithContracts,$publisher);
+            }
+        }
+        return $publishersWithContracts;
+    }
+
+    /**
+     * @param $libraryCode the library code, for example Z01
+     * @param $publisherId the publisher id, the key of the json file for the publisher, for example cambridge
+     * @return bool
+     */
+    protected function hasContract($libraryCode, $publisher)
+    {
+        if (in_array($libraryCode,$publisher["libraries_with_contract"]))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

@@ -50,7 +50,7 @@ class PuraController extends BaseController
      * Constructor.
      * NationalLicencesController constructor.
      *
-     * @param NationalLicence $nationalLicenceService NationalLicence.
+     * @param Pura $puraService Pura.
      */
     public function __construct(Pura $puraService)
     {
@@ -65,9 +65,19 @@ class PuraController extends BaseController
      */
     public function indexAction()
     {
+        $publishers = [
+            '1' => [
+                'name' => 'Cambridge',
+                'url' => 'http://www.cambridge.com',
+            ],
+            '2' => [
+                'name' => 'Munzinger',
+                'url' => 'http://www.munzinger.com',
+            ]
+        ];
         $view = new ViewModel(
             [
-                'hello' => "hello world"
+                'publishers' => $publishers,
             ]
         );
 

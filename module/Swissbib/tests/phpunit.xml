@@ -1,7 +1,10 @@
 <phpunit bootstrap="Bootstrap.php">
 	<testsuites>
 		<testsuite name="sbvfrd">
-			<directory>.</directory>
+			<directory>./SwissbibTest/Pura</directory>
+			<directory>./SwissbibTest/RecordDriver</directory>
+			<directory>./SwissbibTest/TargetsProxy</directory>
+			<directory>./SwissbibTest/View</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>

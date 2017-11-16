@@ -10,6 +10,16 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
     <h1>Hello!</h1>
 
+    <p>You are registered for this service.</p>
+    <p>Your account is valid until 24.4.2018.</p>
+    <p>Access ZB e-resourcen : </p>
+
+    <ul>
+    <?php foreach ($this->publishers as $publisher) : ?>
+
+    <li><a href="<?= $publisher["url"] ?>"><?= $publisher["name"] ?></li>
+
+    <?php endforeach; ?>
 
 </div>
 
