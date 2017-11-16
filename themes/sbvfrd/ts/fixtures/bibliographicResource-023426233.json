@@ -1,0 +1,35 @@
+{
+  "@context": "http://data.swissbib.ch/contexts/BibliographicResource",
+  "@id": "http://data.swissbib.ch/bibliographicResource/023426233",
+  "@type": "http://purl.org/dc/terms/BibliographicResource",
+  "id": "023426233",
+  "title": "Jane Austen Collection : drei der schönsten Liebesgeschichten aller Zeiten",
+  "language": "http://lexvo.org/id/iso639-3/deu",
+  "format": "5 DVD-Videos in einem Schuber (ca. 575 Min.)",
+  "contributor": [
+    "http://data.swissbib.ch/person/145a6d92-7afa-3589-aba8-28e9aec9b03d",
+    "http://data.swissbib.ch/person/ba2caead-4d66-344e-80d5-ddc6c1b87523",
+    "http://data.swissbib.ch/person/5f679432-5f41-3bd8-a19f-8a20c4431aea",
+    "http://data.swissbib.ch/person/d792881e-1e3e-36df-8489-a6c3ba957e24",
+    "http://data.swissbib.ch/person/66f120d2-5d83-31dc-92dd-3ef48bd3a7c3",
+    "http://data.swissbib.ch/person/85d9afdd-b7bf-34ba-a5c7-a4c1df5c0b04",
+    "http://data.swissbib.ch/person/76100df3-36d4-301f-b0ad-15912eba659d",
+    "http://data.swissbib.ch/person/aed5dd75-7b3b-369c-93bb-97a6f41d344c",
+    "http://data.swissbib.ch/person/93a0ddb8-7b96-3b6d-8424-68f5ec63680d",
+    "http://data.swissbib.ch/person/f2c6034e-2636-32e2-9db8-5737a263061c"
+  ],
+  "hasPart": [
+    "Verführung : Persuasion",
+    "Disc 1, Folge 1+2. Pride and Prejudice : Stolz und Vorurteil",
+    "Disc 2, Folge 3+4. Pride and Prejudice : Stolz und Vorurteil",
+    "Emma : Langfassung",
+    "Emma : Deutsche Fassung"
+  ],
+  "issued": "2008-2004",
+  "p60049": "http://rdvocab.info/termList/RDAContentType/1023",
+  "p60050": "http://rdvocab.info/termList/RDAMediaType/1008",
+  "p60163": "http://sws.geonames.org/2921044/",
+  "p60339": "Drehbuchautor: Jane Austen, Andrew Davies, Nick Dear",
+  "p60470": "Sprache: Deutsch. - Untertitel: Englisch, Deutsch für Hörgeschädigte. - Produktionsjahre: 1981, 1995, 1996",
+  "isDefinedBy": "http://data.swissbib.ch/document/023426233"
+}
