@@ -1,0 +1,51 @@
+{
+  "@context": "http://data.swissbib.ch/contexts/Person",
+  "@id": "http://data.swissbib.ch/person/d792881e-1e3e-36df-8489-a6c3ba957e24",
+  "@type": "http://xmlns.com/foaf/0.1/Person",
+  "id": "d792881e-1e3e-36df-8489-a6c3ba957e24",
+  "birthYear": "1775",
+  "deathYear": "1817",
+  "firstName": "Jane",
+  "lastName": "Austen",
+  "sameAs": [
+    "http://d-nb.info/gnd/118505173",
+    "http://dbpedia.org/resource/Jane_Austen"
+  ],
+  "label": "Austen, Jane, 1775-1817",
+  "birthPlace": [
+    "http://dbpedia.org/resource/Hampshire",
+    "http://dbpedia.org/resource/Steventon,_Hampshire"
+  ],
+  "deathPlace": [
+    "http://dbpedia.org/resource/Hampshire",
+    "http://dbpedia.org/resource/Winchester"
+  ],
+  "birthDate": "1775-12-16",
+  "deathDate": "1817-07-18",
+  "genre": "http://dbpedia.org/resource/Romance_novel",
+  "notableWork": [
+    "http://dbpedia.org/resource/Emma_(novel)",
+    "http://dbpedia.org/resource/Mansfield_Park",
+    "http://dbpedia.org/resource/Northanger_Abbey",
+    "http://dbpedia.org/resource/Persuasion_(novel)",
+    "http://dbpedia.org/resource/Pride_and_Prejudice",
+    "http://dbpedia.org/resource/Sense_and_Sensibility"
+  ],
+  "thumbnail": [
+    "http://commons.wikimedia.org/wiki/Special:FilePath/CassandraAusten-JaneAusten(c.1810)_hires.jpg?width=300",
+    "http://commons.wikimedia.org/wiki/Special:FilePath/Jane_Austen,_from_A_Memoir_of_Jane_Austen_(1870).jpg?width=300",
+    "http://commons.wikimedia.org/wiki/Special:FilePath/Jane_Austen_by_Cassandra_Austen,_groß.jpg?width=300",
+    "http://commons.wikimedia.org/wiki/Special:FilePath/Jane_Austen_coloured_version.jpg?width=300"
+  ],
+  "abstract": [
+    {
+      "de": "Jane Austen (* 16. Dezember 1775 in Steventon, Basingstoke and Deane; † 18. Juli 1817 in Winchester) war eine britische Schriftstellerin aus der Zeit des Regency, deren Hauptwerke Stolz und Vorurteil und Emma zu den Klassikern der englischen Literatur gehören."
+    },
+    {
+      "en": "Jane Austen (/ˈdʒeɪn ˈɒstɪn/; 16 December 1775 – 18 July 1817) was an English novelist whose works of romantic fiction, set among the landed gentry, earned her a place as one of the most widely read writers in English literature. Her realism, biting irony and social commentary as well as her acclaimed plots have gained her historical importance among scholars and critics. Austen lived her entire life as part of a close-knit family located on the lower fringes of the English landed gentry. She was educated primarily by her father and older brothers as well as through her own reading. The steadfast support of her family was critical to her development as a professional writer. From her teenage years into her thirties she experimented with various literary forms, including an epistolary novel which she then abandoned, wrote and extensively revised three major novels and began a fourth. From 1811 until 1816, with the publication of Sense and Sensibility (1811), Pride and Prejudice (1813), Mansfield Park (1814) and Emma (1815), she achieved success as a published writer. She wrote two additional novels, Northanger Abbey and Persuasion, both published posthumously in 1818, and began a third, which was eventually titled Sanditon, but died before completing it. Austen's works critique the novels of sensibility of the second half of the 18th century and are part of the transition to 19th-century realism. Her plots, though fundamentally comic, highlight the dependence of women on marriage to secure social standing and economic security. Her works, though usually popular, were first published anonymously and brought her little personal fame and only a few positive reviews during her lifetime, but the publication in 1869 of her nephew's A Memoir of Jane Austen introduced her to a wider public, and by the 1940s she had become widely accepted in academia as a great English writer. The second half of the 20th century saw a proliferation of Austen scholarship and the emergence of a Janeite fan culture."
+    },
+    {
+      "fr": "Jane Austen (/ˈdʒeɪn ˈɔːstən/), née le à Steventon, dans le Hampshire en Angleterre et morte le à Winchester, dans le même comté, est une femme de lettres anglaise.Son réalisme, sa critique sociale mordante et sa maîtrise du discours indirect libre, son humour décalé et son ironie ont fait d'elle l'un des écrivains anglais les plus largement lus et aimés. Toute sa vie, Jane Austen demeure au sein d'une cellule familiale étroitement unie, appartenant à la petite gentry anglaise. Elle doit son éducation en grande partie à son père et à ses frères aînés, ainsi qu'à ses propres lectures. Le soutien sans faille de sa famille est essentiel pour son évolution en tant qu'écrivain professionnel. L'apprentissage artistique de Jane Austen s'étend du début de son adolescence jusqu'à sa vingt-cinquième année environ. Durant cette période, elle s'essaie à différentes formes littéraires, y compris le roman épistolaire qu'elle expérimente avant de l'abandonner, et écrit et retravaille profondément trois romans majeurs, tout en commençant un quatrième. De 1811 à 1816, avec la parution de Sense and Sensibility (publié de façon anonyme en 1811), Pride and Prejudice (1813), Mansfield Park (1814) et Emma (1816), elle connaît le succès. Deux autres romans, Northanger Abbey (achevé en fait dès 1803) et Persuasion, font tous deux l'objet d'une publication posthume en 1818 ; en janvier 1817, elle commence son dernier roman, finalement intitulé Sanditon, qu'elle ne peut achever avant sa mort. L'œuvre de Jane Austen est, entre autres, une critique des romans sentimentaux de la seconde moitié du XVIIIe siècle et appartient à la transition qui conduit au réalisme littéraire du XIXe. Les intrigues de Jane Austen, bien qu'essentiellement de nature comique, c'est-à-dire avec un dénouement heureux, mettent en lumière la dépendance des femmes à l'égard du mariage pour obtenir statut social et sécurité économique. Comme Samuel Johnson, l'une de ses influences majeures, elle s'intéresse particulièrement aux questions morales. Du fait de l'anonymat qu'elle cherche à préserver, sa réputation est modeste de son vivant, avec quelques critiques favorables. Au XIXe siècle, ses romans ne sont admirés que par l'élite littéraire. Cependant, la parution en 1869 de A Memoir of Jane Austen (Souvenir de Jane Austen), écrit par son neveu, la fait connaître d'un public plus large. On découvre alors une personnalité attirante, et, du coup, l'intérêt populaire pour ses œuvres prend son essor. Dans les années 1940, Jane Austen était largement reconnue sur le plan académique comme « grand écrivain anglais ». Durant la seconde moitié du XXe siècle, se multiplient les recherches sur ses romans, qui sont analysés sous divers aspects, par exemple artistique, idéologique ou historique. Peu à peu, la culture populaire s'empare de Jane Austen et les adaptations cinématographiques ou télévisuelles qui sont réalisées sur sa vie ou ses romans connaissent un réel succès. Il est généralement admis que l'œuvre de Jane Austen appartient non seulement au patrimoine littéraire de la Grande-Bretagne et des pays anglophones, mais aussi à la littérature mondiale. Elle fait aujourd'hui l'objet d'un culte, cependant de nature différente de celui qui est rendu aux Brontë."
+    }
+  ]
+}
