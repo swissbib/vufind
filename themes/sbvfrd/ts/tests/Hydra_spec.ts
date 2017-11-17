@@ -40,7 +40,7 @@ it("Should load json", () => {
     });
 });
 
-it("should call api with id", function () {
+it("should call api with id", function() {
     const spy = jest.spyOn(Axios, "get");
 
     let actual = cut.getContributorUrls("023426233");
@@ -85,9 +85,11 @@ it("should return all contributor details", () => {
 
 it("should create Html", () => {
     expect.assertions(1);
-
-    const actual = cut.getContributorHtml(getPromiseFromFile( "http://data.swissbib.ch/person/5f679432-5f41-3bd8-a19f-8a20c4431aea"));
-    return expect(actual).resolves.toContain("<li>Bamber, David");
+    window.VuFind = {
+        path: ""
+    };
+    const actual = cut.getContributorHtml(getPromiseFromFile( "http://data.swissbib.ch/person/5f679432-5f41-3bd8-a19f-8a20c4431aea").then((response : any) => {return response.data;}));
+    return expect(actual).resolves.toContain("Bamber, David");
 });
 
 it("Empty should be not sufficient info", () => {

@@ -7,16 +7,12 @@
     "outDir": "themes/sbvfrd/js/swissbib/",
     "sourceMap": true,
     "skipLibCheck": true,
-    "typeRoots": [
-      "../../../node_modules/@types"
-    ],
+
     "target": "es5"
   },
   "include": [
-    "themes/**/*",
+    "themes/**/*.ts",
     "node_modules/awesome-typescript-loader/lib/runtime.d.ts",
-    "node_modules.bak/awesome-typescript-loader/lib/runtime.d.ts",
-    "node_modules.bak/@types/jest/index.d.ts",
     "node_modules/@types/jquery/index.d.ts"
   ],
   "exclude": [
