@@ -24,10 +24,10 @@
     ]
   },
   "scripts": {
-    "tslint": "tslint themes/**/*.{ts,tsx}",
-    "test": "jest",
-    "build": "webpack --display-error-details",
-    "watch": "webpack --watch"
+    "tslint": "./node_modules/.bin/tslint themes/**/*.{ts,tsx}",
+    "test": "./node_modules/.bin/jest",
+    "build": "./node_modules/.bin/webpack --display-error-details",
+    "watch": "./node_modules/.bin/webpack --watch"
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
