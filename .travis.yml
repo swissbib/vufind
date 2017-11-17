@@ -21,3 +21,4 @@ cache:
 
 script:
   - vendor/bin/phing phpunitfast phpcs-console php-cs-fixer-dryrun eslint
+  - npm run test

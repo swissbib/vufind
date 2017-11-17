@@ -1,6 +1,10 @@
 import {AxiosPromise, AxiosResponse, default as Axios} from "axios";
-import Promise from "ts-promise";
+// import Promise from "ts-promise";
 import * as $ from "jquery";
+
+declare global {
+    let VuFind : any;
+}
 
 export class Hydra {
     constructor(dataSwissbibUrl: string) {
@@ -22,7 +26,7 @@ export class Hydra {
      * @returns {Promise<string[]>}
      */
     public getContributorUrls(bibliographicResourceId: string): Promise<string[]> {
-        return Axios.get(this.dataSwissbibUrl + "bibliographicResource/" + bibliographicResourceId, this.axiosConfig)
+        return Axios.get<string[]>(this.dataSwissbibUrl + "bibliographicResource/" + bibliographicResourceId, this.axiosConfig)
             .then((response: AxiosResponse): string[] => {
                 return response.data.contributor;
             });
@@ -47,10 +51,10 @@ export class Hydra {
         return Axios.get(contributorUrl, this.axiosConfig);
     }
 
-    // TODO Get path from vufind variable
     public getContributorHtml(contributorPromise: Promise<object>): Promise<String> {
         return contributorPromise.then(person => {
-            return `<li><a href="${VuFind.path}/Search/Results?lookfor=${person.lastName}, ${person.firstName}&amp;type=Author" title=" ${person.lastName}, ${person.firstName}">${person.lastName}, ${person.firstName}</a> <span ${ this.personHasSufficientData(person) ? ' class="fa fa-info-circle fa-lg"' : '' } style="display:inline;" authorid="${person["@id"]}"></span></li>`;
+            let p : any = person;
+            return `<li><a href="${VuFind.path}/Search/Results?lookfor=${p.lastName}, ${p.firstName}&amp;type=Author" title=" ${p.lastName}, ${p.firstName}">${p.lastName}, ${p.firstName}</a> <span ${ this.personHasSufficientData(p) ? ' class="fa fa-info-circle fa-lg"' : '' } style="display:inline;" authorid="${p["@id"]}"></span></li>`;
         });
     }
 
