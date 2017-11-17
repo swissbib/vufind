@@ -1,5 +1,5 @@
 import Axios from "axios";
-import fs from "fs";
+import * as fs from "fs";
 import Promise from "ts-promise";
 import {Hydra} from "../Hydra";
 
