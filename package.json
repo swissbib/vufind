@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
+    "@types/jquery": "^3.2.16",
     "axios": "^0.17.1",
     "es6": "0.0.7",
     "grunt": "^0.4.5",
