@@ -49,6 +49,7 @@
   "devDependencies": {
     "@types/jest": "^21.1.6",
     "@types/node": "^8.0.53",
+    "es6-promise": "^4.1.1",
     "eslint": "^4.11.0",
     "grunt-contrib-watch": "~0.6.1",
     "jasmine-matchers": "^0.2.3",
