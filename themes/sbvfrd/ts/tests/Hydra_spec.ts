@@ -1,6 +1,6 @@
 import Axios from "axios";
 import * as fs from "fs";
-import Promise from "ts-promise";
+import * as $ from "jquery";
 import {Hydra} from "../Hydra";
 
 const cut: Hydra = new Hydra(
@@ -34,8 +34,8 @@ it("Should load json", () => {
     expect.assertions(2);
     // Return to evaluate promise
     return actual.then((contributorUrls: string[]) => {
-        expect(contributorUrls).toHaveLength(10);
-        expect(contributorUrls).toContain("http://data.swissbib.ch/person/85d9afdd-b7bf-34ba-a5c7-a4c1df5c0b04");
+        expect(contributorUrls).toHaveLength(4);
+        expect(contributorUrls).toContain("http://data.swissbib.ch/person/145a6d92-7afa-3589-aba8-28e9aec9b03d");
     });
 });
 
@@ -61,14 +61,7 @@ it("should return all contributor details", () => {
     const contributorUrls: string[] = [
         "http://data.swissbib.ch/person/145a6d92-7afa-3589-aba8-28e9aec9b03d",
         "http://data.swissbib.ch/person/ba2caead-4d66-344e-80d5-ddc6c1b87523",
-        "http://data.swissbib.ch/person/5f679432-5f41-3bd8-a19f-8a20c4431aea", /*,
-        "http://data.swissbib.ch/person/d792881e-1e3e-36df-8489-a6c3ba957e24",
-        "http://data.swissbib.ch/person/66f120d2-5d83-31dc-92dd-3ef48bd3a7c3",
-        "http://data.swissbib.ch/person/85d9afdd-b7bf-34ba-a5c7-a4c1df5c0b04",
-        "http://data.swissbib.ch/person/76100df3-36d4-301f-b0ad-15912eba659d",
-        "http://data.swissbib.ch/person/aed5dd75-7b3b-369c-93bb-97a6f41d344c",
-        "http://data.swissbib.ch/person/93a0ddb8-7b96-3b6d-8424-68f5ec63680d",
-        "http://data.swissbib.ch/person/f2c6034e-2636-32e2-9db8-5737a263061c"*/
+        "http://data.swissbib.ch/person/5f679432-5f41-3bd8-a19f-8a20c4431aea",
     ];
     const actual: Array<Promise<object>> = cut.getContributorDetails(contributorUrls);
 
@@ -86,26 +79,47 @@ it("should create Html", () => {
     window.VuFind = {
         path: "",
     };
+    const contributorPromise = getPromiseFromFile("http://data.swissbib.ch/person/5f679432-5f41-3bd8-a19f-8a20c4431aea")
+        .then((response: any) => response.data);
+
+    const templateFn = (p: any): string => {
+        return `${p.lastName}, ${p.firstName}`;
+    };
+
     const actual = cut.getContributorHtml(
-        getPromiseFromFile("http://data.swissbib.ch/person/5f679432-5f41-3bd8-a19f-8a20c4431aea")
-            .then((response: any) => response.data));
+        contributorPromise, templateFn);
     return expect(actual).resolves.toContain("Bamber, David");
 });
 
 it("Empty should be not sufficient info", () => {
     const given = {};
-    const actual = cut.personHasSufficientData(given);
+    const actual = Hydra.personHasSufficientData(given);
     expect(actual).toBeFalsy();
 });
 
 it("Only 7 elements should be not sufficient info", () => {
     const given = {1: "", 2: "", 3: "", 4: "", 5: "", 6: "", 7: ""};
-    const actual = cut.personHasSufficientData(given);
+    const actual = Hydra.personHasSufficientData(given);
     expect(actual).toBeFalsy();
 });
 
 it("8 elements should be sufficient info", () => {
     const given = {1: "", 2: "", 3: "", 4: "", 5: "", 6: "", 7: "", 8: ""};
-    const actual = cut.personHasSufficientData(given);
+    const actual = Hydra.personHasSufficientData(given);
     expect(actual).toBeTruthy();
+});
+
+it("Html should contain list element with contributors", () => {
+    const body = document.getElementsByTagName("body")[0];
+    const list = document.createElement("ul");
+    body.appendChild(list);
+    expect.assertions(2);
+    return cut.renderContributors("023426233", $(list)[0], (p: any) => {
+        return `<li>${p.firstName}</li>`;
+    })
+    .then((html: HTMLElement) => {
+        const actual: JQuery<HTMLElement> = $(html);
+        expect(actual.children("li").length).toBe(4);
+        expect(actual.find("li").get(1).innerHTML).toEqual("Jennifer");
+    });
 });
