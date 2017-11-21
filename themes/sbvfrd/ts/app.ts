@@ -11,6 +11,6 @@ ${p.firstName}&amp;type=Author" title=" ${p.lastName}, ${p.firstName}">${p.lastN
 <span ${ Hydra.personHasSufficientData(p) ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"
 authorid="${p["@id"]}"></span></li>`;
     };
-    client.renderContributors(recordIdEl.value, list,
-        template);
+
+    client.renderContributors(recordIdEl.value, list, template);
 });

@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    entry: './themes/sbvfrd/ts/Hydra.ts',
+    entry: ['./themes/sbvfrd/ts/Hydra.ts', './themes/sbvfrd/ts/app.ts'],
     output: {
         path: path.resolve(__dirname),
         filename: './themes/sbvfrd/js/swissbib/swissbib.ts.js'
@@ -14,10 +14,13 @@ module.exports = {
     module: {
         loaders: [
             // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-            { include: /^(?!.*_spec\.ts?$).*\.ts?$/, loader: 'ts-loader' }
+            {include: /^(?!.*_spec\.ts?$).*\.ts?$/, loader: 'ts-loader'}
         ]
     },
     node: {
         fs: "empty"
+    },
+    externals: {
+        "jquery": "jQuery"
     }
 };
