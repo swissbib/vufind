@@ -26,6 +26,7 @@ namespace Swissbib\Services;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Swissbib\VuFind\Db\Row\PuraUser;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * Class Pura.
@@ -36,7 +37,7 @@ use Swissbib\VuFind\Db\Row\PuraUser;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class Pura
+class Pura implements ServiceLocatorAwareInterface
 {
     /**
      * ServiceLocator.
@@ -108,10 +109,34 @@ class Pura
          *
          * @var \Swissbib\VuFind\Db\Table\PuraUser $userTable
          */
-        $userTable = $this->getTable('pura');
+        $userTable = $this->getTable(
+            '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
+            );
         $user = $userTable->getUserById($userNumber);
 
         return $user;
+    }
+
+    /**
+     * Retrieve serviceManager instance.
+     *
+     * @return ServiceLocatorInterface
+     */
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+    /**
+     * Set serviceManager instance.
+     *
+     * @param ServiceLocatorInterface $serviceLocator ServiceLocatorInterface
+     *
+     * @return void
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**
@@ -131,15 +156,16 @@ class Pura
         }
     }
 
-    /** Get a database table object.
-    *
-    * @param string $table Name of table to retrieve
-    *
-    * @return \VuFind\Db\Table\Gateway
-    */
+    /**
+     * Get a database table object.
+     *
+     * @param string $table Name of table to retrieve
+     *
+     * @return \VuFind\Db\Table\Gateway
+     */
     protected function getTable($table)
     {
-        return $this->serviceLocator
+        return $this->getServiceLocator()
             ->get('VuFind\DbTablePluginManager')
             ->get($table);
     }
