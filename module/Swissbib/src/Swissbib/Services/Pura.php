@@ -108,10 +108,8 @@ class Pura
          *
          * @var \Swissbib\VuFind\Db\Table\PuraUser $userTable
          */
-        $userTable = $this->getTable(
-            '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
-        );
-        $user = $userTable->getUserByPersistentId($persistentId);
+        $userTable = $this->getTable('pura');
+        $user = $userTable->getUserById($userNumber);
 
         return $user;
     }
@@ -131,5 +129,18 @@ class Pura
         {
             return false;
         }
+    }
+
+    /** Get a database table object.
+    *
+    * @param string $table Name of table to retrieve
+    *
+    * @return \VuFind\Db\Table\Gateway
+    */
+    protected function getTable($table)
+    {
+        return $this->serviceLocator
+            ->get('VuFind\DbTablePluginManager')
+            ->get($table);
     }
 }
