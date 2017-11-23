@@ -426,6 +426,70 @@ GNDS:
       - [and, 100]
       - [or, ~]
 
+GNDSE:
+  DismaxFields:
+    - subpers_gnd
+    - subtitle_gnd
+    - subtime_gnd
+    - subtop_gnd
+    - subgeo_gnd
+    - subform_gnd
+    - subgnd_enriched
+    - related_gnd_txt_mv
+  QueryFields:
+    subpers_gnd:
+      - [and, 100]
+      - [or, ~]
+    subtitle_gnd:
+      - [and, 100]
+      - [or, ~]
+    subtime_gnd:
+      - [and, 100]
+      - [or, ~]
+    subtop_gnd:
+      - [and, 100]
+      - [or, ~]
+    subgeo_gnd:
+      - [and, 100]
+      - [or, ~]
+    subform_gnd:
+      - [and, 100]
+      - [or, ~]
+    subgnd_enriched:
+      - [and, 100]
+      - [or, ~]
+    related_gnd_txt_mv:
+      - [and, 100]
+      - [or, ~]
+
+IDSBBS:
+  DismaxFields:
+    - subpers_idsbb
+    - subtitle_idsbb
+    - subtime_idsbb
+    - subtop_idsbb
+    - subgeo_idsbb
+    - subform_idsbb
+  QueryFields:
+    subpers_idsbb:
+      - [and, 100]
+      - [or, ~]
+    subtitle_idsbb:
+      - [and, 100]
+      - [or, ~]
+    subtime_idsbb:
+      - [and, 100]
+      - [or, ~]
+    subtop_idsbb:
+      - [and, 100]
+      - [or, ~]
+    subgeo_idsbb:
+      - [and, 100]
+      - [or, ~]
+    subform_idsbb:
+      - [and, 100]
+      - [or, ~]
+
 music:
   DismaxFields:
     - submusic
