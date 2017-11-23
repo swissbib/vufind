@@ -25,6 +25,7 @@
 namespace Swissbib\Services;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Swissbib\VuFind\Db\Row\PuraUser;
 
 /**
  * Class Pura.
@@ -91,8 +92,33 @@ class Pura
     }
 
     /**
+     * Get a NationalLicenceUser or creates a new one if is not existing in the
+     * database.
+     *
+     * @param string $userNumber id if the pura-user table
+     *
+     * @return PuraUser $user
+     * @throws \Exception
+     */
+    public function getPuraUser(
+        $userNumber
+    ) {
+        /**
+         * Pura user table.
+         *
+         * @var \Swissbib\VuFind\Db\Table\PuraUser $userTable
+         */
+        $userTable = $this->getTable(
+            '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
+        );
+        $user = $userTable->getUserByPersistentId($persistentId);
+
+        return $user;
+    }
+
+    /**
      * @param $libraryCode the library code, for example Z01
-     * @param $publisherId the publisher id, the key of the json file for the publisher, for example cambridge
+     * @param $publisher, an array of properties for a specific publisher, for example cambridge
      * @return bool
      */
     protected function hasContract($libraryCode, $publisher)

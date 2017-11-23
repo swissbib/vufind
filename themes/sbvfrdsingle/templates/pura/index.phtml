@@ -11,7 +11,7 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
     <h1>Hello!</h1>
 
     <p>You are registered for this service.</p>
-    <p>Your account is valid until 24.4.2018.</p>
+    <p>Your account is valid until <?= $this->user->getExpirationDate()->format('d-m-Y') ?>.</p>
     <p>Access ZB e-resourcen : </p>
 
     <ul>

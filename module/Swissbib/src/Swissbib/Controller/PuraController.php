@@ -27,6 +27,7 @@ namespace Swissbib\Controller;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 use Swissbib\Services\Pura;
+use Swissbib\VuFind\Db\Row\PuraUser;
 
 /**
  * Class NationalLicencesController.
@@ -66,9 +67,16 @@ class PuraController extends BaseController
     public function indexAction()
     {
         $publishers = $this->puraService->getPublishersForALibrary("Z01");
+
+        $user = null;
+        $user = $this->puraService->getPuraUser("1");
+
+
+
         $view = new ViewModel(
             [
                 'publishers' => $publishers,
+                'user' => $user
             ]
         );
 

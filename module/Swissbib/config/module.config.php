@@ -491,7 +491,8 @@ return [
 
         'db_table' => [
             'invokeables' => [
-                'nationallicence' => 'Swissbib\VuFind\Db\Table\NationalLicenceUser'
+                'nationallicence' => 'Swissbib\VuFind\Db\Table\NationalLicenceUser',
+                'pura' => 'Swissbib\VuFind\Db\Table\PuraUser'
             ]
         ]
     ],
