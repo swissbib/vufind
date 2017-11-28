@@ -75,14 +75,27 @@ return [
             'pura' => [
                 'type'    => 'segment',
                 'options' => [
-                    'route'    => '/MyResearch/Pura[/:action]',
+                    'route'    => '/MyResearch/Pura',
                     'defaults' => [
                         'controller' => 'pura',
                         'action'     => 'index'
-                    ],
-                    'constraints' => [
-                        'action'   => '[a-zA-Z][a-zA-Z0-9_-]*'
-                    ],
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes'  => [
+                    'index' => [
+                        'type'    => 'segment',
+                        'options' => [
+                            'route'       => '/:libraryCode',
+                            'defaults'    => [
+                                'controller' => 'pura',
+                                'action' => 'index',
+                            ],
+                            'constraints' => [
+                                'libraryCode' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ],
+                        ],
+                    ]
                 ]
             ],
             'help-page' => [

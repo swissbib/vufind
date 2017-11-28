@@ -66,8 +66,15 @@ class PuraController extends BaseController
      */
     public function indexAction()
     {
-        $publishers = $this->puraService->getPublishersForALibrary("Z01");
-        $institution= $this->puraService->getInstitutionInfo("Z01");
+        $libraryCode = $this->params()->fromRoute('libraryCode');
+
+        if(!isset($libraryCode))
+        {
+            $libraryCode="Z01";
+        }
+
+        $publishers = $this->puraService->getPublishersForALibrary($libraryCode);
+        $institution= $this->puraService->getInstitutionInfo($libraryCode);
 
         //$publishers = $this->puraService->getPublishersForALibrary("RE01001");
         //$institution= $this->puraService->getInstitutionInfo("RE01001");
