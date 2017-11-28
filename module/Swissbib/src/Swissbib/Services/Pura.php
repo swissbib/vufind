@@ -27,6 +27,8 @@ namespace Swissbib\Services;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Swissbib\VuFind\Db\Row\PuraUser;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\Config\Config;
+use Libadmin\Institution\InstitutionLoader;
 
 /**
  * Class Pura.
@@ -63,15 +65,32 @@ class Pura implements ServiceLocatorAwareInterface
     protected $publishers;
 
     /**
+     * Group Mapping
+     *
+     * @var Config
+     */
+    protected $groupMapping;
+
+    /**
+     * Groups
+     *
+     * @var Config
+     */
+    protected $groups;
+
+    /**
      * NationalLicence constructor.
      *
      * @param object $config Config
      * @param array $publishers List of Publishers
+     * @param Config $groupMapping Map the institution code to the institution
      */
-    public function __construct($config, array $publishers)
+    public function __construct($config, array $publishers, Config $groupMapping, Config $groups)
     {
         $this->config = $config;
         $this->publishers = $publishers;
+        $this->groupMapping = $groupMapping;
+        $this->groups = $groups;
     }
 
     /**
@@ -137,6 +156,36 @@ class Pura implements ServiceLocatorAwareInterface
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
+    }
+
+
+
+    /**
+     * Get Institution Information
+     *
+     * @param string $libraryCode the library code (for example Z01)
+     *
+     * @return array Institution information
+     */
+    public function getInstitutionInfo($libraryCode)
+    {
+        $institutionLoader  = new InstitutionLoader();
+
+        $institutions=$institutionLoader->getGroupedInstitutions();
+
+
+        $groupCode    = isset($this->groupMapping[$libraryCode]) ?
+            $this->groupMapping[$libraryCode] : 'unknown';
+
+        $groupKey = array_search($groupCode,$this->groups->toArray());
+
+        $libraryCodes = array_column($institutions[$groupKey]["institutions"],"bib_code");
+
+        $institutionKey = array_search($libraryCode,$libraryCodes);
+
+        $institution = $institutions[$groupKey]["institutions"][$institutionKey];
+
+        return $institution;
     }
 
     /**

@@ -243,13 +243,21 @@ class Factory
         $publishersJsonData = file_exists($filePath) ? file_get_contents($filePath) : '';
         $publishers = json_decode($publishersJsonData, true);
 
+        $groupMapping = $sm->get('VuFind\Config')->get('libadmin-groups')
+            ->institutions;
+
+        $groups = $sm->get('VuFind\Config')->get('libadmin-groups')
+            ->groups;
+
         if (empty($publishers['publishers'])) {
             throw new ErrorException("No valid publishers data supplied in " . $filePath . ".");
         }
 
         return new Pura(
             $sm->get('VuFind\Config')->get('NationalLicences'),
-            $publishers['publishers']
+            $publishers['publishers'],
+            $groupMapping,
+            $groups
         );
     }
 
