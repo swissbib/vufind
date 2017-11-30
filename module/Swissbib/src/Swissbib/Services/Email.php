@@ -58,11 +58,13 @@ class Email
     /**
      * Email constructor.
      *
-     * @param array $config Config.
+     * @param array                   $config         Config.
+     * @param ServiceLocatorInterface $serviceLocator Service locator
      */
-    public function __construct($config)
+    public function __construct($config, $serviceLocator)
     {
         $this->config = $config;
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**
