@@ -71,10 +71,20 @@
     projects rely in different degrees on swissbib
 </p>
 <ul class="list">
-    <li>swissbib Basel Bern - Regional catalogue of the network IDS Basel Bern</li>
-    <li>jusbib - Metacatalogue for law literature</li>
-    <li>Kartenportal.ch - Portal for maps from libraries and archives in Switzerland</li>
+    <li><a href="https://baselbern.swissbib.ch/">swissbib Basel Bern</a> - Regional catalogue of the network IDS Basel Bern</li>
+    <li><a href="https://jus.swissbib.ch/">jusbib</a> - Metacatalogue for law literature</li>
+    <li><a href="http://www.kartenportal.ch/">Kartenportal.ch</a> - Portal for maps from libraries and archives in Switzerland</li>
     <li>linked.swissbib.ch (sister project) - Publication of Swiss library data as linked open data</li>
+    <li><a href="<?= $this->transEsc('snl.url') ?>"><?= $this->transEsc('snl.nationalLicences') ?></a> -
+        <?= $this->transEsc('snl.intro1') ?>
+        <?= $this->transEsc('snl.nationalLicences') ?>
+        <?= $this->transEsc('snl.intro2') ?>
+    </li>
+</ul>
+
+<h2>Documentation, Project Organization, Strategy</h2>
+<ul class="list">
+    <li><a href="https://www.swissbib.org" target="_blank">Project Wiki</a></li>
 </ul>
 
 <h2>Additional information</h2>
@@ -86,5 +96,4 @@
     <li><a title="<?= $this->transEsc('menu.feedback') ?>" href="" id="feedback"><?= $this->transEsc('menu.feedback') ?></a></li>
     <li><a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#115;&#x77;&#105;&#x73;&#115;&#98;&#x69;&#98;&#45;&#117;&#x62;&#64;&#x75;&#x6e;&#x69;&#x62;&#97;&#x73;&#x2e;&#99;&#x68;"><?= $this->transEsc('Email') ?></a></li>
     <li><a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/ub-hauptbibliothek/wir-ueber-uns/adresse-kontakte')?>" target="_blank">Address (Projekt swissbib, Universitätsbibliothek Basel)</a></li>
-    <li><a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.swissbib.blogspot.ch')?>" target="_blank">project wiki</a></li>
 </ul>
