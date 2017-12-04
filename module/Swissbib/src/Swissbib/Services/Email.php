@@ -187,20 +187,50 @@ class Email implements ServiceLocatorAwareInterface
         $link =  $baseDomainPath .
             $url(
                 'national-licences',
-                ['action' => 'extend-account'],
+                ['action' => 'index'],
                 ['force_canonical' => true]
             );
         $username = $toUser->firstname . ' ' . $toUser->lastname;
-        $textMail = '<p>Dear ' . $username .
+        $textMailEn = '<p>Dear ' . $username .
             ',<br /> <br /> We noticed that you didn\'t use ' .
             'Swiss National Licences as a private user in the last 12 months. ' .
+            'Therefore we deactivated your account. ' .
             'Please visit <a href="' . $link . '" ' .
             'target="_blank" rel="noreferrer">this link</a> ' .
-            'in the next 30 days to keep your account active. ' .
-            'Take this occasion to update ' .
-            'your personal information if needed. ' .
-            'Otherwise your account will be made inactive' .
-            ' and you will need to register again.</p>';
+            'if you wish to reactivate your account.</p> ' .
+            '<p>Swiss National Licences<br />' .
+            '<a href="http://nationallicences.ch">' .
+            'http://nationallicences.ch</a></p>';
+
+        $textMailFr = '<p>Cher/Chère ' . $username .
+            ',<br /> <br /> Vous n\avez pas utilisé les' .
+            'Licences Nationales Suisses dans les 12 derniers mois. ' .
+            'Nous avons donc désactivé votre compte. ' .
+            'Néanmoins, vous pouvez le réactiver' .
+            ' en visitant <a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">ce lien</a> ' .
+            '.</p> ' .
+            '<p>Licences Nationales Suisses<br />' .
+            '<a href="http://licencesnationales.ch">' .
+            'http://licencesnationales.ch</a></p>';
+
+        $textMailDe = '<p>Liebe(r) ' . $username .
+            ',<br /> <br /> Seit einem Jahr, haben Sie ' .
+            'Schweizer Nationallizenzen nicht mehr benutzt. ' .
+            'Deswegen haben wir Ihres Konto abgeschalten. ' .
+            'Wenn Sie wollen, können Sie Ihres Konto wieder ' .
+            '<a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">wieder freischalten</a> ' .
+            '.</p> ' .
+            '<p>Schweizer Nationallizenzen<br />' .
+            '<a href="http://nationallizenzen.ch">' .
+            'http://nationallizenzen.ch</a></p>';
+
+        $textMail =
+            $textMailDe . '<br />---<br />' .
+            $textMailFr . '<br />---<br />' .
+            $textMailEn;
+
         $mimeMessage = $this->createMimeMessage(
             $textMail,
             null,

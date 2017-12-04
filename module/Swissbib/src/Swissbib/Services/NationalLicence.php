@@ -840,18 +840,8 @@ class NationalLicence implements ServiceLocatorAwareInterface
                     if (!$user->hasBeenActiveInLast12Month()) {
                         echo "User was not active in last 12 month.\r\n";
                         //If last_account_extension_request == null
-                        if ($this->isAccountExtensionEmailHasAlreadyBeenSent($user)
+                        if (!$this->isAccountExtensionEmailHasAlreadyBeenSent($user)
                         ) {
-                            if ($this->isAccountExtensionRequestStillValid($user)) {
-                                echo "Account extension request is still valid.\r\n";
-                            } else {
-                                //Else if last_account_extension_request< XX days ago
-                                //Unset the national licence compliant flag
-                                echo "Unset national compliant flag...\r\n";
-                                $this->switchApiService
-                                    ->unsetNationalCompliantFlag($user->id);
-                            }
-                        } else {
                             //Send and email to the user for extending their account
                             $this->emailService->sendAccountExtensionEmail(
                                 $user->getRelUser()
@@ -946,79 +936,6 @@ class NationalLicence implements ServiceLocatorAwareInterface
             return false;
         }
         return true;
-    }
-
-    /**
-     * Check if the last email request for extending the account is still valid.
-     *
-     * @param NationalLicenceUser $user National Licence User
-     *
-     * @return bool
-     * @throws \Exception
-     */
-    protected function isAccountExtensionRequestStillValid($user)
-    {
-        $dateRequest = $user->getLastAccountExtensionRequest();
-        if (empty($dateRequest)) {
-            throw new \Exception(
-                "Email request is not sent yet. Not possible to check if" .
-                " it's expired or not."
-            );
-        }
-        $daysValidity = $this->config['request_account_extension_expiration_days'];
-        if ($dateRequest < (new \DateTime())->modify("-$daysValidity days")) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Method used for extending the user account.
-     *
-     * @return void
-     * @throws \Exception
-     */
-    public function extendAccountIfCompliant()
-    {
-        $user = $this->getCurrentNationalLicenceUser();
-        $user = $this->switchApiService->getUserUpdatedInformation(
-            $user->getNameId(),
-            $user->getPersistentId()
-        );
-        //If the extension request date < that XX days
-        if ($this->isAccountExtensionRequestStillValid($user)) {
-            //if the user is compliant with national licence
-            if ($this->hasVerifiedSwissAddress($user)) {
-                //Set the national licence flag
-                $this->switchApiService->setNationalCompliantFlag($user->getEduId());
-            } else {
-                //remove te national licence flag
-                $this->switchApiService->unsetNationalCompliantFlag(
-                    $user->getEduId()
-                );
-            }
-            //Unset the extension request date
-            $user->unsetLastAccountExtensionRequest();
-            $user->save();
-            //Display a message that shows that the extension is made successfully
-            $this->setMessage(
-                [
-                    'type' => 'success',
-                    'text' => 'snl.extensionRequestProcessedSuccessfully',
-                ]
-            );
-        } else {
-            $this->switchApiService->unsetNationalCompliantFlag(
-                $user->getEduId()
-            );
-            $this->setMessage(
-                [
-                    'type' => 'error',
-                    'text' => 'snl.extensionRequestExpired',
-                ]
-            );
-        }
     }
 
     /**
