@@ -1216,15 +1216,31 @@ class Holdings
     protected function getBackLinkRERO($networkCode, $institutionCode, $item,
         array $data
     ) {
-        $values = [
-            'language-code' => 'de', // @todo fetch from user,
-            // third and fourth character
-            'RERO-network-code' => (int)substr($institutionCode, 2, 2),
-            'bib-system-number' => $item['bibsysnumber'],
-            //removes the RE-characters from the number string
-            'sub-library-code' => preg_replace('[\D]', '', $institutionCode)
-        ];
-        return $this->compileString($data['pattern'], $values);
+        {
+            $reronetwork =  (int)substr($institutionCode, 2, 2);
+        if ($reronetwork === 01) {
+            $reronetwork = 'FR';
+        } elseif ($reronetwork === 11) {
+            $reronetwork = 'VS';
+        } elseif ($reronetwork === 31) {
+            $reronetwork = 'NJ';
+        } elseif ($reronetwork === 61) {
+            $reronetwork = 'GE';
+        } elseif ($reronetwork === 71) {
+            $reronetwork = 'IF';
+        } else {
+            $reronetwork = '';
+        }
+        }
+
+        {
+            $values = [
+                // third and fourth character
+                'RERO-network' => $reronetwork,
+                'bib-system-number' => $item['bibsysnumber'],
+            ];
+            return $this->compileString($data['pattern'], $values);
+            }
     }
 
     /**
@@ -1322,6 +1338,25 @@ class Holdings
     ) {
         $values = [
             'bib-system-number' => $item['bibsysnumber'],
+        ];
+        return $this->compileString($data['pattern'], $values);
+    }
+
+    /**
+     * Get backlink for Hemu network
+     *
+     * @param String $networkCode     Code of network
+     * @param String $institutionCode Code of Institution
+     * @param Array  $item            Item
+     * @param Array  $data            Data
+     *
+     * @return String
+     */
+    protected function getBackLinkHemu($networkCode, $institutionCode, array $item,
+        array $data
+    ) {
+        $values = [
+            'bib-system-number' => $item['bibsysnumber']
         ];
         return $this->compileString($data['pattern'], $values);
     }

@@ -110,10 +110,11 @@ class AvailabilityInfo extends AbstractHelper
      * Convert availability info into html string
      *
      * @param Boolean|Array $availability Availability
+     * @param String        $institution  Institution
      *
      * @return String
      */
-    public function __invoke($availability)
+    public function __invoke($availability, $institution = "")
     {
         $escapedTranslation = $this->getView()->plugin('transEsc');
 
@@ -362,7 +363,20 @@ class AvailabilityInfo extends AbstractHelper
             }
 
         } else {
-            $info = $escapedTranslation('no_ava_info');
+            switch ($institution) {
+            case 'NATIONALLICENCE':
+                $info = $escapedTranslation('onlineAvailableForSwiss');
+                break;
+            case 'RETROS':
+            case 'BORIS':
+            case 'EDOC':
+            case 'ECOD':
+            case 'ALEXREPO':
+                $info = $escapedTranslation('onlineAvailable');
+                break;
+            default:
+                $info = $escapedTranslation('no_ava_info');
+            }
         }
 
         return $info;

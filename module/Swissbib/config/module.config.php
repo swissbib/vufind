@@ -245,7 +245,6 @@ return [
         ],
         'factories'  => [
             'record' => 'Swissbib\Controller\Factory::getRecordController',
-            'cart'   => 'VuFind\Controller\Factory::getCartController',
             'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
         ]
@@ -344,18 +343,35 @@ return [
                     'Description'  => 'articledetails',
                     'TOC'          => null, // Disable TOC tab
                 ]
-            ]
+            ],
+            'Swissbib\RecordDriver\SolrMarc' => [
+                'tabs' => [
+                    'Holdings' => 'HoldingsILS',
+                    'Description' => 'Description',
+                    'TOC' => 'TOC',
+                    'UserComments' => 'UserComments',
+                    'Reviews' => 'Reviews',
+                    'Excerpt' => 'Excerpt',
+                    'Preview' => 'preview',
+                    'HierarchyTree' => 'HierarchyTree',
+                    'HierarchyTreeArchival' => 'HierarchyTreeArchival',
+                    'Map' => 'Map',
+                    'Similar' => 'SimilarItemsCarousel',
+                    'Details' => 'StaffViewMARC',
+                ],
+                'defaultTab' => null,
+            ],
         ],
         // This section contains service manager configurations for all VuFind
         // pluggable components:
         'plugin_managers' => [
-            'search_backend'           => [
-                'factories' => [
+            'search_backend' => [
+                'factories'  => [
                     'Solr'   => 'Swissbib\VuFind\Search\Factory\SolrDefaultBackendFactory',
                     'Summon' => 'Swissbib\VuFind\Search\Factory\SummonBackendFactory',
                 ]
             ],
-            'auth'                     => [
+            'auth' => [
                 'factories' => [
                     'shibbolethmock' => 'Swissbib\VuFind\Auth\Factory::getShibMock',
                 ],
@@ -380,7 +396,7 @@ return [
                     'topiprange' => 'Swissbib\Recommend\Factory::getTopIpRange'
                 ],
             ],
-            'recorddriver'             => [
+            'recorddriver' => [
                 'factories' => [
                     'solrmarc' => 'Swissbib\RecordDriver\Factory::getSolrMarcRecordDriver',
                     'summon'   => 'Swissbib\RecordDriver\Factory::getSummonRecordDriver',
@@ -388,15 +404,16 @@ return [
                     'missing'  => 'Swissbib\RecordDriver\Factory::getRecordDriverMissing',
                 ]
             ],
-            'ils_driver'               => [
+            'ils_driver' => [
                 'factories' => [
                     'aleph' => 'Swissbib\VuFind\ILS\Driver\Factory::getAlephDriver',
                     'multibackend' => 'Swissbib\VuFind\ILS\Driver\Factory::getMultiBackend',
                 ]
             ],
-            'hierarchy_driver'         => [
+            'hierarchy_driver' => [
                 'factories' => [
                     'series' => 'Swissbib\VuFind\Hierarchy\Factory::getHierarchyDriverSeries',
+                    'archival' => 'Swissbib\VuFind\Hierarchy\Factory::getHierarchyDriverArchival',
                 ]
             ],
             'hierarchy_treedataformatter' => [
@@ -413,6 +430,10 @@ return [
                 'invokables' => [
                     'articledetails' => 'Swissbib\RecordTab\ArticleDetails',
                     'description'    => 'Swissbib\RecordTab\Description'
+                ],
+                'factories' => [
+                    'hierarchytree' => 'Swissbib\RecordTab\Factory::getHierarchyTree',
+                    'hierarchytreearchival' => 'Swissbib\RecordTab\Factory::getHierarchyTreeArchival'
                 ]
             ],
         ]

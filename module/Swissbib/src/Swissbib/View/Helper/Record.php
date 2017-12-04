@@ -91,6 +91,7 @@ class Record extends VuFindRecord
                     // only the special url's with authentication
                     'B|^NATIONALLICENCE$',
                     'P|^856$ && u|stub.unibe.ch',
+                    'P|^856$ && u|aleph.unibas.ch && z|^Vorschau zum Bild'
                 ]
             ],
             'mergeLinksByDescription' => [
@@ -111,6 +112,7 @@ class Record extends VuFindRecord
                         'B|^SNL$ && P|^856$',
                         'B|^RETROS$ && P|^856$',
                         'B|^BORIS && P|^856$',
+                        'B|^EDOC && P|^856$',
                         'B|^FREE && P|^856$',
                         'B|^HAN$ && P|^856$',
                         'B|^IDSSG$ && P|^856$ && z|^download \(pdf\)',
@@ -132,7 +134,8 @@ class Record extends VuFindRecord
             ],
             'exclude' => [
                 '950' => [
-                    'P|^856$ && u|stub.unibe.ch'
+                    'P|^856$ && u|stub.unibe.ch',
+                    'P|^856$ && u|aleph.unibas.ch && z|^Vorschau zum Bild'
                 ],
                 '956' => [
                     'x|^VIEW && y|^Porträt',
@@ -164,7 +167,8 @@ class Record extends VuFindRecord
             ],
             'exclude' => [
                 '950' => [
-                    'P|^856$ && u|stub.unibe.ch'
+                    'P|^856$ && u|stub.unibe.ch',
+                    'P|^856$ && u|aleph.unibas.ch && z|^Vorschau zum Bild'
                 ],
                 '956' => [
                     'x|^VIEW && y|^Porträt',

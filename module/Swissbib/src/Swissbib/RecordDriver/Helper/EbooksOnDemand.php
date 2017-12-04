@@ -338,12 +338,15 @@ class EbooksOnDemand extends EbooksOnDemandBase
         $publishYear        = $recordDriver->getPublicationDates();
         $itemFormats        = $recordDriver->getMostSpecificFormat();
 
-        return $this->isYearInRange($institutionCode, $publishYear)
-        && $this->isSupportedInstitution($institutionCode)
-        && $this->isSupportedFormat($institutionCode, $itemFormats)
-        && $this->hasStopWords(
-            $institutionCode, $recordDriver->getLocalCodes()
-        ) === false;
+        if ($item['network'] === 'IDSBB') {
+            return $this->isYearInRange($institutionCode, $publishYear)
+            && $this->isSupportedInstitution($institutionCode)
+            && $this->isSupportedFormat($institutionCode, $itemFormats)
+            && $this->hasStopWords(
+                $institutionCode, $recordDriver->getLocalCodes()
+            ) === false;
+        }
+        return false;
     }
     /**
      * Build order link for A125 item

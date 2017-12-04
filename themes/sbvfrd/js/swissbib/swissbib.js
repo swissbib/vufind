@@ -15,7 +15,7 @@ var swissbib = {
     this.initUserVoiceFeedback();
     this.initBulkExport();
     this.AdvancedSearch.init();
-    this.initHierarchyTree();
+    //this.initHierarchyTree();
     //this.initNationaLicensesFlow();
   },
 
@@ -97,6 +97,7 @@ var swissbib = {
   /**
    * Enables scroll to selected node, mostly copied from VuFind bootstrap3 hierarchyTree.js
    */
+  /*
   initHierarchyTree: function() {
     var htmlID = swissbib.getParameterByName('htmlID');
 
@@ -111,6 +112,7 @@ var swissbib = {
       });
     }
   },
+  */
 
   /**
    * Handle click on bulk export

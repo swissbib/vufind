@@ -227,6 +227,7 @@ $prevTitles      = $record->getPreviousTitles();
   $exhibitions = $record->getExhibitions();
   $relatedEntries = $record->getRelatedEntries();
   $addPhysicalForm = $record->getAdditionalPhysicalForm();
+  $specialCodedDate = $record->getSpecialCodedDate();
 
 
   $musicalPresentation    = $record->getMusicPresentation();
@@ -237,7 +238,9 @@ $prevTitles      = $record->getPreviousTitles();
   $archivalLevel    = $record->getArchivalLevel();
   $findingAids    = $record->getFindingAids();
   $accumulationFrequency   = $record->getAccumulationFrequency();
-  $addedwork   = $record->getAddedWork();
+  $supplement   = $record->getSupplement();
+  $relatedWork = $record->getRelatedWork();
+  $access = $record->getAccess()
 
 
   ?>
@@ -250,7 +253,8 @@ $prevTitles      = $record->getPreviousTitles();
       !empty($exhibitions) or !empty($worktitle) or !empty($ownerNote) or !empty($acquisitionNote) or !empty($medium)
       or !empty($musicalPresentation) or !empty($orderClassification) or !empty($securityclassification)
       or !empty($reproduction) or !empty($reproductionClassification) or !empty($archivalLevel)
-      or !empty($findingAids) or !empty($accumulationFrequency) or !empty($addedwork)): ?>
+      or !empty($findingAids) or !empty($accumulationFrequency) or !empty($relatedWork) or !empty($supplement) 
+      or !empty($specialCodedDate) or !empty($access)): ?>
     <? $contentDisplayed = true; ?>
 
       <? /* Display general notes (field 500) */ ?>
@@ -315,20 +319,32 @@ $prevTitles      = $record->getPreviousTitles();
 
       <? /* Display access restriction notes (field 506) */ ?>
       <? if (!empty($access)): ?>
-        <tr>
-          <th><?= $this->transEsc('Access') ?>: </th>
-          <td>
-              <? foreach ($access as $field): ?>
-                  <?= $this->escapeHtml($field) ?><br/>
-              <? endforeach; ?>
-          </td>
-        </tr>
+          <tr>
+              <th><?= $this->transEsc('Access') ?>: </th>
+              <td>
+                  <? foreach ($access as $field): ?>
+                      <? if (empty($field['usability'])): ?>
+                          <? $fieldDesc = $field['accessrestrict']; ?>
+                      <? else: ?>
+                          <? $fieldDesc = $field['accessrestrict'] . ', ' . $field['usability']; ?>
+                      <? endif; ?>
+                      <? if (empty($field['url'])): ?>
+                          <?= $this->escapeHtml($fieldDesc) ?> <br/>
+                      <? else: ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                             target="_blank">
+                              <?= $this->escapeHtml($fieldDesc) ?>
+                          </a><br/>
+                      <? endif; ?>
+                  <? endforeach; ?>
+              </td>
+          </tr>
       <? endif; ?>
 
       <? /* Display linking entry notes (field 580) */ ?>
       <? if (!empty($related)): ?>
           <tr>
-              <th><?= $this->transEsc('Related Items') ?>: </th>
+              <th><?= $this->transEsc('Related Items Note') ?>: </th>
               <td>
                   <? foreach ($related as $field): ?>
                       <?= $this->escapeHtml($field) ?><br/>
@@ -361,7 +377,7 @@ $prevTitles      = $record->getPreviousTitles();
         </tr>
       <? endif; ?>
 
-      <? /* Display title of work (field 240 or 130) */ ?>
+      <? /* Display title of work (field 240 or 130 or 730) */ ?>
       <? if (!empty($worktitle)): ?>
           <tr>
               <th><?= $this->transEsc('Work_Title') ?>: </th>
@@ -572,7 +588,15 @@ $prevTitles      = $record->getPreviousTitles();
               <th><?= $this->transEsc('CustodialHistory') ?>: </th>
               <td>
                   <? foreach ($ownerNote as $field): ?>
-                      <?= $this->escapeHtml($field) ?><br/>
+                          <? $fieldDesc = $field['custodhist']; ?>
+                      <? if (empty($field['url'])): ?>
+                          <?= $this->escapeHtml($fieldDesc) ?> <br/>
+                      <? else: ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                             target="_blank">
+                              <?= $this->escapeHtml($fieldDesc) ?>
+                          </a><br/>
+                      <? endif; ?>
                   <? endforeach; ?>
               </td>
           </tr>
@@ -641,14 +665,34 @@ $prevTitles      = $record->getPreviousTitles();
 
     <? /* Display "Zugangsbestimmungen" for HAN (field 355) */ ?>
     <? if (!empty($securityclassification)): ?>
+        <tr>
         <th><?= $this->transEsc('SecurityClassification') ?>: </th>
             <td>
                 <? foreach ($securityclassification as $field): ?>
+                    <? if (empty($field['date'])): ?>
+                        <? $fieldDesc = $field['security']; ?>
+                    <? else: ?>
+                        <? $fieldDesc = $field['security'] . ', Frist: ' . $field['date']; ?>
+                    <? endif; ?>
+                    <?= $this->escapeHtml($fieldDesc) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+    <? /* Display "Begleitmaterial" for HAN (field 525) */ ?>
+    <? if (!empty($supplement)): ?>
+        <tr>
+            <th><?= $this->transEsc('Supplement') ?>: </th>
+            <td>
+                <? foreach ($supplement as $field): ?>
                     <?= $this->escapeHtml($field) ?><br/>
                 <? endforeach; ?>
             </td>
         </tr>
     <? endif; ?>
+
+
 
     <? /* Display "Reproduktion / Reproduktionen eines Originals" for HAN (field 533) */ ?>
     <? if (!empty($reproduction)): ?>
@@ -668,7 +712,19 @@ $prevTitles      = $record->getPreviousTitles();
             <th><?= $this->transEsc('ReproductionClassification') ?>: </th>
             <td>
                 <? foreach ($reproductionClassification as $field): ?>
-                    <?= $this->escapeHtml($field) ?><br/>
+                    <? if (empty($field['resource'])): ?>
+                        <? $fieldDesc = $field['regularisation']; ?>
+                    <? else: ?>
+                        <? $fieldDesc = $field['regularisation'] . ', ' . $field['resource']; ?>
+                    <? endif; ?>
+                    <? if (empty($field['url'])): ?>
+                        <?= $this->escapeHtml($fieldDesc) ?> <br/>
+                    <? else: ?>
+                        <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                           target="_blank">
+                            <?= $this->escapeHtml($fieldDesc) ?>
+                        </a><br/>
+                    <? endif; ?>
                 <? endforeach; ?>
             </td>
         </tr>
@@ -692,7 +748,19 @@ $prevTitles      = $record->getPreviousTitles();
             <th><?= $this->transEsc('FindingAids') ?>: </th>
             <td>
                 <? foreach ($findingAids as $field): ?>
-                    <?= $this->escapeHtml($field) ?><br/>
+                    <? if (empty($field['degreecontrol'])): ?>
+                        <? $fieldDesc = $field['cumulativeindex']; ?>
+                    <? else: ?>
+                        <? $fieldDesc = $field['cumulativeindex'] . ', ' . $field['degreecontrol']; ?>
+                    <? endif; ?>
+                    <? if (empty($field['url'])): ?>
+                        <?= $this->escapeHtml($fieldDesc) ?> <br/>
+                    <? else: ?>
+                        <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                           target="_blank">
+                            <?= $this->escapeHtml($fieldDesc) ?>
+                        </a><br/>
+                    <? endif; ?>
                 <? endforeach; ?>
             </td>
         </tr>
@@ -711,12 +779,23 @@ $prevTitles      = $record->getPreviousTitles();
     <? endif; ?>
 
 
-    <? /* Display "Nebeneintragung/weiteres enthaltenes Werk" for HAN (field 730) */ ?>
-    <? if (!empty($addedwork)): ?>
+    <? if (!empty($specialCodedDate)): ?>
         <tr>
-            <th><?= $this->transEsc('AddedWork') ?>: </th>
+            <th><?= $this->transEsc('DateOrigin') ?>: </th>
             <td>
-                <? foreach ($addedwork as $field): ?>
+                <? foreach ($specialCodedDate as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+    <? /* Display "Nebeneintratung Werk 700/710" */ ?>
+    <? if (!empty($relatedWork)): ?>
+        <tr>
+            <th><?= $this->transEsc('RelatedWork') ?>: </th>
+            <td>
+                <? foreach ($relatedWork as $field): ?>
                     <?= $this->escapeHtml($field) ?><br/>
                 <? endforeach; ?>
             </td>

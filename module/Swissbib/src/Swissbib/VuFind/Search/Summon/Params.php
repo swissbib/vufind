@@ -174,7 +174,11 @@ class Params extends VFSummonParams
                         $foundIncludeWithoutFulltext = true;
                     } else {
                         // Standard case:
-                        $params->add('filters', "{$filt['field']},{$safeValue}");
+                        $exclude = $filt['operator'] === 'NOT' ? 'true' : 'false';
+                        $params->add(
+                            'filters',
+                            "{$filt['field']},{$safeValue},{$exclude}"
+                        );
                     }
                 }
             }

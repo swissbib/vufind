@@ -508,6 +508,23 @@ class NationalLicence implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Check if a user is an SWITCH edu-ID user
+     *
+     * @param NationalLicenceUser $user NationalLicenceUser
+     *
+     * @return bool True if it's a SWITCH edu-ID user
+     */
+    public function isEduIDUser($user)
+    {
+        $persistentId = $user->getPersistentId();
+        if (0 === strpos($persistentId, "https://eduid.ch/idp/shibboleth")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Set request permanent access to user.
      *
      * @param NationalLicenceUser $user NationalLicenceUser
@@ -806,6 +823,10 @@ class NationalLicence implements ServiceLocatorAwareInterface
          */
         foreach ($users as $user) {
             echo "\r\n" . 'Processing user ' . $user->getEduId() . ".\r\n";
+            if (!$this->isEduIDUser($user)) {
+                echo "Not edu-ID user : skip.";
+                continue;
+            }
             //Update attributes from the edu-Id account
             try{
                 $user = $this->switchApiService->getUserUpdatedInformation(
@@ -843,6 +864,48 @@ class NationalLicence implements ServiceLocatorAwareInterface
                         }
                     }
                 }
+
+                /*
+                    for the users :
+                    - who have an active access
+                    - and verified their address within 14 days after
+                      activating the temporary access
+                    We create the permanent access
+                    */
+
+                if ($this->hasVerifiedSwissAddress($user)
+                    && $this->isNationalLicenceCompliant($user)
+                    && !($this->hasPermanentAccess($user))
+                ) {
+                    echo "Set permanent access (access was still valid)";
+                    $this->createPermanentAccessForUser(
+                        $user->getPersistentId()
+                    );
+                }
+
+                /*
+                    for the users :
+                    - who didn't activated their temporary access
+                    - or verified their address more than 14 days after
+                      activating the temporary access
+                    The crontab will activate the nationalLicencesCompliant
+                    Flag at Switch as soon as they
+                    verified their address
+                */
+
+                $e = $user->getEduId();
+                $onNationalCompliantSwitchGroup
+                    = $this->switchApiService->userIsOnNationalCompliantSwitchGroup(
+                        $e
+                    );
+
+                if ($this->isNationalLicenceCompliant($user)
+                    && !$onNationalCompliantSwitchGroup
+                ) {
+                    echo "Set permanent access (new access)";
+                    $this->createPermanentAccessForUser($user->getPersistentId());
+                }
+
                 //if user is not anymore compliant with their homePostalAddress
                 //No address -->remove flag
                 //Postal address not verified anymore --> remove user to national
@@ -850,10 +913,8 @@ class NationalLicence implements ServiceLocatorAwareInterface
                 //Postal address not in CH -->remove user to national compliant group
                 // This also takes care of expired temporary accesses
 
-                $e = $user->getEduId();
-
                 if ($this->switchApiService->userIsOnNationalCompliantSwitchGroup($e)
-                    && !$this->isNationalLicenceCompliant($user)
+                    && !($this->isNationalLicenceCompliant($user))
                 ) {
                     echo "Unset national compliant flag.....\r\n";
                     //Unset the national licence compliant flag

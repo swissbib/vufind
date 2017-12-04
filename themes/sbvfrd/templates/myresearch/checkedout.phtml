@@ -119,7 +119,11 @@
                  $title = empty($title) ? $this->transEsc('Title not available') : $this->escapeHtml($title);
                  echo '<a href="' . $this->recordLink()->getUrl($resource) .
                      '" class="title">' . $title . '</a>';
-             } else if (isset($ilsDetails['title']) && !empty($ilsDetails['title'])){
+             } else if (isset($ilsDetails['id']) && !empty($ilsDetails['id'])){
+                  // If ID is available link to the record
+                 echo '<a href="' . $this->url('search-results') . "?lookfor=" . str_replace('.DSV01-', '', $ilsDetails['id']) . "&jumpto=1" .
+                     '" class="title">' . $this->escapeHtml($ilsDetails['title']) . '</a>';
+             } else if (isset($ilsDetails['title']) && !empty($ilsDetails['title'])) {
                  // If the record is not available in Solr, perhaps the ILS driver sent us a title we can show...
                  echo $this->escapeHtml($ilsDetails['title']);
              } else {

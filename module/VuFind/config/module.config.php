@@ -235,6 +235,7 @@ $config = [
             'session'        => ['id', 'session_id_seq'],
             'tags'           => ['id', 'tags_id_seq'],
             'user'           => ['id', 'user_id_seq'],
+            'user_card'      => ['id', 'user_card_id_seq'],
             'user_list'      => ['id', 'user_list_id_seq'],
             'user_resource'  => ['id', 'user_resource_id_seq'],
         ],
@@ -747,8 +748,8 @@ $dynamicRoutes = [
 
 // Define static routes -- Controller/Action strings
 $staticRoutes = [
-    'Alphabrowse/Home', 'Author/Home', 'Author/Search',
-    'Authority/Home', 'Authority/Record', 'Authority/Search',
+    'Alphabrowse/Home', 'Author/FacetList', 'Author/Home', 'Author/Search',
+    'Authority/FacetList', 'Authority/Home', 'Authority/Record', 'Authority/Search',
     'Browse/Author', 'Browse/Dewey', 'Browse/Era', 'Browse/Genre', 'Browse/Home',
     'Browse/LCC', 'Browse/Region', 'Browse/Tag', 'Browse/Topic', 'Cart/doExport',
     'Cart/Email', 'Cart/Export', 'Cart/Home', 'Cart/MyResearchBulk',
@@ -779,7 +780,7 @@ $staticRoutes = [
     'OAI/Server', 'Pazpar2/Home', 'Pazpar2/Search', 'Records/Home',
     'Search/Advanced', 'Search/Email', 'Search/FacetList', 'Search/History',
     'Search/Home', 'Search/NewItem', 'Search/OpenSearch', 'Search/Reserves',
-    'Search/Results', 'Search/Suggest',
+    'Search/ReservesFacetList', 'Search/Results', 'Search/Suggest',
     'Summon/Advanced', 'Summon/FacetList', 'Summon/Home', 'Summon/Search',
     'Tag/Home',
     'Upgrade/Home', 'Upgrade/FixAnonymousTags', 'Upgrade/FixDuplicateTags',
@@ -787,7 +788,7 @@ $staticRoutes = [
     'Upgrade/GetDBCredentials', 'Upgrade/GetDbEncodingPreference',
     'Upgrade/GetSourceDir', 'Upgrade/GetSourceVersion', 'Upgrade/Reset',
     'Upgrade/ShowSQL',
-    'Web/Home', 'Web/Results',
+    'Web/Home', 'Web/FacetList', 'Web/Results',
     'Worldcat/Advanced', 'Worldcat/Home', 'Worldcat/Search'
 ];
 

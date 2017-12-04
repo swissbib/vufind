@@ -5,6 +5,26 @@
   <? $displayTestSystem = !empty($displayTestSystem) && ($displayTestSystem == "true" || $displayTestSystem == "1") ? "1" : 0; ?>
   <? if (!isset($this->layout()->renderingError)): ?>
     <div class="col-md-12">
+      <? if (isset($this->configAccess()->Survey)): ?>
+        <?
+          if ($this->layout()->userLang == "en") $surveyUrl = $this->configAccess()->Survey->url_en;
+          elseif ($this->layout()->userLang == "de") $surveyUrl = $this->configAccess()->Survey->url_de;
+          elseif ($this->layout()->userLang == "fr") $surveyUrl = $this->configAccess()->Survey->url_fr;
+          elseif ($this->layout()->userLang == "it") $surveyUrl = $this->configAccess()->Survey->url_it;
+        ?>
+        <? $cookieName = $this->configAccess()->Survey->cookieName; ?>
+        <? $cookiePersistenceInDays = $this->configAccess()->Survey->cookiePersistenceInDays; ?>
+        <? if (isset($surveyUrl) && !isset($_COOKIE[$cookieName])): ?>
+          <? $expires = date("D, d M Y H:i:s", strtotime("+" . $cookiePersistenceInDays . "days")); ?>
+          <div class="row">
+            <div style="background-color:#fdeb18;padding:5px;text-align:center;border-radius:3px">
+              <a style="color:green;" href="<?=$surveyUrl?>" target="_blank" onclick="document.cookie='<?=$cookieName?>=clicked; expires=<?=$expires?>; path=/'">
+                <?= $this->transEsc("survey.notification") ?>
+              </a>
+            </div>
+          </div>
+        <? endif; ?>
+      <? endif; ?>
       <div class="collapse navbar-collapse" id="header-collapse">
 
 
