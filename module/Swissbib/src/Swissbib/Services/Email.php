@@ -207,7 +207,7 @@ class Email implements ServiceLocatorAwareInterface
             Mime\Mime::TYPE_HTML
         );
         $this->sendMailWithAttachment(
-            $toUser->email, $mimeMessage, 'Account extension'
+            $toUser->email, $mimeMessage, 'Account extension','true'
         );
     }
 
