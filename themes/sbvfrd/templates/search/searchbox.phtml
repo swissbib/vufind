@@ -17,6 +17,10 @@
     $lastSort = $this->searchMemory()->getLastSort($this->searchClassId);
     $lastLimit = $this->searchMemory()->getLastLimit($this->searchClassId);
     $searchtabs = $this->searchtabs($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType);
+
+    // Append TypeScript generated output
+    $this->headScript()->appendFile("swissbib/swissbib.ts.js");
+
 ?>
 <? if ($this->searchType == 'advanced'): ?>
   <div id="searchForm">
