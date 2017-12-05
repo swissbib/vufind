@@ -195,10 +195,10 @@ class Email implements ServiceLocatorAwareInterface
         $textMailDe = '<p>Liebe(r) ' . $username .
             ',<br /> <br /> Seit einem Jahr, haben Sie ' .
             'Schweizer Nationallizenzen nicht mehr benutzt. ' .
-            'Deswegen haben wir Ihres Konto abgeschaltet. ' .
+            'Wir haben Ihr Konto deshalb deaktiviert. ' .
             'Wenn Sie wollen, können Sie Ihres Konto ' .
             '<a href="' . $link . '" ' .
-            'target="_blank" rel="noreferrer">wieder freischalten</a>' .
+            'target="_blank" rel="noreferrer">reaktivieren</a>' .
             '.</p> ' .
             '<p>Schweizer Nationallizenzen<br />' .
             '<a href="http://nationallizenzen.ch">' .
