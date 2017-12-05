@@ -1,6 +1,7 @@
 import * as $ from "jquery";
 import {Hydra} from "./Hydra";
-import {AutoSuggest, AutoSuggestConfiguration} from "./AutoSuggest";
+import {AutoSuggest, AutoSuggestConfiguration, AutoSuggestSection} from "./AutoSuggest";
+
 
 $(document).ready(() => {
     const client = new Hydra("http://data.swissbib.ch/");
@@ -18,12 +19,14 @@ authorid="${p["@id"]}"></span></li>`;
     }
 
     // initialize auto-suggest
-    const autoSuggestConfiguration: AutoSuggestConfiguration = new AutoSuggestConfiguration ([
-        { label: "Abschnitt 01", limit: 3},
-        { label: "Abschnitt 02", limit: 4},
-        { label: "Abschnitt 03", limit: 5}
-    ]);
+    let sections: Array<AutoSuggestSection> =
+        swissbib.autoSuggestConfiguration().sections;
 
-    const autoSuggest = new AutoSuggest("#searchForm_lookfor", autoSuggestConfiguration);
+    const autoSuggestConfiguration: AutoSuggestConfiguration =
+        new AutoSuggestConfiguration (sections, VuFind);
+
+    const autoSuggest = new AutoSuggest(
+        "#searchForm_lookfor", autoSuggestConfiguration
+    );
     autoSuggest.initialize();
 });
