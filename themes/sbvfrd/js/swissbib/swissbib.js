@@ -3,12 +3,11 @@
 /**
  * swissbib VuFind Javascript
  */
-var swissbib = {
-
+(function closure(s) {
   /**
    * Initialize on ready.
    */
-  initOnReady: function () {
+  s.initOnReady = function () {
     this.initBackgrounds();
     this.initFocus();
     this.initRemoveSearchText();
@@ -17,7 +16,7 @@ var swissbib = {
     this.AdvancedSearch.init();
     //this.initHierarchyTree();
     //this.initNationaLicensesFlow();
-  },
+  };
 
   /**
    * Initialize focus either
@@ -25,7 +24,7 @@ var swissbib = {
    * - or on login-field, if present
    * - or on favorites-library-field, if present
    */
-  initFocus: function() {
+  s.initFocus = function() {
     var favoritesLibraryField = window.location.pathname.match(/Favorites$/) !== null ? document.getElementById('query') : null;
     var loginField = document.getElementById('login_username');
     var searchField = document.getElementById('searchForm_lookfor');
@@ -55,12 +54,12 @@ var swissbib = {
         searchField.focus();
       }
     }
-  },
+  };
 
   /**
    * Initializes remove search text icon on main search field
    */
-  initRemoveSearchText: function() {
+  s.initRemoveSearchText = function () {
     var $searchInputField = $('#searchForm_lookfor');
     var $removeSearchTextIcon = $('#remove-search-text');
 
@@ -68,37 +67,37 @@ var swissbib = {
       $removeSearchTextIcon.show();
     }
 
-    $removeSearchTextIcon.click(function() {
+    $removeSearchTextIcon.click(function () {
       $searchInputField.val('');
       $searchInputField.focus();
       $removeSearchTextIcon.hide();
     });
 
-    $searchInputField.on('input', function() {
+    $searchInputField.on('input', function () {
       if ($searchInputField.val() === '') {
         $removeSearchTextIcon.hide();
       } else {
         $removeSearchTextIcon.show();
       }
     });
-  },
+  };
 
   /**
    *
    */
-  initBulkExport: function () {
+  s.initBulkExport = function () {
     var hasResults = $('form[name="bulkActionForm"]').find('a.singleLinkForBulk').length > 0;
 
     if (hasResults) {
       $('.dropdown-menu[role="export-menu"] li').click($.proxy(this.onBulkExportFormatClick, this));
     }
-  },
+  };
 
   /**
    * Enables scroll to selected node, mostly copied from VuFind bootstrap3 hierarchyTree.js
    */
   /*
-  initHierarchyTree: function() {
+  s.initHierarchyTree = function () {
     var htmlID = swissbib.getParameterByName('htmlID');
 
     if (htmlID !== '') {
@@ -120,14 +119,14 @@ var swissbib = {
    *
    * @param    {Object}    event
    */
-  onBulkExportFormatClick: function (event) {
+  s.onBulkExportFormatClick = function (event) {
     var driver = $('div.search-tabs-box:has(ul)').length ? $('div.search-tabs-box li.active').attr('data-searchClass') : 'VuFind';
     var baseUrl = event.target.href,
-    idArgs = [],
-    fullUrl,
-    ids = $('a.singleLinkForBulk').map(function () {
-      return driver + '|' + this.href.split('/').pop()
-    }).get();
+        idArgs = [],
+        fullUrl,
+        ids = $('a.singleLinkForBulk').map(function () {
+          return driver + '|' + this.href.split('/').pop()
+        }).get();
 
     event.preventDefault();
 
@@ -138,12 +137,12 @@ var swissbib = {
     fullUrl = baseUrl + '&' + idArgs.join('&');
 
     window.open(fullUrl);
-  },
+  };
 
   /**
    * function for the UserVoice feedback widget in swissbib green
    */
-  initUserVoiceFeedback: function() {
+  s.initUserVoiceFeedback = function () {
     window.UserVoice = window.UserVoice || [];
     (function () {
       var uv = document.createElement('script');
@@ -164,17 +163,17 @@ var swissbib = {
       }]);
     }
     UserVoice.push(['autoprompt', {}]);
-  },
+  };
 
   /**
    * Placeholder function for VuFind hook
    */
-  updatePageForLoginParent: function() {},
+  s.updatePageForLoginParent = function () {},
 
   /**
    *
    */
-  initBackgrounds: function () {
+  s.initBackgrounds = function () {
     var sidebarHeight = 0,
         elementHeight = 0,
         parentElement = $('.dirty-hack-column > .row').first(),
@@ -205,12 +204,12 @@ var swissbib = {
         parentElement.children('div.sidebar').addClass('invisible');
       }
     }
-  },
+  };
 
   /**
    * init backgrounds during transition to prevent flickering
    */
-  initBackgroundsRecursive: function(count) {
+  s.initBackgroundsRecursive = function (count) {
     swissbib.initBackgrounds();
     swissbib.currentTimeout = setTimeout(
         function() {
@@ -218,26 +217,26 @@ var swissbib = {
         },
         1
     );
-  },
+  };
 
   /**
    * clear the init background initiation
    */
-  destructBackgroundsRecursive: function() {
+  s.destructBackgroundsRecursive = function () {
     swissbib.initBackgrounds();
     clearTimeout(swissbib.currentTimeout);
-  },
+  };
 
-  getParameterByName: function(name) {
+  s.getParameterByName = function (name) {
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
 
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-  },
+  };
 
-  initNationaLicensesFlow: (function() {
+  s.initNationaLicensesFlow = (function() {
 
-    $('.nlItem').on("click", function(event) {
+    $('.nlItem').on("click", function (event) {
       event.preventDefault();
       event.stopPropagation();
       var publisherURL = $(this).parent().next().text();
@@ -250,17 +249,15 @@ var swissbib = {
       }
        */
       $.ajax({
-            "url": '/NationalLicences/signPost?publisher=' + encodeURIComponent(publisherURL)
-          }
-      )
+        "url": '/NationalLicences/signPost?publisher=' + encodeURIComponent(publisherURL)
+      });
     });
 
     //delete it when we have implemented a correct response
     return false;
 
   })
-
-};
+})(window.swissbib = window.swissbib || {});
 
 
 /**
