@@ -632,7 +632,7 @@ class NationalLicence
          * @var \Swissbib\VuFind\Db\Table\NationalLicenceUser $userTable
          */
         $userTable = $this->getTable(
-            '\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser'
+            'nationallicence'
         );
 
         return $userTable->getList();
@@ -721,7 +721,7 @@ class NationalLicence
     {
         /* \Swissbib\VuFind\Db\Table\NationalLicenceUser $nationalLicenceUserTable */
         $nationalLicenceUserTable
-            = $this->getTable('\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser');
+            = $this->getTable('nationallicence');
         return $nationalLicenceUserTable->getLastTemporaryRequest(1);
     }
 
@@ -734,7 +734,7 @@ class NationalLicence
     {
         /*\Swissbib\VuFind\Db\Table\NationalLicenceUser $nationalLicenceUserTable*/
         $nationalLicenceUserTable
-            = $this->getTable('\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser');
+            = $this->getTable('nationallicence');
         return $nationalLicenceUserTable->getNumberOfLastPermanentRequest(1);
     }
 
@@ -748,7 +748,7 @@ class NationalLicence
     {
         /*\Swissbib\VuFind\Db\Table\NationalLicenceUser $nationalLicenceUserTable*/
         $nationalLicenceUserTable
-            = $this->getTable('\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser');
+            = $this->getTable('nationallicence');
         return $nationalLicenceUserTable->getLastBlockedUser(1);
     }
 
