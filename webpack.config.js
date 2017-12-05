@@ -1,7 +1,11 @@
 const path = require('path');
 
 module.exports = {
-    entry: ['./themes/sbvfrd/ts/Hydra.ts', './themes/sbvfrd/ts/app.ts'],
+    entry: [
+        './themes/sbvfrd/ts/Hydra.ts',
+        './themes/sbvfrd/ts/AutoSuggest.ts',
+        './themes/sbvfrd/ts/app.ts'
+    ],
     output: {
         path: path.resolve(__dirname),
         filename: './themes/sbvfrd/js/swissbib/swissbib.ts.js'
