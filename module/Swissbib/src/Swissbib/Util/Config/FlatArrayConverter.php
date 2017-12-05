@@ -20,7 +20,7 @@ final class FlatArrayConverter
     /**
      * Used to check whether a key path component is a number.
      */
-    const NUMBER_SEARCH_STRING = '~[0-9]~';
+    const NUMBER_SEARCH_STRING = '/[0-9]/';
 
     /**
      * @private
@@ -42,10 +42,10 @@ final class FlatArrayConverter
      * the constructor. In case the key path of a property contains a numeric component it will be converted into a
      * number and is used as numeric index of the according sub-array.
      *
-     * @param array $source
+     * @param Config $source
      * @return array
      */
-    public function fromFlatArray(array &$source) {
+    public function fromFlatArray(Config $source) {
         $result = array();
 
         foreach ($source as $key => $value) {
@@ -60,15 +60,17 @@ final class FlatArrayConverter
      * Converts the content of the specified sections in the given Config object.
      *
      * @param \Zend\Config\Config $config
-     * @param null $sectionNames
-     * @return array
+     * @param string|array $sectionNames
+     * A string or an array of strings holding the names of the sections in the config to process.
+     *
+     * @return \Zend\Config\Config
      * The array will contain only the sections specified.
      */
-    public function fromConfigSections(Config $config, $sectionNames = null) {
-        $sectionNames = is_null($sectionNames) ? array() : $sectionNames;
+    public function fromConfigSections(Config $config, $sectionNames) {
         $sectionNames = is_string($sectionNames) ? array($sectionNames) : array();
+        $result = $this->processSections($config, $sectionNames);
 
-        return $this->processSections($config, $sectionNames);
+        return new Config($result);
     }
 
 
