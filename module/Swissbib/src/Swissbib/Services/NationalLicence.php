@@ -78,7 +78,8 @@ class NationalLicence
      * @param array                   $config           Config
      * @param ServiceLocatorInterface $serviceLocator   Service locator.
      */
-    public function __construct($switchApiService, $emailService, $config, $serviceLocator)
+    public function __construct($switchApiService, $emailService, $config,
+        $serviceLocator)
     {
         $this->switchApiService = $switchApiService;
         $this->emailService = $emailService;
