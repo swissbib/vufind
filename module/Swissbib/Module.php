@@ -85,8 +85,6 @@ class Module implements Autoloadable, Configurable, Initializable, Consolable
                 ],
             ],
         ];
-
-
     }
 
     /**

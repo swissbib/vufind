@@ -250,7 +250,7 @@ return [
             'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
             'summon' => 'Swissbib\Controller\Factory::getSummonController',
-            'holdings'=> 'Swissbib\Controller\Factory::getHoldingsController',
+            'holdings' => 'Swissbib\Controller\Factory::getHoldingsController',
             'feedback'  => 'Swissbib\Controller\Factory::getFeedbackController',
             'cover'     => 'Swissbib\Controller\Factory::getCoverController',
             'upgrade'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
