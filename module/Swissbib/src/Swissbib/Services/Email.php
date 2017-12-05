@@ -228,8 +228,7 @@ class Email implements ServiceLocatorAwareInterface
             '<a href="http://nationallicences.ch">' .
             'http://nationallicences.ch</a></p>';
 
-        $textMail =
-            $toUser->email . "<br />" .
+        $textMail = $toUser->email . "<br />" .
             $textMailDe . '<p>---</p>' .
             $textMailFr . '<p>---</p>' .
             $textMailEn;
@@ -240,8 +239,12 @@ class Email implements ServiceLocatorAwareInterface
             Mime\Mime::TYPE_HTML
         );
         $this->sendMailWithAttachment(
-            //$toUser->email, $mimeMessage, 'Nationallizenzen / Licences Nationales / National licences','true'
-            'lionel.walter@unibas.ch', $mimeMessage, 'Nationallizenzen / Licences Nationales / National licences', 'true'
+            //$toUser->email,
+            'lionel.walter@unibas.ch',
+            $mimeMessage,
+            'Nationallizenzen / Licences Nationales / National licences',
+            //use 'true' to test locally if sendmail not installed
+            'true'
         );
     }
 

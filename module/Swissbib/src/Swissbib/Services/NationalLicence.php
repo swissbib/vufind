@@ -173,7 +173,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
 
             //Unset the extension request date if the email has been sent
             //and the user visits the page
-            if($this->isAccountExtensionEmailHasAlreadyBeenSent($user)) {
+            if ($this->isAccountExtensionEmailHasAlreadyBeenSent($user)) {
                 $user->unsetLastAccountExtensionRequest();
                 $user->save();
             }
