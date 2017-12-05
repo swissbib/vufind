@@ -2,6 +2,7 @@
 
 import * as $ from "jquery"
 
+
 /**
  * Component to handle auto-completion based on the autocomplete.js integrated within VuFind.
  */
@@ -116,7 +117,6 @@ export class AutoSuggest {
     }
 
     private resultListContainerElement_displayHandler = (eventObject: JQuery.Event) => {
-        console.log("hallo welt");
         let input: JQuery<HTMLElement> = this.sourceInputElement;
         let position: JQuery.Coordinates = input.offset();
 
@@ -129,14 +129,27 @@ export class AutoSuggest {
 }
 
 /**
+ * Intermediate type to get translation API type-checked
+ */
+interface AutoSuggestTranslator {
+    /**
+     * @param {string} key
+     * @returns {string}
+     */
+    translate: (key: string, replacements?: Array<any>) => string;
+}
+
+/**
  * Data structure component represents the configuration for the AutoSuggest class.
  */
 export class AutoSuggestConfiguration {
 
     private sections: Array<AutoSuggestSection>;
+    private translator: AutoSuggestTranslator;
 
-    constructor(sections: Array<AutoSuggestSection>) {
+    constructor(sections: Array<AutoSuggestSection>, translator: AutoSuggestTranslator) {
         this.sections = sections;
+        this.translator = translator;
     }
 
     public initialize() {
@@ -151,6 +164,10 @@ export class AutoSuggestConfiguration {
 
     public getSectionAt(position: number): AutoSuggestSection {
         return this.sections[position];
+    }
+
+    public getTranslation(key: string): string {
+        return this.translator.translate(key);
     }
 }
 
@@ -178,9 +195,9 @@ export class AutoSuggestSection {
     results?: Array<string | VuFindAutoCompleteItem>;
 
     /**
-     * The search URL to use for requesting results for user inputs.
+     * The searcher to use for requesting results in this section
      */
-    searchUrl?: string;
+    searcher?: string;
 }
 
 
