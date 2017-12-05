@@ -387,6 +387,12 @@ class SwitchApi implements ServiceLocatorAwareInterface
             'email' => 'mail',
         ];
 
+        //to test the email sending on test server
+        //if($updatedUser["uniqueID"]=="859735645906@eduid.ch") {
+        //    echo "setting false to swissEduIDUsage1y\r\n";
+        //    $updatedUser["swissEduIDUsage1y"] = "FALSE";
+        //}
+
         $nationalLicenceField = [];
         $userFields = [];
         foreach ($nationalLicenceFieldRelation as $key => $value) {

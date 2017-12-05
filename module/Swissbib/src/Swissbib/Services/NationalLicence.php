@@ -171,6 +171,13 @@ class NationalLicence implements ServiceLocatorAwareInterface
             $this->setPermanentAccess($user);
             $this->switchApiService->setNationalCompliantFlag($user->getEduId());
 
+            //Unset the extension request date if the email has been sent
+            //and the user visits the page
+            if($this->isAccountExtensionEmailHasAlreadyBeenSent($user)) {
+                $user->unsetLastAccountExtensionRequest();
+                $user->save();
+            }
+
             return true;
         }
         throw new \Exception("Was not possible to activate permanent access");
@@ -815,6 +822,15 @@ class NationalLicence implements ServiceLocatorAwareInterface
     {
         //Get list of users
         $users = $this->getListNationalLicenceUserWithVuFindUsers();
+        $nbUsers = 0;
+        $nbEmailSent = 0;
+        $nbAccessDeactivated = 0;
+        $nbPermanentAccessActivatedAfterTemporary = 0;
+        $nbPermanentAccessActivatedWithoutTemporary = 0;
+        $nbNonEduIdUsers = 0;
+
+
+
         //Foreach users
         /**
          * National licence user.
@@ -822,9 +838,11 @@ class NationalLicence implements ServiceLocatorAwareInterface
          * @var NationalLicenceUser $user
          */
         foreach ($users as $user) {
-            echo "\r\n" . 'Processing user ' . $user->getEduId() . ".\r\n";
+            $nbUsers++;
+            //echo "\r\n" . 'Processing user ' . $user->getEduId() . ".\r\n";
             if (!$this->isEduIDUser($user)) {
-                echo "Not edu-ID user : skip.";
+                //echo "Not edu-ID user : skip.";
+                $nbNonEduIdUsers++;
                 continue;
             }
             //Update attributes from the edu-Id account
@@ -838,7 +856,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
                 if ($this->hasAccessToNationalLicenceContent($user)) {
                     //If last activity date < last 12 month
                     if (!$user->hasBeenActiveInLast12Month()) {
-                        echo "User was not active in last 12 month.\r\n";
+                        //echo "User was not active in last 12 month.\r\n";
                         //If last_account_extension_request == null
                         if (!$this->isAccountExtensionEmailHasAlreadyBeenSent($user)
                         ) {
@@ -846,6 +864,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
                             $this->emailService->sendAccountExtensionEmail(
                                 $user->getRelUser()
                             );
+                            $nbEmailSent++;
                             echo 'Email sent to ' . $user->getRelUser()->email .
                                 "\r\n";
                             //Set the last_account_extension_request to now
@@ -867,7 +886,8 @@ class NationalLicence implements ServiceLocatorAwareInterface
                     && $this->isNationalLicenceCompliant($user)
                     && !($this->hasPermanentAccess($user))
                 ) {
-                    echo "Set permanent access (access was still valid)";
+                    //echo "Set permanent access (access was still valid)";
+                    $nbPermanentAccessActivatedAfterTemporary++;
                     $this->createPermanentAccessForUser(
                         $user->getPersistentId()
                     );
@@ -892,7 +912,8 @@ class NationalLicence implements ServiceLocatorAwareInterface
                 if ($this->isNationalLicenceCompliant($user)
                     && !$onNationalCompliantSwitchGroup
                 ) {
-                    echo "Set permanent access (new access)";
+                    //echo "Set permanent access (new access)";
+                    $nbPermanentAccessActivatedWithoutTemporary++;
                     $this->createPermanentAccessForUser($user->getPersistentId());
                 }
 
@@ -906,7 +927,8 @@ class NationalLicence implements ServiceLocatorAwareInterface
                 if ($this->switchApiService->userIsOnNationalCompliantSwitchGroup($e)
                     && !($this->isNationalLicenceCompliant($user))
                 ) {
-                    echo "Unset national compliant flag.....\r\n";
+                    //echo "Unset national compliant flag.....\r\n";
+                    $nbAccessDeactivated++;
                     //Unset the national licence compliant flag
                     $this->switchApiService->unsetNationalCompliantFlag(
                         $user->getEduId()
@@ -919,6 +941,15 @@ class NationalLicence implements ServiceLocatorAwareInterface
                 echo $e->getMessage();
             }
         }
+
+        echo "Number of users : " . $nbUsers . "\r\n";
+        echo "Number of permanent access activated (temporary not valid) : "
+            . $nbPermanentAccessActivatedWithoutTemporary . "\r\n";
+        echo "Number of permanent access activated (temporary still valid) : "
+            . $nbPermanentAccessActivatedAfterTemporary . "\r\n";
+        echo "Number of emails sent : " . $nbEmailSent . "\r\n";
+        echo "Number of non edu-id users : " . $nbNonEduIdUsers . "\r\n";
+        echo "Number of deactivated accesses : " . $nbAccessDeactivated . "\r\n";
     }
 
     /**

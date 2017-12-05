@@ -191,9 +191,35 @@ class Email implements ServiceLocatorAwareInterface
                 ['force_canonical' => true]
             );
         $username = $toUser->firstname . ' ' . $toUser->lastname;
+
+        $textMailDe = '<p>Liebe(r) ' . $username .
+            ',<br /> <br /> Seit einem Jahr, haben Sie ' .
+            'Schweizer Nationallizenzen nicht mehr benutzt. ' .
+            'Deswegen haben wir Ihres Konto abgeschaltet. ' .
+            'Wenn Sie wollen, können Sie Ihres Konto ' .
+            '<a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">wieder freischalten</a>' .
+            '.</p> ' .
+            '<p>Schweizer Nationallizenzen<br />' .
+            '<a href="http://nationallizenzen.ch">' .
+            'http://nationallizenzen.ch</a></p>';
+
+        $textMailFr = '<p>Cher/Chère ' . $username .
+            ',<br /> <br /> Vous n\'avez pas utilisé les ' .
+            'Licences Nationales Suisses dans les 12 derniers mois. ' .
+            'Nous avons donc désactivé votre compte. ' .
+            'Néanmoins, vous pouvez le réactiver' .
+            ' en visitant <a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">ce lien</a>' .
+            '.</p> ' .
+            '<p>Licences Nationales Suisses<br />' .
+            '<a href="http://licencesnationales.ch">' .
+            'http://licencesnationales.ch</a></p>';
+
         $textMailEn = '<p>Dear ' . $username .
             ',<br /> <br /> We noticed that you didn\'t use ' .
-            'Swiss National Licences as a private user in the last 12 months. ' .
+            'Swiss National Licences as a private user ' .
+            'in the last 12 months. ' .
             'Therefore we deactivated your account. ' .
             'Please visit <a href="' . $link . '" ' .
             'target="_blank" rel="noreferrer">this link</a> ' .
@@ -202,33 +228,10 @@ class Email implements ServiceLocatorAwareInterface
             '<a href="http://nationallicences.ch">' .
             'http://nationallicences.ch</a></p>';
 
-        $textMailFr = '<p>Cher/Chère ' . $username .
-            ',<br /> <br /> Vous n\avez pas utilisé les' .
-            'Licences Nationales Suisses dans les 12 derniers mois. ' .
-            'Nous avons donc désactivé votre compte. ' .
-            'Néanmoins, vous pouvez le réactiver' .
-            ' en visitant <a href="' . $link . '" ' .
-            'target="_blank" rel="noreferrer">ce lien</a> ' .
-            '.</p> ' .
-            '<p>Licences Nationales Suisses<br />' .
-            '<a href="http://licencesnationales.ch">' .
-            'http://licencesnationales.ch</a></p>';
-
-        $textMailDe = '<p>Liebe(r) ' . $username .
-            ',<br /> <br /> Seit einem Jahr, haben Sie ' .
-            'Schweizer Nationallizenzen nicht mehr benutzt. ' .
-            'Deswegen haben wir Ihres Konto abgeschalten. ' .
-            'Wenn Sie wollen, können Sie Ihres Konto wieder ' .
-            '<a href="' . $link . '" ' .
-            'target="_blank" rel="noreferrer">wieder freischalten</a> ' .
-            '.</p> ' .
-            '<p>Schweizer Nationallizenzen<br />' .
-            '<a href="http://nationallizenzen.ch">' .
-            'http://nationallizenzen.ch</a></p>';
-
         $textMail =
-            $textMailDe . '<br />---<br />' .
-            $textMailFr . '<br />---<br />' .
+            $toUser->email . "<br />" .
+            $textMailDe . '<p>---</p>' .
+            $textMailFr . '<p>---</p>' .
             $textMailEn;
 
         $mimeMessage = $this->createMimeMessage(
@@ -237,7 +240,8 @@ class Email implements ServiceLocatorAwareInterface
             Mime\Mime::TYPE_HTML
         );
         $this->sendMailWithAttachment(
-            $toUser->email, $mimeMessage, 'Account extension','true'
+            //$toUser->email, $mimeMessage, 'Nationallizenzen / Licences Nationales / National licences','true'
+            'lionel.walter@unibas.ch', $mimeMessage, 'Nationallizenzen / Licences Nationales / National licences', 'true'
         );
     }
 
