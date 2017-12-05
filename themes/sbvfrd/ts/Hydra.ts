@@ -1,10 +1,6 @@
 import {AxiosPromise, AxiosResponse, default as Axios} from "axios";
 import * as $ from "jquery";
 
-declare global {
-    let VuFind: any;
-}
-
 export class Hydra {
 
     /**
