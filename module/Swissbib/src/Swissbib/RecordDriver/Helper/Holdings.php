@@ -1372,8 +1372,10 @@ class Holdings
      *
      * @return String
      */
-    protected function getBackLinkKBTG($networkCode, $institutionCode, array $item,
-                                       array $data
+    protected function getBackLinkKBTG(
+        $networkCode, $institutionCode,
+        array $item,
+        array $data
     ) {
         $values = [
             'bib-system-number' => $item['bibsysnumber']
