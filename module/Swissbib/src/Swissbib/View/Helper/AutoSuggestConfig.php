@@ -103,7 +103,6 @@ class AutoSuggestConfig extends AbstractHelper
         $autoCompleteConfig = $searchesConfig->get('Autocomplete');
         $flatArrayConverter = new FlatArrayConverter();
         $valueConverter = new ValueConverter();
-        var_dump($autoCompleteConfig);
 
         $autoSuggestConfig = $flatArrayConverter->fromConfigSections($searchesConfig, 'AutoSuggest');
         $autoSuggestConfig = $autoSuggestConfig->get('AutoSuggest')->toArray();
