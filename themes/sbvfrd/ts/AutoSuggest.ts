@@ -12,7 +12,7 @@ export class AutoSuggest {
     private sourceInputElement: JQuery<HTMLElement>;
 
     private resultListContainerElement: JQuery<HTMLElement>;
-    private static RESULT_LIST_CONTAINER_SELECTOR:string = "div.autocomplete-results";
+    private static RESULT_LIST_CONTAINER_SELECTOR:string = "body > div.autocomplete-results";
 
     private configuration: AutoSuggestConfiguration;
 
