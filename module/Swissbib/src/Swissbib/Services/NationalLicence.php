@@ -828,7 +828,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
         $nbPermanentAccessActivatedAfterTemporary = 0;
         $nbPermanentAccessActivatedWithoutTemporary = 0;
         $nbNonEduIdUsers = 0;
-        
+
         //Foreach users
         /**
          * National licence user.
