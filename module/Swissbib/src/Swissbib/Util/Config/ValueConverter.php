@@ -47,11 +47,18 @@ final class ValueConverter
      * Converts the content of the given config and returns a new config out of it.
      *
      * @param Config $config
+     * The config to process.
+     *
+     * @param bool $fuzzy
+     * Indicates whether to use the fuzzy type checks for boolean values. When true (default), then the
+     * {@link #isTruthy} and {@link #isFalsy} methods are used. Otherwise only the strings 'true' and 'false' are
+     * allowed as values.
+     *
      * @return Config
      */
-    public function convert(Config $config) {
+    public function convert(Config $config, $fuzzy = true) {
         $source = $config->toArray();
-        $target = $this->convertArray($source);
+        $target = $this->convertArray($source, $fuzzy);
 
         return new Config($target);
     }
@@ -107,13 +114,13 @@ final class ValueConverter
     }
 
     /**
-     * Returns true when the given value is a string that equals to 'true'.
+     * Returns true when the given value is a string that equals to 'true'. This check is case-insensitive.
      *
      * @param string $value
      * @return bool
      */
     public function isTrue($value) {
-        return 'true' === $value;
+        return 'true' === strtolower($value);
     }
 
     /**
@@ -132,13 +139,13 @@ final class ValueConverter
     }
 
     /**
-     * Returns true when the given value is a string that equals to 'false'.
+     * Returns true when the given value is a string that equals to 'false'. This check is case-insensitive.
      *
      * @param string $value
      * @return bool
      */
     public function isFalse($value) {
-        return 'false' === $value;
+        return 'false' === strtolower($value);
     }
 
     /**
@@ -160,14 +167,15 @@ final class ValueConverter
     /**
      * @private
      * @param array $source
+     * @param boolean $fuzzy
      * @return array
      */
-    private function convertArray(array &$source) {
+    private function convertArray(array &$source, $fuzzy) {
         foreach ($source as $key => $value) {
             if (is_array($value)) {
-                $source[$key] = $this->convertArray($value);
+                $source[$key] = $this->convertArray($value, $fuzzy);
             } else if (is_string($value)) {
-                $source[$key] = $this->convertValue($value);
+                $source[$key] = $this->convertValue($value, $fuzzy);
             }
         }
 
@@ -177,12 +185,16 @@ final class ValueConverter
     /**
      * @private
      * @param string $value
+     * @param boolean $fuzzy
      * @return bool|float|int
      */
-    private function convertValue($value) {
-        if ($this->isTrue($value)) {
+    private function convertValue($value, $fuzzy) {
+        $isTrue = true === $fuzzy ? $this->isTruthy($value) : $this->isTrue($value);
+        $isFalse = true === $fuzzy ? $this->isFalsy($value) : $this->isFalse($value);
+
+        if ($isTrue) {
             $value = true;
-        } else if ($this->isFalse($value)) {
+        } else if ($isFalse) {
             $value = false;
         } else if ($this->isDecInteger($value)) {
             $value = intval($value);
