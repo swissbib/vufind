@@ -1,6 +1,6 @@
 import * as $ from "jquery";
 import {Hydra} from "./Hydra";
-import {AutoSuggest, AutoSuggestConfiguration, AutoSuggestSection} from "./AutoSuggest";
+import {AutoSuggest, AutoSuggestConfiguration, AutoSuggestSection, AutoSuggestSettings} from "./AutoSuggest";
 
 
 $(document).ready(() => {
@@ -19,14 +19,13 @@ authorid="${p["@id"]}"></span></li>`;
     }
 
     // initialize auto-suggest
-    let sections: Array<AutoSuggestSection> =
-        swissbib.autoSuggestConfiguration().sections;
-
+    const settings: AutoSuggestSettings = swissbib.autoSuggestConfiguration();
     const autoSuggestConfiguration: AutoSuggestConfiguration =
-        new AutoSuggestConfiguration (sections, VuFind);
+        new AutoSuggestConfiguration(settings, VuFind);
 
     const autoSuggest = new AutoSuggest(
         "#searchForm_lookfor", autoSuggestConfiguration
     );
+
     autoSuggest.initialize();
 });

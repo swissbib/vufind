@@ -8,27 +8,54 @@ import * as $ from "jquery"
  */
 export class AutoSuggest {
 
+    private static RESULT_LIST_CONTAINER_SELECTOR: string = "body > div.autocomplete-results";
+
     private sourceSelector: string;
     private sourceInputElement: JQuery<HTMLElement>;
 
     private resultListContainerElement: JQuery<HTMLElement>;
-    private static RESULT_LIST_CONTAINER_SELECTOR:string = "body > div.autocomplete-results";
 
     private configuration: AutoSuggestConfiguration;
 
 
+    /**
+     * Constructor.
+     * @param {string} sourceSelector
+     * @param {AutoSuggestConfiguration} configuration
+     */
     constructor(sourceSelector: string, configuration: AutoSuggestConfiguration) {
         this.sourceSelector = sourceSelector;
         this.configuration = configuration;
     }
 
 
+
+    private _defaultSectionLimit: number = 10;
+
     /**
-     * Default search result section item limit. In case a section's limit evaluates to be not a number or is less than
-     * zero, then the default limit is applied.
+     * Default search result section item limit. The default limit limit itself must be an positive integer greater than
+     * or equal to 1. A specific section's limit has to meet this criteria but can be zero to switch of the section.
+     * When it doesn't fit into these requirements the default limit is applied.
+     *
      * @type {number}
+     *
+     * @throws RangeError
+     * On the attempt to set the default limit to a non-positive, non-integer or infinite value (including NaN and
+     * floating point numbers).
      */
-    public defaultSectionLimit: number = 10;
+    public get defaultSectionLimit(): number
+    {
+        return this._defaultSectionLimit;
+    }
+
+    public set defaultSectionLimit(value: number)
+    {
+        if (!SectionLimitValidator.isValid(value)) {
+            throw new RangeError(`Default section limit is out of range: ${value}`);
+        }
+
+        this._defaultSectionLimit = value;
+    }
 
 
     /**
@@ -45,15 +72,17 @@ export class AutoSuggest {
     private setupSourceInputElement() {
         this.sourceInputElement = $(this.sourceSelector);
 
-        this.sourceInputElement.autocomplete({
-            handler: this.autoCompleteHandler
-        });
+        if (this.configuration.enabled) {
+            this.sourceInputElement.autocomplete({
+                handler: this.autoCompleteHandler
+            });
+        }
     };
 
     // keep 'this' context on AutoSuggest instance by using arrow function
     private autoCompleteHandler = (inputElement: JQuery<HTMLElement>, callback: Function) => {
 
-        for (let position = 0; position < this.configuration.numSections(); ++position) {
+        for (let position = 0; position < this.configuration.numSections; ++position) {
             this.requestSectionResultsIfNeeded(
                 this.configuration.getSectionAt(position),
                 inputElement.val() as string,
@@ -63,7 +92,7 @@ export class AutoSuggest {
     };
 
     private requestSectionResultsIfNeeded(section: AutoSuggestSection, searchString: string, callback: Function) {
-        let limit = isNaN(section.limit) || section.limit < 0 ? this.defaultSectionLimit : section.limit;
+        let limit = SectionLimitValidator.isValidOrZero(section.limit) ? section.limit : this.defaultSectionLimit;
 
         if (limit > 0) {
             section.results = this.requestSectionResults(section, searchString, limit);
@@ -74,8 +103,9 @@ export class AutoSuggest {
     private requestSectionResults(section: AutoSuggestSection, searchString: string, limit: number): Array<string | VuFindAutoCompleteItem> {
         // TODO: Implement actual search request and remove dummy after then
         let results: Array<string | VuFindAutoCompleteItem> = [];
+        let numResults = Math.floor(Math.random() * limit * 10);
 
-        for (let index: number = 0; index < limit; ++index) {
+        for (let index: number = 0; index < numResults; ++index) {
             let random = Math.floor(Math.random() * 1000);
             results[index] = { label: `${searchString} ${random}` };
         }
@@ -88,7 +118,7 @@ export class AutoSuggest {
             groups: []
         };
 
-        for (let position = 0; position < this.configuration.numSections(); ++position) {
+        for (let position = 0; position < this.configuration.numSections; ++position) {
             this.buildSectionResult(this.configuration.getSectionAt(position), collection);
         }
 
@@ -98,16 +128,25 @@ export class AutoSuggest {
     private buildSectionResult(section: AutoSuggestSection, collection: VuFindAutoCompleteItemCollection) {
         if (section.results && section.results.length > 0) {
             // ignore sections with no results
+            let config: AutoSuggestConfiguration = this.configuration;
+            let targetLabel: string = config.getTranslation('autosuggest.show.all', [section.results.length])
+            let sectionLabel: string = config.getTranslation(section.label);
+            let limitedResults: Array<string | VuFindAutoCompleteItem> | VuFindAutoCompleteItemSection;
+
+            limitedResults = section.results ? section.results.slice(0, section.limit) : [];
+
             collection.groups.push({
-                items: section.results || [],
+                items: limitedResults,
                 label: AutoSuggestTemplates.sectionHeader({
-                    label: section.label,
-                    targetLabel: 'Show all in this group &gt;&gt;',
+                    label: sectionLabel,
+                    targetLabel: targetLabel,
                     target: '#'
                 })
             });
         }
     }
+
+
 
     private setupResultListContainer() {
         this.resultListContainerElement = $(AutoSuggest.RESULT_LIST_CONTAINER_SELECTOR);
@@ -144,31 +183,51 @@ interface AutoSuggestTranslator {
  */
 export class AutoSuggestConfiguration {
 
-    private sections: Array<AutoSuggestSection>;
+    private settings: AutoSuggestSettings;
     private translator: AutoSuggestTranslator;
 
-    constructor(sections: Array<AutoSuggestSection>, translator: AutoSuggestTranslator) {
-        this.sections = sections;
+    /**
+     *
+     * @param {AutoSuggestSettings} settings
+     * @param {AutoSuggestTranslator} translator
+     */
+    constructor(settings: AutoSuggestSettings, translator: AutoSuggestTranslator) {
+        this.settings = settings;
         this.translator = translator;
     }
 
     public initialize() {
-        for (let index = 0; index < this.sections.length; ++index) {
-            this.sections[index].position = index;
+        for (let index = 0; index < this.settings.sections.length; ++index) {
+            this.settings.sections[index].position = index;
         }
     }
 
-    public numSections(): number {
-        return this.sections.length;
+    public get enabled(): boolean {
+        return this.settings.enabled;
+    }
+
+    public get numSections(): number {
+        return this.settings.sections.length;
     }
 
     public getSectionAt(position: number): AutoSuggestSection {
-        return this.sections[position];
+        return this.settings.sections[position];
     }
 
-    public getTranslation(key: string): string {
-        return this.translator.translate(key);
+    public getTranslation(key: string, replacements?: Array<any>): string {
+        return this.translator.translate(key, replacements);
     }
+}
+
+export interface AutoSuggestSettings {
+    /**
+     * Configured sections to show in the auto-suggest result list.
+     */
+    readonly sections: Array<AutoSuggestSection>;
+    /**
+     * Indicates whether auto-suggest is enabled or not. If false, then no searches are performed at all.
+     */
+    readonly enabled: boolean;
 }
 
 /**
@@ -178,13 +237,13 @@ export class AutoSuggestSection {
     /**
      * Label to display in the section header
      */
-    label: string;
+    readonly label: string;
     /**
      * Determines how many search results have to be requested for this section. If not a number or a negative number
      * the default section limit is applied. When the limit is set to zero, then section will be ignored and no search
      * request will be performed.
      */
-    limit?: number;
+    readonly limit?: number;
     /**
      * The position of this section in the search result list container
      */
@@ -197,7 +256,7 @@ export class AutoSuggestSection {
     /**
      * The searcher to use for requesting results in this section
      */
-    searcher?: string;
+    readonly searcher?: string;
 }
 
 
@@ -208,5 +267,19 @@ class AutoSuggestTemplates {
 
     public static sectionHeader(args: { label: string, target: string, targetLabel: string }) {
         return `<span class="section-label">${args.label}</span><a href="${args.target}">${args.targetLabel}</a>`;
+    }
+}
+
+/**
+ * Internal class to validate section limit values
+ */
+class SectionLimitValidator {
+
+    public static isValid(limit: number): boolean {
+        return !isNaN(limit) && isFinite(limit) && Math.floor(limit) === limit && limit > 1;
+    }
+
+    public static isValidOrZero(limit: number): boolean {
+        return SectionLimitValidator.isValid(limit) || limit === 0;
     }
 }
