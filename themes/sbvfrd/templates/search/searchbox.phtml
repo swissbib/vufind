@@ -22,19 +22,10 @@
     $this->headScript()->appendFile("swissbib/swissbib.ts.js");
 
     // Extend swissbib global object by autocomplete configuration
-    // TODO: read loaded autocomplete configuration
-    // TODO: convert flat configuration into multi-dimensional array
-    $autocompleteConfig = array(
-        'sections' => array(
-            array('label' => 'Abschnitt 01', 'limit' => 3, 'searcher' => 'Solr'),
-            array('label' => 'Abschnitt 02', 'limit' => 4, 'searcher' => 'Solr'),
-            array('label' => 'Abschnitt 03', 'limit' => 5, 'searcher' => 'Solr')
-        )
-    );
-    $autocompleteConfig = json_encode($autocompleteConfig);
+    $autoSuggestConfig = json_encode($this->autoSuggestConfig()->toArray());
     $swissbibObjectExtension = <<<JS
 (function(s) {
-  var autoSuggestConfiguration = {$autocompleteConfig};
+  var autoSuggestConfiguration = {$autoSuggestConfig};
   s.autoSuggestConfiguration = function () {
     return autoSuggestConfiguration;
   };
