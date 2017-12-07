@@ -68,10 +68,11 @@ class SwitchApi
      *
      * @param array $config Swissbib configuration.
      */
-    public function __construct($config)
+    public function __construct($config, $sm)
     {
         $this->config   = $config->get('config');
         $this->configNL = $config->get('NationalLicences')['SwitchApi'];
+        $this->setServiceLocator($sm->getServiceLocator());
     }
 
     /**
@@ -404,7 +405,7 @@ class SwitchApi
          * @var \Swissbib\VuFind\Db\Table\NationalLicenceUser $userTable
          */
         $userTable
-            = $this->getTable('\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser');
+            = $this->getTable('nationallicence');
 
         /**
          * National licence user.
