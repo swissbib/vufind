@@ -72,7 +72,7 @@ class SwitchApi
     {
         $this->config   = $config->get('config');
         $this->configNL = $config->get('NationalLicences')['SwitchApi'];
-        $this->setServiceLocator($sm->getServiceLocator());
+        $this->setServiceLocator($sm);
     }
 
     /**
