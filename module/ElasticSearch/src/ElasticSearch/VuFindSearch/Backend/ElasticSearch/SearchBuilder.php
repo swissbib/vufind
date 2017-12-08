@@ -5,9 +5,7 @@
  * Date: 06.12.17
  * Time: 11:03
  */
-
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch;
-
 
 use ElasticsearchAdapter\Params\ArrayParams;
 use ElasticsearchAdapter\Search\Search;
@@ -51,12 +49,12 @@ class SearchBuilder
         }
 
         $elasticSearchParams = new ArrayParams([
+          'index' => $params->get('index')[0],
           'type' => $query->getHandler(),
           'size' => $limit,
           'from' => $offset,
-          'id' => $this->getQueryString($query)
+          'id' => $this->getQueryString($query),
         ]);
-
 
         $searchBuilder = new TemplateSearchBuilder($this->templates, $elasticSearchParams);
 

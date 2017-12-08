@@ -9,11 +9,8 @@ namespace ElasticSearch\VuFind\Search\Options;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://linked.swissbib.ch  Main Page
  */
-
-
 class PluginFactory extends \VuFind\Search\Options\PluginFactory
 {
-
     /**
      * Constructor
      */

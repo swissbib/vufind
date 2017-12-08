@@ -5,9 +5,7 @@
  * Date: 30.11.17
  * Time: 10:42
  */
-
 namespace ElasticSearch\VuFind\RecordDriver;
-
 
 use Zend\ServiceManager\ServiceManager;
 

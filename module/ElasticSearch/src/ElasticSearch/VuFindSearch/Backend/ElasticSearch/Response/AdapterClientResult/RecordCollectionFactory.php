@@ -8,7 +8,6 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://linked.swissbib.ch  Main Page
  */
-
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
@@ -16,10 +15,7 @@ use ElasticsearchAdapter\Result\ElasticsearchClientResult;
 use VuFindSearch\Response\RecordCollectionFactoryInterface;
 use VuFindSearch\Response\RecordCollectionInterface;
 
-
 class RecordCollectionFactory implements RecordCollectionFactoryInterface {
-
-
     /**
      * Factory to turn data into a record object.
      *
@@ -33,8 +29,6 @@ class RecordCollectionFactory implements RecordCollectionFactoryInterface {
      * @var string
      */
     protected $collectionClass;
-
-
 
     /**
      * Constructor.
@@ -59,8 +53,6 @@ class RecordCollectionFactory implements RecordCollectionFactoryInterface {
 //        }
         $this->collectionClass = $collectionClass;
     }
-
-
 
     /**
      * Convert a response into a record collection.

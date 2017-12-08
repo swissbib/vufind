@@ -8,11 +8,9 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://linked.swissbib.ch  Main Page
  */
-
 namespace ElasticSearch\VuFind\Search\ElasticSearch;
 
 use VuFind\Search\Base\Options as BaseOptions;
-
 
 class Options extends BaseOptions
 {

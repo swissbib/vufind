@@ -5,7 +5,6 @@ use Zend\ServiceManager\ServiceManager;
 
 class Factory
 {
-
     /**
      * Factory for ElasticSearch results object.
      *

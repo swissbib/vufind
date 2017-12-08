@@ -3,7 +3,6 @@
 
 namespace ElasticSearch\VuFind\Search\ElasticSearch;
 
-
 use VuFind\Search\Base\Params as BaseParams;
 
 /**

@@ -28,7 +28,6 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
-
 namespace Swissbib\Controller;
 
 use VuFind\Controller\AjaxController as VFAjaxController;
@@ -37,7 +36,6 @@ use VuFind\Search\Base\Params;
 use VuFind\Search\Base\Results;
 use VuFind\View\Helper\Root\RecordDataFormatter;
 use Zend\Stdlib\ResponseInterface;
-
 
 /**
  * Swissbib / VuFind: enhancements for AjaxController in Swissbib module

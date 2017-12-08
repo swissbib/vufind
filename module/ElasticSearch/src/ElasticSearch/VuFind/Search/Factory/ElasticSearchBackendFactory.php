@@ -33,7 +33,6 @@ class ElasticSearchBackendFactory implements FactoryInterface
         $this->searchYaml = 'elasticsearch_adapter.yml';
     }
 
-
     /**
      * Create service
      *
@@ -66,12 +65,11 @@ class ElasticSearchBackendFactory implements FactoryInterface
         }
 
         $manager = $this->serviceLocator->get('ElasticSearch\RecordDriverPluginManager');
-        $factory = new RecordCollectionFactory(array($manager, 'getElasticSearchRecordDriver'));
+        $factory = new RecordCollectionFactory([$manager, 'getElasticSearchRecordDriver']);
         $backend->setRecordCollectionFactory($factory);
 
         return $backend;
     }
-
 
     /**
      * Load the search specs.

@@ -5,17 +5,13 @@
  * Date: 30.11.17
  * Time: 10:14
  */
-
 namespace ElasticSearch\VuFind\RecordDriver;
-
 
 use VuFind\RecordDriver\AbstractBase;
 
 class ElasticSearch extends AbstractBase
 {
-
     protected $sourceIdentifier = 'ElasticSearch';
-
 
     /**
      * Get text that can be displayed to represent this record in breadcrumbs.

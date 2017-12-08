@@ -7,16 +7,13 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://linked.swissbib.ch  Main Page
  */
-
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult;
-
 
 use ElasticsearchAdapter\Result\ElasticsearchClientResult;
 use VuFindSearch\Exception\InvalidArgumentException;
 use VuFindSearch\Response\AbstractRecordCollection;
 
 class RecordCollection extends AbstractRecordCollection {
-
     /**
      * Elasticsearch response.
      *
@@ -25,7 +22,6 @@ class RecordCollection extends AbstractRecordCollection {
     protected $response;
 
     private $resultTotal = 0;
-
 
     /**
      * Constructor.
@@ -42,8 +38,6 @@ class RecordCollection extends AbstractRecordCollection {
         $this->rewind();
     }
 
-
-
     /**
      * Return total number of records found.
      *
@@ -53,7 +47,6 @@ class RecordCollection extends AbstractRecordCollection {
     {
         return $this->resultTotal;
     }
-
 
     public function setTotal($total) {
         $this->resultTotal = $total;

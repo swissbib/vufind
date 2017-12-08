@@ -8,11 +8,9 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:record_drivers Wiki
  */
-
 namespace ElasticSearch\VuFind\RecordDriver;
 use VuFind\RecordDriver\AbstractBase;
 use Zend\ServiceManager\ConfigInterface;
-
 
 class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
 {

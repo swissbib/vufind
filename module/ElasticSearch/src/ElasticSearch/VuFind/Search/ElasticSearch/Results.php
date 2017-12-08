@@ -2,20 +2,17 @@
 
 namespace ElasticSearch\VuFind\Search\ElasticSearch;
 
-
 use VuFind\Search\Base\Results as BaseResults;
 use VuFindSearch\ParamBag;
 
 class Results extends BaseResults
 {
-
     /**
      * Search backend identifiers.
      *
      * @var string
      */
     protected $backendId = 'ElasticSearch';
-
 
     /**
      * This method returns facet options related to the current search. You may need to store extra values in performSearch() to allow the list to be generated. It is possible that getFacetList will be called before a search has been performed – in this case, you should call the performAndProcessSearch method to fill in all the details. (See \VuFind\Search\Solr\Results for an example of this).
@@ -59,9 +56,8 @@ class Results extends BaseResults
             throw $e;
         }
 
-        $this->results = $collection->getRecords();;
+        $this->results = $collection->getRecords();
         $this->resultTotal = $collection->getTotal();
     }
-
 
 }

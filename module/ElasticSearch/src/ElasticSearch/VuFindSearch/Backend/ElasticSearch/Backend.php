@@ -2,7 +2,6 @@
 
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch;
 
-
 use ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
 use ElasticsearchAdapter\Adapter;
 use ElasticsearchAdapter\Result\ElasticsearchClientResult;
@@ -23,13 +22,12 @@ use VuFindSearch\Response\RecordCollectionFactoryInterface;
 class Backend extends AbstractBackend
   implements SimilarInterface, RetrieveBatchInterface, RandomInterface
 {
-
     /**
      * @var
      */
     protected $connector;
 
-    protected  $searchBuilder;
+    protected $searchBuilder;
     /**
      * Backend constructor.
      * @param $esHosts
@@ -39,7 +37,6 @@ class Backend extends AbstractBackend
         $this->connector = $esAdapter;
         $this->searchBuilder = new SearchBuilder($templates);
     }
-
 
     /**
      * Return the record collection factory.
@@ -79,7 +76,6 @@ class Backend extends AbstractBackend
 
         return $collection;
     }
-
 
     /**
      * Retrieve a single document.
