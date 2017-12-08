@@ -487,11 +487,15 @@ return [
         'plugin_managers' => [
             'vufind_search_options' => [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Options\PluginFactory'],
+                'factories' => [
+                  'elasticsearch' => '\ElasticSearch\VuFind\Search\Options\Factory::getElasticSearch'
+                ],
             ],
             'vufind_search_params'  => [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Params\PluginFactory'],
                 'factories' => [
                     'solr' => 'Swissbib\VuFind\Search\Params\Factory::getSolr',
+                    'elasticsearch' => '\ElasticSearch\VuFind\Search\Params\Factory::getElasticSearch'
                 ],
 
             ],
@@ -501,6 +505,7 @@ return [
                     'favorites' => 'Swissbib\VuFind\Search\Results\Factory::getFavorites',
                     'solr' => 'Swissbib\VuFind\Search\Results\Factory::getSolr',
                     'solrauthorfacets' => 'Swissbib\VuFind\Search\Results\Factory::getSolrAuthorFacets',
+                    'elasticsearch' => '\ElasticSearch\VuFind\Search\Results\Factory::getElasticSearch'
                 ],
             ]
         ]

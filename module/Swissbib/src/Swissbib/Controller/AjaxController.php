@@ -28,9 +28,16 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
+
 namespace Swissbib\Controller;
 
 use VuFind\Controller\AjaxController as VFAjaxController;
+use VuFind\RecordDriver\AbstractBase;
+use VuFind\Search\Base\Params;
+use VuFind\Search\Base\Results;
+use VuFind\View\Helper\Root\RecordDataFormatter;
+use Zend\Stdlib\ResponseInterface;
+
 
 /**
  * Swissbib / VuFind: enhancements for AjaxController in Swissbib module
@@ -54,18 +61,123 @@ class AjaxController extends VFAjaxController
         $this->outputMode = 'json';
         $config = $this->getConfig();
         if ((!isset($config->Mail->require_login) || $config->Mail->require_login)
-            && strcmp(strtolower($config->Authentication->method), "shibboleth") == 0
-            && !$this->getUser()
+          && strcmp(strtolower($config->Authentication->method), "shibboleth") == 0
+          && !$this->getUser()
         ) {
             //no JSON.parse in client
             return $this->output(
-                //json_encode(array("useshib" => true)), self::STATUS_OK
-                "true", self::STATUS_OK
+            //json_encode(array("useshib" => true)), self::STATUS_OK
+              "true", self::STATUS_OK
             );
         } else {
             return $this->output(
-                "false", self::STATUS_OK
+              "false", self::STATUS_OK
             );
         }
+    }
+
+    protected function getTopicsAjax(): ResponseInterface
+    {
+        $content = $this->search();
+
+        // TODO externalize spec
+        $specBuilder = new RecordDataFormatter\SpecBuilder();
+        $specBuilder->setLine("id", "getUniqueID", "Simple", ['allowZero' => false]);
+        $specBuilder->setLine("name", "getName", "Simple", ['allowZero' => false]);
+        $spec = $specBuilder->getArray();
+
+        $response = $this->buildResponse($content, $spec);
+        return $response;
+    }
+
+    protected function getAuthorAjax(): ResponseInterface
+    {
+        $content = $this->search();
+
+        // TODO externalize spec
+        $specBuilder = new RecordDataFormatter\SpecBuilder();
+        $specBuilder->setLine("id", "getUniqueID", "Simple", ['allowZero' => false]);
+        $specBuilder->setLine("name", "getName", "Simple", ['allowZero' => false]);
+        $specBuilder->setLine("firstName", "getFirstName", "Simple", ['allowZero' => false]);
+        $specBuilder->setLine("lastName", "getlastName", "Simple", ['allowZero' => false]);
+        $specBuilder->setLine("birthDate", "getBirthDate", "Simple", ['allowZero' => false]);
+        $spec = $specBuilder->getArray();
+
+        $response = $this->buildResponse($content, $spec);
+        return $response;
+    }
+
+    protected function getBibliographicResourceAjax(): ResponseInterface
+    {
+        $content = $this->search();
+
+        // TODO externalize spec
+        $specBuilder = new RecordDataFormatter\SpecBuilder();
+        $specBuilder->setLine("contributors", "getContributors", "Simple", ['allowZero' => false, 'separator' => ',']);
+        $specBuilder->setLine("topics", "getTopics", "Simple", ['allowZero' => false, 'separator' => ',']);
+        $spec = $specBuilder->getArray();
+
+        $response = $this->buildResponse($content, $spec);
+        return $response;
+    }
+
+    /**
+     * @return array
+     */
+    protected function search(array $searchOptions = []): array
+    {
+        $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
+        $searcher = $this->getRequest()->getQuery()['searcher'];
+        /** @var Results */
+        $results = $manager->get($searcher);
+
+        /** @var Params $params */
+        $params = $results->getParams();
+
+        // Send both GET and POST variables to search class:
+        $params->initFromRequest(
+          new \Zend\Stdlib\Parameters(
+            $this->getRequest()->getQuery()->toArray()
+            + $this->getRequest()->getPost()->toArray()
+          )
+        );
+
+        $results->performAndProcessSearch();
+
+        /** @var $content array */
+        $content = $results->getResults();
+        return $content;
+    }
+
+    /**
+     * @param $content
+     * @param $spec
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    protected function buildResponse($content, $spec): \Zend\Stdlib\ResponseInterface
+    {
+        $data = [];
+        /** @var RecordDataFormatter $recordFormatter */
+        $recordFormatter = $this->getViewRenderer()->plugin('RecordDataFormatter');
+        /** @var AbstractBase $record */
+        foreach ($content as $record) {
+            $formatedRecord = $recordFormatter->getData($record, $spec);
+            $this->format($formatedRecord);
+            array_push($data, $formatedRecord);
+        }
+        $response = $this->getResponse();
+        $response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
+        $response->getHeaders()->addHeaderLine('Access-Control-Allow-Origin', '*');
+        $response->setContent(json_encode($data));
+        return $response;
+    }
+
+    private function format(&$formatedRecord)
+    {
+        array_walk($formatedRecord,
+          function (&$value, $key) {
+              $value = $value['value'];
+          }
+        );
     }
 }
