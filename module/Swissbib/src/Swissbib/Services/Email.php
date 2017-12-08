@@ -188,27 +188,64 @@ class Email
         $link =  $baseDomainPath .
             $url(
                 'national-licences',
-                ['action' => 'extend-account'],
+                ['action' => 'index'],
                 ['force_canonical' => true]
             );
         $username = $toUser->firstname . ' ' . $toUser->lastname;
-        $textMail = '<p>Dear ' . $username .
+
+        $textMailDe = '<p>Liebe(r) ' . $username .
+            ',<br /> <br /> Seit einem Jahr, haben Sie ' .
+            'Schweizer Nationallizenzen nicht mehr benutzt. ' .
+            'Wir haben Ihr Konto deshalb deaktiviert. ' .
+            'Wenn Sie wollen, können Sie Ihres Konto ' .
+            '<a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">reaktivieren</a>' .
+            '.</p> ' .
+            '<p>Schweizer Nationallizenzen<br />' .
+            '<a href="http://nationallizenzen.ch">' .
+            'http://nationallizenzen.ch</a></p>';
+
+        $textMailFr = '<p>Cher/Chère ' . $username .
+            ',<br /> <br /> Vous n\'avez pas utilisé les ' .
+            'Licences Nationales Suisses dans les 12 derniers mois. ' .
+            'Nous avons donc désactivé votre compte. ' .
+            'Néanmoins, vous pouvez le réactiver' .
+            ' en visitant <a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">ce lien</a>' .
+            '.</p> ' .
+            '<p>Licences Nationales Suisses<br />' .
+            '<a href="http://licencesnationales.ch">' .
+            'http://licencesnationales.ch</a></p>';
+
+        $textMailEn = '<p>Dear ' . $username .
             ',<br /> <br /> We noticed that you didn\'t use ' .
-            'Swiss National Licences as a private user in the last 12 months. ' .
+            'Swiss National Licences as a private user ' .
+            'in the last 12 months. ' .
+            'Therefore we deactivated your account. ' .
             'Please visit <a href="' . $link . '" ' .
             'target="_blank" rel="noreferrer">this link</a> ' .
-            'in the next 30 days to keep your account active. ' .
-            'Take this occasion to update ' .
-            'your personal information if needed. ' .
-            'Otherwise your account will be made inactive' .
-            ' and you will need to register again.</p>';
+            'if you wish to reactivate your account.</p> ' .
+            '<p>Swiss National Licences<br />' .
+            '<a href="http://nationallicences.ch">' .
+            'http://nationallicences.ch</a></p>';
+
+        $textMail = $toUser->email . "<br />" .
+            $textMailDe . '<p>---</p>' .
+            $textMailFr . '<p>---</p>' .
+            $textMailEn;
+
         $mimeMessage = $this->createMimeMessage(
             $textMail,
             null,
             Mime\Mime::TYPE_HTML
         );
         $this->sendMailWithAttachment(
-            $toUser->email, $mimeMessage, 'Account extension'
+            //$toUser->email,
+            'lionel.walter@unibas.ch',
+            $mimeMessage,
+            'Nationallizenzen / Licences Nationales / National licences',
+            //use 'true' to test locally if sendmail not installed
+            'true'
         );
     }
 
