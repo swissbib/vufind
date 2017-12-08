@@ -2,7 +2,6 @@ import * as $ from "jquery";
 import {Hydra} from "./Hydra";
 
 $(document).ready(() => {
-    // const client = new Hydra("http://data.swissbib.ch/");
     const client = new Hydra(window.location.origin + VuFind.path + "/AJAX/Json");
     const recordIdEl: HTMLInputElement = $("input#record_id")[0] as HTMLInputElement;
     const list: HTMLElement = $(".sidebar .list-group")[0];

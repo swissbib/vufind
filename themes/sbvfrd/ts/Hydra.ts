@@ -20,36 +20,17 @@ export class Hydra {
         }
     }
 
-    private dataSwissBibUrl: string;
+    private apiUrl: string;
     private axiosConfig: object;
 
-    constructor(dataSwissbibUrl: string) {
-        this.dataSwissBibUrl = dataSwissbibUrl;
+    constructor(apiUrl: string) {
+        this.apiUrl = apiUrl;
         this.axiosConfig = {
-            baseURL: dataSwissbibUrl,
+            baseURL: apiUrl,
             // timeout: 100000,
             headers: {Accept: "application/ld+json"},
-            url: dataSwissbibUrl,
+            url: apiUrl,
         };
-    }
-
-    public renderContributorsOld(bibliographicResourceId: string,
-                                 htmlList: HTMLElement,
-                                 template: any): Promise<HTMLElement> {
-        return this
-            .getContributorUrls(bibliographicResourceId)
-            .then((urls: string[]) => {
-                return this.getContributorDetailsOld(urls);
-            })
-            .then((contributors: Array<AxiosPromise<object>>) => {
-                return Promise.all(contributors)
-                    .then((contributor: object[]) => {
-                        for (const p of contributor) {
-                            $(template(p)).appendTo(htmlList);
-                        }
-                        return htmlList;
-                    });
-            });
     }
 
     public renderContributors(bibliographicResourceId: string,
@@ -69,21 +50,7 @@ export class Hydra {
     }
 
     /**
-     * Fetches array with urls of all contributors
-     *
-     * @param {string} bibliographicResourceId
-     * @returns {Promise<string[]>}
-     */
-    public getContributorUrls(bibliographicResourceId: string): Promise<string[]> {
-        const url = this.dataSwissBibUrl + "bibliographicResource/" + bibliographicResourceId;
-        return Axios.get<string[]>(url, this.axiosConfig)
-            .then((response: AxiosResponse): string[] => {
-                return response.data.contributor;
-            });
-    }
-
-    /**
-     * Fetches array with urls of all contributors
+     * Fetches array with ids of all contributors
      *
      * @param {string} bibliographicResourceId
      * @returns {Promise<string[]>}
@@ -122,31 +89,6 @@ export class Hydra {
             .then((response: AxiosResponse) => {
                 return response;
             });
-    }
-
-    /**
-     * Fetches array with details of all contributors
-     * @param {string[]} contributorUrls
-     * @returns {AxiosPromise<any>[]}
-     */
-    public getContributorDetailsOld(contributorUrls: string[]): Array<AxiosPromise<object>> {
-        const promises: Array<AxiosPromise<object>> = [];
-        for (const url of contributorUrls) {
-            promises.push(Axios.get(url, this.axiosConfig)
-                .then((response: AxiosResponse) => {
-                    return response.data;
-                }));
-        }
-        return promises;
-    }
-
-    /**
-     * @deprecated Not used?
-     * @param {string} contributorUrl
-     * @returns {Promise<any>}
-     */
-    public getContributorDetail(contributorUrl: string): AxiosPromise<any> {
-        return Axios.get(contributorUrl, this.axiosConfig);
     }
 
     public getContributorHtml(contributorPromise: Promise<object>, template: any): AxiosPromise<string> {
