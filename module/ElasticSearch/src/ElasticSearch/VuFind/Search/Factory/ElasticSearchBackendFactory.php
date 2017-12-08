@@ -36,7 +36,7 @@ class ElasticSearchBackendFactory implements FactoryInterface
     /**
      * Create service
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param  ServiceLocatorInterface $serviceLocator
      * @return Backend
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
@@ -59,8 +59,7 @@ class ElasticSearchBackendFactory implements FactoryInterface
         $connector = new ElasticsearchClientConnector($hosts);
         $adapter = new Adapter($connector);
         $backend = new Backend($adapter, $this->loadSpecs());
-        if ($this->logger)
-        {
+        if ($this->logger) {
             $backend->setLogger($this->logger);
         }
 

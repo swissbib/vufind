@@ -13,7 +13,8 @@ use ElasticsearchAdapter\Result\ElasticsearchClientResult;
 use VuFindSearch\Exception\InvalidArgumentException;
 use VuFindSearch\Response\AbstractRecordCollection;
 
-class RecordCollection extends AbstractRecordCollection {
+class RecordCollection extends AbstractRecordCollection
+{
     /**
      * Elasticsearch response.
      *
@@ -48,7 +49,8 @@ class RecordCollection extends AbstractRecordCollection {
         return $this->resultTotal;
     }
 
-    public function setTotal($total) {
+    public function setTotal($total) 
+    {
         $this->resultTotal = $total;
     }
 

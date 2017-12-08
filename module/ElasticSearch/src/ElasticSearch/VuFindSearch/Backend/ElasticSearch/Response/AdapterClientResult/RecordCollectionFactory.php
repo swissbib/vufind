@@ -15,7 +15,8 @@ use ElasticsearchAdapter\Result\ElasticsearchClientResult;
 use VuFindSearch\Response\RecordCollectionFactoryInterface;
 use VuFindSearch\Response\RecordCollectionInterface;
 
-class RecordCollectionFactory implements RecordCollectionFactoryInterface {
+class RecordCollectionFactory implements RecordCollectionFactoryInterface
+{
     /**
      * Factory to turn data into a record object.
      *
@@ -39,18 +40,18 @@ class RecordCollectionFactory implements RecordCollectionFactoryInterface {
      * @return void
      */
     public function __construct($recordFactory = null,
-                                $collectionClass = 'ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollection'
+        $collectionClass = 'ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollection'
     ) {
         // TODO Why do we get the wrong factory?
-//        if (null === $recordFactory) {
+        //        if (null === $recordFactory) {
             $this->recordFactory = function ($data) {
                 $elasticSearch = new ElasticSearch();
                 $elasticSearch->setRawData($data);
                 return $elasticSearch;
             };
-//        } else {
-//            $this->recordFactory = $recordFactory;
-//        }
+        //        } else {
+        //            $this->recordFactory = $recordFactory;
+        //        }
         $this->collectionClass = $collectionClass;
     }
 

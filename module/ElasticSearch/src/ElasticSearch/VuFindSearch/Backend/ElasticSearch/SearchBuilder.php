@@ -29,32 +29,31 @@ class SearchBuilder
     }
 
     public function buildSearch(
-      Query $query,
-      $offset,
-      $limit,
-      ParamBag $params = null
-    ) : Search
-    {
-        if ($params === null)
-        {
+        Query $query,
+        $offset,
+        $limit,
+        ParamBag $params = null
+    ) : Search {
+    
+        if ($params === null) {
             $params = new ParamBag();
         }
-        if (!$params->hasParam('template'))
-        {
+        if (!$params->hasParam('template')) {
             $params->add('template', $this->templates['default_template']);
         }
-        if (!$params->hasParam('index'))
-        {
+        if (!$params->hasParam('index')) {
             $params->add('index', $this->templates['default_index']);
         }
 
-        $elasticSearchParams = new ArrayParams([
-          'index' => $params->get('index')[0],
-          'type' => $query->getHandler(),
-          'size' => $limit,
-          'from' => $offset,
-          'id' => $this->getQueryString($query),
-        ]);
+        $elasticSearchParams = new ArrayParams(
+            [
+            'index' => $params->get('index')[0],
+            'type' => $query->getHandler(),
+            'size' => $limit,
+            'from' => $offset,
+            'id' => $this->getQueryString($query),
+            ]
+        );
 
         $searchBuilder = new TemplateSearchBuilder($this->templates, $elasticSearchParams);
 
@@ -71,8 +70,7 @@ class SearchBuilder
     {
 
         $queryString = $query->getString();
-        if (preg_match('/\[(.*)\]/', $queryString, $matches))
-        {
+        if (preg_match('/\[(.*)\]/', $queryString, $matches)) {
             return array_map("trim", explode(',', $matches[1]));
         }
         return $queryString;

@@ -30,6 +30,7 @@ class Backend extends AbstractBackend
     protected $searchBuilder;
     /**
      * Backend constructor.
+     *
      * @param $esHosts
      */
     public function __construct(Adapter $esAdapter, array $templates)
@@ -56,18 +57,18 @@ class Backend extends AbstractBackend
     /**
      * Perform a search and return record collection.
      *
-     * @param AbstractQuery $query Search query
-     * @param int $offset Search offset
-     * @param int $limit Search limit
-     * @param ParamBag $paramBag Search backend parameters
+     * @param AbstractQuery $query    Search query
+     * @param int           $offset   Search offset
+     * @param int           $limit    Search limit
+     * @param ParamBag      $paramBag Search backend parameters
      *
      * @return \VuFindSearch\Response\RecordCollectionInterface
      */
     public function search(
-      AbstractQuery $query,
-      $offset,
-      $limit,
-      ParamBag $params = null
+        AbstractQuery $query,
+        $offset,
+        $limit,
+        ParamBag $params = null
     ) {
         $search = $this->searchBuilder->buildSearch($query, $offset, $limit, $params);
 
@@ -80,7 +81,7 @@ class Backend extends AbstractBackend
     /**
      * Retrieve a single document.
      *
-     * @param string $id Document identifier
+     * @param string   $id     Document identifier
      * @param ParamBag $params Search backend parameters
      *
      * @return \VuFindSearch\Response\RecordCollectionInterface
@@ -93,7 +94,7 @@ class Backend extends AbstractBackend
     /**
      * Return similar records.
      *
-     * @param string $id Id of record to compare with
+     * @param string   $id     Id of record to compare with
      * @param ParamBag $params Search backend parameters
      *
      * @return RecordCollectionInterface
@@ -106,16 +107,16 @@ class Backend extends AbstractBackend
     /**
      * Return random records.
      *
-     * @param AbstractQuery $query Search query
-     * @param int $limit Search limit
-     * @param ParamBag $params Search backend parameters
+     * @param AbstractQuery $query  Search query
+     * @param int           $limit  Search limit
+     * @param ParamBag      $params Search backend parameters
      *
      * @return \VuFindSearch\Response\RecordCollectionInterface
      */
     public function random(
-      AbstractQuery $query,
-      $limit,
-      ParamBag $params = null
+        AbstractQuery $query,
+        $limit,
+        ParamBag $params = null
     ) {
         // TODO: Implement random() method.
     }
@@ -123,7 +124,7 @@ class Backend extends AbstractBackend
     /**
      * Retrieve a batch of documents.
      *
-     * @param array $ids Array of document identifiers
+     * @param array    $ids    Array of document identifiers
      * @param ParamBag $params Search backend parameters
      *
      * @return \VuFindSearch\Response\RecordCollectionInterface
@@ -143,6 +144,6 @@ class Backend extends AbstractBackend
     protected function createRecordCollection($result)
     {
         return $this->getRecordCollectionFactory()
-          ->factory($result);
+            ->factory($result);
     }
 }

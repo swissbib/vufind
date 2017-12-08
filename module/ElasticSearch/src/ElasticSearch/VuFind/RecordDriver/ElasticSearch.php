@@ -53,8 +53,7 @@ class ElasticSearch extends AbstractBase
     public function getBirthDate()
     {
         $date = $this->fields["_source"]['dbp:birthDate'];
-        if ($date !== null)
-        {
+        if ($date !== null) {
             return new \DateTime($date);
         }
         return null;

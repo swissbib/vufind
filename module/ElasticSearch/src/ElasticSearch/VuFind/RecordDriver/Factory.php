@@ -16,11 +16,11 @@ class Factory
         return new PluginManager();
 
         $driver = new ElasticSearch(
-//          $sm->getServiceLocator()->get('VuFind\Config')->get('config'),
-//          null,
-//          $sm->getServiceLocator()->get('VuFind\Config')->get('searches')
+            //          $sm->getServiceLocator()->get('VuFind\Config')->get('config'),
+            //          null,
+            //          $sm->getServiceLocator()->get('VuFind\Config')->get('searches')
         );
-//        $driver->attachSearchService($sm->getServiceLocator()->get('VuFind\Search'));
+        //        $driver->attachSearchService($sm->getServiceLocator()->get('VuFind\Search'));
         return $driver;
     }
 }

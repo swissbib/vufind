@@ -30,7 +30,6 @@ class Results extends BaseResults
     }
 
     /**
-     *
      * This method reads the search parameters from the parameters and options objects, uses them to perform a search against your chosen service, and uses the results of the search to populate two object properties: $this→resultTotal, the total number of search results found, and $this→results, an array of record driver objects representing the current page of results requested by the user.
      *
      * Abstract support method for performAndProcessSearch -- perform a search based
@@ -44,8 +43,8 @@ class Results extends BaseResults
         $query  = $this->getParams()->getQuery();
         $limit  = $this->getParams()->getLimit();
         $offset = $this->getStartRecord() - 1;
-//        TODO Is this required (see Solr)?
-//        $params = $this->getParams()->getBackendParameters();
+        //        TODO Is this required (see Solr)?
+        //        $params = $this->getParams()->getBackendParameters();
         $params = new ParamBag();
         $searchService = $this->getSearchService();
 

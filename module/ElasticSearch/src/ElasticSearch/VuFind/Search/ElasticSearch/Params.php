@@ -8,6 +8,7 @@ use VuFind\Search\Base\Params as BaseParams;
 /**
  * This will contain the \VuFind\Search\Sample\Params class, which must extend \VuFind\Search\Base\Params. Unless you need to do special parameter processing or add new parameters not supported by the base class, you are not required to implement any methods here – you can just extend with an empty class. You'll probably end up adding methods here eventually, but for the initial implementation it is nice to leave this empty – one less thing to worry about!
  * Class Params
+ *
  * @package ElasticSearch\VuFind\Search\ElasticSearch
  */
 class Params extends BaseParams

@@ -2,7 +2,6 @@ import Axios from "axios";
 import * as fs from "fs";
 import * as $ from "jquery";
 import {Hydra} from "../Hydra";
-import Promise from "ts-promise";
 
 const cut: Hydra = new Hydra(
     "http://data.swissbib.ch/",
@@ -83,10 +82,10 @@ it("should create Html", () => {
     };
     const contributorPromise = getPromiseFromFile({
             params: {
-                type: "person",
                 lookfor: "5f679432-5f41-3bd8-a19f-8a20c4431aea",
-            }
-        }
+                type: "person",
+            },
+        },
     )
         .then((response: any) => response.data);
 
@@ -106,7 +105,7 @@ it("Empty should be not sufficient info", () => {
 });
 
 it("Only 4 elements should be not sufficient info", () => {
-    const given = {1: "", 2: "", 3: "", 4: "",};
+    const given = {1: "", 2: "", 3: "", 4: ""};
     const actual = Hydra.personHasSufficientData(given);
     expect(actual).toBeFalsy();
 });
