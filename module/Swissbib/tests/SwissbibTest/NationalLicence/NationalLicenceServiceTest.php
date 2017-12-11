@@ -90,8 +90,8 @@ class NationalLicenceServiceTest extends VuFindTestCase
         /*$this->switchApiService = new ReflectionClass(
             $switchApiServiceOriginal
         );*/
-        $this->switchApiConfig
-            = ($this->sm->get('Config'))['swissbib']['tests']['switch_api'];
+        /*$this->switchApiConfig
+            = ($this->sm->get('Config'))['swissbib']['tests']['switch_api'];*/
     }
 
     /**
