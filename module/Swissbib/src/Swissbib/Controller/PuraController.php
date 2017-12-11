@@ -59,12 +59,40 @@ class PuraController extends BaseController
     }
 
     /**
-     * Show the form to become compliant with the Swiss National Licences.
+     * Show the list of libraries which offer Pura Service
      *
      * @return mixed|ViewModel
      * @throws \Exception
      */
     public function indexAction()
+    {
+        $institutionCodes = ["Z01", "RE01001"];
+        $institutions = [];
+
+        foreach ($institutionCodes as $institutionCode)
+        {
+            $institution = $this->puraService->getInstitutionInfo($institutionCode);
+            array_push($institutions, $institution);
+        }
+
+
+
+        $view = new ViewModel(
+            [
+                'institutions' => $institutions
+            ]
+        );
+
+        return $view;
+    }
+
+    /**
+     * Show the registration for a specific Pura Library
+     *
+     * @return mixed|ViewModel
+     * @throws \Exception
+     */
+    public function libraryAction()
     {
         $libraryCode = $this->params()->fromRoute('libraryCode');
 

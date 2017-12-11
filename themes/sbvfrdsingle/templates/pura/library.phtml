@@ -1,0 +1,60 @@
+<?
+// Set up page title:
+$this->headTitle($this->translate('pura.remoteAccessForPrivateUsers'));
+
+// Set up breadcrumbs:
+$this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li> <li class="active">' . $this->transEsc('pura.remoteAccessForPrivateUsers') . '</li>';
+?>
+
+<div class="<?= $this->layoutClass('mainbody') ?>">
+
+    <h2><?= $this->institution["label"][$this->layout()->userLang] ?></h2>
+
+    <p>You are registered for this service.</p>
+    <p>Your account is valid until <?= $this->user->getExpirationDate()->format('j.n.Y') ?>.</p>
+    <p>Access e-resourcen : </p>
+
+    <ul>
+    <?php foreach ($this->publishers as $publisher) : ?>
+
+    <li><a href="<?= $publisher["url"] ?>"><?= $publisher["name"] ?></a></li>
+
+    <?php endforeach; ?>
+    </ul>
+
+    <h4>Help ?</h4>
+        <?= $institution['label'][$this->layout()->userLang] ?>
+        <address>
+            <? if (!empty($institution['address'])): ?>
+                <p><?= $institution['address'] ?></p>
+            <? endif; ?>
+            <? if (!empty($institution['city']) && !empty($institution['zip'])): ?>
+                <? $canton = !empty($institution['canton']) ? ' (' . strtoupper($institution['canton']) . ')' : ''; ?>
+                <p><?= $institution['zip'] . ' ' . $institution['city'] . $canton ?></p>
+            <? endif; ?>
+            <? if (!empty($institution['email'])): ?>
+                <p><a href="mailto:<?= $institution['email'] ?>" ><?= $this->transEsc('Email') ?></a></p>
+            <? endif; ?>
+
+            <? if (!empty($institution['website'])): ?>
+                <a href="<?= $institution['website'] ?>" class="color"
+                   target="_blank"><?= $this->transEsc('libraries.website') ?></a>
+            <? else: ?>
+                <? if (!empty($institution['url']) && is_array($institution['url'])): ?>
+                    <? $url = $institution['url'][$this->layout()->userLang]; ?>
+                    <a href="<?= $url ?>" class="color"
+                       target="_blank"><?= $this->transEsc('Library_Information') ?></a>
+                <? endif; ?>
+            <? endif; ?>
+
+        </address>
+    
+
+
+
+
+</div>
+
+<div class="<?= $this->layoutClass('sidebar') ?>">
+    <?= $this->context($this)->renderInContext("myresearch/menu.phtml", ['active' => 'pura']) ?>
+</div>

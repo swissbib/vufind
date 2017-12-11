@@ -83,13 +83,13 @@ return [
                 ],
                 'may_terminate' => true,
                 'child_routes'  => [
-                    'index' => [
+                    'library' => [
                         'type'    => 'segment',
                         'options' => [
                             'route'       => '/:libraryCode',
                             'defaults'    => [
                                 'controller' => 'pura',
-                                'action' => 'index',
+                                'action' => 'library',
                             ],
                             'constraints' => [
                                 'libraryCode' => '[a-zA-Z][a-zA-Z0-9_-]*',
