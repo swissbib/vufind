@@ -81,12 +81,17 @@ class Pura implements ServiceLocatorAwareInterface
     /**
      * NationalLicence constructor.
      *
-     * @param object $config Config
-     * @param array $publishers List of Publishers
-     * @param Config $groupMapping Map the institution code to the institution
+     * @param object $config       Config
+     * @param array  $publishers   List of Publishers
+     * @param Config $groupMapping Map the institution code to a group (network)
+     * @param Config $groups       The indices of the groups in the libadmin array
      */
-    public function __construct($config, array $publishers, Config $groupMapping, Config $groups)
-    {
+    public function __construct(
+        $config,
+        array $publishers,
+        Config $groupMapping,
+        Config $groups
+    ) {
         $this->config = $config;
         $this->publishers = $publishers;
         $this->groupMapping = $groupMapping;
@@ -96,16 +101,16 @@ class Pura implements ServiceLocatorAwareInterface
     /**
      * Get the list of publishers which have a contract with this library
      *
-     * @param $libraryCode (the library code, for example Z01)
-     * @return array PublishersWithContracts with that library
+     * @param string $libraryCode The library code, for example Z01
+     *
+     * @return array  PublishersWithContracts with that library
      */
     public function getPublishersForALibrary($libraryCode)
     {
         $publishersWithContracts=[];
         foreach ($this->publishers as $publisher) {
-            if ($this->hasContract($libraryCode,$publisher))
-            {
-                array_push($publishersWithContracts,$publisher);
+            if ($this->hasContract($libraryCode, $publisher)) {
+                array_push($publishersWithContracts, $publisher);
             }
         }
         return $publishersWithContracts;
@@ -130,7 +135,7 @@ class Pura implements ServiceLocatorAwareInterface
          */
         $userTable = $this->getTable(
             '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
-            );
+        );
         $user = $userTable->getUserById($userNumber);
 
         return $user;
@@ -177,11 +182,14 @@ class Pura implements ServiceLocatorAwareInterface
         $groupCode    = isset($this->groupMapping[$libraryCode]) ?
             $this->groupMapping[$libraryCode] : 'unknown';
 
-        $groupKey = array_search($groupCode,$this->groups->toArray());
+        $groupKey = array_search($groupCode, $this->groups->toArray());
 
-        $libraryCodes = array_column($institutions[$groupKey]["institutions"],"bib_code");
+        $libraryCodes = array_column(
+            $institutions[$groupKey]["institutions"],
+            "bib_code"
+        );
 
-        $institutionKey = array_search($libraryCode,$libraryCodes);
+        $institutionKey = array_search($libraryCode, $libraryCodes);
 
         $institution = $institutions[$groupKey]["institutions"][$institutionKey];
 
@@ -189,18 +197,18 @@ class Pura implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @param $libraryCode the library code, for example Z01
-     * @param $publisher, an array of properties for a specific publisher, for example cambridge
+     * Return true if a library has a contract with this publisher
+     *
+     * @param string $libraryCode the library code, for example Z01
+     * @param array  $publisher   array of properties for a specific publisher
+     *
      * @return bool
      */
     protected function hasContract($libraryCode, $publisher)
     {
-        if (in_array($libraryCode,$publisher["libraries_with_contract"]))
-        {
+        if (in_array($libraryCode, $publisher["libraries_with_contract"])) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }

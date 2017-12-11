@@ -240,7 +240,8 @@ class Factory
     {
         $dataDir = realpath(APPLICATION_PATH . '/data');
         $filePath = $dataDir . '/pura/publishers-libraries.json';
-        $publishersJsonData = file_exists($filePath) ? file_get_contents($filePath) : '';
+        $publishersJsonData
+            = file_exists($filePath) ? file_get_contents($filePath) : '';
         $publishers = json_decode($publishersJsonData, true);
 
         $groupMapping = $sm->get('VuFind\Config')->get('libadmin-groups')
@@ -250,7 +251,9 @@ class Factory
             ->groups;
 
         if (empty($publishers['publishers'])) {
-            throw new ErrorException("No valid publishers data supplied in " . $filePath . ".");
+            throw new ErrorException(
+                "No valid publishers data supplied in " . $filePath . "."
+            );
         }
 
         return new Pura(

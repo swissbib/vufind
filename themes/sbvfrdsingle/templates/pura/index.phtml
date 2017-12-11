@@ -15,7 +15,7 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
     <ul>
     <?php foreach ($this->institutions as $institution) : ?>
 
-    <li><a href="<?= $this->url('pura/library', array('libraryCode' => $institution['bib_code'])) ?>"><?= $institution['name'][$this->layout()->userLang] ?></a></li>
+    <li><a href="<?= $this->url('pura/library', ['libraryCode' => $institution['bib_code']]) ?>"><?= $institution['name'][$this->layout()->userLang] ?></a></li>
 
     <?php endforeach; ?>
     </ul>

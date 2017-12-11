@@ -69,8 +69,7 @@ class PuraController extends BaseController
         $institutionCodes = ["Z01", "RE01001"];
         $institutions = [];
 
-        foreach ($institutionCodes as $institutionCode)
-        {
+        foreach ($institutionCodes as $institutionCode) {
             $institution = $this->puraService->getInstitutionInfo($institutionCode);
             array_push($institutions, $institution);
         }
@@ -96,8 +95,7 @@ class PuraController extends BaseController
     {
         $libraryCode = $this->params()->fromRoute('libraryCode');
 
-        if(!isset($libraryCode))
-        {
+        if (!isset($libraryCode)) {
             $libraryCode="Z01";
         }
 
