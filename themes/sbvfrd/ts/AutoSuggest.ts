@@ -1,6 +1,7 @@
 /// <reference path="types/jquery.vufind.autocomplete.d.ts"/>
 
 import * as $ from "jquery"
+import jqXHR = JQuery.jqXHR;
 
 
 /**
@@ -9,13 +10,14 @@ import * as $ from "jquery"
 export class AutoSuggest {
 
     private static RESULT_LIST_CONTAINER_SELECTOR: string = "body > div.autocomplete-results";
+    private static SECTION_HEADER_LINK_SELECTOR: string = ".ac-section-header > a";
 
     private sourceSelector: string;
     private sourceInputElement: JQuery<HTMLElement>;
 
     private resultListContainerElement: JQuery<HTMLElement>;
 
-    private configuration: AutoSuggestConfiguration;
+    private autoCompleteCallback: Function;
 
 
     /**
@@ -25,9 +27,15 @@ export class AutoSuggest {
      */
     constructor(sourceSelector: string, configuration: AutoSuggestConfiguration) {
         this.sourceSelector = sourceSelector;
-        this.configuration = configuration;
+        this._configuration = configuration;
     }
 
+
+    private _configuration: AutoSuggestConfiguration;
+
+    public get configuration(): AutoSuggestConfiguration {
+        return this._configuration;
+    }
 
 
     private _defaultSectionLimit: number = 10;
@@ -58,15 +66,11 @@ export class AutoSuggest {
     }
 
 
-    /**
-     * Initializes the auto-suggest component based on the source input element selector passed in to the constructor.
-     * This method must be invoked once after instantiation to bind to the search input field and to listen for user
-     * input.
-     */
     public initialize() {
         this.setupSourceInputElement();
-        this.setupResultListContainer();
+        this.setupResultListContainerElement();
     }
+
 
 
     private setupSourceInputElement() {
@@ -82,89 +86,76 @@ export class AutoSuggest {
     // keep 'this' context on AutoSuggest instance by using arrow function
     private autoCompleteHandler = (inputElement: JQuery<HTMLElement>, callback: Function) => {
 
+        // keep handler to not passing it around all the time
+        this.autoCompleteCallback = callback;
+
         for (let position = 0; position < this.configuration.numSections; ++position) {
-            this.requestSectionResultsIfNeeded(
-                this.configuration.getSectionAt(position),
-                inputElement.val() as string,
-                callback
-            );
+            const section: AutoSuggestSection = this.configuration.getSectionAt(position);
+            section.query = inputElement.val() as string;
+
+            this.requestSectionResultsIfNeeded(section, callback);
         }
     };
 
-    private requestSectionResultsIfNeeded(section: AutoSuggestSection, searchString: string, callback: Function) {
-        let limit = SectionLimitValidator.isValidOrZero(section.limit) ? section.limit : this.defaultSectionLimit;
+    private requestSectionResultsIfNeeded(section: AutoSuggestSection, callback: Function) {
+        const limit = SectionLimitValidator.isValidOrZero(section.limit)
+            ? section.limit
+            : this.defaultSectionLimit;
 
         if (limit > 0) {
-            section.results = this.requestSectionResults(section, searchString, limit);
+            this.requestSectionResults(section, limit, callback);
             this.updateResultsContainer(callback);
         }
     }
 
-    private requestSectionResults(section: AutoSuggestSection, searchString: string, limit: number): Array<string | VuFindAutoCompleteItem> {
-        // TODO: Implement actual search request and remove dummy after then
-        let results: Array<string | VuFindAutoCompleteItem> = [];
-        let numResults = Math.floor(Math.random() * limit * 10);
-
-        for (let index: number = 0; index < numResults; ++index) {
-            let random = Math.floor(Math.random() * 1000);
-            results[index] = { label: `${searchString} ${random}` };
+    private requestSectionResults(section: AutoSuggestSection, limit: number, callback: Function): void {
+        if (!section.loader) {
+            section.loader = new AutoSuggestSectionLoader(this, section);
         }
 
-        return results;
+        section.loader.load(callback);
     }
 
-    private updateResultsContainer(callback: Function) {
-        let collection: VuFindAutoCompleteItemCollection = {
-            groups: []
-        };
+    public updateResultsContainer(callback: Function) {
+        const collection: VuFindAutoCompleteItemCollection = { groups: [] };
 
         for (let position = 0; position < this.configuration.numSections; ++position) {
             this.buildSectionResult(this.configuration.getSectionAt(position), collection);
         }
 
+        this.resultListContainerElement.find(AutoSuggest.SECTION_HEADER_LINK_SELECTOR).unbind('click', this.sectionHeaderLinkClickHandler);
         callback(collection);
+        this.resultListContainerElement.find(AutoSuggest.SECTION_HEADER_LINK_SELECTOR).on('click', this.sectionHeaderLinkClickHandler);
     }
 
     private buildSectionResult(section: AutoSuggestSection, collection: VuFindAutoCompleteItemCollection) {
         if (section.results && section.results.length > 0) {
-            // ignore sections with no results
-            let config: AutoSuggestConfiguration = this.configuration;
-            let targetLabel: string = config.getTranslation('autosuggest.show.all', [section.results.length])
-            let sectionLabel: string = config.getTranslation(section.label);
-            let limitedResults: Array<string | VuFindAutoCompleteItem> | VuFindAutoCompleteItemSection;
-
-            limitedResults = section.results ? section.results.slice(0, section.limit) : [];
-
-            collection.groups.push({
-                items: limitedResults,
-                label: AutoSuggestTemplates.sectionHeader({
-                    label: sectionLabel,
-                    targetLabel: targetLabel,
-                    target: '#'
-                })
-            });
+            collection.groups.push(this.createItemSection(section));
         }
     }
 
+    private createItemSection(section:AutoSuggestSection) : VuFindAutoCompleteItemSection {
+        const config: AutoSuggestConfiguration = this.configuration;
 
+        return {
+            items: section.results ? section.results.slice(0, section.limit) : [],
+            label: AutoSuggestTemplates.sectionHeader({
+                label: config.getTranslation(section.label),
+                targetLabel: config.getTranslation('autosuggest.show.all', [section.results.length]),
+                target: this.configuration.getLookForLink(section)
+            })
+        }
+    }
 
-    private setupResultListContainer() {
+    private setupResultListContainerElement() {
         this.resultListContainerElement = $(AutoSuggest.RESULT_LIST_CONTAINER_SELECTOR);
-        // TODO: Check whether we need updating the result list container, because this implementation doesn't work
-        // as we are unable to react on attribute
-        this.resultListContainerElement.on('show', this.resultListContainerElement_displayHandler);
+        this.resultListContainerElement.find(AutoSuggest.SECTION_HEADER_LINK_SELECTOR).on('click', this.sectionHeaderLinkClickHandler);
     }
 
-    private resultListContainerElement_displayHandler = (eventObject: JQuery.Event) => {
-        let input: JQuery<HTMLElement> = this.sourceInputElement;
-        let position: JQuery.Coordinates = input.offset();
-
-        this.resultListContainerElement.css({
-            top: position.top + input.outerHeight() - Number(input.css('margin-bottom')),
-            left: position.left,
-            minWidth: input.width() + input.css('padding-left') + input.css('padding-right')
-        });
+    private sectionHeaderLinkClickHandler = (event: JQuery.Event) => {
+        console.log(event);
     }
+
 }
 
 /**
@@ -187,7 +178,7 @@ export class AutoSuggestConfiguration {
     private translator: AutoSuggestTranslator;
 
     /**
-     *
+     * Constructor.
      * @param {AutoSuggestSettings} settings
      * @param {AutoSuggestTranslator} translator
      */
@@ -214,40 +205,84 @@ export class AutoSuggestConfiguration {
         return this.settings.sections[position];
     }
 
+    public getSectionAutoSuggestLink(section: AutoSuggestSection): string {
+        let template: string = this.settings.templates.search.autosuggest;
+        return AutoSuggestTemplates.resolve(template, section);
+    }
+
+    public getLookForLink(section: AutoSuggestSection): string {
+        let template: string = this.settings.templates.search.lookfor;
+        return AutoSuggestTemplates.resolve(template, section);
+    }
+
+    public getRecordLink(item: VuFindAutoCompleteItem): string {
+        let template: string = this.settings.templates.search.record;
+        return AutoSuggestTemplates.resolve(template, item);
+    }
+
     public getTranslation(key: string, replacements?: Array<any>): string {
         return this.translator.translate(key, replacements);
     }
 }
 
 export interface AutoSuggestSettings {
+
     /**
      * Configured sections to show in the auto-suggest result list.
      */
     readonly sections: Array<AutoSuggestSection>;
+
     /**
      * Indicates whether auto-suggest is enabled or not. If false, then no searches are performed at all.
      */
     readonly enabled: boolean;
+
+    /**
+     * A set of template strings to be filled with values on runtime.
+     */
+    readonly templates: {
+        search: {
+
+            /**
+             * Search URL template for the auto-suggest result list
+             */
+            autosuggest: string,
+
+            /**
+             * Search URL template for all results in a section of the auto-suggest result list
+             */
+            lookfor: string,
+
+            /**
+             * Search URL template for a single record in the azto-suggest result list
+             */
+            record: string
+        }
+    };
 }
 
 /**
  * Data structure that represents a section within the auto-suggest results.
  */
 export class AutoSuggestSection {
+
     /**
      * Label to display in the section header
      */
     readonly label: string;
+
     /**
      * Determines how many search results have to be requested for this section. If not a number or a negative number
      * the default section limit is applied. When the limit is set to zero, then section will be ignored and no search
      * request will be performed.
      */
     readonly limit?: number;
+
     /**
      * The position of this section in the search result list container
      */
     position?: number;
+
     /**
      * The last search results
      */
@@ -256,7 +291,61 @@ export class AutoSuggestSection {
     /**
      * The searcher to use for requesting results in this section
      */
-    readonly searcher?: string;
+    readonly searcher: string;
+
+    /**
+     * The search type to filter results on request for this section
+     */
+    readonly type: string;
+
+    /**
+     * The last search string queried.
+     */
+    query?: string;
+
+    /**
+     * The section loader used for this section.
+     */
+    loader?: AutoSuggestSectionLoader;
+}
+
+class AutoSuggestSectionLoader {
+
+    private autoSuggest: AutoSuggest;
+    private section: AutoSuggestSection;
+    private callback: Function;
+
+    private request: jqXHR;
+
+    constructor(autoSuggest: AutoSuggest, section: AutoSuggestSection) {
+        this.autoSuggest = autoSuggest;
+        this.section = section;
+    }
+
+
+    private _loading: boolean;
+
+    public get loading(): boolean {
+        return this._loading;
+    }
+
+    public load(callback: Function) {
+        if (this.loading) {
+            this.request.abort();
+        }
+
+        let autoSuggest: AutoSuggest = this.autoSuggest;
+        let section: AutoSuggestSection = this.section;
+
+        this.request = $.ajax({
+            url: autoSuggest.configuration.getSectionAutoSuggestLink(section),
+            dataType: 'json',
+            success: function (result: { data: Array<string> }) {
+                section.results = SearchResultConverter.convert(autoSuggest.configuration, result.data);
+                autoSuggest.updateResultsContainer(callback);
+            }
+        });
+    }
 }
 
 
@@ -265,8 +354,46 @@ export class AutoSuggestSection {
  */
 class AutoSuggestTemplates {
 
-    public static sectionHeader(args: { label: string, target: string, targetLabel: string }) {
+    public static sectionHeader(args: { label: string, target: string, targetLabel: string }): string {
         return `<span class="section-label">${args.label}</span><a href="${args.target}">${args.targetLabel}</a>`;
+    }
+
+    public static resolve(template: string, replacements: {[key: string] : any}): string {
+        let result: string = template;
+
+        for (let key in replacements) {
+            let placeholder = '{' + key + '}';
+            result = result.replace(placeholder, replacements[key]);
+        }
+
+        return result;
+    }
+}
+
+/**
+ * Utility class that converts the results received from some search backend into VuFindAutoCompleteItem obejcts.
+ */
+class SearchResultConverter {
+
+    public static convert(configuration: AutoSuggestConfiguration, results: Array<string>): Array<VuFindAutoCompleteItem> {
+        const valueIndex: number = 0;
+        const typeIndex: number = 1;
+        const labelIndex: number = 2;
+
+        let conversions: Array<VuFindAutoCompleteItem> = [];
+
+        for (let index: number = 0; index < results.length; ++index) {
+            let item: VuFindAutoCompleteItem = {
+                label: results[index],
+                value: results[index]
+            };
+
+            item.href = configuration.getRecordLink(item);
+
+            conversions[index] = item;
+        }
+
+        return conversions;
     }
 }
 
