@@ -81,6 +81,10 @@ export class AutoSuggest {
                 handler: this.autoCompleteHandler
             });
         }
+
+        //this.sourceInputElement.blur(function (e) {
+        //    console.log(e);
+        //});
     };
 
     // keep 'this' context on AutoSuggest instance by using arrow function
@@ -123,9 +127,11 @@ export class AutoSuggest {
             this.buildSectionResult(this.configuration.getSectionAt(position), collection);
         }
 
-        this.resultListContainerElement.find(AutoSuggest.SECTION_HEADER_LINK_SELECTOR).unbind('click', this.sectionHeaderLinkClickHandler);
+        // callback may regenerate result list completely, so we disconnect before
+        // and reconnect to section headers again after then
+        this.sectionHeaders.off('mousedown', this.sectionHeaderLinkMouseDownHandler);
         callback(collection);
-        this.resultListContainerElement.find(AutoSuggest.SECTION_HEADER_LINK_SELECTOR).on('click', this.sectionHeaderLinkClickHandler);
+        this.sectionHeaders.on('mousedown', this.sectionHeaderLinkMouseDownHandler);
     }
 
     private buildSectionResult(section: AutoSuggestSection, collection: VuFindAutoCompleteItemCollection) {
@@ -149,11 +155,17 @@ export class AutoSuggest {
 
     private setupResultListContainerElement() {
         this.resultListContainerElement = $(AutoSuggest.RESULT_LIST_CONTAINER_SELECTOR);
-        this.resultListContainerElement.find(AutoSuggest.SECTION_HEADER_LINK_SELECTOR).on('click', this.sectionHeaderLinkClickHandler);
+        this.sectionHeaders.on('mousedown', this.sectionHeaderLinkMouseDownHandler);
     }
 
-    private sectionHeaderLinkClickHandler = (event: JQuery.Event) => {
-        console.log(event);
+    private get sectionHeaders(): JQuery<HTMLElement> {
+        return this.resultListContainerElement.find(AutoSuggest.SECTION_HEADER_LINK_SELECTOR);
+    }
+
+    private sectionHeaderLinkMouseDownHandler = (event: JQuery.Event) => {
+        // simply navigate directly to the link to circumvent browser's blur behavior
+        // which causes click event not to be fired
+        window.location.href = $(event.target).attr('href');
     }
 
 }
