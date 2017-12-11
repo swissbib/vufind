@@ -79,7 +79,10 @@ class Solr extends VFAutocompleteSolr
                         ];
                         $bestMatch = str_replace($forbidden, " ", $bestMatch);
 
-                        $results[] = [$current['id'] => $bestMatch];
+                        $results[] = [
+                          'id' => $current['id'],
+                          'value' => $bestMatch
+                        ];
                         break;
                     }
                 }
@@ -125,12 +128,15 @@ class Solr extends VFAutocompleteSolr
                 );
             }
         } catch (\Exception $e) {
-            var_dump($e);
             // Ignore errors -- just return empty results if we must.
         }
 
-        array_unshift($results, ["total" => $this->searchObject->getResultTotal()]);
-        $results = isset($results) ? $results : [];
+        // Wrap in array as only values of result array are part of response
+        $results = [
+          [ "total" => $this->searchObject->getResultTotal() ],
+          [ "suggestions" => isset($results) ? $results : [] ]
+        ];
+
         return $results;
     }
 }
