@@ -53,8 +53,6 @@ class PuraUser extends RowGateway
         parent::__construct('id', 'pura_user', $adapter);
     }
 
-
-
     /**
      * Get the expiration date of the temporary access to the
      * National Licence content.

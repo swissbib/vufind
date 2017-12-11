@@ -90,7 +90,6 @@ class Factory
         );
     }
 
-
     /**
      * Construct the MyResearchNationalLicensesController by injecting the
      * NationalLicence service.

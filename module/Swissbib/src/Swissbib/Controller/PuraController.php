@@ -24,10 +24,8 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 use Swissbib\Services\Pura;
-use Swissbib\VuFind\Db\Row\PuraUser;
 
 /**
  * Class NationalLicencesController.
@@ -74,8 +72,6 @@ class PuraController extends BaseController
             array_push($institutions, $institution);
         }
 
-
-
         $view = new ViewModel(
             [
                 'institutions' => $institutions
@@ -100,7 +96,7 @@ class PuraController extends BaseController
         }
 
         $publishers = $this->puraService->getPublishersForALibrary($libraryCode);
-        $institution= $this->puraService->getInstitutionInfo($libraryCode);
+        $institution = $this->puraService->getInstitutionInfo($libraryCode);
 
         //$publishers = $this->puraService->getPublishersForALibrary("RE01001");
         //$institution= $this->puraService->getInstitutionInfo("RE01001");

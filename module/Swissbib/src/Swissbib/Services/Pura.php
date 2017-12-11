@@ -107,7 +107,7 @@ class Pura implements ServiceLocatorAwareInterface
      */
     public function getPublishersForALibrary($libraryCode)
     {
-        $publishersWithContracts=[];
+        $publishersWithContracts = [];
         foreach ($this->publishers as $publisher) {
             if ($this->hasContract($libraryCode, $publisher)) {
                 array_push($publishersWithContracts, $publisher);
@@ -163,8 +163,6 @@ class Pura implements ServiceLocatorAwareInterface
         $this->serviceLocator = $serviceLocator;
     }
 
-
-
     /**
      * Get Institution Information
      *
@@ -176,8 +174,7 @@ class Pura implements ServiceLocatorAwareInterface
     {
         $institutionLoader  = new InstitutionLoader();
 
-        $institutions=$institutionLoader->getGroupedInstitutions();
-
+        $institutions = $institutionLoader->getGroupedInstitutions();
 
         $groupCode    = isset($this->groupMapping[$libraryCode]) ?
             $this->groupMapping[$libraryCode] : 'unknown';

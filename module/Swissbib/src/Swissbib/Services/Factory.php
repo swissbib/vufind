@@ -227,8 +227,6 @@ class Factory
         );
     }
 
-
-
     /**
      * Construct the Service\Pura service.
      *
