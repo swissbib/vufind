@@ -1,0 +1,400 @@
+# seachspecs.yaml for swissbib
+# see extensive documentation in head of file /config/vufind/searchspecs.yaml
+# ###########################################################################
+
+# These searches use Dismax when possible:
+
+AllFields:
+  DismaxHandler: edismax
+  DismaxFields:
+    - title_short^1000            # main title, i.e. 245 $a
+    - title_alt^200
+    - title_sub^200
+    - title_old^200
+    - title_new^200
+    - author^750                          # all entries main name forms
+    - author_additional^100               # all entries additional fields
+    - author_additional_dsv11_txt_mv^100  # variants from dsv11
+    - title_additional_dsv11_txt_mv^100
+    - author_additional_gnd_txt_mv^100    # variants from GND
+    - title_additional_gnd_txt_mv^100
+    - publplace_additional_gnd_txt_mv^100
+    - series^200
+    - topic^500                   # all verbal topics, i.e. 6xx
+    - addfields_txt_mv^50         # additional fields
+    - publplace_txt_mv^25         # publication country and place, i.e. 752ad
+    - publplace_dsv11_txt_mv^25
+    - fulltext                    # imported fulltext, i.e. TOC/Abstracts
+    - callnumber^1000             # callnumbers (works only when quoted) with high boost
+    - ctrlnum^1000
+    - publishDate
+    - isbn
+    - variant_isbn_isn_mv
+    - issn
+    - localcode                     # local codes (field 909)
+    - id
+  DismaxParams:
+    - [pf, 'title_short^1000']
+    - [ps, '2']
+    - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
+    - [mm, '100%']
+
+#  DismaxParams:
+#  boost param as in old solrconfig.xml
+  QueryFields:
+    0:
+      0:
+        - OR
+        - 50
+      title_short:
+        - [onephrase, 1000]
+      title_alt:
+        - [onephrase, 600]
+        - [and, 500]
+      title_additional_dsv11_txt_mv:
+        - [onephrase, 600]
+        - [and, 500]
+      title_additional_gnd_txt_mv:
+        - [onephrase, 600]
+        - [and, 500]
+      title_sub:
+        - [onephrase, 400]
+      title_old:
+        - [onephrase, 300]
+        - [and, 250]
+      title_new:
+        - [and, 200]
+      title:
+        - [onephrase, 100]
+    author:
+      - [and, 750]
+    author_additional:
+      - [and, 100]
+    author_additional_dsv11_txt_mv:
+      - [and, 100]
+    author_additional_gnd_txt_mv:
+      - [and, 100]
+    series:
+      - [and, 50]
+    topic:
+      - [onephrase, 300]
+      - [and, 250]
+    addfields_txt_mv:
+      - [onephrase, 150]
+      - [and, 125]
+    publplace_txt_mv:
+      - [onephrase, 150]
+      - [and, 125]
+    publplace_dsv11_txt_mv:
+      - [onephrase, 150]
+      - [and, 125]
+    publplace_gnd_txt_mv:
+      - [onephrase, 150]
+      - [and, 125]
+    fulltext:
+      - [or, ~]
+    localcode:
+      - [and, ~]
+  FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+
+Author:
+  DismaxHandler: edismax
+  DismaxFields:
+    - author^100
+    - author_additional^20
+    - author_additional_dsv11_txt_mv^20
+  QueryFields:
+    author:
+      - [onephrase, 350]
+      - [and, 200]
+      - [or, 100]
+    author_additional:
+      - [onephrase, 50]
+      - [and, 50]
+      - [or, 20]
+    author_additional_dsv11_txt_mv:
+      - [onephrase, 50]
+      - [and, 50]
+      - [or, 20]
+    author_additional_gnd_txt_mv:
+      - [onephrase, 50]
+      - [and, 50]
+      - [or, 20]
+    FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+  DismaxParams:
+    - [mm, '100%']
+
+
+ISN:
+  DismaxFields:
+    - isbn
+    - variant_isbn_isn_mv
+    - issn
+    - ismn_isn_mv
+    - doi_isn_mv
+    - urn_isn_mv
+  QueryFields:
+    issn:
+      - [and, 100]
+      - [or, ~]
+    isbn:
+      - [and, 100]
+      - [or, ~]
+    variant_isbn_isn_mv:
+      - [and, 100]
+      - [or, ~]
+    ismn_isn_mv:
+      - [and, 100]
+      - [or, ~]
+    doi_isn_mv:
+      - [and, 100]
+      - [or, ~]
+    urn_isn_mv:
+      - [and, 100]
+      - [or, ~]
+  FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+  DismaxParams:
+    - [mm, '100%']
+
+
+Subject:
+  DismaxHandler: edismax
+  DismaxFields:
+    - topic^150
+  QueryFields:
+    topic:
+      - [onephrase, 350]
+  DismaxParams:
+    - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
+    - [mm, '100%']
+
+
+JournalTitle:
+  DismaxFields:
+    - title_short^1000
+    - title_alt^200
+    - title_sub^200
+    - title_old^200
+    - title_new^200
+  QueryFields:
+    title_short:
+      - [onephrase, 10000]
+    title_sub:
+      - [onephrase, 200]
+    title_alt:
+      - [onephrase, 200]
+    title_old:
+      - [onephrase, 200]
+    title_new:
+      - [onephrase, 200]
+  FilterQuery: "format_str_mv:(CR0305* OR CR0306* OR CR0307*) AND institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+  DismaxParams:
+    - [pf, 'title_short^100000']
+    - [ps, '2']
+    - [mm, '100%']
+
+
+
+FRBR:
+  QueryFields:
+    groupid_isn_mv:
+      - [onephrase, 500]
+
+WLC:
+  DismaxFields:
+    - localcode_isn_mv
+  QueryFields:
+    localcode_isn_mv:
+      - [onephrase, ~]
+  FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+
+WNEL:
+  DismaxFields:
+    - itemnote_isn_mv
+  QueryFields:
+     itemnote_isn_mv:
+        - [or, ~]
+
+WFC:
+  DismaxFields:
+    - classif_912
+  QueryFields:
+    classif_912:
+      - [onephrase, ~]
+
+FormerOwner:
+  DismaxFields:
+    - author_fmo_txt_mv
+  QueryFields:
+    author_fmo_txt_mv:
+      - [and, ~]
+
+Annotator:
+  DismaxFields:
+    - author_ann_txt_mv
+  QueryFields:
+    author_ann_txt_mv:
+      - [and, ~]
+
+RaraPerson:
+  DismaxFields:
+    - author_fmo_txt_mv
+    - author_ann_txt_mv
+  QueryFields:
+    author_ann_txt_mv:
+      - [and, ~]
+    author_fmo_txt_mv:
+      - [and, ~]
+
+Title:
+  DismaxHandler: edismax
+  DismaxFields:
+    - title_short^1000            # main title, i.e. 245 $a
+    - title_alt^200
+    - title_additional_dsv11_txt_mv^200
+    - title_sub^200
+    - title_old^200
+    - title_new^200
+    - series^100
+    - series2
+    - series^200
+  QueryFields:
+    title_short:
+      - [onephrase, 500]
+    title_alt:
+      - [onephrase, 450]
+      - [and, 400]
+    title_additional_dsv11_txt_mv:
+      - [onephrase, 450]
+      - [and, 400]
+    title_additional_gnd_txt_mv:
+      - [onephrase, 450]
+      - [and, 400]
+    title_sub:
+      - [onephrase, 400]
+    title_old:
+      - [onephrase, 300]
+      - [and, 250]
+    title_alt:
+      - [and, 200]
+    title_new:
+      - [and, 100]
+    series:
+      - [onephrase, 100]
+      - [and, 50]
+    DismaxParams:
+    - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
+    - [mm, '100%']
+  FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+
+Series:
+  DismaxHandler: edismax
+  DismaxFields:
+    - series^100
+  QueryFields:
+    series:
+      - [onephrase, 500]
+      - [and, 200]
+      - [or, 100]
+    DismaxParams:
+    - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
+  FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+
+# These are advanced searches that never use Dismax:
+id:
+  QueryFields:
+    id:
+      - [onephrase, ~]
+  FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+
+# Fields for exact matches originating from alphabetic browse
+ids:
+  QueryFields:
+    id:
+      - [or, ~]
+  FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+
+CallNumber:
+  # We use two similar munges here -- one for exact matches, which will get
+  # a very high boost factor, and one for left-anchored wildcard searches,
+  # which will return a larger number of hits at a lower boost.
+  # adapted for swissbib usage
+  CustomMunge:
+    callnumber_exact:
+      # Strip whitespace and quotes:
+      - [preg_replace, '/[ "]/', ""]
+      # Escape colons (unescape first to avoid double-escapes):
+      - [preg_replace, "/(\\\:)/", ':']
+      - [preg_replace, '/:/', '\:']
+      # Strip pre-existing trailing asterisks:
+      - [preg_replace, "/\*+$/", ""]
+    callnumber_fuzzy:
+      # Strip whitespace and quotes:
+      - [preg_replace, '/[ "]/', ""]
+      # Escape colons (unescape first to avoid double-escapes):
+      - [preg_replace, "/(\\\:)/", ':']
+      - [preg_replace, '/:/', '\:']
+      # Strip pre-existing trailing asterisks, then add a new one:
+      - [preg_replace, "/\*+$/", ""]
+      - [append, "*"]
+  QueryFields:
+    callnumber:
+      - [callnumber_exact, 1000]
+      - [callnumber_fuzzy, ~]
+  FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+
+year:
+  DismaxFields:
+    - publishDate^100
+  QueryFields:
+    publishDate:
+      - [and, 100]
+      - [or, ~]
+  FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+
+language:
+  QueryFields:
+    language:
+      - [and, ~]
+  FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+
+oclc_num:
+  CustomMunge:
+    oclc_num:
+      - [preg_replace, "/[^0-9]/", ""]
+      # trim leading zeroes:
+      - [preg_replace, "/^0*/", ""]
+  QueryFields:
+    oclc_num:
+      - [oclc_num, ~]
+  FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+
+ctrlnum:
+  CustomMunge:
+    ctrlnum:
+      - [preg_replace, "/[\(\)]/", ""]
+  QueryFields:
+    ctrlnum:
+      - [ctrlnum, ~]
+  FilterQuery: "institution:Z16 OR institution:A208 OR institution:A196 OR institution:B463 OR institution:B464 OR institution:B465 OR institution:B466 OR union:RE71 OR itemid_isn_mv:HSG_P* OR itemid_isn_mv:HSG_AL_220* OR itemid_isn_mv:HSG_AL_221* OR itemid_isn_mv:HSG_AL_222* OR itemid_isn_mv:HSG_AL_304* OR itemid_isn_mv:HSG_AL_414* OR itemid_isn_mv:HSG_AL_875* OR itemid_isn_mv:HSG_AN_701* OR itemid_isn_mv:HSG_MB_3300* OR itemid_isn_mv:HSG_MD_4* OR itemid_isn_mv:HSG_ME_2* OR itemid_isn_mv:HSG_ME_3* OR itemid_isn_mv:HSG_ME_4* OR itemid_isn_mv:HSG_ME_8* OR itemid_isn_mv:HSG_MF_43* OR itemid_isn_mv:HSG_MF_7050 OR itemid_isn_mv:HSG_MF_8* OR itemid_isn_mv:HSG_MK_16* OR itemid_isn_mv:HSG_MK_17* OR itemid_isn_mv:HSG_MK_38* OR itemid_isn_mv:HSG_MK_7* OR itemid_isn_mv:HSG_QD_030 OR itemid_isn_mv:HSG_QD_050 OR itemid_isn_mv:HSG_QP_44* OR itemid_isn_mv:HSG_QP_45* OR itemid_isn_mv:HSG_QP_82* OR itemid_isn_mv:HSG_Jus* OR itemid_isn_mv:HSG_GHug* OR itemid_isn_mv:LUUHL_P* OR classif_ddc:34* OR classif_ddc:364* OR classif_ddc:365* OR classif_udc:34* OR classif_udc:04* OR classif_rvk:P* OR classif_rero:s1dr OR classif_rero:s2dr OR classif_912:re OR classif_912:rw OR classif_912:rs OR classif_912:dr OR classif_912:/8[0-9]0/ OR classif_912:ZB34* OR classif_912:M11* OR classif_912:M12* OR classif_912:M91 OR sublocal:340 OR navDrsys:/[1-9]/ OR navDrsys:/[1-9][0-9]/ OR navDrsys:/[1-9]\.[1-9]/ OR navDrsys:/[1-9]\.[1-9][0-9]/ OR navDrsys:/[1-9][0-9]\.[1-9]/ OR navDrsys:/[1-9][0-9]\.[1-9][0-9]/  OR navDrsys:/D [1-9]/ OR navDrsys:/D [1-9][0-9]/ OR navDrsys:/D [1-9]\.[1-9]/ OR navDrsys:/D [1-9]\.[1-9][0-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9]/ OR navDrsys:/D [1-9][0-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9]/ OR navDrsys:/F [1-9][0-9]/ OR navDrsys:/F [1-9]\.[1-9]/ OR navDrsys:/F [1-9]\.[1-9][0-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9]/ OR navDrsys:/F [1-9][0-9]\.[1-9][0-9]/"
+
+Autosuggest:
+  DismaxHandler: dismax
+  DismaxFields:
+    - title_short
+    - author
+    - author_additional
+  QueryFields:
+    title_short:
+      - [onephrase, 350]
+      - [and, 200]
+      - [or, 100]
+    author:
+      - [onephrase, 350]
+      - [and, 200]
+      - [or, 100]
+    author_additional:
+      - [onephrase, 50]
+      - [and, 50]
+      - [or, 20]
+
