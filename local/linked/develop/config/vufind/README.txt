@@ -1,1 +1,0 @@
-Local VuFind configurations go here.  You can copy defaults from /config/vufind.
