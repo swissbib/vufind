@@ -133,8 +133,10 @@ class Solr extends VFAutocompleteSolr
 
         // Wrap in array as only values of result array are part of response
         $results = [
-          [ "total" => $this->searchObject->getResultTotal() ],
-          [ "suggestions" => isset($results) ? $results : [] ]
+          [
+            "total" => $this->searchObject->getResultTotal(),
+            "suggestions" => isset($results) ? $results : []
+          ]
         ];
 
         return $results;
