@@ -26,6 +26,7 @@ namespace Swissbib\Controller;
 
 use Zend\View\Model\ViewModel;
 use Swissbib\Services\Pura;
+use VuFind\Db\Row\User;
 
 /**
  * Class NationalLicencesController.
@@ -98,17 +99,24 @@ class PuraController extends BaseController
         $publishers = $this->puraService->getPublishersForALibrary($libraryCode);
         $institution = $this->puraService->getInstitutionInfo($libraryCode);
 
-        //$publishers = $this->puraService->getPublishersForALibrary("RE01001");
-        //$institution= $this->puraService->getInstitutionInfo("RE01001");
-
         $user = null;
         $user = $this->puraService->getPuraUser("1");
+        $vuFindUser = $this->puraService->getVuFindUser("1");
+
+        $email = $vuFindUser->email;
+        $firstName = $vuFindUser->firstname;
+        $lastName = $vuFindUser->lastname;
+
+
 
         $view = new ViewModel(
             [
                 'publishers' => $publishers,
                 'user' => $user,
-                'institution' => $institution
+                'institution' => $institution,
+                'email' => $email,
+                'firstname' => $firstName,
+                'lastname' => $lastName
             ]
         );
 

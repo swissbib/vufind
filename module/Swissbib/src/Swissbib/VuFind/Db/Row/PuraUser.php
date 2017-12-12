@@ -63,4 +63,14 @@ class PuraUser extends RowGateway
     {
         return new \DateTime($this->date_expiration);
     }
+
+    /**
+     * Get vufind user id.
+     *
+     * @return string
+     */
+    public function getVufindUserId()
+    {
+        return $this->user_id;
+    }
 }

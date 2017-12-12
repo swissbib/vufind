@@ -117,7 +117,7 @@ class Pura implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Get a NationalLicenceUser or creates a new one if is not existing in the
+     * Get a PuraUser or creates a new one if is not existing in the
      * database.
      *
      * @param string $userNumber id if the pura-user table
@@ -139,6 +139,37 @@ class Pura implements ServiceLocatorAwareInterface
         $user = $userTable->getUserById($userNumber);
 
         return $user;
+    }
+
+    /**
+     * Get the VufindUser related to the PuraUser
+     *
+     * @param string $userNumber id if the pura-user table
+     *
+     * @return PuraUser $user
+     * @throws \Exception
+     */
+    public function getVuFindUser(
+        $puraUserId
+    ) {
+        /**
+         * Pura user table.
+         *
+         * @var \Swissbib\VuFind\Db\Table\PuraUser $userTable
+         */
+        $puraUserTable = $this->getTable(
+            '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
+        );
+        $user = $puraUserTable->getUserById($puraUserId);
+
+        $vuFindUserId = $user->getVufindUserId();
+
+        $vuFindUserTable = $this->getTable('user');
+
+        $result = $vuFindUserTable->select(['id' => $vuFindUserId])
+            ->current();
+
+        return $result;
     }
 
     /**
