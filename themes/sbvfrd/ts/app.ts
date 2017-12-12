@@ -1,6 +1,11 @@
+///<reference path="autosuggest/AutoSuggest.ts" />
+
 import * as $ from "jquery";
 import {Hydra} from "./Hydra";
-import {AutoSuggest, AutoSuggestConfiguration, AutoSuggestSection, AutoSuggestSettings} from "./AutoSuggest";
+
+import AutoSuggest from "./autosuggest/AutoSuggest";
+import Configuration from "./autosuggest/Configuration";
+import Settings from "./autosuggest/Settings";
 
 
 $(document).ready(() => {
@@ -21,14 +26,10 @@ authorid="${p["@id"]}"></span></li>`;
         client.renderContributors(recordIdEl.value, list, template);
     }
 
-    // initialize auto-suggest
-    const settings: AutoSuggestSettings = swissbib.autoSuggestConfiguration();
-    const autoSuggestConfiguration: AutoSuggestConfiguration =
-        new AutoSuggestConfiguration(settings, VuFind);
-
-    const autoSuggest = new AutoSuggest(
-        "#searchForm_lookfor", autoSuggestConfiguration
-    );
+    // setup auto-suggest
+    const settings: Settings = swissbib.autoSuggestConfiguration();
+    const autoSuggestConfiguration: Configuration = new Configuration(settings, VuFind);
+    const autoSuggest = new AutoSuggest("#searchForm_lookfor", autoSuggestConfiguration);
 
     autoSuggest.initialize();
 });

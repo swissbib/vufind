@@ -3,7 +3,18 @@ const path = require('path');
 module.exports = {
     entry: [
         './themes/sbvfrd/ts/Hydra.ts',
-        './themes/sbvfrd/ts/AutoSuggest.ts',
+        './themes/sbvfrd/ts/autosuggest/Translator.ts',
+        './themes/sbvfrd/ts/autosuggest/Configuration.ts',
+        './themes/sbvfrd/ts/autosuggest/Settings.ts',
+        './themes/sbvfrd/ts/autosuggest/Templates.ts',
+        './themes/sbvfrd/ts/autosuggest/SearchResultConverter.ts',
+        './themes/sbvfrd/ts/autosuggest/Section.ts',
+        './themes/sbvfrd/ts/autosuggest/SectionLoader.ts',
+        './themes/sbvfrd/ts/autosuggest/SectionLimitValidator.ts',
+        './themes/sbvfrd/ts/autosuggest/ResultCallback.ts',
+        './themes/sbvfrd/ts/autosuggest/Item.ts',
+        './themes/sbvfrd/ts/autosuggest/ItemCollection.ts',
+        './themes/sbvfrd/ts/autosuggest/AutoSuggest.ts',
         './themes/sbvfrd/ts/app.ts'
     ],
     output: {
