@@ -9,22 +9,23 @@ export class Hydra {
      */
     public static personHasSufficientData(data: object): boolean {
         const len = Object.keys(data).length;
-        if (len < 8) {
-            return false;
-        } else {
+        if (len > 4) {
             return true;
+        } else {
+            return false;
         }
     }
 
-    private dataSwissBibUrl: string;
+    private apiUrl: string;
     private axiosConfig: object;
 
-    constructor(dataSwissbibUrl: string) {
-        this.dataSwissBibUrl = dataSwissbibUrl;
+    constructor(apiUrl: string) {
+        this.apiUrl = apiUrl;
         this.axiosConfig = {
-            baseURL: dataSwissbibUrl,
+            baseURL: apiUrl,
             // timeout: 100000,
             headers: {Accept: "application/ld+json"},
+            url: apiUrl,
         };
     }
 
@@ -32,58 +33,58 @@ export class Hydra {
                               htmlList: HTMLElement,
                               template: any): Promise<HTMLElement> {
         return this
-            .getContributorUrls(bibliographicResourceId)
-            .then((urls: string[]) => {
-                return this.getContributorDetails(urls);
+            .getContributorIds(bibliographicResourceId)
+            .then((ids: string) => {
+                return this.getContributorDetails(ids);
             })
-            .then((contributors: Array<AxiosPromise<object>>) => {
-                return Promise.all(contributors)
-                    .then((contributor: object[]) => {
-                        for (const p of contributor) {
-                            $(template(p)).appendTo(htmlList);
-                        }
-                        return htmlList;
-                    });
+            .then((contributors: AxiosResponse<any[]>) => {
+                for (const p of contributors.data) {
+                    $(template(p)).appendTo(htmlList);
+                }
+                return htmlList;
             });
     }
 
     /**
-     * Fetches array with urls of all contributors
+     * Fetches array with ids of all contributors
      *
      * @param {string} bibliographicResourceId
      * @returns {Promise<string[]>}
      */
-    public getContributorUrls(bibliographicResourceId: string): Promise<string[]> {
-        const url = this.dataSwissBibUrl + "bibliographicResource/" + bibliographicResourceId;
-        return Axios.get<string[]>(url, this.axiosConfig)
-            .then((response: AxiosResponse): string[] => {
-                return response.data.contributor;
+    public getContributorIds(bibliographicResourceId: string): Promise<string> {
+        const config = {
+            ...this.axiosConfig,
+            method: "get",
+            params: {
+                lookfor: bibliographicResourceId,
+                method: "getBibliographicResource",
+                searcher: "ElasticSearch",
+                type: "bibliographicResource",
+            },
+        };
+
+        return Axios.request<string>(config)
+            .then((response: AxiosResponse): string => {
+                return response.data[0].contributors;
             });
     }
 
-    /**
-     * Fetches array with details of all contributors
-     * @param {string[]} contributorUrls
-     * @returns {AxiosPromise<any>[]}
-     */
-    public getContributorDetails(contributorUrls: string[]): Array<AxiosPromise<object>> {
-        const promises: Array<AxiosPromise<object>> = [];
-        for (const url of contributorUrls) {
-            promises.push(Axios.get(url, this.axiosConfig)
-                .then((response: AxiosResponse) => {
-                    return response.data;
-                }));
-        }
-        return promises;
-    }
+    public getContributorDetails(contributorIds: string): AxiosPromise<object[]> {
+        const config = {
+            ...this.axiosConfig,
+            method: "get",
+            params: {
+                lookfor: "[" + contributorIds + "]",
+                method: "getAuthor",
+                searcher: "ElasticSearch",
+                type: "person",
+            },
+        };
 
-    /**
-     * @deprecated Not used?
-     * @param {string} contributorUrl
-     * @returns {Promise<any>}
-     */
-    public getContributorDetail(contributorUrl: string): AxiosPromise<any> {
-        return Axios.get(contributorUrl, this.axiosConfig);
+        return Axios.request(config)
+            .then((response: AxiosResponse) => {
+                return response;
+            });
     }
 
     public getContributorHtml(contributorPromise: Promise<object>, template: any): AxiosPromise<string> {

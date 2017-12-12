@@ -26,6 +26,7 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
+
 namespace Swissbib\VuFind\Autocomplete;
 
 use VuFind\Autocomplete\Solr as VFAutocompleteSolr;
@@ -44,9 +45,9 @@ class Solr extends VFAutocompleteSolr
     /**
      * GetSuggestionsFromSearch
      *
-     * @param array  $searchResults SearchResults
-     * @param String $query         Query
-     * @param String $exact         Exact
+     * @param array $searchResults SearchResults
+     * @param String $query Query
+     * @param String $exact Exact
      *
      * @return array
      */
@@ -59,20 +60,82 @@ class Solr extends VFAutocompleteSolr
             foreach ($this->displayField as $field) {
                 if (isset($current[$field])) {
                     $bestMatch = $this->pickBestMatch(
-                        $current[$field], $query, $exact
+                      $current[$field], $query, $exact
                     );
                     if ($bestMatch) {
                         $forbidden = [
-                            ':', '&', '?', '*', '[',']', '"', '/','\\',';','.','='
+                          ':',
+                          '&',
+                          '?',
+                          '*',
+                          '[',
+                          ']',
+                          '"',
+                          '/',
+                          '\\',
+                          ';',
+                          '.',
+                          '='
                         ];
                         $bestMatch = str_replace($forbidden, " ", $bestMatch);
 
-                        $results[] = $bestMatch;
+                        $results[] = [
+                          'id' => $current['id'],
+                          'value' => $bestMatch
+                        ];
                         break;
                     }
                 }
             }
         }
+
+        return $results;
+    }
+
+    /**
+     * This method returns an array of strings matching the user's query for
+     * display in the autocomplete box.
+     *
+     * @param string $query The user query
+     *
+     * @return array        The suggestions for the provided query
+     */
+    public function getSuggestions($query)
+    {
+        if (!is_object($this->searchObject)) {
+            throw new \Exception('Please set configuration first.');
+        }
+
+        try {
+            $this->searchObject->getParams()->setBasicSearch(
+              $this->mungeQuery($query), $this->handler
+            );
+            $this->searchObject->getParams()->setSort($this->sortField);
+            foreach ($this->filters as $current) {
+                $this->searchObject->getParams()->addFilter($current);
+            }
+
+            // Perform the search:
+            $searchResults = $this->searchObject->getResults();
+
+            // Build the recommendation list -- first we'll try with exact matches;
+            // if we don't get anything at all, we'll try again with a less strict
+            // set of rules.
+            $results = $this->getSuggestionsFromSearch($searchResults, $query, true);
+            if (empty($results)) {
+                $results = $this->getSuggestionsFromSearch(
+                  $searchResults, $query, false
+                );
+            }
+        } catch (\Exception $e) {
+            // Ignore errors -- just return empty results if we must.
+        }
+
+        // Wrap in array as only values of result array are part of response
+        $results = [
+          [ "total" => $this->searchObject->getResultTotal() ],
+          [ "suggestions" => isset($results) ? $results : [] ]
+        ];
 
         return $results;
     }
