@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 
   var fontAwesomePath = '"../../bootstrap3/css/fonts"';
   var lessFileSettings = [{
-    expand: true,F
+    expand: true,
     src: "themes/*/less/compiled.less",
     rename: function (dest, src) {
       return src.replace('/less/', '/css/').replace('.less', '.css');
