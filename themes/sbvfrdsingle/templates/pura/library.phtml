@@ -13,9 +13,8 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
     <h2>Before registration : </h2>
     <p>To access remotely some of the e-resources of the <?= $this->institution["label"][$this->layout()->userLang] ?>, you need to print this page and bring it to the ZB Desk, along with your ID and Library Card. You can also show this screen on your mobile phone or laptop.</p>
-
-
-    <p>IMAGE</p>
+    
+    <p><img src="<?= $this->url('pura/barcode', ['token' => $this->token]) ?>"></p>
 
     <table>
         <tr>

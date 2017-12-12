@@ -27,6 +27,7 @@ namespace Swissbib\Controller;
 use Zend\View\Model\ViewModel;
 use Swissbib\Services\Pura;
 use VuFind\Db\Row\User;
+use Zend\Barcode\Barcode;
 
 /**
  * Class NationalLicencesController.
@@ -107,8 +108,6 @@ class PuraController extends BaseController
         $firstName = $vuFindUser->firstname;
         $lastName = $vuFindUser->lastname;
 
-
-
         $view = new ViewModel(
             [
                 'publishers' => $publishers,
@@ -116,10 +115,33 @@ class PuraController extends BaseController
                 'institution' => $institution,
                 'email' => $email,
                 'firstname' => $firstName,
-                'lastname' => $lastName
+                'lastname' => $lastName,
+                'token' => "YOUHOU"
             ]
         );
 
         return $view;
+    }
+
+    /**
+     * Show the registration for a specific Pura Library
+     *
+     * @return mixed|ViewModel
+     * @throws \Exception
+     */
+    public function barcodeAction()
+    {
+        $token = $this->params()->fromRoute('token');
+
+        // Only the text to draw is required
+        $barcodeOptions = array('text' => $token);
+
+        // No required options
+        $rendererOptions = array();
+
+        // send the headers and the image
+        Barcode::factory(
+            'code39', 'image', $barcodeOptions, $rendererOptions
+        )->render();
     }
 }

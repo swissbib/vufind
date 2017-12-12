@@ -86,10 +86,23 @@ return [
                     'library' => [
                         'type'    => 'segment',
                         'options' => [
-                            'route'       => '/:libraryCode',
+                            'route'       => '/library/:libraryCode',
                             'defaults'    => [
                                 'controller' => 'pura',
                                 'action' => 'library',
+                            ],
+                            'constraints' => [
+                                'libraryCode' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ],
+                        ],
+                    ],
+                    'barcode' => [
+                        'type'    => 'segment',
+                        'options' => [
+                            'route'       => '/barcode/:token',
+                            'defaults'    => [
+                                'controller' => 'pura',
+                                'action' => 'barcode',
                             ],
                             'constraints' => [
                                 'libraryCode' => '[a-zA-Z][a-zA-Z0-9_-]*',
