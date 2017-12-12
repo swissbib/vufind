@@ -8,6 +8,12 @@ interface VuFindAutoComplete extends _VuFindAutoComplete {
 }
 
 
+// Type declaration for the callback function received from autocomplete.js in its handler
+declare type _VuFindAutoCompleteCallback = (items: Array<string | VuFindAutoCompleteItem> | VuFindAutoCompleteItemCollection) => void;
+
+interface VuFindAutoCompleteCallback extends _VuFindAutoCompleteCallback { }
+
+
 /**
  * jQuery type extension to make the VuFind's autocomplete plugin accessible through TypScript.
  * @see {@link https://github.com/vufind-org/autocomplete.js}
@@ -17,7 +23,7 @@ interface JQuery<TElement extends Node = HTMLElement> extends Iterable<TElement>
      * @param {string | any} options
      * @returns {this}
      */
-    autocomplete: VuFindAutoComplete;//(options: string | VuFindAutoCompleteOptions): this;
+    autocomplete: VuFindAutoComplete;
 }
 
 interface VuFindAutoCompleteOptions {
@@ -35,7 +41,7 @@ interface VuFindAutoCompleteOptions {
      * Optional handler to hook into search input handling e.g. by making AJAX requests before passing a result to the
      * callback.
      */
-    handler?: (inputEl: JQuery, callback: (items: Array<string | VuFindAutoCompleteItem> | VuFindAutoCompleteItemCollection, inputElement?: JQuery, eventType?: any) => void) => void;
+    handler?: (inputEl: JQuery, callback: VuFindAutoCompleteCallback) => void;
 
     /**
      * Milliseconds between last input and firing of AJAX
