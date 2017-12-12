@@ -100,6 +100,22 @@ VuFind.defaultSearchBackend = '{$dsb}';
 VuFind.addTranslations({$translations});
 JS;
   $this->headScript()->appendScript($setupJS);
+
+  // Append TypeScript generated output
+  $this->headScript()->appendFile("swissbib/swissbib.ts.js");
+
+  // Extend swissbib global object by autocomplete configuration
+  $autoSuggestConfig = json_encode($this->autoSuggestConfig()->toArray());
+  $swissbibObjectExtension = <<<JS
+(function(s) {
+  var autoSuggestConfiguration = {$autoSuggestConfig};
+  s.autoSuggestConfiguration = function () {
+    return autoSuggestConfiguration;
+  };
+})(window.swissbib = window.swissbib || {});
+JS;
+
+  $this->headScript()->appendScript($swissbibObjectExtension);
   ?>  <?=$this->headScript()?>
 </head>
 <body>
