@@ -81,7 +81,7 @@ export default class Configuration implements Translator {
      * @returns {string}
      */
     public getSectionAutoSuggestLink(section: Section): string {
-        let template: string = this.settings.templates.search.autosuggest;
+        let template: string = VuFind.path + this.settings.templates.search.autosuggest;
         return this.templates.resolve(template, section);
     }
 
@@ -92,7 +92,7 @@ export default class Configuration implements Translator {
      * @returns {string}
      */
     public getLookForLink(section: Section): string {
-        let template: string = this.settings.templates.search.lookfor;
+        let template: string = VuFind.path + this.settings.templates.search.lookfor;
         return this.templates.resolve(template, section);
     }
 
@@ -103,7 +103,7 @@ export default class Configuration implements Translator {
      * @returns {string}
      */
     public getRecordLink(item: Item): string {
-        let template: string = this.settings.templates.search.record;
+        let template: string = VuFind.path + this.settings.templates.search.record;
         return this.templates.resolve(template, item);
     }
 
