@@ -1,7 +1,6 @@
 import Configuration from "./Configuration";
-import SectionResult from "./SectionResult";
 import Item from "./Item";
-
+import SectionResult from "./SectionResult";
 
 /**
  * Utility class that converts the results received from some search backend into VuFindAutoCompleteItem objects.
@@ -12,7 +11,6 @@ export default class SearchResultConverter {
      * @private
      */
     private static RESULT_INDEX: number = 0;
-
 
     /**
      * Converts the given results as they have been received from the search backend into an array of structured items
@@ -29,9 +27,9 @@ export default class SearchResultConverter {
         sectionResult.total = data.total;
 
         for (let index: number = 0; index < data.suggestions.length; ++index) {
-            let item: Item = {
+            const item: Item = {
                 label: data.suggestions[index].value,
-                value: data.suggestions[index].id
+                value: data.suggestions[index].id,
             };
 
             item.href = configuration.getRecordLink(item);
@@ -47,9 +45,8 @@ export default class SearchResultConverter {
     }
 }
 
-
-declare type SearchResultSuggestionItem = { id: string, value: string };
-declare type SearchResultData = { total: number, suggestions: Array<SearchResultSuggestionItem> };
+declare interface SearchResultSuggestionItem { id: string; value: string; }
+declare interface SearchResultData { total: number; suggestions: SearchResultSuggestionItem[]; }
 
 /**
  * Type definition for search results received for the per-section auto-suggest.
@@ -59,7 +56,7 @@ export interface SearchResult {
     /**
      * The data received.
      */
-    data: Array<SearchResultData>;
+    data: SearchResultData[];
 
     /**
      * The response status.
