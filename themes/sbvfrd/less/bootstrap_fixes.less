@@ -61,3 +61,13 @@
 .jstree-facet li span.main {
   display: block;
 }
+
+/* fix for showing action buttons in trefferliste */
+.result {
+  @media (max-width: 767px) {
+    a {
+      max-width: inherit;
+      text-decoration: underline;
+    }
+  }
+}
