@@ -66,7 +66,8 @@ class SwitchApi
     /**
      * SwitchApi constructor.
      *
-     * @param array $config Swissbib configuration.
+     * @param array          $config Swissbib configuration.
+     * @param ServiceManager $sm     Service manager.
      */
     public function __construct($config, $sm)
     {
