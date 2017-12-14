@@ -196,7 +196,7 @@ JournalTitle:
       - [onephrase, 200]
     title_new:
       - [onephrase, 200]
-  FilterQuery: "format_str_mv:(CR0305* OR CR0306* OR CR0307*)"
+  FilterQuery: 'format_str_mv:(CR0305* OR CR0306* OR CR0307*)'
   DismaxParams:
     - [pf, 'title_short^100000']
     - [ps, '2']
