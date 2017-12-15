@@ -2,7 +2,6 @@ import AutoSuggest from "./AutoSuggest";
 import Section from "./Section";
 import SearchResultConverter, {SearchResult} from "./SearchResultConverter";
 import ResultCallback from "./ResultCallback";
-
 import jqXHR = JQuery.jqXHR;
 
 
@@ -27,6 +26,12 @@ export default class SectionLoader {
     private request: jqXHR;
 
     /**
+     * @private
+     * Storage for the loading property.
+     */
+    private _loading: boolean;
+
+    /**
      * Constructor.
      * @param {AutoSuggest} autoSuggest
      * @param {Section} section
@@ -35,13 +40,6 @@ export default class SectionLoader {
         this.autoSuggest = autoSuggest;
         this.section = section;
     }
-
-
-    /**
-     * @private
-     * Storage for the loading property.
-     */
-    private _loading: boolean;
 
     /**
      * Indicates whether the loader is currently loading data.
@@ -68,13 +66,13 @@ export default class SectionLoader {
         let section: Section = this.section;
 
         this.request = $.ajax({
-            url: autoSuggest.configuration.getSectionAutoSuggestLink(section),
-            dataType: 'json',
-            success: function (result: SearchResult) {
+            dataType: "json",
+            success: (result: SearchResult) => {
                 const converter: SearchResultConverter = new SearchResultConverter();
                 section.result = converter.convert(autoSuggest.configuration, result);
                 autoSuggest.updateResultsContainer(callback);
-            }
+            },
+            url: autoSuggest.configuration.getSectionAutoSuggestLink(section),
         });
     }
 }
