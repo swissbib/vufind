@@ -16,5 +16,5 @@ export default interface Translator {
      * @returns {string}
      * The resulting localized string with all placeholders resolved to the replacement values.
      */
-    translate: (key: string, replacements?: Array<any>) => string;
+    translate: (key: string, replacements?: any[]) => string;
 }

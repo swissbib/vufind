@@ -1,11 +1,10 @@
 import Section from "./Section";
 
-
 export default interface Settings {
     /**
      * Configured sections to show in the auto-suggest result list.
      */
-    readonly sections: Array<Section>;
+    readonly sections: Section[];
 
     /**
      * Indicates whether auto-suggest is enabled or not. If false, then no searches are performed at all.
@@ -31,7 +30,7 @@ export default interface Settings {
             /**
              * Search URL template for a single record in the azto-suggest result list
              */
-            record: string
-        }
+            record: string,
+        },
     };
 }

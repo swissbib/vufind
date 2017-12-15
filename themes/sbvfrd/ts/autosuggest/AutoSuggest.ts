@@ -1,14 +1,13 @@
 /// <reference path="../types/jquery.vufind.autocomplete.d.ts"/>
 
-import SectionLimitValidator from "./SectionLimitValidator";
-import Templates from "./Templates";
 import Configuration from "./Configuration";
-import Section from "./Section";
-import SectionLoader from "./SectionLoader";
-import ResultCallback from "./ResultCallback";
 import ItemCollection from "./ItemCollection";
 import ItemSection from "./ItemSection";
-
+import ResultCallback from "./ResultCallback";
+import Section from "./Section";
+import SectionLimitValidator from "./SectionLimitValidator";
+import SectionLoader from "./SectionLoader";
+import Templates from "./Templates";
 
 /**
  * Main auto-suggest component.
@@ -56,7 +55,6 @@ export default class AutoSuggest {
      */
     private templates: Templates;
 
-
     /**
      * Constructor.
      * @param {string} searchInputSelector
@@ -72,7 +70,6 @@ export default class AutoSuggest {
         this.limitValidator = new SectionLimitValidator();
         this.templates = new Templates();
     }
-
 
     /**
      * @private
@@ -90,7 +87,6 @@ export default class AutoSuggest {
         return this._configuration;
     }
 
-
     /**
      * @private
      * Storage for the defaultSectionLimit property.
@@ -106,23 +102,20 @@ export default class AutoSuggest {
      * On the attempt to set the default limit to a non-positive, non-integer or infinite value (including NaN and
      * floating point numbers).
      */
-    public get defaultSectionLimit(): number
-    {
+    public get defaultSectionLimit(): number {
         return this._defaultSectionLimit;
     }
 
     /**
      * @private
      */
-    public set defaultSectionLimit(value: number)
-    {
+    public set defaultSectionLimit(value: number) {
         if (!this.limitValidator.isValid(value)) {
             throw new RangeError(`Default section limit is out of range: ${value}`);
         }
 
         this._defaultSectionLimit = value;
     }
-
 
     /**
      * Initializes the auto-suggest component by setting up the search input using the VuFind autocomplete.js jQuery
@@ -132,8 +125,7 @@ export default class AutoSuggest {
     public initialize() {
         this.setupSourceInputElement();
         this.setupResultListContainerElement();
-    };
-
+    }
 
     /**
      * Updates the result list using the given callback.
@@ -149,8 +141,7 @@ export default class AutoSuggest {
         }
 
         this.applyResults(collection, callback);
-    };
-
+    }
 
     /**
      * @private
@@ -160,10 +151,10 @@ export default class AutoSuggest {
 
         if (this.configuration.enabled) {
             this.searchInputElement.autocomplete({
-                handler: this.autoCompleteHandler
+                handler: this.autoCompleteHandler,
             });
         }
-    };
+    }
 
     /**
      * @private
@@ -177,7 +168,7 @@ export default class AutoSuggest {
 
             this.requestSectionResultsIfNeeded(section, callback);
         }
-    };
+    }
 
     /**
      * @private
@@ -191,7 +182,7 @@ export default class AutoSuggest {
             this.requestSectionResults(section, limit, callback);
             this.updateResultsContainer(callback);
         }
-    };
+    }
 
     /**
      * @private
@@ -202,7 +193,7 @@ export default class AutoSuggest {
         }
 
         section.loader.load(callback);
-    };
+    }
 
     /**
      * @private
@@ -211,31 +202,31 @@ export default class AutoSuggest {
         if (section.result && section.result.total > 0) {
             collection.groups.push(this.createItemSection(section));
         }
-    };
+    }
 
     /**
      * @private
      */
-    private createItemSection(section:Section) : ItemSection {
+    private createItemSection(section: Section): ItemSection {
         const config: Configuration = this.configuration;
 
         return {
             items: section.result ? section.result.items.slice(0, section.limit) : [],
             label: this.templates.sectionHeader({
                 label: config.translate(section.label),
-                targetLabel: config.translate('autosuggest.show.all', [section.result.total]),
-                target: this.configuration.getLookForLink(section)
-            })
-        }
-    };
+                target: this.configuration.getLookForLink(section),
+                targetLabel: config.translate("autosuggest.show.all", [section.result.total]),
+            }),
+        };
+    }
 
     /**
      * @private
      */
     private setupResultListContainerElement() {
         this.resultListContainerElement = $(AutoSuggest.RESULT_LIST_CONTAINER_SELECTOR);
-        this.sectionHeaders.on('mousedown', this.sectionHeaderLinkMouseDownHandler);
-    };
+        this.sectionHeaders.on("mousedown", this.sectionHeaderLinkMouseDownHandler);
+    }
 
     /**
      * @private
@@ -254,27 +245,27 @@ export default class AutoSuggest {
     private sectionHeaderLinkMouseDownHandler = (event: JQuery.Event) => {
         // simply navigate directly to the link to circumvent browser's blur behavior
         // which causes click event not to be fired
-        window.location.href = $(event.target).attr('href');
-    };
+        window.location.href = $(event.target).attr("href");
+    }
 
     /**
      * @private
      */
     private get sectionHeaders(): JQuery<HTMLElement> {
         return this.resultListContainerElement.find(AutoSuggest.SECTION_HEADER_LINK_SELECTOR);
-    };
+    }
 
     /**
      * @private
      */
     private disconnectSectionHeaders() {
-        this.sectionHeaders.off('mousedown', this.sectionHeaderLinkMouseDownHandler);
-    };
+        this.sectionHeaders.off("mousedown", this.sectionHeaderLinkMouseDownHandler);
+    }
 
     /**
      * @private
      */
     private connectSectionHeaders() {
-        this.sectionHeaders.on('mousedown', this.sectionHeaderLinkMouseDownHandler);
-    };
+        this.sectionHeaders.on("mousedown", this.sectionHeaderLinkMouseDownHandler);
+    }
 }
