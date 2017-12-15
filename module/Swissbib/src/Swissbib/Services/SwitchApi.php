@@ -66,12 +66,14 @@ class SwitchApi
     /**
      * SwitchApi constructor.
      *
-     * @param array $config Swissbib configuration.
+     * @param array          $config Swissbib configuration.
+     * @param ServiceManager $sm     Service manager.
      */
-    public function __construct($config)
+    public function __construct($config, $sm)
     {
         $this->config   = $config->get('config');
         $this->configNL = $config->get('NationalLicences')['SwitchApi'];
+        $this->setServiceLocator($sm);
     }
 
     /**
@@ -386,6 +388,12 @@ class SwitchApi
             'email' => 'mail',
         ];
 
+        //to test the email sending on test server
+        /*if ($updatedUser["uniqueID"]=="859735645906@eduid.ch") {
+            echo "setting false to swissEduIDUsage1y\r\n";
+            $updatedUser["swissEduIDUsage1y"] = "FALSE";
+        }*/
+
         $nationalLicenceField = [];
         $userFields = [];
         foreach ($nationalLicenceFieldRelation as $key => $value) {
@@ -404,7 +412,7 @@ class SwitchApi
          * @var \Swissbib\VuFind\Db\Table\NationalLicenceUser $userTable
          */
         $userTable
-            = $this->getTable('\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser');
+            = $this->getTable('nationallicence');
 
         /**
          * National licence user.
