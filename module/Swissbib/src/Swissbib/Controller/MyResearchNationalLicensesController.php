@@ -106,7 +106,7 @@ class MyResearchNationalLicensesController extends MyResearchController
 
             } else {
                 $tURL = $this->getDocumentProviderURL();
-                $this->redirect()->toUrl($tURL);
+                return $this->redirect()->toUrl($tURL);
             }
 
         } else {
@@ -114,7 +114,7 @@ class MyResearchNationalLicensesController extends MyResearchController
             // document but we can't guarentee correct access - user should be
             // notified about this in advance on the surface
             $tURL = $this->getDocumentProviderURL();
-            $this->redirect()->toUrl($tURL);
+            return $this->redirect()->toUrl($tURL);
 
         }
 

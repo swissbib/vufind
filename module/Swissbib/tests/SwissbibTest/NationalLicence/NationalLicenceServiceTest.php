@@ -183,7 +183,7 @@ class NationalLicenceServiceTest extends VuFindTestCase
          */
         $userTable = $this->sm
             ->get('VuFind\DbTablePluginManager')
-            ->get('\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser');
+            ->get('nationallicence');
         /**
          * National licence user.
          *
