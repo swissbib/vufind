@@ -106,6 +106,7 @@ Author:
     - author^100
     - author_additional^20
     - author_additional_dsv11_txt_mv^20
+    - author_additional_gnd_txt_mv^20
   QueryFields:
     author:
       - [onephrase, 350]
@@ -195,7 +196,7 @@ JournalTitle:
       - [onephrase, 200]
     title_new:
       - [onephrase, 200]
-  FilterQuery: "format_str_mv:(CR0305* OR CR0306* OR CR0307*)"
+  FilterQuery: 'format_str_mv:(CR0305* OR CR0306* OR CR0307*)'
   DismaxParams:
     - [pf, 'title_short^100000']
     - [ps, '2']
@@ -241,6 +242,7 @@ Title:
     - title_short^1000            # main title, i.e. 245 $a
     - title_alt^200
     - title_additional_dsv11_txt_mv^200
+    - title_additional_gnd_txt_mv^200
     - title_sub^200
     - title_old^200
     - title_new^200

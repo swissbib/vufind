@@ -61,3 +61,29 @@
 .jstree-facet li span.main {
   display: block;
 }
+
+/* fix for showing action buttons in trefferliste */
+.result {
+  @media (max-width: 767px) {
+    a {
+      max-width: inherit;
+      text-decoration: underline;
+    }
+  }
+}
+
+/* show labels aligned right in baselbern login page*/
+.form-login {
+  @media (min-width: @screen-sm-min) {
+    .control-label {
+      text-align: right;
+      margin-bottom: 0;
+      padding-top: (@padding-base-vertical + 1); // Default padding plus a border
+    }
+  }
+}
+
+/* show login button under input-fields in baselbern login page */
+input[name="processLogin"] {
+  margin-left: 25%;
+}

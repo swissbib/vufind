@@ -1072,7 +1072,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     {
         $primaryAuthors = $this->getPrimaryAuthor();
         if (empty($primaryAuthors)) {
-            return null;
+            return [];
         }
         if (!is_array($primaryAuthors)) {
             $primaryAuthors = [$primaryAuthors];
@@ -1147,7 +1147,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     {
         $tempAuthor = $this->getCorporateAuthor();
         return empty($tempAuthor) ?
-            null : [$this->getCorporateAuthor()];
+            [] : [$this->getCorporateAuthor()];
     }
 
     /**
