@@ -220,7 +220,8 @@ class Factory
         return new NationalLicence(
             $sm->get('Swissbib\SwitchApiService'),
             $sm->get('Swissbib\EmailService'),
-            $sm->get('VuFind\Config')->get('NationalLicences')
+            $sm->get('VuFind\Config')->get('NationalLicences'),
+            $sm
         );
     }
 
@@ -233,7 +234,7 @@ class Factory
      */
     public static function getSwitchApiService(ServiceManager $sm)
     {
-        return new SwitchApi($sm->get('VuFind\Config'));
+        return new SwitchApi($sm->get('VuFind\Config'), $sm);
     }
 
     /**
@@ -245,6 +246,6 @@ class Factory
      */
     public static function getEmailService(ServiceManager $sm)
     {
-        return new Email($sm->get('VuFind\Config'));
+        return new Email($sm->get('VuFind\Config'), $sm);
     }
 }
