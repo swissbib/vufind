@@ -12,8 +12,14 @@ namespace ElasticSearch\VuFind\RecordDriver;
 use VuFind\RecordDriver\AbstractBase;
 use Zend\ServiceManager\ConfigInterface;
 
+/**
+ * Class PluginManager
+ * @package ElasticSearch\VuFind\RecordDriver
+ */
 class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
 {
+    const DEFAULT_RECORD = 'ElasticSearch';
+
     /**
      * Constructor
      *
@@ -47,10 +53,16 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
      *
      * @return AbstractBase
      */
-    public function getElasticSearchRecordDriver($data)
+    public function getElasticSearchRecord($data)
     {
+        if (isset($data['_type'])) {
+            $key = 'ES' . ucwords($data['_type']);
+            $recordType = $this->has($key) ? $key : self::DEFAULT_RECORD;
+        } else {
+            $recordType = self::DEFAULT_RECORD;
+        }
         // Build the object:
-        $driver = $this->get('ElasticSearchRecordDriver');
+        $driver = $this->get($recordType);
         $driver->setRawData($data);
         return $driver;
     }

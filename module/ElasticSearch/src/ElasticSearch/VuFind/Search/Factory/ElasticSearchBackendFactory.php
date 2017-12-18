@@ -64,7 +64,7 @@ class ElasticSearchBackendFactory implements FactoryInterface
         }
 
         $manager = $this->serviceLocator->get('ElasticSearch\RecordDriverPluginManager');
-        $factory = new RecordCollectionFactory([$manager, 'getElasticSearchRecordDriver']);
+        $factory = new RecordCollectionFactory([$manager, 'getElasticSearchRecord']);
         $backend->setRecordCollectionFactory($factory);
 
         return $backend;

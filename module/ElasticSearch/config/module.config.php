@@ -6,8 +6,8 @@ $config = [
   'service_manager' => [
 //    'abstract_factories' => ['ElasticSearch\VuFind\RecordDriver\PluginFactory'],
     'factories' => [
-      'ElasticSearchRecordDriver' => 'ElasticSearch\VuFind\RecordDriver\Factory::getElasticSearchRecord',
-      'ElasticSearch\RecordDriverPluginManager' => 'ElasticSearch\VuFind\RecordDriver\Factory::getElasticSearchRecord',
+//      'ElasticSearchRecord' => 'ElasticSearch\VuFind\RecordDriver\Factory::getElasticSearchRecord',
+      'ElasticSearch\RecordDriverPluginManager' => 'ElasticSearch\VuFind\Service\Factory::getRecordDriverPluginManager',
     ],
   ],
   'vufind' => [
@@ -22,12 +22,25 @@ $config = [
 //      'search_params' => 'ElasticSearch\VuFind\Search\ElasticSearch\Params',
       'search_results' => 'ElasticSearch\VuFind\Search\Results\Factory::getElasticSearch',
       'recorddriver' => [
+//        'abstract_factories' => ['ElasticSearch\VuFind\RecordDriver\PluginFactory'],
         'factories' => [
-          'elasticsearch' => 'ElasticSearch\VuFind\RecordDriver\Factory::getElasticSearchRecord',
+          'elasticsearchRecordDriver' => 'ElasticSearch\VuFind\RecordDriver\Factory::getElasticSearchRecord',
         ],
       ],
     ],
-
+  ],
+  'elasticsearch' => [
+    'plugin_managers' => [
+      'recorddriver' => [
+//        'abstract_factories' => ['ElasticSearch\VuFind\RecordDriver\PluginFactory'],
+        'factories' => [
+          'elasticsearch' => 'ElasticSearch\VuFind\RecordDriver\Factory::getElasticSearchRecord',
+          'esperson' => 'ElasticSearch\VuFind\RecordDriver\Factory::getESPersonRecord',
+          'esdefault' => 'ElasticSearch\VuFind\RecordDriver\Factory::getESSubjectRecord',
+          'esbibliographicresource' => 'ElasticSearch\VuFind\RecordDriver\Factory::getESBibliographicResourceRecord',
+        ],
+      ],
+    ],
   ]
 ];
 

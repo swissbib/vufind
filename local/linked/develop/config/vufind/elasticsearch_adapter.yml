@@ -33,7 +33,7 @@ parameters:
       type: '{type}'
       query:
         ids:
-          values: ['{ids}']
+          values: ['{q}']
 
     collection_fields:
       index: 'lsb'
