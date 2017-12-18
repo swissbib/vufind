@@ -161,6 +161,32 @@ return [
                     ]
                 ]
             ],
+            'card-knowledge-author' => [
+                'type' => 'segment',
+                'options' => [
+                    'route' => '/Card/Knowledge/Author/:id',
+                    'constraints' => [
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => 'knowledge-card',
+                        'action'     => 'knowledgeCardAuthor',
+                    ],
+                ]
+            ],
+            'card-knowledge-topic' => [
+                'type' => 'segment',
+                'options' => [
+                    'route' => '/Card/Knowledge/Topic/:id',
+                    'constraints' => [
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => 'knowledge-card',
+                        'action'     => 'knowledgeCardTopic',
+                    ],
+                ]
+            ],
         ]
     ],
     'console' => [
@@ -263,7 +289,8 @@ return [
             'helppage'    => 'Swissbib\Controller\Factory::getHelpPageController',
             'libadminsync' => 'Swissbib\Controller\Factory::getLibadminSyncController',
             'my-research'   => 'Swissbib\Controller\Factory::getMyResearchController',
-            'console'       => 'Swissbib\Controller\Factory::getConsoleController'
+            'console'       => 'Swissbib\Controller\Factory::getConsoleController',
+            'knowledge-card' => 'Swissbib\Controller\Factory::getKnowledgeCardController'
         ]
     ],
     'service_manager' => [
