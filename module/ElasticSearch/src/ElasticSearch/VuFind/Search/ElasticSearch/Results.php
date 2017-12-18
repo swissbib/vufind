@@ -45,7 +45,18 @@ class Results extends BaseResults
         $offset = $this->getStartRecord() - 1;
         //        TODO Is this required (see Solr)?
         //        $params = $this->getParams()->getBackendParameters();
+
         $params = new ParamBag();
+        $params->add(
+          "filter",
+            array_merge(
+              $this->getParams()->getFilters(),
+              $this->getParams()->getHiddenFilters()
+            )
+        );
+        $params->add("index", $this->getParams()->getIndex());
+        $params->add("template", $this->getParams()->getTemplate());
+
         $searchService = $this->getSearchService();
 
         try {

@@ -8,6 +8,7 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://linked.swissbib.ch  Main Page
  */
+
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
@@ -34,24 +35,22 @@ class RecordCollectionFactory implements RecordCollectionFactoryInterface
     /**
      * Constructor.
      *
-     * @param Callable $recordFactory   Callback to construct records
-     * @param string   $collectionClass Class of collection
+     * @param Callable $recordFactory Callback to construct records
+     * @param string $collectionClass Class of collection
      *
      * @return void
      */
-    public function __construct($recordFactory = null,
-        $collectionClass = 'ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollection'
+    public function __construct(
+      $recordFactory = null,
+      $collectionClass = 'ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollection'
     ) {
-        // TODO Why do we get the wrong factory?
-        //        if (null === $recordFactory) {
+        if (null === $recordFactory) {
             $this->recordFactory = function ($data) {
-                $elasticSearch = new ElasticSearch();
-                $elasticSearch->setRawData($data);
-                return $elasticSearch;
+                return new Record($data);
             };
-        //        } else {
-        //            $this->recordFactory = $recordFactory;
-        //        }
+        } else {
+            $this->recordFactory = $recordFactory;
+        }
         $this->collectionClass = $collectionClass;
     }
 

@@ -7,12 +7,23 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://linked.swissbib.ch  Main Page
  */
-
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult;
 use VuFindSearch\Response\RecordInterface;
 
-class Record implements RecordInterface {
+class Record implements RecordInterface
+{
+    /**
+     * @var array
+     */
+    private $fields;
 
+    /**
+     * Record constructor.
+     */
+    public function __construct(array $fields)
+    {
+        $this->fields = $fields;
+    }
 
     /**
      * Set the source backend identifier.
@@ -23,7 +34,7 @@ class Record implements RecordInterface {
      */
     public function setSourceIdentifier($identifier)
     {
-        // TODO: Implement setSourceIdentifier() method.
+        $this->source = $identifier;
     }
 
     /**

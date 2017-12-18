@@ -28,6 +28,7 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
+
 namespace Swissbib\Controller;
 
 use VuFind\Controller\AjaxController as VFAjaxController;
@@ -59,8 +60,8 @@ class AjaxController extends VFAjaxController
         $this->outputMode = 'json';
         $config = $this->getConfig();
         if ((!isset($config->Mail->require_login) || $config->Mail->require_login)
-          && strcmp(strtolower($config->Authentication->method), "shibboleth") == 0
-          && !$this->getUser()
+            && strcmp(strtolower($config->Authentication->method), "shibboleth") == 0
+            && !$this->getUser()
         ) {
             //no JSON.parse in client
             return $this->output(
@@ -74,13 +75,14 @@ class AjaxController extends VFAjaxController
         }
     }
 
-    protected function getTopicsAjax(): ResponseInterface
+    protected function getSubjectsAjax(): ResponseInterface
     {
         $content = $this->search();
 
         // TODO externalize spec
         $specBuilder = new RecordDataFormatter\SpecBuilder();
         $specBuilder->setLine("id", "getUniqueID", "Simple", ['allowZero' => false]);
+        $specBuilder->setLine("type", "getType", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("name", "getName", "Simple", ['allowZero' => false]);
         $spec = $specBuilder->getArray();
 
@@ -88,13 +90,14 @@ class AjaxController extends VFAjaxController
         return $response;
     }
 
-    protected function getAuthorAjax(): ResponseInterface
+    protected function getAuthorsAjax(): ResponseInterface
     {
         $content = $this->search();
 
         // TODO externalize spec
         $specBuilder = new RecordDataFormatter\SpecBuilder();
         $specBuilder->setLine("id", "getUniqueID", "Simple", ['allowZero' => false]);
+        $specBuilder->setLine("type", "getType", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("name", "getName", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("firstName", "getFirstName", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("lastName", "getlastName", "Simple", ['allowZero' => false]);
@@ -111,8 +114,8 @@ class AjaxController extends VFAjaxController
 
         // TODO externalize spec
         $specBuilder = new RecordDataFormatter\SpecBuilder();
-        $specBuilder->setLine("contributors", "getContributors", "Simple", ['allowZero' => false, 'separator' => ',']);
-        $specBuilder->setLine("topics", "getTopics", "Simple", ['allowZero' => false, 'separator' => ',']);
+        $specBuilder->setLine("contributors", "getContributors", "Simple", ['allowZero' => true, 'separator' => ',']);
+        $specBuilder->setLine("subjects", "getSubjects", "Simple", ['allowZero' => true, 'separator' => ',']);
         $spec = $specBuilder->getArray();
 
         $response = $this->buildResponse($content, $spec);
@@ -131,7 +134,6 @@ class AjaxController extends VFAjaxController
 
         /** @var Params $params */
         $params = $results->getParams();
-
         // Send both GET and POST variables to search class:
         $params->initFromRequest(
           new \Zend\Stdlib\Parameters(
