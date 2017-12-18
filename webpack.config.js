@@ -2,7 +2,8 @@ const path = require('path');
 
 module.exports = {
     entry: [
-        './themes/sbvfrd/ts/Hydra.ts',
+        './themes/sbvfrd/ts/app.ts',
+        // './themes/sbvfrd/ts/RecordRenderer.ts',
         './themes/sbvfrd/ts/autosuggest/Translator.ts',
         './themes/sbvfrd/ts/autosuggest/Configuration.ts',
         './themes/sbvfrd/ts/autosuggest/Settings.ts',
@@ -15,7 +16,7 @@ module.exports = {
         './themes/sbvfrd/ts/autosuggest/Item.ts',
         './themes/sbvfrd/ts/autosuggest/ItemCollection.ts',
         './themes/sbvfrd/ts/autosuggest/AutoSuggest.ts',
-        './themes/sbvfrd/ts/app.ts'
+        // './themes/sbvfrd/ts/app.ts'
     ],
     output: {
         path: path.resolve(__dirname),

@@ -1,20 +1,9 @@
-import {AxiosPromise, AxiosResponse, default as Axios} from "axios";
-import * as $ from "jquery";
+import {AxiosResponse, default as Axios} from "axios";
+import {BibliographicDetails} from "./BibliographicDetails";
+import {Contributor} from "./Contributor";
+import {Subject} from "./Subject";
 
 export class Hydra {
-
-    /**
-     * Should be more than:
-     * "@context, @id, @type, id, firstName, lastName, label"
-     */
-    public static personHasSufficientData(data: object): boolean {
-        const len = Object.keys(data).length;
-        if (len > 4) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     private apiUrl: string;
     private axiosConfig: object;
@@ -29,29 +18,13 @@ export class Hydra {
         };
     }
 
-    public renderContributors(bibliographicResourceId: string,
-                              htmlList: HTMLElement,
-                              template: any): Promise<HTMLElement> {
-        return this
-            .getContributorIds(bibliographicResourceId)
-            .then((ids: string) => {
-                return this.getContributorDetails(ids);
-            })
-            .then((contributors: AxiosResponse<any[]>) => {
-                for (const p of contributors.data) {
-                    $(template(p)).appendTo(htmlList);
-                }
-                return htmlList;
-            });
-    }
-
     /**
      * Fetches array with ids of all contributors
      *
      * @param {string} bibliographicResourceId
      * @returns {Promise<string[]>}
      */
-    public getContributorIds(bibliographicResourceId: string): Promise<string> {
+    public getBibliographicDetails(bibliographicResourceId: string): Promise<BibliographicDetails> {
         const config = {
             ...this.axiosConfig,
             method: "get",
@@ -63,36 +36,53 @@ export class Hydra {
             },
         };
 
-        return Axios.request<string>(config)
-            .then((response: AxiosResponse): string => {
-                return response.data[0].contributors;
+        return Axios.request<BibliographicDetails[]>(config)
+            .then((response: AxiosResponse): BibliographicDetails => {
+                if (response.data.length > 0) {
+                    return response.data[0];
+                } else {
+                    return new BibliographicDetails();
+                }
             });
     }
 
-    public getContributorDetails(contributorIds: string): AxiosPromise<object[]> {
+    public getContributorDetails(contributorIds: string): Promise<Contributor[]> {
         const config = {
             ...this.axiosConfig,
             method: "get",
             params: {
-                lookfor: "[" + contributorIds + "]",
-                method: "getAuthor",
-                searcher: "ElasticSearch",
-                type: "person",
+                "index": "lsb",
+                // lookfor: "[" + contributorIds + "]",
+                "method": "getAuthors",
+                "overrideIds[]": contributorIds,
+                "searcher": "ElasticSearch",
+                "type": "person",
             },
         };
 
         return Axios.request(config)
             .then((response: AxiosResponse) => {
-                return response;
+                return response.data as Contributor[];
             });
     }
 
-    public getContributorHtml(contributorPromise: Promise<object>, template: any): AxiosPromise<string> {
-        return contributorPromise
-            .then((person) => {
-                const p: any = person;
-                return template(p);
+    public getSubjectDetails(subjectIds: string): Promise<Subject[]> {
+        const config = {
+            ...this.axiosConfig,
+            method: "get",
+            params: {
+                "index": "gnd",
+                // lookfor: "[" + contributorIds + "]",
+                "method": "getSubjects",
+                "overrideIds[]": subjectIds,
+                "searcher": "ElasticSearch",
+                "type": "DEFAULT",
+            },
+        };
+
+        return Axios.request(config)
+            .then((response: AxiosResponse) => {
+                return response.data as Subject[];
             });
     }
-
 }
