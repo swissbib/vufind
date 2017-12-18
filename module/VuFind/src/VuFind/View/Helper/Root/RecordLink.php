@@ -131,9 +131,9 @@ class RecordLink extends \Zend\View\Helper\AbstractHelper
      *
      * @return string
      */
-    public function getHoldUrl($url, $includeAnchor = true)
+    public function getHoldUrl($item, $includeAnchor = true)
     {
-        return $this->getRequestUrl($url, $includeAnchor);
+        return $this->getRequestUrl($item, $includeAnchor);
     }
 
     /**
@@ -144,27 +144,28 @@ class RecordLink extends \Zend\View\Helper\AbstractHelper
      *
      * @return string
      */
-    public function getRequestUrl($url, $includeAnchor = true)
+    public function getRequestUrl($item, $includeAnchor = true)
     {
-        if (is_array($url)) {
+        if (is_array($item['holdLink'])) {
             // Assemble URL string from array parts:
-            $source = isset($url['source'])
-                ? $url['source'] : DEFAULT_SEARCH_BACKEND;
+            $source = isset($item['holdLink']['source'])
+                ? $item['holdLink']['source'] : DEFAULT_SEARCH_BACKEND;
             $finalUrl
-                = $this->getActionUrl("{$source}|" . $url['record'], $url['action']);
-            if (isset($url['query'])) {
-                $finalUrl .= '?' . $url['query'];
+                = $this->getActionUrl("{$source}|" . $item['holdLink']['record'], $item['holdLink']['action']);
+            if (isset($item['holdLink']['query'])) {
+                $finalUrl .= '?' . $item['holdLink']['query'];
+                $finalUrl .= '&institution=' . $item['institution'];
             }
-            if (isset($url['anchor']) && $includeAnchor) {
-                $finalUrl .= $url['anchor'];
+            if (isset($item['holdLink']['anchor']) && $includeAnchor) {
+                $finalUrl .= $item['holdLink']['anchor'];
             }
         } else {
             // If URL is already a string but we don't want anchors, strip
             // the anchor now:
             if (!$includeAnchor) {
-                list($finalUrl) = explode('#', $url);
+                list($finalUrl) = explode('#', $item['holdLink']);
             } else {
-                $finalUrl = $url;
+                $finalUrl = $item['holdLink'];
             }
         }
         // Make sure everything is properly HTML encoded:
