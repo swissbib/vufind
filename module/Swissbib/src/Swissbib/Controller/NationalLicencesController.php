@@ -329,29 +329,4 @@ class NationalLicencesController extends BaseController
 
         $this->redirect()->toRoute('national-licences');
     }
-
-    /**
-     * Method called when user want to extend his account. The link to access
-     * to this function has to be send by e-mail.
-     *
-     * @return void
-     */
-    public function extendAccountAction()
-    {
-        try {
-            $this->nationalLicenceService->extendAccountIfCompliant();
-            if ($this->nationalLicenceService->isSetMessage()) {
-                $message = $this->nationalLicenceService->getMessage();
-                $this->flashMessenger()->addInfoMessage(
-                    $this->translate($message['text'])
-                );
-            }
-        } catch (\Exception $e) {
-            $this->flashMessenger()->addErrorMessage(
-                $this->translate($e->getMessage())
-            );
-        }
-        //redirect to home page
-        $this->redirect()->toRoute('national-licences');
-    }
 }

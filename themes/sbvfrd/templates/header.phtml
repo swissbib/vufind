@@ -19,7 +19,7 @@
           <div class="row">
             <div style="background-color:#fdeb18;padding:5px;text-align:center;border-radius:3px">
               <a style="color:green;" href="<?=$surveyUrl?>" target="_blank" onclick="document.cookie='<?=$cookieName?>=clicked; expires=<?=$expires?>; path=/'">
-                  Nehme an Unserer Mini-Umfrage teil!
+                <?= $this->transEsc("survey.notification") ?>
               </a>
             </div>
           </div>
