@@ -5,6 +5,7 @@
  * Date: 06.12.17
  * Time: 11:03
  */
+
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch;
 
 use ElasticsearchAdapter\Params\ArrayParams;
@@ -29,35 +30,30 @@ class SearchBuilder
     }
 
     public function buildSearch(
-        Query $query,
-        $offset,
-        $limit,
-        ParamBag $params = null
-    ) : Search {
-    
+      Query $query,
+      $offset,
+      $limit,
+      ParamBag $params = null
+    ): Search {
+
         if ($params === null) {
             $params = new ParamBag();
         }
-        if (!$params->hasParam('template')) {
-            $params->add('template', $this->templates['default_template']);
-        }
-        if (!$params->hasParam('index')) {
-            $params->add('index', $this->templates['default_index']);
-        }
 
         $elasticSearchParams = new ArrayParams(
-            [
-            'index' => $params->get('index')[0],
+          [
+            'index' => $this->getIndex($query, $params),
             'type' => $query->getHandler(),
             'size' => $limit,
             'from' => $offset,
-            'id' => $this->getQueryString($query),
-            ]
+            'q' => $this->getQueryString($query),
+            'fields' => $this->getFilters($query, $params)
+          ]
         );
 
         $searchBuilder = new TemplateSearchBuilder($this->templates, $elasticSearchParams);
 
-        $search = $searchBuilder->buildSearchFromTemplate($params->get('template')[0]);
+        $search = $searchBuilder->buildSearchFromTemplate($this->getTemplate($query, $params));
 
         return $search;
     }
@@ -74,5 +70,46 @@ class SearchBuilder
             return array_map("trim", explode(',', $matches[1]));
         }
         return $queryString;
+    }
+
+    /**
+     * @param Query $query
+     * @return string
+     */
+    protected function getTemplate(Query $query, ParamBag $params)
+    {
+        // TODO Get default template from config
+//        return $query->getHandler() ? $query->getHandler() : "id";
+        return $this->getFromParams("template", $params);
+    }
+
+    /**
+     * @param Query $query
+     * @param ParamBag $params
+     * @return mixed
+     */
+    private function getFilters(Query $query, ParamBag $params)
+    {
+        return "";
+    }
+
+    /**
+     * @param Query $query
+     * @param ParamBag $params
+     * @return mixed
+     */
+    protected function getIndex(Query $query, ParamBag $params)
+    {
+        return $this->getFromParams('index', $params);
+    }
+
+    /**
+     * @param $name
+     * @param ParamBag $params
+     * @return mixed
+     */
+    protected function getFromParams($name, ParamBag $params)
+    {
+        return $params->get($name)[0];
     }
 }
