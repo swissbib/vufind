@@ -27,7 +27,7 @@ class KnowledgeCardController extends AbstractBase
     /**
      * @return \Zend\View\Model\ViewModel
      */
-    public function knowledgeCardAuthorAction()
+    public function authorAction()
     {
         return $this->createViewModel();
     }
@@ -35,7 +35,7 @@ class KnowledgeCardController extends AbstractBase
     /**
      * @return \Zend\View\Model\ViewModel
      */
-    public function knowledgeCardTopicAction()
+    public function topicAction()
     {
         return $this->createViewModel();
     }

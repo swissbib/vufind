@@ -170,7 +170,7 @@ return [
                     ],
                     'defaults' => [
                         'controller' => 'knowledge-card',
-                        'action'     => 'knowledgeCardAuthor',
+                        'action'     => 'author',
                     ],
                 ]
             ],
@@ -183,7 +183,7 @@ return [
                     ],
                     'defaults' => [
                         'controller' => 'knowledge-card',
-                        'action'     => 'knowledgeCardTopic',
+                        'action'     => 'topic',
                     ],
                 ]
             ],
