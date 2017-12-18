@@ -428,6 +428,9 @@ return [
                     'summon'   => 'Swissbib\RecordDriver\Factory::getSummonRecordDriver',
                     'worldcat' => 'Swissbib\RecordDriver\Factory::getWorldCatRecordDriver',
                     'missing'  => 'Swissbib\RecordDriver\Factory::getRecordDriverMissing',
+                    'esbibliographicresource' => 'Swissbib\RecordDriver\Factory::getESBibliographicResourceRecordDriver',
+                    'esperson' => 'Swissbib\RecordDriver\Factory::getESPersonRecordDriver',
+                    'essubject' => 'Swissbib\RecordDriver\Factory::getESSubjectRecordDriver',
                 ]
             ],
             'ils_driver' => [
