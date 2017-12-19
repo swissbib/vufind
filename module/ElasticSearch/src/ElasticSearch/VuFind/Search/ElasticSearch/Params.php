@@ -123,7 +123,7 @@ class Params extends BaseParams
      *
      * @return VuFindSearch\Query\AbstractQuery
      */
-    public function getQuery()
+    public function getQuery(): Query
     {
         if ($this->overrideQuery) {
             return new Query($this->overrideQuery);
