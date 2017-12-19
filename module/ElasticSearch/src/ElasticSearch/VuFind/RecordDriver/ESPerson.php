@@ -42,7 +42,7 @@ class ESPerson extends ElasticSearch
      *
      * @param $name
      * @param $arguments
-     * @return mixed
+     * @return array|null
      */
     public function __call(string $name, $arguments)
     {
@@ -185,10 +185,14 @@ class ESPerson extends ElasticSearch
     /**
      * @param $fieldName
      * @param $prefix
-     * @return mixed
+     * @return array|null
      */
     protected function getField(string $fieldName, string $prefix = "dbp")
     {
-        return $this->fields["_source"][$prefix . ':' . $fieldName];
+        if(array_key_exists( $prefix . ':' . $fieldName, $this->fields["_source"]))
+        {
+            return  $this->fields["_source"][$prefix . ':' . $fieldName];
+        }
+        return null;
     }
 }
