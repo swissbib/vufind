@@ -31,6 +31,7 @@ class Factory
         $configKey = strtolower(str_replace('\\', '_', $ns));
         $config = $sm->get('Config');
         return new $className(
+          $sm,
             new \Zend\ServiceManager\Config(
                 $config['elasticsearch']['plugin_managers'][$configKey]
             )
