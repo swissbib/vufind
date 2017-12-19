@@ -45,7 +45,8 @@ class KnowledgeCardController extends AbstractBase
         $index = "gnd";
         $type = "DEFAULT";
 
-        return $this->getKnowledgeCard($index, $type);    }
+        return $this->getKnowledgeCard($index, $type);
+    }
 
     /**
      * @param $index
@@ -75,6 +76,14 @@ class KnowledgeCardController extends AbstractBase
 
         /** @var $content array */
         $content = $results->getResults();
-        return $this->createViewModel($content ? $content : []);
+        if ($content !== null && is_array($content) && count($content) === 1) {
+            return $this->createViewModel(["driver" => $content[0]]);
+        }
+
+        $model = new ViewModel([
+          'message' => 'Can not find a Knowledge Card for id: ' . $id,
+        ]);
+        $model->setTemplate('error/index');
+        return $model;
     }
 }
