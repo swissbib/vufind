@@ -11,6 +11,7 @@
 namespace ElasticSearch\VuFind\RecordDriver;
 use VuFind\RecordDriver\AbstractBase;
 use Zend\ServiceManager\ConfigInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class PluginManager
@@ -25,8 +26,9 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
      *
      * @param ConfigInterface $configuration Configuration settings (optional)
      */
-    public function __construct(ConfigInterface $configuration = null)
+    public function __construct(ServiceLocatorInterface $serviceLocator, ConfigInterface $configuration = null)
     {
+        $this->serviceLocator = $serviceLocator;
         // Record drivers are not meant to be shared -- every time we retrieve one,
         // we are building a brand new object.
         $this->setShareByDefault(false);
