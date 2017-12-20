@@ -40,24 +40,6 @@ it("should create Html", () => {
     return expect(actual).resolves.toContain("Bamber, David");
 });
 
-it("Empty should be not sufficient info", () => {
-    const given = {};
-    const actual = RecordRenderer.personHasSufficientData(given);
-    expect(actual).toBeFalsy();
-});
-
-it("Only 4 elements should be not sufficient info", () => {
-    const given = {1: "", 2: "", 3: "", 4: ""};
-    const actual = RecordRenderer.personHasSufficientData(given);
-    expect(actual).toBeFalsy();
-});
-
-it("8 elements should be sufficient info", () => {
-    const given = {1: "", 2: "", 3: "", 4: "", 5: "", 6: "", 7: "", 8: ""};
-    const actual = RecordRenderer.personHasSufficientData(given);
-    expect(actual).toBeTruthy();
-});
-
 it("Html should contain list element with contributors", () => {
     const body = document.getElementsByTagName("body")[0];
     const list = document.createElement("ul");
