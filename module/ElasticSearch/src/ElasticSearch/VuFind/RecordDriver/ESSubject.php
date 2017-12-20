@@ -46,6 +46,16 @@ class ESSubject extends ElasticSearch
     }
 
     /**
+     * Should be more than label
+     * @return bool
+     */
+    public function hasSufficientData() : bool
+    {
+        $count = count($this->fields["_source"]);
+        return $count > 1;
+    }
+
+    /**
      * @param $fieldName
      * @param $prefix
      * @return mixed
