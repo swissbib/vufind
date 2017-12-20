@@ -1,29 +1,10 @@
 import {AxiosPromise} from "axios";
 import * as $ from "jquery";
 import {BibliographicDetails} from "./BibliographicDetails";
-import {Contributor} from "./Contributor";
 import {Detail} from "./Detail";
 import {Hydra} from "./Hydra";
-import {Subject} from "./Subject";
 
 export class RecordRenderer {
-
-    /**
-     * Should be more than:
-     * "@context, @id, @type, id, firstName, lastName, label"
-     */
-    public static personHasSufficientData(data: object): boolean {
-        const len = Object.keys(data).length;
-        if (len > 4) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static subjectHasSufficientData(p: any) {
-        return true;
-    }
 
     protected client: Hydra;
 
@@ -80,17 +61,4 @@ export class RecordRenderer {
                 return template(p);
             });
     }
-
-    // public renderContributorsOld(bibliographicResourceId: string,
-    //                              htmlList: HTMLElement,
-    //                              template: any): Promise<HTMLElement> {
-    //     return this.client
-    //         .getBibliographicDetails(bibliographicResourceId)
-    //         .then((details: BibliographicDetails) => {
-    //             return this.client.getContributorDetails(details.contributors);
-    //         })
-    //         .then((contributors: AxiosResponse<any[]>) => {
-    //             return this.renderDetails(contributors, template, htmlList);
-    //         });
-    // }
 }
