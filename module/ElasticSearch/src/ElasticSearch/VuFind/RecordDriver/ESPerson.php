@@ -122,6 +122,16 @@ class ESPerson extends ElasticSearch
         return $this->getField("type", "rdf");
     }
 
+    /**
+     * Should be more than firstName, lastName, label
+     * @return bool
+     */
+    public function hasSufficientData() : bool
+    {
+        $count = count($this->fields["_source"]);
+        return $count > 3;
+    }
+
     // TODO
     /*
      * "rdfs:label": {

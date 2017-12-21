@@ -84,6 +84,7 @@ class AjaxController extends VFAjaxController
         $specBuilder->setLine("id", "getUniqueID", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("type", "getType", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("name", "getName", "Simple", ['allowZero' => false]);
+        $specBuilder->setLine("hasSufficientData", "hasSufficientData", "Simple", ['allowZero' => false]);
         $spec = $specBuilder->getArray();
 
         $response = $this->buildResponse($content, $spec);
@@ -101,8 +102,7 @@ class AjaxController extends VFAjaxController
         $specBuilder->setLine("name", "getName", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("firstName", "getFirstName", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("lastName", "getlastName", "Simple", ['allowZero' => false]);
-        $specBuilder->setLine("birthDate", "getBirthDate", "Simple", ['allowZero' => false]);
-        $specBuilder->setLine("abstract", "getAbstract", "Simple", ['allowZero' => false]);
+        $specBuilder->setLine("hasSufficientData", "hasSufficientData", "Simple", ['allowZero' => false]);
         $spec = $specBuilder->getArray();
 
         $response = $this->buildResponse($content, $spec);
