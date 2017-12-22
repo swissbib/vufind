@@ -126,7 +126,7 @@ class RecordLink extends \Zend\View\Helper\AbstractHelper
      * Alias for getRequestUrl(), to maintain backward compatibility with
      * VuFind 2.2 and earlier versions.
      *
-     * @param string|array $url           URL to process
+     * @param string|array $item          URL to process
      * @param bool         $includeAnchor Should we include an anchor?
      *
      * @return string
@@ -139,7 +139,7 @@ class RecordLink extends \Zend\View\Helper\AbstractHelper
     /**
      * Given a string or array of parts, build a request (e.g. hold) URL.
      *
-     * @param string|array $url           URL to process
+     * @param string|array $item          URL to process
      * @param bool         $includeAnchor Should we include an anchor?
      *
      * @return string
@@ -151,7 +151,8 @@ class RecordLink extends \Zend\View\Helper\AbstractHelper
             $source = isset($item['holdLink']['source'])
                 ? $item['holdLink']['source'] : DEFAULT_SEARCH_BACKEND;
             $finalUrl
-                = $this->getActionUrl("{$source}|" . $item['holdLink']['record'], $item['holdLink']['action']);
+                = $this->getActionUrl("{$source}|" . $item['holdLink']['record'],
+                $item['holdLink']['action']);
             if (isset($item['holdLink']['query'])) {
                 $finalUrl .= '?' . $item['holdLink']['query'];
                 $finalUrl .= '&institution=' . $item['institution'];
