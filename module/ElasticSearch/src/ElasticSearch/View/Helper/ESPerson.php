@@ -291,7 +291,7 @@ class ESPerson extends AbstractHelper
     public function hasRelatedSubjects()
     {
         # TODO: Needs to be updated once related subjects are available over either the ESPerson or another RecordDriver
-        return false;
+        return true;
     }
 
     /**
@@ -353,10 +353,25 @@ class ESPerson extends AbstractHelper
         return $this->resolveLabelWithDisplayName('card.knowledge.books.more');
     }
 
+
+    # TODO: Remove temporary notable work once actual data is available
+    private static $notableWork = [
+        ['label' => 'Werk 01', 'link' => '#'],
+        ['label' => 'Werk 02', 'link' => '#'],
+        ['label' => 'Werk 03', 'link' => '#'],
+        ['label' => 'Werk 04', 'link' => '#'],
+        ['label' => 'Werk 05', 'link' => '#'],
+        ['label' => 'Werk 06', 'link' => '#'],
+        ['label' => 'Werk 07', 'link' => '#'],
+        ['label' => 'Werk 08', 'link' => '#'],
+        ['label' => 'Werk 09', 'link' => '#'],
+        ['label' => 'Werk 10', 'link' => '#'],
+    ];
+
     public function getNotableWork()
     {
         # TODO: Implement method
-        return [];
+        return self::$notableWork;
     }
 
 
