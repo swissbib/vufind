@@ -1,0 +1,7 @@
+<? if ($this->esperson()->hasNotableWork()): ?>
+<div class="work">
+    <h2 class="headline"><?= $this->esperson()->getNotableWorkLabel(); ?></h2>
+    <p>Liste folgt</p>
+    <a class="ref inline" href="#"><?= $this->esperson()->getMoreNotableWorkLabel(); ?></a>
+</div>
+<? endif; ?>

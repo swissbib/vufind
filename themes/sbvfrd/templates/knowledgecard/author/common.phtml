@@ -1,0 +1,40 @@
+<div class="common">
+    <img class="avatar" src="<?= $this->esperson()->getThumbnailPath($this); ?>" />
+
+    <? # render details about the author ?>
+    <? $metadataList = $this->esperson()->getMetadataList('job', 'birth', 'death', 'nationality'); ?>
+    <? if (count($metadataList) > 0): ?>
+        <ul class="metadata">
+            <? foreach ($metadataList as $entry): ?>
+                <li class="entry <?= $entry['cssClass']; ?>">
+                    <span class="entry-label"><?= $entry['label']; ?></span>
+                    <span class="entry-value"><?= $entry['value']; ?></span>
+                </li>
+            <? endforeach; ?>
+
+            <? if ($this->esperson()->hasAbstract()): ?>
+                <? $abstractInfo = $this->esperson()->getAbstractInfo(); ?>
+
+                <li class="entry section-start">
+                    <span class="entry-label"><?= $abstractInfo['label']; ?></span>
+                    <span class="entry-value"><?= $abstractInfo['text']; ?></span>
+                    <? if ($abstractInfo['truncated']): ?>
+                        <span class="ellipsis"></span>
+                        <? # TODO: resolve link to person details page once routing problem has been solved (Error: Route with name "elasticsearchrecord" not found) ?>
+                        <? # $this->recordLink()->getUrl ?>
+                        <a class="ref external more" href="<?= '#'; ?>"><?= $this->translate('card.knowledge.common.more'); ?></a>
+                    <? endif; ?>
+                </li>
+            <? endif; ?>
+
+            <? if ($this->esperson()->hasRelatedSubjects()): ?>
+                <li class="entry section-start">
+                    <span class="entry-label"><?= $this->esperson()->getRelatedSubjectsLabel(); ?></span>
+                    <span class="entry-value">
+                    <?= $this->esperson()->getRelatedSubjects('<a href="%s">%s</a>'); ?>
+                </span>
+                </li>
+            <? endif; ?>
+        </ul>
+    <? endif; ?>
+</div>
