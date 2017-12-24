@@ -1,0 +1,12 @@
+<? if ($this->esperson()->hasNotableWork()): ?>
+<div class="work">
+    <h2 class="headline"><?= $this->esperson()->getNotableWorkLabel(); ?></h2>
+    <ul>
+        <? $notableWork = $this->esperson()->getNotableWork(); ?>
+        <? foreach ($notableWork as $work): ?>
+        <li><a href="<?= $work['link']; ?>"><?= $work['label']; ?></a></li>
+        <? endforeach; ?>
+    </ul>
+    <a class="ref inline" href="#"><?= $this->esperson()->getMoreNotableWorkLabel(); ?></a>
+</div>
+<? endif; ?>

@@ -1,1 +1,34 @@
-<? $this->headTitle('Knowledge Card: Autoren'); ?>
+<div class="ui-card">
+<?
+    $this->esperson()->setPerson($this->driver);
+
+    include __DIR__.'/author/title.phtml';
+    include __DIR__.'/author/common.phtml';
+    include __DIR__.'/author/notablework.phtml';
+    include __DIR__.'/author/controls.phtml'
+?>
+
+
+
+    <!--
+    <pre>
+        <? #var_dump($this->esperson()->getRelatedSubjectsLabel()); ?>
+        <? #var_dump($this->driver->getAllFields()); ?>
+        <?
+        /*
+        try {
+            #var_dump($this->url('record', ['id' => $this->driver->getUniqueId()]));
+            var_dump($this->url('author-home'));
+            var_dump($this->url('search-results'));
+            $this->record($this->driver)->getLink('authors', array(),array('query' => array(
+                'lookfor' => $this->driver->getPersonId(),
+                'type' => 'author')));
+        } catch (Exception $e) {
+            var_dump($e->getMessage());
+            var_dump($e->getTraceAsString());
+        }
+        */
+        ?>
+    </pre>
+    -->
+</div>
