@@ -41,6 +41,11 @@ $config = [
         ],
       ],
     ],
+  ],
+  'view_helpers' => [
+    'invokables' => [
+      'esperson' => 'ElasticSearch\View\Helper\ESPerson'
+    ]
   ]
 ];
 
