@@ -126,47 +126,45 @@ class RecordLink extends \Zend\View\Helper\AbstractHelper
      * Alias for getRequestUrl(), to maintain backward compatibility with
      * VuFind 2.2 and earlier versions.
      *
-     * @param string|array $item          URL to process
+     * @param string|array $url           URL to process
      * @param bool         $includeAnchor Should we include an anchor?
      *
      * @return string
      */
-    public function getHoldUrl($item, $includeAnchor = true)
+    public function getHoldUrl($url, $includeAnchor = true)
     {
-        return $this->getRequestUrl($item, $includeAnchor);
+        return $this->getRequestUrl($url, $includeAnchor);
     }
 
     /**
      * Given a string or array of parts, build a request (e.g. hold) URL.
      *
-     * @param string|array $item          URL to process
+     * @param string|array $url           URL to process
      * @param bool         $includeAnchor Should we include an anchor?
      *
      * @return string
      */
-    public function getRequestUrl($item, $includeAnchor = true)
+    public function getRequestUrl($url, $includeAnchor = true)
     {
-        if (is_array($item['holdLink'])) {
+        if (is_array($url)) {
             // Assemble URL string from array parts:
-            $source = isset($item['holdLink']['source'])
-                ? $item['holdLink']['source'] : DEFAULT_SEARCH_BACKEND;
+            $source = isset($url['source'])
+                ? $url['source'] : DEFAULT_SEARCH_BACKEND;
             $finalUrl
-                = $this->getActionUrl("{$source}|" . $item['holdLink']['record'],
-                $item['holdLink']['action']);
-            if (isset($item['holdLink']['query'])) {
-                $finalUrl .= '?' . $item['holdLink']['query'];
-                $finalUrl .= '&institution=' . $item['institution'];
+                = $this->getActionUrl("{$source}|" . $url['record'], $url['action']);
+            if (isset($url['query'])) {
+                $finalUrl .= '?' . $url['query'];
             }
-            if (isset($item['holdLink']['anchor']) && $includeAnchor) {
-                $finalUrl .= $item['holdLink']['anchor'];
+            if (isset($url['anchor']) && $includeAnchor) {
+                $finalUrl .= $url['anchor'];
             }
         } else {
             // If URL is already a string but we don't want anchors, strip
             // the anchor now:
             if (!$includeAnchor) {
-                list($finalUrl) = explode('#', $item['holdLink']);
+                list($finalUrl) = explode('#', $url);
             } else {
-                $finalUrl = $item['holdLink'];
+                $finalUrl = $url;
             }
         }
         // Make sure everything is properly HTML encoded:
