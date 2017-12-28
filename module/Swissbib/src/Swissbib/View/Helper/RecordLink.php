@@ -136,9 +136,9 @@ class RecordLink extends VfRecordLink
                 ? $item['holdLink']['source'] : DEFAULT_SEARCH_BACKEND;
             $finalUrl
                 = $this->getActionUrl(
-                "{$source}|" . $item['holdLink']['record'],
-                $item['holdLink']['action']
-            );
+                    "{$source}|" . $item['holdLink']['record'],
+                    $item['holdLink']['action']
+                );
             if (isset($item['holdLink']['query'])) {
                 $finalUrl .= '?' . $item['holdLink']['query'];
                 $finalUrl .= '&institution=' . $item['institution'];
