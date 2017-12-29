@@ -67,12 +67,12 @@ endif;
                 </div>
             <? elseif (count($this->pickup) >= 1): ?>
                 <?
-                $institutionIsPresent = false;
+                $institutionIsPresent = true;
                 $institutionOfItem = $_GET['institution'];
                 foreach ($this->pickup as $lib):
-                    if ( in_array($lib['locationID'], $record->getInstitutions()))
+                    if ($lib['locationID'] === "POPA")
                     {
-                        $institutionIsPresent = true;
+                        $institutionIsPresent = false;
                         break;
                     }
                 endforeach;
