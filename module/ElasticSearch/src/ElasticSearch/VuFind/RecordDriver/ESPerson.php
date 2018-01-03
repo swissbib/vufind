@@ -12,6 +12,7 @@ namespace ElasticSearch\VuFind\RecordDriver;
 class ESPerson extends ElasticSearch
 {
     /**
+     * @method getAbstract()
      * @method getBirthPlace()
      * TODO Possibly rather date than string
      * @method  getBirthYear()
@@ -47,16 +48,21 @@ class ESPerson extends ElasticSearch
     public function __call(string $name, $arguments)
     {
         if ($pos = strpos($name, "DisplayField")) {
-            $userLocale = $this->getTranslatorLocale();
             $fieldName = substr($name, 3, $pos);
-            $field = $this->getField('dbp' . $fieldName . 'AsLiteral', 'lsb');
-            if ($field === null) {
-                return null;
-            }
-            return $this->getValueByLanguagePriority($field, $userLocale);
+            $field = $this->getField(sprintf('dbp%sAsLiteral', $fieldName), 'lsb');
+
+            return !is_null($field)
+                ? $this->getValueByLanguagePriority($field)
+                : null;
         }
+
         $fieldName = lcfirst(substr($name, 3));
         return $this->getField($fieldName);
+    }
+
+    public function getPersonId()
+    {
+        return $this->getField('id', '@', '');
     }
 
     public function getFirstName()
@@ -74,6 +80,9 @@ class ESPerson extends ElasticSearch
         return $this->getField('label', 'rdfs');
     }
 
+    /**
+     * @return \DateTime|null
+     */
     public function getBirthDate()
     {
         $date = $this->getField('birthDate');
@@ -82,10 +91,9 @@ class ESPerson extends ElasticSearch
 
     public function getAbstract()
     {
-        $userLocale = $this->getTranslatorLocale();
         $abstract = $this->getField('abstract');
-
-        return $this->getValueByLanguagePriority($abstract, $userLocale);
+        $localizedAbstract = $this->getValueByLanguagePriority($abstract);
+        return is_array($localizedAbstract) && count($localizedAbstract) > 0 ? $localizedAbstract[0] : null;
     }
 
     public function getPseudonym()
@@ -106,6 +114,9 @@ class ESPerson extends ElasticSearch
         return $this->getValueByLanguagePriority($place);
     }
 
+    /**
+     * @return \DateTime|null
+     */
     public function getDeathDate()
     {
         $date = $this->getField("deathDate");
@@ -165,19 +176,55 @@ class ESPerson extends ElasticSearch
           }
      */
 
-    protected function getValueByLanguagePriority($content, string $userLocale = "en")
+    /**
+     * @param $content
+     * @param string $userLocale
+     * @return null
+     */
+    protected function getValueByLanguagePriority($content, string $userLocale = null)
     {
+        $results = null;
+
         if ($content !== null && is_array($content) && count($content) > 0) {
-            $locales = [$userLocale, "en", "de", "fr", "it"];
+            $userLocale = is_null($userLocale) ? $this->getTranslatorLocale() : $userLocale;
+            $locales = $this->getPrioritizedLocaleList($userLocale);
+
             foreach ($locales as $locale) {
+                $results = [];
+
                 foreach ($content as $valueArray) {
-                    if ($valueArray[$locale] !== null) {
-                        return $valueArray[$locale];
+                    if (isset($valueArray[$locale]) && !is_null($valueArray[$locale])) {
+                        $results[] = $valueArray[$locale];
                     }
+                }
+
+                if (count($results) > 0) {
+                    return $results;
                 }
             }
         }
+
         return null;
+    }
+
+    /**
+     * @param string $userLocale
+     * @return array
+     */
+    protected function getPrioritizedLocaleList(string $userLocale)
+    {
+        $locales = ['en', 'de', 'fr', 'it'];
+        $userLocaleIndex = array_search($userLocale, $locales);
+
+        # remove user locale from its current position if available
+        if ($userLocaleIndex !== false) {
+            array_splice($locales, $userLocaleIndex, 1);
+        }
+
+        # and prepend it to gain highest priority
+        array_unshift($locales, $userLocale);
+
+        return $locales;
     }
 
     /**
@@ -193,16 +240,32 @@ class ESPerson extends ElasticSearch
     }
 
     /**
-     * @param $fieldName
-     * @param $prefix
+     * @param string $name
+     * @param string $prefix
+     * @param string $delimiter
      * @return array|null
      */
-    protected function getField(string $fieldName, string $prefix = "dbp")
+    protected function getField(string $name, string $prefix = "dbp", string $delimiter = ':')
     {
-        if(array_key_exists( $prefix . ':' . $fieldName, $this->fields["_source"]))
-        {
-            return  $this->fields["_source"][$prefix . ':' . $fieldName];
-        }
-        return null;
+        $fieldName = $this->getQualifiedFieldName($name, $prefix, $delimiter);
+
+        return array_key_exists($fieldName, $this->fields["_source"])
+            ? $this->fields["_source"][$fieldName]
+            : null;
+    }
+
+    /**
+     * @param string $name
+     * @param string $prefix
+     * @param string $delimiter
+     * @return string
+     */
+    protected function getQualifiedFieldName(string $name, string $prefix, string $delimiter) {
+        return sprintf('%s%s%s', $prefix, $delimiter, $name);
+    }
+
+
+    public function getAllFields() {
+        return $this->fields;
     }
 }

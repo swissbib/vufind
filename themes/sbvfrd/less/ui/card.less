@@ -1,0 +1,96 @@
+.ui-card {
+
+    /* main title of the card (usually h1) */
+    .title {
+    }
+
+    /* headline hierarchically under the main title (usually h2) */
+    #modal .modal-body & .headline {
+        margin-top: 32px;
+    }
+
+    .common {
+
+        /* avatar image */
+        .avatar {
+            vertical-align: top;
+            max-width: 84px;
+            margin-right: 22px;
+            margin-bottom: 22px;
+        }
+
+        /* details about the card's main content object */
+        .metadata {
+            display: inline-block;
+            vertical-align: top;
+            padding: 0;
+
+            width: calc(~"100% - 110px");
+            min-width: 280px;
+
+
+            /* single metadata entry */
+            .entry {
+                list-style: none;
+
+                /* first entry that starts a new section with in the list of entries */
+                &.section-start {
+                    margin-top: 24px;
+                }
+
+                /* static descriptive label of the metadata information */
+                .entry-label {
+                    color: #3C4250;
+                    font-weight: bold;
+                    padding: 0 5px 0 0;
+                }
+
+                /* the dynamic value that belongs to the labeled metadata information */
+                .entry-value {
+
+
+                    .ellipsis:before {
+                        content: "&hellip;";
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    .ref {
+        /* link that is rendered inline in text flow */
+        &.inline {
+            font-weight: bold;
+        }
+
+        /* link rendered as a list item (with some kind of bullet icon */
+        &.list-item {
+        }
+
+        /* link that refers to another resource opened in a new page */
+        &.external {
+            font-weight: bold;
+
+            /* link that indicates more details to expand */
+            &.more {
+
+            }
+        }
+
+        /* link which appears (visually) as button */
+        &.button {
+        }
+    }
+
+    .controls {
+        margin-top: 12px;
+        text-align: right;
+
+        /* element styles to appear as button (visually) but is not a link (e.g. for closing) */
+        .button {
+            display: block;
+        }
+    }
+}

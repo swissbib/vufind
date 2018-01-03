@@ -12,6 +12,7 @@ use ElasticSearch\VuFind\Search\ElasticSearch\Params;
 use ElasticSearch\VuFind\Search\ElasticSearch\Results;
 use VuFind\Controller\AbstractBase;
 use VuFindSearch\Query\Query;
+use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib KnowledgeCardController
