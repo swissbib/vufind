@@ -501,6 +501,7 @@ return [
                     'favorites' => 'Swissbib\VuFind\Search\Results\Factory::getFavorites',
                     'solr' => 'Swissbib\VuFind\Search\Results\Factory::getSolr',
                     'solrauthorfacets' => 'Swissbib\VuFind\Search\Results\Factory::getSolrAuthorFacets',
+                    'mixedlist' => 'Swissbib\VuFind\Search\Results\Factory::getMixdList',
                 ],
             ]
         ]
