@@ -107,6 +107,7 @@ class PuraController extends BaseController
         $email = $vuFindUser->email;
         $firstName = $vuFindUser->firstname;
         $lastName = $vuFindUser->lastname;
+        $token = $this->puraService->createUniqueId();
 
         $view = new ViewModel(
             [
@@ -116,7 +117,7 @@ class PuraController extends BaseController
                 'email' => $email,
                 'firstname' => $firstName,
                 'lastname' => $lastName,
-                'token' => "YOUHOU"
+                'token' => $token
             ]
         );
 
@@ -134,7 +135,10 @@ class PuraController extends BaseController
         $token = $this->params()->fromRoute('token');
 
         // Only the text to draw is required
-        $barcodeOptions = array('text' => $token);
+        $barcodeOptions = array(
+            'text' => $token,
+            'factor' => '2',
+        );
 
         // No required options
         $rendererOptions = array();

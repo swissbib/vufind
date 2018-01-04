@@ -14,7 +14,7 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
     <h2>Before registration : </h2>
     <p>To access remotely some of the e-resources of the <?= $this->institution["label"][$this->layout()->userLang] ?>, you need to print this page and bring it to the ZB Desk, along with your ID and Library Card. You can also show this screen on your mobile phone or laptop.</p>
     
-    <p><img src="<?= $this->url('pura/barcode', ['token' => $this->token]) ?>"></p>
+
 
     <table>
         <tr>
@@ -24,9 +24,25 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
         <tr>
             <td>Email:&nbsp;</td>
             <td><?= $this->email ? $this->escapeHtml($this->email) : ''; ?></td>
-
+        </tr>
+        <tr>
+            <td>Barcode:&nbsp;</td>
+            <td><?= $this->token ? $this->escapeHtml($this->token) : ''; ?></td>
         </tr>
     </table>
+
+
+    <p>&nbsp;</p>
+
+    <p><img src="<?= $this->url('pura/barcode', ['token' => $this->token]) ?>"></p>
+
+    <p>Hiermit beantrage ich Zugang auf die digitalen Angebote
+        der Zentralbibliothek Zürich über SWITCH edu-ID.</p>
+
+    <button class="btn btn-primary" onClick="window.print()">
+        <?= $this->transEsc('Print') ?>
+    </button>
+
 
 
     <h2>After registration : </h2>

@@ -203,7 +203,7 @@ class Pura implements ServiceLocatorAwareInterface
      */
     public function getInstitutionInfo($libraryCode)
     {
-        $institutionLoader  = new InstitutionLoader();
+        $institutionLoader = new InstitutionLoader();
 
         $institutions = $institutionLoader->getGroupedInstitutions();
 
@@ -253,5 +253,21 @@ class Pura implements ServiceLocatorAwareInterface
         return $this->getServiceLocator()
             ->get('VuFind\DbTablePluginManager')
             ->get($table);
+    }
+
+    /**
+     * Return a unique id
+     *
+     * @return string
+     */
+    public function createUniqueId()
+    {
+        /* To make sure it is unique, maybe we could check if the id is already
+         * present and generate another one if needed
+         */
+        $bytes = openssl_random_pseudo_bytes(7);
+        $hex   = bin2hex($bytes);
+
+        return strtoupper($hex);
     }
 }
