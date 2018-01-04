@@ -10,82 +10,89 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
     <h2><?= $this->institution["label"][$this->layout()->userLang] ?></h2>
 
-
-    <h2>Before registration : </h2>
-    <p>To access remotely some of the e-resources of the <?= $this->institution["label"][$this->layout()->userLang] ?>, you need to print this page and bring it to the ZB Desk, along with your ID and Library Card. You can also show this screen on your mobile phone or laptop.</p>
-    
-
-
-    <table>
-        <tr>
-            <td>Name:&nbsp;</td>
-            <td><?= $this->firstname ? $this->escapeHtml($this->firstname . ' ' . $this->lastname) : ''; ?></td>
-        </tr>
-        <tr>
-            <td>Email:&nbsp;</td>
-            <td><?= $this->email ? $this->escapeHtml($this->email) : ''; ?></td>
-        </tr>
-        <tr>
-            <td>Barcode:&nbsp;</td>
-            <td><?= $this->token ? $this->escapeHtml($this->token) : ''; ?></td>
-        </tr>
-    </table>
-
-
-    <p>&nbsp;</p>
-
-    <p><img src="<?= $this->url('pura/barcode', ['token' => $this->token]) ?>"></p>
-
-    <p>Hiermit beantrage ich Zugang auf die digitalen Angebote
-        der Zentralbibliothek Zürich über SWITCH edu-ID.</p>
-
-    <button class="btn btn-primary" onClick="window.print()">
-        <?= $this->transEsc('Print') ?>
-    </button>
+    <? if (!($active)): ?>
+        <p>To access remotely some of the e-resources of the <?= $this->institution["label"][$this->layout()->userLang] ?>, you need to print this page and bring it to the ZB Desk, along with your ID and Library Card. You can also show this screen on your mobile phone or laptop.</p>
 
 
 
-    <h2>After registration : </h2>
+        <table>
+            <tr>
+                <td>Name:&nbsp;</td>
+                <td><?= $this->firstname ? $this->escapeHtml($this->firstname . ' ' . $this->lastname) : ''; ?></td>
+            </tr>
+            <tr>
+                <td>Email:&nbsp;</td>
+                <td><?= $this->email ? $this->escapeHtml($this->email) : ''; ?></td>
+            </tr>
+            <tr>
+                <td>Barcode:&nbsp;</td>
+                <td><?= $this->token ? $this->escapeHtml($this->token) : ''; ?></td>
+            </tr>
+        </table>
 
-    <p>You are registered for this service.</p>
-    <p>Your account is valid until <?= $this->user->getExpirationDate()->format('j.n.Y') ?>.</p>
-    <p>Access e-resourcen : </p>
 
-    <ul>
-    <?php foreach ($this->publishers as $publisher) : ?>
+        <p>&nbsp;</p>
 
-    <li><a href="<?= $publisher["url"] ?>"><?= $publisher["name"] ?></a></li>
+        <p><img src="<?= $this->url('pura/barcode', ['token' => $this->token]) ?>"></p>
 
-    <?php endforeach; ?>
-    </ul>
+        <p>Hiermit beantrage ich Zugang auf die digitalen Angebote
+            der Zentralbibliothek Zürich über SWITCH edu-ID.</p>
 
-    <h4>Help ?</h4>
-        <?= $institution['label'][$this->layout()->userLang] ?>
-        <address>
-            <? if (!empty($institution['address'])): ?>
-                <p><?= $institution['address'] ?></p>
+        <button class="btn btn-primary" onClick="window.print()">
+            <?= $this->transEsc('Print') ?>
+        </button>
+
+    <? else: ?>
+        <p>You are registered for this service.</p>
+        <p>Your account is valid until <?= $this->user->getExpirationDate()->format('j.n.Y') ?>.</p>
+        <p>Access e-resourcen : </p>
+
+        <ul>
+            <?php foreach ($this->publishers as $publisher) : ?>
+
+                <li><a href="<?= $publisher["url"] ?>"><?= $publisher["name"] ?></a></li>
+
+            <?php endforeach; ?>
+        </ul>
+
+    <? endif; ?>
+
+
+
+    <div class="home-content-box">
+    <h4>Help</h4>
+        <?= $institution['label'][$this->layout()->userLang] ?><br/>
+
+        <? if (!empty($institution['address'])): ?>
+            <?= $institution['address'] ?><br/>
+        <? endif; ?>
+        <? if (!empty($institution['city']) && !empty($institution['zip'])): ?>
+            <? $canton = !empty($institution['canton']) ? ' (' . strtoupper($institution['canton']) . ')' : ''; ?>
+            <?= $institution['zip'] . ' ' . $institution['city'] . $canton ?><br/>
+        <? endif; ?>
+        <br/>
+        <? if (!empty($institution['email'])): ?>
+            <p><?= $this->transEsc('Email') ?>: <a href="mailto:<?= $institution['email'] ?>" ><?= $institution['email'] ?></a></p>
+        <? endif; ?>
+
+        <? if (!empty($institution['website'])): ?>
+            <?= $this->transEsc('libraries.website') ?>: <a href="<?= $institution['website'] ?>" class="color"
+               target="_blank"><?= $institution['website'] ?></a>
+        <? else: ?>
+            <p><? if (!empty($institution['url']) && is_array($institution['url'])): ?>
+                <? $url = $institution['url'][$this->layout()->userLang]; ?>
+                <?= $this->transEsc('libraries.website') ?>: <a href="<?= $url ?>" class="color"
+                   target="_blank"><?= $url ?></a></p>
             <? endif; ?>
-            <? if (!empty($institution['city']) && !empty($institution['zip'])): ?>
-                <? $canton = !empty($institution['canton']) ? ' (' . strtoupper($institution['canton']) . ')' : ''; ?>
-                <p><?= $institution['zip'] . ' ' . $institution['city'] . $canton ?></p>
-            <? endif; ?>
-            <? if (!empty($institution['email'])): ?>
-                <p><a href="mailto:<?= $institution['email'] ?>" ><?= $this->transEsc('Email') ?></a></p>
-            <? endif; ?>
+        <? endif; ?>
+        <? if (!empty($institution['phone'])): ?>
+            <p><?= $this->transEsc('Phone Number') ?>: <?= $institution['phone'] ?></p>
+        <? endif; ?>
+    </div>
 
-            <? if (!empty($institution['website'])): ?>
-                <a href="<?= $institution['website'] ?>" class="color"
-                   target="_blank"><?= $this->transEsc('libraries.website') ?></a>
-            <? else: ?>
-                <? if (!empty($institution['url']) && is_array($institution['url'])): ?>
-                    <? $url = $institution['url'][$this->layout()->userLang]; ?>
-                    <a href="<?= $url ?>" class="color"
-                       target="_blank"><?= $this->transEsc('Library_Information') ?></a>
-                <? endif; ?>
-            <? endif; ?>
 
-        </address>
-    
+
+
 
 
 

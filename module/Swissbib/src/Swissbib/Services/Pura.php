@@ -79,7 +79,7 @@ class Pura implements ServiceLocatorAwareInterface
     protected $groups;
 
     /**
-     * NationalLicence constructor.
+     * Pura constructor.
      *
      * @param object $config       Config
      * @param array  $publishers   List of Publishers
@@ -269,5 +269,42 @@ class Pura implements ServiceLocatorAwareInterface
         $hex   = bin2hex($bytes);
 
         return strtoupper($hex);
+    }
+
+    /**
+     * Get a PuraUser or creates a new one if is not existing in the
+     * database.
+     *
+     * @param string $eduId        Edu-id number like 321983219839218@eduid.ch
+     * @param string $persistentId persistent id (needed to link with user table)
+     *
+     * @return PuraUser $user
+     * @throws \Exception
+     */
+    public function getOrCreatePuraUserIfNotExists(
+        $eduId,
+        $persistentId
+    ) {
+        /**
+         * Pura user table.
+         *
+         * @var \Swissbib\VuFind\Db\Table\PuraUser $puraUserTable
+         */
+        $puraUserTable = $this->getTable(
+            '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
+        );
+        $puraUser = $puraUserTable->getPuraUserByEduId($eduId);
+
+        $barcode = $this->createUniqueId();
+
+        if (empty($puraUser)) {
+            $puraUser = $puraUserTable->createPuraUserRow(
+                $eduId,
+                $persistentId,
+                $barcode
+            );
+        }
+
+        return $puraUser;
     }
 }

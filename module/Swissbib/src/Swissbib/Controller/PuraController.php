@@ -93,31 +93,59 @@ class PuraController extends BaseController
     {
         $libraryCode = $this->params()->fromRoute('libraryCode');
 
+        $active = $this->params()->fromRoute('active');
+
         if (!isset($libraryCode)) {
-            $libraryCode="Z01";
+            $libraryCode = "Z01";
         }
 
         $publishers = $this->puraService->getPublishersForALibrary($libraryCode);
         $institution = $this->puraService->getInstitutionInfo($libraryCode);
 
-        $user = null;
-        $user = $this->puraService->getPuraUser("1");
-        $vuFindUser = $this->puraService->getVuFindUser("1");
+        // Get user information from the shibboleth attributes
+
+        $uniqueId
+            = isset($_SERVER['uniqueID']) ? $_SERVER['uniqueID'] : null;
+        $persistentId
+            = isset($_SERVER['persistent-id']) ? $_SERVER['persistent-id'] : null;
+
+        /**
+         * Pura user.
+         *
+         * @var PuraUser $user
+         */
+        $puraUser = null;
+        try {
+            // Create a national licence user liked the the current logged user
+            $puraUser = $this->puraService
+                ->getOrCreatePuraUserIfNotExists(
+                    $uniqueId,
+                    $persistentId
+                );
+        } catch (\Exception $e) {
+            $this->flashMessenger()->addErrorMessage(
+                $this->translate($e->getMessage())
+            );
+        }
+
+
+        $vuFindUser = $this->puraService->getVuFindUser($puraUser->id);
 
         $email = $vuFindUser->email;
         $firstName = $vuFindUser->firstname;
         $lastName = $vuFindUser->lastname;
-        $token = $this->puraService->createUniqueId();
+        $token = $puraUser->getBarcode();
 
         $view = new ViewModel(
             [
                 'publishers' => $publishers,
-                'user' => $user,
+                'user' => $puraUser,
                 'institution' => $institution,
                 'email' => $email,
                 'firstname' => $firstName,
                 'lastname' => $lastName,
-                'token' => $token
+                'token' => $token,
+                'active' => $active
             ]
         );
 

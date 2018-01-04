@@ -10,7 +10,7 @@ CREATE TABLE `pura_user` (
   `edu_id` varchar(255) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `libraries` text NOT NULL,
-  `pura_barcode_number` varchar(255),
+  `pura_barcode` varchar(255),
 
   /*specific for a library, maybe move to another table*/
   `remarks` text,

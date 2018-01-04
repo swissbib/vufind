@@ -73,4 +73,39 @@ class PuraUser extends RowGateway
     {
         return $this->user_id;
     }
+
+    /**
+     * Get pura barcode
+     *
+     * @return string
+     */
+    public function getBarcode()
+    {
+        return $this->pura_barcode;
+    }
+
+    /**
+     * Set related user.
+     *
+     * @param \VuFind\Db\Row\User $relUser Related user
+     *
+     * @return void
+     */
+    public function setRelUser($relUser)
+    {
+        $this->relUser = $relUser;
+    }
+
+
+    /**
+     * Set user id related to the User db table.
+     *
+     * @param int $id User id  Id
+     *
+     * @return void
+     */
+    public function setUserId($id)
+    {
+        $this->user_id = $id;
+    }
 }

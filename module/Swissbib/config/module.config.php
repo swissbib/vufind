@@ -86,13 +86,14 @@ return [
                     'library' => [
                         'type'    => 'segment',
                         'options' => [
-                            'route'       => '/library/:libraryCode',
+                            'route'       => '/library/:libraryCode[/:active]',
                             'defaults'    => [
                                 'controller' => 'pura',
                                 'action' => 'library',
                             ],
                             'constraints' => [
                                 'libraryCode' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'active' => 'active'
                             ],
                         ],
                     ],

@@ -8,6 +8,8 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
 <div class="<?= $this->layoutClass('mainbody') ?>">
 
+    <?= $this->flashmessages(); ?>
+
     <h2><?= $this->institution["label"][$this->layout()->userLang] ?></h2>
 
     <p>Some libraries offer a remote access for private users. You can register here.</p>

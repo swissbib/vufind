@@ -60,4 +60,88 @@ class PuraUser extends Gateway
         return $this->select(['id' => $id])
             ->current();
     }
+
+    /**
+     * Get user by persistent_id.
+     *
+     * @param string $eduId edu-id number
+     *
+     * @return \Swissbib\VuFind\Db\Row\PuraUser
+     * @throws \Exception
+     */
+    public function getPuraUserByEduId($eduId)
+    {
+        if (empty($eduId)) {
+            throw new \Exception('Cannot fetch user with empty edu_id number');
+        }
+        /**
+         * Pura user.
+         *
+         * @var \Swissbib\VuFind\Db\Row\PuraUser $puraUser
+         */
+        $puraUser = $this->select(['edu_id' => $eduId])
+            ->current();
+        if (empty($puraUser)) {
+            return null;
+        }
+
+        return $puraUser;
+    }
+
+    /**
+     * Create a new Pura user row.
+     *
+     * @param string $eduId Edu-id number
+     * @param string $persistentId persistent id
+     * @param string $barcode      pura barcode
+     *
+     * @return \Swissbib\VuFind\Db\Row\PuraUser $user
+     * @throws \Exception
+     */
+    public function createPuraUserRow(
+        $eduId,
+        $persistentId,
+        $barcode
+    ) {
+        if (empty($eduId)) {
+            throw new \Exception(
+                'The edu-id is mandatory for creating a Pura User'
+            );
+        }
+
+        /**
+         * User.
+         *
+         * @var \Swissbib\VuFind\Db\Row\PuraUser $puraUser
+         */
+        $puraUser = $this->createRow();
+        $puraUser->edu_id = $eduId;
+        $puraUser->pura_barcode = $barcode;
+
+        /**
+         * User table.
+         *
+         * @var User $userTable
+         */
+        $userTable = $this->getDbTable('user');
+
+        /**
+         * User.
+         *
+         * @var \VuFind\Db\Row\User $user
+         */
+        $user = $userTable->getByUsername($persistentId);
+        // If there is already a user registered in the system in the user table,
+        // we link it to the pura_user table.
+        if ($user) {
+            // Link table User to PuraUser
+            $puraUser->setUserId($user->id);
+        }
+        $savedUser = $puraUser->save();
+        if (empty($savedUser)) {
+            throw new \Exception('Impossible to create the Pura user.');
+        }
+
+        return $puraUser;
+    }
 }
