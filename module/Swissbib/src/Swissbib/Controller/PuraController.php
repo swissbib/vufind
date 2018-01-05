@@ -26,8 +26,8 @@ namespace Swissbib\Controller;
 
 use Zend\View\Model\ViewModel;
 use Swissbib\Services\Pura;
-use VuFind\Db\Row\User;
 use Zend\Barcode\Barcode;
+use Zend\Mvc\MvcEvent;
 
 /**
  * Class NationalLicencesController.
@@ -91,6 +91,12 @@ class PuraController extends BaseController
      */
     public function libraryAction()
     {
+        // Get user information from the shibboleth attributes
+        $uniqueId
+            = isset($_SERVER['uniqueID']) ? $_SERVER['uniqueID'] : null;
+        $persistentId
+            = isset($_SERVER['persistent-id']) ? $_SERVER['persistent-id'] : null;
+
         $libraryCode = $this->params()->fromRoute('libraryCode');
 
         $active = $this->params()->fromRoute('active');
@@ -102,54 +108,55 @@ class PuraController extends BaseController
         $publishers = $this->puraService->getPublishersForALibrary($libraryCode);
         $institution = $this->puraService->getInstitutionInfo($libraryCode);
 
-        // Get user information from the shibboleth attributes
-
-        $uniqueId
-            = isset($_SERVER['uniqueID']) ? $_SERVER['uniqueID'] : null;
-        $persistentId
-            = isset($_SERVER['persistent-id']) ? $_SERVER['persistent-id'] : null;
-
-        /**
-         * Pura user.
-         *
-         * @var PuraUser $user
-         */
-        $puraUser = null;
-        try {
-            // Create a national licence user liked the the current logged user
-            $puraUser = $this->puraService
-                ->getOrCreatePuraUserIfNotExists(
-                    $uniqueId,
-                    $persistentId
-                );
-        } catch (\Exception $e) {
-            $this->flashMessenger()->addErrorMessage(
-                $this->translate($e->getMessage())
+        if (strstr($uniqueId, "eduid.ch") == false) {
+            $view = new ViewModel(
+                [
+                    'nonEduId' => true,
+                    'publishers' => $publishers,
+                    'institution' => $institution,
+                ]
             );
+            return $view;
+        } else {
+            /**
+             * Pura user.
+             *
+             * @var PuraUser $user
+             */
+            $puraUser = null;
+            try {
+                // Create a national licence user liked the the current logged user
+                $puraUser = $this->puraService
+                    ->getOrCreatePuraUserIfNotExists(
+                        $uniqueId,
+                        $persistentId
+                    );
+                $vuFindUser = $this->puraService->getVuFindUser($puraUser->id);
+            } catch (\Exception $e) {
+                $this->flashMessenger()->addErrorMessage(
+                    $this->translate($e->getMessage())
+                );
+            }
+
+            $email = $vuFindUser->email;
+            $firstName = $vuFindUser->firstname;
+            $lastName = $vuFindUser->lastname;
+            $token = $puraUser->getBarcode();
+
+            $view = new ViewModel(
+                [
+                    'publishers' => $publishers,
+                    'user' => $puraUser,
+                    'institution' => $institution,
+                    'email' => $email,
+                    'firstname' => $firstName,
+                    'lastname' => $lastName,
+                    'token' => $token,
+                    'active' => $active
+                ]
+            );
+            return $view;
         }
-
-
-        $vuFindUser = $this->puraService->getVuFindUser($puraUser->id);
-
-        $email = $vuFindUser->email;
-        $firstName = $vuFindUser->firstname;
-        $lastName = $vuFindUser->lastname;
-        $token = $puraUser->getBarcode();
-
-        $view = new ViewModel(
-            [
-                'publishers' => $publishers,
-                'user' => $puraUser,
-                'institution' => $institution,
-                'email' => $email,
-                'firstname' => $firstName,
-                'lastname' => $lastName,
-                'token' => $token,
-                'active' => $active
-            ]
-        );
-
-        return $view;
     }
 
     /**
@@ -175,5 +182,27 @@ class PuraController extends BaseController
         Barcode::factory(
             'code39', 'image', $barcodeOptions, $rendererOptions
         )->render();
+    }
+
+    /**
+     * Method called before every action. It checks if the user is authenticated
+     * and it redirects it to the login page otherwise.
+     *
+     * @param MvcEvent $e MvcEvent.
+     *
+     * @return mixed|\Zend\Http\Response
+     * @throws \Exception
+     */
+    public function onDispatch(MvcEvent $e)
+    {
+        $account = $this->getAuthManager();
+
+        if (false === $account->isLoggedIn()) {
+            $this->forceLogin(false);
+
+            return $this->redirect()->toRoute('myresearch-home');
+        } else {
+            return parent::onDispatch($e);
+        }
     }
 }

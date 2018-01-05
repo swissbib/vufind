@@ -30,7 +30,6 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\Config\Config;
 use Libadmin\Institution\InstitutionLoader;
 
-
 /**
  * Class Pura.
  *
@@ -128,13 +127,12 @@ class Pura implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Get a PuraUser or creates a new one if is not existing in the
-     * database.
+     * Get a PuraUser
      *
      * @param string $userNumber id if the pura-user table
      *
      * @return PuraUser $user
-     * @throws \Exception
+     * @throws \Exception if the user doesn't exist
      */
     public function getPuraUser(
         $userNumber
@@ -211,6 +209,7 @@ class Pura implements ServiceLocatorAwareInterface
      * @param string $libraryCode the library code (for example Z01)
      *
      * @return array Institution information
+     * @throws \Exception
      */
     public function getInstitutionInfo($libraryCode)
     {
@@ -221,7 +220,25 @@ class Pura implements ServiceLocatorAwareInterface
         $groupCode    = isset($this->groupMapping[$libraryCode]) ?
             $this->groupMapping[$libraryCode] : 'unknown';
 
+        if ($groupCode == 'unknown') {
+            throw new \Exception(
+                'The institution with code ' .
+                $libraryCode .
+                ' is not in a libadmin group.'
+
+            );
+        }
+
         $groupKey = array_search($groupCode, $this->groups->toArray());
+
+        if ($groupKey == false) {
+            throw new \Exception(
+                'The institution with code ' .
+                $libraryCode .
+                ' does not exist.'
+
+            );
+        }
 
         $libraryCodes = array_column(
             $institutions[$groupKey]["institutions"],
@@ -229,6 +246,14 @@ class Pura implements ServiceLocatorAwareInterface
         );
 
         $institutionKey = array_search($libraryCode, $libraryCodes);
+
+        if ($institutionKey == false) {
+            throw new \Exception(
+                'The institution with code ' .
+                $libraryCode .
+                ' was not found.'
+            );
+        }
 
         $institution = $institutions[$groupKey]["institutions"][$institutionKey];
 

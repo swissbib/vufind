@@ -92,7 +92,7 @@ return [
                                 'action' => 'library',
                             ],
                             'constraints' => [
-                                'libraryCode' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'libraryCode' => 'Z01|RE01001',
                                 'active' => 'active'
                             ],
                         ],

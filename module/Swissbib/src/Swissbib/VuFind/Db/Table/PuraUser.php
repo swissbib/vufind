@@ -54,15 +54,21 @@ class PuraUser extends Gateway
      * @param int $id Id
      *
      * @return \Swissbib\VuFind\Db\Row\NationalLicenceUser
+     * @throws \Exception
      */
     public function getUserById($id)
     {
-        return $this->select(['id' => $id])
+        $result = $this->select(['id' => $id])
             ->current();
+        if ($result == false) {
+            throw new \Exception('No Pura User for the id ' . $id);
+        }
+
+        return $result;
     }
 
     /**
-     * Get user by persistent_id.
+     * Get user by edu-id number. Returns null if no user has this eduid number
      *
      * @param string $eduId edu-id number
      *
@@ -106,6 +112,12 @@ class PuraUser extends Gateway
         if (empty($eduId)) {
             throw new \Exception(
                 'The edu-id is mandatory for creating a Pura User'
+            );
+        }
+
+        if (strstr($eduId, "eduid.ch") == false) {
+            throw new \Exception(
+                'pura.nonEduId'
             );
         }
 

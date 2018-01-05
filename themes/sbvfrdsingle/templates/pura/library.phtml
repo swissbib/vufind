@@ -7,10 +7,13 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 ?>
 
 <div class="<?= $this->layoutClass('mainbody') ?>">
+    <?= $this->flashmessages(); ?>
 
     <h2><?= $this->institution["label"][$this->layout()->userLang] ?></h2>
 
-    <? if (!($active)): ?>
+    <? if ($this->nonEduId): ?>
+        <div class="alert alert-danger"><?= $this->transEsc('pura.nonEduId') ?></div>
+    <? elseif (!($this->active)): ?>
         <p>To access remotely some of the e-resources of the <?= $this->institution["label"][$this->layout()->userLang] ?>, you need to print this page and bring it to the ZB Desk, along with your ID and Library Card. You can also show this screen on your mobile phone or laptop.</p>
 
 
