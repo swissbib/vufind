@@ -225,7 +225,6 @@ class Pura implements ServiceLocatorAwareInterface
                 'The institution with code ' .
                 $libraryCode .
                 ' is not in a libadmin group.'
-
             );
         }
 
@@ -236,7 +235,6 @@ class Pura implements ServiceLocatorAwareInterface
                 'The institution with code ' .
                 $libraryCode .
                 ' does not exist.'
-
             );
         }
 
