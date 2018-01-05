@@ -101,7 +101,6 @@ class Pura implements ServiceLocatorAwareInterface
         Config $groupMapping,
         Config $groups,
         Email $emailService
-
     ) {
         $this->config = $config;
         $this->publishers = $publishers;
@@ -156,7 +155,7 @@ class Pura implements ServiceLocatorAwareInterface
     /**
      * Get the VufindUser related to the PuraUser
      *
-     * @param string $userNumber id if the pura-user table
+     * @param string $puraUserId id in the pura-user table
      *
      * @return PuraUser $user
      * @throws \Exception

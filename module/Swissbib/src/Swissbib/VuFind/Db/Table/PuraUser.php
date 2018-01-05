@@ -91,7 +91,7 @@ class PuraUser extends Gateway
     /**
      * Create a new Pura user row.
      *
-     * @param string $eduId Edu-id number
+     * @param string $eduId        edu-id number
      * @param string $persistentId persistent id
      * @param string $barcode      pura barcode
      *
