@@ -144,4 +144,21 @@ class PuraUser extends Gateway
 
         return $puraUser;
     }
+
+    /**
+     * Get list of all Pura users
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function getList()
+    {
+        $puraUsers = $this->select(
+            function (Select $select) {
+                $select->where->greaterThan('id', 0);
+            }
+        );
+
+        return $puraUsers;
+    }
 }

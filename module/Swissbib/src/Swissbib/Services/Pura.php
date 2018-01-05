@@ -30,6 +30,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\Config\Config;
 use Libadmin\Institution\InstitutionLoader;
 
+
 /**
  * Class Pura.
  *
@@ -79,23 +80,34 @@ class Pura implements ServiceLocatorAwareInterface
     protected $groups;
 
     /**
+     * Email service.
+     *
+     * @var Email $emailService
+     */
+    protected $emailService;
+
+    /**
      * Pura constructor.
      *
      * @param object $config       Config
      * @param array  $publishers   List of Publishers
      * @param Config $groupMapping Map the institution code to a group (network)
      * @param Config $groups       The indices of the groups in the libadmin array
+     * @param Email  $emailService The email service
      */
     public function __construct(
         $config,
         array $publishers,
         Config $groupMapping,
-        Config $groups
+        Config $groups,
+        Email $emailService
+
     ) {
         $this->config = $config;
         $this->publishers = $publishers;
         $this->groupMapping = $groupMapping;
         $this->groups = $groups;
+        $this->emailService = $emailService;
     }
 
     /**
@@ -306,5 +318,53 @@ class Pura implements ServiceLocatorAwareInterface
         }
 
         return $puraUser;
+    }
+
+    /**
+     * Update the Pura users (check expiration for example)
+     *
+     * @return void
+     */
+    public function updatePuraUser()
+    {
+        $users = $this->getListPuraUsers();
+
+        //Foreach users
+        /**
+         * Pura user.
+         *
+         * @var PuraUser $user
+         */
+        foreach ($users as $user) {
+            $id = $user->id;
+            echo $this->getVuFindUser($user->id)->email."\n";
+            //we send an email to user with expired expiration date
+            if (new \DateTime() > $user->getExpirationDate() ) {
+                $this->emailService->sendPuraAccountExtensionEmail(
+                    $this->getVuFindUser($user->id)
+                );
+            }
+        }
+
+    }
+
+    /**
+     * Get list of all pura users
+     *
+     * @return \Zend\Db\ResultSet\ResultSet
+     * @throws \Exception
+     */
+    public function getListPuraUsers()
+    {
+        /**
+         * Pura user table.
+         *
+         * @var \Swissbib\VuFind\Db\Table\PuraUser $userTable
+         */
+        $userTable = $this->getTable(
+            '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
+        );
+
+        return $userTable->getList();
     }
 }

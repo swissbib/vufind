@@ -261,6 +261,15 @@ return [
                             'action'     => 'updateNationalLicenceUserInfo'
                         ]
                     ]
+                ],
+                'update-pura-user' => [
+                    'options' => [
+                        'route'    => 'update-pura-user',
+                        'defaults' => [
+                            'controller' => 'console',
+                            'action'     => 'updatePuraUser'
+                        ]
+                    ]
                 ]
             ]
         ]

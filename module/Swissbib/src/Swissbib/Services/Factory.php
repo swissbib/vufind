@@ -258,7 +258,8 @@ class Factory
             $sm->get('VuFind\Config')->get('NationalLicences'),
             $publishers['publishers'],
             $groupMapping,
-            $groups
+            $groups,
+            $sm->get('Swissbib\EmailService')
         );
     }
 
