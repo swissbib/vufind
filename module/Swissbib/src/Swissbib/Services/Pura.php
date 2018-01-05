@@ -335,16 +335,14 @@ class Pura implements ServiceLocatorAwareInterface
          * @var PuraUser $user
          */
         foreach ($users as $user) {
-            $id = $user->id;
-            echo $this->getVuFindUser($user->id)->email."\n";
+            echo $this->getVuFindUser($user->id)->email . "\n";
             //we send an email to user with expired expiration date
-            if (new \DateTime() > $user->getExpirationDate() ) {
+            if (new \DateTime() > $user->getExpirationDate()) {
                 $this->emailService->sendPuraAccountExtensionEmail(
                     $this->getVuFindUser($user->id)
                 );
             }
         }
-
     }
 
     /**
@@ -363,7 +361,6 @@ class Pura implements ServiceLocatorAwareInterface
         $userTable = $this->getTable(
             '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
         );
-
         return $userTable->getList();
     }
 }

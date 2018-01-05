@@ -163,13 +163,13 @@ class PuraController extends BaseController
         $token = $this->params()->fromRoute('token');
 
         // Only the text to draw is required
-        $barcodeOptions = array(
+        $barcodeOptions = [
             'text' => $token,
             'factor' => '2',
-        );
+        ];
 
         // No required options
-        $rendererOptions = array();
+        $rendererOptions = [];
 
         // send the headers and the image
         Barcode::factory(

@@ -72,7 +72,6 @@ class Factory
         );
     }
 
-
     /**
      * Construct the PuraController by injecting the
      * Pura service.
@@ -106,5 +105,4 @@ class Factory
             $sl->get('Swissbib\NationalLicenceService')
         );
     }
-
 }

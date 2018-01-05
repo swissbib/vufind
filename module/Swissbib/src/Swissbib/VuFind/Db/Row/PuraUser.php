@@ -96,7 +96,6 @@ class PuraUser extends RowGateway
         $this->relUser = $relUser;
     }
 
-
     /**
      * Set user id related to the User db table.
      *

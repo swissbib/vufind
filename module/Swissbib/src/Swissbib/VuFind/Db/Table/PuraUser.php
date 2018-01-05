@@ -135,7 +135,7 @@ class PuraUser extends Gateway
         // we link it to the pura_user table.
         if ($user) {
             // Link table User to PuraUser
-            $puraUser->setUserId($user->id);
+                $puraUser->setUserId($user->id);
         }
         $savedUser = $puraUser->save();
         if (empty($savedUser)) {
