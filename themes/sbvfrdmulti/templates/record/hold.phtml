@@ -66,11 +66,23 @@ endif;
                     </div>
                 </div>
             <? elseif (count($this->pickup) >= 1): ?>
+                <?
+                $institutionIsPresent = true;
+                $institutionOfItem = $_GET['institution'];
+                foreach ($this->pickup as $lib):
+                    if ($lib['locationID'] === "POPA")
+                    {
+                        $institutionIsPresent = false;
+                        break;
+                    }
+                endforeach;
+                ?>
                 <div class="form-group">
                     <label class="col-sm-3 control-label"><?=$this->transEsc("pick_up_location")?>:</label>
                     <div class="col-sm-9">
-                        <select id="pickUpLocation" name="gatheredDetails[pickUpLocation]" class="form-control">
+                        <select id="pickUpLocation" name="gatheredDetails[pickUpLocation]" class="form-control" onchange="handleChange();">
                             <option value="" selected="selected">[<?=$this->transEsc('select pickup location')?>:]</option>
+                            <? if (!$institutionIsPresent): ?><option value="DUMMY"><?= $this->zendTranslate($institutionOfItem, 'institution') ?></option><? endif; ?>
                             <? foreach ($this->pickup as $lib): ?>
                                 <?php if(in_array($lib['locationID'], $unsetPickup)): ?>
                                     <? unset($lib); ?>
@@ -82,7 +94,6 @@ endif;
                             <? endforeach; ?>
                         </select>
                         <br/>
-                        <p><?=$this->transEsc('hold_text3') ?></p>
                     </div>
                 </div>
             <? else: ?>
@@ -161,6 +172,22 @@ $js = <<<JS
             $(document).ready(function(){
                 setUpHoldRequestForm("{$this->escapeHtml($this->driver->getUniqueId())}");
             });
+        }
+JS;
+
+echo $this->inlineScript()->appendScript($js);
+?>
+
+<?
+$hold_text3 = $this->transEsc('hold_text3');
+$js = <<<JS
+        function handleChange() {
+            dropDownBox = document.getElementById('pickUpLocation');
+            selectedValue = dropDownBox.options[dropDownBox.selectedIndex].value;
+            if (selectedValue == 'DUMMY')
+            {
+                alert("{$hold_text3}");
+            }
         }
 JS;
 

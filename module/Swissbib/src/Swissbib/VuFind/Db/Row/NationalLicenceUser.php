@@ -218,8 +218,14 @@ class NationalLicenceUser extends RowGateway
     public function setRequestPermanentAccess($bool = true)
     {
         $this->request_permanent_access = $bool;
-        $this->request_permanent_access_created
-            = (new \DateTime())->format('Y-m-d H:i:s');
+        if ($bool) {
+            $this->request_permanent_access_created
+                = (new \DateTime())->format('Y-m-d H:i:s');
+        } else {
+            $this->request_permanent_access_created
+                = null;
+        }
+
     }
 
     /**

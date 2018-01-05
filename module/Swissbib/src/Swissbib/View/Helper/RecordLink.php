@@ -105,4 +105,58 @@ class RecordLink extends VfRecordLink
 
         return $escapeHelper($url);
     }
+
+    /**
+     * Alias for getRequestUrl(), to maintain backward compatibility with
+     * VuFind 2.2 and earlier versions.
+     *
+     * @param string|array $item          URL to process
+     * @param bool         $includeAnchor Should we include an anchor?
+     *
+     * @return string
+     */
+    public function getHoldUrl($item, $includeAnchor = true)
+    {
+        return $this->getRequestUrl($item, $includeAnchor);
+    }
+
+    /**
+     * Given a string or array of parts, build a request (e.g. hold) URL.
+     *
+     * @param string|array $item          URL to process
+     * @param bool         $includeAnchor Should we include an anchor?
+     *
+     * @return string
+     */
+    public function getRequestUrl($item, $includeAnchor = true)
+    {
+        if (is_array($item['holdLink'])) {
+            // Assemble URL string from array parts:
+            $source = isset($item['holdLink']['source'])
+                ? $item['holdLink']['source'] : DEFAULT_SEARCH_BACKEND;
+            $finalUrl
+                = $this->getActionUrl(
+                    "{$source}|" . $item['holdLink']['record'],
+                    $item['holdLink']['action']
+                );
+            if (isset($item['holdLink']['query'])) {
+                $finalUrl .= '?' . $item['holdLink']['query'];
+                $finalUrl .= '&institution=' . $item['institution'];
+            }
+            if (isset($item['holdLink']['anchor']) && $includeAnchor) {
+                $finalUrl .= $item['holdLink']['anchor'];
+            }
+        } else {
+            // If URL is already a string but we don't want anchors, strip
+            // the anchor now:
+            if (!$includeAnchor) {
+                list($finalUrl) = explode('#', $item['holdLink']);
+            } else {
+                $finalUrl = $item['holdLink'];
+            }
+        }
+        // Make sure everything is properly HTML encoded:
+        $escaper = $this->getView()->plugin('escapehtml');
+        return $escaper($finalUrl);
+    }
 }
