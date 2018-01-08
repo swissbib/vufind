@@ -10,6 +10,7 @@ CREATE TABLE `pura_user` (
   `edu_id` varchar(255) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `barcode` varchar(255),
+  `library_code` varchar(255),
   `remarks` text,
   `library_system_number` varchar(255), /*for example aleph number */
   `has_access` BOOLEAN NOT NULL DEFAULT FALSE,
@@ -19,7 +20,6 @@ CREATE TABLE `pura_user` (
   `blocked_created` datetime DEFAULT NULL,
   `created` datetime  DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES user(`id`),
-  UNIQUE `edu_id` (`edu_id`)
+  FOREIGN KEY (`user_id`) REFERENCES user(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

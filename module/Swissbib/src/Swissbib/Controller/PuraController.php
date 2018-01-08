@@ -65,7 +65,7 @@ class PuraController extends BaseController
      */
     public function indexAction()
     {
-        $institutionCodes = ["Z01", "RE01001"];
+        $institutionCodes = ["Z01", "RE01001", "A100", "E02"];
         $institutions = [];
 
         foreach ($institutionCodes as $institutionCode) {
@@ -127,7 +127,8 @@ class PuraController extends BaseController
                 $puraUser = $this->puraService
                     ->getOrCreatePuraUserIfNotExists(
                         $uniqueId,
-                        $persistentId
+                        $persistentId,
+                        $libraryCode
                     );
                 $vuFindUser = $this->puraService->getVuFindUser($puraUser->id);
             } catch (\Exception $e) {

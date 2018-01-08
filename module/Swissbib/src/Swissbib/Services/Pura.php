@@ -129,7 +129,7 @@ class Pura implements ServiceLocatorAwareInterface
     /**
      * Get a PuraUser
      *
-     * @param string $userNumber id if the pura-user table
+     * @param string $userNumber id in the pura-user table
      *
      * @return PuraUser $user
      * @throws \Exception if the user doesn't exist
@@ -311,13 +311,15 @@ class Pura implements ServiceLocatorAwareInterface
      *
      * @param string $eduId        Edu-id number like 321983219839218@eduid.ch
      * @param string $persistentId persistent id (needed to link with user table)
+     * @param string $libraryCode  the library code of the user library
      *
      * @return PuraUser $user
      * @throws \Exception
      */
     public function getOrCreatePuraUserIfNotExists(
         $eduId,
-        $persistentId
+        $persistentId,
+        $libraryCode
     ) {
         /**
          * Pura user table.
@@ -327,7 +329,9 @@ class Pura implements ServiceLocatorAwareInterface
         $puraUserTable = $this->getTable(
             '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
         );
-        $puraUser = $puraUserTable->getPuraUserByEduId($eduId);
+        $puraUser = $puraUserTable->getPuraUserByEduIdAndLibrary(
+            $eduId, $libraryCode
+        );
 
         $barcode = $this->createUniqueId();
 
@@ -335,7 +339,8 @@ class Pura implements ServiceLocatorAwareInterface
             $puraUser = $puraUserTable->createPuraUserRow(
                 $eduId,
                 $persistentId,
-                $barcode
+                $barcode,
+                $libraryCode
             );
         }
 

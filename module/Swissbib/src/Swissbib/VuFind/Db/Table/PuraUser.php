@@ -68,14 +68,16 @@ class PuraUser extends Gateway
     }
 
     /**
-     * Get user by edu-id number. Returns null if no user has this eduid number
+     * Get user by edu-id number and library.
+     * Returns null if no user has this combination eduid number / libraryCode
      *
-     * @param string $eduId edu-id number
+     * @param string $eduId       edu-id number
+     * @param string $libraryCode the library code
      *
      * @return \Swissbib\VuFind\Db\Row\PuraUser
      * @throws \Exception
      */
-    public function getPuraUserByEduId($eduId)
+    public function getPuraUserByEduIdAndLibrary($eduId, $libraryCode)
     {
         if (empty($eduId)) {
             throw new \Exception('Cannot fetch user with empty edu_id number');
@@ -85,8 +87,12 @@ class PuraUser extends Gateway
          *
          * @var \Swissbib\VuFind\Db\Row\PuraUser $puraUser
          */
-        $puraUser = $this->select(['edu_id' => $eduId])
-            ->current();
+        $puraUser = $this->select(
+            [
+                'edu_id' => $eduId,
+                'library_code' => $libraryCode
+            ]
+        )->current();
         if (empty($puraUser)) {
             return null;
         }
@@ -100,6 +106,7 @@ class PuraUser extends Gateway
      * @param string $eduId        edu-id number
      * @param string $persistentId persistent id
      * @param string $barcode      pura barcode
+     * @param string $libraryCode  library code
      *
      * @return \Swissbib\VuFind\Db\Row\PuraUser $user
      * @throws \Exception
@@ -107,7 +114,8 @@ class PuraUser extends Gateway
     public function createPuraUserRow(
         $eduId,
         $persistentId,
-        $barcode
+        $barcode,
+        $libraryCode
     ) {
         if (empty($eduId)) {
             throw new \Exception(
@@ -129,6 +137,8 @@ class PuraUser extends Gateway
         $puraUser = $this->createRow();
         $puraUser->edu_id = $eduId;
         $puraUser->barcode = $barcode;
+        $puraUser->library_code = $libraryCode;
+
 
         /**
          * User table.
