@@ -106,7 +106,7 @@ return [
                                 'action' => 'barcode',
                             ],
                             'constraints' => [
-                                'libraryCode' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'token' => '[A-Z0-9]*',
                             ],
                         ],
                     ]
