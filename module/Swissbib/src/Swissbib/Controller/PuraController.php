@@ -62,7 +62,6 @@ class PuraController extends BaseController
      * Show the list of libraries which offer Pura Service
      *
      * @return mixed|ViewModel
-     * @throws \Exception
      */
     public function indexAction()
     {
@@ -87,7 +86,6 @@ class PuraController extends BaseController
      * Show the registration for a specific Pura Library
      *
      * @return mixed|ViewModel
-     * @throws \Exception
      */
     public function libraryAction()
     {
@@ -160,10 +158,11 @@ class PuraController extends BaseController
     }
 
     /**
-     * Show the registration for a specific Pura Library
+     * Renders a barcode in an image, which corresponds to the token
+     * The token must contain only numbers and upper case letters
+     * otherwise an image containing an error text is returned
      *
-     * @return mixed|ViewModel
-     * @throws \Exception
+     * @return void
      */
     public function barcodeAction()
     {
@@ -191,7 +190,6 @@ class PuraController extends BaseController
      * @param MvcEvent $e MvcEvent.
      *
      * @return mixed|\Zend\Http\Response
-     * @throws \Exception
      */
     public function onDispatch(MvcEvent $e)
     {
