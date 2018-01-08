@@ -19,7 +19,7 @@ class ESBibliographicResource extends ElasticSearch
     public function getSubjects(): array
     {
         $subjects = $this->fields["_source"]['dct:subject'];
-        return $subjects ? $subjects : [];
+        return $this->returnAsArray($subjects);
     }
 
     /**
@@ -33,4 +33,18 @@ class ESBibliographicResource extends ElasticSearch
         return $matches[1];
     }
 
+    /**
+     * @param $items
+     * @return array
+     */
+    protected function returnAsArray($items): array
+    {
+        if (is_array($items)) {
+            return $items;
+        }
+        else if (isset($items)) {
+            return [$items];
+        }
+        return [];
+    }
 }
