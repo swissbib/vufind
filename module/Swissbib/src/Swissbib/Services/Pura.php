@@ -348,11 +348,12 @@ class Pura implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Update the Pura users (check expiration for example)
+     * Check the current validity of Pura users
+     * (check expiration date for example, send emails)
      *
      * @return void
      */
-    public function updatePuraUser()
+    public function checkValidityPuraUsers()
     {
         $users = $this->getListPuraUsers();
 
@@ -363,12 +364,17 @@ class Pura implements ServiceLocatorAwareInterface
          * @var PuraUser $user
          */
         foreach ($users as $user) {
-            echo $this->getVuFindUser($user->id)->email . "\n";
             //we send an email to user with expired expiration date
-            if (new \DateTime() > $user->getExpirationDate()) {
+            if (!($this->isAccountExtensionEmailHasAlreadyBeenSent($user))
+                && new \DateTime() > $user->getExpirationDate()
+            ) {
                 $this->emailService->sendPuraAccountExtensionEmail(
                     $this->getVuFindUser($user->id)
                 );
+                $user->setLastAccountExtensionRequest(new \DateTime());
+                $user->save();
+                echo "Email sent to " .
+                    $this->getVuFindUser($user->id)->email . "\n";
             }
         }
     }
@@ -390,5 +396,21 @@ class Pura implements ServiceLocatorAwareInterface
             '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
         );
         return $userTable->getList();
+    }
+
+    /**
+     * Return true if the account extension email has already been sent
+     *
+     * @param PuraUser $user user
+     *
+     * @return bool
+     */
+    protected function isAccountExtensionEmailHasAlreadyBeenSent($user)
+    {
+        $dateRequest = $user->last_account_extension_request;
+        if (empty($dateRequest)) {
+            return false;
+        }
+        return true;
     }
 }

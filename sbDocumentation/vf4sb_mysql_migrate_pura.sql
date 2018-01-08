@@ -18,8 +18,11 @@ CREATE TABLE `pura_user` (
   `date_expiration` datetime DEFAULT NULL,
   `blocked` BOOLEAN NOT NULL DEFAULT FALSE,
   `blocked_created` datetime DEFAULT NULL,
+  `last_account_extension_request` datetime DEFAULT NULL,
   `created` datetime  DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`user_id`) REFERENCES user(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+GRANT INSERT, SELECT, UPDATE, DELETE ON pura_user to 'pura-back-end'@'localhost';
+GRANT SELECT ON user to 'pura-back-end'@'localhost';

@@ -251,7 +251,7 @@ class Email implements ServiceLocatorAwareInterface
     /**
      * Send the Pura account extension e-mail to a specific user.
      *
-     * @param string $toUser User e-mail that the e-mail will be sent to.
+     * @param string $toUser User
      *
      * @return void
      * @throws \Exception

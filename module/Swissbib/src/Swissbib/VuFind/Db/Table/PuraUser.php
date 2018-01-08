@@ -139,7 +139,6 @@ class PuraUser extends Gateway
         $puraUser->barcode = $barcode;
         $puraUser->library_code = $libraryCode;
 
-
         /**
          * User table.
          *

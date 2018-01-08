@@ -107,4 +107,16 @@ class PuraUser extends RowGateway
     {
         $this->user_id = $id;
     }
+
+    /**
+     * Set the last_account_extension_request field.
+     *
+     * @param \DateTime $date Account extension date expiration
+     *
+     * @return void
+     */
+    public function setLastAccountExtensionRequest($date)
+    {
+        $this->last_account_extension_request = $date->format('Y-m-d H:i:s');
+    }
 }

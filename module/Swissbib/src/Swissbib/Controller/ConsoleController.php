@@ -129,6 +129,6 @@ class ConsoleController extends BaseController
          */
         $puraService = $this->getServiceLocator()
             ->get('Swissbib\PuraService');
-        $puraService->updatePuraUser();
+        $puraService->checkValidityPuraUsers();
     }
 }
