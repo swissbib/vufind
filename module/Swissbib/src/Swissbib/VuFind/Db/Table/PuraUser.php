@@ -128,7 +128,7 @@ class PuraUser extends Gateway
          */
         $puraUser = $this->createRow();
         $puraUser->edu_id = $eduId;
-        $puraUser->pura_barcode = $barcode;
+        $puraUser->barcode = $barcode;
 
         /**
          * User table.

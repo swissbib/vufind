@@ -81,7 +81,7 @@ class PuraUser extends RowGateway
      */
     public function getBarcode()
     {
-        return $this->pura_barcode;
+        return $this->barcode;
     }
 
     /**

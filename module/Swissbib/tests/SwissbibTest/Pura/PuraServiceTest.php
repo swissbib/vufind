@@ -57,7 +57,7 @@ class PuraServiceTest extends VuFindTestCase
     protected $puraService;
 
     /**
-     * Set up service manager and National Licence Service.
+     * Set up service manager and Pura Service.
      *
      * @return void
      */
