@@ -1,0 +1,89 @@
+@media (min-width: 992px) {
+  .container-table-fix-md {
+    display: table;
+    table-layout: fixed;
+    padding-left: 0;
+    padding-right: 0
+  }
+
+  .row-table-fix-md {
+    display: table-row;
+  }
+
+  .col-table-fix-md {
+    display: table-cell;
+    border: none;
+  }
+
+  .container-fix-md {
+    margin-left: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dirty-hack-column {
+    max-width: 95%;
+    margin: auto;
+  }
+}
+
+/* für advanvcedsearch: */
+@media (min-width: 768px) {
+  h2 {
+    font-size: 23px;
+    font-weight: normal;
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: normal;
+  }
+  .form-control { max-width: 338px; }
+  #modal .form-control { max-width: none; }
+}
+
+/* für my libraries */
+@media (min-width: 768px) {
+  fieldset,
+  .fieldset {
+    float: none;
+    width: 100%;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+  }
+}
+
+/* für trefferliste header */
+@media (min-width: 768px) {
+  .search-controls { text-align: left; }
+}
+
+/* fix für facet list styling (kürzt zu lange facetten-namen mit "..." ab) */
+.jstree-facet li span.main {
+  display: block;
+}
+
+/* fix for showing action buttons in trefferliste */
+.result {
+  @media (max-width: 767px) {
+    a {
+      max-width: inherit;
+      text-decoration: underline;
+    }
+  }
+}
+
+/* show labels aligned right in baselbern login page*/
+.form-login {
+  @media (min-width: @screen-sm-min) {
+    .control-label {
+      text-align: right;
+      margin-bottom: 0;
+      padding-top: (@padding-base-vertical + 1); // Default padding plus a border
+    }
+  }
+}
+
+/* show login button under input-fields in baselbern login page */
+input[name="processLogin"] {
+  margin-left: 25%;
+}

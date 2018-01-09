@@ -26,7 +26,8 @@
         $withTabsClass = '';
     ?>
     <? if (count($searchtabs) > 0): ?>
-      <?= $this->render('search/searchTabs'); ?>
+      <?= $this->context($this)->renderInContext('search/searchTabs', ['searchTabs' => $searchtabs]); ?>
+
       <? $withTabsClass = ' tabsVisible' ?>
     <? endif; ?>
       <div class="advancedSearchHeaderBox<?= $withTabsClass ?>">
@@ -54,7 +55,8 @@
 
     <div class="search-tabs-box">
     <? if (count($searchtabs) > 0): ?>
-      <?= $this->render('search/searchTabs'); ?>
+      <?= $this->context($this)->renderInContext('search/searchTabs', ['searchTabs' => $searchtabs]); ?>
+
     <? endif; ?>
     </div>
     <div class="input-group">

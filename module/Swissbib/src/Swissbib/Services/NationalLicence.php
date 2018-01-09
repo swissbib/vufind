@@ -26,7 +26,6 @@ namespace Swissbib\Services;
 
 use Swissbib\Libadmin\Exception\Exception;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -38,7 +37,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class NationalLicence implements ServiceLocatorAwareInterface
+class NationalLicence
 {
     /**
      * ServiceLocator.
@@ -74,15 +73,18 @@ class NationalLicence implements ServiceLocatorAwareInterface
     /**
      * NationalLicence constructor.
      *
-     * @param SwitchApi $switchApiService Switch Api service
-     * @param Email     $emailService     Email service
-     * @param array     $config           Config
+     * @param SwitchApi               $switchApiService Switch Api service
+     * @param Email                   $emailService     Email service
+     * @param array                   $config           Config
+     * @param ServiceLocatorInterface $serviceLocator   Service locator.
      */
-    public function __construct($switchApiService, $emailService, $config)
-    {
+    public function __construct($switchApiService, $emailService, $config,
+        $serviceLocator
+    ) {
         $this->switchApiService = $switchApiService;
         $this->emailService = $emailService;
         $this->config = $config['NationalLicenceService'];
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**
@@ -206,7 +208,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
          * @var \Swissbib\VuFind\Db\Table\NationalLicenceUser $userTable
          */
         $userTable = $this->getTable(
-            '\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser'
+            'nationallicence'
         );
         $user = $userTable->getUserByPersistentId($persistentId);
         if (empty($user)) {
@@ -227,7 +229,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
      */
     protected function getTable($table)
     {
-        return $this->getServiceLocator()
+        return $this->serviceLocator
             ->get('VuFind\DbTablePluginManager')
             ->get($table);
     }
@@ -334,7 +336,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
          * @var \Swissbib\VuFind\Db\Table\NationalLicenceUser $userTable
          */
         $userTable = $this->getTable(
-            '\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser'
+            'nationallicence'
         );
         $user = $userTable->getUserByPersistentId($persistentId);
 
@@ -638,7 +640,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
          * @var \Swissbib\VuFind\Db\Table\NationalLicenceUser $userTable
          */
         $userTable = $this->getTable(
-            '\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser'
+            'nationallicence'
         );
 
         return $userTable->getList();
@@ -727,7 +729,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
     {
         /* \Swissbib\VuFind\Db\Table\NationalLicenceUser $nationalLicenceUserTable */
         $nationalLicenceUserTable
-            = $this->getTable('\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser');
+            = $this->getTable('nationallicence');
         return $nationalLicenceUserTable->getLastTemporaryRequest(1);
     }
 
@@ -740,7 +742,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
     {
         /*\Swissbib\VuFind\Db\Table\NationalLicenceUser $nationalLicenceUserTable*/
         $nationalLicenceUserTable
-            = $this->getTable('\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser');
+            = $this->getTable('nationallicence');
         return $nationalLicenceUserTable->getNumberOfLastPermanentRequest(1);
     }
 
@@ -754,7 +756,7 @@ class NationalLicence implements ServiceLocatorAwareInterface
     {
         /*\Swissbib\VuFind\Db\Table\NationalLicenceUser $nationalLicenceUserTable*/
         $nationalLicenceUserTable
-            = $this->getTable('\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser');
+            = $this->getTable('nationallicence');
         return $nationalLicenceUserTable->getLastBlockedUser(1);
     }
 

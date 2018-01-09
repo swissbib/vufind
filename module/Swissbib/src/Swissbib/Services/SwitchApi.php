@@ -29,7 +29,6 @@ use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use Zend\Http\Client;
 use Zend\Http\Request;
 use Zend\Http\Response;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -41,7 +40,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class SwitchApi implements ServiceLocatorAwareInterface
+class SwitchApi
 {
     /**
      * ServiceLocator.
@@ -67,12 +66,14 @@ class SwitchApi implements ServiceLocatorAwareInterface
     /**
      * SwitchApi constructor.
      *
-     * @param array $config Swissbib configuration.
+     * @param array          $config Swissbib configuration.
+     * @param ServiceManager $sm     Service manager.
      */
-    public function __construct($config)
+    public function __construct($config, $sm)
     {
         $this->config   = $config->get('config');
         $this->configNL = $config->get('NationalLicences')['SwitchApi'];
+        $this->setServiceLocator($sm);
     }
 
     /**
@@ -411,7 +412,7 @@ class SwitchApi implements ServiceLocatorAwareInterface
          * @var \Swissbib\VuFind\Db\Table\NationalLicenceUser $userTable
          */
         $userTable
-            = $this->getTable('\\Swissbib\\VuFind\\Db\\Table\\NationalLicenceUser');
+            = $this->getTable('nationallicence');
 
         /**
          * National licence user.

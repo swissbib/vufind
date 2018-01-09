@@ -25,7 +25,6 @@
 namespace Swissbib\Services;
 
 use Zend\Di\ServiceLocator;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Mime;
 use Zend\Mail\Message;
@@ -41,7 +40,7 @@ use Zend\Mail\Transport\Sendmail as SendmailTransport;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class Email implements ServiceLocatorAwareInterface
+class Email
 {
     /**
      * Service locator.
@@ -59,11 +58,13 @@ class Email implements ServiceLocatorAwareInterface
     /**
      * Email constructor.
      *
-     * @param array $config Config.
+     * @param array                   $config         Config.
+     * @param ServiceLocatorInterface $serviceLocator Service locator
      */
-    public function __construct($config)
+    public function __construct($config, $serviceLocator)
     {
         $this->config = $config;
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**

@@ -196,7 +196,7 @@ JournalTitle:
       - [onephrase, 200]
     title_new:
       - [onephrase, 200]
-  FilterQuery: "format_str_mv:(CR0305* OR CR0306* OR CR0307*)"
+  FilterQuery: 'format_str_mv:(CR0305* OR CR0306* OR CR0307*)'
   DismaxParams:
     - [pf, 'title_short^100000']
     - [ps, '2']
@@ -310,20 +310,20 @@ CallNumber:
   CustomMunge:
     callnumber_exact:
       # Strip whitespace and quotes:
-      - [preg_replace, '/[ "]/', ""]
+      - [preg_replace, '/[ "]/', '']
       # Escape colons (unescape first to avoid double-escapes):
-      - [preg_replace, "/(\\\:)/", ':']
+      - [preg_replace, '/(\\\:)/', ':']
       - [preg_replace, '/:/', '\:']
       # Strip pre-existing trailing asterisks:
-      - [preg_replace, "/\*+$/", ""]
+      - [preg_replace, '/\*+$/', '']
     callnumber_fuzzy:
       # Strip whitespace and quotes:
-      - [preg_replace, '/[ "]/', ""]
+      - [preg_replace, '/[ "]/', '']
       # Escape colons (unescape first to avoid double-escapes):
-      - [preg_replace, "/(\\\:)/", ':']
+      - [preg_replace, '/(\\\:)/', ':']
       - [preg_replace, '/:/', '\:']
       # Strip pre-existing trailing asterisks, then add a new one:
-      - [preg_replace, "/\*+$/", ""]
+      - [preg_replace, '/\*+$/', '']
       - [append, "*"]
   QueryFields:
     callnumber:
@@ -362,9 +362,9 @@ HostID:
 oclc_num:
   CustomMunge:
     oclc_num:
-      - [preg_replace, "/[^0-9]/", ""]
+      - [preg_replace, '/[^0-9]/', '']
       # trim leading zeroes:
-      - [preg_replace, "/^0*/", ""]
+      - [preg_replace, '/^0*/', '']
   QueryFields:
     oclc_num:
       - [oclc_num, ~]
@@ -372,7 +372,7 @@ oclc_num:
 ctrlnum:
   CustomMunge:
     ctrlnum:
-      - [preg_replace, "/[\(\)]/", ""]
+      - [preg_replace, '/[\(\)]/', '']
   QueryFields:
     ctrlnum:
       - [ctrlnum, ~]

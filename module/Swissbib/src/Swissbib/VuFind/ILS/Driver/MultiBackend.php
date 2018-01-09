@@ -30,7 +30,6 @@ namespace Swissbib\VuFind\ILS\Driver;
 
 use VuFind\ILS\Driver\MultiBackend as VFMultiBackend,
     VuFind\Exception\ILS as ILSException,
-    Zend\ServiceManager\ServiceLocatorAwareInterface,
     Zend\ServiceManager\ServiceLocatorInterface,
     Zend\Log\LoggerInterface;
 

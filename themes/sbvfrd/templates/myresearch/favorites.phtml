@@ -50,5 +50,5 @@ $isLoggedIn = !!$this->auth()->isLoggedIn();
 </div>
 
 <script type="text/javascript">
-  swissbib.FavoriteInstitutions.init(<?=json_encode(array_values($autocompleterData))?>);
+  swissbib.FavoriteInstitutions.init(<?= is_array($autocompleterData) ? json_encode(array_values($autocompleterData)) : false ?>);
 </script>

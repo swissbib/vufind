@@ -30,9 +30,6 @@
  */
 namespace Swissbib\XSLT;
 
-use Zend\ServiceManager\ServiceManager;
-use Zend\ServiceManager\ServiceManagerAwareInterface;
-
 /**
  * MARCFormatter
  *
@@ -42,15 +39,8 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org  Main Page
  */
-class MARCFormatter implements ServiceManagerAwareInterface
+class MARCFormatter
 {
-    /**
-     * Service Manager
-     *
-     * @var array
-     */
-    private static $_sM;
-
     /**
      * InstitutionUrls
      *
@@ -128,9 +118,7 @@ class MARCFormatter implements ServiceManagerAwareInterface
             $request = str_replace(self::$trimPrefixes, '', $request);
             $url = str_replace('%s', $request, self::$institutionURLs[$institution]);
 
-            $pW =  static::$_sM->get("Swissbib\Services\RedirectProtocolWrapper");
-
-            return '<a href="' . $pW->getWrappedURL($url) . '" target="_blank">' .
+            return '<a href="' . $url . '" target="_blank">' .
                 htmlentities('(' . $institution . ')' . $request) . '</a>';
         }
     }
@@ -161,15 +149,4 @@ class MARCFormatter implements ServiceManagerAwareInterface
         return '';
     }
 
-    /**
-     * Set service manager
-     *
-     * @param ServiceManager $serviceManager ServiceManager
-     *
-     * @return void
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        static::$_sM = $serviceManager;
-    }
 }

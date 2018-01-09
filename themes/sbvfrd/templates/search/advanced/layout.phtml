@@ -55,7 +55,8 @@
   <div class="row">
     <div class="advancedSearchTabsWrap">
       <? $this->searchType = 'advanced' ?>
-      <?= $this->render('search/searchTabs'); ?>
+      <? $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType, $this->hiddenFilters); ?>
+      <?= $this->context($this)->renderInContext('search/searchTabs', ['searchTabs' => $searchTabs['tabs']]); ?>
     </div>
 
     <form role="search" name="searchForm" id="advSearchForm" method="get" action="<?=$this->url($this->options->getSearchAction())?>">

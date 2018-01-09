@@ -234,7 +234,8 @@ class Bootstrapper
                         if (in_array(
                             $languageChange,
                             array_keys($config->Languages->toArray())
-                        )) {
+                        )
+                        ) {
                             $locale = $languageChange;
                         }
                     }
@@ -340,17 +341,12 @@ class Bootstrapper
     protected function initZendValidatorTranslations()
     {
         $callback = function ($event) {
-            /**
-             * Translator
-             *
-             * @var TranslatorImpl $translator
-             */
             $translator = $event->getApplication()->getServiceManager()
                 ->get('VuFind\Translator');
 
             $translator->addTranslationFile(
                 'phparray',
-                'vendor/zendframework/zendframework/resources/languages/' .
+                'vendor/zendframework/zend-i18n-resources/languages/' .
                 $translator->getLocale() . '/Zend_Validate.php',
                 'default',
                 $translator->getLocale()

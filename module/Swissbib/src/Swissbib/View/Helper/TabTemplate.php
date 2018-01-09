@@ -28,7 +28,6 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\AbstractHelper;
 use Zend\View\Resolver\ResolverInterface;
@@ -46,7 +45,7 @@ use Zend\View\Resolver\ResolverInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class TabTemplate extends AbstractHelper implements ServiceLocatorAwareInterface
+class TabTemplate extends AbstractHelper
 {
     /**
      * ServiceLocator

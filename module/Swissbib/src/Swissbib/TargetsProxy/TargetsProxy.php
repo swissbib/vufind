@@ -30,12 +30,13 @@ namespace Swissbib\TargetsProxy;
 
 use Zend\Config\Config;
 use Zend\Di\ServiceLocator;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\Mvc\Controller\PluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Http\PhpEnvironment\RemoteAddress;
 use Zend\Http\PhpEnvironment\Request;
 
 use Zend\Log\Logger as ZendLogger;
+use vuFind\Config\PluginManager as VFConfigPluginManager;
 
 /**
  * Targets proxy
@@ -48,15 +49,8 @@ use Zend\Log\Logger as ZendLogger;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class TargetsProxy implements ServiceLocatorAwareInterface
+class TargetsProxy
 {
-    /**
-     * ServiceLocator
-     *
-     * @var ServiceLocator
-     */
-    protected $serviceLocator;
-
     /**
      * SearchClass
      *
@@ -65,11 +59,11 @@ class TargetsProxy implements ServiceLocatorAwareInterface
     protected $searchClass = 'Summon';
 
     /**
-     * Config
+     * ConfigPluginManager
      *
-     * @var Config
+     * @var PluginManager
      */
-    protected $config;
+    protected $configPluginManager;
 
     /**
      * ClientIP
@@ -111,16 +105,19 @@ class TargetsProxy implements ServiceLocatorAwareInterface
     /**
      * Initialize proxy with config
      *
-     * @param Config     $config  Config
-     * @param ZendLogger $logger  ZendLogger
-     * @param Request    $request Request
+     * @param VFConfigPluginManager $configPluginManager Config
+     * @param ZendLogger            $logger              ZendLogger
+     * @param Request               $request             Request
      */
-    public function __construct(Config $config, ZendLogger $logger, Request $request)
-    {
-        $this->config = $config;
+    public function __construct(VFConfigPluginManager $configPluginManager,
+        ZendLogger $logger, Request $request
+    ) {
+        $this->configPluginManager = $configPluginManager;
         $this->logger = $logger;
         $trustedProxies = explode(
-            ',', $this->config->get('TrustedProxy')->get('loadbalancer')
+            ',',
+            $this->configPluginManager->get('TargetsProxy')->get('TrustedProxy')
+                ->get('loadbalancer')
         );
 
         // Populate client info properties from request
@@ -209,7 +206,7 @@ class TargetsProxy implements ServiceLocatorAwareInterface
      */
     public function getConfig()
     {
-        return $this->config;
+        return $this->configPluginManager->get('TargetsProxy');
     }
 
     /**
@@ -230,7 +227,7 @@ class TargetsProxy implements ServiceLocatorAwareInterface
 
         $targetKeys = explode(
             ',',
-            $this->config->get('TargetsProxy')
+            $this->configPluginManager->get('TargetsProxy')->get('TargetsProxy')
                 ->get('targetKeys' . $this->searchClass)
         );
 
@@ -257,7 +254,8 @@ class TargetsProxy implements ServiceLocatorAwareInterface
              *
              * @var \Zend\Config\Config $targetConfig
              */
-            $targetConfig = $this->config->get($targetKey);
+            $targetConfig
+                = $this->configPluginManager->get('TargetsProxy')->get($targetKey);
             $patternsIP = '';
             $patternsURL = '';
 
@@ -307,8 +305,7 @@ class TargetsProxy implements ServiceLocatorAwareInterface
     private function _setConfigKeys($targetKey)
     {
         $this->targetKey = $targetKey;
-        $vfConfig = $this->serviceLocator->get('VuFind\Config')
-            ->get('config')->toArray();
+        $vfConfig = $this->configPluginManager->get('config')->toArray();
         $this->targetApiId = $vfConfig[$this->targetKey]['apiId'];
         $this->targetApiKey = $vfConfig[$this->targetKey]['apiKey'];
     }

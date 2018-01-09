@@ -30,8 +30,8 @@ namespace Swissbib\VuFind\Hierarchy\TreeRenderer;
 
 use VuFind\Hierarchy\TreeRenderer\JSTree as VfJsTree;
 use VuFindSearch\Query\Query;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use VuFindSearch\Service as VFSearchService;
 
 /**
  * Temporary override to fix problem with invalid solr data
@@ -43,7 +43,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class JSTree extends VfJsTree implements ServiceLocatorAwareInterface
+class JSTree extends VfJsTree
 {
     /**
      * ServiceLocator
@@ -55,32 +55,22 @@ class JSTree extends VfJsTree implements ServiceLocatorAwareInterface
     /**
      * Search Serivice
      *
-     * @var VuFindSearch\Service
+     * @var \VuFindSearch\Service
      */
     protected $searchService;
 
     /**
-     * Set service locator
+     * Constructor
      *
-     * @param ServiceLocatorInterface $serviceLocator ServiceLocator
-     *
-     * @return void
+     * @param \Zend\Mvc\Controller\Plugin\Url $router        Router plugin for urls
+     * @param VFSearchService                 $searchService search service
      */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-        $this->searchService = $serviceLocator->getServiceLocator()
-            ->get('VuFind\Search');
-    }
+    public function __construct(\Zend\Mvc\Controller\Plugin\Url $router,
+        VFSearchService $searchService
+    ) {
+        parent::__construct($router);
+        $this->searchService = $searchService;
 
-    /**
-     * Get service locator
-     *
-     * @return ServiceLocatorInterface
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
     }
 
     /**

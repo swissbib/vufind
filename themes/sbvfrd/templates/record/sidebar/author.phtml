@@ -5,22 +5,22 @@ $record = $this->driver;
 $viewRecord = $this->record($record);
 
 $authors    = $this->driver->getDeduplicatedAuthors();
-$hasAuthors = !empty($authors['main']) || !empty($authors['secondary']) || !is_null($authors['corporate']) && !empty($authors['corporate']);
+$hasAuthors = !empty($authors['primary']) || !empty($authors['secondary']) || !is_null($authors['corporate']) && !empty($authors['corporate']);
 
 if (!$hasAuthors) {
   return '';
 }
 ?>
 
-<? if (!empty($authors['main']) || !empty($authors['secondary']) || !is_null($authors['corporate']) && !empty($authors['corporate'])): ?>
+<? if (!empty($authors['primary']) || !empty($authors['secondary']) || !is_null($authors['corporate']) && !empty($authors['corporate'])): ?>
 
   <h4 class="list-group-item title"><?= $this->transEsc('Author') ?></h4>
   <ul class="list-group">
 
-    <?php if (!empty($authors['main'])): ?>
+    <?php if (!empty($authors['primary'])): ?>
 
       <li class="list-group-item">
-        <? reset($authors['main']); $authorMain = key($authors['main']); ?>
+        <? reset($authors['primary']); $authorMain = key($authors['primary']); ?>
         <a href="<? $authorMain ?><?= $viewRecord->getLink('author', $authorMain) ?>"
            title="<? $authorMain ?><?= $this->escapeHtml($authorMain) ?>"><?= $this->escapeHtml($authorMain) ?></a>
       </li>

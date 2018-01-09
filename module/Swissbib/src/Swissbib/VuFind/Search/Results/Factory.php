@@ -28,7 +28,6 @@
 namespace Swissbib\VuFind\Search\Results;
 
 use Swissbib\VuFind\Search\Favorites\Results;
-
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -43,6 +42,68 @@ use Zend\ServiceManager\ServiceManager;
 class Factory
 {
     /**
+     * Factory for Solr results object.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return \Swissbib\VuFind\Search\Solr\Results
+     */
+    public static function getSolr(ServiceManager $sm)
+    {
+        $factory = new PluginFactory();
+
+        /**
+         * Create Service With Name Solr
+         *
+         * @var $solr \Swissbib\VuFind\Search\Solr\Results
+         */
+        $solr = $factory->createServiceWithName($sm, 'solr', 'Solr');
+
+        $solr->setSpellingProcessor(
+            $sm->getServiceLocator()
+                ->get("sbSpellingProcessor")
+        );
+        return $solr;
+    }
+
+
+    public static function getMixdList(ServiceManager $sm)
+    {
+        $factory = new PluginFactory();
+
+        /**
+         * Create Service With Name Solr
+         *
+         * @var $solr \Swissbib\VuFind\Search\Solr\Results
+         */
+        $mixedlist = $factory->createServiceWithName($sm, 'mixedlist', 'MixedList');
+
+            return $mixedlist;
+    }
+
+
+
+    /**
+     * Factory for Solr Authors.
+     * Achtung: hier müssen wir dringend ein Refactoring machen
+     * swissbib hat sich vor einiger Zeit mal dazu entschieden, Autorensuchen wie
+     * normale Suchen zu behandlen VuFind hat für die Autoren einen eiegenen Index
+     * und damit auch ein eigenes System, wie Recommendations auf Basis der
+     * unterschiedlichen Suchen aufgebaut werden die unterschiedlichen
+     * Recommendation wiederum ergeben dann Probleme z.B. hier
+     * themes/sbvfrd/templates/search/results.phtml Zeile 108
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return \Swissbib\VuFind\Search\Solr\Results
+     */
+    public static function getSolrAuthorFacets(ServiceManager $sm)
+    {
+        //weil Autoren wie Facets behandelt werden erfolgt der Aufruf von getSolr
+        return static::getSolr($sm);
+    }
+
+    /**
      * Factory for Favorites results object.
      *
      * @param ServiceManager $sm Service manager.
@@ -52,7 +113,12 @@ class Factory
     public static function getFavorites(ServiceManager $sm)
     {
         $factory = new PluginFactory();
-        $obj = $factory->createServiceWithName($sm, 'favorites', 'Favorites');
+        $tm = $sm->getServiceLocator()->get('VuFind\DbTablePluginManager');
+        $obj = $factory->createServiceWithName(
+            $sm, 'favorites', 'Favorites',
+            [$tm->get('Resource'), $tm->get('UserList')]
+        );
+
         $init = new \ZfcRbac\Initializer\AuthorizationServiceInitializer();
         $init->initialize($obj, $sm);
         return $obj;

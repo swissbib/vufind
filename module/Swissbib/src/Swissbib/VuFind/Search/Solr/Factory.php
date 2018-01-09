@@ -28,6 +28,7 @@
 namespace Swissbib\VuFind\Search\Solr;
 
 use Zend\ServiceManager\ServiceManager;
+use Zend\Config\Config as ZendConfig;
 
 /**
  * Factory to create specialized types in the Search/Solr namespace
@@ -49,7 +50,27 @@ class Factory
      */
     public static function getSpellchecker(ServiceManager $sm)
     {
-        return new SpellingProcessor($sm->get("sbSpellingResults"));
+
+        $config = $sm
+            ->get('VuFind\Config')->get('config');
+        /**
+         * SpellConfig
+         *
+         *  @var $spellConfig ZendConfig
+         * todo: no unit test so far - what happens if we provide an empty configu
+         * should be better as null
+         */
+        $spellConfig = isset($config->Spelling)
+            ? $config->Spelling : new ZendConfig([]);
+
+        /**
+         * Spelling Results
+         *
+         *  @var $spellingResults SpellingResults
+         */
+        $spellingResults = $sm->get("sbSpellingResults");
+
+        return new SpellingProcessor($spellingResults, $spellConfig);
     }
 
     /**

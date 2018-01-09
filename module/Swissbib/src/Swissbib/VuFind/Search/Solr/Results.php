@@ -29,7 +29,7 @@ namespace Swissbib\VuFind\Search\Solr;
 
 use VuFind\Search\Solr\Results as VuFindSolrResults;
 
-use VuFind\Search\Solr\SpellingProcessor;
+//use VuFind\Search\Solr\SpellingProcessor;
 
 /**
  * Class to extend the core VF2 SOLR functionality related to Solr Results
@@ -55,6 +55,13 @@ class Results extends VuFindSolrResults
      * @var SpellingResults
      */
     protected $sbSuggestions;
+
+    /**
+     * Configuration for QueryFacets for swissbib MyLibraries
+     *
+     * @var \Zend\Config\Config
+     */
+    protected $facetsConfig;
 
     /**
      * Get facet queries from result
@@ -92,6 +99,18 @@ class Results extends VuFindSolrResults
     }
 
     /**
+     * Facets Configuration
+     *
+     * @param \Zend\Config\Config $facetsConfig the facet config
+     *
+     * @return void
+     */
+    public function setFacetsConfig(\Zend\Config\Config $facetsConfig)
+    {
+        $this->facetsConfig = $facetsConfig;
+    }
+
+    /**
      * Get special facets
      * - User favorite institutions
      *
@@ -102,23 +121,20 @@ class Results extends VuFindSolrResults
         $queryFacets    = $this->getResultQueryFacets(true);
         $list = [];
 
-        $configQueryFacets = $this->getServiceLocator()->get('VuFind\Config')
-            ->get($this->getOptions()->getFacetsIni())->QueryFacets->toArray();
+        $configQueryFacets = $this->facetsConfig->QueryFacets->toArray();
 
         //we need this information especially for QueryFacets (Favorites) because
         //because VuFind is getting the configuration for facet entries out of the
         //main facets colletion - we should analyze the whole topic facets to get rid
         //of such specialities
-        $configQueryFacetSettings = $this->getServiceLocator()->get('VuFind\Config')
-            ->get(
-                $this->getOptions(
-                )->getFacetsIni()
-            )->QueryFacets_Settings->toArray();
+        $configQueryFacetSettings = $this->facetsConfig
+            ->QueryFacets_Settings->toArray();
 
         $orFacets = [];
         if (count($configQueryFacetSettings) > 0 && array_key_exists(
             'orFacets', $configQueryFacetSettings
-        )) {
+        )
+        ) {
             $orFacets = explode(',', $configQueryFacetSettings['orFacets']);
         }
 
@@ -255,8 +271,14 @@ class Results extends VuFindSolrResults
     public function getSpellingProcessor()
     {
         if (null === $this->spellingProcessor) {
-            $this->spellingProcessor = $this->getServiceLocator()
-                ->get("sbSpellingProcessor");
+            //$this->spellingProcessor = $this->getServiceLocator()
+            //    ->get("sbSpellingProcessor");
+            //
+            //only temporary, with VF4 we do not have ServiceLocator
+            //old Factory is creating the processor in this simple way
+            //todo !!
+            //but: we do have to analyze the new VF implementation
+            $this->spellingProcessor = new SpellingProcessor(new SpellingResults());
         }
 
         return $this->spellingProcessor;

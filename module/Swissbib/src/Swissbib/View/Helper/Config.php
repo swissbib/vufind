@@ -29,7 +29,6 @@
 namespace Swissbib\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Config\Config as ZendConfig;
 
@@ -42,7 +41,7 @@ use Zend\Config\Config as ZendConfig;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class Config extends AbstractHelper implements ServiceLocatorAwareInterface
+class Config extends AbstractHelper
 {
     /**
      * ServiceLocator
@@ -59,25 +58,13 @@ class Config extends AbstractHelper implements ServiceLocatorAwareInterface
     protected $config;
 
     /**
-     * Inject service locator
+     * Constructor
      *
-     * @param ServiceLocatorInterface $serviceLocator ServiceLocator
-     *
-     * @return void
+     * @param ServiceLocatorInterface $serviceLocator Service locator
      */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
-    }
-
-    /**
-     * Get service locator
-     *
-     * @return ServiceLocatorInterface
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
     }
 
     /**
@@ -88,7 +75,7 @@ class Config extends AbstractHelper implements ServiceLocatorAwareInterface
     protected function getConfig()
     {
         if (!$this->config) {
-            $this->config = $this->serviceLocator->getServiceLocator()
+            $this->config = $this->serviceLocator
                 ->get('VuFind\Config')->get('config');
         }
 

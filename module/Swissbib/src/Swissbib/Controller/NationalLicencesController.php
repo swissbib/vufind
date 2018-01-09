@@ -27,6 +27,7 @@ namespace Swissbib\Controller;
 use Swissbib\Services\NationalLicence;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use Zend\Mvc\MvcEvent;
+use Zend\ServiceManager\ServiceManager;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -51,11 +52,12 @@ class NationalLicencesController extends BaseController
      * Constructor.
      * NationalLicencesController constructor.
      *
-     * @param NationalLicence $nationalLicenceService NationalLicence.
+     * @param ServiceManager $sm Service Manager.
      */
-    public function __construct(NationalLicence $nationalLicenceService)
+    public function __construct(ServiceManager $sm)
     {
-        $this->nationalLicenceService = $nationalLicenceService;
+        $this->nationalLicenceService = $sm->get('Swissbib\NationalLicenceService');
+        $this->nationalLicenceService->setServiceLocator($sm);
     }
 
     /**

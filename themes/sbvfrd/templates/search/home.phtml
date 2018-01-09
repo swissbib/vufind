@@ -2,8 +2,6 @@
 // Set page title.
 $this->headTitle($this->translate('Search Home'));
 
-//$this->layout()->searchbox = true;
-
 // Set default value if necessary:
 if (!isset($this->searchClassId)) {
   $this->searchClassId = 'Solr';
@@ -49,8 +47,7 @@ if (!isset($this->layout()->searchbox)) {
       </div>
     </div>
 
-    <? $facetList = is_object($this->results) ? $this->results->getFacetList() : array();
-    if (isset($facetList) && is_array($facetList)): ?>
+    <? if (isset($facetList) && is_array($facetList)): ?>
     <? foreach ($facetList as $field => $details): ?>
       <? $sortedList = $this->sortFacetList($this->results, $field, $details['list'], $basicSearch); ?>
       <div class="<?= $field == 'callnumber-first' ? 'col-sm-6' : 'col-sm-6 col-md-4' ?>">
