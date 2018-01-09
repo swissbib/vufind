@@ -32,9 +32,9 @@ use VuFind\Search\MixedList\Params as VuFindMixedListParams;
 
 /**
  * Search Mixed List Parameters
- * We need this class simply because the AbstractFactory Mechanism for MixedListResults
- * is looking up params and options for the MixedList in the same namespace
- * and for the Results of MixedList we need an extension
+ * We need this class simply because the AbstractFactory Mechanism for
+ * MixedListResultsis looking up params and options for the MixedList in the same
+ * namespace and for the Results of MixedList we need an extension
  *
  * @category VuFind
  * @package  Search_MixedList
