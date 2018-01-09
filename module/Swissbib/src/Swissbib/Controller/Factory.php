@@ -138,4 +138,14 @@ class Factory
         );
     }
 
+    public function getKnowledgeCardController(ServiceManager $sm)
+    {
+        return new KnowledgeCardController($sm->getServiceLocator());
+    }
+
+    public static function getDetailPageController(ServiceManager $sm)
+    {
+        $serviceLocator = $sm->getServiceLocator();
+        return new DetailPageController($serviceLocator);
+    }
 }

@@ -187,6 +187,32 @@ return [
           ],
         ]
       ],
+      'page-detail-author' => [
+        'type' => 'segment',
+        'options' => [
+          'route' => '/Page/Detail/Author/:id',
+          'constraints' => [
+            'id'     => '[a-zA-Z0-9_-]+',
+          ],
+          'defaults' => [
+            'controller' => 'detail-page',
+            'action'     => 'author',
+          ],
+        ]
+      ],
+      'page-detail-subject' => [
+        'type' => 'segment',
+        'options' => [
+          'route' => '/Page/Detail/Subject/:id',
+          'constraints' => [
+            'id'     => '[a-zA-Z0-9_-]+',
+          ],
+          'defaults' => [
+            'controller' => 'detail-page',
+            'action'     => 'subject',
+          ],
+        ]
+      ],
     ]
   ],
   'console' => [
@@ -290,7 +316,8 @@ return [
       'libadminsync' => 'Swissbib\Controller\Factory::getLibadminSyncController',
       'my-research'   => 'Swissbib\Controller\Factory::getMyResearchController',
       'console'       => 'Swissbib\Controller\Factory::getConsoleController',
-      'knowledge-card' => 'Swissbib\Controller\Factory::getKnowledgeCardController'
+      'knowledge-card' => 'Swissbib\Controller\Factory::getKnowledgeCardController',
+       'detail-page' => 'Swissbib\Controller\Factory::getDetailPageController',
     ]
   ],
   'service_manager' => [
