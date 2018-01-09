@@ -485,6 +485,7 @@ return [
           'esbibliographicresource' => 'Swissbib\RecordDriver\Factory::getESBibliographicResourceRecordDriver',
           'esperson' => 'Swissbib\RecordDriver\Factory::getESPersonRecordDriver',
           'essubject' => 'Swissbib\RecordDriver\Factory::getESSubjectRecordDriver',
+          'esdefault' => 'Swissbib\RecordDriver\Factory::getESSubjectRecordDriver',
         ]
       ],
       'ils_driver' => [

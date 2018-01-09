@@ -46,4 +46,29 @@ class ElasticSearch extends AbstractBase
     {
         return $this->fields["_type"];
     }
+
+    /**
+     * @param string $name
+     * @param string $prefix
+     * @param string $delimiter
+     * @return array|null
+     */
+    protected function getField(string $name, string $prefix, string $delimiter = ':')
+    {
+        $fieldName = $this->getQualifiedFieldName($name, $prefix, $delimiter);
+
+        return array_key_exists($fieldName, $this->fields["_source"])
+          ? $this->fields["_source"][$fieldName]
+          : null;
+    }
+
+    /**
+     * @param string $name
+     * @param string $prefix
+     * @param string $delimiter
+     * @return string
+     */
+    protected function getQualifiedFieldName(string $name, string $prefix, string $delimiter) {
+        return sprintf('%s%s%s', $prefix, $delimiter, $name);
+    }
 }

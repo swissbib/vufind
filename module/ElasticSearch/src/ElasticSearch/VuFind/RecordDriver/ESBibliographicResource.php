@@ -18,9 +18,15 @@ class ESBibliographicResource extends ElasticSearch
     }
     public function getSubjects(): array
     {
-        $subjects = $this->fields["_source"]['dct:subject'];
-        return $this->returnAsArray($subjects);
+
+        return $this->returnAsArray($this->getField("subject"));
     }
+
+    protected function getField(string $name, string $prefix = "dct", string $delimiter = ':')
+    {
+        return parent::getField($name, $prefix, $delimiter);
+    }
+
 
     /**
      * @param $field
