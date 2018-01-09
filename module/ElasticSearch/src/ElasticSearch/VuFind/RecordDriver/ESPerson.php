@@ -245,23 +245,9 @@ class ESPerson extends ElasticSearch
      * @param string $delimiter
      * @return array|null
      */
-    protected function getField(string $name, string $prefix = "dbp", string $delimiter = ':')
+    protected function getField(string $name, string $prefix = "dbp", string $delimiter = ":")
     {
-        $fieldName = $this->getQualifiedFieldName($name, $prefix, $delimiter);
-
-        return array_key_exists($fieldName, $this->fields["_source"])
-            ? $this->fields["_source"][$fieldName]
-            : null;
-    }
-
-    /**
-     * @param string $name
-     * @param string $prefix
-     * @param string $delimiter
-     * @return string
-     */
-    protected function getQualifiedFieldName(string $name, string $prefix, string $delimiter) {
-        return sprintf('%s%s%s', $prefix, $delimiter, $name);
+        return parent::getField($name, $prefix, $delimiter);
     }
 
 

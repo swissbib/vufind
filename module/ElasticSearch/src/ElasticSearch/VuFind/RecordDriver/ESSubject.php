@@ -27,20 +27,43 @@ class ESSubject extends ElasticSearch
      * @param $arguments
      * @return mixed
      */
-    public function __call(string $name, $arguments) : array
+    public function __call(string $name, $arguments): array
     {
 
         $fieldName = lcfirst(substr($name, 3));
         return $this->getField($fieldName);
     }
 
-    public function getName()
+
+    public function getName() : string
     {
-        $value = $this->fields["_source"]['http://d-nb_info/standards/elementset/gnd#preferredNameForTheSubjectHeading'][0]["@value"];
-        return $value;
+        $field = "SubjectHeading";
+        $name = $this->getPreferredName($field);
+
+        if (!isset($name)) {
+            $type = parent::getField("@type", "", "")[0];
+            $field = substr($type, strpos($type, "#") + 1);
+
+            $name = $this->getPreferredName($field);
     }
 
-    public function getDeprecatedUri() : array
+        return isset($name) ? $name : "";
+    }
+
+    /**
+     * @param $field
+     * @return mixed|null
+     */
+    protected function getPreferredName($field)
+    {
+        $name = $this->getField('preferredNameForThe' . $field);
+        if (isset($name) && is_array($name) && count($name) > 0) {
+            return $name[0];
+        }
+        return null;
+    }
+
+    public function getDeprecatedUri(): array
     {
         return $this->fields["_source"]["http://d-nb_info/standards/elementset/dnb/deprecatedUri"];
     }
@@ -49,7 +72,7 @@ class ESSubject extends ElasticSearch
      * Should be more than label
      * @return bool
      */
-    public function hasSufficientData() : bool
+    public function hasSufficientData(): bool
     {
         $count = count($this->fields["_source"]);
         return $count > 1;
@@ -60,25 +83,35 @@ class ESSubject extends ElasticSearch
      * @param $prefix
      * @return mixed
      */
-    protected function getField(string $fieldName, string $prefix = "http://d-nb_info/standards/elementset/gnd")
-    {
-        $key = $prefix . '#' . $fieldName;
+    protected function getField(
+      string $fieldName,
+      string $prefix = "http://d-nb_info/standards/elementset/gnd",
+      string $delimiter = ":"
+    ) {
+        if (substr($fieldName, 0, strlen($prefix)) === $prefix) {
+            $key = $fieldName;
+        } else {
+            $key = $prefix . '#' . $fieldName;
+        }
+
         $fields = $this->fields["_source"];
         // TODO Can we have fields with id and values? How to return this values?
         $ids = [];
         $values = [];
-        if(array_key_exists($key, $fields))
-        {
-            $type = $this->fields["_source"][$prefix . '#' . $fieldName];
-            if (array_key_exists("@id", $type))
+        if (array_key_exists($key, $fields)) {
+            $type = $this->fields["_source"][$key];
+            if (isset($type) && is_array($type) && count($type) > 0)
             {
-                $ids = $type["@id"];
+                // TODO: Is this structure correct?
+                $type = $type[0];
+                if (array_key_exists("@id", $type)) {
+                    $ids[] = $type["@id"];
+                }
+                if (array_key_exists("@value", $type)) {
+                    $values[] = $type["@value"];
+                }
+                return array_merge($ids, $values);
             }
-            if (array_key_exists("@value", $type))
-            {
-                $values = $type["@value"];
-            }
-            return array_merge($ids, $values);
         }
         return null;
     }

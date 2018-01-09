@@ -136,3 +136,16 @@ parameters:
             #- rdfs:label
           type: cross_fields
           operator: and
+
+    subjects_by_author:
+      type: 'bibliographicResource'
+      index: 'lsb'
+      size: 100
+      query:
+        bool:
+          must:
+            match_all:
+              - '{}'
+          filter:
+            term:
+              'dct:contributor': '{q}'
