@@ -8,6 +8,7 @@
 
 namespace Swissbib\Controller;
 
+use ElasticSearch\VuFind\RecordDriver\ESBibliographicResource;
 use ElasticSearch\VuFind\Search\ElasticSearch\Params;
 use ElasticSearch\VuFind\Search\ElasticSearch\Results;
 use VuFind\Controller\AbstractBase;
@@ -32,10 +33,10 @@ class KnowledgeCardController extends AbstractBase
      */
     public function authorAction()
     {
-        $index = "lsb";
-        $type = "person";
+        $personIndex = "lsb";
+        $personType = "person";
 
-        return $this->getKnowledgeCard($index, $type);
+        return $this->getKnowledgeCard($personIndex, $personType);
     }
 
     /**
@@ -43,10 +44,10 @@ class KnowledgeCardController extends AbstractBase
      */
     public function topicAction()
     {
-        $index = "gnd";
-        $type = "DEFAULT";
+        $subjectIndex = "gnd";
+        $subjectType = "DEFAULT";
 
-        return $this->getKnowledgeCard($index, $type);
+        return $this->getKnowledgeCard($subjectIndex, $subjectType);
     }
 
     /**
@@ -78,7 +79,8 @@ class KnowledgeCardController extends AbstractBase
         /** @var $content array */
         $content = $results->getResults();
         if ($content !== null && is_array($content) && count($content) === 1) {
-            return $this->createViewModel(["driver" => $content[0]]);
+            $subjects = $this->getRelatedSubjects($id);
+            return $this->createViewModel(["driver" => $content[0], "subjects" => $subjects]);
         }
 
         $model = new ViewModel([
@@ -86,5 +88,70 @@ class KnowledgeCardController extends AbstractBase
         ]);
         $model->setTemplate('error/index');
         return $model;
+    }
+
+    private function getRelatedSubjects($id)
+    {
+        $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
+        /** @var Results */
+        $results = $manager->get("ElasticSearch");
+
+        /** @var Params */
+        $params = $results->getParams();
+
+        $params->setIndex("lsb");
+        $params->setTemplate("subjects_by_author");
+
+        /** @var Query $query */
+        $query = $params->getQuery();
+        $query->setHandler("bibliographicResource");
+        $query->setString("http://data.swissbib.ch/person/" . $id);
+
+        $results->performAndProcessSearch();
+
+        /** @var $content array */
+        $content = $results->getResults();
+
+        $subjects = [];
+        /** @var ESBibliographicResource $bibliographicResource */
+        foreach ($content as $bibliographicResource)
+        {
+            $s = $bibliographicResource->getSubjects();
+            if (count($s) > 0) {
+                $subjects = array_merge($subjects, $s);
+              }
+        }
+
+        $subjects = array_unique($subjects);
+
+        $subjectData = $this->getSubjectData($subjects);
+        return $subjectData;
+
+    }
+
+    private function getSubjectData($ids)
+    {
+        $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
+        /** @var Results */
+        $results = $manager->get("ElasticSearch");
+
+        /** @var Params */
+        $params = $results->getParams();
+
+        $params->setIndex("gnd");
+        $params->setTemplate("id");
+
+        /** @var Query $query */
+        $query = $params->getQuery();
+        $query->setHandler("DEFAULT");
+        $query->setString('[' . implode(",", $ids) . ']');
+
+
+        $results->performAndProcessSearch();
+
+        /** @var $content array */
+        $content = $results->getResults();
+
+        return $content;
     }
 }
