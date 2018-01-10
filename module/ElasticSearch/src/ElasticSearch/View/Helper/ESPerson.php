@@ -286,15 +286,6 @@ class ESPerson extends AbstractHelper
 
 
     /**
-     * @return bool
-     */
-    public function hasRelatedSubjects()
-    {
-        # TODO: Needs to be updated once related subjects are available over either the ESPerson or another RecordDriver
-        return true;
-    }
-
-    /**
      * @return string
      */
     public function getRelatedSubjectsLabel()
@@ -302,34 +293,6 @@ class ESPerson extends AbstractHelper
         return $this->resolveLabelWithDisplayName('card.knowledge.person.metadata.related.subjects');
     }
 
-    # TODO: Remove temporary subjects once actual data is available
-    private static $subjects = [
-        [ 'label' => 'Thema 01', 'link' => '#'],
-        [ 'label' => 'Thema 02', 'link' => '#'],
-        [ 'label' => 'Thema 03', 'link' => '#'],
-        [ 'label' => 'Thema 04', 'link' => '#'],
-        [ 'label' => 'Thema 05', 'link' => '#'],
-        [ 'label' => 'Thema 06', 'link' => '#'],
-        [ 'label' => 'Thema 07', 'link' => '#'],
-        [ 'label' => 'Thema 08', 'link' => '#'],
-        [ 'label' => 'Thema 09', 'link' => '#'],
-    ];
-
-    /**
-     * @param string $template
-     * @param string $separator
-     * @return string
-     */
-    public function getRelatedSubjects(string $template, string $separator = ', ')
-    {
-        $subjects = [];
-
-        foreach (self::$subjects as $subject) {
-            $subjects[] = sprintf($template, $subject['link'], $subject['label']);
-        }
-
-        return implode($separator, $subjects);
-    }
 
     /**
      * @return bool
@@ -351,6 +314,15 @@ class ESPerson extends AbstractHelper
     public function getMoreNotableWorkLabel()
     {
         return $this->resolveLabelWithDisplayName('card.knowledge.books.more');
+    }
+
+    public function getNotableWorkSearchLink(string $template): string
+    {
+        $label = $this->getNotableWorkLabel();
+        $url = $this->getView()->url('search-results');
+        $url = sprintf('%s?lookfor=%s', $url, urlencode($this->getDisplayName()));
+
+        return sprintf($template, $url, $label);
     }
 
 
