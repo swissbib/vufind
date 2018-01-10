@@ -1,5 +1,7 @@
 <div class="common">
-    <img class="avatar" src="<?= $this->esperson()->getThumbnailPath($this); ?>" />
+    <? if ($this->esperson()->hasThumbnail()): ?>
+    <img class="avatar" src="<?= $this->esperson()->getThumbnailPath(); ?>" />
+    <? endif; ?>
 
     <? # render details about the author ?>
     <? $metadataList = $this->esperson()->getMetadataList('job', 'birth', 'death', 'nationality'); ?>

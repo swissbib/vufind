@@ -54,9 +54,9 @@ class ESPerson extends AbstractHelper
      */
     public function getDisplayName()
     {
-        $first = $this->person->getFirstName();
-        $last = $this->person->getLastName();
-        $name = $this->person->getName();
+        $first = $this->getPerson()->getFirstName();
+        $last = $this->getPerson()->getLastName();
+        $name = $this->getPerson()->getName();
         $displayName = null;
 
         if (!is_null($first) && !is_null($last)) {
@@ -77,8 +77,8 @@ class ESPerson extends AbstractHelper
      */
     public function getLifetime()
     {
-        $birth = $this->person->getBirthYear();
-        $death = $this->person->getDeathYear();
+        $birth = $this->getPerson()->getBirthYear();
+        $death = $this->getPerson()->getDeathYear();
         $lifetime = null;
 
         if (!is_null($birth) && !is_null($death)) {
@@ -100,7 +100,7 @@ class ESPerson extends AbstractHelper
     public function getBirthInfo(string $dateFormat = 'd.m.Y', string $separator = ', ')
     {
         return $this->getDateAndPlaceInfo($dateFormat, $separator,
-            $this->person->getBirthDate(), $this->person->getBirthPlaceDisplayField());
+            $this->getPerson()->getBirthDate(), $this->getPerson()->getBirthPlaceDisplayField());
     }
 
     /**
@@ -111,7 +111,7 @@ class ESPerson extends AbstractHelper
     public function getDeathInfo(string $dateFormat = 'd.m.Y', string $separator = ', ')
     {
         return $this->getDateAndPlaceInfo($dateFormat, $separator,
-            $this->person->getDeathDate(), $this->person->getDeathPlaceDisplayField());
+            $this->getPerson()->getDeathDate(), $this->getPerson()->getDeathPlaceDisplayField());
     }
 
 
@@ -208,33 +208,26 @@ class ESPerson extends AbstractHelper
     }
 
 
-    private static $defaultThumbnailPath = 'placeholders/default-portrait_200x260.png';
+    public function hasThumbnail(): bool
+    {
+        $thumbnail = $this->getPerson()->getThumbnail();
+        return is_array($thumbnail) && count($thumbnail) > 0;
+    }
 
     /**
-     * Resolves the url to the thumbnail image for a person. Falls back to a default avatar image if no thumbnail is
-     * available.
+     * Resolves the url to the thumbnail image for a person.
      *
      * @return string
      */
     public function getThumbnailPath()
     {
-        $thumbnail = $this->person->getThumbnail();
-
-        if (is_array($thumbnail) && count($thumbnail) > 0) {
-            # use the first entry available and ignore the rest
-            $thumbnail = $thumbnail[0];
-        } else {
-            # assume that the view is a PhpRenderer with the ImageLink view helper plugged in
-            $thumbnail = $this->getView()->imageLink(self::$defaultThumbnailPath);
-        }
-
-        return $thumbnail;
+        return $this->hasThumbnail() ? $this->getPerson()->getThumbnail()[0] : null;
     }
 
 
     public function hasAbstract()
     {
-        return !is_null($this->person->getAbstract());
+        return !is_null($this->getPerson()->getAbstract());
     }
 
     public function getAbstractInfo()
@@ -247,7 +240,7 @@ class ESPerson extends AbstractHelper
         ];
 
         if ($this->hasAbstract()) {
-            $abstract = $this->person->getAbstract();
+            $abstract = $this->getPerson()->getAbstract();
             $splitPoint = $this->calculateSplitPoint($abstract);
 
             if ($splitPoint === -1) {
@@ -299,7 +292,7 @@ class ESPerson extends AbstractHelper
      */
     public function hasNotableWork()
     {
-        $notableWork = $this->person->getNotableWork();
+        $notableWork = $this->getPerson()->getNotableWork();
         return !is_null($notableWork) && count($notableWork) > 0;
     }
 
