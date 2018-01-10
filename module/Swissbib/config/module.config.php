@@ -161,42 +161,42 @@ return [
           ]
         ]
       ],
-      'card-knowledge-author' => [
+      'card-knowledge-person' => [
         'type' => 'segment',
         'options' => [
-          'route' => '/Card/Knowledge/Author/:id',
+          'route' => '/Card/Knowledge/Person/:id',
           'constraints' => [
             'id'     => '[a-zA-Z0-9_-]+',
           ],
           'defaults' => [
             'controller' => 'knowledge-card',
-            'action'     => 'author',
+            'action'     => 'person',
           ],
         ]
       ],
-      'card-knowledge-topic' => [
+      'card-knowledge-subject' => [
         'type' => 'segment',
         'options' => [
-          'route' => '/Card/Knowledge/Topic/:id',
+          'route' => '/Card/Knowledge/Subject/:id',
           'constraints' => [
             'id'     => '[a-zA-Z0-9_-]+',
           ],
           'defaults' => [
             'controller' => 'knowledge-card',
-            'action'     => 'topic',
+            'action'     => 'subject',
           ],
         ]
       ],
-      'page-detail-author' => [
+      'page-detail-person' => [
         'type' => 'segment',
         'options' => [
-          'route' => '/Page/Detail/Author/:id',
+          'route' => '/Page/Detail/Person/:id',
           'constraints' => [
             'id'     => '[a-zA-Z0-9_-]+',
           ],
           'defaults' => [
             'controller' => 'detail-page',
-            'action'     => 'author',
+            'action'     => 'person',
           ],
         ]
       ],

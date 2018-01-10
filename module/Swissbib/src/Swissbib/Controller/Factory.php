@@ -138,7 +138,7 @@ class Factory
         );
     }
 
-    public function getKnowledgeCardController(ServiceManager $sm)
+    public static function getKnowledgeCardController(ServiceManager $sm)
     {
         return new KnowledgeCardController($sm->getServiceLocator());
     }
