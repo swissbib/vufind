@@ -318,7 +318,7 @@ class ESPerson extends AbstractHelper
 
     public function getNotableWorkSearchLink(string $template): string
     {
-        $label = $this->getNotableWorkLabel();
+        $label = $this->getMoreNotableWorkLabel();
         $url = $this->getView()->url('search-results');
         $url = sprintf('%s?lookfor=%s', $url, urlencode($this->getDisplayName()));
 
