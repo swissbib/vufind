@@ -35,8 +35,9 @@ class KnowledgeCardController extends AbstractBase
     {
         $personIndex = "lsb";
         $personType = "person";
+        $id = $this->params()->fromRoute('id', []);
 
-        return $this->getKnowledgeCard($personIndex, $personType);
+        return $this->getKnowledgeCard($id, $personIndex, $personType);
     }
 
     /**
@@ -47,18 +48,20 @@ class KnowledgeCardController extends AbstractBase
         $subjectIndex = "gnd";
         $subjectType = "DEFAULT";
 
-        return $this->getKnowledgeCard($subjectIndex, $subjectType);
-    }
-
-    /**
-     * @param $index
-     * @param $type
-     * @return \Zend\View\Model\ViewModel
-     */
-    protected function getKnowledgeCard($index, $type): \Zend\View\Model\ViewModel
-    {
         $id = $this->params()->fromRoute('id', []);
 
+        return $this->getKnowledgeCard("http://d-nb.info/gnd/" . $id, $subjectIndex, $subjectType);
+    }
+
+
+    /**
+     * @param $id
+     * @param $index
+     * @param $type
+     * @return ViewModel
+     */
+    protected function getKnowledgeCard($id, $index, $type): \Zend\View\Model\ViewModel
+    {
         $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
         /** @var Results */
         $results = $manager->get("ElasticSearch");
