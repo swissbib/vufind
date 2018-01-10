@@ -11,6 +11,13 @@ namespace ElasticSearch\VuFind\RecordDriver;
 
 class ESBibliographicResource extends ElasticSearch
 {
+    /**
+     * @return string
+     */
+    public function getTitle() : string
+    {
+        return $this->getField("title");
+    }
 
     public function getContributors(): array
     {
