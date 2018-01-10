@@ -64,6 +64,17 @@ class ESSubject extends ElasticSearch
         if (isset($name) && is_array($name) && count($name) > 0) {
             return $name[0];
         }
+        $keys = array_keys($this->fields["_source"]);
+        foreach ($keys as $key)
+        {
+            $found = preg_match("/preferredNameForThe(.+)/", $key, $matches);
+            if ($found)
+            {
+                $name = $matches[1];
+                return $this->getPreferredName($name);
+            }
+        }
+
         return null;
     }
 

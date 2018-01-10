@@ -97,10 +97,6 @@ class KnowledgeCardController extends AbstractBase
           $type
         );
 
-        $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
-        /** @var Results */
-        $results = $manager->get("ElasticSearch");
-
         if ($content !== null && is_array($content) && count($content) === 1) {
             return $content[0];
         }
