@@ -8,8 +8,7 @@
 
 namespace ElasticSearch\View\Helper;
 
-use \Zend\View\Helper\AbstractHelper;
-use Zend\View\Renderer\PhpRenderer;
+use Zend\View\Helper\AbstractHelper;
 
 /**
  * Class ESPerson
@@ -54,9 +53,9 @@ class ESPerson extends AbstractHelper
      */
     public function getDisplayName()
     {
-        $first = $this->person->getFirstName();
-        $last = $this->person->getLastName();
-        $name = $this->person->getName();
+        $first = $this->getPerson()->getFirstName();
+        $last = $this->getPerson()->getLastName();
+        $name = $this->getPerson()->getName();
         $displayName = null;
 
         if (!is_null($first) && !is_null($last)) {
@@ -77,8 +76,8 @@ class ESPerson extends AbstractHelper
      */
     public function getLifetime()
     {
-        $birth = $this->person->getBirthYear();
-        $death = $this->person->getDeathYear();
+        $birth = $this->getPerson()->getBirthYear();
+        $death = $this->getPerson()->getDeathYear();
         $lifetime = null;
 
         if (!is_null($birth) && !is_null($death)) {
@@ -100,7 +99,7 @@ class ESPerson extends AbstractHelper
     public function getBirthInfo(string $dateFormat = 'd.m.Y', string $separator = ', ')
     {
         return $this->getDateAndPlaceInfo($dateFormat, $separator,
-            $this->person->getBirthDate(), $this->person->getBirthPlaceDisplayField());
+            $this->getPerson()->getBirthDate(), $this->getPerson()->getBirthPlaceDisplayField());
     }
 
     /**
@@ -111,7 +110,7 @@ class ESPerson extends AbstractHelper
     public function getDeathInfo(string $dateFormat = 'd.m.Y', string $separator = ', ')
     {
         return $this->getDateAndPlaceInfo($dateFormat, $separator,
-            $this->person->getDeathDate(), $this->person->getDeathPlaceDisplayField());
+            $this->getPerson()->getDeathDate(), $this->getPerson()->getDeathPlaceDisplayField());
     }
 
 
@@ -208,33 +207,26 @@ class ESPerson extends AbstractHelper
     }
 
 
-    private static $defaultThumbnailPath = 'placeholders/default-portrait_200x260.png';
+    public function hasThumbnail(): bool
+    {
+        $thumbnail = $this->getPerson()->getThumbnail();
+        return is_array($thumbnail) && count($thumbnail) > 0;
+    }
 
     /**
-     * Resolves the url to the thumbnail image for a person. Falls back to a default avatar image if no thumbnail is
-     * available.
+     * Resolves the url to the thumbnail image for a person.
      *
      * @return string
      */
     public function getThumbnailPath()
     {
-        $thumbnail = $this->person->getThumbnail();
-
-        if (is_array($thumbnail) && count($thumbnail) > 0) {
-            # use the first entry available and ignore the rest
-            $thumbnail = $thumbnail[0];
-        } else {
-            # assume that the view is a PhpRenderer with the ImageLink view helper plugged in
-            $thumbnail = $this->getView()->imageLink(self::$defaultThumbnailPath);
-        }
-
-        return $thumbnail;
+        return $this->hasThumbnail() ? $this->getPerson()->getThumbnail()[0] : null;
     }
 
 
     public function hasAbstract()
     {
-        return !is_null($this->person->getAbstract());
+        return !is_null($this->getPerson()->getAbstract());
     }
 
     public function getAbstractInfo()
@@ -247,7 +239,7 @@ class ESPerson extends AbstractHelper
         ];
 
         if ($this->hasAbstract()) {
-            $abstract = $this->person->getAbstract();
+            $abstract = $this->getPerson()->getAbstract();
             $splitPoint = $this->calculateSplitPoint($abstract);
 
             if ($splitPoint === -1) {
@@ -286,15 +278,6 @@ class ESPerson extends AbstractHelper
 
 
     /**
-     * @return bool
-     */
-    public function hasRelatedSubjects()
-    {
-        # TODO: Needs to be updated once related subjects are available over either the ESPerson or another RecordDriver
-        return true;
-    }
-
-    /**
      * @return string
      */
     public function getRelatedSubjectsLabel()
@@ -302,41 +285,13 @@ class ESPerson extends AbstractHelper
         return $this->resolveLabelWithDisplayName('card.knowledge.person.metadata.related.subjects');
     }
 
-    # TODO: Remove temporary subjects once actual data is available
-    private static $subjects = [
-        [ 'label' => 'Thema 01', 'link' => '#'],
-        [ 'label' => 'Thema 02', 'link' => '#'],
-        [ 'label' => 'Thema 03', 'link' => '#'],
-        [ 'label' => 'Thema 04', 'link' => '#'],
-        [ 'label' => 'Thema 05', 'link' => '#'],
-        [ 'label' => 'Thema 06', 'link' => '#'],
-        [ 'label' => 'Thema 07', 'link' => '#'],
-        [ 'label' => 'Thema 08', 'link' => '#'],
-        [ 'label' => 'Thema 09', 'link' => '#'],
-    ];
-
-    /**
-     * @param string $template
-     * @param string $separator
-     * @return string
-     */
-    public function getRelatedSubjects(string $template, string $separator = ', ')
-    {
-        $subjects = [];
-
-        foreach (self::$subjects as $subject) {
-            $subjects[] = sprintf($template, $subject['link'], $subject['label']);
-        }
-
-        return implode($separator, $subjects);
-    }
 
     /**
      * @return bool
      */
     public function hasNotableWork()
     {
-        $notableWork = $this->person->getNotableWork();
+        $notableWork = $this->getPerson()->getNotableWork();
         return !is_null($notableWork) && count($notableWork) > 0;
     }
 
@@ -351,6 +306,15 @@ class ESPerson extends AbstractHelper
     public function getMoreNotableWorkLabel()
     {
         return $this->resolveLabelWithDisplayName('card.knowledge.books.more');
+    }
+
+    public function getNotableWorkSearchLink(string $template): string
+    {
+        $label = $this->getMoreNotableWorkLabel();
+        $url = $this->getView()->url('search-results');
+        $url = sprintf('%s?lookfor=%s', $url, urlencode($this->getDisplayName()));
+
+        return sprintf($template, $url, $label);
     }
 
 
@@ -378,9 +342,27 @@ class ESPerson extends AbstractHelper
     /**
      * @return string
      */
-    public function getPersonPageLinkLabel()
+    public function getDetailPageLinkLabel()
     {
         return $this->resolveLabelWithDisplayName('card.knowledge.person.page.link');
+    }
+
+    /**
+     * @param string $template
+     * @param string|null $label
+     * If not null it is treated as the localization key and will be resolved before it is merged into the template.
+     * @return string
+     */
+    public function getDetailPageLink(string $template, string $label = null): string
+    {
+        $label = is_null($label)
+            ? $this->getDetailPageLinkLabel()
+            : $this->getView()->translate($label);
+
+        $segments = ['id' => $this->getPerson()->getUniqueID()];
+        $url = $this->getView()->url('page-detail-person', $segments);
+
+        return sprintf($template, $url, $label);
     }
 
     /**
