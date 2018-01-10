@@ -8,18 +8,25 @@
     -->
 <?
     $this->esperson()->setPerson($this->driver);
+    $this->essubject()->setCollection($this->subjects);
 
-    include __DIR__.'/author/title.phtml';
-    include __DIR__.'/author/common.phtml';
-    include __DIR__.'/author/notablework.phtml';
-    include __DIR__.'/author/controls.phtml'
+    include __DIR__ . '/person/title.phtml';
+    include __DIR__ . '/person/common.phtml';
+    include __DIR__ . '/person/notablework.phtml';
+    include __DIR__ . '/person/controls.phtml'
 ?>
 
 
 
     <!--
+    -->
     <pre>
-        <? #var_dump($this->esperson()->getRelatedSubjectsLabel()); ?>
+        <?
+            foreach ($this->subjects as $subject) {
+                var_dump($subject->getAllFields());
+            }
+        ?>
+        <? #var_dump($this->subjects); ?>
         <? #var_dump($this->driver->getAllFields()); ?>
         <?
         /*
@@ -37,5 +44,4 @@
         */
         ?>
     </pre>
-    -->
 </div>

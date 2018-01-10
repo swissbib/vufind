@@ -22,7 +22,7 @@ class ESSubject extends AbstractHelper
      */
     private $subject;
 
-    public function getSubject() : \ElasticSearch\VuFind\RecordDriver\ESSubject
+    public function getSubject(): \ElasticSearch\VuFind\RecordDriver\ESSubject
     {
         return $this->subject;
     }
@@ -33,12 +33,19 @@ class ESSubject extends AbstractHelper
     }
 
 
-    public function getSubjectLink(string $template) : string
+    public function getSubjectLink(string $template): string
     {
-        return '';
+        $subject = $this->getSubject();
+        $identifier = $subject->getGndIdentifier();
+
+        if (is_array($identifier) && count($identifier) > 0) {
+            $identifier = $identifier[0];
+        }
+
+        $url = $this->getView()->url('card-knowledge-subject', ['id' => $identifier]);
+
+        return sprintf($template, $url, $subject->getName());
     }
-
-
 
 
     /**
@@ -46,7 +53,7 @@ class ESSubject extends AbstractHelper
      */
     private $collection;
 
-    public function getCollection() : array
+    public function getCollection(): array
     {
         return $this->collection;
     }
@@ -62,7 +69,7 @@ class ESSubject extends AbstractHelper
         return isset($this->collection) && count($this->collection) > 0;
     }
 
-    public function getSubjectCollectionList(string $template, string $separator = ', ') : string
+    public function getSubjectCollectionLinkList(string $template, string $separator = ', '): string
     {
         $helper = new ESSubject();
         $helper->setView($this->getView());

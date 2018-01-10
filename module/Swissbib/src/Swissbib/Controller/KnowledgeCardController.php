@@ -31,7 +31,7 @@ class KnowledgeCardController extends AbstractBase
     /**
      * @return \Zend\View\Model\ViewModel
      */
-    public function authorAction()
+    public function personAction()
     {
         $personIndex = "lsb";
         $personType = "person";
@@ -42,7 +42,7 @@ class KnowledgeCardController extends AbstractBase
     /**
      * @return \Zend\View\Model\ViewModel
      */
-    public function topicAction()
+    public function subjectAction()
     {
         $subjectIndex = "gnd";
         $subjectType = "DEFAULT";

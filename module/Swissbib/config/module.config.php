@@ -161,29 +161,29 @@ return [
           ]
         ]
       ],
-      'card-knowledge-author' => [
+      'card-knowledge-person' => [
         'type' => 'segment',
         'options' => [
-          'route' => '/Card/Knowledge/Author/:id',
+          'route' => '/Card/Knowledge/Person/:id',
           'constraints' => [
             'id'     => '[a-zA-Z0-9_-]+',
           ],
           'defaults' => [
             'controller' => 'knowledge-card',
-            'action'     => 'author',
+            'action'     => 'person',
           ],
         ]
       ],
-      'card-knowledge-topic' => [
+      'card-knowledge-subject' => [
         'type' => 'segment',
         'options' => [
-          'route' => '/Card/Knowledge/Topic/:id',
+          'route' => '/Card/Knowledge/Subject/:id',
           'constraints' => [
             'id'     => '[a-zA-Z0-9_-]+',
           ],
           'defaults' => [
             'controller' => 'knowledge-card',
-            'action'     => 'topic',
+            'action'     => 'subject',
           ],
         ]
       ],
