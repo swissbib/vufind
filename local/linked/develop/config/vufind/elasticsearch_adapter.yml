@@ -137,6 +137,17 @@ parameters:
           type: cross_fields
           operator: and
 
+    sub_subjects:
+      type:
+        - DEFAULT
+      index:
+        - gnd
+      query:
+        multi_match:
+          query: '{q}'
+          # Should rather be an Array but is not parsed correctly at ElasticsearchAdapter/Query/TemplateQuery.php:241
+          fields: 'http://d-nb_info/standards/elementset/gnd#broaderTerm*.@id'
+
     bibliographicResources_by_author:
       type: 'bibliographicResource'
       index: 'lsb'
