@@ -33,12 +33,12 @@ export class RecordRenderer {
                             // Unfortunately no overloading :-(
                             if (detail[0].type === "person") {
                                 elements.push(
-                                    this.renderDetails(detail, contributorsTemplate, contributorsHtml)
+                                    this.renderDetails(detail, contributorsTemplate, contributorsHtml),
                                 );
                             }
                             if (detail[0].type === "DEFAULT") {
                                 elements.push(
-                                    this.renderDetails(detail, subjectsTemplate, subjectsHtml)
+                                    this.renderDetails(detail, subjectsTemplate, subjectsHtml),
                                 );
                             }
                         }
