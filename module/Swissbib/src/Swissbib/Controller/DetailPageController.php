@@ -24,10 +24,10 @@ class DetailPageController extends AbstractBase
 
 
     /**
-     * /Page/Detail/Author/:id
+     * /Page/Detail/Person/:id
      * @return \Zend\View\Model\ViewModel
      */
-    public function authorAction()
+    public function personAction()
     {
         return $this->createViewModel();
     }
