@@ -187,16 +187,16 @@ return [
           ],
         ]
       ],
-      'page-detail-author' => [
+      'page-detail-person' => [
         'type' => 'segment',
         'options' => [
-          'route' => '/Page/Detail/Author/:id',
+          'route' => '/Page/Detail/Person/:id',
           'constraints' => [
             'id'     => '[a-zA-Z0-9_-]+',
           ],
           'defaults' => [
             'controller' => 'detail-page',
-            'action'     => 'author',
+            'action'     => 'person',
           ],
         ]
       ],
