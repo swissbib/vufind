@@ -361,7 +361,7 @@ class ESPerson extends AbstractHelper
     public function getDetailPageLink(string $template): string
     {
         $label = $this->getDetailPageLinkLabel();
-        $url = $this->getView()->url('page-detail-author', ['id' => $this->getPerson()->getUniqueID()]);
+        $url = $this->getView()->url('page-detail-person', ['id' => $this->getPerson()->getUniqueID()]);
         return sprintf($template, $url, $label);
     }
 
