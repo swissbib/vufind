@@ -34,9 +34,9 @@ class Params extends BaseParams
     /**
      * @return String
      */
-    public function getIndex(): String
+    public function getIndex(): string
     {
-        return $this->index;
+        return $this->index ?? "";
     }
 
     /**
