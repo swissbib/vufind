@@ -34,6 +34,10 @@ class ESSubject extends ElasticSearch
         return $this->getField($fieldName);
     }
 
+    public function getShortID() : string
+    {
+        return substr($this->getUniqueID(), strlen("http://d-nb.info/gnd/"));
+    }
 
     public function getName() : string
     {
