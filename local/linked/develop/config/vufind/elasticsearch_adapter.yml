@@ -137,7 +137,7 @@ parameters:
           type: cross_fields
           operator: and
 
-    subjects_by_author:
+    bibliographicResources_by_author:
       type: 'bibliographicResource'
       index: 'lsb'
       size: 100
