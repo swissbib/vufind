@@ -27,13 +27,17 @@ class ESSubject extends ElasticSearch
      * @param $arguments
      * @return mixed
      */
-    public function __call(string $name, $arguments): array
+    public function __call(string $name, $arguments)
     {
 
         $fieldName = lcfirst(substr($name, 3));
         return $this->getField($fieldName);
     }
 
+    public function getShortID() : string
+    {
+        return substr($this->getUniqueID(), strlen("http://d-nb.info/gnd/"));
+    }
 
     public function getName() : string
     {
