@@ -350,9 +350,19 @@ class ESPerson extends AbstractHelper
     /**
      * @return string
      */
-    public function getPersonPageLinkLabel()
+    public function getDetailPageLinkLabel()
     {
         return $this->resolveLabelWithDisplayName('card.knowledge.person.page.link');
+    }
+
+    /**
+     * @return string
+     */
+    public function getDetailPageLink(string $template): string
+    {
+        $label = $this->getDetailPageLinkLabel();
+        $url = $this->getView()->url('page-detail-author', ['id' => $this->getPerson()->getUniqueID()]);
+        return sprintf($template, $url, $label);
     }
 
     /**
