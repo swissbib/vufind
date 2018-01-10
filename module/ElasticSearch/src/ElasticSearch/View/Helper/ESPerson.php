@@ -8,8 +8,7 @@
 
 namespace ElasticSearch\View\Helper;
 
-use \Zend\View\Helper\AbstractHelper;
-use Zend\View\Renderer\PhpRenderer;
+use Zend\View\Helper\AbstractHelper;
 
 /**
  * Class ESPerson
