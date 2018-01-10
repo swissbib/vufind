@@ -1,11 +1,4 @@
 <div class="ui-card">
-    <!-- Example for subjects
-    <ul>
-    <? foreach ($this->subjects as $subject): ?>
-        <li><?= $subject->getName() ?></li>
-    <? endforeach; ?>
-    </ul>
-    -->
 <?
     $this->esperson()->setPerson($this->driver);
     $this->essubject()->setCollection($this->subjects);
@@ -15,33 +8,4 @@
     include __DIR__ . '/person/notablework.phtml';
     include __DIR__ . '/person/controls.phtml'
 ?>
-
-
-
-    <!--
-    -->
-    <pre>
-        <?
-            foreach ($this->subjects as $subject) {
-                var_dump($subject->getAllFields());
-            }
-        ?>
-        <? #var_dump($this->subjects); ?>
-        <? #var_dump($this->driver->getAllFields()); ?>
-        <?
-        /*
-        try {
-            #var_dump($this->url('record', ['id' => $this->driver->getUniqueId()]));
-            var_dump($this->url('author-home'));
-            var_dump($this->url('search-results'));
-            $this->record($this->driver)->getLink('authors', array(),array('query' => array(
-                'lookfor' => $this->driver->getPersonId(),
-                'type' => 'author')));
-        } catch (Exception $e) {
-            var_dump($e->getMessage());
-            var_dump($e->getTraceAsString());
-        }
-        */
-        ?>
-    </pre>
 </div>

@@ -27,23 +27,10 @@
                 </li>
             <? endif; ?>
 
-            <!--
-            <? if ($this->esperson()->hasRelatedSubjects()): ?>
-                <li class="entry section-start">
-                    <span class="entry-label"><?= $this->esperson()->getRelatedSubjectsLabel(); ?></span>
-                    <span class="entry-value">
-                    <?= $this->esperson()->getRelatedSubjects('<a href="%s">%s</a>'); ?>
-                </span>
-                </li>
-            <? endif; ?>
-            -->
-
             <? if ($this->essubject()->hasSubjectsInCollection()): ?>
                 <li class="entry section-start">
                     <span class="entry-label"><?= $this->esperson()->getRelatedSubjectsLabel(); ?></span>
-                    <span class="entry-value">
-                    <?= $this->essubject()->getSubjectCollectionLinkList('<a href="%s">%s</a>'); ?>
-                </span>
+                    <span class="entry-value"><?= $this->essubject()->getSubjectCollectionLinkList('<a href="%s">%s</a>'); ?></span>
                 </li>
             <? endif; ?>
         </ul>
