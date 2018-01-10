@@ -16,9 +16,9 @@ $(document).ready(() => {
             return "";
         }
         return `<li class="list-group-item"><a href="${VuFind.path}/Search/Results?lookfor=${p.lastName},
-${p.firstName}&amp;type=Author" title=" ${p.lastName}, ${p.firstName}">${p.lastName}, ${p.firstName}</a>
+${p.firstName}&amp;type=Author" title=" ${p.lastName}, ${p.firstName}">${p.lastName}, ${p.firstName}</a><a href="${VuFind.path}/Card/Knowledge/Author/${p.id}" data-lightbox>
 <span ${ p.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"
-authorid="${p['id']}"></span></li>`;
+authorid="${p.id}"></span></a></li>`;
     };
     const subjectsList: HTMLElement = $(".sidebar .list-group.subject")[0];
     const subjectsTemplate: any = (p: any) => {
@@ -26,14 +26,18 @@ authorid="${p['id']}"></span></li>`;
             return "";
         }
         return `<li class="list-group-item"><a href="${VuFind.path}/Search/Results?lookfor=${p.name}&amp;type=Subject"
- title=" ${p.name}">${p.name}</a>
+ title=" ${p.name}">${p.name}</a><a href="${VuFind.path}/Card/Knowledge/Topic/${p.id}" data-lightbox>
 <span ${ p.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"
-subjectid="${p['id']}"></span></li>`;
+subjectid="${p.id}"></span></a></li>`;
     };
 
     if (recordIdEl) {
         recordRenderer.render(recordIdEl.value, contributorsTemplate, contributorsList,
-            subjectsTemplate, subjectsList);
+            subjectsTemplate, subjectsList)
+            .then(() => {
+                // TODO Required to bind lightbox. Is this the correct way?
+                VuFind.lightbox.init();
+            });
     }
 
     // setup auto-suggest

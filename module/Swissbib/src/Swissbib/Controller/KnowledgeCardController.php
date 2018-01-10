@@ -8,6 +8,7 @@
 
 namespace Swissbib\Controller;
 
+use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use ElasticSearch\VuFind\RecordDriver\ESBibliographicResource;
 use ElasticSearch\VuFind\Search\ElasticSearch\Params;
 use ElasticSearch\VuFind\Search\ElasticSearch\Results;
@@ -31,34 +32,60 @@ class KnowledgeCardController extends AbstractBase
     /**
      * @return \Zend\View\Model\ViewModel
      */
-    public function authorAction()
+    public function personAction()
     {
         $personIndex = "lsb";
         $personType = "person";
+        $id = $this->params()->fromRoute('id', []);
 
-        return $this->getKnowledgeCard($personIndex, $personType);
+        try {
+            $driver = $this->getInformation($id, $personIndex, $personType);
+
+            $bibliographicResources = $this->getBibliographicResources($id);
+
+            $subjects = $this->getSubjectsOf($bibliographicResources);
+
+            return $this->createViewModel([
+              "driver" => $driver,
+              "subjects" => $subjects,
+              "books" => $bibliographicResources
+            ]);
+        } catch (\Exception $e)
+        {
+            return $this->createErrorView($id);
+        }
     }
 
     /**
      * @return \Zend\View\Model\ViewModel
      */
-    public function topicAction()
+    public function subjectAction()
     {
         $subjectIndex = "gnd";
         $subjectType = "DEFAULT";
 
-        return $this->getKnowledgeCard($subjectIndex, $subjectType);
-    }
-
-    /**
-     * @param $index
-     * @param $type
-     * @return \Zend\View\Model\ViewModel
-     */
-    protected function getKnowledgeCard($index, $type): \Zend\View\Model\ViewModel
-    {
         $id = $this->params()->fromRoute('id', []);
 
+        try
+        {
+        $driver = $this->getInformation("http://d-nb.info/gnd/" . $id, $subjectIndex, $subjectType);
+
+        return $this->createViewModel(["driver" => $driver]);
+        } catch (\Exception $e)
+        {
+            return $this->createErrorView($id);
+        }
+    }
+
+
+    /**
+     * @param $id
+     * @param $index
+     * @param $type
+     * @return ElasticSearch
+     */
+    protected function getInformation($id, $index, $type): ElasticSearch
+    {
         $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
         /** @var Results */
         $results = $manager->get("ElasticSearch");
@@ -79,18 +106,13 @@ class KnowledgeCardController extends AbstractBase
         /** @var $content array */
         $content = $results->getResults();
         if ($content !== null && is_array($content) && count($content) === 1) {
-            $subjects = $this->getRelatedSubjects($id);
-            return $this->createViewModel(["driver" => $content[0], "subjects" => $subjects]);
+            return $content[0];
         }
 
-        $model = new ViewModel([
-          'message' => 'Can not find a Knowledge Card for id: ' . $id,
-        ]);
-        $model->setTemplate('error/index');
-        return $model;
+        return null;
     }
 
-    private function getRelatedSubjects($id)
+    private function getBibliographicResources($id): array
     {
         $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
         /** @var Results */
@@ -100,7 +122,7 @@ class KnowledgeCardController extends AbstractBase
         $params = $results->getParams();
 
         $params->setIndex("lsb");
-        $params->setTemplate("subjects_by_author");
+        $params->setTemplate("bibliographicResources_by_author");
 
         /** @var Query $query */
         $query = $params->getQuery();
@@ -112,25 +134,22 @@ class KnowledgeCardController extends AbstractBase
         /** @var $content array */
         $content = $results->getResults();
 
-        $subjects = [];
-        /** @var ESBibliographicResource $bibliographicResource */
-        foreach ($content as $bibliographicResource)
-        {
-            $s = $bibliographicResource->getSubjects();
-            if (count($s) > 0) {
-                $subjects = array_merge($subjects, $s);
-              }
-        }
-
-        $subjects = array_unique($subjects);
-
-        $subjectData = $this->getSubjectData($subjects);
-        return $subjectData;
-
+        return $content;
     }
 
-    private function getSubjectData($ids)
+    private function getSubjectsOf($bibliographicResources)
     {
+        $ids = [];
+        /** @var ESBibliographicResource $bibliographicResource */
+        foreach ($bibliographicResources as $bibliographicResource) {
+            $s = $bibliographicResource->getSubjects();
+            if (count($s) > 0) {
+                $ids = array_merge($ids, $s);
+            }
+        }
+
+        $ids = array_unique($ids);
+
         $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
         /** @var Results */
         $results = $manager->get("ElasticSearch");
@@ -153,5 +172,14 @@ class KnowledgeCardController extends AbstractBase
         $content = $results->getResults();
 
         return $content;
+    }
+
+    protected function createErrorView($id): ViewModel
+    {
+        $model = new ViewModel([
+          'message' => 'Can not find a Knowledge Card for id: ' . $id,
+        ]);
+        $model->setTemplate('error/index');
+        return $model;
     }
 }
