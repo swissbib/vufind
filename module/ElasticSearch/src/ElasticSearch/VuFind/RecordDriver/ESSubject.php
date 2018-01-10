@@ -27,19 +27,19 @@ class ESSubject extends ElasticSearch
      * @param $arguments
      * @return mixed
      */
-    public function __call(string $name, $arguments): array
+    public function __call(string $name, $arguments)
     {
 
         $fieldName = lcfirst(substr($name, 3));
         return $this->getField($fieldName);
     }
 
-    public function getShortID(): string
+    public function getShortID() : string
     {
         return substr($this->getUniqueID(), strlen("http://d-nb.info/gnd/"));
     }
 
-    public function getName(): string
+    public function getName() : string
     {
         $field = "SubjectHeading";
         $name = $this->getPreferredName($field);
@@ -49,7 +49,7 @@ class ESSubject extends ElasticSearch
             $field = substr($type, strpos($type, "#") + 1);
 
             $name = $this->getPreferredName($field);
-        }
+    }
 
         return isset($name) ? $name : "";
     }
@@ -116,7 +116,8 @@ class ESSubject extends ElasticSearch
         $values = [];
         if (array_key_exists($key, $fields)) {
             $type = $this->fields["_source"][$key];
-            if (isset($type) && is_array($type) && count($type) > 0) {
+            if (isset($type) && is_array($type) && count($type) > 0)
+            {
                 // TODO: Is this structure correct?
                 $type = $type[0];
                 if (array_key_exists("@id", $type)) {
