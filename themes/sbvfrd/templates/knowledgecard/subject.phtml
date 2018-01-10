@@ -1,0 +1,18 @@
+<? $this->headTitle('Knowledge Card: Themen'); ?>
+
+<h1>Thema: <?= $this->driver->getName() ?></h1>
+
+<h2>Übergeordnete Themen</h2>
+<ul>
+    <? foreach ($this->parentSubjects as $subject): ?>
+        <li><?= $subject->getName() ?></li>
+    <? endforeach; ?>
+</ul>
+
+<h2>Untergeordnete Themen</h2>
+<ul>
+    <? foreach ($this->subSubjects as $subject): ?>
+        <li><?= $subject->getName() ?></li>
+    <? endforeach; ?>
+</ul>
+

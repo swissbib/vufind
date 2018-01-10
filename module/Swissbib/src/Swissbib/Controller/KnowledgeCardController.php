@@ -32,7 +32,7 @@ class KnowledgeCardController extends AbstractBase
     /**
      * @return \Zend\View\Model\ViewModel
      */
-    public function authorAction()
+    public function personAction()
     {
         $personIndex = "lsb";
         $personType = "person";
@@ -50,7 +50,8 @@ class KnowledgeCardController extends AbstractBase
               "subjects" => $subjects,
               "books" => $bibliographicResources
             ]);
-        } catch (\Exception $e) {
+        } catch (\Exception $e)
+        {
             return $this->createErrorView($id);
         }
     }
@@ -58,7 +59,7 @@ class KnowledgeCardController extends AbstractBase
     /**
      * @return \Zend\View\Model\ViewModel
      */
-    public function topicAction()
+    public function subjectAction()
     {
         $subjectIndex = "gnd";
         $subjectType = "DEFAULT";
@@ -82,14 +83,12 @@ class KnowledgeCardController extends AbstractBase
         }
     }
 
-
     /**
-     * @param $id
      * @param $index
      * @param $type
      * @return ElasticSearch
      */
-    protected function getInformation($id, $index, $type)
+    protected function getInformation($id, $index, $type): ElasticSearch
     {
         $content = $this->search(
           $id,
