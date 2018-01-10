@@ -356,12 +356,20 @@ class ESPerson extends AbstractHelper
     }
 
     /**
+     * @param string $template
+     * @param string|null $label
+     * If not null it is treated as the localization key and will be resolved before it is merged into the template.
      * @return string
      */
-    public function getDetailPageLink(string $template): string
+    public function getDetailPageLink(string $template, string $label = null): string
     {
-        $label = $this->getDetailPageLinkLabel();
-        $url = $this->getView()->url('page-detail-person', ['id' => $this->getPerson()->getUniqueID()]);
+        $label = is_null($label)
+            ? $this->getDetailPageLinkLabel()
+            : $this->getView()->translate($label);
+
+        $segments = ['id' => $this->getPerson()->getUniqueID()];
+        $url = $this->getView()->url('page-detail-person', $segments);
+
         return sprintf($template, $url, $label);
     }
 
