@@ -81,7 +81,7 @@ class AjaxController extends VFAjaxController
 
         // TODO externalize spec
         $specBuilder = new RecordDataFormatter\SpecBuilder();
-        $specBuilder->setLine("id", "getUniqueID", "Simple", ['allowZero' => false]);
+        $specBuilder->setLine("id", "getShortID", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("type", "getType", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("name", "getName", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("hasSufficientData", "hasSufficientData", "Simple", ['allowZero' => false]);
