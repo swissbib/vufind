@@ -312,7 +312,7 @@ class ESPerson extends AbstractHelper
     {
         $label = $this->getMoreNotableWorkLabel();
         $url = $this->getView()->url('search-results');
-        $url = sprintf('%s?lookfor=%s', $url, urlencode($this->getDisplayName()));
+        $url = sprintf('%s?lookfor=%s&type=Author', $url, urlencode($this->getPerson()->getName()));
 
         return sprintf($template, $url, $label);
     }
