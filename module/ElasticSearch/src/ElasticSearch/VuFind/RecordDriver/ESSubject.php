@@ -130,12 +130,14 @@ class ESSubject extends ElasticSearch
             if (isset($type) && is_array($type) && count($type) > 0)
             {
                 // TODO: Is this structure correct?
-                $type = $type[0];
-                if (array_key_exists("@id", $type)) {
-                    $ids[] = $type["@id"];
-                }
-                if (array_key_exists("@value", $type)) {
-                    $values[] = $type["@value"];
+                foreach ($type as $entry)
+                {
+                    if (array_key_exists("@id", $entry)) {
+                        $ids[] = $entry["@id"];
+                    }
+                    if (array_key_exists("@value", $entry)) {
+                        $values[] = $entry["@value"];
+                    }
                 }
                 return array_merge($ids, $values);
             }
