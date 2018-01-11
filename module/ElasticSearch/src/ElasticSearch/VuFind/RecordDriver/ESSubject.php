@@ -144,4 +144,9 @@ class ESSubject extends ElasticSearch
         }
         return null;
     }
+
+
+    public function getAllFields() {
+        return $this->fields;
+    }
 }
