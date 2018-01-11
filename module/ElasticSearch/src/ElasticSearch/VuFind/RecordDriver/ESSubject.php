@@ -64,12 +64,35 @@ class ESSubject extends ElasticSearch
         if (isset($name) && is_array($name) && count($name) > 0) {
             return $name[0];
         }
+        $keys = array_keys($this->fields["_source"]);
+        foreach ($keys as $key)
+        {
+            $found = preg_match("/preferredNameForThe(.+)/", $key, $matches);
+            if ($found)
+            {
+                $name = $matches[1];
+                return $this->getPreferredName($name);
+            }
+        }
+
         return null;
     }
 
     public function getDeprecatedUri(): array
     {
         return $this->fields["_source"]["http://d-nb_info/standards/elementset/dnb/deprecatedUri"];
+    }
+
+    public function getParentSubjects(): array
+    {
+        return array_unique(
+          array_merge(
+            [],
+            $this->getField("broaderTermGeneral") ?? [],
+            $this->getField("broaderTermGeneric") ?? [],
+            $this->getField("broaderTermInstantial") ?? [],
+            $this->getField("broaderTermPartitive") ?? []
+          ));
     }
 
     /**

@@ -8,7 +8,7 @@
 
 namespace ElasticSearch\View\Helper;
 
-use \Zend\View\Helper\AbstractHelper;
+use Zend\View\Helper\AbstractHelper;
 
 /**
  * Class ESSubject
