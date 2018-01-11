@@ -9,10 +9,9 @@
 namespace Swissbib\Controller;
 
 
-use VuFind\Controller\AbstractBase;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class DetailPageController extends AbstractBase
+class DetailPageController extends KnowledgeCardController
 {
     /**
      * DetailPageController constructor.
@@ -22,16 +21,14 @@ class DetailPageController extends AbstractBase
         parent::__construct($sm);
     }
 
-
     /**
      * /Page/Detail/Person/:id
      * @return \Zend\View\Model\ViewModel
      */
     public function personAction()
     {
-        return $this->createViewModel();
+        return parent::personAction();
     }
-
 
     /**
      * /Page/Detail/Subject/:id
@@ -39,6 +36,6 @@ class DetailPageController extends AbstractBase
      */
     public function subjectAction()
     {
-        return $this->createViewModel();
+        return parent::subjectAction();
     }
 }

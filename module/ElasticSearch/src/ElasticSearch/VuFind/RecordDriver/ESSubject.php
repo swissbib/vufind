@@ -96,13 +96,28 @@ class ESSubject extends ElasticSearch
     }
 
     /**
-     * Should be more than label
+     * Caveat: Does not check for sub subjects
+     *
      * @return bool
      */
     public function hasSufficientData(): bool
     {
-        $count = count($this->fields["_source"]);
-        return $count > 1;
+        $fields = [
+          // TODO Is this the only variant?
+          "http://d-nb_info/standards/elementset/gnd#variantNameForTheSubjectHeading",
+            // TODO Add Erläuterungen
+        ];
+
+        foreach ($fields as $field) {
+            if (array_key_exists($field, $this->fields["_source"])) {
+                return true;
+            }
+        }
+        if (count($this->getParentSubjects()) > 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
