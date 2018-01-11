@@ -12,6 +12,7 @@ namespace ElasticSearch\VuFind\RecordDriver;
 
 /**
  * Class PluginFactory
+ *
  * @package ElasticSearch\VuFind\RecordDriver
  */
 class PluginFactory extends \VuFind\ServiceManager\AbstractPluginFactory

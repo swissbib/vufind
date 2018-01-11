@@ -11,7 +11,6 @@
 
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult;
 
-use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use ElasticsearchAdapter\Result\ElasticsearchClientResult;
 use VuFindSearch\Response\RecordCollectionFactoryInterface;
 use VuFindSearch\Response\RecordCollectionInterface;
@@ -35,14 +34,14 @@ class RecordCollectionFactory implements RecordCollectionFactoryInterface
     /**
      * Constructor.
      *
-     * @param Callable $recordFactory Callback to construct records
-     * @param string $collectionClass Class of collection
+     * @param Callable $recordFactory   Callback to construct records
+     * @param string   $collectionClass Class of collection
      *
      * @return void
      */
     public function __construct(
-      $recordFactory = null,
-      $collectionClass = 'ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollection'
+        $recordFactory = null,
+        $collectionClass = 'ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollection'
     ) {
         if (null === $recordFactory) {
             $this->recordFactory = function ($data) {

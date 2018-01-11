@@ -23,6 +23,7 @@ class DetailPageController extends KnowledgeCardController
 
     /**
      * /Page/Detail/Person/:id
+     *
      * @return \Zend\View\Model\ViewModel
      */
     public function personAction()
@@ -32,6 +33,7 @@ class DetailPageController extends KnowledgeCardController
 
     /**
      * /Page/Detail/Subject/:id
+     *
      * @return \Zend\View\Model\ViewModel
      */
     public function subjectAction()

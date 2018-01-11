@@ -23,7 +23,7 @@ class ESSubject extends ElasticSearch
      * @method getAffiliation()
      * ...
      *
-     * @param string $name
+     * @param string    $name
      * @param $arguments
      * @return mixed
      */
@@ -49,7 +49,7 @@ class ESSubject extends ElasticSearch
             $field = substr($type, strpos($type, "#") + 1);
 
             $name = $this->getPreferredName($field);
-    }
+        }
 
         return isset($name) ? $name : "";
     }
@@ -68,8 +68,7 @@ class ESSubject extends ElasticSearch
         foreach ($keys as $key)
         {
             $found = preg_match("/preferredNameForThe(.+)/", $key, $matches);
-            if ($found)
-            {
+            if ($found) {
                 $name = $matches[1];
                 return $this->getPreferredName($name);
             }
@@ -86,13 +85,14 @@ class ESSubject extends ElasticSearch
     public function getParentSubjects(): array
     {
         return array_unique(
-          array_merge(
-            [],
-            $this->getField("broaderTermGeneral") ?? [],
-            $this->getField("broaderTermGeneric") ?? [],
-            $this->getField("broaderTermInstantial") ?? [],
-            $this->getField("broaderTermPartitive") ?? []
-          ));
+            array_merge(
+                [],
+                $this->getField("broaderTermGeneral") ?? [],
+                $this->getField("broaderTermGeneric") ?? [],
+                $this->getField("broaderTermInstantial") ?? [],
+                $this->getField("broaderTermPartitive") ?? []
+            )
+        );
     }
 
     /**
@@ -113,8 +113,7 @@ class ESSubject extends ElasticSearch
                 return true;
             }
         }
-        if (count($this->getParentSubjects()) > 0)
-        {
+        if (count($this->getParentSubjects()) > 0) {
             return true;
         }
         return false;
@@ -126,9 +125,9 @@ class ESSubject extends ElasticSearch
      * @return mixed
      */
     protected function getField(
-      string $fieldName,
-      string $prefix = "http://d-nb_info/standards/elementset/gnd",
-      string $delimiter = ":"
+        string $fieldName,
+        string $prefix = "http://d-nb_info/standards/elementset/gnd",
+        string $delimiter = ":"
     ) {
         if (substr($fieldName, 0, strlen($prefix)) === $prefix) {
             $key = $fieldName;
@@ -142,8 +141,7 @@ class ESSubject extends ElasticSearch
         $values = [];
         if (array_key_exists($key, $fields)) {
             $type = $this->fields["_source"][$key];
-            if (isset($type) && is_array($type) && count($type) > 0)
-            {
+            if (isset($type) && is_array($type) && count($type) > 0) {
                 // TODO: Is this structure correct?
                 $type = $type[0];
                 if (array_key_exists("@id", $type)) {
