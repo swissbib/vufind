@@ -45,7 +45,8 @@ $config = [
   'view_helpers' => [
     'invokables' => [
       'esperson' => 'ElasticSearch\View\Helper\ESPerson',
-      'essubject' => 'ElasticSearch\View\Helper\ESSubject'
+      'essubject' => 'ElasticSearch\View\Helper\ESSubject',
+      'essubjectcollection' => 'ElasticSearch\View\Helper\ESSubjectCollection',
     ]
   ]
 ];
