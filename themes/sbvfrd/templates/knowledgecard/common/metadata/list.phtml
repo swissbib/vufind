@@ -1,0 +1,6 @@
+<? foreach ($this->list as $entry): ?>
+    <li class="entry <?= $entry['cssClass']; ?>">
+        <span class="entry-label"><?= $entry['label']; ?></span>
+        <span class="entry-value"><?= $entry['value']; ?></span>
+    </li>
+<? endforeach; ?>

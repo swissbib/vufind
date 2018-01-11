@@ -8,8 +8,6 @@
 
 namespace ElasticSearch\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
-
 /**
  * Class ESSubject
  * @package ElasticSearch\View\Helper
@@ -17,9 +15,18 @@ use Zend\View\Helper\AbstractHelper;
 class ESSubject extends AbstractHelper
 {
 
-    /**
-     * @var ESSubject
-     */
+    protected function getMetadataPrefix(): string
+    {
+        return 'card.knowledge.subject.metadata';
+    }
+
+    protected function getMetadataMethodMap(): array
+    {
+        return [
+            'variants' => 'getVariantNameForTheSubjectHeading'
+        ];
+    }
+
     private $subject;
 
     public function getSubject(): \ElasticSearch\VuFind\RecordDriver\ESSubject
@@ -47,4 +54,14 @@ class ESSubject extends AbstractHelper
     }
 
 
+    public function getVariantNameForTheSubjectHeading(string $delimiter = ', ')
+    {
+        $variants = $this->getSubject()->getVariantNameForTheSubjectHeading();
+
+        if (is_array($variants)) {
+            $variants = implode($delimiter, $variants);
+        }
+
+        return $variants;
+    }
 }
