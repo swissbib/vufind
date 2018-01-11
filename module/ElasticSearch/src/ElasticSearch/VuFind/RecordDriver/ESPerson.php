@@ -52,8 +52,8 @@ class ESPerson extends ElasticSearch
             $field = $this->getField(sprintf('dbp%sAsLiteral', $fieldName), 'lsb');
 
             return !is_null($field)
-                ? $this->getValueByLanguagePriority($field)
-                : null;
+              ? $this->getValueByLanguagePriority($field)
+              : null;
         }
 
         $fieldName = lcfirst(substr($name, 3));
@@ -134,13 +134,30 @@ class ESPerson extends ElasticSearch
     }
 
     /**
-     * Should be more than firstName, lastName, label
+     * Caveat: Does not check for related subjects
+     *
      * @return bool
      */
-    public function hasSufficientData() : bool
+    public function hasSufficientData(): bool
     {
-        $count = count($this->fields["_source"]);
-        return $count > 3;
+        $fields = [
+          "dbp:thumbnail",
+          "dbp:abstract",
+          "dbp:birthDate",
+          "lsb:dbpBirthPlaceAsLiteral",
+          "dbp:deathDate",
+          "lsb:dbpDeathPlaceAsLiteral",
+          "dbp:abstract",
+          "lsb:dbpNationalityAsLiteral",
+          "lsb:dbpOccupationAsLiteral"
+        ];
+
+        foreach ($fields as $field) {
+            if (array_key_exists($field, $this->fields["_source"])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // TODO
@@ -251,7 +268,8 @@ class ESPerson extends ElasticSearch
     }
 
 
-    public function getAllFields() {
+    public function getAllFields()
+    {
         return $this->fields;
     }
 }
