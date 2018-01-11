@@ -30,10 +30,10 @@ class SearchBuilder
     }
 
     public function buildSearch(
-      Query $query,
-      $offset,
-      $limit,
-      ParamBag $params = null
+        Query $query,
+        $offset,
+        $limit,
+        ParamBag $params = null
     ): Search {
 
         if ($params === null) {
@@ -41,14 +41,14 @@ class SearchBuilder
         }
 
         $elasticSearchParams = new ArrayParams(
-          [
+            [
             'index' => $this->getIndex($query, $params),
             'type' => $query->getHandler(),
             'size' => $limit,
             'from' => $offset,
             'q' => $this->getQueryString($query),
             'fields' => $this->getFilters($query, $params)
-          ]
+            ]
         );
 
         $searchBuilder = new TemplateSearchBuilder($this->templates, $elasticSearchParams);
@@ -79,12 +79,12 @@ class SearchBuilder
     protected function getTemplate(Query $query, ParamBag $params)
     {
         // TODO Get default template from config
-//        return $query->getHandler() ? $query->getHandler() : "id";
+        //        return $query->getHandler() ? $query->getHandler() : "id";
         return $this->getFromParams("template", $params);
     }
 
     /**
-     * @param Query $query
+     * @param Query    $query
      * @param ParamBag $params
      * @return mixed
      */
@@ -94,7 +94,7 @@ class SearchBuilder
     }
 
     /**
-     * @param Query $query
+     * @param Query    $query
      * @param ParamBag $params
      * @return mixed
      */

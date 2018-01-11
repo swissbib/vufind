@@ -195,7 +195,7 @@ class ESPerson extends ElasticSearch
 
     /**
      * @param $content
-     * @param string $userLocale
+     * @param string  $userLocale
      * @return null
      */
     protected function getValueByLanguagePriority($content, string $userLocale = null)
@@ -233,12 +233,12 @@ class ESPerson extends ElasticSearch
         $locales = ['en', 'de', 'fr', 'it'];
         $userLocaleIndex = array_search($userLocale, $locales);
 
-        # remove user locale from its current position if available
+        // remove user locale from its current position if available
         if ($userLocaleIndex !== false) {
             array_splice($locales, $userLocaleIndex, 1);
         }
 
-        # and prepend it to gain highest priority
+        // and prepend it to gain highest priority
         array_unshift($locales, $userLocale);
 
         return $locales;

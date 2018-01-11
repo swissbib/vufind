@@ -65,12 +65,12 @@ class AjaxController extends VFAjaxController
         ) {
             //no JSON.parse in client
             return $this->output(
-            //json_encode(array("useshib" => true)), self::STATUS_OK
-              "true", self::STATUS_OK
+                //json_encode(array("useshib" => true)), self::STATUS_OK
+                "true", self::STATUS_OK
             );
         } else {
             return $this->output(
-              "false", self::STATUS_OK
+                "false", self::STATUS_OK
             );
         }
     }
@@ -130,22 +130,28 @@ class AjaxController extends VFAjaxController
     {
         $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
         $searcher = $this->getRequest()->getQuery()['searcher'];
-        /** @var Results */
+        /**
+ * @var Results 
+*/
         $results = $manager->get($searcher);
 
-        /** @var Params $params */
+        /**
+ * @var Params $params 
+*/
         $params = $results->getParams();
         // Send both GET and POST variables to search class:
         $params->initFromRequest(
-          new \Zend\Stdlib\Parameters(
-            $this->getRequest()->getQuery()->toArray()
-            + $this->getRequest()->getPost()->toArray()
-          )
+            new \Zend\Stdlib\Parameters(
+                $this->getRequest()->getQuery()->toArray()
+                + $this->getRequest()->getPost()->toArray()
+            )
         );
 
         $results->performAndProcessSearch();
 
-        /** @var $content array */
+        /**
+ * @var $content array 
+*/
         $content = $results->getResults();
         return $content;
     }
@@ -158,9 +164,13 @@ class AjaxController extends VFAjaxController
     protected function buildResponse($content, $spec): \Zend\Stdlib\ResponseInterface
     {
         $data = [];
-        /** @var RecordDataFormatter $recordFormatter */
+        /**
+ * @var RecordDataFormatter $recordFormatter 
+*/
         $recordFormatter = $this->getViewRenderer()->plugin('RecordDataFormatter');
-        /** @var AbstractBase $record */
+        /**
+ * @var AbstractBase $record 
+*/
         foreach ($content as $record) {
             $formatedRecord = $recordFormatter->getData($record, $spec);
             $this->format($formatedRecord);
@@ -175,10 +185,11 @@ class AjaxController extends VFAjaxController
 
     private function format(&$formatedRecord)
     {
-        array_walk($formatedRecord,
-          function (&$value, $key) {
-              $value = $value['value'];
-          }
+        array_walk(
+            $formatedRecord,
+            function (&$value, $key) {
+                $value = $value['value'];
+            }
         );
     }
 }

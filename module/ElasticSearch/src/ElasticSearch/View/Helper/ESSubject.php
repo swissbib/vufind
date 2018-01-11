@@ -12,6 +12,7 @@ use Zend\View\Helper\AbstractHelper;
 
 /**
  * Class ESSubject
+ *
  * @package ElasticSearch\View\Helper
  */
 class ESSubject extends AbstractHelper
