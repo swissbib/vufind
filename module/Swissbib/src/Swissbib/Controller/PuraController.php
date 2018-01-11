@@ -53,9 +53,10 @@ class PuraController extends BaseController
      *
      * @param Pura $puraService Pura.
      */
-    public function __construct(Pura $puraService)
+    public function __construct(ServiceManager $sm)
     {
-        $this->puraService = $puraService;
+        $this->puraService = $sm->get('Swissbib\PuraService');
+        $this->puraService->setServiceLocator($sm);
     }
 
     /**

@@ -258,7 +258,8 @@ class Factory
             $publishers['publishers'],
             $groupMapping,
             $groups,
-            $sm->get('Swissbib\EmailService')
+            $sm->get('Swissbib\EmailService'),
+            $sm
         );
     }
 

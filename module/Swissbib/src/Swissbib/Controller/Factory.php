@@ -131,10 +131,8 @@ class Factory
      */
     public function getPuraController(ServiceManager $sm)
     {
-        $sl = $sm->getServiceLocator();
-
         return new PuraController(
-            $sl->get('Swissbib\PuraService')
+            $sm->getServiceLocator()
         );
     }
 

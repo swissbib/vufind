@@ -26,7 +26,6 @@ namespace Swissbib\Services;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Swissbib\VuFind\Db\Row\PuraUser;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\Config\Config;
 use Libadmin\Institution\InstitutionLoader;
 
@@ -39,7 +38,7 @@ use Libadmin\Institution\InstitutionLoader;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class Pura implements ServiceLocatorAwareInterface
+class Pura
 {
     /**
      * ServiceLocator.
@@ -88,24 +87,27 @@ class Pura implements ServiceLocatorAwareInterface
     /**
      * Pura constructor.
      *
-     * @param object $config       Config
-     * @param array  $publishers   List of Publishers
-     * @param Config $groupMapping Map the institution code to a group (network)
-     * @param Config $groups       The indices of the groups in the libadmin array
-     * @param Email  $emailService The email service
+     * @param object                  $config         Config
+     * @param array                   $publishers     List of Publishers
+     * @param Config                  $groupMapping   Map the institution code to a group (network)
+     * @param Config                  $groups         The indices of the groups in the libadmin array
+     * @param Email                   $emailService   The email service
+     * @param ServiceLocatorInterface $serviceLocator Service locator.
      */
     public function __construct(
         $config,
         array $publishers,
         Config $groupMapping,
         Config $groups,
-        Email $emailService
+        Email $emailService,
+        ServiceLocatorInterface $serviceLocator
     ) {
         $this->config = $config;
         $this->publishers = $publishers;
         $this->groupMapping = $groupMapping;
         $this->groups = $groups;
         $this->emailService = $emailService;
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**
@@ -143,7 +145,7 @@ class Pura implements ServiceLocatorAwareInterface
          * @var \Swissbib\VuFind\Db\Table\PuraUser $userTable
          */
         $userTable = $this->getTable(
-            '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
+            'pura'
         );
         $user = $userTable->getUserById($userNumber);
 
@@ -167,7 +169,7 @@ class Pura implements ServiceLocatorAwareInterface
          * @var \Swissbib\VuFind\Db\Table\PuraUser $userTable
          */
         $puraUserTable = $this->getTable(
-            '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
+            'pura'
         );
         $user = $puraUserTable->getUserById($puraUserId);
 
@@ -284,7 +286,7 @@ class Pura implements ServiceLocatorAwareInterface
      */
     protected function getTable($table)
     {
-        return $this->getServiceLocator()
+        return $this->serviceLocator
             ->get('VuFind\DbTablePluginManager')
             ->get($table);
     }
