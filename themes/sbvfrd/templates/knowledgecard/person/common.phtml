@@ -27,10 +27,10 @@
                 </li>
             <? endif; ?>
 
-            <? if ($this->essubject()->hasSubjectsInCollection()): ?>
+            <? if ($this->essubjectcollection()->hasSubjectsInCollection()): ?>
                 <li class="entry section-start">
                     <span class="entry-label"><?= $this->esperson()->getRelatedSubjectsLabel(); ?></span>
-                    <span class="entry-value"><?= $this->essubject()->getSubjectCollectionLinkList('<a href="%s">%s</a>'); ?></span>
+                    <span class="entry-value"><?= $this->essubjectcollection()->getSubjectCollectionLinkList('<a class="ref nowrap" href="%s">%s</a>'); ?></span>
                 </li>
             <? endif; ?>
         </ul>
