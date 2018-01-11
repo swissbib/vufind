@@ -30,6 +30,7 @@ namespace Swissbib\Services;
 
 use Zend\ServiceManager\ServiceManager;
 use Swissbib\VuFind\Recommend\FavoriteFacets;
+use Zend\Json\Server\Exception\ErrorException;
 /**
  * Factory for Services.
  *
@@ -222,6 +223,42 @@ class Factory
             $sm->get('Swissbib\EmailService'),
             $sm->get('VuFind\Config')->get('NationalLicences'),
             $sm
+        );
+    }
+
+    /**
+     * Construct the Service\Pura service.
+     *
+     * @param ServiceManager $sm Service manager
+     *
+     * @return Pura
+     */
+    public static function getPuraService(ServiceManager $sm)
+    {
+        $dataDir = realpath(APPLICATION_PATH . '/data');
+        $filePath = $dataDir . '/pura/publishers-libraries.json';
+        $publishersJsonData
+            = file_exists($filePath) ? file_get_contents($filePath) : '';
+        $publishers = json_decode($publishersJsonData, true);
+
+        $groupMapping = $sm->get('VuFind\Config')->get('libadmin-groups')
+            ->institutions;
+
+        $groups = $sm->get('VuFind\Config')->get('libadmin-groups')
+            ->groups;
+
+        if (empty($publishers['publishers'])) {
+            throw new ErrorException(
+                "No valid publishers data supplied in " . $filePath . "."
+            );
+        }
+
+        return new Pura(
+            $sm->get('VuFind\Config')->get('NationalLicences'),
+            $publishers['publishers'],
+            $groupMapping,
+            $groups,
+            $sm->get('Swissbib\EmailService')
         );
     }
 

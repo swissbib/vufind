@@ -96,12 +96,12 @@ class HoldingActions extends AbstractTranslatorHelper
                             $item['availability'][$itemkey]
                         ) ? $this->translate('Recall This')
                             : $this->translate('hold_place'),
-                        'href' => $recordLink->getHoldUrl($item['holdLink'])
+                        'href' => $recordLink->getHoldUrl($item)
                     ];
                 } elseif ($item['availability'] === false) {
                     $actions['hold'] = [
                         'label' => $this->translate('hold_place'),
-                        'href' => $recordLink->getHoldUrl($item['holdLink'])
+                        'href' => $recordLink->getHoldUrl($item)
                     ];
                 }
             }

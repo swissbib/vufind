@@ -71,6 +71,47 @@ return [
                     ],
                 ]
             ],
+            // Pura
+            'pura' => [
+                'type'    => 'segment',
+                'options' => [
+                    'route'    => '/MyResearch/Pura',
+                    'defaults' => [
+                        'controller' => 'pura',
+                        'action'     => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes'  => [
+                    'library' => [
+                        'type'    => 'segment',
+                        'options' => [
+                            'route'       => '/library/:libraryCode[/:active]',
+                            'defaults'    => [
+                                'controller' => 'pura',
+                                'action' => 'library',
+                            ],
+                            'constraints' => [
+                                'libraryCode' => 'Z01|RE01001|E02|A100',
+                                'active' => 'active'
+                            ],
+                        ],
+                    ],
+                    'barcode' => [
+                        'type'    => 'segment',
+                        'options' => [
+                            'route'       => '/barcode/:token',
+                            'defaults'    => [
+                                'controller' => 'pura',
+                                'action' => 'barcode',
+                            ],
+                            'constraints' => [
+                                'token' => '[A-Z0-9]*',
+                            ],
+                        ],
+                    ]
+                ]
+            ],
             'help-page' => [
                 'type'    => 'segment',
                 'options' => [
@@ -220,6 +261,15 @@ return [
                             'action'     => 'updateNationalLicenceUserInfo'
                         ]
                     ]
+                ],
+                'update-pura-user' => [
+                    'options' => [
+                        'route'    => 'update-pura-user',
+                        'defaults' => [
+                            'controller' => 'console',
+                            'action'     => 'updatePuraUser'
+                        ]
+                    ]
                 ]
             ]
         ]
@@ -248,6 +298,7 @@ return [
             'search' => 'Swissbib\Controller\Factory::getSearchController',
             'record' => 'Swissbib\Controller\Factory::getRecordController',
             'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
+            'pura' => 'Swissbib\Controller\Factory::getPuraController',
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
             'summon' => 'Swissbib\Controller\Factory::getSummonController',
             'holdings' => 'Swissbib\Controller\Factory::getHoldingsController',
@@ -315,6 +366,7 @@ return [
             'Swissbib\NationalLicenceService'               =>  'Swissbib\Services\Factory::getNationalLicenceService',
             'Swissbib\SwitchApiService'                     =>  'Swissbib\Services\Factory::getSwitchApiService',
             'Swissbib\EmailService'                         =>  'Swissbib\Services\Factory::getEmailService',
+            'Swissbib\PuraService'                          =>  'Swissbib\Services\Factory::getPuraService',
         ]
     ],
     'view_helpers'    => [
@@ -408,11 +460,13 @@ return [
             'db_table' => [
                 'factories' => [
                     'nationallicence' => 'Swissbib\VuFind\Db\Table\Factory::getNationalLicenceUser',
+                    'pura' => 'Swissbib\VuFind\Db\Table\Factory::getPuraUser',
                 ]
             ],
             'db_row' => [
                 'factories' => [
                     'nationallicence' => 'Swissbib\VuFind\Db\Row\Factory::getNationalLicenceUser',
+                    'pura' => 'Swissbib\VuFind\Db\Row\Factory::getPuraUser',
                 ]
             ],
             'recommend' => [

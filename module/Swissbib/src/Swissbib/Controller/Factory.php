@@ -122,6 +122,23 @@ class Factory
     }
 
     /**
+     * Construct the PuraController by injecting the
+     * Pura service.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return PuraController
+     */
+    public function getPuraController(ServiceManager $sm)
+    {
+        $sl = $sm->getServiceLocator();
+
+        return new PuraController(
+            $sl->get('Swissbib\PuraService')
+        );
+    }
+
+    /**
      * Construct the MyResearchNationalLicensesController by injecting the
      * NationalLicence service.
      *
@@ -137,5 +154,4 @@ class Factory
             $sl->get('Swissbib\NationalLicenceService')
         );
     }
-
 }

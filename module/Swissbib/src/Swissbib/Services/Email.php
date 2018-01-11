@@ -172,7 +172,7 @@ class Email
     }
 
     /**
-     * Send the account extension e-mail to a specific user.
+     * Send the National Licence account extension e-mail to a specific user.
      *
      * @param string $toUser User e-mail that the e-mail will be sent to.
      *
@@ -244,6 +244,76 @@ class Email
             'lionel.walter@unibas.ch',
             $mimeMessage,
             'Nationallizenzen / Licences Nationales / National licences',
+            //use 'true' to test locally if sendmail not installed
+            'true'
+        );
+    }
+
+    /**
+     * Send the Pura account extension e-mail to a specific user.
+     *
+     * @param string $toUser User
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function sendPuraAccountExtensionEmail($toUser)
+    {
+        $sl = $this->getServiceLocator();
+        $vhm = $sl->get('viewhelpermanager');
+        $url = $vhm->get('url');
+        $baseDomainPath = $this->config->get('config')['Site']['url'];
+        $link =  $baseDomainPath .
+            $url(
+                'pura/library',
+                ['libraryCode' => 'Z01'],
+                ['force_canonical' => true]
+            );
+        $username = $toUser->firstname . ' ' . $toUser->lastname;
+
+        $textMailDe = '<p>Liebe(r) ' . $username .
+            ',<br /> <br /> Seit einem Jahr, haben Sie ' .
+            'Pura nicht mehr benutzt. ' .
+            'Wir haben Ihr Konto deshalb deaktiviert. ' .
+            'Wenn Sie wollen, können Sie Ihres Konto ' .
+            '<a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">reaktivieren</a>' .
+            '.</p> ';
+
+        $textMailFr = '<p>Cher/Chère ' . $username .
+            ',<br /> <br /> Vous n\'avez pas utilisé ' .
+            'Pura dans les 12 derniers mois. ' .
+            'Nous avons donc désactivé votre compte. ' .
+            'Néanmoins, vous pouvez le réactiver' .
+            ' en visitant <a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">ce lien</a>' .
+            '.</p> ';
+
+        $textMailEn = '<p>Dear ' . $username .
+            ',<br /> <br /> We noticed that you didn\'t use ' .
+            'Pura as a private user ' .
+            'in the last 12 months. ' .
+            'Therefore we deactivated your account. ' .
+            'Please print <a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">this page</a> ' .
+            'and bring it to the desk of your library' .
+            'if you wish to reactivate your account.</p> ';
+
+        $textMail = $toUser->email . "<br />" .
+            $textMailDe . '<p>---</p>' .
+            $textMailFr . '<p>---</p>' .
+            $textMailEn;
+
+        $mimeMessage = $this->createMimeMessage(
+            $textMail,
+            null,
+            Mime\Mime::TYPE_HTML
+        );
+        $this->sendMailWithAttachment(
+            //$toUser->email,
+            'lionel.walter@unibas.ch',
+            $mimeMessage,
+            'Pura Extension',
             //use 'true' to test locally if sendmail not installed
             'true'
         );
