@@ -8,30 +8,26 @@
 
 namespace ElasticSearch\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
-
 /**
  * Class ESPerson
  * @package ElasticSearch\View\Helper
  */
 class ESPerson extends AbstractHelper
 {
-    /**
-     * @var string
-     * Used by the getMetadataList() method to resolve localization values.
-     */
-    private static $metadataKeyPrefix = 'card.knowledge.person.metadata';
+    protected function getMetadataPrefix(): string
+    {
+        return 'card.knowledge.person.metadata';
+    }
 
-    /**
-     * @var array
-     * Maps metadata keys on helper methods and css class names for dynamic metadata list construction.
-     */
-    private static $metadataKeyToMethodMap = [
-        'job' => 'getJobInfo',
-        'birth' => 'getBirthInfo',
-        'death' => 'getDeathInfo',
-        'nationality' => 'getNationalityInfo'
-    ];
+    protected function getMetadataMethodMap(): array
+    {
+        return [
+            'job' => 'getJobInfo',
+            'birth' => 'getBirthInfo',
+            'death' => 'getDeathInfo',
+            'nationality' => 'getNationalityInfo'
+        ];
+    }
 
     /**
      * @var \ElasticSearch\VuFind\RecordDriver\ESPerson
@@ -152,58 +148,6 @@ class ESPerson extends AbstractHelper
     public function getNationalityInfo()
     {
         return null;
-    }
-
-    /**
-     * A list of metadata information for the current person. Keys which are not found or for which no value exists are
-     * filtered and will not be part of the resulting list. The resulting array is in the order of the keys passed in.
-     *
-     * @param string[] ...$keys
-     * Arbitrary sequence of metadata keys.
-     *
-     * @return array
-     * An indexed array of associative arrays with 'label', 'value' and 'cssClass' keys. The label is the localized
-     * value of key passed in, the value is the resolved content that belongs to the key passed in and cssClass is the
-     * value to be set or added to the element that renders the list entry.
-     */
-    public function getMetadataList(string ...$keys)
-    {
-        $metadataList = [];
-
-        foreach ($keys as $key) {
-            $entry = $this->getMetadataListEntry($key);
-
-            if (!is_null($entry)) {
-                $metadataList[] = $entry;
-            }
-        }
-
-        return $metadataList;
-    }
-
-    /**
-     * @param string $key
-     * @return array|null
-     */
-    protected function getMetadataListEntry(string $key)
-    {
-        $entry = null;
-
-        if (isset(self::$metadataKeyToMethodMap[$key])) {
-            $method = self::$metadataKeyToMethodMap[$key];
-            $value = $this->{$method}();
-
-            if (!is_null($value)) {
-                $translationKey = sprintf('%s.%s', self::$metadataKeyPrefix, $key);
-                $entry = [
-                    'label' => $this->getView()->translate($translationKey),
-                    'value' => $value,
-                    'cssClass' => $key
-                ];
-            }
-        }
-
-        return $entry;
     }
 
 
