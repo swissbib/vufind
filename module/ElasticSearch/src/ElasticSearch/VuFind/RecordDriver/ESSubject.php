@@ -27,7 +27,7 @@ class ESSubject extends ElasticSearch
      * @param $arguments
      * @return mixed
      */
-    public function __call(string $name, $arguments)
+    public function __call(string $name, $arguments): array
     {
 
         $fieldName = lcfirst(substr($name, 3));
