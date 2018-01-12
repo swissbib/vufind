@@ -32,9 +32,6 @@
 namespace Swissbib\Controller;
 
 use VuFind\Controller\AjaxController as VFAjaxController;
-use VuFind\RecordDriver\AbstractBase;
-use VuFind\Search\Base\Params;
-use VuFind\Search\Base\Results;
 use VuFind\View\Helper\Root\RecordDataFormatter;
 use Zend\Stdlib\ResponseInterface;
 
@@ -75,6 +72,11 @@ class AjaxController extends VFAjaxController
         }
     }
 
+    /**
+     * Get Subjects Ajax
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
     protected function getSubjectsAjax(): ResponseInterface
     {
         $content = $this->search();
@@ -91,6 +93,11 @@ class AjaxController extends VFAjaxController
         return $response;
     }
 
+    /**
+     * Get Authors Ajax
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
     protected function getAuthorsAjax(): ResponseInterface
     {
         $content = $this->search();
@@ -109,6 +116,11 @@ class AjaxController extends VFAjaxController
         return $response;
     }
 
+    /**
+     * Get Bibliographic Resource Ajax
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
     protected function getBibliographicResourceAjax(): ResponseInterface
     {
         $content = $this->search();
@@ -124,20 +136,24 @@ class AjaxController extends VFAjaxController
     }
 
     /**
+     * Search
+     *
+     * @param array $searchOptions Search Options
+     *
      * @return array
      */
     protected function search(array $searchOptions = []): array
     {
         $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
         $searcher = $this->getRequest()->getQuery()['searcher'];
-        /**
- * @var Results 
-*/
+        /*
+         * @var Results
+         */
         $results = $manager->get($searcher);
 
-        /**
- * @var Params $params 
-*/
+        /*
+         * @var Params $params
+         */
         $params = $results->getParams();
         // Send both GET and POST variables to search class:
         $params->initFromRequest(
@@ -149,31 +165,28 @@ class AjaxController extends VFAjaxController
 
         $results->performAndProcessSearch();
 
-        /**
- * @var $content array 
-*/
+        // @var $content array
         $content = $results->getResults();
         return $content;
     }
 
     /**
-     * @param $content
-     * @param $spec
+     * Builds the Response
+     *
+     * @param arrray $content Content
+     * @param array  $spec    Specification
+     *
      * @return \Zend\Stdlib\ResponseInterface
      */
     protected function buildResponse($content, $spec): \Zend\Stdlib\ResponseInterface
     {
         $data = [];
-        /**
- * @var RecordDataFormatter $recordFormatter 
-*/
+        // @var RecordDataFormatter $recordFormatter
         $recordFormatter = $this->getViewRenderer()->plugin('RecordDataFormatter');
-        /**
- * @var AbstractBase $record 
-*/
+        // @var AbstractBase $record
         foreach ($content as $record) {
             $formatedRecord = $recordFormatter->getData($record, $spec);
-            $this->format($formatedRecord);
+            $this->_format($formatedRecord);
             array_push($data, $formatedRecord);
         }
         $response = $this->getResponse();
@@ -183,7 +196,14 @@ class AjaxController extends VFAjaxController
         return $response;
     }
 
-    private function format(&$formatedRecord)
+    /**
+     * Formats the record
+     *
+     * @param array $formatedRecord Formated Record
+     *
+     * @return void
+     */
+    private function _format(&$formatedRecord)
     {
         array_walk(
             $formatedRecord,
