@@ -15,6 +15,33 @@ namespace ElasticSearch\View\Helper;
  */
 abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
 {
+    /**
+     * The name of the underlying record driver to be rendered.
+     * @return string|null
+     */
+    abstract public function getDisplayName();
+
+
+
+    /**
+     * @param string $translationKeyBase
+     * @return string
+     */
+    protected function resolveLabelWithDisplayName(string $translationKeyBase)
+    {
+        $displayName = $this->getDisplayName();
+        $label = null;
+
+        if (is_null($displayName)) {
+            $label = $this->getView()->translate(sprintf('%s.no.name', $translationKeyBase));
+        } else {
+            $label = $this->getView()->translate($translationKeyBase);
+            $label = sprintf($label, $displayName);
+        }
+
+        return $label;
+    }
+
 
     private $metadataHelper;
 

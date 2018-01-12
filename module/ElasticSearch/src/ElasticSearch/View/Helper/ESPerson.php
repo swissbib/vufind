@@ -244,12 +244,12 @@ class ESPerson extends AbstractHelper
      */
     public function getNotableWorkLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.books');
+        return $this->resolveLabelWithDisplayName('card.knowledge.person.medias');
     }
 
     public function getMoreNotableWorkLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.books.more');
+        return $this->resolveLabelWithDisplayName('card.knowledge.person.medias.more');
     }
 
     public function getNotableWorkSearchLink(string $template): string
@@ -307,24 +307,5 @@ class ESPerson extends AbstractHelper
         $url = $this->getView()->url('page-detail-person', $segments);
 
         return sprintf($template, $url, $label);
-    }
-
-    /**
-     * @param string $translationKeyBase
-     * @return string
-     */
-    protected function resolveLabelWithDisplayName(string $translationKeyBase)
-    {
-        $displayName = $this->getDisplayName();
-        $label = null;
-
-        if (is_null($displayName)) {
-            $label = $this->getView()->translate(sprintf('%s.no.name', $translationKeyBase));
-        } else {
-            $label = $this->getView()->translate($translationKeyBase);
-            $label = sprintf($label, $displayName);
-        }
-
-        return $label;
     }
 }
