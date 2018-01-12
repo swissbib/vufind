@@ -1,19 +1,34 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: edmundmaruhn
- * Date: 18.12.17
- * Time: 11:42
+ * KnowledgeCardController.php
+ *
+ * PHP Version 7
+ *
+ * Copyright (C) swissbib 2018
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ *
+ * @category VuFind
+ * @package  Controller
+ * @author   Christoph Boehm <cbo@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
  */
-
 namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
-use ElasticSearch\VuFind\RecordDriver\ESBibliographicResource;
-use ElasticSearch\VuFind\Search\ElasticSearch\Params;
-use ElasticSearch\VuFind\Search\ElasticSearch\Results;
 use VuFind\Controller\AbstractBase;
-use VuFindSearch\Query\Query;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -30,6 +45,8 @@ use Zend\View\Model\ViewModel;
 class KnowledgeCardController extends AbstractBase
 {
     /**
+     * Person KnowledgeCard
+     *
      * @return \Zend\View\Model\ViewModel
      */
     public function personAction()
@@ -47,18 +64,19 @@ class KnowledgeCardController extends AbstractBase
 
             return $this->createViewModel(
                 [
-                "driver" => $driver,
-                "subjects" => $subjects,
-                "books" => $bibliographicResources
+                    "driver"   => $driver,
+                    "subjects" => $subjects,
+                    "books"    => $bibliographicResources
                 ]
             );
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $this->createErrorView($id);
         }
     }
 
     /**
+     * Subject Knowledge Card
+     *
      * @return \Zend\View\Model\ViewModel
      */
     public function subjectAction()
@@ -75,9 +93,9 @@ class KnowledgeCardController extends AbstractBase
 
             return $this->createViewModel(
                 [
-                "driver" => $driver,
-                "subSubjects" => $subSubjects,
-                "parentSubjects" => $parentSubjects
+                    "driver"         => $driver,
+                    "subSubjects"    => $subSubjects,
+                    "parentSubjects" => $parentSubjects
                 ]
             );
         } catch (\Exception $e) {
@@ -86,11 +104,16 @@ class KnowledgeCardController extends AbstractBase
     }
 
     /**
-     * @param $index
-     * @param $type
-     * @return ElasticSearch
+     * Gets the record
+     *
+     * @param string $id    ID of the record
+     * @param string $index Index of the record
+     * @param string $type  Type of the record
+     *
+     * @return \ElasticSearch\VuFind\RecordDriver\ElasticSearch
+     * @throws \Exception
      */
-    protected function getInformation($id, $index, $type): ElasticSearch
+    protected function getRecord(string $id, string $index, string $type): ElasticSearch
     {
         $content = $this->search(
             $id,
@@ -105,7 +128,14 @@ class KnowledgeCardController extends AbstractBase
         throw new \Exception("Found no data for id " . $id);
     }
 
-    private function getBibliographicResources($id): array
+    /**
+     * GetBibliographicResources
+     *
+     * @param string|\Swissbib\Controller\ID $id ID of the record
+     *
+     * @return array
+     */
+    protected function getBibliographicResources(string $id): array
     {
         return $this->search(
             "http://data.swissbib.ch/person/" . $id,
@@ -115,12 +145,17 @@ class KnowledgeCardController extends AbstractBase
         );
     }
 
-    private function getSubjectsOf($bibliographicResources)
+    /**
+     * GetSubjectsOf
+     *
+     * @param array $bibliographicResources Array of ESBibliographicResource
+     *
+     * @return array
+     */
+    protected function getSubjectsOf(array $bibliographicResources)
     {
         $ids = [];
-        /**
- * @var ESBibliographicResource $bibliographicResource 
-*/
+        // @var ESBibliographicResource $bibliographicResource
         foreach ($bibliographicResources as $bibliographicResource) {
             $s = $bibliographicResource->getSubjects();
             if (count($s) > 0) {
@@ -137,12 +172,26 @@ class KnowledgeCardController extends AbstractBase
         );
     }
 
-    private function getSubSubjects($id)
+    /**
+     * GetSubSubjects
+     *
+     * @param string $id ID of record
+     *
+     * @return array
+     */
+    protected function getSubSubjects(string $id)
     {
         return $this->search($id, "sub_subjects");
     }
 
-    private function getParentSubjects($ids)
+    /**
+     * GetParentSubjects
+     *
+     * @param array $ids IDs of parent subjects
+     *
+     * @return array
+     */
+    protected function getParentSubjects(array $ids)
     {
         return $this->search(
             $this->arrayToSearchString($ids),
@@ -153,23 +202,22 @@ class KnowledgeCardController extends AbstractBase
     }
 
     /**
-     * @param $q
-     * @param $template
-     * @param $index
-     * @param $type
+     * Executes the search
+     *
+     * @param string        $q        The query string
+     * @param string        $template Template from config
+     * @param string | null $index    Index to search in. Not required, if defined in template.
+     * @param string | null $type     Type to search for. Not required, if defined in template.
+     *
      * @return array
      */
-    protected function search($q, $template, $index = null, $type = null): array
+    protected function search(string $q, string $template, $index = null, $type = null): array
     {
         $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
-        /**
- * @var Results 
-*/
+        // @var Results
         $results = $manager->get("ElasticSearch");
 
-        /**
- * @var Params 
-*/
+        // @var Params
         $params = $results->getParams();
 
         if (isset($index)) {
@@ -177,31 +225,33 @@ class KnowledgeCardController extends AbstractBase
         }
         $params->setTemplate($template);
 
-        /**
- * @var Query $query 
-*/
+        // @var Query $query
         $query = $params->getQuery();
         if (isset($type)) {
             $query->setHandler($type);
         }
         $query->setString($q);
 
-
         $results->performAndProcessSearch();
 
-        /**
- * @var $content array 
-*/
+        // @var $content array
         $content = $results->getResults();
 
         return $content;
     }
 
-    protected function createErrorView($id): ViewModel
+    /**
+     * CreateErrorView
+     *
+     * @param string $id Id of record
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    protected function createErrorView(string $id): ViewModel
     {
         $model = new ViewModel(
             [
-            'message' => 'Can not find a Knowledge Card for id: ' . $id,
+                'message' => 'Can not find a Knowledge Card for id: ' . $id,
             ]
         );
         $model->setTemplate('error/index');
@@ -209,10 +259,13 @@ class KnowledgeCardController extends AbstractBase
     }
 
     /**
-     * @param $ids
+     * Converts array to search string
+     *
+     * @param array $ids Array of ids
+     *
      * @return string
      */
-    private function arrayToSearchString($ids): string
+    protected function arrayToSearchString(array $ids): string
     {
         return '[' . implode(",", $ids) . ']';
     }
