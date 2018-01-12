@@ -23,7 +23,7 @@ class ESSubject extends AbstractHelper
     protected function getMetadataMethodMap(): array
     {
         return [
-            'variants' => 'getVariantNameForTheSubjectHeading',
+            'variants' => 'getVariantNames',
             'definition' => 'getDefinition'
         ];
     }
@@ -38,6 +38,12 @@ class ESSubject extends AbstractHelper
     public function setSubject(\ElasticSearch\VuFind\RecordDriver\ESSubject $subject = null)
     {
         $this->subject = $subject;
+    }
+
+    public function getDisplayName()
+    {
+        $name = $this->getSubject()->getName();
+        return strlen($name) > 0 ? $name : null;
     }
 
     public function getSubjectLink(string $template): string
@@ -55,7 +61,7 @@ class ESSubject extends AbstractHelper
     }
 
 
-    public function getVariantNameForTheSubjectHeading(string $delimiter = ', ')
+    public function getVariantNames(string $delimiter = ', ')
     {
         $variants = $this->getSubject()->getVariantNameForTheSubjectHeading();
 
@@ -63,17 +69,27 @@ class ESSubject extends AbstractHelper
             $variants = implode($delimiter, $variants);
         }
 
-        return strlen($variants) > 0 ? $variants : null;
+        return strlen($variants) > 0 ? trim($variants) : null;
     }
 
     public function getDefinition()
     {
         $definition = $this->getSubject()->getDefinitionDisplayField();
 
-        if (is_array($definition) && count($definition) > 0) {
-            $definition = $definition[0];
+        if (is_array($definition)) {
+            $definition = count($definition) > 0 ? $definition[0] : null;
         }
 
         return $definition;
+    }
+
+    public function getDetailPageLinkLabel()
+    {
+        return $this->resolveLabelWithDisplayName('card.knowledge.subject.page.link');
+    }
+
+    public function getMoreMediaLinkLabel()
+    {
+        return $this->resolveLabelWithDisplayName('card.knowledge.subject.medias');
     }
 }
