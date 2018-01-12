@@ -23,7 +23,8 @@ class ESSubject extends AbstractHelper
     protected function getMetadataMethodMap(): array
     {
         return [
-            'variants' => 'getVariantNameForTheSubjectHeading'
+            'variants' => 'getVariantNameForTheSubjectHeading',
+            'definition' => 'getDefinition'
         ];
     }
 
@@ -62,6 +63,17 @@ class ESSubject extends AbstractHelper
             $variants = implode($delimiter, $variants);
         }
 
-        return $variants;
+        return strlen($variants) > 0 ? $variants : null;
+    }
+
+    public function getDefinition()
+    {
+        $definition = $this->getSubject()->getDefinitionDisplayField();
+
+        if (is_array($definition) && count($definition) > 0) {
+            $definition = $definition[0];
+        }
+
+        return $definition;
     }
 }
