@@ -135,11 +135,18 @@ class ESPerson extends AbstractHelper
     }
 
     /**
-     * @return null
+     * @param string $delimiter
+     * @return null|string
      */
-    public function getJobInfo()
+    public function getJobInfo(string $delimiter = ', ')
     {
-        return null;
+        $occupation = $this->getPerson()->getOccupationDisplayField();
+
+        if (is_array($occupation)) {
+            $occupation = implode($delimiter, $occupation);
+        }
+
+        return strlen($occupation) > 0 ? $occupation : null;
     }
 
     /**
@@ -147,7 +154,13 @@ class ESPerson extends AbstractHelper
      */
     public function getNationalityInfo()
     {
-        return null;
+        $nationality = $this->getPerson()->getNationalityDisplayField();
+
+        if (is_array($nationality)) {
+            $nationality = count($nationality) > 0 ? $nationality[0] : '';
+        }
+
+        return strlen($nationality) > 0 ? $nationality : null;
     }
 
 
