@@ -7,6 +7,7 @@
  */
 
 namespace ElasticSearch\View\Helper;
+use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 
 /**
  * Abstract view helper that implements some utilities commonly required for several views.
@@ -15,11 +16,38 @@ namespace ElasticSearch\View\Helper;
  */
 abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
 {
+
+    private $driver;
+
+    /**
+     * @return ElasticSearch
+     */
+    public function getDriver()
+    {
+        return $this->driver;
+    }
+
+    /**
+     * @param ElasticSearch $driver
+     */
+    protected function setDriver(ElasticSearch $driver = null)
+    {
+        $this->driver = $driver;
+    }
+
+
     /**
      * The name of the underlying record driver to be rendered.
      * @return string|null
      */
     abstract public function getDisplayName();
+
+    /**
+     * The type of data this helper handles. Used to resolve type specific urls like for the detail page link.
+     * @return string
+     */
+    abstract public function getType(): string;
+
 
 
 
@@ -82,5 +110,32 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     protected function getMetadataMethodMap(): array
     {
         return [];
+    }
+
+    /**
+     * Provides the localized label for the link on the detail page of the underlying managed record driver. The method
+     * is used by the getDetailPageLink() method for link generation.
+     *
+     * @return string
+     */
+    abstract protected function getDetailPageLinkLabel();
+
+    /**
+     * @param string $template
+     * @param string|null $label
+     * If not null it is treated as the localization key and will be resolved before it is merged into the template.
+     * @return string
+     */
+    public function getDetailPageLink(string $template, string $label = null): string
+    {
+        $label = is_null($label)
+            ? $this->getDetailPageLinkLabel()
+            : $this->getView()->translate($label);
+
+        $route = sprintf('page-detail-%s', $this->getType());
+        $segments = ['id' => $this->getDriver()->getUniqueID()];
+        $url = $this->getView()->url($route, $segments);
+
+        return sprintf($template, $url, $label);
     }
 }
