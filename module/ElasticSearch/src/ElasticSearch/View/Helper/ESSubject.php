@@ -28,6 +28,11 @@ class ESSubject extends AbstractHelper
         ];
     }
 
+    public function getType(): string
+    {
+        return 'subject';
+    }
+
     private $subject;
 
     public function getSubject(): \ElasticSearch\VuFind\RecordDriver\ESSubject
@@ -37,6 +42,7 @@ class ESSubject extends AbstractHelper
 
     public function setSubject(\ElasticSearch\VuFind\RecordDriver\ESSubject $subject = null)
     {
+        parent::setDriver($subject);
         $this->subject = $subject;
     }
 
