@@ -12,7 +12,7 @@ namespace ElasticSearch\VuFind\RecordDriver;
 class ESSubject extends ElasticSearch
 {
 
-    const DEFAULT_FIELD_PREFIX = 'http://d-nb_info/standards/elementset/gnd';
+    const GND_FIELD_PREFIX = 'http://d-nb_info/standards/elementset/gnd';
 
     /**
      * @method getAacademicDegree()
@@ -43,9 +43,10 @@ class ESSubject extends ElasticSearch
         return $fieldValue ?? [];
     }
 
-    public function getShortID(): string
+    public function getUniqueID()
     {
-        return substr($this->getUniqueID(), strlen("http://d-nb.info/gnd/"));
+        # actual record id is stored in the gndIdentifier field, while _id is prefix with 'http://d-nb.info/gnd/'
+        return $this->getGndIdentifier()[0];
     }
 
     public function getName(): string
@@ -165,7 +166,7 @@ class ESSubject extends ElasticSearch
 
     protected function getRawField(string $fieldName, string $prefix = null, string $delimiter = '#')
     {
-        $prefix = $prefix ?? self::DEFAULT_FIELD_PREFIX;
+        $prefix = $prefix ?? self::GND_FIELD_PREFIX;
 
         if (strpos($fieldName, $prefix) === 0) {
             $key = $fieldName;

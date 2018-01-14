@@ -55,13 +55,8 @@ class ESSubject extends AbstractHelper
     public function getSubjectLink(string $template): string
     {
         $subject = $this->getSubject();
-        $identifier = $subject->getGndIdentifier();
 
-        if (is_array($identifier) && count($identifier) > 0) {
-            $identifier = $identifier[0];
-        }
-
-        $url = $this->getView()->url('card-knowledge-subject', ['id' => $identifier]);
+        $url = $this->getView()->url('card-knowledge-subject', ['id' => $subject->getUniqueID()]);
 
         return sprintf($template, $url, $subject->getName());
     }
