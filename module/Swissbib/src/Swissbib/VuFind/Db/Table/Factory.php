@@ -111,22 +111,6 @@ class Factory
      *
      * @param ServiceManager $sm Service manager.
      *
-     * @return Resource
-     */
-    public static function getResource(ServiceManager $sm)
-    {
-        $converter = $sm->getServiceLocator()->get('VuFind\DateConverter');
-        $loader = $sm->getServiceLocator()->get('VuFind\RecordLoader');
-        return static::getGenericTable(
-            'NationalLicenceUser', $sm, 'nationallicenceuser', [$converter, $loader]
-        );
-    }
-
-    /**
-     * Construct the NationalLicenceUser table.
-     *
-     * @param ServiceManager $sm Service manager.
-     *
      * @return NationalLicenceUser
      */
     public static function getNationalLicenceUser(ServiceManager $sm)
@@ -135,6 +119,22 @@ class Factory
         $session = new \Zend\Session\Container('List', $sessionManager);
         return static::getGenericTable(
             'NationalLicenceUser', $sm, 'nationallicence', [$session]
+        );
+    }
+
+    /**
+     * Construct the PuraUser table.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return PuraUser
+     */
+    public static function getPuraUser(ServiceManager $sm)
+    {
+        $sessionManager = $sm->getServiceLocator()->get('VuFind\SessionManager');
+        $session = new \Zend\Session\Container('List', $sessionManager);
+        return static::getGenericTable(
+            'PuraUser', $sm, 'pura', [$session]
         );
     }
 }

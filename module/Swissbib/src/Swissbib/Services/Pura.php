@@ -329,7 +329,7 @@ class Pura
          * @var \Swissbib\VuFind\Db\Table\PuraUser $puraUserTable
          */
         $puraUserTable = $this->getTable(
-            '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
+            'pura'
         );
         $puraUser = $puraUserTable->getPuraUserByEduIdAndLibrary(
             $eduId, $libraryCode
@@ -395,7 +395,7 @@ class Pura
          * @var \Swissbib\VuFind\Db\Table\PuraUser $userTable
          */
         $userTable = $this->getTable(
-            '\\Swissbib\\VuFind\\Db\\Table\\PuraUser'
+            'pura'
         );
         return $userTable->getList();
     }

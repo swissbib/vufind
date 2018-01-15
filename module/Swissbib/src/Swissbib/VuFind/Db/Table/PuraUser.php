@@ -25,6 +25,8 @@ namespace Swissbib\VuFind\Db\Table;
 use VuFind\Db\Table\Gateway;
 use VuFind\Db\Table\User;
 use Zend\Db\Sql\Select;
+use Zend\Db\Adapter\Adapter;
+use VuFind\Db\Table\PluginManager;
 
 /**
  * Class NationalLicenceUser.
@@ -39,12 +41,17 @@ class PuraUser extends Gateway
 {
     /**
      * Constructor.
+     *
+     * @param Adapter       $adapter Database adapter
+     * @param PluginManager $tm      Table manager
+     * @param array         $cfg     Zend Framework configuration
+     * @param Row           $row     row object
      */
-    public function __construct()
+    public function __construct(Adapter $adapter, PluginManager $tm, $cfg, $row)
     {
         parent::__construct(
-            'pura_user',
-            'Swissbib\VuFind\Db\Row\PuraUser'
+            $adapter, $tm, $cfg,
+            $row, "pura_user"
         );
     }
 
