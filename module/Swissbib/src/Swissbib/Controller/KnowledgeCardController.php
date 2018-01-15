@@ -45,11 +45,13 @@ class KnowledgeCardController extends AbstractBase
 
             $subjects = $this->getSubjectsOf($bibliographicResources);
 
-            return $this->createViewModel([
-              "driver" => $driver,
-              "subjects" => $subjects,
-              "books" => $bibliographicResources
-            ]);
+            return $this->createViewModel(
+                [
+                "driver" => $driver,
+                "subjects" => $subjects,
+                "books" => $bibliographicResources
+                ]
+            );
         } catch (\Exception $e)
         {
             return $this->createErrorView($id);
@@ -72,9 +74,8 @@ class KnowledgeCardController extends AbstractBase
             $parentSubjects = $this->getParentSubjects($driver->getParentSubjects());
 
             return $this->createViewModel(
-              [
+                [
                 "driver" => $driver,
-                "children" => $subSubjects,
                 "parents" => $parentSubjects
               ]
             );
@@ -91,10 +92,10 @@ class KnowledgeCardController extends AbstractBase
     protected function getInformation($id, $index, $type): ElasticSearch
     {
         $content = $this->search(
-          $id,
-          "id",
-          $index,
-          $type
+            $id,
+            "id",
+            $index,
+            $type
         );
 
         if ($content !== null && is_array($content) && count($content) === 1) {
@@ -105,17 +106,20 @@ class KnowledgeCardController extends AbstractBase
 
     private function getBibliographicResources($id): array
     {
-        return $this->search("http://data.swissbib.ch/person/" . $id,
-          "bibliographicResources_by_author",
-          "lsb",
-          "bibliographicResource"
+        return $this->search(
+            "http://data.swissbib.ch/person/" . $id,
+            "bibliographicResources_by_author",
+            "lsb",
+            "bibliographicResource"
         );
     }
 
     private function getSubjectsOf($bibliographicResources)
     {
         $ids = [];
-        /** @var ESBibliographicResource $bibliographicResource */
+        /**
+ * @var ESBibliographicResource $bibliographicResource 
+*/
         foreach ($bibliographicResources as $bibliographicResource) {
             $s = $bibliographicResource->getSubjects();
             if (count($s) > 0) {
@@ -125,10 +129,10 @@ class KnowledgeCardController extends AbstractBase
         $ids = array_unique($ids);
 
         return $this->search(
-          $this->arrayToSearchString($ids),
-          "id",
-          "gnd",
-          "DEFAULT"
+            $this->arrayToSearchString($ids),
+            "id",
+            "gnd",
+            "DEFAULT"
         );
     }
 
@@ -140,10 +144,10 @@ class KnowledgeCardController extends AbstractBase
     private function getParentSubjects($ids)
     {
         return $this->search(
-          $this->arrayToSearchString($ids),
-          "id",
-          "gnd",
-          "DEFAULT"
+            $this->arrayToSearchString($ids),
+            "id",
+            "gnd",
+            "DEFAULT"
         );
     }
 
@@ -157,10 +161,14 @@ class KnowledgeCardController extends AbstractBase
     protected function search($q, $template, $index = null, $type = null): array
     {
         $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
-        /** @var Results */
+        /**
+ * @var Results 
+*/
         $results = $manager->get("ElasticSearch");
 
-        /** @var Params */
+        /**
+ * @var Params 
+*/
         $params = $results->getParams();
 
         if (isset($index)) {
@@ -168,10 +176,11 @@ class KnowledgeCardController extends AbstractBase
         }
         $params->setTemplate($template);
 
-        /** @var Query $query */
+        /**
+ * @var Query $query 
+*/
         $query = $params->getQuery();
-        if (isset($type))
-        {
+        if (isset($type)) {
             $query->setHandler($type);
         }
         $query->setString($q);
@@ -179,7 +188,9 @@ class KnowledgeCardController extends AbstractBase
 
         $results->performAndProcessSearch();
 
-        /** @var $content array */
+        /**
+ * @var $content array 
+*/
         $content = $results->getResults();
 
         return $content;
@@ -187,9 +198,11 @@ class KnowledgeCardController extends AbstractBase
 
     protected function createErrorView($id): ViewModel
     {
-        $model = new ViewModel([
-          'message' => 'Can not find a Knowledge Card for id: ' . $id,
-        ]);
+        $model = new ViewModel(
+            [
+            'message' => 'Can not find a Knowledge Card for id: ' . $id,
+            ]
+        );
         $model->setTemplate('error/index');
         return $model;
     }

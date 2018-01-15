@@ -26,7 +26,7 @@ class ESSubject extends ElasticSearch
      * ...
      * @method getDefinitionDisplayField()
      *
-     * @param string $name
+     * @param string    $name
      * @param $arguments
      * @return mixed
      */
@@ -100,7 +100,8 @@ class ESSubject extends ElasticSearch
                 $this->getField("broaderTermGeneric") ?? [],
                 $this->getField("broaderTermInstantial") ?? [],
                 $this->getField("broaderTermPartitive") ?? []
-            ));
+            )
+        );
     }
 
     /**
@@ -121,10 +122,11 @@ class ESSubject extends ElasticSearch
                 return true;
             }
         }
-        if (count($this->getParentSubjects()) > 0)
-        {
+
+        if (count($this->getParentSubjects()) > 0) {
             return true;
         }
+
         return false;
     }
 

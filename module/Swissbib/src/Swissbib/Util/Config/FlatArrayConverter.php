@@ -30,9 +30,11 @@ final class FlatArrayConverter
 
     /**
      * FlatArrayConverter constructor.
+     *
      * @param null|string $keyPathDelimiter
      */
-    public function __construct($keyPathDelimiter = null) {
+    public function __construct($keyPathDelimiter = null) 
+    {
         $this->keyPathDelimiter = is_string($keyPathDelimiter) ? $keyPathDelimiter : self::DEFAULT_KEY_PATH_DELIMITER;
     }
 
@@ -42,10 +44,11 @@ final class FlatArrayConverter
      * the constructor. In case the key path of a property contains a numeric component it will be converted into a
      * number and is used as numeric index of the according sub-array.
      *
-     * @param Config $source
+     * @param  Config $source
      * @return array
      */
-    public function fromFlatArray(Config $source) {
+    public function fromFlatArray(Config $source) 
+    {
         $result = array();
 
         foreach ($source as $key => $value) {
@@ -60,13 +63,14 @@ final class FlatArrayConverter
      * Converts the content of the specified sections in the given Config object.
      *
      * @param \Zend\Config\Config $config
-     * @param string|array $sectionNames
+     * @param string|array        $sectionNames
      * A string or an array of strings holding the names of the sections in the config to process.
      *
      * @return \Zend\Config\Config
      * The array will contain only the sections specified.
      */
-    public function fromConfigSections(Config $config, $sectionNames) {
+    public function fromConfigSections(Config $config, $sectionNames) 
+    {
         $sectionNames = is_string($sectionNames) ? array($sectionNames) : array();
         $result = $this->processSections($config, $sectionNames);
 
@@ -77,10 +81,11 @@ final class FlatArrayConverter
     /**
      * @private
      * @param \Zend\Config\Config $config
-     * @param array $sectionNames
+     * @param array               $sectionNames
      * @return array
      */
-    private function processSections(Config $config, array $sectionNames) {
+    private function processSections(Config $config, array $sectionNames) 
+    {
         $result = array();
 
         foreach ($sectionNames as $sectionName) {
@@ -100,7 +105,8 @@ final class FlatArrayConverter
      * @param $sectionName
      * @return array|null
      */
-    private function fromSection(Config $config, $sectionName) {
+    private function fromSection(Config $config, $sectionName) 
+    {
         $sectionData = isset($config->{$sectionName}) ? $config->{$sectionName} : null;
         $result = null;
 
@@ -117,7 +123,8 @@ final class FlatArrayConverter
      * @param $path
      * @param $value
      */
-    private function convertKeyPath(array &$target, $path, $value) {
+    private function convertKeyPath(array &$target, $path, $value) 
+    {
 
         for ($index = 0; $index < count($path); ++$index) {
             $key = $this->normalizeKey($path[$index]);
@@ -138,7 +145,8 @@ final class FlatArrayConverter
      * @param $key
      * @return int
      */
-    private function normalizeKey($key) {
+    private function normalizeKey($key) 
+    {
         $isInteger = 1 === preg_match(self::NUMBER_SEARCH_STRING, $key);
         return $isInteger ? intval($key) : $key;
     }
