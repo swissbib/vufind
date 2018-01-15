@@ -8,31 +8,31 @@
 
 namespace ElasticSearch\View\Helper;
 
-use \Zend\View\Helper\AbstractHelper;
-use Zend\View\Renderer\PhpRenderer;
-
 /**
  * Class ESPerson
  * @package ElasticSearch\View\Helper
  */
 class ESPerson extends AbstractHelper
 {
-    /**
-     * @var string
-     * Used by the getMetadataList() method to resolve localization values.
-     */
-    private static $metadataKeyPrefix = 'card.knowledge.person.metadata';
+    protected function getMetadataPrefix(): string
+    {
+        return 'card.knowledge.person.metadata';
+    }
 
-    /**
-     * @var array
-     * Maps metadata keys on helper methods and css class names for dynamic metadata list construction.
-     */
-    private static $metadataKeyToMethodMap = [
-        'job' => 'getJobInfo',
-        'birth' => 'getBirthInfo',
-        'death' => 'getDeathInfo',
-        'nationality' => 'getNationalityInfo'
-    ];
+    protected function getMetadataMethodMap(): array
+    {
+        return [
+            'job' => 'getJobInfo',
+            'birth' => 'getBirthInfo',
+            'death' => 'getDeathInfo',
+            'nationality' => 'getNationalityInfo'
+        ];
+    }
+
+    public function getType(): string
+    {
+        return 'person';
+    }
 
     /**
      * @var \ElasticSearch\VuFind\RecordDriver\ESPerson
@@ -46,6 +46,7 @@ class ESPerson extends AbstractHelper
 
     public function setPerson(\ElasticSearch\VuFind\RecordDriver\ESPerson $person)
     {
+        parent::setDriver($person);
         $this->person = $person;
     }
 
@@ -140,11 +141,18 @@ class ESPerson extends AbstractHelper
     }
 
     /**
-     * @return null
+     * @param string $delimiter
+     * @return null|string
      */
-    public function getJobInfo()
+    public function getJobInfo(string $delimiter = ', ')
     {
-        return null;
+        $occupation = $this->getPerson()->getOccupationDisplayField();
+
+        if (is_array($occupation)) {
+            $occupation = implode($delimiter, $occupation);
+        }
+
+        return strlen($occupation) > 0 ? $occupation : null;
     }
 
     /**
@@ -152,59 +160,13 @@ class ESPerson extends AbstractHelper
      */
     public function getNationalityInfo()
     {
-        return null;
-    }
+        $nationality = $this->getPerson()->getNationalityDisplayField();
 
-    /**
-     * A list of metadata information for the current person. Keys which are not found or for which no value exists are
-     * filtered and will not be part of the resulting list. The resulting array is in the order of the keys passed in.
-     *
-     * @param string[] ...$keys
-     * Arbitrary sequence of metadata keys.
-     *
-     * @return array
-     * An indexed array of associative arrays with 'label', 'value' and 'cssClass' keys. The label is the localized
-     * value of key passed in, the value is the resolved content that belongs to the key passed in and cssClass is the
-     * value to be set or added to the element that renders the list entry.
-     */
-    public function getMetadataList(string ...$keys)
-    {
-        $metadataList = [];
-
-        foreach ($keys as $key) {
-            $entry = $this->getMetadataListEntry($key);
-
-            if (!is_null($entry)) {
-                $metadataList[] = $entry;
-            }
+        if (is_array($nationality)) {
+            $nationality = count($nationality) > 0 ? $nationality[0] : '';
         }
 
-        return $metadataList;
-    }
-
-    /**
-     * @param string $key
-     * @return array|null
-     */
-    protected function getMetadataListEntry(string $key)
-    {
-        $entry = null;
-
-        if (isset(self::$metadataKeyToMethodMap[$key])) {
-            $method = self::$metadataKeyToMethodMap[$key];
-            $value = $this->{$method}();
-
-            if (!is_null($value)) {
-                $translationKey = sprintf('%s.%s', self::$metadataKeyPrefix, $key);
-                $entry = [
-                    'label' => $this->getView()->translate($translationKey),
-                    'value' => $value,
-                    'cssClass' => $key
-                ];
-            }
-        }
-
-        return $entry;
+        return strlen($nationality) > 0 ? $nationality : null;
     }
 
 
@@ -301,19 +263,19 @@ class ESPerson extends AbstractHelper
      */
     public function getNotableWorkLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.books');
+        return $this->resolveLabelWithDisplayName('card.knowledge.person.medias');
     }
 
     public function getMoreNotableWorkLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.books.more');
+        return $this->resolveLabelWithDisplayName('card.knowledge.person.medias.more');
     }
 
     public function getNotableWorkSearchLink(string $template): string
     {
         $label = $this->getMoreNotableWorkLabel();
         $url = $this->getView()->url('search-results');
-        $url = sprintf('%s?lookfor=%s', $url, urlencode($this->getDisplayName()));
+        $url = sprintf('%s?lookfor=%s&type=Author', $url, urlencode($this->getPerson()->getName()));
 
         return sprintf($template, $url, $label);
     }
@@ -346,42 +308,5 @@ class ESPerson extends AbstractHelper
     public function getDetailPageLinkLabel()
     {
         return $this->resolveLabelWithDisplayName('card.knowledge.person.page.link');
-    }
-
-    /**
-     * @param string $template
-     * @param string|null $label
-     * If not null it is treated as the localization key and will be resolved before it is merged into the template.
-     * @return string
-     */
-    public function getDetailPageLink(string $template, string $label = null): string
-    {
-        $label = is_null($label)
-            ? $this->getDetailPageLinkLabel()
-            : $this->getView()->translate($label);
-
-        $segments = ['id' => $this->getPerson()->getUniqueID()];
-        $url = $this->getView()->url('page-detail-person', $segments);
-
-        return sprintf($template, $url, $label);
-    }
-
-    /**
-     * @param string $translationKeyBase
-     * @return string
-     */
-    protected function resolveLabelWithDisplayName(string $translationKeyBase)
-    {
-        $displayName = $this->getDisplayName();
-        $label = null;
-
-        if (is_null($displayName)) {
-            $label = $this->getView()->translate(sprintf('%s.no.name', $translationKeyBase));
-        } else {
-            $label = $this->getView()->translate($translationKeyBase);
-            $label = sprintf($label, $displayName);
-        }
-
-        return $label;
     }
 }
