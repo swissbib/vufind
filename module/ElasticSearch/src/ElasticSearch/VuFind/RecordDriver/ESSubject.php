@@ -122,9 +122,11 @@ class ESSubject extends ElasticSearch
                 return true;
             }
         }
+
         if (count($this->getParentSubjects()) > 0) {
             return true;
         }
+
         return false;
     }
 
