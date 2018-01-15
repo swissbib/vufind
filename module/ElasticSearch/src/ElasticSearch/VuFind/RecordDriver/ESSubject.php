@@ -30,7 +30,7 @@ class ESSubject extends ElasticSearch
      * @param $arguments
      * @return mixed
      */
-    public function __call(string $name, $arguments): array
+    public function __call(string $name, $arguments)
     {
         if ($pos = strpos($name, "DisplayField")) {
             $fieldName = lcfirst(substr(substr($name, 0, $pos), 3));
