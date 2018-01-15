@@ -70,7 +70,8 @@ class Factory
     /**
      * Returns MixedList
      *
-     * @param ServiceManager $sm
+     * @param  ServiceManager $sm servicemanager
+     *
      * @return object
      */
     public static function getMixdList(ServiceManager $sm)
