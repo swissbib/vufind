@@ -67,6 +67,13 @@ class Factory
     }
 
 
+    /**
+     * Returns MixedList
+     *
+     * @param  ServiceManager $sm servicemanager
+     *
+     * @return object
+     */
     public static function getMixdList(ServiceManager $sm)
     {
         $factory = new PluginFactory();
@@ -78,7 +85,7 @@ class Factory
          */
         $mixedlist = $factory->createServiceWithName($sm, 'mixedlist', 'MixedList');
 
-            return $mixedlist;
+        return $mixedlist;
     }
 
 
