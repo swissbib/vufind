@@ -89,8 +89,10 @@ class Pura
      *
      * @param object                  $config         Config
      * @param array                   $publishers     List of Publishers
-     * @param Config                  $groupMapping   Map the institution code to a group (network)
-     * @param Config                  $groups         The indices of the groups in the libadmin array
+     * @param Config                  $groupMapping   Map the institution code
+     *                                                to a group (network)
+     * @param Config                  $groups         The indices of the groups
+     *                                                in the libadmin array
      * @param Email                   $emailService   The email service
      * @param ServiceLocatorInterface $serviceLocator Service locator.
      */

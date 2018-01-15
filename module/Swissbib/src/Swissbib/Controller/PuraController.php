@@ -52,7 +52,7 @@ class PuraController extends BaseController
      * Constructor.
      * NationalLicencesController constructor.
      *
-     * @param Pura $puraService Pura.
+     * @param ServiceManager $sm Service Manager.
      */
     public function __construct(ServiceManager $sm)
     {
