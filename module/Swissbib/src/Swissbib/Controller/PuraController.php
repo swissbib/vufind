@@ -28,6 +28,7 @@ use Zend\View\Model\ViewModel;
 use Swissbib\Services\Pura;
 use Zend\Barcode\Barcode;
 use Zend\Mvc\MvcEvent;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Class NationalLicencesController.
