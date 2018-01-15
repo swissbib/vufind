@@ -45,9 +45,9 @@ class Solr extends VFAutocompleteSolr
     /**
      * GetSuggestionsFromSearch
      *
-     * @param array $searchResults SearchResults
-     * @param String $query Query
-     * @param String $exact Exact
+     * @param array  $searchResults SearchResults
+     * @param String $query         Query
+     * @param String $exact         Exact
      *
      * @return array
      */
@@ -60,7 +60,7 @@ class Solr extends VFAutocompleteSolr
             foreach ($this->displayField as $field) {
                 if (isset($current[$field])) {
                     $bestMatch = $this->pickBestMatch(
-                      $current[$field], $query, $exact
+                        $current[$field], $query, $exact
                     );
                     if ($bestMatch) {
                         $forbidden = [
@@ -108,7 +108,7 @@ class Solr extends VFAutocompleteSolr
 
         try {
             $this->searchObject->getParams()->setBasicSearch(
-              $this->mungeQuery($query), $this->handler
+                $this->mungeQuery($query), $this->handler
             );
             $this->searchObject->getParams()->setSort($this->sortField);
             foreach ($this->filters as $current) {
@@ -124,7 +124,7 @@ class Solr extends VFAutocompleteSolr
             $results = $this->getSuggestionsFromSearch($searchResults, $query, true);
             if (empty($results)) {
                 $results = $this->getSuggestionsFromSearch(
-                  $searchResults, $query, false
+                    $searchResults, $query, false
                 );
             }
         } catch (\Exception $e) {

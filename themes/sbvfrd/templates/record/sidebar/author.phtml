@@ -14,18 +14,7 @@ if (!$hasAuthors) {
 ?>
 
   <h4 class="list-group-item title"><?= $this->transEsc('Author') ?></h4>
-  <ul class="list-group author">
-
-    <?php if (!empty($authors['primary'])): ?>
-
-      <li class="list-group-item">
-        <? reset($authors['primary']); $authorMain = key($authors['primary']); ?>
-        <a href="<? $authorMain ?><?= $viewRecord->getLink('author', $authorMain) ?>"
-           title="<? $authorMain ?><?= $this->escapeHtml($authorMain) ?>"><?= $this->escapeHtml($authorMain) ?></a>
-      </li>
-    <?php endif; ?>
-
-  </ul>
+  <ul class="list-group author"></ul>
 
 
 

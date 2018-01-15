@@ -15,6 +15,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class PluginManager
+ *
  * @package ElasticSearch\VuFind\RecordDriver
  */
 class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager

@@ -48,15 +48,14 @@ class Results extends BaseResults
 
         $params = new ParamBag();
         $params->add(
-          "filter",
+            "filter",
             array_merge(
-              $this->getParams()->getFilters(),
-              $this->getParams()->getHiddenFilters()
+                $this->getParams()->getFilters(),
+                $this->getParams()->getHiddenFilters()
             )
         );
         $index = $this->getParams()->getIndex();
-        if (strlen($index) > 0)
-        {
+        if (strlen($index) > 0) {
             $params->add("index", $index);
         }
         $params->add("template", $this->getParams()->getTemplate());

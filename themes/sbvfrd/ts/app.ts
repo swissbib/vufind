@@ -16,7 +16,7 @@ $(document).ready(() => {
             return "";
         }
         return `<li class="list-group-item"><a href="${VuFind.path}/Search/Results?lookfor=${p.lastName},
-${p.firstName}&amp;type=Author" title=" ${p.lastName}, ${p.firstName}">${p.lastName}, ${p.firstName}</a><a href="${VuFind.path}/Card/Knowledge/Author/${p.id}" data-lightbox>
+${p.firstName}&amp;type=Author" title=" ${p.lastName}, ${p.firstName}">${p.lastName}, ${p.firstName}</a><a href="${VuFind.path}/Card/Knowledge/Person/${p.id}" data-lightbox>
 <span ${ p.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"
 authorid="${p.id}"></span></a></li>`;
     };
@@ -26,7 +26,7 @@ authorid="${p.id}"></span></a></li>`;
             return "";
         }
         return `<li class="list-group-item"><a href="${VuFind.path}/Search/Results?lookfor=${p.name}&amp;type=Subject"
- title=" ${p.name}">${p.name}</a><a href="${VuFind.path}/Card/Knowledge/Topic/${p.id}" data-lightbox>
+ title=" ${p.name}">${p.name}</a><a href="${VuFind.path}/Card/Knowledge/Subject/${p.id}" data-lightbox>
 <span ${ p.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"
 subjectid="${p.id}"></span></a></li>`;
     };
