@@ -10,6 +10,7 @@ namespace ElasticSearch\View\Helper;
 
 /**
  * Class ESPerson
+ *
  * @package ElasticSearch\View\Helper
  */
 class ESPerson extends AbstractHelper
@@ -100,8 +101,10 @@ class ESPerson extends AbstractHelper
      */
     public function getBirthInfo(string $dateFormat = 'd.m.Y', string $separator = ', ')
     {
-        return $this->getDateAndPlaceInfo($dateFormat, $separator,
-            $this->getPerson()->getBirthDate(), $this->getPerson()->getBirthPlaceDisplayField());
+        return $this->getDateAndPlaceInfo(
+            $dateFormat, $separator,
+            $this->getPerson()->getBirthDate(), $this->getPerson()->getBirthPlaceDisplayField()
+        );
     }
 
     /**
@@ -111,16 +114,18 @@ class ESPerson extends AbstractHelper
      */
     public function getDeathInfo(string $dateFormat = 'd.m.Y', string $separator = ', ')
     {
-        return $this->getDateAndPlaceInfo($dateFormat, $separator,
-            $this->getPerson()->getDeathDate(), $this->getPerson()->getDeathPlaceDisplayField());
+        return $this->getDateAndPlaceInfo(
+            $dateFormat, $separator,
+            $this->getPerson()->getDeathDate(), $this->getPerson()->getDeathPlaceDisplayField()
+        );
     }
 
 
     /**
-     * @param string $dateFormat
-     * @param string $separator
+     * @param string         $dateFormat
+     * @param string         $separator
      * @param \DateTime|null $date
-     * @param array $place
+     * @param array          $place
      * @return null|string
      */
     protected function getDateAndPlaceInfo(string $dateFormat, string $separator, \DateTime $date = null, array $place = null)
@@ -219,14 +224,14 @@ class ESPerson extends AbstractHelper
 
     protected function calculateSplitPoint(string $text, int $truncationWordCount = 30)
     {
-        # pattern matches the same way as trim() will do by default
+        // pattern matches the same way as trim() will do by default
         $words = preg_split('/[ \t\n\r\0\x0B]/', $text);
         $wordCount = 0;
         $processedWords = '';
         $splitPoint = -1;
 
         foreach ($words as $word) {
-            # exclude any whitespace from word count
+            // exclude any whitespace from word count
             $wordCount += strlen($word) === 0 ? 0 : 1;
             $processedWords .= $word;
 
@@ -281,7 +286,7 @@ class ESPerson extends AbstractHelper
     }
 
 
-    # TODO: Remove temporary notable work once actual data is available
+    // TODO: Remove temporary notable work once actual data is available
     private static $notableWork = [
         ['label' => 'Werk 01', 'link' => '#'],
         ['label' => 'Werk 02', 'link' => '#'],
@@ -297,7 +302,7 @@ class ESPerson extends AbstractHelper
 
     public function getNotableWork()
     {
-        # TODO: Implement method
+        // TODO: Implement method
         return self::$notableWork;
     }
 
@@ -308,5 +313,42 @@ class ESPerson extends AbstractHelper
     public function getDetailPageLinkLabel()
     {
         return $this->resolveLabelWithDisplayName('card.knowledge.person.page.link');
+    }
+  
+    /**
+     * @param string      $template
+     * @param string|null $label
+     * If not null it is treated as the localization key and will be resolved before it is merged into the template.
+     * @return string
+     */
+    public function getDetailPageLink(string $template, string $label = null): string
+    {
+        $label = is_null($label)
+            ? $this->getDetailPageLinkLabel()
+            : $this->getView()->translate($label);
+
+        $segments = ['id' => $this->getPerson()->getUniqueID()];
+        $url = $this->getView()->url('page-detail-person', $segments);
+
+        return sprintf($template, $url, $label);
+    }
+
+    /**
+     * @param string $translationKeyBase
+     * @return string
+     */
+    protected function resolveLabelWithDisplayName(string $translationKeyBase)
+    {
+        $displayName = $this->getDisplayName();
+        $label = null;
+
+        if (is_null($displayName)) {
+            $label = $this->getView()->translate(sprintf('%s.no.name', $translationKeyBase));
+        } else {
+            $label = $this->getView()->translate($translationKeyBase);
+            $label = sprintf($label, $displayName);
+        }
+
+        return $label;
     }
 }
