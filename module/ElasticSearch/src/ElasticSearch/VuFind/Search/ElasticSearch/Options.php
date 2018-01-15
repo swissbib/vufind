@@ -14,6 +14,7 @@ use VuFind\Search\Base\Options as BaseOptions;
 
 /**
  * Class Options
+ *
  * @package ElasticSearch\VuFind\Search\ElasticSearch
  */
 class Options extends BaseOptions
