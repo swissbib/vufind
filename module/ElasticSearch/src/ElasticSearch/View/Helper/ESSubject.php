@@ -8,8 +8,6 @@
 
 namespace ElasticSearch\View\Helper;
 
-use \Zend\View\Helper\AbstractHelper;
-
 /**
  * Class ESSubject
  * @package ElasticSearch\View\Helper
@@ -17,9 +15,24 @@ use \Zend\View\Helper\AbstractHelper;
 class ESSubject extends AbstractHelper
 {
 
-    /**
-     * @var \ElasticSearch\VuFind\RecordDriver\ESSubject
-     */
+    protected function getMetadataPrefix(): string
+    {
+        return 'card.knowledge.subject.metadata';
+    }
+
+    protected function getMetadataMethodMap(): array
+    {
+        return [
+            'variants' => 'getVariantNames',
+            'definition' => 'getDefinition'
+        ];
+    }
+
+    public function getType(): string
+    {
+        return 'subject';
+    }
+
     private $subject;
 
     public function getSubject(): \ElasticSearch\VuFind\RecordDriver\ESSubject
@@ -27,61 +40,57 @@ class ESSubject extends AbstractHelper
         return $this->subject;
     }
 
-    public function setSubject(\ElasticSearch\VuFind\RecordDriver\ESSubject $subject)
+    public function setSubject(\ElasticSearch\VuFind\RecordDriver\ESSubject $subject = null)
     {
+        parent::setDriver($subject);
         $this->subject = $subject;
     }
 
+    public function getDisplayName()
+    {
+        $name = $this->getSubject()->getName();
+        return strlen($name) > 0 ? $name : null;
+    }
 
     public function getSubjectLink(string $template): string
     {
         $subject = $this->getSubject();
-        $identifier = $subject->getGndIdentifier();
 
-        if (is_array($identifier) && count($identifier) > 0) {
-            $identifier = $identifier[0];
-        }
-
-        $url = $this->getView()->url('card-knowledge-subject', ['id' => $identifier]);
+        $url = $this->getView()->url('card-knowledge-subject', ['id' => $subject->getUniqueID()]);
 
         return sprintf($template, $url, $subject->getName());
     }
 
 
-    /**
-     * @var \ElasticSearch\VuFind\RecordDriver\ESSubject[]
-     */
-    private $collection;
-
-    public function getCollection(): array
+    public function getVariantNames(string $delimiter = ', ')
     {
-        return $this->collection;
-    }
+        $variants = $this->getSubject()->getVariantNameForTheSubjectHeading();
 
-    public function setCollection(array $collection)
-    {
-        $this->collection = $collection;
-    }
-
-
-    public function hasSubjectsInCollection()
-    {
-        return isset($this->collection) && count($this->collection) > 0;
-    }
-
-    public function getSubjectCollectionLinkList(string $template, string $separator = ', '): string
-    {
-        $helper = new ESSubject();
-        $helper->setView($this->getView());
-
-        $subjects = [];
-
-        foreach ($this->collection as $subject) {
-            $helper->setSubject($subject);
-            $subjects[] = $helper->getSubjectLink($template);
+        if (is_array($variants)) {
+            $variants = implode($delimiter, $variants);
         }
 
-        return implode($separator, $subjects);
+        return strlen($variants) > 0 ? trim($variants) : null;
     }
 
+    public function getDefinition()
+    {
+        $definition = $this->getSubject()->getDefinitionDisplayField();
+
+        if (is_array($definition)) {
+            $definition = count($definition) > 0 ? $definition[0] : null;
+        }
+
+        return $definition;
+    }
+
+    public function getDetailPageLinkLabel()
+    {
+        return $this->resolveLabelWithDisplayName('card.knowledge.subject.page.link');
+    }
+
+    public function getMoreMediaLinkLabel()
+    {
+        return $this->resolveLabelWithDisplayName('card.knowledge.subject.medias');
+    }
 }

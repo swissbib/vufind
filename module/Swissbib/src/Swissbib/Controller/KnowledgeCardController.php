@@ -64,77 +64,52 @@ class KnowledgeCardController extends AbstractBase
         $subjectIndex = "gnd";
         $subjectType = "DEFAULT";
 
-        $id = $this->params()->fromRoute('id', []);
+        $id = "http://d-nb.info/gnd/" . $this->params()->fromRoute('id', []);
 
-        try
-        {
-        $driver = $this->getInformation("http://d-nb.info/gnd/" . $id, $subjectIndex, $subjectType);
+        try {
+            $driver = $this->getInformation($id, $subjectIndex, $subjectType);
+            $subSubjects = $this->getSubSubjects($id);
+            $parentSubjects = $this->getParentSubjects($driver->getParentSubjects());
 
-        return $this->createViewModel(["driver" => $driver]);
-        } catch (\Exception $e)
-        {
+            return $this->createViewModel(
+              [
+                "driver" => $driver,
+                "children" => $subSubjects,
+                "parents" => $parentSubjects
+              ]
+            );
+        } catch (\Exception $e) {
             return $this->createErrorView($id);
         }
     }
 
-
     /**
-     * @param $id
      * @param $index
      * @param $type
      * @return ElasticSearch
      */
     protected function getInformation($id, $index, $type): ElasticSearch
     {
-        $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
-        /** @var Results */
-        $results = $manager->get("ElasticSearch");
+        $content = $this->search(
+          $id,
+          "id",
+          $index,
+          $type
+        );
 
-        /** @var Params */
-        $params = $results->getParams();
-
-        $params->setIndex($index);
-        $params->setTemplate("id");
-
-        /** @var Query $query */
-        $query = $params->getQuery();
-        $query->setHandler($type);
-        $query->setString($id);
-
-        $results->performAndProcessSearch();
-
-        /** @var $content array */
-        $content = $results->getResults();
         if ($content !== null && is_array($content) && count($content) === 1) {
             return $content[0];
         }
-
-        return null;
+        throw new \Exception("Found no data for id " . $id);
     }
 
     private function getBibliographicResources($id): array
     {
-        $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
-        /** @var Results */
-        $results = $manager->get("ElasticSearch");
-
-        /** @var Params */
-        $params = $results->getParams();
-
-        $params->setIndex("lsb");
-        $params->setTemplate("bibliographicResources_by_author");
-
-        /** @var Query $query */
-        $query = $params->getQuery();
-        $query->setHandler("bibliographicResource");
-        $query->setString("http://data.swissbib.ch/person/" . $id);
-
-        $results->performAndProcessSearch();
-
-        /** @var $content array */
-        $content = $results->getResults();
-
-        return $content;
+        return $this->search("http://data.swissbib.ch/person/" . $id,
+          "bibliographicResources_by_author",
+          "lsb",
+          "bibliographicResource"
+        );
     }
 
     private function getSubjectsOf($bibliographicResources)
@@ -147,9 +122,40 @@ class KnowledgeCardController extends AbstractBase
                 $ids = array_merge($ids, $s);
             }
         }
-
         $ids = array_unique($ids);
 
+        return $this->search(
+          $this->arrayToSearchString($ids),
+          "id",
+          "gnd",
+          "DEFAULT"
+        );
+    }
+
+    private function getSubSubjects($id)
+    {
+        return $this->search($id, "sub_subjects");
+    }
+
+    private function getParentSubjects($ids)
+    {
+        return $this->search(
+          $this->arrayToSearchString($ids),
+          "id",
+          "gnd",
+          "DEFAULT"
+        );
+    }
+
+    /**
+     * @param $q
+     * @param $template
+     * @param $index
+     * @param $type
+     * @return array
+     */
+    protected function search($q, $template, $index = null, $type = null): array
+    {
         $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
         /** @var Results */
         $results = $manager->get("ElasticSearch");
@@ -157,13 +163,18 @@ class KnowledgeCardController extends AbstractBase
         /** @var Params */
         $params = $results->getParams();
 
-        $params->setIndex("gnd");
-        $params->setTemplate("id");
+        if (isset($index)) {
+            $params->setIndex($index);
+        }
+        $params->setTemplate($template);
 
         /** @var Query $query */
         $query = $params->getQuery();
-        $query->setHandler("DEFAULT");
-        $query->setString('[' . implode(",", $ids) . ']');
+        if (isset($type))
+        {
+            $query->setHandler($type);
+        }
+        $query->setString($q);
 
 
         $results->performAndProcessSearch();
@@ -181,5 +192,14 @@ class KnowledgeCardController extends AbstractBase
         ]);
         $model->setTemplate('error/index');
         return $model;
+    }
+
+    /**
+     * @param $ids
+     * @return string
+     */
+    private function arrayToSearchString($ids): string
+    {
+        return '[' . implode(",", $ids) . ']';
     }
 }

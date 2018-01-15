@@ -1,1 +1,7 @@
-<? $this->headTitle('Knowledge Card: Themen'); ?>
+<div class="ui-card">
+<? $this->essubject()->setSubject($this->driver); ?>
+
+<?= $this->render('knowledgecard/subject/title.phtml'); ?>
+<?= $this->render('knowledgecard/subject/common.phtml'); ?>
+<?= $this->render('knowledgecard/subject/controls.phtml'); ?>
+</div>
