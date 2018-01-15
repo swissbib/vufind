@@ -3,8 +3,8 @@
  * Params
  *
  * @category ElasticSearch
- * @package ElasticSearch
- * @author Christoph Böhm <cbo@outermedia.de>
+ * @package  ElasticSearch
+ * @author   Christoph Böhm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://www.swissbib.ch/
  */
@@ -83,7 +83,7 @@ class Params extends BaseParams
         $ids = $request->get('overrideIds', null);
         if (is_array($ids)) {
             // TODO Remove or overwrite overrideIds behaviour
-//            $this->setQueryIDs($ids);
+            //            $this->setQueryIDs($ids);
             $this->query->setHandler($request->get('type', null));
             $this->query->setString('[' . implode(",", $ids) . ']');
         } else {

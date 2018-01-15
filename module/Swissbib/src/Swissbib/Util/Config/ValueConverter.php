@@ -12,6 +12,7 @@ use Zend\Config\Config;
 
 /**
  * Converter that evaluates config string values to their according data types if possible.
+ *
  * @package Swissbib\Util\Config
  */
 final class ValueConverter
@@ -49,14 +50,15 @@ final class ValueConverter
      * @param Config $config
      * The config to process.
      *
-     * @param bool $fuzzy
+     * @param bool   $fuzzy
      * Indicates whether to use the fuzzy type checks for boolean values. When true (default), then the
      * {@link #isTruthy} and {@link #isFalsy} methods are used. Otherwise only the strings 'true' and 'false' are
      * allowed as values.
      *
      * @return Config
      */
-    public function convert(Config $config, $fuzzy = true) {
+    public function convert(Config $config, $fuzzy = true) 
+    {
         $source = $config->toArray();
         $target = $this->convertArray($source, $fuzzy);
 
@@ -66,60 +68,66 @@ final class ValueConverter
     /**
      * Returns true when the given value is a string in a decimal, hexadecimal or octal number format.
      *
-     * @param string $value
+     * @param  string $value
      * @return bool
      */
-    public function isInteger($value) {
+    public function isInteger($value) 
+    {
         return $this->isDecInteger($value) || $this->isHexInteger($value) || $this->isOctInteger($value);
     }
 
     /**
      * Returns true when the given value is a string in a decimal number format.
      *
-     * @param string $value
+     * @param  string $value
      * @return bool
      */
-    public function isDecInteger($value) {
+    public function isDecInteger($value) 
+    {
         return $this->matchesNumericFormat(static::DEC_NUMBER_PATTERN, $value);
     }
 
     /**
      * Returns true when the given value is a string in a hexadecimal number format.
      *
-     * @param string $value
+     * @param  string $value
      * @return bool
      */
-    public function isHexInteger($value) {
+    public function isHexInteger($value) 
+    {
         return $this->matchesNumericFormat(static::HEX_NUMBER_PATTERN, $value);
     }
 
     /**
      * Returns true when the given value is a string in an octal number format.
      *
-     * @param string $value
+     * @param  string $value
      * @return bool
      */
-    public function isOctInteger($value) {
+    public function isOctInteger($value) 
+    {
         return $this->matchesNumericFormat(static::OCT_NUMBER_PATTERN, $value);
     }
 
     /**
      * Returns true when the given value is a string in a floating point number format.
      *
-     * @param string $value
+     * @param  string $value
      * @return bool
      */
-    public function isFloat($value) {
+    public function isFloat($value) 
+    {
         return $this->matchesNumericFormat(static::FLT_NUMBER_PATTERN, $value);
     }
 
     /**
      * Returns true when the given value is a string that equals to 'true'. This check is case-insensitive.
      *
-     * @param string $value
+     * @param  string $value
      * @return bool
      */
-    public function isTrue($value) {
+    public function isTrue($value) 
+    {
         return 'true' === strtolower($value);
     }
 
@@ -127,10 +135,11 @@ final class ValueConverter
      * Returns true when the given value is 1 (numeric), '1' (string), true (boolean), 'true' (string), 'on', 'y' or
      * 'yes'. For string inputs the case will be ignored.
      *
-     * @param string $value
+     * @param  string $value
      * @return bool
      */
-    public function isTruthy($value) {
+    public function isTruthy($value) 
+    {
         if (is_string($value)) {
             $value = strtolower($value);
         }
@@ -141,10 +150,11 @@ final class ValueConverter
     /**
      * Returns true when the given value is a string that equals to 'false'. This check is case-insensitive.
      *
-     * @param string $value
+     * @param  string $value
      * @return bool
      */
-    public function isFalse($value) {
+    public function isFalse($value) 
+    {
         return 'false' === strtolower($value);
     }
 
@@ -152,10 +162,11 @@ final class ValueConverter
      * Returns true when the given value is 0 (numeric zero), '0' (string zero), false (boolean), 'false' (string),
      * 'off', 'n' or 'no'. For string inputs the case will be ignored.
      *
-     * @param string $value
+     * @param  string $value
      * @return bool
      */
-    public function isFalsy($value) {
+    public function isFalsy($value) 
+    {
         if (is_string($value)) {
             $value = strtolower($value);
         }
@@ -166,11 +177,12 @@ final class ValueConverter
 
     /**
      * @private
-     * @param array $source
+     * @param array   $source
      * @param boolean $fuzzy
      * @return array
      */
-    private function convertArray(array &$source, $fuzzy) {
+    private function convertArray(array &$source, $fuzzy) 
+    {
         foreach ($source as $key => $value) {
             if (is_array($value)) {
                 $source[$key] = $this->convertArray($value, $fuzzy);
@@ -184,11 +196,12 @@ final class ValueConverter
 
     /**
      * @private
-     * @param string $value
+     * @param string  $value
      * @param boolean $fuzzy
      * @return bool|float|int
      */
-    private function convertValue($value, $fuzzy) {
+    private function convertValue($value, $fuzzy) 
+    {
         $isTrue = true === $fuzzy ? $this->isTruthy($value) : $this->isTrue($value);
         $isFalse = true === $fuzzy ? $this->isFalsy($value) : $this->isFalse($value);
 
@@ -212,10 +225,11 @@ final class ValueConverter
     /**
      * @private
      * @param $pattern
-     * @param string $value
+     * @param string  $value
      * @return bool
      */
-    private function matchesNumericFormat($pattern, $value) {
+    private function matchesNumericFormat($pattern, $value) 
+    {
         return 1 === preg_match($pattern, $value);
     }
 }
