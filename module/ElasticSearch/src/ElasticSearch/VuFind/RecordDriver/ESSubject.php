@@ -8,12 +8,11 @@
 
 namespace ElasticSearch\VuFind\RecordDriver;
 
-
 class ESSubject extends ElasticSearch
 {
 
     /**
-     * @method getAacademicDegree()
+     * @method getAcademicDegree()
      * @method getAccordingWork()
      * @method getAccreditedArtist()
      * @method getAccreditedAuthor()
@@ -23,8 +22,9 @@ class ESSubject extends ElasticSearch
      * @method getAffiliation()
      * ...
      *
-     * @param string    $name
-     * @param $arguments
+     * @param string $name
+     * @param        $arguments
+     *
      * @return mixed
      */
     public function __call(string $name, $arguments)
@@ -34,12 +34,12 @@ class ESSubject extends ElasticSearch
         return $this->getField($fieldName);
     }
 
-    public function getShortID() : string
+    public function getShortID(): string
     {
         return substr($this->getUniqueID(), strlen("http://d-nb.info/gnd/"));
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         $field = "SubjectHeading";
         $name = $this->getPreferredName($field);
@@ -56,6 +56,7 @@ class ESSubject extends ElasticSearch
 
     /**
      * @param $field
+     *
      * @return mixed|null
      */
     protected function getPreferredName($field)
@@ -65,8 +66,7 @@ class ESSubject extends ElasticSearch
             return $name[0];
         }
         $keys = array_keys($this->fields["_source"]);
-        foreach ($keys as $key)
-        {
+        foreach ($keys as $key) {
             $found = preg_match("/preferredNameForThe(.+)/", $key, $matches);
             if ($found) {
                 $name = $matches[1];
@@ -103,9 +103,9 @@ class ESSubject extends ElasticSearch
     public function hasSufficientData(): bool
     {
         $fields = [
-          // TODO Is this the only variant?
-          "http://d-nb_info/standards/elementset/gnd#variantNameForTheSubjectHeading",
-            // TODO Add Erläuterungen
+            // TODO Is this the only variant?
+            "http://d-nb_info/standards/elementset/gnd#variantNameForTheSubjectHeading",
+            "http://d-nb_info/standards/elementset/gnd#definition"
         ];
 
         foreach ($fields as $field) {
@@ -122,13 +122,15 @@ class ESSubject extends ElasticSearch
     /**
      * @param $fieldName
      * @param $prefix
+     *
      * @return mixed
      */
     protected function getField(
         string $fieldName,
         string $prefix = "http://d-nb_info/standards/elementset/gnd",
         string $delimiter = ":"
-    ) {
+    )
+    {
         if (substr($fieldName, 0, strlen($prefix)) === $prefix) {
             $key = $fieldName;
         } else {
