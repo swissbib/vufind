@@ -94,4 +94,13 @@ class ESSubject extends AbstractHelper
     {
         return $this->resolveLabelWithDisplayName('card.knowledge.subject.medias');
     }
+
+    public function getMoreMediaSearchLink(string $template)
+    {
+        $label = $this->getMoreMediaLinkLabel();
+        $url = $this->getView()->url('search-results');
+        $url = sprintf('%s?lookfor=%s&type=Subject', $url, urlencode($this->getSubject()->getName()));
+
+        return sprintf($template, $url, $label);
+    }
 }
