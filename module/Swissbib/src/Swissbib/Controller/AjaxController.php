@@ -81,7 +81,7 @@ class AjaxController extends VFAjaxController
 
         // TODO externalize spec
         $specBuilder = new RecordDataFormatter\SpecBuilder();
-        $specBuilder->setLine("id", "getShortID", "Simple", ['allowZero' => false]);
+        $specBuilder->setLine("id", "getUniqueID", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("type", "getType", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("name", "getName", "Simple", ['allowZero' => false]);
         $specBuilder->setLine("hasSufficientData", "hasSufficientData", "Simple", ['allowZero' => false]);
@@ -116,7 +116,7 @@ class AjaxController extends VFAjaxController
         // TODO externalize spec
         $specBuilder = new RecordDataFormatter\SpecBuilder();
         $specBuilder->setLine("contributors", "getContributors", "Simple", ['allowZero' => true, 'separator' => ',']);
-        $specBuilder->setLine("subjects", "getSubjects", "Simple", ['allowZero' => true, 'separator' => ',']);
+        //$specBuilder->setLine("subjects", "getSubjects", "Simple", ['allowZero' => true, 'separator' => ',']);
         $spec = $specBuilder->getArray();
 
         $response = $this->buildResponse($content, $spec);
