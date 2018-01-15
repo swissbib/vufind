@@ -2,7 +2,7 @@
 /**
  * AutoSuggestConfig
  *
- * PHP version 5
+ * PHP version 7
  *
  * Copyright (C) project swissbib, University Library Basel, Switzerland
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
@@ -30,9 +30,9 @@ namespace Swissbib\View\Helper;
 
 use Swissbib\Util\Config\FlatArrayConverter;
 use Swissbib\Util\Config\ValueConverter;
-use Zend\View\Helper\AbstractHelper;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Config\Config as ZendConfig;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\Helper\AbstractHelper;
 
 /**
  * AutoSuggestConfig
@@ -78,7 +78,7 @@ class AutoSuggestConfig extends AbstractHelper
     protected function getConfig()
     {
         if (!$this->config) {
-            $this->loadAutoSuggestConfig();
+            $this->_loadAutoSuggestConfig();
         }
 
         return $this->config;
@@ -94,16 +94,18 @@ class AutoSuggestConfig extends AbstractHelper
         return $this->getConfig();
     }
 
-
     /**
-     * @private
+     * Loads the auto suggest config
+     *
+     * @return void
      */
-    private function loadAutoSuggestConfig() {
+    private function _loadAutoSuggestConfig()
+    {
         $flatArrayConverter = new FlatArrayConverter();
         $valueConverter = new ValueConverter();
 
         $searchesConfig = $this->serviceLocator->getServiceLocator()->get('VuFind\Config')->get('searches');
-        $autoSuggestEnabled = $this->isAutoSuggestEnabled($searchesConfig, $valueConverter);
+        $autoSuggestEnabled = $this->_isAutoSuggestEnabled($searchesConfig, $valueConverter);
 
         $autoSuggestConfig = $flatArrayConverter->fromConfigSections($searchesConfig, 'AutoSuggest');
         $autoSuggestConfig = $autoSuggestConfig->get('AutoSuggest')->toArray();
@@ -113,18 +115,24 @@ class AutoSuggestConfig extends AbstractHelper
     }
 
     /**
-     * @private
+     * Is auto suggest enabled in config?
+     *
+     * @param ZendConfig     $searchesConfig Config
+     * @param ValueConverter $converter      Converter
+     *
+     * @return bool
      */
-    private function isAutoSuggestEnabled(\Zend\Config\Config $searchesConfig, ValueConverter $converter) {
+    private function _isAutoSuggestEnabled(\Zend\Config\Config $searchesConfig, ValueConverter $converter)
+    {
         // Note: VuFind autocomplete already provides an enabled state information, but unfortunately switching it on
         // results in client-side errors in autocomplete.js, so we separated enabled state validation into this method
         // to be able to include it, once the error's source has been encountered. The separate enabled configuration in
         // the AutoSuggest section in the searches.ini is then no longer required and enabled state can be merged from
         // Autocomplete section.
         $autocompleteEnabled = false;
-        #$autocompleteEnabled = isset($searchesConfig->Autocomplete->enabled)
-        #    ? $converter->isTruthy($searchesConfig->Autocomplete->enabled)
-        #    : false;
+        // $autocompleteEnabled = isset($searchesConfig->Autocomplete->enabled)
+        // ? $converter->isTruthy($searchesConfig->Autocomplete->enabled)
+        // : false;
         $autoSuggestEnabled = isset($searchesConfig->AutoSuggest) && isset($searchesConfig->AutoSuggest->enabled)
             ? $converter->isTruthy($searchesConfig->AutoSuggest->enabled)
             : false;

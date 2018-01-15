@@ -138,11 +138,25 @@ class Factory
         );
     }
 
+    /**
+     * Get Knowledge Card Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\KnowledgeCardController
+     */
     public static function getKnowledgeCardController(ServiceManager $sm)
     {
         return new KnowledgeCardController($sm->getServiceLocator());
     }
 
+    /**
+     * Get Detail Page Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\DetailPageController
+     */
     public static function getDetailPageController(ServiceManager $sm)
     {
         $serviceLocator = $sm->getServiceLocator();

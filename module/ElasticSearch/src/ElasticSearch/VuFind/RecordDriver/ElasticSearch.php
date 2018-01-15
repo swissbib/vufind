@@ -3,8 +3,8 @@
  * RecordDriver
  *
  * @category ElasticSearch
- * @package RecordDriver
- * @author Christoph Böhm <cbo@outermedia.de>
+ * @package  RecordDriver
+ * @author   Christoph Böhm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://www.swissbib.ch/
  */
@@ -14,6 +14,7 @@ use VuFind\RecordDriver\AbstractBase;
 
 /**
  * Class ElasticSearch
+ *
  * @package ElasticSearch\VuFind\RecordDriver
  */
 class ElasticSearch extends AbstractBase
@@ -68,7 +69,8 @@ class ElasticSearch extends AbstractBase
      * @param string $delimiter
      * @return string
      */
-    protected function getQualifiedFieldName(string $name, string $prefix, string $delimiter) {
+    protected function getQualifiedFieldName(string $name, string $prefix, string $delimiter) 
+    {
         return sprintf('%s%s%s', $prefix, $delimiter, $name);
     }
 
