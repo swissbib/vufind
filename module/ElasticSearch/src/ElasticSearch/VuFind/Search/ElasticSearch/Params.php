@@ -84,7 +84,7 @@ class Params extends BaseParams
      */
     public function getTemplate(): String
     {
-        return $this->template;
+        return $this->_template;
     }
 
     /**

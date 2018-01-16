@@ -101,11 +101,11 @@ class ESBibliographicResource extends ElasticSearch
     /**
      * Returns the items as Array
      *
-     * @param mixed $items The items
+     * @param array|string $items The items
      *
      * @return array
      */
-    protected function returnAsArray(mixed $items): array
+    protected function returnAsArray($items): array
     {
         if (is_array($items)) {
             return $items;
