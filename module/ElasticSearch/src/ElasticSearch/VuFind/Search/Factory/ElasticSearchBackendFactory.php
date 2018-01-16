@@ -27,6 +27,7 @@
  */
 namespace ElasticSearch\VuFind\Search\Factory;
 
+// @codingStandardsIgnoreLineuse
 use ElasticSearch\VuFindSearch\Backend\ElasticSearch\Backend;
 use ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
 use ElasticsearchAdapter\Adapter;
