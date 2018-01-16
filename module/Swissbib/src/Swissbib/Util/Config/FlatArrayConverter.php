@@ -169,12 +169,12 @@ final class FlatArrayConverter
      * Converts the key path
      *
      * @param array  $target The target
-     * @param string $path   The path
+     * @param array  $path   The path
      * @param string $value  The value
      *
      * @return void
      */
-    private function _convertKeyPath(array &$target, string $path, string $value)
+    private function _convertKeyPath(array &$target, array $path, string $value)
     {
 
         for ($index = 0; $index < count($path); ++$index) {
