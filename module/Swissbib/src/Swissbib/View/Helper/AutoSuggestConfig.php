@@ -112,8 +112,8 @@ class AutoSuggestConfig extends AbstractHelper
 
         $autoSuggestConfig
             = $flatArrayConverter->fromConfigSections(
-            $searchesConfig, 'AutoSuggest'
-        );
+                $searchesConfig, 'AutoSuggest'
+            );
         $autoSuggestConfig = $autoSuggestConfig->get('AutoSuggest')->toArray();
         $autoSuggestConfig['enabled'] = $autoSuggestEnabled;
 
@@ -125,8 +125,8 @@ class AutoSuggestConfig extends AbstractHelper
     /**
      * Is auto suggest enabled in config?
      *
-     * @param ZendConfig $searchesConfig Config
-     * @param ValueConverter $converter  Converter
+     * @param ZendConfig     $searchesConfig Config
+     * @param ValueConverter $converter      Converter
      *
      * @return bool
      */
