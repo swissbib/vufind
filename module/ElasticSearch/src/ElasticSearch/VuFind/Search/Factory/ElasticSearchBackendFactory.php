@@ -27,7 +27,6 @@
  */
 namespace ElasticSearch\VuFind\Search\Factory;
 
-// @codingStandardsIgnoreLineuse
 use ElasticSearch\VuFindSearch\Backend\ElasticSearch\Backend;
 use ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
 use ElasticsearchAdapter\Adapter;
@@ -35,6 +34,8 @@ use ElasticsearchAdapter\Connector\ElasticsearchClientConnector;
 use Zend\Config\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+
+// @codingStandardsIgnoreLineuse
 
 // @codingStandardsIgnoreLineuse
 
