@@ -85,4 +85,24 @@ export class Hydra {
                 return response.data as Subject[];
             });
     }
+
+    public getDetailsOfSubject(subjectId: string): Promise<Subject> {
+        const config = {
+            ...this.axiosConfig,
+            method: "get",
+            params: {
+                "index": "gnd",
+                // lookfor: "[" + contributorIds + "]",
+                "method": "getSubjects",
+                "overrideIds[]": subjectId,
+                "searcher": "ElasticSearch",
+                "type": "DEFAULT",
+            },
+        };
+
+        return Axios.request(config)
+            .then((response: AxiosResponse) => {
+                return response.data as Subject;
+            });
+    }
 }
