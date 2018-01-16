@@ -54,7 +54,7 @@ class ESPersonTest extends \PHPUnit_Framework_TestCase
 
         $cut->setRawData($data);
         $actual = $cut->getBirthPlaceDisplayField();
-        $this->assertEquals(["value"], $actual);
+        static::assertEquals(["value"], $actual);
     }
 }
 

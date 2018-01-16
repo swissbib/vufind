@@ -143,7 +143,7 @@ class Params extends BaseParams
 
         // Special case -- no IDs to set:
         if (empty($ids)) {
-            return $this->setOverrideQuery('NOT *:*');
+            $this->setOverrideQuery('NOT *:*');
         }
 
         $callback = function ($i) {
