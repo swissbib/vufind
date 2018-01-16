@@ -1,20 +1,44 @@
 <?php
 /**
+ * RecordCollectionFactory.php
  *
- * @category linked-swissbib
- * @package  Backend_Eleasticsearch_Response
- * @author   Guenter Hipler <guenter.hipler@unibas.ch>
- * @author   Philipp Kuntschik <Philipp.Kuntschik@HTWChur.ch>
+ * PHP Version 7
+ *
+ * Copyright (C) swissbib 2018
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ *
+ * @category VuFind
+ * @package  ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult
+ * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://linked.swissbib.ch  Main Page
+ * @link     http://www.vufind.org  Main Page
  */
-
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult;
 
-use ElasticsearchAdapter\Result\ElasticsearchClientResult;
 use VuFindSearch\Response\RecordCollectionFactoryInterface;
 use VuFindSearch\Response\RecordCollectionInterface;
 
+/**
+ * Class RecordCollectionFactory
+ *
+ * @category VuFind
+ * @package  ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult
+ * @author   Christoph Boehm <cbo@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
+ */
 class RecordCollectionFactory implements RecordCollectionFactoryInterface
 {
     /**
@@ -56,15 +80,15 @@ class RecordCollectionFactory implements RecordCollectionFactoryInterface
     /**
      * Convert a response into a record collection.
      *
-     * @param ElasticsearchClientResult $response response data
+     * @param mixed $response The response data
      *
      * @return RecordCollectionInterface
      */
-    public function factory($responses)
+    public function factory($response)
     {
-        $collection = new $this->collectionClass($responses);
-        $totalHits = $responses->getTotal();
-        foreach ($responses->getHits() as $hit) {
+        $collection = new $this->collectionClass($response);
+        $totalHits = $response->getTotal();
+        foreach ($response->getHits() as $hit) {
             $collection->add(call_user_func($this->recordFactory, $hit));
         }
         $collection->setTotal($totalHits);
