@@ -85,6 +85,9 @@ class NationalLicencesController extends BaseController
         $homeOrganizationType
             = isset($_SERVER['home_organization_type']) ?
             $_SERVER['home_organization_type'] : null;
+        $homeOrganization
+            = isset($_SERVER['homeOrganization']) ?
+            $_SERVER['homeOrganization'] : null;
         $affiliation
             = isset($_SERVER['affiliation']) ? $_SERVER['affiliation'] : null;
         $swissLibraryPersonResidence
@@ -103,111 +106,134 @@ class NationalLicencesController extends BaseController
          * @var NationalLicenceUser $user
          */
         $user = null;
-        try {
-            // Create a national licence user liked the the current logged user
-            $user = $this->nationalLicenceService
-                ->getOrCreateNationalLicenceUserIfNotExists(
-                    $persistentId,
+
+        if ($homeOrganization == "eduid.ch") {
+            try {
+                // Create a national licence user liked the the current logged user
+                $user = $this->nationalLicenceService
+                    ->getOrCreateNationalLicenceUserIfNotExists(
+                        $persistentId,
+                        [
+                            'edu_id' => $uniqueId,
+                            'persistent_id' => $persistentId,
+                            'home_organization_type' => $homeOrganizationType,
+                            'mobile' => $mobile,
+                            'home_postal_address' => $homePostalAddress,
+                            'affiliation' => $affiliation,
+                            'swiss_library_person_residence' =>
+                                $swissLibraryPersonResidence,
+                            'active_last_12_month' => $swissEduIDUsage1y === 'TRUE',
+                            'assurance_level' => $swissEduIdAssuranceLevel,
+                            'display_name' => $givenName . " " . $surname
+                        ]
+                    );
+            } catch (\Exception $e) {
+                $this->flashMessenger()->addErrorMessage(
+                    $this->translate($e->getMessage())
+                );
+            }
+
+            // Compute the checks
+            $isHomePostalAddressInSwitzerland
+                = $this->nationalLicenceService
+                    ->isAddressInSwitzerland($homePostalAddress);
+            $isSwissPhoneNumber
+                = $this->nationalLicenceService->isSwissPhoneNumber($mobile);
+            $isNationalLicenceCompliant
+                = $this->nationalLicenceService->isNationalLicenceCompliant();
+            $temporaryAccessValid
+                = $this->nationalLicenceService
+                    ->isTemporaryAccessCurrentlyValid($user);
+            $hasAcceptedTermsAndConditions
+                = $user->hasAcceptedTermsAndConditions();
+            $hasVerifiedHomePostalAddress
+                = $this->nationalLicenceService->hasVerifiedSwissAddress();
+            $hasPermanentAccess                 = $user->hasRequestPermanentAccess();
+            $hasAccessToNationalLicenceContent
+                = $this->nationalLicenceService
+                    ->hasAccessToNationalLicenceContent($user);
+
+            $NLUrl = "/Search/Results?filter%5B%5D=union%3A%22NATIONALLICENCE%22";
+
+            if ($hasPermanentAccess) {
+                $this->flashMessenger()->addSuccessMessage(
                     [
-                        'edu_id' => $uniqueId,
-                        'persistent_id' => $persistentId,
-                        'home_organization_type' => $homeOrganizationType,
-                        'mobile' => $mobile,
-                        'home_postal_address' => $homePostalAddress,
-                        'affiliation' => $affiliation,
-                        'swiss_library_person_residence' =>
-                            $swissLibraryPersonResidence,
-                        'active_last_12_month' => $swissEduIDUsage1y === 'TRUE',
-                        'assurance_level' => $swissEduIdAssuranceLevel,
-                        'display_name' => $givenName . " " . $surname
+                        'msg' =>
+                            $this->translate('snl.nationalLicenceCompliant') .
+                            ' <a href="' . $NLUrl . '">' .
+                            $this->translate('snl.nationalLicencesContent') .
+                            "</a>.",
+                        'html' => true
                     ]
                 );
-        } catch (\Exception $e) {
-            $this->flashMessenger()->addErrorMessage(
-                $this->translate($e->getMessage())
-            );
-        }
-
-        // Compute the checks
-        $isHomePostalAddressInSwitzerland
-            = $this->nationalLicenceService
-                ->isAddressInSwitzerland($homePostalAddress);
-        $isSwissPhoneNumber
-            = $this->nationalLicenceService->isSwissPhoneNumber($mobile);
-        $isNationalLicenceCompliant
-            = $this->nationalLicenceService->isNationalLicenceCompliant();
-        $temporaryAccessValid
-            = $this->nationalLicenceService->isTemporaryAccessCurrentlyValid($user);
-        $hasAcceptedTermsAndConditions      = $user->hasAcceptedTermsAndConditions();
-        $hasVerifiedHomePostalAddress
-            = $this->nationalLicenceService->hasVerifiedSwissAddress();
-        $hasPermanentAccess                 = $user->hasRequestPermanentAccess();
-        $hasAccessToNationalLicenceContent
-            = $this->nationalLicenceService
-                ->hasAccessToNationalLicenceContent($user);
-
-        $NLUrl = "/Search/Results?filter%5B%5D=union%3A%22NATIONALLICENCE%22";
-
-        if ($hasPermanentAccess) {
-            $this->flashMessenger()->addSuccessMessage(
-                [
-                    'msg' =>
-                        $this->translate('snl.nationalLicenceCompliant') .
-                        ' <a href="' . $NLUrl . '">' .
-                        $this->translate('snl.nationalLicencesContent') .
-                        "</a>.",
-                    'html' => true
-                ]
-            );
-        } else if ($temporaryAccessValid) {
-            $message
-                =  $this->translate(
-                    'snl.yourTemporaryAccessWasCreatedSuccessfully'
-                ) .
-                ' <a href="' . $NLUrl . '">' .
-                $this->translate('snl.nationalLicencesContent') .
-                "</a>. " .
-                $this->translate(
-                    'snl.theAddressNotVerifiedYet.verify'
-                ) .
-                " " .
-                $this->translate(
-                    'snl.forPermanent'
+            } else if ($temporaryAccessValid) {
+                $message
+                    =  $this->translate(
+                        'snl.yourTemporaryAccessWasCreatedSuccessfully'
+                    ) .
+                    ' <a href="' . $NLUrl . '">' .
+                    $this->translate('snl.nationalLicencesContent') .
+                    "</a>. " .
+                    $this->translate(
+                        'snl.theAddressNotVerifiedYet.verify'
+                    ) .
+                    " " .
+                    $this->translate(
+                        'snl.forPermanent'
+                    );
+                $this->flashMessenger()->addSuccessMessage(
+                    [
+                        'msg' => $message,
+                        'html' => true
+                    ]
                 );
-            $this->flashMessenger()->addSuccessMessage(
+            } else {
+                if (!$temporaryAccessValid && !$hasPermanentAccess) {
+                    $this->activateTemporaryAccess();
+                }
+            }
+
+            if (!$hasPermanentAccess && $hasVerifiedHomePostalAddress) {
+                $this->activatePermanentAccess();
+            }
+
+            $view = new ViewModel(
                 [
-                    'msg' => $message,
-                    'html' => true
+                    'nonEduId' =>
+                        false,
+                    'swissLibraryPersonResidence' =>
+                        $swissLibraryPersonResidence,
+                    'homePostalAddress' =>
+                        $homePostalAddress,
+                    'mobile' =>
+                        $mobile,
+                    'user' =>
+                        $user,
+                    'isSwissPhoneNumber' =>
+                        $isSwissPhoneNumber,
+                    'isHomePostalAddressInSwitzerland' =>
+                        $isHomePostalAddressInSwitzerland,
+                    'isNationalLicenceCompliant' =>
+                        $isNationalLicenceCompliant,
+                    'temporaryAccessValid' =>
+                        $temporaryAccessValid,
+                    'hasAcceptedTermsAndConditions' =>
+                        $hasAcceptedTermsAndConditions,
+                    'hasPermanentAccess' =>
+                        $hasPermanentAccess,
+                    'hasVerifiedHomePostalAddress' =>
+                        $hasVerifiedHomePostalAddress,
                 ]
             );
+            return $view;
         } else {
-            if (!$temporaryAccessValid && !$hasPermanentAccess) {
-                $this->activateTemporaryAccess();
-            }
+            $view = new ViewModel(
+                [
+                    'nonEduId' => true
+                ]
+            );
+            return $view;
         }
-
-        if (!$hasPermanentAccess && $hasVerifiedHomePostalAddress) {
-            $this->activatePermanentAccess();
-        }
-
-        $view = new ViewModel(
-            [
-                'swissLibraryPersonResidence' => $swissLibraryPersonResidence,
-                'homePostalAddress' => $homePostalAddress,
-                'mobile' => $mobile,
-                'user' => $user,
-                'isSwissPhoneNumber' => $isSwissPhoneNumber,
-                'isHomePostalAddressInSwitzerland' =>
-                    $isHomePostalAddressInSwitzerland,
-                'isNationalLicenceCompliant' => $isNationalLicenceCompliant,
-                'temporaryAccessValid' => $temporaryAccessValid,
-                'hasAcceptedTermsAndConditions' => $hasAcceptedTermsAndConditions,
-                'hasPermanentAccess' => $hasPermanentAccess,
-                'hasVerifiedHomePostalAddress' => $hasVerifiedHomePostalAddress,
-            ]
-        );
-
-        return $view;
     }
 
     /**

@@ -9,13 +9,12 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 <div class="<?= $this->layoutClass('mainbody') ?>">
 
     <h1><?= $this->transEsc('snl.accessNationalLicences') ?></h1>
-    <!-- First of all check if use is blocked -->
-    <? if ($this->user->isBlocked()): ?>
-        <div class="alert alert-danger"><?= $this->transEsc('snl.yourAccountHasBeenBlocked') ?></div>
-    <? elseif (!$this->nationalLicences()->isAuthenticatedWithSwissEduId()): ?>
+    <? if ($this->nonEduId): ?>
         <p><?= $this->transEsc('snl.nonSwissEduLogin1') ?></p>
         <p><?= $this->transEsc('snl.nonSwissEduLogin2') ?></p>
         <p><?= $this->transEsc('snl.nonSwissEduLogin3')?> <a href="<?= $this->transEsc('snl.url') ?>"><?= $this->transEsc('snl.nonSwissEduLogin4')?></a>.</p>
+    <? elseif ($this->user->isBlocked()): ?>
+    <div class="alert alert-danger"><?= $this->transEsc('snl.yourAccountHasBeenBlocked') ?></div>
     <? else: ?>
         <?= $this->flashmessages(); ?>
 
