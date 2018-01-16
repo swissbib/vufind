@@ -10,6 +10,7 @@ namespace ElasticSearch\View\Helper;
 
 /**
  * Class ESSubject
+ *
  * @package ElasticSearch\View\Helper
  */
 class ESSubject extends AbstractHelper
@@ -92,5 +93,14 @@ class ESSubject extends AbstractHelper
     public function getMoreMediaLinkLabel()
     {
         return $this->resolveLabelWithDisplayName('card.knowledge.subject.medias');
+    }
+
+    public function getMoreMediaSearchLink(string $template)
+    {
+        $label = $this->getMoreMediaLinkLabel();
+        $url = $this->getView()->url('search-results');
+        $url = sprintf('%s?lookfor=%s&type=Subject', $url, urlencode($this->getSubject()->getName()));
+
+        return sprintf($template, $url, $label);
     }
 }

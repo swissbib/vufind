@@ -193,6 +193,56 @@ class ESPerson extends ElasticSearch
           }
      */
 
+    /**
+     * @param $content
+     * @param string  $userLocale
+     * @return null
+     */
+    protected function getValueByLanguagePriority($content, string $userLocale = null)
+    {
+        $results = null;
+
+        if ($content !== null && is_array($content) && count($content) > 0) {
+            $userLocale = is_null($userLocale) ? $this->getTranslatorLocale() : $userLocale;
+            $locales = $this->getPrioritizedLocaleList($userLocale);
+
+            foreach ($locales as $locale) {
+                $results = [];
+
+                foreach ($content as $valueArray) {
+                    if (isset($valueArray[$locale]) && !is_null($valueArray[$locale])) {
+                        $results[] = $valueArray[$locale];
+                    }
+                }
+
+                if (count($results) > 0) {
+                    return $results;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $userLocale
+     * @return array
+     */
+    protected function getPrioritizedLocaleList(string $userLocale)
+    {
+        $locales = ['en', 'de', 'fr', 'it'];
+        $userLocaleIndex = array_search($userLocale, $locales);
+
+        // remove user locale from its current position if available
+        if ($userLocaleIndex !== false) {
+            array_splice($locales, $userLocaleIndex, 1);
+        }
+
+        // and prepend it to gain highest priority
+        array_unshift($locales, $userLocale);
+
+        return $locales;
+    }
 
     /**
      * @param $date
