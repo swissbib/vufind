@@ -1,11 +1,30 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: boehm
- * Date: 06.12.17
- * Time: 11:03
+ * SearchBuilder.php
+ *
+ * PHP Version 7
+ *
+ * Copyright (C) swissbib 2018
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ *
+ * @category VuFind
+ * @package  ElasticSearch\VuFindSearch\Backend\ElasticSearch
+ * @author   Christoph Boehm <cbo@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
  */
-
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch;
 
 use ElasticsearchAdapter\Params\ArrayParams;
@@ -14,25 +33,48 @@ use ElasticsearchAdapter\SearchBuilder\TemplateSearchBuilder;
 use VuFindSearch\ParamBag;
 use VuFindSearch\Query\Query;
 
+/**
+ * Class SearchBuilder
+ *
+ * @category VuFind
+ * @package  ElasticSearch\VuFindSearch\Backend\ElasticSearch
+ * @author   Christoph Boehm <cbo@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
+ */
 class SearchBuilder
 {
     /**
+     * The templates
+     *
      * @var array
      */
-    private $templates;
+    private $_templates;
 
     /**
      * SearchBuilder constructor.
+     *
+     * @param array $templates The templates
      */
     public function __construct(array $templates)
     {
-        $this->templates = $templates;
+        $this->_templates = $templates;
     }
 
+    /**
+     * Build the Search
+     *
+     * @param \VuFindSearch\Query\Query   $query  The query
+     * @param int                         $offset The offset
+     * @param int                         $limit  The limit
+     * @param \VuFindSearch\ParamBag|null $params The params
+     *
+     * @return \ElasticsearchAdapter\Search\Search
+     */
     public function buildSearch(
         Query $query,
-        $offset,
-        $limit,
+        int $offset,
+        int $limit,
         ParamBag $params = null
     ): Search {
 
@@ -42,16 +84,16 @@ class SearchBuilder
 
         $elasticSearchParams = new ArrayParams(
             [
-            'index' => $this->getIndex($query, $params),
-            'type' => $query->getHandler(),
-            'size' => $limit,
-            'from' => $offset,
-            'q' => $this->getQueryString($query),
-            'fields' => $this->getFilters($query, $params)
+                'index'  => $this->getIndex($query, $params),
+                'type'   => $query->getHandler(),
+                'size'   => $limit,
+                'from'   => $offset,
+                'q'      => $this->getQueryString($query),
+                'fields' => $this->getFilters($query, $params)
             ]
         );
 
-        $searchBuilder = new TemplateSearchBuilder($this->templates, $elasticSearchParams);
+        $searchBuilder = new TemplateSearchBuilder($this->_templates, $elasticSearchParams);
 
         $search = $searchBuilder->buildSearchFromTemplate($this->getTemplate($query, $params));
 
@@ -59,7 +101,10 @@ class SearchBuilder
     }
 
     /**
-     * @param AbstractQuery $query
+     * Gets the query string
+     *
+     * @param AbstractQuery $query The query
+     *
      * @return mixed
      */
     protected function getQueryString(Query $query)
@@ -73,7 +118,11 @@ class SearchBuilder
     }
 
     /**
-     * @param Query $query
+     * Gets the template query
+     *
+     * @param Query    $query  The query
+     * @param ParamBag $params The params
+     *
      * @return string
      */
     protected function getTemplate(Query $query, ParamBag $params)
@@ -84,18 +133,24 @@ class SearchBuilder
     }
 
     /**
-     * @param Query    $query
-     * @param ParamBag $params
+     * Gets the filters
+     *
+     * @param Query    $query  The query
+     * @param ParamBag $params The params
+     *
      * @return mixed
      */
-    private function getFilters(Query $query, ParamBag $params)
+    protected function getFilters(Query $query, ParamBag $params)
     {
         return "";
     }
 
     /**
-     * @param Query    $query
-     * @param ParamBag $params
+     * Gets the index
+     *
+     * @param Query    $query  The query
+     * @param ParamBag $params The params
+     *
      * @return mixed
      */
     protected function getIndex(Query $query, ParamBag $params)
@@ -104,11 +159,14 @@ class SearchBuilder
     }
 
     /**
-     * @param $name
-     * @param ParamBag $params
+     * Gets the from params
+     *
+     * @param string   $name   The name
+     * @param ParamBag $params The params
+     *
      * @return mixed
      */
-    protected function getFromParams($name, ParamBag $params)
+    protected function getFromParams(string $name, ParamBag $params)
     {
         return $params->get($name)[0];
     }
