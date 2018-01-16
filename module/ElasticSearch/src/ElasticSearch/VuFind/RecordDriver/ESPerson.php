@@ -1,21 +1,53 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: boehm
- * Date: 12.12.17
- * Time: 15:26
+ * ESPerson.php
+ *
+ * PHP Version 7
+ *
+ * Copyright (C) swissbib 2018
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ *
+ * @category VuFind
+ * @package  ElasticSearch\VuFind\RecordDriver
+ * @author   Christoph Boehm <cbo@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
  */
-
 namespace ElasticSearch\VuFind\RecordDriver;
 
-
+/**
+ * Class ESPerson
+ *
+ * @category VuFind
+ * @package  ElasticSearch\VuFind\RecordDriver
+ * @author   Christoph Boehm <cbo@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
+ */
 class ESPerson extends ElasticSearch
 {
     /**
+     * Magic function to access all fields
+     *
+     * @param string $name      Name of the field
+     * @param array  $arguments Unused but required
+     *
      * @method getAbstract()
      * @method getBirthPlace()
      * TODO Possibly rather date than string
-     * @method  getBirthYear()
+     * @method getBirthYear()
      * @method getDeathPlace()
      * TODO Possibly rather date than string
      * @method getDeathYear()
@@ -41,8 +73,6 @@ class ESPerson extends ElasticSearch
      * @method getSpouseDisplayField()
      * @method getOccupationDisplayField()
      *
-     * @param $name
-     * @param $arguments
      * @return array|null
      */
     public function __call(string $name, $arguments)
@@ -52,35 +82,57 @@ class ESPerson extends ElasticSearch
             $field = $this->getField(sprintf('dbp%sAsLiteral', $fieldName), 'lsb');
 
             return !is_null($field)
-              ? $this->getValueByLanguagePriority($field)
-              : null;
+                ? $this->getValueByLanguagePriority($field)
+                : null;
         }
 
         $fieldName = lcfirst(substr($name, 3));
         return $this->getField($fieldName);
     }
 
+    /**
+     * Gets the PersonId
+     *
+     * @return array|null
+     */
     public function getPersonId()
     {
         return $this->getField('id', '@', '');
     }
 
+    /**
+     * Gets the FirstName
+     *
+     * @return array|null
+     */
     public function getFirstName()
     {
         return $this->getField('firstName', 'foaf');
     }
 
+    /**
+     * Gets the LastName
+     *
+     * @return array|null
+     */
     public function getLastName()
     {
         return $this->getField('lastName', 'foaf');
     }
 
+    /**
+     * Gets the Name
+     *
+     * @return array|null
+     */
     public function getName()
     {
         return $this->getField('label', 'rdfs');
     }
 
     /**
+     * Gets the BirthDate
+     *
      * @return \DateTime|null
      */
     public function getBirthDate()
@@ -89,6 +141,11 @@ class ESPerson extends ElasticSearch
         return $this->extractDate($date);
     }
 
+    /**
+     * Gets the Abstract
+     *
+     * @return mixed|null
+     */
     public function getAbstract()
     {
         $abstract = $this->getField('abstract');
@@ -96,18 +153,33 @@ class ESPerson extends ElasticSearch
         return is_array($localizedAbstract) && count($localizedAbstract) > 0 ? $localizedAbstract[0] : null;
     }
 
+    /**
+     * Gets the Pseudonym
+     *
+     * @return null
+     */
     public function getPseudonym()
     {
         $pseudonym = $this->getField("pseudonym");
         return $this->getValueByLanguagePriority($pseudonym);
     }
 
+    /**
+     * Gets the BirthPlaceDisplayField
+     *
+     * @return null
+     */
     public function getBirthPlaceDisplayField()
     {
         $place = $this->getField("dbpBirthPlaceAsLiteral", "lsb");
         return $this->getValueByLanguagePriority($place);
     }
 
+    /**
+     * Gets the DeathPlaceDisplayField
+     *
+     * @return null
+     */
     public function getDeathPlaceDisplayField()
     {
         $place = $this->getField("dbpDeathPlaceAsLiteral", "lsb");
@@ -115,6 +187,8 @@ class ESPerson extends ElasticSearch
     }
 
     /**
+     * Gets the DeathDate
+     *
      * @return \DateTime|null
      */
     public function getDeathDate()
@@ -123,17 +197,29 @@ class ESPerson extends ElasticSearch
         return $this->extractDate($date);
     }
 
+    /**
+     * Gets the SameAs
+     *
+     * @return array|null
+     */
     public function getSameAs()
     {
         return $this->getField("sameAs", "owl");
     }
 
+    /**
+     * Gets the RdfType
+     *
+     * @return array|null
+     */
     public function getRdfType()
     {
         return $this->getField("type", "rdf");
     }
 
     /**
+     * Has sufficient data
+     *
      * Caveat: Does not check for related subjects
      *
      * @return bool
@@ -141,15 +227,15 @@ class ESPerson extends ElasticSearch
     public function hasSufficientData(): bool
     {
         $fields = [
-          "dbp:thumbnail",
-          "dbp:abstract",
-          "dbp:birthDate",
-          "lsb:dbpBirthPlaceAsLiteral",
-          "dbp:deathDate",
-          "lsb:dbpDeathPlaceAsLiteral",
-          "dbp:abstract",
-          "lsb:dbpNationalityAsLiteral",
-          "lsb:dbpOccupationAsLiteral"
+            "dbp:thumbnail",
+            "dbp:abstract",
+            "dbp:birthDate",
+            "lsb:dbpBirthPlaceAsLiteral",
+            "dbp:deathDate",
+            "lsb:dbpDeathPlaceAsLiteral",
+            "dbp:abstract",
+            "lsb:dbpNationalityAsLiteral",
+            "lsb:dbpOccupationAsLiteral"
         ];
 
         foreach ($fields as $field) {
@@ -194,11 +280,14 @@ class ESPerson extends ElasticSearch
      */
 
     /**
-     * @param $content
-     * @param string  $userLocale
+     * Gets the ValueByLanguagePriority
+     *
+     * @param array  $content    The content
+     * @param string $userLocale The (optional) locale
+     *
      * @return null
      */
-    protected function getValueByLanguagePriority($content, string $userLocale = null)
+    protected function getValueByLanguagePriority(array $content, string $userLocale = null)
     {
         $results = null;
 
@@ -225,7 +314,10 @@ class ESPerson extends ElasticSearch
     }
 
     /**
-     * @param string $userLocale
+     * Gets the PrioritizedLocaleList
+     *
+     * @param string $userLocale The user locale
+     *
      * @return array
      */
     protected function getPrioritizedLocaleList(string $userLocale)
@@ -245,10 +337,13 @@ class ESPerson extends ElasticSearch
     }
 
     /**
-     * @param $date
+     * Extracts date
+     *
+     * @param string $date The date
+     *
      * @return \DateTime|null
      */
-    protected function extractDate($date)
+    protected function extractDate(string $date)
     {
         if ($date !== null) {
             return new \DateTime($date);
@@ -257,9 +352,12 @@ class ESPerson extends ElasticSearch
     }
 
     /**
-     * @param string $name
-     * @param string $prefix
-     * @param string $delimiter
+     * Gets the Field
+     *
+     * @param string $name      Name of the field
+     * @param string $prefix    The prefix
+     * @param string $delimiter The delimiter
+     *
      * @return array|null
      */
     protected function getField(string $name, string $prefix = "dbp", string $delimiter = ":")
@@ -267,7 +365,11 @@ class ESPerson extends ElasticSearch
         return parent::getField($name, $prefix, $delimiter);
     }
 
-
+    /**
+     * Gets AllFields
+     *
+     * @return array
+     */
     public function getAllFields()
     {
         return $this->fields;
