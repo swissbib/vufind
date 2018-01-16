@@ -1,11 +1,29 @@
 <?php
 /**
+ * RecordCollection.php
  *
- * @category linked-swissbib
- * @package  Backend_Eleasticsearch_Response
- * @author   Guenter Hipler <guenter.hipler@unibas.ch>
+ * PHP Version 7
+ *
+ * Copyright (C) swissbib 2018
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ *
+ * @category VuFind
+ * @package  ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult
+ * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://linked.swissbib.ch  Main Page
+ * @link     http://www.vufind.org  Main Page
  */
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult;
 
@@ -13,6 +31,15 @@ use ElasticsearchAdapter\Result\ElasticsearchClientResult;
 use VuFindSearch\Exception\InvalidArgumentException;
 use VuFindSearch\Response\AbstractRecordCollection;
 
+/**
+ * Class RecordCollection
+ *
+ * @category VuFind
+ * @package  ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult
+ * @author   Christoph Boehm <cbo@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
+ */
 class RecordCollection extends AbstractRecordCollection
 {
     /**
@@ -22,7 +49,12 @@ class RecordCollection extends AbstractRecordCollection
      */
     protected $response;
 
-    private $resultTotal = 0;
+    /**
+     * The number of records
+     *
+     * @var int
+     */
+    private $_resultTotal = 0;
 
     /**
      * Constructor.
@@ -46,12 +78,19 @@ class RecordCollection extends AbstractRecordCollection
      */
     public function getTotal()
     {
-        return $this->resultTotal;
+        return $this->_resultTotal;
     }
 
-    public function setTotal($total) 
+    /**
+     * Sets the number of records
+     *
+     * @param int $total The number of records
+     *
+     * @return void
+     */
+    public function setTotal(int $total)
     {
-        $this->resultTotal = $total;
+        $this->_resultTotal = $total;
     }
 
     /**
