@@ -28,9 +28,6 @@
 namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
-use ElasticSearch\VuFind\RecordDriver\ESBibliographicResource;
-use ElasticSearch\VuFind\Search\ElasticSearch\Params;
-use ElasticSearch\VuFind\Search\ElasticSearch\Results;
 use VuFind\Controller\AbstractBase;
 use Zend\View\Model\ViewModel;
 
@@ -137,7 +134,7 @@ class KnowledgeCardController extends AbstractBase
      *
      * @return array
      */
-    private function getBibliographicResourcesOf(string $id): array
+    protected function getBibliographicResourcesOf(string $id): array
     {
         return $this->search(
             "http://data.swissbib.ch/person/" . $id,
@@ -154,12 +151,10 @@ class KnowledgeCardController extends AbstractBase
      *
      * @return array
      */
-    private function getSubjectsOf(array $bibliographicResources)
+    protected function getSubjectsOf(array $bibliographicResources)
     {
         $ids = [];
-        /**
-         * @var ESBibliographicResource $bibliographicResource
-         */
+        // @var ESBibliographicResource $bibliographicResource
         foreach ($bibliographicResources as $bibliographicResource) {
             $s = $bibliographicResource->getSubjects();
             if (count($s) > 0) {
@@ -183,7 +178,7 @@ class KnowledgeCardController extends AbstractBase
      *
      * @return array
      */
-    private function getSubSubjects(string $id)
+    protected function getSubSubjects(string $id)
     {
         return $this->search($id, "sub_subjects");
     }
@@ -195,7 +190,7 @@ class KnowledgeCardController extends AbstractBase
      *
      * @return array
      */
-    private function getParentSubjects(array $ids)
+    protected function getParentSubjects(array $ids)
     {
         return $this->search(
             $this->_arrayToSearchString($ids),
@@ -218,14 +213,10 @@ class KnowledgeCardController extends AbstractBase
     protected function search(string $q, string $template, string $index = null, string $type = null): array
     {
         $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
-        /**
-         * @var Results
-         */
+         // @var Results
         $results = $manager->get("ElasticSearch");
 
-        /**
-         * @var Params
-         */
+        // @var Params
         $params = $results->getParams();
 
         if (isset($index)) {
