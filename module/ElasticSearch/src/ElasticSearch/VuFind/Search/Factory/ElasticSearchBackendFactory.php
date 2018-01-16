@@ -37,6 +37,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 // @codingStandardsIgnoreLineuse
 
+// @codingStandardsIgnoreLineuse
+
 /**
  * Class ElasticSearchBackendFactory
  *

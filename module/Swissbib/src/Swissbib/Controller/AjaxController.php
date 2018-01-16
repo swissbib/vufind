@@ -57,8 +57,7 @@ class AjaxController extends VFAjaxController
     {
         $this->outputMode = 'json';
         $config = $this->getConfig();
-        if (
-            (!isset($config->Mail->require_login)
+        if ((!isset($config->Mail->require_login)
                 || $config->Mail->require_login)
             && strcmp(
                 strtolower(
@@ -211,8 +210,8 @@ class AjaxController extends VFAjaxController
      *
      * @return \Zend\Stdlib\ResponseInterface
      */
-    protected function buildResponse($content, $spec
-    ): \Zend\Stdlib\ResponseInterface {
+    protected function buildResponse($content, $spec): \Zend\Stdlib\ResponseInterface
+    {
         $data = [];
         // @var RecordDataFormatter $recordFormatter
         $recordFormatter = $this->getViewRenderer()->plugin(

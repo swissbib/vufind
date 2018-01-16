@@ -104,8 +104,9 @@ class AutoSuggestConfig extends AbstractHelper
         $valueConverter = new ValueConverter();
 
         $searchesConfig
-            = $this->serviceLocator->getServiceLocator()->get('VuFind\Config')
-            ->get('searches');
+            = $this->serviceLocator->getServiceLocator()->get('VuFind\Config')->get(
+                'searches'
+            );
         $autoSuggestEnabled
             = $this->_isAutoSuggestEnabled($searchesConfig, $valueConverter);
 
@@ -124,8 +125,8 @@ class AutoSuggestConfig extends AbstractHelper
     /**
      * Is auto suggest enabled in config?
      *
-     * @param ZendConfig     $searchesConfig Config
-     * @param ValueConverter $converter      Converter
+     * @param ZendConfig $searchesConfig Config
+     * @param ValueConverter $converter  Converter
      *
      * @return bool
      */

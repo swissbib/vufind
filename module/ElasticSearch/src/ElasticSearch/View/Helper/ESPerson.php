@@ -280,8 +280,7 @@ class ESPerson extends AbstractHelper
      */
     public function getThumbnailPath()
     {
-        return $this->hasThumbnail() ? $this->getPerson()->getThumbnail()[0]
-            : null;
+        return $this->hasThumbnail() ? $this->getPerson()->getThumbnail()[0] : null;
     }
 
     /**
@@ -302,10 +301,9 @@ class ESPerson extends AbstractHelper
     public function getAbstractInfo()
     {
         $info = [
-            'label'     => $this->getView()->translate('card.knowledge.person.metadata.abstract'),
-            'text'      => '',
-            'truncated' => false,
-            'overflow'  => ''
+            'label' => $this->getView()->translate(
+                'card.knowledge.person.metadata.abstract'
+            ), 'text' => '', 'truncated' => false, 'overflow' => ''
         ];
 
         if ($this->hasAbstract()) {
@@ -333,8 +331,7 @@ class ESPerson extends AbstractHelper
      * @return int
      */
     protected function calculateSplitPoint(
-        string $text,
-        int $truncationWordCount = 30
+        string $text, int $truncationWordCount = 30
     ) {
         // pattern matches the same way as trim() will do by default
         $words = preg_split('/[ \t\n\r\0\x0B]/', $text);

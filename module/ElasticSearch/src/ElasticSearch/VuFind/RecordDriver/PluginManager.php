@@ -48,8 +48,8 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
      * Constructor
      *
      * @param ServiceLocatorInterface $serviceLocator The Service Locator
-     * @param ConfigInterface $configuration Configuration settings
-     *                                       (optional)
+     * @param ConfigInterface         $configuration  Configuration settings
+     *                                                (optional)
      */
     public function __construct(
         ServiceLocatorInterface $serviceLocator,
