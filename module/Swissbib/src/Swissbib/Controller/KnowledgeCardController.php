@@ -89,7 +89,9 @@ class KnowledgeCardController extends AbstractBase
         try {
             $driver = $this->getInformation($id, $subjectIndex, $subjectType);
             $subSubjects = $this->getSubSubjects($id);
-            $parentSubjects = $this->getParentSubjects($driver->getParentSubjects());
+            $parentSubjects = $this->getParentSubjects(
+                $driver->getParentSubjects()
+            );
 
             return $this->createViewModel(
                 [
@@ -114,12 +116,7 @@ class KnowledgeCardController extends AbstractBase
      */
     protected function getInformation($id, $index, $type): ElasticSearch
     {
-        $content = $this->search(
-            $id,
-            "id",
-            $index,
-            $type
-        );
+        $content = $this->search($id, "id", $index, $type);
 
         if ($content !== null && is_array($content) && count($content) === 1) {
             return $content[0];
@@ -164,10 +161,7 @@ class KnowledgeCardController extends AbstractBase
         $ids = array_unique($ids);
 
         return $this->search(
-            $this->_arrayToSearchString($ids),
-            "id",
-            "gnd",
-            "DEFAULT"
+            $this->_arrayToSearchString($ids), "id", "gnd", "DEFAULT"
         );
     }
 
@@ -193,10 +187,7 @@ class KnowledgeCardController extends AbstractBase
     protected function getParentSubjects(array $ids)
     {
         return $this->search(
-            $this->_arrayToSearchString($ids),
-            "id",
-            "gnd",
-            "DEFAULT"
+            $this->_arrayToSearchString($ids), "id", "gnd", "DEFAULT"
         );
     }
 
@@ -210,10 +201,13 @@ class KnowledgeCardController extends AbstractBase
      *
      * @return array
      */
-    protected function search(string $q, string $template, string $index = null, string $type = null): array
-    {
-        $manager = $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
-         // @var Results
+    protected function search(
+        string $q, string $template, string $index = null, string $type = null
+    ): array {
+        $manager = $this->serviceLocator->get(
+            'VuFind\SearchResultsPluginManager'
+        );
+        // @var Results
         $results = $manager->get("ElasticSearch");
 
         // @var Params
@@ -249,9 +243,7 @@ class KnowledgeCardController extends AbstractBase
     protected function createErrorView(string $id): ViewModel
     {
         $model = new ViewModel(
-            [
-                'message' => 'Can not find a Knowledge Card for id: ' . $id,
-            ]
+            ['message' => 'Can not find a Knowledge Card for id: ' . $id]
         );
         $model->setTemplate('error/index');
         return $model;

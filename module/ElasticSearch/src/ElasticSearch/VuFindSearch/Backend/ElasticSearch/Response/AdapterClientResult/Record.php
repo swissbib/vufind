@@ -25,7 +25,9 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
+// @codingStandardsIgnoreLineuse
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult;
+
 use VuFindSearch\Response\RecordInterface;
 
 /**

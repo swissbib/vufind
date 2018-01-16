@@ -60,7 +60,8 @@ class ElasticSearch extends AbstractBase
 
     /**
      * Return the unique identifier of this record for retrieving additional
-     * information (like tags and user comments) from the external MySQL database.
+     * information (like tags and user comments) from the external MySQL
+     * database.
      *
      * @return string Unique identifier.
      */
@@ -88,13 +89,13 @@ class ElasticSearch extends AbstractBase
      *
      * @return array|null
      */
-    protected function getField(string $name, string $prefix, string $delimiter = ':')
-    {
+    protected function getField(
+        string $name, string $prefix, string $delimiter = ':'
+    ) {
         $fieldName = $this->getQualifiedFieldName($name, $prefix, $delimiter);
 
         return array_key_exists($fieldName, $this->fields["_source"])
-            ? $this->fields["_source"][$fieldName]
-            : null;
+            ? $this->fields["_source"][$fieldName] : null;
     }
 
     /**
@@ -106,8 +107,9 @@ class ElasticSearch extends AbstractBase
      *
      * @return string
      */
-    protected function getQualifiedFieldName(string $name, string $prefix, string $delimiter)
-    {
+    protected function getQualifiedFieldName(
+        string $name, string $prefix, string $delimiter
+    ) {
         return sprintf('%s%s%s', $prefix, $delimiter, $name);
     }
 
@@ -119,22 +121,33 @@ class ElasticSearch extends AbstractBase
      *
      * @return null
      */
-    protected function getValueByLanguagePriority(array $content, string $userLocale = null)
-    {
+    protected function getValueByLanguagePriority(
+        array $content, string $userLocale = null
+    ) {
         $results = null;
 
         if ($content !== null && is_array($content) && count($content) > 0) {
-            $userLocale = is_null($userLocale) ? $this->getTranslatorLocale() : $userLocale;
+            $userLocale = is_null($userLocale) ? $this->getTranslatorLocale()
+                : $userLocale;
             $locales = $this->getPrioritizedLocaleList($userLocale);
 
             foreach ($locales as $locale) {
                 $results = [];
 
                 foreach ($content as $valueArray) {
-                    if (isset($valueArray[$locale]) && !is_null($valueArray[$locale])) {
+                    if (isset($valueArray[$locale])
+                        && !is_null(
+                            $valueArray[$locale]
+                        )
+                    ) {
                         $results[] = $valueArray[$locale];
-                    } else if (isset($valueArray['@language']) && $valueArray['@language'] === $locale && isset($valueArray['@value'])) {
-                        $results[] = $valueArray['@value'];
+                    } else {
+                        if (isset($valueArray['@language'])
+                            && $valueArray['@language'] === $locale
+                            && isset($valueArray['@value'])
+                        ) {
+                            $results[] = $valueArray['@value'];
+                        }
                     }
                 }
 

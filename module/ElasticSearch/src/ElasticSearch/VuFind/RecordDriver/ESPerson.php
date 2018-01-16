@@ -79,10 +79,11 @@ class ESPerson extends ElasticSearch
     {
         if ($pos = strpos($name, "DisplayField")) {
             $fieldName = substr($name, 3, $pos);
-            $field = $this->getField(sprintf('dbp%sAsLiteral', $fieldName), 'lsb');
+            $field = $this->getField(
+                sprintf('dbp%sAsLiteral', $fieldName), 'lsb'
+            );
 
-            return !is_null($field)
-                ? $this->getValueByLanguagePriority($field)
+            return !is_null($field) ? $this->getValueByLanguagePriority($field)
                 : null;
         }
 
@@ -150,7 +151,8 @@ class ESPerson extends ElasticSearch
     {
         $abstract = $this->getField('abstract');
         $localizedAbstract = $this->getValueByLanguagePriority($abstract);
-        return is_array($localizedAbstract) && count($localizedAbstract) > 0 ? $localizedAbstract[0] : null;
+        return is_array($localizedAbstract) && count($localizedAbstract) > 0
+            ? $localizedAbstract[0] : null;
     }
 
     /**
@@ -219,7 +221,6 @@ class ESPerson extends ElasticSearch
 
     /**
      * Has sufficient data
-     *
      * Caveat: Does not check for related subjects
      *
      * @return bool
@@ -287,19 +288,25 @@ class ESPerson extends ElasticSearch
      *
      * @return null
      */
-    protected function getValueByLanguagePriority(array $content, string $userLocale = null)
-    {
+    protected function getValueByLanguagePriority(
+        array $content, string $userLocale = null
+    ) {
         $results = null;
 
         if ($content !== null && is_array($content) && count($content) > 0) {
-            $userLocale = is_null($userLocale) ? $this->getTranslatorLocale() : $userLocale;
+            $userLocale = is_null($userLocale) ? $this->getTranslatorLocale()
+                : $userLocale;
             $locales = $this->getPrioritizedLocaleList($userLocale);
 
             foreach ($locales as $locale) {
                 $results = [];
 
                 foreach ($content as $valueArray) {
-                    if (isset($valueArray[$locale]) && !is_null($valueArray[$locale])) {
+                    if (isset($valueArray[$locale])
+                        && !is_null(
+                            $valueArray[$locale]
+                        )
+                    ) {
                         $results[] = $valueArray[$locale];
                     }
                 }
@@ -360,8 +367,9 @@ class ESPerson extends ElasticSearch
      *
      * @return array|null
      */
-    protected function getField(string $name, string $prefix = "dbp", string $delimiter = ":")
-    {
+    protected function getField(
+        string $name, string $prefix = "dbp", string $delimiter = ":"
+    ) {
         return parent::getField($name, $prefix, $delimiter);
     }
 

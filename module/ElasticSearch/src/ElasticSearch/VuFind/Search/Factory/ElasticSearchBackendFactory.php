@@ -35,6 +35,8 @@ use Zend\Config\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+// @codingStandardsIgnoreLineuse
+
 /**
  * Class ElasticSearchBackendFactory
  *
@@ -102,8 +104,12 @@ class ElasticSearchBackendFactory implements FactoryInterface
             $backend->setLogger($this->logger);
         }
 
-        $manager = $this->_serviceLocator->get('ElasticSearch\RecordDriverPluginManager');
-        $factory = new RecordCollectionFactory([$manager, 'getElasticSearchRecord']);
+        $manager = $this->_serviceLocator->get(
+            'ElasticSearch\RecordDriverPluginManager'
+        );
+        $factory = new RecordCollectionFactory(
+            [$manager, 'getElasticSearchRecord']
+        );
         $backend->setRecordCollectionFactory($factory);
 
         return $backend;

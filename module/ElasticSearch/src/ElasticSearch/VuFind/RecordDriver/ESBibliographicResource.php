@@ -79,8 +79,9 @@ class ESBibliographicResource extends ElasticSearch
      *
      * @return array|null
      */
-    protected function getField(string $name, string $prefix = "dct", string $delimiter = ':')
-    {
+    protected function getField(
+        string $name, string $prefix = "dct", string $delimiter = ':'
+    ) {
         return parent::getField($name, $prefix, $delimiter);
     }
 
@@ -94,7 +95,9 @@ class ESBibliographicResource extends ElasticSearch
     protected function getIdFromUrlSource(string $field)
     {
         $contributors = $this->fields["_source"][$field];
-        preg_match_all("/\/([\w-]+)(,+|$)/", implode(",", $contributors), $matches);
+        preg_match_all(
+            "/\/([\w-]+)(,+|$)/", implode(",", $contributors), $matches
+        );
         return $matches[1];
     }
 

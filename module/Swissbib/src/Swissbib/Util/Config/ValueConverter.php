@@ -32,7 +32,8 @@ use Zend\Config\Config;
 /**
  * Class ValueConverter
  *
- * Converter that evaluates config string values to their according data types if possible.
+ * Converter that evaluates config string values to their according data types
+ * if possible.
  *
  * @category VuFind
  * @package  Swissbib\Util\Config
@@ -70,14 +71,15 @@ final class ValueConverter
     }
 
     /**
-     * Converts the content of the given config and returns a new config out of it.
+     * Converts the content of the given config and returns a new config out of
+     * it.
      *
      * @param Config $config The config to process.
      * @param bool   $fuzzy  Indicates whether to use the fuzzy type checks for
      *                       boolean values. When true (default), then the
-     *                       {@link #isTruthy} and {@link #isFalsy} methods are used.
-     *                       Otherwise only the strings 'true'and 'false' are
-     *                       allowed as values.
+     *                       {@link #isTruthy} and {@link #isFalsy} methods are
+     *                       used. Otherwise only the strings 'true'and 'false'
+     *                       are allowed as values.
      *
      * @return Config
      */
@@ -90,7 +92,8 @@ final class ValueConverter
     }
 
     /**
-     * Returns true when the given value is a string in a decimal, hexadecimal or octal number format.
+     * Returns true when the given value is a string in a decimal, hexadecimal
+     * or octal number format.
      *
      * @param string $value The value
      *
@@ -98,7 +101,8 @@ final class ValueConverter
      */
     public function isInteger($value)
     {
-        return $this->isDecInteger($value) || $this->isHexInteger($value) || $this->isOctInteger($value);
+        return $this->isDecInteger($value) || $this->isHexInteger($value)
+            || $this->isOctInteger($value);
     }
 
     /**
@@ -114,7 +118,8 @@ final class ValueConverter
     }
 
     /**
-     * Returns true when the given value is a string in a hexadecimal number format.
+     * Returns true when the given value is a string in a hexadecimal number
+     * format.
      *
      * @param string $value The value
      *
@@ -138,7 +143,8 @@ final class ValueConverter
     }
 
     /**
-     * Returns true when the given value is a string in a floating point number format.
+     * Returns true when the given value is a string in a floating point number
+     * format.
      *
      * @param string $value The value
      *
@@ -150,7 +156,8 @@ final class ValueConverter
     }
 
     /**
-     * Returns true when the given value is a string that equals to 'true'. This check is case-insensitive.
+     * Returns true when the given value is a string that equals to 'true'.
+     * This check is case-insensitive.
      *
      * @param string $value The value
      *
@@ -162,7 +169,8 @@ final class ValueConverter
     }
 
     /**
-     * Returns true when the given value is 1 (numeric), '1' (string), true (boolean), 'true' (string), 'on', 'y' or
+     * Returns true when the given value is 1 (numeric), '1' (string), true
+     * (boolean), 'true' (string), 'on', 'y' or
      * 'yes'. For string inputs the case will be ignored.
      *
      * @param string $value The value
@@ -179,7 +187,8 @@ final class ValueConverter
     }
 
     /**
-     * Returns true when the given value is a string that equals to 'false'. This check is case-insensitive.
+     * Returns true when the given value is a string that equals to 'false'.
+     * This check is case-insensitive.
      *
      * @param string $value The value
      *
@@ -191,7 +200,8 @@ final class ValueConverter
     }
 
     /**
-     * Returns true when the given value is 0 (numeric zero), '0' (string zero), false (boolean), 'false' (string),
+     * Returns true when the given value is 0 (numeric zero), '0' (string
+     * zero), false (boolean), 'false' (string),
      * 'off', 'n' or 'no'. For string inputs the case will be ignored.
      *
      * @param string $value The value
@@ -204,7 +214,9 @@ final class ValueConverter
             $value = strtolower($value);
         }
 
-        return in_array($value, [0, '0', false, 'false', 'off', 'n', 'no'], true);
+        return in_array(
+            $value, [0, '0', false, 'false', 'off', 'n', 'no'], true
+        );
     }
 
     /**
@@ -220,8 +232,10 @@ final class ValueConverter
         foreach ($source as $key => $value) {
             if (is_array($value)) {
                 $source[$key] = $this->_convertArray($value, $fuzzy);
-            } else if (is_string($value)) {
-                $source[$key] = $this->_convertValue($value, $fuzzy);
+            } else {
+                if (is_string($value)) {
+                    $source[$key] = $this->_convertValue($value, $fuzzy);
+                }
             }
         }
 
@@ -238,8 +252,16 @@ final class ValueConverter
      */
     private function _convertValue(string $value, bool $fuzzy)
     {
-        $isTrue = true === $fuzzy ? $this->isTruthy($value) : $this->isTrue($value);
-        $isFalse = true === $fuzzy ? $this->isFalsy($value) : $this->isFalse($value);
+        $isTrue = true === $fuzzy
+            ? $this->isTruthy($value)
+            : $this->isTrue(
+                $value
+            );
+        $isFalse = true === $fuzzy
+            ? $this->isFalsy($value)
+            : $this->isFalse(
+                $value
+            );
 
         if ($isTrue) {
             $value = true;

@@ -88,8 +88,9 @@ class ESSubjectCollection extends AbstractHelper
      *
      * @return string
      */
-    public function getSubjectCollectionLinkList(string $template, string $separator = ', '): string
-    {
+    public function getSubjectCollectionLinkList(
+        string $template, string $separator = ', '
+    ): string {
         $helper = $this->getSubjectHelper();
         $subjects = [];
 

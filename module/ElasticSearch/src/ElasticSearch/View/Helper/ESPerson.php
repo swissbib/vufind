@@ -58,9 +58,11 @@ class ESPerson extends AbstractHelper
     }
 
     /**
-     * Template method subclasses may override to provide an array that maps metadata keys on methods on this helper. It
-     * will be set on the metadata view helper. Then you can call the MetadataViewHelper#getMetadataList() method with
-     * the keys of this array to retrieve these metadata information.
+     * Template method subclasses may override to provide an array that maps
+     * metadata keys on methods on this helper. It will be set on the metadata
+     * view helper. Then you can call the MetadataViewHelper#getMetadataList()
+     * method with the keys of this array to retrieve these metadata
+     * information.
      *
      * @return array
      */
@@ -75,7 +77,8 @@ class ESPerson extends AbstractHelper
     }
 
     /**
-     * The type of data this helper handles. Used to resolve type specific urls like for the detail page link.
+     * The type of data this helper handles. Used to resolve type specific urls
+     * like for the detail page link.
      *
      * @return string
      */
@@ -108,8 +111,9 @@ class ESPerson extends AbstractHelper
      *
      * @return void
      */
-    public function setPerson(\ElasticSearch\VuFind\RecordDriver\ESPerson $_person)
-    {
+    public function setPerson(
+        \ElasticSearch\VuFind\RecordDriver\ESPerson $_person
+    ) {
         parent::setDriver($_person);
         $this->_person = $_person;
     }
@@ -169,12 +173,11 @@ class ESPerson extends AbstractHelper
      *
      * @return null|string
      */
-    public function getBirthInfo(string $dateFormat = 'd.m.Y', string $separator = ', ')
-    {
+    public function getBirthInfo(
+        string $dateFormat = 'd.m.Y', string $separator = ', '
+    ) {
         return $this->getDateAndPlaceInfo(
-            $dateFormat,
-            $separator,
-            $this->getPerson()->getBirthDate(),
+            $dateFormat, $separator, $this->getPerson()->getBirthDate(),
             $this->getPerson()->getBirthPlaceDisplayField()
         );
     }
@@ -187,12 +190,11 @@ class ESPerson extends AbstractHelper
      *
      * @return null|string
      */
-    public function getDeathInfo(string $dateFormat = 'd.m.Y', string $separator = ', ')
-    {
+    public function getDeathInfo(
+        string $dateFormat = 'd.m.Y', string $separator = ', '
+    ) {
         return $this->getDateAndPlaceInfo(
-            $dateFormat,
-            $separator,
-            $this->getPerson()->getDeathDate(),
+            $dateFormat, $separator, $this->getPerson()->getDeathDate(),
             $this->getPerson()->getDeathPlaceDisplayField()
         );
     }
@@ -207,8 +209,10 @@ class ESPerson extends AbstractHelper
      *
      * @return null|string
      */
-    protected function getDateAndPlaceInfo(string $dateFormat, string $separator, \DateTime $date = null, array $place = null)
-    {
+    protected function getDateAndPlaceInfo(
+        string $dateFormat, string $separator, \DateTime $date = null,
+        array $place = null
+    ) {
         $date = is_null($date) ? null : $date->format($dateFormat);
         $place = is_null($place) ? null : implode($separator, $place);
         $result = null;
@@ -276,7 +280,8 @@ class ESPerson extends AbstractHelper
      */
     public function getThumbnailPath()
     {
-        return $this->hasThumbnail() ? $this->getPerson()->getThumbnail()[0] : null;
+        return $this->hasThumbnail() ? $this->getPerson()->getThumbnail()[0]
+            : null;
     }
 
     /**
@@ -327,8 +332,10 @@ class ESPerson extends AbstractHelper
      *
      * @return int
      */
-    protected function calculateSplitPoint(string $text, int $truncationWordCount = 30)
-    {
+    protected function calculateSplitPoint(
+        string $text,
+        int $truncationWordCount = 30
+    ) {
         // pattern matches the same way as trim() will do by default
         $words = preg_split('/[ \t\n\r\0\x0B]/', $text);
         $wordCount = 0;
@@ -356,7 +363,9 @@ class ESPerson extends AbstractHelper
      */
     public function getRelatedSubjectsLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.person.metadata.related.subjects');
+        return $this->resolveLabelWithDisplayName(
+            'card.knowledge.person.metadata.related.subjects'
+        );
     }
 
     /**
@@ -377,7 +386,9 @@ class ESPerson extends AbstractHelper
      */
     public function getNotableWorkLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.person.medias');
+        return $this->resolveLabelWithDisplayName(
+            'card.knowledge.person.medias'
+        );
     }
 
     /**
@@ -387,7 +398,9 @@ class ESPerson extends AbstractHelper
      */
     public function getMoreNotableWorkLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.person.medias.more');
+        return $this->resolveLabelWithDisplayName(
+            'card.knowledge.person.medias.more'
+        );
     }
 
     /**
@@ -401,24 +414,28 @@ class ESPerson extends AbstractHelper
     {
         $label = $this->getMoreNotableWorkLabel();
         $url = $this->getView()->url('search-results');
-        $url = sprintf('%s?lookfor=%s&type=Author', $url, urlencode($this->getPerson()->getName()));
+        $url = sprintf(
+            '%s?lookfor=%s&type=Author', $url,
+            urlencode($this->getPerson()->getName())
+        );
 
         return sprintf($template, $url, $label);
     }
 
     // TODO: Remove temporary notable work once actual data is available
-    private static $_notableWork = [
-        ['label' => 'Werk 01', 'link' => '#'],
-        ['label' => 'Werk 02', 'link' => '#'],
-        ['label' => 'Werk 03', 'link' => '#'],
-        ['label' => 'Werk 04', 'link' => '#'],
-        ['label' => 'Werk 05', 'link' => '#'],
-        ['label' => 'Werk 06', 'link' => '#'],
-        ['label' => 'Werk 07', 'link' => '#'],
-        ['label' => 'Werk 08', 'link' => '#'],
-        ['label' => 'Werk 09', 'link' => '#'],
-        ['label' => 'Werk 10', 'link' => '#'],
-    ];
+    private static $_notableWork
+        = [
+            ['label' => 'Werk 01', 'link' => '#'],
+            ['label' => 'Werk 02', 'link' => '#'],
+            ['label' => 'Werk 03', 'link' => '#'],
+            ['label' => 'Werk 04', 'link' => '#'],
+            ['label' => 'Werk 05', 'link' => '#'],
+            ['label' => 'Werk 06', 'link' => '#'],
+            ['label' => 'Werk 07', 'link' => '#'],
+            ['label' => 'Werk 08', 'link' => '#'],
+            ['label' => 'Werk 09', 'link' => '#'],
+            ['label' => 'Werk 10', 'link' => '#'],
+        ];
 
     /**
      * Gets the NotableWork
@@ -438,6 +455,8 @@ class ESPerson extends AbstractHelper
      */
     public function getDetailPageLinkLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.person.page.link');
+        return $this->resolveLabelWithDisplayName(
+            'card.knowledge.person.page.link'
+        );
     }
 }

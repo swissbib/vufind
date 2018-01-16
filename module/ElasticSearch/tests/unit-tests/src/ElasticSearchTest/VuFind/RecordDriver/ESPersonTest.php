@@ -47,7 +47,10 @@ class ESPersonTest extends \PHPUnit_Framework_TestCase
     {
         $cut = new ESPerson();
 
-        $data = ["_source" => ["lsb:dbpBirthPlaceAsLiteral" => [0 => ["en" => "value"]]]];
+        $data
+            = ["_source" =>
+            ["lsb:dbpBirthPlaceAsLiteral" => [0 => ["en" => "value"]]]
+            ];
 
         $cut->setRawData($data);
         $actual = $cut->getBirthPlaceDisplayField();

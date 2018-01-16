@@ -72,10 +72,7 @@ class SearchBuilder
      * @return \ElasticsearchAdapter\Search\Search
      */
     public function buildSearch(
-        Query $query,
-        int $offset,
-        int $limit,
-        ParamBag $params = null
+        Query $query, int $offset, int $limit, ParamBag $params = null
     ): Search {
 
         if ($params === null) {
@@ -93,9 +90,13 @@ class SearchBuilder
             ]
         );
 
-        $searchBuilder = new TemplateSearchBuilder($this->_templates, $elasticSearchParams);
+        $searchBuilder = new TemplateSearchBuilder(
+            $this->_templates, $elasticSearchParams
+        );
 
-        $search = $searchBuilder->buildSearchFromTemplate($this->getTemplate($query, $params));
+        $search = $searchBuilder->buildSearchFromTemplate(
+            $this->getTemplate($query, $params)
+        );
 
         return $search;
     }

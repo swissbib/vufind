@@ -92,12 +92,14 @@ class ESSubject extends AbstractHelper
     /**
      * Sets the  Subject
      *
-     * @param \ElasticSearch\VuFind\RecordDriver\ESSubject|null $_subject The subject
+     * @param \ElasticSearch\VuFind\RecordDriver\ESSubject|null $_subject The
+     *                                                                    subject
      *
      * @return void
      */
-    public function setSubject(\ElasticSearch\VuFind\RecordDriver\ESSubject $_subject = null)
-    {
+    public function setSubject(
+        \ElasticSearch\VuFind\RecordDriver\ESSubject $_subject = null
+    ) {
         parent::setDriver($_subject);
         $this->_subject = $_subject;
     }
@@ -124,7 +126,9 @@ class ESSubject extends AbstractHelper
     {
         $subject = $this->getSubject();
 
-        $url = $this->getView()->url('card-knowledge-subject', ['id' => $subject->getUniqueID()]);
+        $url = $this->getView()->url(
+            'card-knowledge-subject', ['id' => $subject->getUniqueID()]
+        );
 
         return sprintf($template, $url, $subject->getName());
     }
@@ -170,7 +174,9 @@ class ESSubject extends AbstractHelper
      */
     public function getDetailPageLinkLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.subject.page.link');
+        return $this->resolveLabelWithDisplayName(
+            'card.knowledge.subject.page.link'
+        );
     }
 
     /**
@@ -180,7 +186,9 @@ class ESSubject extends AbstractHelper
      */
     public function getMoreMediaLinkLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.subject.medias');
+        return $this->resolveLabelWithDisplayName(
+            'card.knowledge.subject.medias'
+        );
     }
 
     /**
@@ -194,7 +202,10 @@ class ESSubject extends AbstractHelper
     {
         $label = $this->getMoreMediaLinkLabel();
         $url = $this->getView()->url('search-results');
-        $url = sprintf('%s?lookfor=%s&type=Subject', $url, urlencode($this->getSubject()->getName()));
+        $url = sprintf(
+            '%s?lookfor=%s&type=Subject', $url,
+            urlencode($this->getSubject()->getName())
+        );
 
         return sprintf($template, $url, $label);
     }
