@@ -1,6 +1,6 @@
 <?php
 
-$subjectHeadings  = $this->driver->getAllSubjectVocabularies(true);
+$subjectHeadings  = $this->driver->getAllSubjectVocabularies(false);
 $gndHeadings      = isset($subjectHeadings['gnd']) ? $subjectHeadings['gnd'] : array();
 
 if (!$gndHeadings) {
@@ -10,7 +10,7 @@ if (!$gndHeadings) {
 ?>
 <h4 class="list-group-item title"><?=$this->transEsc('Related Subjects')?></h4>
 <ul class="list-group subject">
-  <? /* $subjects = array(); ?>
+  <? $subjects = array(); ?>
   <?php foreach ($gndHeadings as $fieldIndex => $fieldData): ?>
     <?php foreach ($fieldData as $fieldValues): ?>
         <?php
@@ -29,13 +29,15 @@ if (!$gndHeadings) {
           $searchUrl  = $this->url('search-results') . '?lookfor=' . urlencode($lookFor) . '&amp;type=Subject';
 
           if (!in_array($fieldValues, $subjects)) {
-            echo '<li class="list-group-item">';
-            echo '<a href="' . $searchUrl . '" title="' . $this->escapeHtml(implode(' > ', $fieldValues)) . '">' . $this->escapeHtml(implode(' > ', $fieldValues)) . '</a>';
+
+            $id = array_key_exists(0, $fieldValues) ? "subjectid=\"" . explode(")", $fieldValues[0])[1] . "\"" : "";
+            echo '<li class="list-group-item" ' . $id . ' >';
+            echo '<a href="' . $searchUrl . '" title="' . $this->escapeHtml($fieldValues["a"]) . '">' . $this->escapeHtml($fieldValues["a"]) . '</a>';
             echo '</li>';
           }
         array_push($subjects, $fieldValues);
         ?>
     <?php endforeach; ?>
   <?php endforeach; ?>
-  <? $subjects */?>
+  <? $subjects?>
 </ul>
