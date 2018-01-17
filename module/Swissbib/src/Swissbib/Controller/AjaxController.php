@@ -185,6 +185,7 @@ class AjaxController extends VFAjaxController
          * @var Params $params
          */
         $params = $results->getParams();
+
         // Send both GET and POST variables to search class:
         $params->initFromRequest(
             new \Zend\Stdlib\Parameters(

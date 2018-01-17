@@ -1,6 +1,6 @@
 <?php
 /**
- * PluginFactory.php
+ * Record driver plugin factory
  *
  * PHP Version 7
  *

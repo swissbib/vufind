@@ -117,6 +117,7 @@ parameters:
             multi_match:
               query: '{q}'
               fields: 'bf:hasInstance,dct:contributor,dct:title'
+
     Person:
       type:
         - person

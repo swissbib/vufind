@@ -107,5 +107,4 @@ class Factory
     {
         return static::getGenericPluginManager($sm, 'RecordDriver');
     }
-
 }
