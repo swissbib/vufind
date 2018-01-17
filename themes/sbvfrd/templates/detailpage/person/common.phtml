@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-sm-2">
+        <h2 class="visible-xs-block">{person-name}</h2>
+        <?= $this->render('detailpage/person/common/thumbnail.phtml') ?>
+    </div>
+    <div class="col-sm-10">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="hidden-xs">{person-name}</h2>
+                <?= $this->render('detailpage/person/common/metadata.phtml') ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <?= $this->render('detailpage/person/common/medias.phtml') ?>
+    </div>
+</div>
