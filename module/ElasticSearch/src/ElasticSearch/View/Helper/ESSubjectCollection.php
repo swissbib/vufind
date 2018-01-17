@@ -104,6 +104,16 @@ class ESSubjectCollection extends AbstractHelper
     }
 
     /**
+     * Indicates whether the collection contains any items.
+     *
+     * @return bool
+     */
+    public function hasItems(): bool
+    {
+        return isset($this->_collection) ? count($this->_collection) > 0 : false;
+    }
+
+    /**
      * The subject helper
      *
      * @var
