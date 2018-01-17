@@ -55,13 +55,14 @@ export class RecordRenderer {
             subjectIds += "http://d-nb.info/gnd/" + $(el).attr("subjectid") + ",";
         });
         const subjectDetails: Promise<Subject[]> = this.client.getSubjectDetails(subjectIds);
-        subjectDetails.then((details: Subject[]) => {
-            details.forEach((detail: Subject) => {
-                if (detail.hasSufficientData) {
-                    const li = subjects.filter("[subjectid='" + detail.id + "']");
-                    li.append(template(detail));
-                }
+        return subjectDetails
+            .then((details: Subject[]) => {
+                details.forEach((detail: Subject) => {
+                    if (detail.hasSufficientData) {
+                        const li = subjects.filter("[subjectid='" + detail.id + "']");
+                        li.append(template(detail));
+                    }
+                });
             });
-        });
     }
 }

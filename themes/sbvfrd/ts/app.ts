@@ -32,9 +32,11 @@ authorid="${p.id}"></span></a></li>`;
                 // TODO Required to bind lightbox. Is this the correct way?
                 VuFind.lightbox.init();
             });
-        recordRenderer.renderSubjects(subjects, subjectsTemplate);
-            // TODO Required to bind lightbox. Is this the correct way?
-        VuFind.lightbox.init();
+        recordRenderer.renderSubjects(subjects, subjectsTemplate)
+            .then(() => {
+                // TODO Required to bind lightbox. Is this the correct way?
+                VuFind.lightbox.init();
+            });
     }
 
     // setup auto-suggest
