@@ -3,6 +3,7 @@ import * as $ from "jquery";
 import {BibliographicDetails} from "./BibliographicDetails";
 import {Detail} from "./Detail";
 import {Hydra} from "./Hydra";
+import {Subject} from "./Subject";
 
 export class RecordRenderer {
 
@@ -12,8 +13,8 @@ export class RecordRenderer {
         this.client = new Hydra(dataUrl);
     }
 
-    public render(bibliographicResourceId: string, contributorsTemplate: any, contributorsHtml: HTMLElement): Promise<HTMLElement[]> {
-        return this.client.getBibliographicDetails(bibliographicResourceId)
+    public render(id: string, template: any, htmlList: HTMLElement): Promise<HTMLElement[]> {
+        return this.client.getBibliographicDetails(id)
             .then((bibliographicDetails: BibliographicDetails) => {
                 const promises: Array<Promise<Detail[]>> = [];
                 const contributorIds = bibliographicDetails.contributors;
@@ -25,7 +26,7 @@ export class RecordRenderer {
                         const elements: HTMLElement[] = [];
                         for (const detail of details) {
                             elements.push(
-                                this.renderDetails(detail, contributorsTemplate, contributorsHtml),
+                                this.renderDetails(detail, template, htmlList),
                             );
                         }
                         return elements;
@@ -49,16 +50,18 @@ export class RecordRenderer {
     }
 
     public renderSubjects(subjects: JQuery<HTMLElement>, template: any) {
+        let subjectIds: string = "";
         subjects.each((i, el) => {
-            const id: string = $(el).attr("subjectid");
-            const subjectDetails = this.client.getSubjectDetails("http://d-nb.info/gnd/" + id);
-            subjectDetails
-                .then((s) => {
-                    if (s && s.length === 1) {
-                        $(el).append(template(s[0]));
-                    }
-                });
+            subjectIds += "http://d-nb.info/gnd/" + $(el).attr("subjectid") + ",";
+        });
+        const subjectDetails: Promise<Subject[]> = this.client.getSubjectDetails(subjectIds);
+        subjectDetails.then((details: Subject[]) => {
+            details.forEach((detail: Subject) => {
+                if (detail.hasSufficientData) {
+                    const li = subjects.filter("[subjectid='" + detail.id + "']");
+                    li.append(template(detail));
+                }
+            });
         });
     }
 }
-
