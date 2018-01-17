@@ -1,19 +1,45 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: edmundmaruhn
- * Date: 05.12.17
- * Time: 19:02
+ * ValueConverter.php
+ *
+ * PHP Version 7
+ *
+ * Copyright (C) swissbib 2018
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ *
+ * @category VuFind
+ * @package  Swissbib\Util\Config
+ * @author   Edmund Maruhn <ema@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
  */
-
 namespace Swissbib\Util\Config;
 
 use Zend\Config\Config;
 
 /**
- * Converter that evaluates config string values to their according data types if possible.
+ * Class ValueConverter
  *
- * @package Swissbib\Util\Config
+ * Converter that evaluates config string values to their according data types
+ * if possible.
+ *
+ * @category VuFind
+ * @package  Swissbib\Util\Config
+ * @author   Edmund Maruhn <ema@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
  */
 final class ValueConverter
 {
@@ -45,149 +71,171 @@ final class ValueConverter
     }
 
     /**
-     * Converts the content of the given config and returns a new config out of it.
+     * Converts the content of the given config and returns a new config out of
+     * it.
      *
-     * @param Config $config
-     * The config to process.
-     *
-     * @param bool   $fuzzy
-     * Indicates whether to use the fuzzy type checks for boolean values. When true (default), then the
-     * {@link #isTruthy} and {@link #isFalsy} methods are used. Otherwise only the strings 'true' and 'false' are
-     * allowed as values.
+     * @param Config $config The config to process.
+     * @param bool   $fuzzy  Indicates whether to use the fuzzy type checks for
+     *                       boolean values. When true (default), then the
+     *                       {@link #isTruthy} and {@link #isFalsy} methods are
+     *                       used. Otherwise only the strings 'true'and 'false'
+     *                       are allowed as values.
      *
      * @return Config
      */
-    public function convert(Config $config, $fuzzy = true) 
+    public function convert(Config $config, $fuzzy = true)
     {
         $source = $config->toArray();
-        $target = $this->convertArray($source, $fuzzy);
+        $target = $this->_convertArray($source, $fuzzy);
 
         return new Config($target);
     }
 
     /**
-     * Returns true when the given value is a string in a decimal, hexadecimal or octal number format.
+     * Returns true when the given value is a string in a decimal, hexadecimal
+     * or octal number format.
      *
-     * @param  string $value
+     * @param string $value The value
+     *
      * @return bool
      */
-    public function isInteger($value) 
+    public function isInteger($value)
     {
-        return $this->isDecInteger($value) || $this->isHexInteger($value) || $this->isOctInteger($value);
+        return $this->isDecInteger($value) || $this->isHexInteger($value)
+            || $this->isOctInteger($value);
     }
 
     /**
      * Returns true when the given value is a string in a decimal number format.
      *
-     * @param  string $value
+     * @param string $value The value
+     *
      * @return bool
      */
-    public function isDecInteger($value) 
+    public function isDecInteger($value)
     {
-        return $this->matchesNumericFormat(static::DEC_NUMBER_PATTERN, $value);
+        return $this->_matchesNumericFormat(static::DEC_NUMBER_PATTERN, $value);
     }
 
     /**
-     * Returns true when the given value is a string in a hexadecimal number format.
+     * Returns true when the given value is a string in a hexadecimal number
+     * format.
      *
-     * @param  string $value
+     * @param string $value The value
+     *
      * @return bool
      */
-    public function isHexInteger($value) 
+    public function isHexInteger($value)
     {
-        return $this->matchesNumericFormat(static::HEX_NUMBER_PATTERN, $value);
+        return $this->_matchesNumericFormat(static::HEX_NUMBER_PATTERN, $value);
     }
 
     /**
      * Returns true when the given value is a string in an octal number format.
      *
-     * @param  string $value
+     * @param string $value The value
+     *
      * @return bool
      */
-    public function isOctInteger($value) 
+    public function isOctInteger($value)
     {
-        return $this->matchesNumericFormat(static::OCT_NUMBER_PATTERN, $value);
+        return $this->_matchesNumericFormat(static::OCT_NUMBER_PATTERN, $value);
     }
 
     /**
-     * Returns true when the given value is a string in a floating point number format.
+     * Returns true when the given value is a string in a floating point number
+     * format.
      *
-     * @param  string $value
+     * @param string $value The value
+     *
      * @return bool
      */
-    public function isFloat($value) 
+    public function isFloat($value)
     {
-        return $this->matchesNumericFormat(static::FLT_NUMBER_PATTERN, $value);
+        return $this->_matchesNumericFormat(static::FLT_NUMBER_PATTERN, $value);
     }
 
     /**
-     * Returns true when the given value is a string that equals to 'true'. This check is case-insensitive.
+     * Returns true when the given value is a string that equals to 'true'.
+     * This check is case-insensitive.
      *
-     * @param  string $value
+     * @param string $value The value
+     *
      * @return bool
      */
-    public function isTrue($value) 
+    public function isTrue($value)
     {
         return 'true' === strtolower($value);
     }
 
     /**
-     * Returns true when the given value is 1 (numeric), '1' (string), true (boolean), 'true' (string), 'on', 'y' or
+     * Returns true when the given value is 1 (numeric), '1' (string), true
+     * (boolean), 'true' (string), 'on', 'y' or
      * 'yes'. For string inputs the case will be ignored.
      *
-     * @param  string $value
+     * @param string $value The value
+     *
      * @return bool
      */
-    public function isTruthy($value) 
+    public function isTruthy($value)
     {
         if (is_string($value)) {
             $value = strtolower($value);
         }
 
-        return in_array($value, array(1, '1', true, 'true', 'on', 'y', 'yes'), true);
+        return in_array($value, [1, '1', true, 'true', 'on', 'y', 'yes'], true);
     }
 
     /**
-     * Returns true when the given value is a string that equals to 'false'. This check is case-insensitive.
+     * Returns true when the given value is a string that equals to 'false'.
+     * This check is case-insensitive.
      *
-     * @param  string $value
+     * @param string $value The value
+     *
      * @return bool
      */
-    public function isFalse($value) 
+    public function isFalse($value)
     {
         return 'false' === strtolower($value);
     }
 
     /**
-     * Returns true when the given value is 0 (numeric zero), '0' (string zero), false (boolean), 'false' (string),
+     * Returns true when the given value is 0 (numeric zero), '0' (string
+     * zero), false (boolean), 'false' (string),
      * 'off', 'n' or 'no'. For string inputs the case will be ignored.
      *
-     * @param  string $value
+     * @param string $value The value
+     *
      * @return bool
      */
-    public function isFalsy($value) 
+    public function isFalsy($value)
     {
         if (is_string($value)) {
             $value = strtolower($value);
         }
 
-        return in_array($value, array(0, '0', false, 'false', 'off', 'n', 'no'), true);
+        return in_array(
+            $value, [0, '0', false, 'false', 'off', 'n', 'no'], true
+        );
     }
 
-
     /**
-     * @private
-     * @param array   $source
-     * @param boolean $fuzzy
+     * Converts array
+     *
+     * @param array   $source The array
+     * @param boolean $fuzzy  Should convert fuzzy?
+     *
      * @return array
      */
-    private function convertArray(array &$source, $fuzzy) 
+    private function _convertArray(array &$source, $fuzzy)
     {
         foreach ($source as $key => $value) {
             if (is_array($value)) {
-                $source[$key] = $this->convertArray($value, $fuzzy);
-            } else if (is_string($value)) {
-                $source[$key] = $this->convertValue($value, $fuzzy);
+                $source[$key] = $this->_convertArray($value, $fuzzy);
+            } else {
+                if (is_string($value)) {
+                    $source[$key] = $this->_convertValue($value, $fuzzy);
+                }
             }
         }
 
@@ -195,15 +243,25 @@ final class ValueConverter
     }
 
     /**
-     * @private
-     * @param string  $value
-     * @param boolean $fuzzy
+     * Converts value
+     *
+     * @param string $value The value
+     * @param bool   $fuzzy Should convert fuzzy?
+     *
      * @return bool|float|int
      */
-    private function convertValue($value, $fuzzy) 
+    private function _convertValue(string $value, bool $fuzzy)
     {
-        $isTrue = true === $fuzzy ? $this->isTruthy($value) : $this->isTrue($value);
-        $isFalse = true === $fuzzy ? $this->isFalsy($value) : $this->isFalse($value);
+        $isTrue = true === $fuzzy
+            ? $this->isTruthy($value)
+            : $this->isTrue(
+                $value
+            );
+        $isFalse = true === $fuzzy
+            ? $this->isFalsy($value)
+            : $this->isFalse(
+                $value
+            );
 
         if ($isTrue) {
             $value = true;
@@ -216,19 +274,21 @@ final class ValueConverter
         } else if ($this->isOctInteger($value)) {
             $value = octdec($value);
         } else if ($this->isFloat($value)) {
-            $value = (double) $value;
+            $value = (double)$value;
         }
 
         return $value;
     }
 
     /**
-     * @private
-     * @param $pattern
-     * @param string  $value
+     * Matches the numeric format
+     *
+     * @param string $pattern The pattern
+     * @param string $value   The value
+     *
      * @return bool
      */
-    private function matchesNumericFormat($pattern, $value) 
+    private function _matchesNumericFormat(string $pattern, string $value)
     {
         return 1 === preg_match($pattern, $value);
     }

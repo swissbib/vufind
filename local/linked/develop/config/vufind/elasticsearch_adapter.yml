@@ -117,6 +117,7 @@ parameters:
             multi_match:
               query: '{q}'
               fields: 'bf:hasInstance,dct:contributor,dct:title'
+
     Person:
       type:
         - person
@@ -147,6 +148,7 @@ parameters:
           query: '{q}'
           # Should rather be an Array but is not parsed correctly at ElasticsearchAdapter/Query/TemplateQuery.php:241
           fields: 'http://d-nb_info/standards/elementset/gnd#broaderTerm*.@id'
+          operator: 'and'
 
     bibliographicResources_by_author:
       type: 'bibliographicResource'
