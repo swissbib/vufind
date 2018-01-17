@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as $ from "jquery";
 import {RecordRenderer} from "../RecordRenderer";
+import {Subject} from "../Subject";
 
 // const mock = jest.genMockFromModule("Hydra");
 
@@ -10,6 +11,9 @@ const Mock = jest.fn(() => ({
     }),
     getContributorDetails: jest.fn((ids) => {
         return readFixture("contributors");
+    }),
+    getSubjectDetails: jest.fn((ids) => {
+        return readFixture("subjects");
     }),
 }));
 
@@ -47,12 +51,12 @@ it("Html should contain list element with contributors", () => {
 
     expect.assertions(2);
 
-    const contributorsTemplate = (p: any) => {
+    const contributorsTemplate = (p: Person) => {
         return `<li>${p.firstName}</li>`;
     };
     const contributorsList = $(list)[0];
 
-    return cut.render("023426233", contributorsTemplate, contributorsList, null, null)
+    return cut.render("023426233", contributorsTemplate, contributorsList)
         .then((html: HTMLElement[]) => {
             const actual: JQuery<HTMLElement> = $(html[0]);
             expect(actual.children("li").length).toBe(10);
@@ -60,3 +64,20 @@ it("Html should contain list element with contributors", () => {
         })
         ;
 });
+
+it("Html should contaun i-icon", () => {
+    const li = document.createElement("li");
+    li.setAttribute("subjectid", "4156468-6");
+    const subjectList: JQuery<HTMLElement> = $(li);
+
+    expect.assertions(1);
+
+    const template = (s: Subject) => {
+        return `${s.name}`;
+    };
+
+    return cut.renderSubjects(subjectList, template)
+        .then(() => {
+            expect($(subjectList.get(0)).html()).toEqual("Gemäldegalerie");
+        });
+})
