@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as $ from "jquery";
+import {Contributor} from "../Contributor";
 import {RecordRenderer} from "../RecordRenderer";
 import {Subject} from "../Subject";
 
@@ -51,7 +52,7 @@ it("Html should contain list element with contributors", () => {
 
     expect.assertions(2);
 
-    const contributorsTemplate = (p: Person) => {
+    const contributorsTemplate = (p: Contributor) => {
         return `<li>${p.firstName}</li>`;
     };
     const contributorsList = $(list)[0];
@@ -65,7 +66,7 @@ it("Html should contain list element with contributors", () => {
         ;
 });
 
-it("Html should contaun i-icon", () => {
+it("Html should contain value from response", () => {
     const li = document.createElement("li");
     li.setAttribute("subjectid", "4156468-6");
     const subjectList: JQuery<HTMLElement> = $(li);
@@ -80,4 +81,4 @@ it("Html should contaun i-icon", () => {
         .then(() => {
             expect($(subjectList.get(0)).html()).toEqual("Gemäldegalerie");
         });
-})
+});
