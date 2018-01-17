@@ -27,7 +27,6 @@
  */
 namespace Swissbib\Controller;
 
-
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -71,3 +70,4 @@ class DetailPageController extends KnowledgeCardController
         return parent::subjectAction();
     }
 }
+

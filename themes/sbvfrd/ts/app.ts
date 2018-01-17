@@ -20,24 +20,21 @@ ${p.firstName}&amp;type=Author" title=" ${p.lastName}, ${p.firstName}">${p.lastN
 <span ${ p.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"
 authorid="${p.id}"></span></a></li>`;
     };
-    const subjectsList: HTMLElement = $(".sidebar .list-group.subject")[0];
-    const subjectsTemplate: any = (p: any) => {
-        if (!p.name) {
-            return "";
-        }
-        return `<li class="list-group-item"><a href="${VuFind.path}/Search/Results?lookfor=${p.name}&amp;type=Subject"
- title=" ${p.name}">${p.name}</a><a href="${VuFind.path}/Card/Knowledge/Subject/${p.id}" data-lightbox>
-<span ${ p.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"
-subjectid="${p.id}"></span></a></li>`;
-    };
 
+    const subjects: JQuery<HTMLElement> = $(".subject [subjectid]");
+    const subjectsTemplate: any = (s: any) => {
+        return `<a href="${VuFind.path}/Card/Knowledge/Subject/${s.id}" data-lightbox>
+<span ${ s.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"</span></a>`;
+    };
     if (recordIdEl) {
-        recordRenderer.render(recordIdEl.value, contributorsTemplate, contributorsList,
-            subjectsTemplate, subjectsList)
+        recordRenderer.render(recordIdEl.value, contributorsTemplate, contributorsList)
             .then(() => {
                 // TODO Required to bind lightbox. Is this the correct way?
                 VuFind.lightbox.init();
             });
+        recordRenderer.renderSubjects(subjects, subjectsTemplate);
+            // TODO Required to bind lightbox. Is this the correct way?
+        VuFind.lightbox.init();
     }
 
     // setup auto-suggest

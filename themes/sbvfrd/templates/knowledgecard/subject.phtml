@@ -1,18 +1,9 @@
-<? $this->headTitle('Knowledge Card: Themen'); ?>
+<div class="ui-card">
+    <? $this->essubject()->setSubject($this->driver); ?>
 
-<h1>Thema: <?= $this->driver->getName() ?></h1>
-
-<h2>Übergeordnete Themen</h2>
-<ul>
-    <? foreach ($this->parentSubjects as $subject): ?>
-        <li><?= $subject->getName() ?></li>
-    <? endforeach; ?>
-</ul>
-
-<h2>Untergeordnete Themen</h2>
-<ul>
-    <? foreach ($this->subSubjects as $subject): ?>
-        <li><?= $subject->getName() ?></li>
-    <? endforeach; ?>
-</ul>
+    <?= $this->render('knowledgecard/subject/title.phtml'); ?>
+    <?= $this->render('knowledgecard/subject/common.phtml'); ?>
+    <?= $this->render('knowledgecard/subject/medias.phtml'); ?>
+    <?= $this->render('knowledgecard/subject/controls.phtml'); ?>
+</div>
 

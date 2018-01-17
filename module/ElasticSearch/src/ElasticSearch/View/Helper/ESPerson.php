@@ -1,55 +1,126 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: edmundmaruhn
- * Date: 20.12.17
- * Time: 08:18
+ * ESPerson.php
+ *
+ * PHP Version 7
+ *
+ * Copyright (C) swissbib 2018
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ *
+ * @category VuFind
+ * @package  ElasticSearch\View\Helper
+ * @author   Christoph Boehm <cbo@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
  */
-
 namespace ElasticSearch\View\Helper;
-
-use Zend\View\Helper\AbstractHelper;
 
 /**
  * Class ESPerson
  *
- * @package ElasticSearch\View\Helper
+ * @category VuFind
+ * @package  ElasticSearch\View\Helper
+ * @author   Edmund Maruhn <ema@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
+ */
+/**
+ * Class ESPerson
+ *
+ * @category VuFind
+ * @package  ElasticSearch\View\Helper
+ * @author   Edmund Maruhn <ema@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
  */
 class ESPerson extends AbstractHelper
 {
     /**
-     * @var string
-     * Used by the getMetadataList() method to resolve localization values.
+     * Gets the MetadataPrefix
+     *
+     * @return string
      */
-    private static $metadataKeyPrefix = 'card.knowledge.person.metadata';
+    protected function getMetadataPrefix(): string
+    {
+        return 'card.knowledge.person.metadata';
+    }
 
     /**
-     * @var array
-     * Maps metadata keys on helper methods and css class names for dynamic metadata list construction.
+     * Template method subclasses may override to provide an array that maps
+     * metadata keys on methods on this helper. It will be set on the metadata
+     * view helper. Then you can call the MetadataViewHelper#getMetadataList()
+     * method with the keys of this array to retrieve these metadata
+     * information.
+     *
+     * @return array
      */
-    private static $metadataKeyToMethodMap = [
-        'job' => 'getJobInfo',
-        'birth' => 'getBirthInfo',
-        'death' => 'getDeathInfo',
-        'nationality' => 'getNationalityInfo'
-    ];
+    protected function getMetadataMethodMap(): array
+    {
+        return [
+            'job'         => 'getJobInfo',
+            'birth'       => 'getBirthInfo',
+            'death'       => 'getDeathInfo',
+            'nationality' => 'getNationalityInfo'
+        ];
+    }
 
     /**
+     * The type of data this helper handles. Used to resolve type specific urls
+     * like for the detail page link.
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return 'person';
+    }
+
+    /**
+     * The person
+     *
      * @var \ElasticSearch\VuFind\RecordDriver\ESPerson
      */
-    private $person;
+    private $_person;
 
+    /**
+     * Gets the Person
+     *
+     * @return \ElasticSearch\VuFind\RecordDriver\ESPerson
+     */
     public function getPerson()
     {
-        return $this->person;
-    }
-
-    public function setPerson(\ElasticSearch\VuFind\RecordDriver\ESPerson $person)
-    {
-        $this->person = $person;
+        return $this->_person;
     }
 
     /**
+     * Sets the Person
+     *
+     * @param \ElasticSearch\VuFind\RecordDriver\ESPerson $_person The person
+     *
+     * @return void
+     */
+    public function setPerson(
+        \ElasticSearch\VuFind\RecordDriver\ESPerson $_person
+    ) {
+        parent::setDriver($_person);
+        $this->_person = $_person;
+    }
+
+    /**
+     * Gets the DisplayName
+     *
      * @return null|string
      */
     public function getDisplayName()
@@ -73,6 +144,8 @@ class ESPerson extends AbstractHelper
     }
 
     /**
+     * Gets the Lifetime
+     *
      * @return null|string
      */
     public function getLifetime()
@@ -93,41 +166,53 @@ class ESPerson extends AbstractHelper
     }
 
     /**
-     * @param $dateFormat
-     * @param $separator
+     * Gets the BirthInfo
+     *
+     * @param string $dateFormat The date format
+     * @param string $separator  The separator
+     *
      * @return null|string
      */
-    public function getBirthInfo(string $dateFormat = 'd.m.Y', string $separator = ', ')
-    {
+    public function getBirthInfo(
+        string $dateFormat = 'd.m.Y', string $separator = ', '
+    ) {
         return $this->getDateAndPlaceInfo(
-            $dateFormat, $separator,
-            $this->getPerson()->getBirthDate(), $this->getPerson()->getBirthPlaceDisplayField()
+            $dateFormat, $separator, $this->getPerson()->getBirthDate(),
+            $this->getPerson()->getBirthPlaceDisplayField()
         );
     }
 
     /**
-     * @param $dateFormat
-     * @param $separator
+     * Gets the DeathInfo
+     *
+     * @param string $dateFormat The date format
+     * @param string $separator  The separator
+     *
      * @return null|string
      */
-    public function getDeathInfo(string $dateFormat = 'd.m.Y', string $separator = ', ')
-    {
+    public function getDeathInfo(
+        string $dateFormat = 'd.m.Y', string $separator = ', '
+    ) {
         return $this->getDateAndPlaceInfo(
-            $dateFormat, $separator,
-            $this->getPerson()->getDeathDate(), $this->getPerson()->getDeathPlaceDisplayField()
+            $dateFormat, $separator, $this->getPerson()->getDeathDate(),
+            $this->getPerson()->getDeathPlaceDisplayField()
         );
     }
 
-
     /**
-     * @param string         $dateFormat
-     * @param string         $separator
-     * @param \DateTime|null $date
-     * @param array          $place
+     * Gets the DateAndPlaceInfo
+     *
+     * @param string         $dateFormat The date format
+     * @param string         $separator  The separator
+     * @param \DateTime|null $date       The (optional) date
+     * @param array          $place      The (optional) place
+     *
      * @return null|string
      */
-    protected function getDateAndPlaceInfo(string $dateFormat, string $separator, \DateTime $date = null, array $place = null)
-    {
+    protected function getDateAndPlaceInfo(
+        string $dateFormat, string $separator, \DateTime $date = null,
+        array $place = null
+    ) {
         $date = is_null($date) ? null : $date->format($dateFormat);
         $place = is_null($place) ? null : implode($separator, $place);
         $result = null;
@@ -144,74 +229,44 @@ class ESPerson extends AbstractHelper
     }
 
     /**
-     * @return null
+     * Gets the JobInfo
+     *
+     * @param string $delimiter The delimiter
+     *
+     * @return null|string
      */
-    public function getJobInfo()
+    public function getJobInfo(string $delimiter = ', ')
     {
-        return null;
+        $occupation = $this->getPerson()->getOccupationDisplayField();
+
+        if (is_array($occupation)) {
+            $occupation = implode($delimiter, $occupation);
+        }
+
+        return strlen($occupation) > 0 ? $occupation : null;
     }
 
     /**
+     * Gets the NationalityInfo
+     *
      * @return null
      */
     public function getNationalityInfo()
     {
-        return null;
+        $nationality = $this->getPerson()->getNationalityDisplayField();
+
+        if (is_array($nationality)) {
+            $nationality = count($nationality) > 0 ? $nationality[0] : '';
+        }
+
+        return strlen($nationality) > 0 ? $nationality : null;
     }
 
     /**
-     * A list of metadata information for the current person. Keys which are not found or for which no value exists are
-     * filtered and will not be part of the resulting list. The resulting array is in the order of the keys passed in.
+     * Has Thumbnail
      *
-     * @param string[] ...$keys
-     * Arbitrary sequence of metadata keys.
-     *
-     * @return array
-     * An indexed array of associative arrays with 'label', 'value' and 'cssClass' keys. The label is the localized
-     * value of key passed in, the value is the resolved content that belongs to the key passed in and cssClass is the
-     * value to be set or added to the element that renders the list entry.
+     * @return bool
      */
-    public function getMetadataList(string ...$keys)
-    {
-        $metadataList = [];
-
-        foreach ($keys as $key) {
-            $entry = $this->getMetadataListEntry($key);
-
-            if (!is_null($entry)) {
-                $metadataList[] = $entry;
-            }
-        }
-
-        return $metadataList;
-    }
-
-    /**
-     * @param string $key
-     * @return array|null
-     */
-    protected function getMetadataListEntry(string $key)
-    {
-        $entry = null;
-
-        if (isset(self::$metadataKeyToMethodMap[$key])) {
-            $method = self::$metadataKeyToMethodMap[$key];
-            $value = $this->{$method}();
-
-            if (!is_null($value)) {
-                $translationKey = sprintf('%s.%s', self::$metadataKeyPrefix, $key);
-                $entry = [
-                    'label' => $this->getView()->translate($translationKey),
-                    'value' => $value,
-                    'cssClass' => $key
-                ];
-            }
-        }
-
-        return $entry;
-    }
-
-
     public function hasThumbnail(): bool
     {
         $thumbnail = $this->getPerson()->getThumbnail();
@@ -228,19 +283,27 @@ class ESPerson extends AbstractHelper
         return $this->hasThumbnail() ? $this->getPerson()->getThumbnail()[0] : null;
     }
 
-
+    /**
+     * Has Abstract
+     *
+     * @return bool
+     */
     public function hasAbstract()
     {
         return !is_null($this->getPerson()->getAbstract());
     }
 
+    /**
+     * Gets the AbstractInfo
+     *
+     * @return array
+     */
     public function getAbstractInfo()
     {
         $info = [
-            'label' => $this->getView()->translate('card.knowledge.person.metadata.abstract'),
-            'text' => '',
-            'truncated' => false,
-            'overflow' => ''
+            'label' => $this->getView()->translate(
+                'card.knowledge.person.metadata.abstract'
+            ), 'text' => '', 'truncated' => false, 'overflow' => ''
         ];
 
         if ($this->hasAbstract()) {
@@ -259,8 +322,17 @@ class ESPerson extends AbstractHelper
         return $info;
     }
 
-    protected function calculateSplitPoint(string $text, int $truncationWordCount = 30)
-    {
+    /**
+     * Calculates the SplitPoint
+     *
+     * @param string $text                The text
+     * @param int    $truncationWordCount The truncationWordCount
+     *
+     * @return int
+     */
+    protected function calculateSplitPoint(
+        string $text, int $truncationWordCount = 30
+    ) {
         // pattern matches the same way as trim() will do by default
         $words = preg_split('/[ \t\n\r\0\x0B]/', $text);
         $wordCount = 0;
@@ -281,17 +353,21 @@ class ESPerson extends AbstractHelper
         return $splitPoint === strlen($text) ? -1 : $splitPoint;
     }
 
-
     /**
+     * Gets the RelatedSubjectsLabel
+     *
      * @return string
      */
     public function getRelatedSubjectsLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.person.metadata.related.subjects');
+        return $this->resolveLabelWithDisplayName(
+            'card.knowledge.person.metadata.related.subjects'
+        );
     }
 
-
     /**
+     * Has NotableWork
+     *
      * @return bool
      */
     public function hasNotableWork()
@@ -301,91 +377,84 @@ class ESPerson extends AbstractHelper
     }
 
     /**
+     * Gets the NotableWorkLabel
+     *
      * @return string
      */
     public function getNotableWorkLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.books');
+        return $this->resolveLabelWithDisplayName(
+            'card.knowledge.person.medias'
+        );
     }
 
+    /**
+     * Gets the MoreNotableWorkLabel
+     *
+     * @return string
+     */
     public function getMoreNotableWorkLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.books.more');
+        return $this->resolveLabelWithDisplayName(
+            'card.knowledge.person.medias.more'
+        );
     }
 
+    /**
+     * Gets the NotableWorkSearchLink
+     *
+     * @param string $template The template
+     *
+     * @return string
+     */
     public function getNotableWorkSearchLink(string $template): string
     {
         $label = $this->getMoreNotableWorkLabel();
         $url = $this->getView()->url('search-results');
-        $url = sprintf('%s?lookfor=%s', $url, urlencode($this->getDisplayName()));
+        $url = sprintf(
+            '%s?lookfor=%s&type=Author', $url,
+            urlencode($this->getPerson()->getName())
+        );
 
         return sprintf($template, $url, $label);
     }
 
-
     // TODO: Remove temporary notable work once actual data is available
-    private static $notableWork = [
-        ['label' => 'Werk 01', 'link' => '#'],
-        ['label' => 'Werk 02', 'link' => '#'],
-        ['label' => 'Werk 03', 'link' => '#'],
-        ['label' => 'Werk 04', 'link' => '#'],
-        ['label' => 'Werk 05', 'link' => '#'],
-        ['label' => 'Werk 06', 'link' => '#'],
-        ['label' => 'Werk 07', 'link' => '#'],
-        ['label' => 'Werk 08', 'link' => '#'],
-        ['label' => 'Werk 09', 'link' => '#'],
-        ['label' => 'Werk 10', 'link' => '#'],
-    ];
+    private static $_notableWork
+        = [
+            ['label' => 'Werk 01', 'link' => '#'],
+            ['label' => 'Werk 02', 'link' => '#'],
+            ['label' => 'Werk 03', 'link' => '#'],
+            ['label' => 'Werk 04', 'link' => '#'],
+            ['label' => 'Werk 05', 'link' => '#'],
+            ['label' => 'Werk 06', 'link' => '#'],
+            ['label' => 'Werk 07', 'link' => '#'],
+            ['label' => 'Werk 08', 'link' => '#'],
+            ['label' => 'Werk 09', 'link' => '#'],
+            ['label' => 'Werk 10', 'link' => '#'],
+        ];
 
+    /**
+     * Gets the NotableWork
+     *
+     * @return array
+     */
     public function getNotableWork()
     {
         // TODO: Implement method
-        return self::$notableWork;
+        return self::$_notableWork;
     }
 
-
     /**
+     * Gets the DetailPageLinkLabel
+     *
      * @return string
      */
     public function getDetailPageLinkLabel()
     {
-        return $this->resolveLabelWithDisplayName('card.knowledge.person.page.link');
-    }
-
-    /**
-     * @param string      $template
-     * @param string|null $label
-     * If not null it is treated as the localization key and will be resolved before it is merged into the template.
-     * @return string
-     */
-    public function getDetailPageLink(string $template, string $label = null): string
-    {
-        $label = is_null($label)
-            ? $this->getDetailPageLinkLabel()
-            : $this->getView()->translate($label);
-
-        $segments = ['id' => $this->getPerson()->getUniqueID()];
-        $url = $this->getView()->url('page-detail-person', $segments);
-
-        return sprintf($template, $url, $label);
-    }
-
-    /**
-     * @param string $translationKeyBase
-     * @return string
-     */
-    protected function resolveLabelWithDisplayName(string $translationKeyBase)
-    {
-        $displayName = $this->getDisplayName();
-        $label = null;
-
-        if (is_null($displayName)) {
-            $label = $this->getView()->translate(sprintf('%s.no.name', $translationKeyBase));
-        } else {
-            $label = $this->getView()->translate($translationKeyBase);
-            $label = sprintf($label, $displayName);
-        }
-
-        return $label;
+        return $this->resolveLabelWithDisplayName(
+            'card.knowledge.person.page.link'
+        );
     }
 }
+

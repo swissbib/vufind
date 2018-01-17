@@ -1,12 +1,29 @@
 <?php
 /**
- * Params
+ * Params.php
  *
- * @category ElasticSearch
- * @package  ElasticSearch
- * @author   Christoph Böhm <cbo@outermedia.de>
+ * PHP Version 7
+ *
+ * Copyright (C) swissbib 2018
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ *
+ * @category VuFind
+ * @package  ElasticSearch\VuFind\Search\ElasticSearch
+ * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     https://www.swissbib.ch/
+ * @link     http://www.vufind.org  Main Page
  */
 namespace ElasticSearch\VuFind\Search\ElasticSearch;
 
@@ -14,55 +31,73 @@ use VuFind\Search\Base\Params as BaseParams;
 use VuFindSearch\Query\Query;
 
 /**
- * This will contain the \VuFind\Search\Sample\Params class, which must extend \VuFind\Search\Base\Params. Unless you need to do special parameter processing or add new parameters not supported by the base class, you are not required to implement any methods here – you can just extend with an empty class. You'll probably end up adding methods here eventually, but for the initial implementation it is nice to leave this empty – one less thing to worry about!
  * Class Params
  *
- * @package ElasticSearch\VuFind\Search\ElasticSearch
+ * @category VuFind
+ * @package  ElasticSearch\VuFind\Search\ElasticSearch
+ * @author   Christoph Boehm <cbo@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
  */
 class Params extends BaseParams
 {
     /**
-     * @var String $index
+     * The index
+     *
+     * @var String $_index
      */
-    private $index;
+    private $_index;
 
     /**
+     * The template
+     *
      * @var String $template
      */
-    private $template;
+    private $_template;
 
     /**
+     * Gets the index
+     *
      * @return String
      */
     public function getIndex(): string
     {
-        return $this->index ?? "";
+        return $this->_index ?? "";
     }
 
     /**
-     * @param String $index
+     * Sets the index
+     *
+     * @param String $_index The index
+     *
+     * @return void
      */
-    public function setIndex(String $index)
+    public function setIndex(String $_index)
     {
-        $this->index = $index;
+        $this->_index = $_index;
     }
 
     /**
+     * Gets the template
+     *
      * @return String
      */
     public function getTemplate(): String
     {
-        return $this->template;
+        return $this->_template;
     }
 
     /**
-     * @param String $template
+     * Sets the template
+     *
+     * @param String $template The template
+     *
+     * @return void
      */
     public function setTemplate(String $template)
     {
-        $this->template = $template;
+        $this->_template = $template;
     }
-
 
     /**
      * From Solr/Params
@@ -70,7 +105,7 @@ class Params extends BaseParams
      * Initialize the object's search settings from a request object.
      *
      * @param \Zend\StdLib\Parameters $request Parameter object representing user
-     * request.
+     *                                         request.
      *
      * @return void
      */
@@ -108,7 +143,7 @@ class Params extends BaseParams
 
         // Special case -- no IDs to set:
         if (empty($ids)) {
-            return $this->setOverrideQuery('NOT *:*');
+            $this->setOverrideQuery('NOT *:*');
         }
 
         $callback = function ($i) {
@@ -131,3 +166,4 @@ class Params extends BaseParams
         return $this->query;
     }
 }
+

@@ -40,6 +40,10 @@
                     margin-top: 24px;
                 }
 
+                &.section-end {
+                    margin-bottom: 24px;
+                }
+
                 /* static descriptive label of the metadata information */
                 .entry-label {
                     color: #3C4250;
@@ -62,6 +66,11 @@
 
 
     .ref {
+        /* prevents links from being word-wrapped */
+        &.nowrap {
+            white-space: nowrap;
+        }
+
         /* link that is rendered inline in text flow */
         &.inline {
             font-weight: bold;
@@ -96,3 +105,4 @@
         }
     }
 }
+
