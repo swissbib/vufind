@@ -166,4 +166,3 @@ class Params extends BaseParams
         return $this->query;
     }
 }
-

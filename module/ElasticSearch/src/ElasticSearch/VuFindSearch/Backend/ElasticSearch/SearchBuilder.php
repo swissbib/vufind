@@ -178,4 +178,3 @@ class SearchBuilder
         return $params->get($name)[0];
     }
 }
-

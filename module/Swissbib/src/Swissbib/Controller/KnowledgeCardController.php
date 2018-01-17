@@ -261,4 +261,3 @@ class KnowledgeCardController extends AbstractBase
         return '[' . implode(",", $ids) . ']';
     }
 }
-

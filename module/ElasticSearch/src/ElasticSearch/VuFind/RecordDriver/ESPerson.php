@@ -383,4 +383,3 @@ class ESPerson extends ElasticSearch
         return $this->fields;
     }
 }
-

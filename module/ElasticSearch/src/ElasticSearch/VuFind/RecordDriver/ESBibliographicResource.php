@@ -117,4 +117,3 @@ class ESBibliographicResource extends ElasticSearch
         return [];
     }
 }
-

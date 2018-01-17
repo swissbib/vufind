@@ -70,4 +70,3 @@ class DetailPageController extends KnowledgeCardController
         return parent::subjectAction();
     }
 }
-

@@ -61,4 +61,3 @@ class Options extends BaseOptions
         return false;
     }
 }
-

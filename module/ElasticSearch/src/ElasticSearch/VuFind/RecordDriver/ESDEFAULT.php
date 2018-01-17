@@ -39,4 +39,3 @@ namespace ElasticSearch\VuFind\RecordDriver;
 class ESDEFAULT extends ESSubject
 {
 }
-

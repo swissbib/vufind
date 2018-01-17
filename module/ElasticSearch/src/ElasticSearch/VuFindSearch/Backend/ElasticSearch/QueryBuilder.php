@@ -105,4 +105,3 @@ class QueryBuilder implements QueryBuilderInterface
         // TODO: Implement setCreateSpellingQuery() method.
     }
 }
-

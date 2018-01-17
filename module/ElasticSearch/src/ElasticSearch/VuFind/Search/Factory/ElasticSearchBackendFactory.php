@@ -138,4 +138,3 @@ class ElasticSearchBackendFactory implements FactoryInterface
         $this->_config = $_config;
     }
 }
-

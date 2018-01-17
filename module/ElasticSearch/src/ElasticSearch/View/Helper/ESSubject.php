@@ -209,4 +209,3 @@ class ESSubject extends AbstractHelper
         return sprintf($template, $url, $label);
     }
 }
-

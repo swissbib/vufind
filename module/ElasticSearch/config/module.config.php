@@ -52,4 +52,3 @@ $config = [
 ];
 
 return $config;
-

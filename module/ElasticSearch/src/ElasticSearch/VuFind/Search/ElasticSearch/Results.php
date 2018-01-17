@@ -116,4 +116,3 @@ class Results extends BaseResults
         $this->resultTotal = $collection->getTotal();
     }
 }
-

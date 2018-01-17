@@ -25,7 +25,6 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-
 namespace Swissbib\Util\Config;
 
 use Zend\Config\Config;
@@ -294,4 +293,3 @@ final class ValueConverter
         return 1 === preg_match($pattern, $value);
     }
 }
-

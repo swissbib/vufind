@@ -250,4 +250,3 @@ class AjaxController extends VFAjaxController
         );
     }
 }
-

@@ -182,4 +182,3 @@ class ElasticSearch extends AbstractBase
         return $locales;
     }
 }
-

@@ -153,4 +153,3 @@ class AutoSuggestConfig extends AbstractHelper
         return $autocompleteEnabled || $autoSuggestEnabled;
     }
 }
-

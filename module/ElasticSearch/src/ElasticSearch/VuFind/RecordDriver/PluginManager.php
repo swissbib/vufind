@@ -95,4 +95,3 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
         return $driver;
     }
 }
-

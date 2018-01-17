@@ -80,4 +80,3 @@ class Record implements RecordInterface
         return $this->_fields['_id'];
     }
 }
-

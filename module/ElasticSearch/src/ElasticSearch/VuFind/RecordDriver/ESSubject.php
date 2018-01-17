@@ -263,4 +263,3 @@ class ESSubject extends ElasticSearch
         return $this->fields;
     }
 }
-

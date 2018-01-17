@@ -457,4 +457,3 @@ class ESPerson extends AbstractHelper
         );
     }
 }
-

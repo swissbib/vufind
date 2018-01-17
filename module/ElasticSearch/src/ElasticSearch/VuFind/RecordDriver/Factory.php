@@ -100,4 +100,3 @@ class Factory
         return new ESSubject();
     }
 }
-
