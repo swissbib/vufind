@@ -17,11 +17,13 @@ if (!$gndHeadings) {
             $urlValues = [];
 
             // Add quotes if required
-            foreach ($fieldValues as $fieldValue) {
-                if (strpos($fieldValue, ' ') !== false) {
-                    $urlValues[] = '"' . addslashes($fieldValue) . '"';
-                } else {
-                    $urlValues[] = $fieldValue;
+            foreach ($fieldValues as $key => $fieldValue) {
+                if ($key !== 0 && $key !== 2) {
+                    if (strpos($fieldValue, ' ') !== false) {
+                        $urlValues[] = '"' . addslashes($fieldValue) . '"';
+                    } else {
+                        $urlValues[] = $fieldValue;
+                    }
                 }
             }
 
