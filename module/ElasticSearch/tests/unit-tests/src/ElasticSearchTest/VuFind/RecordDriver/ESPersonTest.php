@@ -57,4 +57,3 @@ class ESPersonTest extends \PHPUnit_Framework_TestCase
         static::assertEquals(["value"], $actual);
     }
 }
-

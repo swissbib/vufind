@@ -27,7 +27,6 @@
  */
 namespace Swissbib\Controller;
 
-
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**

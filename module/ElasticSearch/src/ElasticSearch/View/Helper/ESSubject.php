@@ -38,7 +38,6 @@ namespace ElasticSearch\View\Helper;
  */
 class ESSubject extends AbstractHelper
 {
-
     /**
      * The subject
      *

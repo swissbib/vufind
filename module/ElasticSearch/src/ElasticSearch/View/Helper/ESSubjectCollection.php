@@ -40,7 +40,6 @@ use Zend\View\Helper\AbstractHelper;
  */
 class ESSubjectCollection extends AbstractHelper
 {
-
     /**
      * Array of subjects
      *

@@ -38,7 +38,6 @@ namespace ElasticSearch\VuFind\RecordDriver;
  */
 class ESSubject extends ElasticSearch
 {
-
     const GND_FIELD_PREFIX = 'http://d-nb_info/standards/elementset/gnd';
 
     /**

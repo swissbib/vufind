@@ -38,7 +38,6 @@ namespace ElasticSearch\VuFind\RecordDriver;
  */
 class ESBibliographicResource extends ElasticSearch
 {
-
     /**
      * Gets the Title
      *

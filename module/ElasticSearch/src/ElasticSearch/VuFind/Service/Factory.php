@@ -40,7 +40,6 @@ use Zend\ServiceManager\ServiceManager;
  */
 class Factory
 {
-
     /**
      * Generic plugin manager factory (support method).
      *
@@ -86,7 +85,6 @@ class Factory
         return static::getGenericPluginManager($sm, 'Search\Params');
     }
 
-
     /**
      * Construct the Search\Results Plugin Manager.
      *
@@ -109,6 +107,5 @@ class Factory
     {
         return static::getGenericPluginManager($sm, 'RecordDriver');
     }
-
 
 }

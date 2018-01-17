@@ -40,7 +40,6 @@ use VuFind\RecordDriver\AbstractBase;
  */
 class ElasticSearch extends AbstractBase
 {
-
     /**
      * The source indentifier
      *
