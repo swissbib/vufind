@@ -78,12 +78,6 @@ class SearchBuilder
         if ($params === null) {
             $params = new ParamBag();
         }
-        if (!$params->hasParam('template')) {
-            $params->add('template', $this->templates['default_template']);
-        }
-        if (!$params->hasParam('index')) {
-            $params->add('index', $this->templates['default_index']);
-        }
 
         $elasticSearchParams = new ArrayParams(
             [
