@@ -59,7 +59,6 @@ class AutoSuggestConfig extends AbstractHelper
      */
     protected $config;
 
-
     /**
      * Constructor
      *
@@ -104,14 +103,23 @@ class AutoSuggestConfig extends AbstractHelper
         $flatArrayConverter = new FlatArrayConverter();
         $valueConverter = new ValueConverter();
 
-        $searchesConfig = $this->serviceLocator->getServiceLocator()->get('VuFind\Config')->get('searches');
-        $autoSuggestEnabled = $this->_isAutoSuggestEnabled($searchesConfig, $valueConverter);
+        $searchesConfig
+            = $this->serviceLocator->getServiceLocator()->get('VuFind\Config')->get(
+                'searches'
+            );
+        $autoSuggestEnabled
+            = $this->_isAutoSuggestEnabled($searchesConfig, $valueConverter);
 
-        $autoSuggestConfig = $flatArrayConverter->fromConfigSections($searchesConfig, 'AutoSuggest');
+        $autoSuggestConfig
+            = $flatArrayConverter->fromConfigSections(
+                $searchesConfig, 'AutoSuggest'
+            );
         $autoSuggestConfig = $autoSuggestConfig->get('AutoSuggest')->toArray();
         $autoSuggestConfig['enabled'] = $autoSuggestEnabled;
 
-        $this->config = $valueConverter->convert(new ZendConfig($autoSuggestConfig));
+        $this->config = $valueConverter->convert(
+            new ZendConfig($autoSuggestConfig)
+        );
     }
 
     /**
@@ -122,20 +130,25 @@ class AutoSuggestConfig extends AbstractHelper
      *
      * @return bool
      */
-    private function _isAutoSuggestEnabled(\Zend\Config\Config $searchesConfig, ValueConverter $converter)
-    {
-        // Note: VuFind autocomplete already provides an enabled state information, but unfortunately switching it on
-        // results in client-side errors in autocomplete.js, so we separated enabled state validation into this method
-        // to be able to include it, once the error's source has been encountered. The separate enabled configuration in
-        // the AutoSuggest section in the searches.ini is then no longer required and enabled state can be merged from
-        // Autocomplete section.
+    private function _isAutoSuggestEnabled(
+        \Zend\Config\Config $searchesConfig, ValueConverter $converter
+    ) {
+        // Note: VuFind autocomplete already provides an enabled state information,
+        // but unfortunately switching it on
+        // results in client-side errors in autocomplete.js,
+        // so we separated enabled state validation into this method
+        // to be able to include it, once the error's source has been encountered.
+        // The separate enabled configuration in
+        // the AutoSuggest section in the searches.ini is then no longer
+        // required and enabled state can be merged from Autocomplete section.
         $autocompleteEnabled = false;
         // $autocompleteEnabled = isset($searchesConfig->Autocomplete->enabled)
         // ? $converter->isTruthy($searchesConfig->Autocomplete->enabled)
         // : false;
-        $autoSuggestEnabled = isset($searchesConfig->AutoSuggest) && isset($searchesConfig->AutoSuggest->enabled)
-            ? $converter->isTruthy($searchesConfig->AutoSuggest->enabled)
-            : false;
+        $autoSuggestEnabled = isset($searchesConfig->AutoSuggest)
+        && isset($searchesConfig->AutoSuggest->enabled) ? $converter->isTruthy(
+            $searchesConfig->AutoSuggest->enabled
+        ) : false;
 
         return $autocompleteEnabled || $autoSuggestEnabled;
     }

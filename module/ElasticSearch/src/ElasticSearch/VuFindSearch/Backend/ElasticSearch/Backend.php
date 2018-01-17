@@ -27,6 +27,7 @@
  */
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch;
 
+// @codingStandardsIgnoreLineuse
 use ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
 use ElasticsearchAdapter\Adapter;
 use ElasticsearchAdapter\Result\ElasticsearchClientResult;
@@ -64,7 +65,8 @@ class Backend extends AbstractBackend
     /**
      * Backend constructor.
      *
-     * @param \ElasticsearchAdapter\Adapter $esAdapter The Elastic Search Adapter
+     * @param \ElasticsearchAdapter\Adapter $esAdapter The Elastic Search
+     *                                                 Adapter
      * @param array                         $templates The search templates
      *
      * @internal param $esHosts
@@ -77,7 +79,6 @@ class Backend extends AbstractBackend
 
     /**
      * Return the record collection factory.
-     *
      * Lazy loads a generic collection factory.
      *
      * @return RecordCollectionFactoryInterface
@@ -106,7 +107,9 @@ class Backend extends AbstractBackend
         $limit,
         ParamBag $params = null
     ) {
-        $search = $this->searchBuilder->buildSearch($query, $offset, $limit, $params);
+        $search = $this->searchBuilder->buildSearch(
+            $query, $offset, $limit, $params
+        );
 
         $result = $this->connector->search($search);
         $collection = $this->createRecordCollection($result);
@@ -150,9 +153,7 @@ class Backend extends AbstractBackend
      * @return \VuFindSearch\Response\RecordCollectionInterface
      */
     public function random(
-        AbstractQuery $query,
-        $limit,
-        ParamBag $params = null
+        AbstractQuery $query, $limit, ParamBag $params = null
     ) {
         // TODO: Implement random() method.
     }
@@ -179,7 +180,6 @@ class Backend extends AbstractBackend
      */
     protected function createRecordCollection($result)
     {
-        return $this->getRecordCollectionFactory()
-            ->factory($result);
+        return $this->getRecordCollectionFactory()->factory($result);
     }
 }

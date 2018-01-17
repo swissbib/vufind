@@ -32,7 +32,8 @@ use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 /**
  * Class AbstractHelper
  *
- * Abstract view helper that implements some utilities commonly required for several views.
+ * Abstract view helper that implements some utilities commonly required for
+ * several views.
  *
  * @category VuFind
  * @package  ElasticSearch\View\Helper
@@ -74,7 +75,8 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     abstract public function getDisplayName();
 
     /**
-     * The type of data this helper handles. Used to resolve type specific urls like for the detail page link.
+     * The type of data this helper handles. Used to resolve type specific urls
+     * like for the detail page link.
      *
      * @return string
      */
@@ -93,7 +95,11 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
         $label = null;
 
         if (is_null($displayName)) {
-            $label = $this->getView()->translate(sprintf('%s.no.name', $translationKeyBase));
+            $label = $this->getView()->translate(
+                sprintf(
+                    '%s.no.name', $translationKeyBase
+                )
+            );
         } else {
             $label = $this->getView()->translate($translationKeyBase);
             $label = sprintf($label, $displayName);
@@ -116,15 +122,19 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
             $this->_metadataHelper->setSource($this);
             $this->_metadataHelper->setView($this->getView());
             $this->_metadataHelper->setPrefix($this->getMetadataPrefix());
-            $this->_metadataHelper->setMetadataMethodMap($this->getMetadataMethodMap());
+            $this->_metadataHelper->setMetadataMethodMap(
+                $this->getMetadataMethodMap()
+            );
         }
 
         return $this->_metadataHelper;
     }
 
     /**
-     * Template method subclasses may override to provide a prefix for localized labels for a specific purpose. It will
-     * be set on the metadata view helper.
+     * Template method subclasses may override to provide a prefix for
+     * localized
+     * labels for a specific purpose. It will be set on the metadata view
+     * helper.
      *
      * @return string
      */
@@ -134,9 +144,11 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     }
 
     /**
-     * Template method subclasses may override to provide an array that maps metadata keys on methods on this helper. It
-     * will be set on the metadata view helper. Then you can call the MetadataViewHelper#getMetadataList() method with
-     * the keys of this array to retrieve these metadata information.
+     * Template method subclasses may override to provide an array that maps
+     * metadata keys on methods on this helper. It will be set on the metadata
+     * view helper. Then you can call the MetadataViewHelper#getMetadataList()
+     * method with the keys of this array to retrieve these metadata
+     * information.
      *
      * @return array
      */
@@ -146,8 +158,9 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     }
 
     /**
-     * Provides the localized label for the link on the detail page of the underlying managed record driver. The method
-     * is used by the getDetailPageLink() method for link generation.
+     * Provides the localized label for the link on the detail page of the
+     * underlying managed record driver. The method is used by the
+     * getDetailPageLink() method for link generation.
      *
      * @return string
      */
@@ -155,18 +168,17 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
 
     /**
      * Returns Link to detail page
-     *
-     * If not null it is treated as the localization key and will be resolved before it is merged into the template.
+     * If not null it is treated as the localization key and will be resolved
+     * before it is merged into the template.
      *
      * @param string      $template The template
      * @param string|null $label    The label
      *
      * @return string
      */
-    public function getDetailPageLink(string $template, string $label = null): string
-    {
-        $label = is_null($label)
-            ? $this->getDetailPageLinkLabel()
+    public function getDetailPageLink(string $template, string $label = null
+    ): string {
+        $label = is_null($label) ? $this->getDetailPageLinkLabel()
             : $this->getView()->translate($label);
 
         $route = sprintf('page-detail-%s', $this->getType());

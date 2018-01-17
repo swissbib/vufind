@@ -1,50 +1,99 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: edmundmaruhn
- * Date: 11.01.18
- * Time: 11:16
+ * ESSubjectCollection.php
+ *
+ * PHP Version 7
+ *
+ * Copyright (C) swissbib 2018
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ *
+ * @category VuFind
+ * @package  ElasticSearch\View\Helper
+ * @author   Edmund Maruhn <ema@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
  */
-
 namespace ElasticSearch\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
-
 /**
  * Class ESSubjectCollection
- * @package ElasticSearch\View\Helper
+ *
+ * @category VuFind
+ * @package  ElasticSearch\View\Helper
+ * @author   Edmund Maruhn <ema@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
  */
 class ESSubjectCollection extends AbstractHelper
 {
-
     /**
+     * Array of subjects
+     *
      * @var \ElasticSearch\VuFind\RecordDriver\ESSubject[]
      */
-    private $collection;
+    private $_collection;
 
+    /**
+     * Gets the Collection
+     *
+     * @return array
+     */
     public function getCollection(): array
     {
-        return $this->collection;
+        return $this->_collection;
     }
 
-    public function setCollection(array $collection)
+    /**
+     * Sets the Collection
+     *
+     * @param array $_collection The collection
+     *
+     * @return void
+     */
+    public function setCollection(array $_collection)
     {
-        $this->collection = $collection;
+        $this->_collection = $_collection;
     }
 
-
+    /**
+     * Has SubjectsInCollection
+     *
+     * @return bool
+     */
     public function hasSubjectsInCollection()
     {
-        return isset($this->collection) && count($this->collection) > 0;
+        return isset($this->_collection) && count($this->_collection) > 0;
     }
 
-    public function getSubjectCollectionLinkList(string $template, string $separator = ', '): string
-    {
+    /**
+     * Gets the SubjectCollectionLinkList
+     *
+     * @param string $template  The template
+     * @param string $separator The seperator
+     *
+     * @return string
+     */
+    public function getSubjectCollectionLinkList(
+        string $template, string $separator = ', '
+    ): string {
         $helper = $this->getSubjectHelper();
         $subjects = [];
 
-        foreach ($this->collection as $subject) {
+        foreach ($this->_collection as $subject) {
             $helper->setSubject($subject);
             $subjects[] = $helper->getSubjectLink($template);
         }
@@ -54,14 +103,22 @@ class ESSubjectCollection extends AbstractHelper
         return implode($separator, $subjects);
     }
 
+    /**
+     * The subject helper
+     *
+     * @var
+     */
+    private $_subjectHelper;
 
-
-    private $subjectHelper;
-
+    /**
+     * Gets the SubjectHelper
+     *
+     * @return \ElasticSearch\View\Helper\ESSubject
+     */
     protected function getSubjectHelper(): ESSubject
     {
-        $this->subjectHelper = $this->subjectHelper ?? new ESSubject();
-        $this->subjectHelper->setView($this->getView());
-        return $this->subjectHelper;
+        $this->_subjectHelper = $this->_subjectHelper ?? new ESSubject();
+        $this->_subjectHelper->setView($this->getView());
+        return $this->_subjectHelper;
     }
 }

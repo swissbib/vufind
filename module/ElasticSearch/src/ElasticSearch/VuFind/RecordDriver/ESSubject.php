@@ -38,7 +38,6 @@ namespace ElasticSearch\VuFind\RecordDriver;
  */
 class ESSubject extends ElasticSearch
 {
-
     const GND_FIELD_PREFIX = 'http://d-nb_info/standards/elementset/gnd';
 
     /**
@@ -157,6 +156,7 @@ class ESSubject extends ElasticSearch
     {
         $fields = [
             // TODO Is this the only variant?
+            // @codingStandardsIgnoreLineuse
             "http://d-nb_info/standards/elementset/gnd#variantNameForTheSubjectHeading",
             "http://d-nb_info/standards/elementset/gnd#definition",
         ];
@@ -181,8 +181,9 @@ class ESSubject extends ElasticSearch
      *
      * @return string|null
      */
-    protected function getDisplayField(string $fieldName, string $prefix = null, string $delimiter = '#')
-    {
+    protected function getDisplayField(
+        string $fieldName, string $prefix = null, string $delimiter = '#'
+    ) {
         $field = $this->getRawField($fieldName, $prefix, $delimiter);
         $value = null;
 
@@ -202,8 +203,9 @@ class ESSubject extends ElasticSearch
      *
      * @return array|null
      */
-    protected function getField(string $fieldName, string $prefix = null, string $delimiter = '#')
-    {
+    protected function getField(
+        string $fieldName, string $prefix = null, string $delimiter = '#'
+    ) {
         $field = $this->getRawField($fieldName, $prefix, $delimiter);
 
         // TODO Can we have fields with id and values? How to return this values?
@@ -235,8 +237,9 @@ class ESSubject extends ElasticSearch
      *
      * @return string|null
      */
-    protected function getRawField(string $fieldName, string $prefix = null, string $delimiter = '#')
-    {
+    protected function getRawField(
+        string $fieldName, string $prefix = null, string $delimiter = '#'
+    ) {
         $prefix = $prefix ?? self::GND_FIELD_PREFIX;
 
         if (strpos($fieldName, $prefix) === 0) {
