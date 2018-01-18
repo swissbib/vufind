@@ -33,6 +33,7 @@ use VuFindTest\Unit\TestCase as VuFindTestCase;
 use Zend\ServiceManager\ServiceManager;
 use SwissbibTest\Bootstrap;
 use ReflectionClass;
+use Zend\Config\Config;
 
 /**
  * Class NationalLicenceServiceTest.
@@ -73,25 +74,58 @@ class NationalLicenceServiceTest extends VuFindTestCase
      */
     protected $switchApiConfig;
 
+    /*
+     * Config of NL
+     *
+     * @var array
+     */
+    protected $nationalLicenceConfig;
+
+
     /**
      * Set up service manager and National Licence Service.
      *
      * @return void
      */
+    public function initialize()
+    {
+        if (!$this->nationalLicenceService) {
+            $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/NationalLicence/';
+            $iniReader = new \Zend\Config\Reader\Ini();
+            $config = new Config($iniReader->fromFile($path . 'NationalLicences.ini'));
+            $serviceLocator = new ServiceManager();
+            $serviceLocator->setService('VuFind\Config', $config);
+
+
+            $factory = new \VuFind\Db\Table\PluginManager(
+                new \Zend\ServiceManager\Config(
+                    [
+                        'abstract_factories' =>
+                            ['VuFind\Db\Table\PluginFactory'],
+                        'factories' => [
+                            'nationallicence' => 'Swissbib\VuFind\Db\Table\Factory::getNationalLicenceUser',
+                            'user' => 'VuFind\Db\Table\Factory::getUser',
+                            'session' => 'VuFind\Db\Table\Factory::getSession',
+                        ],
+                    ]
+                )
+            );
+            $factory->setServiceLocator($serviceLocator);
+            $serviceLocator->setService('VuFind\DbTablePluginManager', $factory);
+
+            $this->sm = $serviceLocator;
+            $this->nationalLicenceService = new NationalLicence("ru", "ra", $config, $serviceLocator);
+        }
+    }
+
+    /**
+     * Setup
+     *
+     * @return void
+     */
     public function setUp()
     {
-        parent::setUp();
-        $this->sm = Bootstrap::getServiceManager();
-        $this->nationalLicenceService = $this->sm->get(
-            'Swissbib\NationalLicenceService'
-        );
-        $this->switchApiService = $this->sm
-            ->get('Swissbib\SwitchApiService');
-        /*$this->switchApiService = new ReflectionClass(
-            $switchApiServiceOriginal
-        );*/
-        /*$this->switchApiConfig
-            = ($this->sm->get('Config'))['swissbib']['tests']['switch_api'];*/
+        $this->initialize();
     }
 
     /**
@@ -142,8 +176,6 @@ class NationalLicenceServiceTest extends VuFindTestCase
      */
     public function testIsTemporaryAccessCurrentlyValid()
     {
-        putenv("SWITCH_API_USER=" . $this->switchApiConfig['auth_user']);
-        putenv("SWITCH_API_PASSW=" . $this->switchApiConfig['auth_password']);
         /**
          * National licence user.
          *
