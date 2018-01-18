@@ -20,7 +20,7 @@
     <? if ($this->essubjectcollection()->hasSubjectsInCollection()): ?>
         <li class="entry section-start">
             <span class="entry-label"><?= $this->esperson()->getRelatedSubjectsLabel(); ?></span>
-            <span class="entry-value"><?= $this->essubjectcollection()->getSubjectCollectionLinkList('<a class="ref nowrap" href="%s">%s</a>'); ?></span>
+            <span class="entry-value"><?= $this->essubjectcollection()->getSubjectCollectionLinkList('<a class="ref" href="%s">%s</a>'); ?></span>
         </li>
     <? endif; ?>
 </ul>
