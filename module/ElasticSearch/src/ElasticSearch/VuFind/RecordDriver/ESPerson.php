@@ -78,7 +78,7 @@ class ESPerson extends ElasticSearch
     public function __call(string $name, $arguments)
     {
         if ($pos = strpos($name, "DisplayField")) {
-            $fieldName = substr($name, 3, $pos);
+            $fieldName = substr(substr($name, 0, $pos), 3);
             $field = $this->getField(
                 sprintf('dbp%sAsLiteral', $fieldName), 'lsb'
             );

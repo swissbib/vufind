@@ -130,6 +130,11 @@ class ESPerson extends AbstractHelper
         $name = $this->getPerson()->getName();
         $displayName = null;
 
+        $first = is_array($first) ? implode(' ', $first) : $first;
+        $last = is_array($last) ? implode(' ', $last) : $last;
+        $name = is_array($name) ? implode(' ', $name) : $name;
+
+
         if (!is_null($first) && !is_null($last)) {
             $displayName = sprintf('%s %s', $first, $last);
         } else if (!is_null($first)) {
