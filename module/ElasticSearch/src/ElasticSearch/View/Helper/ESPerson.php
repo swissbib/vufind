@@ -134,7 +134,6 @@ class ESPerson extends AbstractHelper
         $last = is_array($last) ? implode(' ', $last) : $last;
         $name = is_array($name) ? implode(' ', $name) : $name;
 
-
         if (!is_null($first) && !is_null($last)) {
             $displayName = sprintf('%s %s', $first, $last);
         } else if (!is_null($first)) {
@@ -301,9 +300,15 @@ class ESPerson extends AbstractHelper
     /**
      * Gets the AbstractInfo
      *
+     * @param int  $splitPoint Indicates after how many words (or characters) to
+     *                         split.
+     * @param bool $countWords Indicates whether $splitPoint expresses the number of
+     *                         words (true) or characters (false) after which
+     *                         truncation has to be performed.
+     *
      * @return array
      */
-    public function getAbstractInfo()
+    public function getAbstractInfo(int $splitPoint = 30, bool $countWords = true)
     {
         $info = [
             'label' => $this->getView()->translate(
