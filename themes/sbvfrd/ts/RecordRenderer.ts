@@ -49,7 +49,7 @@ export class RecordRenderer {
             });
     }
 
-    public renderSubjects(subjects: JQuery<HTMLElement>, template: any) {
+    public renderSubjects(subjects: JQuery<HTMLElement>, template: any): Promise<void> {
         let subjectIds: string = "";
         subjects.each((i, el) => {
             subjectIds += "http://d-nb.info/gnd/" + $(el).attr("subjectid") + ",";

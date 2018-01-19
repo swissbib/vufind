@@ -36,15 +36,6 @@ namespace ElasticSearch\View\Helper;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-/**
- * Class ESPerson
- *
- * @category VuFind
- * @package  ElasticSearch\View\Helper
- * @author   Edmund Maruhn <ema@outermedia.de>
- * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.vufind.org  Main Page
- */
 class ESPerson extends AbstractHelper
 {
     /**

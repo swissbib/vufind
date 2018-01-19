@@ -166,7 +166,7 @@ return [
         'options' => [
           'route' => '/Card/Knowledge/Person/:id',
           'constraints' => [
-            'id'     => '[a-zA-Z0-9_-]+',
+            'id'     => '[a-fA-F0-9-]+',
           ],
           'defaults' => [
             'controller' => 'knowledge-card',
@@ -179,7 +179,7 @@ return [
         'options' => [
           'route' => '/Card/Knowledge/Subject/:id',
           'constraints' => [
-            'id'     => '[a-zA-Z0-9_-]+',
+            'id'     => '[a-fA-F0-9-]+',
           ],
           'defaults' => [
             'controller' => 'knowledge-card',
@@ -192,7 +192,7 @@ return [
         'options' => [
           'route' => '/Page/Detail/Person/:id',
           'constraints' => [
-            'id'     => '[a-zA-Z0-9_-]+',
+            'id'     => '[a-fA-F0-9-]+',
           ],
           'defaults' => [
             'controller' => 'detail-page',
@@ -205,7 +205,7 @@ return [
         'options' => [
           'route' => '/Page/Detail/Subject/:id',
           'constraints' => [
-            'id'     => '[a-zA-Z0-9_-]+',
+            'id'     => '[a-fA-F0-9-]+',
           ],
           'defaults' => [
             'controller' => 'detail-page',
