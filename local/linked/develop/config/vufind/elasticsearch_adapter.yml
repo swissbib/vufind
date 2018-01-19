@@ -34,6 +34,7 @@ parameters:
       query:
         ids:
           values: ['{q}']
+      size: 100
 
     collection_fields:
       index: 'lsb'

@@ -27,6 +27,7 @@
  */
 namespace Swissbib\Controller;
 
+use ElasticSearch\VuFind\RecordDriver\ESSubject;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -38,7 +39,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class DetailPageController extends KnowledgeCardController
+class DetailPageController extends AbstractDetailsController
 {
     /**
      * DetailPageController constructor.
@@ -68,5 +69,55 @@ class DetailPageController extends KnowledgeCardController
     public function subjectAction()
     {
         return parent::subjectAction();
+    }
+
+    /**
+     * Gets subjects
+     *
+     * @param array $subjectIds Ids of subjects
+     *
+     * @return array
+     */
+    protected function getSubjectsOf(array $subjectIds): array
+    {
+        $subjects = parent::getSubjectsOf($subjectIds);
+
+        return $this->getTagCloud($subjectIds, $subjects);
+    }
+
+    /**
+     * Gets the Tagcloud
+     *
+     * @param array $subjectIds All subject ids, including duplicates
+     * @param array $subjects   All subjects
+     *
+     * @return array
+     */
+    protected function getTagCloud(array $subjectIds, array $subjects)
+    {
+        $counts = array_count_values($subjectIds);
+        $cloud = [];
+        $max = max($counts);
+
+        foreach ($counts as $id => $count) {
+            $filtered = array_filter(
+                $subjects,
+                function (ESSubject $item) use ($id) {
+                    return $item->getFullUniqueID() === $id;
+                }
+            );
+            if (count($filtered) > 0) {
+                // @var ESSubject $subject
+                $subject = array_shift($filtered);
+                $name = $subject->getName();
+                $cloud[$name] = [
+                    "subject" => $subject,
+                    "count"   => $count,
+                    "weight"  => $count / $max
+                ];
+            }
+        }
+
+        return $cloud;
     }
 }
