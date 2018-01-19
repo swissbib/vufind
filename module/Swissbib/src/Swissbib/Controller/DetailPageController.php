@@ -27,6 +27,7 @@
  */
 namespace Swissbib\Controller;
 
+use ElasticSearch\VuFind\RecordDriver\ESSubject;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -68,5 +69,51 @@ class DetailPageController extends AbstractDetailsController
     public function subjectAction()
     {
         return parent::subjectAction();
+    }
+
+    /**
+     * Gets subjects
+     *
+     * @param array $subjectIds Ids of subjects
+     *
+     * @return array
+     */
+    protected function getSubjectsOf(array $subjectIds): array
+    {
+        $subjects = parent::getSubjectsOf($subjectIds);
+
+        return $this->getTagCloud($subjectIds, $subjects);
+    }
+
+    /**
+     * Gets the Tagcloud
+     *
+     * @param array $subjectIds All subject ids, including duplicates
+     * @param array $subjects   All subjects
+     *
+     * @return array
+     */
+    protected function getTagCloud(array $subjectIds, array $subjects)
+    {
+        $cloud = [];
+        foreach ($subjectIds as $id) {
+            $filtered = array_filter(
+                $subjects, function (ESSubject $item) use ($id) {
+                return $item->getFullUniqueID() === $id;
+            }
+            );
+            if (count($filtered) > 0) {
+                $cloud[] = $filtered[0]->getName();
+            }
+        }
+        $cloud = array_count_values($cloud);
+
+        array_walk(
+            $cloud, function (int &$count, string $key, int $max) {
+            $count /= $max;
+        }, max($cloud)
+        );
+
+        return $cloud;
     }
 }

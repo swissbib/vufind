@@ -40,6 +40,35 @@ namespace Swissbib\Controller;
  */
 class KnowledgeCardController extends AbstractDetailsController
 {
+    /**
+     * /Page/Detail/Person/:id
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function personAction()
+    {
+        return parent::personAction();
+    }
 
+    /**
+     * /Page/Detail/Subject/:id
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function subjectAction()
+    {
+        return parent::subjectAction();
+    }
 
+    /**
+     * Gets subjects
+     *
+     * @param array $subjectIds Ids of subjects
+     *
+     * @return array
+     */
+    protected function getSubjects($subjectIds): array
+    {
+        return $this->getSubjectsOf(array_unique($subjectIds));
+    }
 }

@@ -27,9 +27,9 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\AbstractBase;
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use ElasticSearch\VuFind\RecordDriver\ESSubject;
+use VuFind\Controller\AbstractBase;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -56,11 +56,7 @@ abstract class AbstractDetailsController extends AbstractBase
             $bibliographicResources = $this->getBibliographicResourcesOf($id);
             $subjectIds = $this->getSubjectIdsFrom($bibliographicResources);
 
-            $uniqueSubjectIds = array_unique($subjectIds);
-
-            $subjects = $this->getSubjectsOf($uniqueSubjectIds);
-
-            $tagcloud = $this->getTagcloud($subjectIds, $subjects);
+            $subjects = $this->getSubjectsOf($subjectIds);
 
             return $this->createViewModel(
                 [
@@ -144,10 +140,10 @@ abstract class AbstractDetailsController extends AbstractBase
      *
      * @return array
      */
-    protected function getSubjectsOf(array $ids)
+    protected function getSubjectsOf(array $ids): array
     {
         return $this->search(
-            $this->_arrayToSearchString($ids), "id", "gnd", "DEFAULT"
+            $this->_arrayToSearchString(array_unique($ids)), "id", "gnd", "DEFAULT"
         );
     }
 
@@ -245,36 +241,6 @@ abstract class AbstractDetailsController extends AbstractBase
     private function _arrayToSearchString(array $ids): string
     {
         return '[' . implode(",", $ids) . ']';
-    }
-
-    /**
-     * Gets the Tagcloud
-     *
-     * @param array $subjectIds
-     * @param array $subjects
-     *
-     * @return array
-     */
-    protected function getTagcloud(array $subjectIds, array $subjects)
-    {
-        $cloud = [];
-
-        error_log(print_r($subjectIds));
-        foreach ($subjectIds as $id) {
-            $filtered = array_filter(
-                $subjects, function (ESSubject $item) use ($id) {
-                return $item->getFullUniqueID() === $id;
-            }
-            );
-            if (count($filtered) === 0)
-            {
-                continue;
-            }
-            $cloud[] = array_pop($filtered)->getName();
-        }
-        $cloud = array_count_values($cloud);
-
-        return $cloud;
     }
 
     /**
