@@ -99,8 +99,7 @@ class DetailPageController extends AbstractDetailsController
         $cloud = [];
         $max = max($counts);
 
-        foreach ($counts as $id => $count)
-        {
+        foreach ($counts as $id => $count) {
             $filtered = array_filter(
                 $subjects,
                 function (ESSubject $item) use ($id) {
