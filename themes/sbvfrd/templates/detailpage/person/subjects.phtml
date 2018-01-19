@@ -9,19 +9,19 @@ $weighting = ($maxFontSize - $minFontSize) + $minFontSize;
     <?
     /** @var \ElasticSearch\VuFind\RecordDriver\ESSubject $subject */
     $subject = $val["subject"];
-    $searchUrl =
-        $this->url('search-results')
-        . '?lookfor='
-        . urlencode($subject->getName())
+    $searchUrl
+        = $this->url('search-results') . '?lookfor=' . urlencode($subject->getName())
         . '&amp;type=Subject';
     ?>
     <a href="<?= $searchUrl ?>"
        style="font-size: <?= $val["weight"] * $weighting ?>px"><?= $name ?></a>
     <? if ($subject->hasSufficientData()): ?>
-        <a href="<?= $this->url(
-            'card-knowledge-subject',
-            ["id" => $subject->getUniqueID()]
-        ) ?>" data-lightbox>
+        <?
+        $knowledgeCardUrl = $this->url(
+            'card-knowledge-subject', ["id" => $subject->getUniqueID()]
+        );
+        ?>
+        <a href="<?= $knowledgeCardUrl ?>" data-lightbox>
             <span class="fa fa-info-circle fa-lg" style="display: inline;"</span>
         </a>
     <? endif; ?>
