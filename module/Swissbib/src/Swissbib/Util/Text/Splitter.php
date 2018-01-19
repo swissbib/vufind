@@ -90,9 +90,9 @@ class Splitter
      * @param string $text  The text to split.
      * @param int    $limit The position where ideally to split the text.
      *
-     * @return object
+     * @return \stdClass
      */
-    public function split(string $text, int $limit): object
+    public function split(string $text, int $limit): \stdClass
     {
         $splitPoint = $this->calculateSplitPoint($text, $limit);
         $info = (object)[
@@ -144,12 +144,12 @@ class Splitter
     /**
      * Calculates the split point based on word count.
      *
-     * @param object $data  The analysis out of the incoming text.
-     * @param int    $limit The number of words after which to split.
+     * @param \stdClass $data  The analysis out of the incoming text.
+     * @param int       $limit The number of words after which to split.
      *
      * @return int
      */
-    private function _calculateWordSplitPoint(object $data, int $limit): int
+    private function _calculateWordSplitPoint(\stdClass $data, int $limit): int
     {
         $words = array_slice($data->words, 0, $limit);
         $processed = [];
@@ -168,12 +168,12 @@ class Splitter
     /**
      * Calculates the split point based on word count.
      *
-     * @param object $data  The analysis out of the incoming text.
-     * @param int    $limit The number of words after which to split.
+     * @param \stdClass $data  The analysis out of the incoming text.
+     * @param int       $limit The number of words after which to split.
      *
      * @return int
      */
-    private function _calculateCharacterSplitPoint(object $data, int $limit): int
+    private function _calculateCharacterSplitPoint(\stdClass $data, int $limit): int
     {
         $sequence = $data->sequence;
         $processed = '';
@@ -207,9 +207,9 @@ class Splitter
      *
      * @param string $text The text to analyze.
      *
-     * @return object
+     * @return \stdClass
      */
-    private function _analyze(string $text): object
+    private function _analyze(string $text): \stdClass
     {
         $data = (object)[
             'text'        => $text,

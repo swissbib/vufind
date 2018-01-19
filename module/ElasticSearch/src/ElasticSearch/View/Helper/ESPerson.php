@@ -27,6 +27,8 @@
  */
 namespace ElasticSearch\View\Helper;
 
+use Swissbib\Util\Text\Splitter;
+
 /**
  * Class ESPerson
  *
@@ -291,33 +293,27 @@ class ESPerson extends AbstractHelper
     /**
      * Gets the AbstractInfo
      *
-     * @param int  $splitPoint Indicates after how many words (or characters) to
+     * @param int  $limit      Indicates after how many words (or characters) to
      *                         split.
      * @param bool $countWords Indicates whether $splitPoint expresses the number of
      *                         words (true) or characters (false) after which
      *                         truncation has to be performed.
      *
-     * @return array
+     * @return \stdClass
      */
-    public function getAbstractInfo(int $splitPoint = 30, bool $countWords = true)
+    public function getAbstractInfo(int $limit = 30, bool $countWords = true)
     {
-        $info = [
-            'label' => $this->getView()->translate(
-                'card.knowledge.person.metadata.abstract'
-            ), 'text' => '', 'truncated' => false, 'overflow' => ''
-        ];
+        $info = null;
 
         if ($this->hasAbstract()) {
             $abstract = $this->getPerson()->getAbstract();
-            $splitPoint = $this->calculateSplitPoint($abstract);
+            // ignore surrounding whitespace at all
+            $abstract = trim($abstract);
 
-            if ($splitPoint === -1) {
-                $info['text'] = $abstract;
-            } else {
-                $info['truncated'] = true;
-                $info['text'] = substr($abstract, 0, $splitPoint);
-                $info['overflow'] = substr($abstract, $splitPoint);
-            }
+            $info = (new Splitter($countWords))->split($abstract, $limit);
+            $info->label = $this->getView()->translate(
+                'card.knowledge.person.metadata.abstract'
+            );
         }
 
         return $info;
@@ -326,32 +322,137 @@ class ESPerson extends AbstractHelper
     /**
      * Calculates the SplitPoint
      *
-     * @param string $text                The text
-     * @param int    $truncationWordCount The truncationWordCount
+     * @param string $text     The text
+     * @param int    $limit    The truncationWordCount
+     * @param bool   $useWords The useWords
      *
      * @return int
      */
     protected function calculateSplitPoint(
-        string $text, int $truncationWordCount = 30
+        string $text, int $limit = 30, $useWords = true
     ) {
-        // pattern matches the same way as trim() will do by default
-        $words = preg_split('/[ \t\n\r\0\x0B]/', $text);
-        $wordCount = 0;
-        $processedWords = '';
-        $splitPoint = -1;
+        return $useWords
+            ? $this->_calculateWordSplitPoint($text, $limit)
+            : $this->_calculateCharacterSplitPoint($text, $limit);
+    }
 
+    /**
+     * Computes the text split point based on word count.
+     *
+     * @param string $text  The text to split.
+     * @param int    $limit The number of words after which to split.
+     *
+     * @return int
+     */
+    private function _calculateWordSplitPoint(string $text, int $limit): int
+    {
+        // split at space character
+        $delimiter = ' ';
+        $words = explode($delimiter, $text);
+        $processed = [];
+        $count = 0;
+
+        // loop over chunks
         foreach ($words as $word) {
-            // exclude any whitespace from word count
-            $wordCount += strlen($word) === 0 ? 0 : 1;
-            $processedWords .= $word;
+            // trim chunk
+            $sanitized = trim($word);
 
-            if ($wordCount === $truncationWordCount) {
-                $splitPoint = strlen($processedWords);
+            // check if at least one character is in the trimmed chunk
+            if (strlen($sanitized) > 0) {
+                // if so, count word
+                ++$count;
+            }
+
+            // append untrimmed chunk to list of processed words
+            $processed[] = $word;
+
+            // check if word count limit has been reached
+            if ($count === $limit) {
+                // if so, break the loop
                 break;
             }
         }
 
-        return $splitPoint === strlen($text) ? -1 : $splitPoint;
+        // join all processed words with space character
+        // return length of joined string
+        return strlen(implode($delimiter, $processed));
+    }
+
+    /**
+     * Computes the text split point based on character count. The text will be split
+     * at the nearest word boundary which is equal to or less than the given limit.
+     *
+     * @param string $text  The text to split.
+     * @param int    $limit The number of characters after which to attempt to split.
+     *
+     * @return int
+     */
+    private function _calculateCharacterSplitPoint(string $text, int $limit): int
+    {
+        $delimiters = '/[ \t\n\r\0\x0B]/';
+        $length = strlen($text);
+        $position = 0;
+
+        // check whether the limit equals or exceeds the length of the text
+        if ($limit >= $length) {
+            // if so, use length of text
+            $position = $length;
+        } else {
+            // check if limit points to a word boundary
+            $character = mb_substr($text, $limit, 1);
+
+            if (preg_match($delimiters, $character) === 1) {
+                // if so, use limit
+                $position = $limit;
+            } else {
+                // otherwise remove the last potential word
+                $whitespaces = [];
+                preg_match_all($delimiters, $text, $whitespaces);
+                $whitespaces = $whitespaces[0];
+
+                $words = preg_split($delimiters, substr($text, 0, $limit));
+                $result = [];
+
+                while (!empty($words) || !empty($whitespaces)) {
+                    if (!empty($words)) {
+                        $result[] = array_shift($words);
+                    }
+                    if (!empty($whitespaces)) {
+                        $result[] = array_shift($whitespaces);
+                    }
+                }
+                // if not found or zero, use zero
+                array_pop($words);
+                // otherwise use found position
+            }
+        }
+        return 0;
+    }
+
+    private function _analyzeText(string $text): array
+    {
+        $delimiters = '/[ \t\n\r\0\x0B]/';
+    }
+
+    /**
+     * Performs sanity checks on the given text to validate whether it contains
+     *
+     * @param string $text     The text to validate.
+     * @param int    $limit    The split point.
+     * @param bool   $useWords Indicates whether $limit expresses word or
+     *                         character count.
+     *
+     * @return bool
+     */
+    private function _validateText(string $text, int $limit, bool $useWords): bool
+    {
+        $sanitizedText = trim($text);
+        $length = strlen($sanitizedText);
+        $matched = preg_match('/[ \t\n\r\0\x0B]/', $sanitizedText) === 1;
+
+        if ($matched) {
+
+        }
     }
 
     /**
