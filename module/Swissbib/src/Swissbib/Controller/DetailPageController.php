@@ -38,7 +38,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class DetailPageController extends KnowledgeCardController
+class DetailPageController extends AbstractDetailsController
 {
     /**
      * DetailPageController constructor.

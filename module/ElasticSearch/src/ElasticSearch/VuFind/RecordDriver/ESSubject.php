@@ -85,6 +85,16 @@ class ESSubject extends ElasticSearch
     }
 
     /**
+     * Returns the full unique identifier of this record
+     *
+     * @return string Full Unique identifier.
+     */
+    public function getFullUniqueID()
+    {
+        return $this->fields["_id"];
+    }
+
+    /**
      * Returns name of subject
      *
      * @return string
