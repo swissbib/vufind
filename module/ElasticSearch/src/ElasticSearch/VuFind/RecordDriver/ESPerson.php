@@ -350,7 +350,7 @@ class ESPerson extends ElasticSearch
      *
      * @return \DateTime|null
      */
-    protected function extractDate(string $date)
+    protected function extractDate(string $date = null)
     {
         if ($date !== null) {
             return new \DateTime($date);
