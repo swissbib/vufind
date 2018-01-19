@@ -1,1 +1,12 @@
-<h2>Person Detail Page</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 col-sm-push-8">
+            <?= $this->render('detailpage/person/navigation.phtml') ?>
+        </div>
+        <div class="col-sm-8 col-sm-pull-4">
+            <?= $this->render('detailpage/person/common.phtml') ?>
+        </div>
+    </div>
+</div>
+
+<?= $this->render('detailpage/person/relations.phtml') ?>
