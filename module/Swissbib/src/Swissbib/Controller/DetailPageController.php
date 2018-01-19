@@ -113,8 +113,8 @@ class DetailPageController extends AbstractDetailsController
                 $name = $subject->getName();
                 $cloud[$name] = [
                     "subject" => $subject,
-                    "count" => $count,
-                    "weight" => $count/$max
+                    "count"   => $count,
+                    "weight"  => $count / $max
                 ];
             }
         }
