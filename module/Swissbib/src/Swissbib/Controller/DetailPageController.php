@@ -95,24 +95,28 @@ class DetailPageController extends AbstractDetailsController
      */
     protected function getTagCloud(array $subjectIds, array $subjects)
     {
+        $counts = array_count_values($subjectIds);
         $cloud = [];
-        foreach ($subjectIds as $id) {
+        $max = max($counts);
+
+        foreach ($counts as $id => $count)
+        {
             $filtered = array_filter(
                 $subjects, function (ESSubject $item) use ($id) {
                 return $item->getFullUniqueID() === $id;
             }
             );
             if (count($filtered) > 0) {
-                $cloud[] = $filtered[0]->getName();
+                // @var ESSubject $subject
+                $subject = array_shift($filtered);
+                $name = $subject->getName();
+                $cloud[$name] = [
+                    "subject" => $subject,
+                    "count" => $count,
+                    "weight" => $count/$max
+                ];
             }
         }
-        $cloud = array_count_values($cloud);
-
-        array_walk(
-            $cloud, function (int &$count, string $key, int $max) {
-            $count /= $max;
-        }, max($cloud)
-        );
 
         return $cloud;
     }
