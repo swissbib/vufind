@@ -102,9 +102,10 @@ class DetailPageController extends AbstractDetailsController
         foreach ($counts as $id => $count)
         {
             $filtered = array_filter(
-                $subjects, function (ESSubject $item) use ($id) {
-                return $item->getFullUniqueID() === $id;
-            }
+                $subjects,
+                function (ESSubject $item) use ($id) {
+                    return $item->getFullUniqueID() === $id;
+                }
             );
             if (count($filtered) > 0) {
                 // @var ESSubject $subject

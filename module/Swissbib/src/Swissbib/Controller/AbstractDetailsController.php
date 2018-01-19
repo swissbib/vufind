@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
  *
  * @category VuFind
- * @package
+ * @package  Swissbib\Controller
  * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
@@ -28,14 +28,17 @@
 namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
-use ElasticSearch\VuFind\RecordDriver\ESSubject;
 use VuFind\Controller\AbstractBase;
 use Zend\View\Model\ViewModel;
 
 /**
  * Class AbstractDetailsController
  *
- * @package Swissbib\Controller
+ * @category VuFind
+ * @package  Swissbib\Controller
+ * @author   Christoph Boehm <cbo@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
  */
 abstract class AbstractDetailsController extends AbstractBase
 {
@@ -218,7 +221,8 @@ abstract class AbstractDetailsController extends AbstractBase
     /**
      * Creates ErrorView
      *
-     * @param string $id The id
+     * @param string     $id The id
+     * @param \Exception $e  The exception
      *
      * @return \Zend\View\Model\ViewModel
      */
@@ -244,9 +248,9 @@ abstract class AbstractDetailsController extends AbstractBase
     }
 
     /**
-     * getSubjectIdsFrom
+     * Gets the subject ids from the bibliographic resources
      *
-     * @param array $bibliographicResources
+     * @param array $bibliographicResources The bibliographic resources
      *
      * @return array
      */
@@ -255,9 +259,9 @@ abstract class AbstractDetailsController extends AbstractBase
         $ids = [];
         // @var ESBibliographicResource $bibliographicResource
         foreach ($bibliographicResources as $bibliographicResource) {
-            $s = $bibliographicResource->getSubjects();
-            if (count($s) > 0) {
-                $ids = array_merge($ids, $s);
+            $subjects = $bibliographicResource->getSubjects();
+            if (count($subjects) > 0) {
+                $ids = array_merge($ids, $subjects);
             }
         }
         return $ids;
