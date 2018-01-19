@@ -289,7 +289,7 @@ class ESPerson extends ElasticSearch
      * @return null
      */
     protected function getValueByLanguagePriority(
-        array $content, string $userLocale = null
+        array $content = null, string $userLocale = null
     ) {
         $results = null;
 
