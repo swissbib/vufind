@@ -15,21 +15,8 @@
     },
     "repositories": [
         {
-            "type": "package",
-            "package": {
-                "name": "swissbib/switchSharedAttributesAPIClient",
-                "version": "dev-master",
-                "source": {
-                    "url": "https://github.com/swissbib/switchSharedAttributesAPIClient.git",
-                    "type": "git",
-                    "reference": "master"
-                },
-                "autoload": {
-                    "psr-0" : {
-                        "switchSharedAttributesAPIClient" : "src"
-                    }
-                }
-            }
+            "type": "vcs",
+            "url":  "git@github.com:swissbib/switchSharedAttributesAPIClient.git"
         }
     ],
     "require": {

@@ -35,7 +35,7 @@ use Zend\ServiceManager\ServiceManager;
  *
  * @category Swissbib_VuFind2
  * @package  Controller
- * @author   Simone Cogno <scogno@snowflake.ch>
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */

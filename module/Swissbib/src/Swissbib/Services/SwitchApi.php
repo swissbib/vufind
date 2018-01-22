@@ -30,6 +30,7 @@ use Zend\Http\Client;
 use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient;
 
 /**
  * Class SwitchApi.
