@@ -1,10 +1,5 @@
 <h2>{subjects-headline}</h2>
 <p>{subjects-tag-cloud}</p>
-<?
-$minFontSize = 12;
-$maxFontSize = 24;
-$weighting = ($maxFontSize - $minFontSize) + $minFontSize;
-?>
 <? foreach ($subjects as $name => $val): ?>
     <?
     /** @var \ElasticSearch\VuFind\RecordDriver\ESSubject $subject */
@@ -13,8 +8,9 @@ $weighting = ($maxFontSize - $minFontSize) + $minFontSize;
         = $this->url('search-results') . '?lookfor=' . urlencode($subject->getName())
         . '&amp;type=Subject';
     ?>
-    <a href="<?= $searchUrl ?>"
-       style="font-size: <?= $val["weight"] * $weighting ?>px"><?= $name ?></a>
+    <a href="<?= $searchUrl ?>" style="font-size: <?= $val["weight"] ?>px">
+        <?= $name ?>
+    </a>
     <? if ($subject->hasSufficientData()): ?>
         <?
         $knowledgeCardUrl = $this->url(
