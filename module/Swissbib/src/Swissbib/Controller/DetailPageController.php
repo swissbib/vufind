@@ -43,6 +43,13 @@ use Zend\View\Model\ViewModel;
 class DetailPageController extends AbstractDetailsController
 {
     /**
+     * The config for the detail page
+     *
+     * @var \Zend\Config\Config $_config The Config
+     */
+    private $_config;
+
+    /**
      * DetailPageController constructor.
      *
      * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service locator
@@ -50,6 +57,9 @@ class DetailPageController extends AbstractDetailsController
     public function __construct(ServiceLocatorInterface $sm)
     {
         parent::__construct($sm);
+        $this->_config = $this->serviceLocator->get('VuFind\Config')->get(
+            'config'
+        )->DetailPage;
     }
 
     /**
@@ -84,6 +94,7 @@ class DetailPageController extends AbstractDetailsController
         // @var \Swissbib\VuFind\Search\Solr\Params $params
         $params = $results->getParams();
         $params->setBasicSearch($author, $type);
+        $params->setLimit($this->_config->mediaLimit);
 
         // Attempt to perform the search; if there is a problem, inspect any Solr
         // exceptions to see if we should communicate to the user about them.
@@ -147,7 +158,8 @@ class DetailPageController extends AbstractDetailsController
 
         foreach ($counts as $id => $count) {
             $filtered = array_filter(
-                $subjects, function (ESSubject $item) use ($id) {
+                $subjects,
+                function (ESSubject $item) use ($id) {
                     return $item->getFullUniqueID() === $id;
                 }
             );
@@ -157,7 +169,7 @@ class DetailPageController extends AbstractDetailsController
                 $name = $subject->getName();
                 $cloud[$name] = [
                     "subject" => $subject, "count" => $count,
-                    "weight" => $count / $max
+                    "weight" => $this->calculateFontSize($count, $max)
                 ];
             }
         }
@@ -189,5 +201,23 @@ class DetailPageController extends AbstractDetailsController
         $name = $person->getName();
         $results = $this->searchSolr($name);
         $viewModel->setVariable("media", $results);
+    }
+
+    /**
+     * Calculates the font size for the tag cloud
+     *
+     * @param int $count The count
+     * @param int $max   Max count
+     *
+     * @return int
+     */
+    protected function calculateFontSize($count, $max): int
+    {
+        $tagCloudMaxFontSize = $this->_config->tagCloudMaxFontSize;
+        $tagCloudMinFontSize = $this->_config->tagCloudMinFontSize;
+        return round(
+            ($tagCloudMaxFontSize - $tagCloudMinFontSize) * ($count / $max)
+            + $tagCloudMinFontSize
+        );
     }
 }
