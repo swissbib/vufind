@@ -50,7 +50,7 @@ class Factory
      */
     public static function getTargetsProxy(ServiceManager $sm)
     {
-        $configPluginManager = $sm->get('VuFind\Config');
+        $configPluginManager = $sm->get('VuFind\Config')->get('TargetsProxy');
 
         return new TargetsProxy(
             $configPluginManager,
