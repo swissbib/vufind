@@ -30,13 +30,11 @@ namespace Swissbib\TargetsProxy;
 
 use Zend\Config\Config;
 use Zend\Di\ServiceLocator;
-use Zend\Mvc\Controller\PluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Http\PhpEnvironment\RemoteAddress;
 use Zend\Http\PhpEnvironment\Request;
 
 use Zend\Log\Logger as ZendLogger;
-use vuFind\Config\PluginManager as VFConfigPluginManager;
 
 /**
  * Targets proxy
@@ -57,13 +55,6 @@ class TargetsProxy
      * @var string
      */
     protected $searchClass = 'Summon';
-
-    /**
-     * ConfigPluginManager
-     *
-     * @var PluginManager
-     */
-    protected $configPluginManager;
 
     /**
      * ClientIP
@@ -103,21 +94,27 @@ class TargetsProxy
     protected $logger;
 
     /**
+     * Config
+     *
+     * @var Config
+     */
+    protected $config;
+
+    /**
      * Initialize proxy with config
      *
-     * @param VFConfigPluginManager $configPluginManager Config
-     * @param ZendLogger            $logger              ZendLogger
-     * @param Request               $request             Request
+     * @param Config     $config  Config
+     * @param ZendLogger $logger  ZendLogger
+     * @param Request    $request Request
      */
-    public function __construct(VFConfigPluginManager $configPluginManager,
+    public function __construct(Config $config,
         ZendLogger $logger, Request $request
     ) {
-        $this->configPluginManager = $configPluginManager;
+        $this->config = $config;
         $this->logger = $logger;
         $trustedProxies = explode(
             ',',
-            $this->configPluginManager->get('TargetsProxy')->get('TrustedProxy')
-                ->get('loadbalancer')
+            $this->config->get('TrustedProxy')->get('loadbalancer')
         );
 
         // Populate client info properties from request
@@ -206,7 +203,7 @@ class TargetsProxy
      */
     public function getConfig()
     {
-        return $this->configPluginManager->get('TargetsProxy');
+        return $this->config;
     }
 
     /**
@@ -227,7 +224,7 @@ class TargetsProxy
 
         $targetKeys = explode(
             ',',
-            $this->configPluginManager->get('TargetsProxy')->get('TargetsProxy')
+            $this->config->get('TargetsProxy')
                 ->get('targetKeys' . $this->searchClass)
         );
 
@@ -255,7 +252,7 @@ class TargetsProxy
              * @var \Zend\Config\Config $targetConfig
              */
             $targetConfig
-                = $this->configPluginManager->get('TargetsProxy')->get($targetKey);
+                = $this->config->get($targetKey);
             $patternsIP = '';
             $patternsURL = '';
 
@@ -305,7 +302,7 @@ class TargetsProxy
     private function _setConfigKeys($targetKey)
     {
         $this->targetKey = $targetKey;
-        $vfConfig = $this->configPluginManager->get('config')->toArray();
+        $vfConfig = $this->config->toArray();
         $this->targetApiId = $vfConfig[$this->targetKey]['apiId'];
         $this->targetApiKey = $vfConfig[$this->targetKey]['apiKey'];
     }

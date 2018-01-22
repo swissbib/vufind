@@ -71,6 +71,8 @@ class TargetsProxyTestCase extends VuFindTestCase
             $config = new Config($iniReader->fromFile($configFile));
             $serviceLocator = new ServiceManager();
             $serviceLocator->setService('VuFind\Config', $config);
+            //$configPluginManager = $serviceLocator->get('VuFind\Config');
+
             $this->targetsProxy = new TargetsProxy($config, new Logger(), new Request());
             $this->targetsProxy->setSearchClass('Summon');
             $this->targetsProxy->setServiceLocator($serviceLocator);
