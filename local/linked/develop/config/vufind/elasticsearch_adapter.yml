@@ -163,3 +163,30 @@ parameters:
           filter:
             term:
               'dct:contributor': '{q}'
+
+    person_by_genre:
+      type: 'person'
+      index: 'lsb'
+      size: 100
+      query:
+        bool:
+          must:
+            match_all:
+              - '{}'
+          filter:
+            term:
+              'dbp:genre': '{q}'
+
+    person_by_movement:
+      type: 'person'
+      index: 'lsb'
+      size: 100
+      query:
+        bool:
+          must:
+            match_all:
+              - '{}'
+          filter:
+            term:
+              'dbp:genre': '{q}'
+

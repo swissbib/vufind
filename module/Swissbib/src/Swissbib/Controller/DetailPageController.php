@@ -27,6 +27,7 @@
  */
 namespace Swissbib\Controller;
 
+use ElasticSearch\VuFind\RecordDriver\ESPerson;
 use ElasticSearch\VuFind\RecordDriver\ESSubject;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
@@ -63,6 +64,7 @@ class DetailPageController extends AbstractDetailsController
     }
 
     /**
+     * TODO Improve error handling
      * /Page/Detail/Person/:id
      *
      * @return \Zend\View\Model\ViewModel
@@ -72,11 +74,15 @@ class DetailPageController extends AbstractDetailsController
         $viewModel = parent::personAction();
 
         $this->addMedia($viewModel, "Author");
+        $this->addCoContributors($viewModel);
+        $this->addPersonsOfSameGenre($viewModel);
+        $this->addPersonsOfSameMovement($viewModel);
 
         return $viewModel;
     }
 
     /**
+     * TODO Improve error handling
      * /Page/Detail/Subject/:id
      *
      * @return \Zend\View\Model\ViewModel
@@ -196,6 +202,97 @@ class DetailPageController extends AbstractDetailsController
         $name = $record->getName();
         $results = $this->searchSolr($name, $type);
         $viewModel->setVariable("media", $results);
+    }
+
+    /**
+     * Adds co contributors of author
+     *
+     * @param \Zend\View\Model\ViewModel $viewModel The view model
+     *
+     * @return void
+     */
+    protected function addCoContributors(ViewModel &$viewModel)
+    {
+        // @var ESPerson $driver
+        $driver = $viewModel->getVariable("driver");
+        $authorId = $driver->getUniqueId();
+        $bibliographicResources = $viewModel->getVariable("books");
+        $contributorIds = [];
+        // @var \ElasticSearch\VuFind\RecordDriver\ESBibliographicResource
+        // $bibliographicResource
+        foreach ($bibliographicResources as $bibliographicResource) {
+            $contributorIds = array_merge(
+                $contributorIds, $bibliographicResource->getContributors()
+            );
+        }
+        $contributorIds = array_unique($contributorIds);
+
+        $contributorIds = array_filter(
+            $contributorIds,
+            function ($val) use ($authorId) {
+                return $val !== $authorId;
+            }
+        );
+
+        $contributors = $this->search(
+            $this->arrayToSearchString($contributorIds), "id", "lsb", "person"
+        );
+
+        $viewModel->setVariable("coContributors", $contributors);
+    }
+
+    /**
+     * Adds persons of same genre as author
+     *
+     * @param \Zend\View\Model\ViewModel $viewModel The view model
+     *
+     * @return void
+     */
+    protected function addPersonsOfSameGenre($viewModel)
+    {
+        // @var ESPerson $driver
+        $driver = $viewModel->getVariable("driver");
+        $genres = $driver->getGenre();
+
+        if (is_array($genres)) {
+            $genres = $this->arrayToSearchString($genres);
+        }
+
+        if (isset($genres)) {
+            $authors = $this->search($genres, "person_by_genre");
+            $viewModel->setVariable("authorsOfSameGenre", $authors);
+        }
+    }
+
+    /**
+     * Adds persons of same movement as author
+     *
+     * @param \Zend\View\Model\ViewModel $viewModel The view model
+     *
+     * @return void
+     */
+    protected function addPersonsOfSameMovement($viewModel)
+    {
+        // @var ESPerson $driver
+        $driver = $viewModel->getVariable("driver");
+        $authorId = $driver->getUniqueId();
+
+        $movements = $driver->getMovement();
+
+        if (is_array($movements)) {
+            $movements = $this->arrayToSearchString($movements);
+        }
+
+        if (isset($movements)) {
+            $authors = $this->search($movements, "person_by_movement");
+            $authors = array_filter(
+                $authors,
+                function (ESPerson $author) use ($authorId) {
+                    return $author->getUniqueID() !== $authorId;
+                }
+            );
+            $viewModel->setVariable("authorsOfSameGenre", $authors);
+        }
     }
 
     /**

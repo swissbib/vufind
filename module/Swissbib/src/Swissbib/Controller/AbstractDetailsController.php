@@ -59,11 +59,13 @@ abstract class AbstractDetailsController extends AbstractBase
             $bibliographicResources = $this->getBibliographicResourcesOf($id);
             $subjectIds = $this->getSubjectIdsFrom($bibliographicResources);
 
-            $subjects = $this->getSubjectsOf($subjectIds);
+            if (count($subjectIds) > 0) {
+                $subjects = $this->getSubjectsOf($subjectIds);
+            }
 
             return $this->createViewModel(
                 [
-                    "driver" => $driver, "subjects" => $subjects,
+                    "driver" => $driver, "subjects" => $subjects ?? null,
                     "books" => $bibliographicResources
                 ]
             );
@@ -146,7 +148,7 @@ abstract class AbstractDetailsController extends AbstractBase
     protected function getSubjectsOf(array $ids): array
     {
         return $this->search(
-            $this->_arrayToSearchString(array_unique($ids)), "id", "gnd", "DEFAULT"
+            $this->arrayToSearchString(array_unique($ids)), "id", "gnd", "DEFAULT"
         );
     }
 
@@ -172,7 +174,7 @@ abstract class AbstractDetailsController extends AbstractBase
     protected function getParentSubjects(array $ids)
     {
         return $this->search(
-            $this->_arrayToSearchString($ids), "id", "gnd", "DEFAULT"
+            $this->arrayToSearchString($ids), "id", "gnd", "DEFAULT"
         );
     }
 
@@ -242,7 +244,7 @@ abstract class AbstractDetailsController extends AbstractBase
      *
      * @return string
      */
-    private function _arrayToSearchString(array $ids): string
+    protected function arrayToSearchString(array $ids): string
     {
         return '[' . implode(",", $ids) . ']';
     }

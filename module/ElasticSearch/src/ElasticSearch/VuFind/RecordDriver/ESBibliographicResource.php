@@ -94,8 +94,12 @@ class ESBibliographicResource extends ElasticSearch
     protected function getIdFromUrlSource(string $field)
     {
         $contributors = $this->fields["_source"][$field];
+        if (is_array($contributors))
+        {
+            $contributors = implode(",", $contributors);
+        }
         preg_match_all(
-            "/\/([\w-]+)(,+|$)/", implode(",", $contributors), $matches
+            "/\/([\w-]+)(,+|$)/", $contributors, $matches
         );
         return $matches[1];
     }
