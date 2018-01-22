@@ -190,7 +190,7 @@ class DetailPageController extends AbstractDetailsController
      *
      * @return void
      */
-    protected function addMedia(ViewModel &$viewModel, string $type): void
+    protected function addMedia(ViewModel &$viewModel, string $type)
     {
         $record = $viewModel->getVariable("driver");
         $name = $record->getName();
