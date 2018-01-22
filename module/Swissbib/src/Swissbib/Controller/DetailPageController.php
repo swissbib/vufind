@@ -29,6 +29,7 @@ namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ESSubject;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\Model\ViewModel;
 
 /**
  * Class DetailPageController
@@ -44,7 +45,7 @@ class DetailPageController extends AbstractDetailsController
     /**
      * DetailPageController constructor.
      *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service loacator
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service locator
      */
     public function __construct(ServiceLocatorInterface $sm)
     {
@@ -58,7 +59,52 @@ class DetailPageController extends AbstractDetailsController
      */
     public function personAction()
     {
-        return parent::personAction();
+        $viewModel = parent::personAction();
+        $this->addMedia($viewModel);
+
+        return $viewModel;
+    }
+
+    /**
+     * Retrieves list of media by author
+     *
+     * @param string $author The author
+     *
+     * @return mixed
+     */
+    public function searchSolr(string $author): array
+    {
+        $type = "Author";
+        // Set up the search:
+        $searchClassId = "Solr";
+
+        // @var \Swissbib\VuFind\Search\Solr\Results $results
+        $results = $this->getResultsManager()->get($searchClassId);
+
+        // @var \Swissbib\VuFind\Search\Solr\Params $params
+        $params = $results->getParams();
+        $params->setBasicSearch($author, $type);
+
+        // Attempt to perform the search; if there is a problem, inspect any Solr
+        // exceptions to see if we should communicate to the user about them.
+        try {
+            // Explicitly execute search within controller -- this allows us to
+            // catch exceptions more reliably:
+            $results->performAndProcessSearch();
+        } catch (\VuFindSearch\Backend\Exception\BackendException $e) {
+            if ($e->hasTag('VuFind\Search\ParserError')) {
+                // We need to create and process an "empty results" object to
+                // ensure that recommendation modules and templates behave
+                // properly when displaying the error message.
+                $results = $this->getResultsManager()->get('EmptySet');
+                $results->setParams($params);
+                $results->performAndProcessSearch();
+            } else {
+                throw $e;
+            }
+        }
+
+        return $results->getResults();
     }
 
     /**
@@ -101,8 +147,7 @@ class DetailPageController extends AbstractDetailsController
 
         foreach ($counts as $id => $count) {
             $filtered = array_filter(
-                $subjects,
-                function (ESSubject $item) use ($id) {
+                $subjects, function (ESSubject $item) use ($id) {
                     return $item->getFullUniqueID() === $id;
                 }
             );
@@ -111,13 +156,38 @@ class DetailPageController extends AbstractDetailsController
                 $subject = array_shift($filtered);
                 $name = $subject->getName();
                 $cloud[$name] = [
-                    "subject" => $subject,
-                    "count"   => $count,
-                    "weight"  => $count / $max
+                    "subject" => $subject, "count" => $count,
+                    "weight" => $count / $max
                 ];
             }
         }
 
         return $cloud;
+    }
+
+    /**
+     * Convenience method for accessing results
+     *
+     * @return \VuFind\Search\Results\PluginManager
+     */
+    protected function getResultsManager()
+    {
+        return $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
+    }
+
+    /**
+     * Adds media of author to ViewModel
+     *
+     * @param \Zend\View\Model\ViewModel $viewModel The view model
+     *
+     * @return void
+     */
+    protected function addMedia(ViewModel &$viewModel): void
+    {
+        // @var ESPerson $person
+        $person = $viewModel->getVariable("driver");
+        $name = $person->getName();
+        $results = $this->searchSolr($name);
+        $viewModel->setVariable("media", $results);
     }
 }
