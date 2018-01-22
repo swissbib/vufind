@@ -70,21 +70,36 @@ class DetailPageController extends AbstractDetailsController
     public function personAction()
     {
         $viewModel = parent::personAction();
-        $this->addMedia($viewModel);
+
+        $this->addMedia($viewModel, "Author");
 
         return $viewModel;
     }
 
     /**
-     * Retrieves list of media by author
+     * /Page/Detail/Subject/:id
      *
-     * @param string $author The author
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function subjectAction()
+    {
+        $viewModel = parent::subjectAction();
+
+        $this->addMedia($viewModel, "Subject");
+
+        return $viewModel;
+    }
+
+    /**
+     * Retrieves list of media by query
+     *
+     * @param string $query The author
+     * @param string $type  The type
      *
      * @return mixed
      */
-    public function searchSolr(string $author): array
+    public function searchSolr(string $query, string $type): array
     {
-        $type = "Author";
         // Set up the search:
         $searchClassId = "Solr";
 
@@ -93,7 +108,7 @@ class DetailPageController extends AbstractDetailsController
 
         // @var \Swissbib\VuFind\Search\Solr\Params $params
         $params = $results->getParams();
-        $params->setBasicSearch($author, $type);
+        $params->setBasicSearch($query, $type);
         $params->setLimit($this->_config->mediaLimit);
 
         // Attempt to perform the search; if there is a problem, inspect any Solr
@@ -116,16 +131,6 @@ class DetailPageController extends AbstractDetailsController
         }
 
         return $results->getResults();
-    }
-
-    /**
-     * /Page/Detail/Subject/:id
-     *
-     * @return \Zend\View\Model\ViewModel
-     */
-    public function subjectAction()
-    {
-        return parent::subjectAction();
     }
 
     /**
@@ -178,28 +183,18 @@ class DetailPageController extends AbstractDetailsController
     }
 
     /**
-     * Convenience method for accessing results
-     *
-     * @return \VuFind\Search\Results\PluginManager
-     */
-    protected function getResultsManager()
-    {
-        return $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
-    }
-
-    /**
      * Adds media of author to ViewModel
      *
      * @param \Zend\View\Model\ViewModel $viewModel The view model
+     * @param string                     $type      The type (Author or Subject)
      *
      * @return void
      */
-    protected function addMedia(ViewModel &$viewModel): void
+    protected function addMedia(ViewModel &$viewModel, string $type): void
     {
-        // @var ESPerson $person
-        $person = $viewModel->getVariable("driver");
-        $name = $person->getName();
-        $results = $this->searchSolr($name);
+        $record = $viewModel->getVariable("driver");
+        $name = $record->getName();
+        $results = $this->searchSolr($name, $type);
         $viewModel->setVariable("media", $results);
     }
 
@@ -219,5 +214,15 @@ class DetailPageController extends AbstractDetailsController
             ($tagCloudMaxFontSize - $tagCloudMinFontSize) * ($count / $max)
             + $tagCloudMinFontSize
         );
+    }
+
+    /**
+     * Convenience method for accessing results
+     *
+     * @return \VuFind\Search\Results\PluginManager
+     */
+    protected function getResultsManager()
+    {
+        return $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
     }
 }
