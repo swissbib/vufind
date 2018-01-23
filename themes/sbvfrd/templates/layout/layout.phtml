@@ -176,7 +176,6 @@ $(document).ready(function()
 
   // alle externen links;
   $("a[href^='http']").not("a[href*='//<?=$_SERVER['HTTP_HOST']?>']").each(function(){
-      console.log('onclick:'+$(this).attr('href'));
       $(this).on("click",function(){trackLink($(this).attr('href'));});
   });
 
