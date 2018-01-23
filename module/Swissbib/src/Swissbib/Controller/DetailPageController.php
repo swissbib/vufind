@@ -117,7 +117,8 @@ abstract class DetailPageController extends AbstractDetailsController
         $subjects = parent::getSubjectsOf($subjectIds);
 
         if (count($subjects) > 0) {
-            return $this->getTagCloud($subjectIds, $subjects);
+            return $this->tagcloud()->getTagCloud($subjectIds, $subjects, $this->config->tagCloudMinFontSize, $this->config->tagCloudMaxFontSize);
+            //return $this->getTagCloud($subjectIds, $subjects);
         }
 
         return [];
@@ -134,8 +135,11 @@ abstract class DetailPageController extends AbstractDetailsController
     protected function getMedia(string $type, ElasticSearch $record)
     {
         $name = $record->getName();
-        $results = $this->searchSolr($name, $type);
-        return $results;
+        if (isset($name)) {
+            $results = $this->searchSolr($name, $type);
+            return $results;
+        }
+        return [];
     }
 
     /**

@@ -50,7 +50,7 @@ class PersonDetailPageController extends DetailPageController
      */
     public function personAction()
     {
-        return parent::personAction()->setTemplate("detailpage/person");
+        return parent::personAction();
     }
 
     /**
@@ -168,58 +168,5 @@ class PersonDetailPageController extends DetailPageController
             );
         }
         return $authors;
-    }
-
-    /**
-     * Gets the Tagcloud
-     *
-     * @param array $subjectIds All subject ids, including duplicates
-     * @param array $subjects   All subjects
-     *
-     * @return array
-     */
-    protected function getTagCloud(array $subjectIds, array $subjects)
-    {
-        $counts = array_count_values($subjectIds);
-        $cloud = [];
-        $max = max($counts);
-
-        foreach ($counts as $id => $count) {
-            $filtered = array_filter(
-                $subjects,
-                function (ESSubject $item) use ($id) {
-                    return $item->getFullUniqueID() === $id;
-                }
-            );
-            if (count($filtered) > 0) {
-                // @var ESSubject $subject
-                $subject = array_shift($filtered);
-                $name = $subject->getName();
-                $cloud[$name] = [
-                    "subject" => $subject, "count" => $count,
-                    "weight" => $this->calculateFontSize($count, $max)
-                ];
-            }
-        }
-
-        return $cloud;
-    }
-
-    /**
-     * Calculates the font size for the tag cloud
-     *
-     * @param int $count The count
-     * @param int $max   Max count
-     *
-     * @return int
-     */
-    protected function calculateFontSize($count, $max): int
-    {
-        $tagCloudMaxFontSize = $this->config->tagCloudMaxFontSize;
-        $tagCloudMinFontSize = $this->config->tagCloudMinFontSize;
-        return round(
-            ($tagCloudMaxFontSize - $tagCloudMinFontSize) * ($count / $max)
-            + $tagCloudMinFontSize
-        );
     }
 }
