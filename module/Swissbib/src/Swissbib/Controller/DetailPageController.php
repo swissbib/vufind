@@ -28,8 +28,6 @@
 namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
-use ElasticSearch\VuFind\RecordDriver\ESPerson;
-use ElasticSearch\VuFind\RecordDriver\ESSubject;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
 

@@ -122,7 +122,7 @@ abstract class AbstractDetailsController extends AbstractBase
      *
      * @return void
      */
-    protected abstract function addData(
+    abstract protected function addData(
         ViewModel &$viewModel, string $id, ElasticSearch $driver,
         array $bibliographicResources, array $subjectIds, array $subjects
     );
@@ -256,7 +256,7 @@ abstract class AbstractDetailsController extends AbstractBase
         $model = new ViewModel(
             [
                 'message' => 'Can not find a Knowledge Card for id: ' . $id,
-                'display_exceptions' => true,
+                'display_exceptions' => APPLICATION_ENV === "development",
                 'exception' => $e
             ]
         );
