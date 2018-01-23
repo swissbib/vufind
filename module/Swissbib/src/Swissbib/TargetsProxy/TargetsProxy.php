@@ -35,6 +35,7 @@ use Zend\Http\PhpEnvironment\RemoteAddress;
 use Zend\Http\PhpEnvironment\Request;
 
 use Zend\Log\Logger as ZendLogger;
+use VuFind\Config\PluginManager as VFConfigPluginManager;
 
 /**
  * Targets proxy
@@ -101,16 +102,24 @@ class TargetsProxy
     protected $config;
 
     /**
+     * ConfigPluginManager
+     *
+     * @var PluginManager
+     */
+    protected $configPluginManager;
+
+    /**
      * Initialize proxy with config
      *
      * @param Config     $config  Config
      * @param ZendLogger $logger  ZendLogger
      * @param Request    $request Request
      */
-    public function __construct(Config $config,
+    public function __construct(VFConfigPluginManager $configPM,
         ZendLogger $logger, Request $request
     ) {
-        $this->config = $config;
+        $this->configPluginManager = $configPM;
+        $this->config = $configPM->get('TargetsProxy');
         $this->logger = $logger;
         $trustedProxies = explode(
             ',',
