@@ -289,7 +289,7 @@ class ESPerson extends ElasticSearch
      * @return null
      */
     protected function getValueByLanguagePriority(
-        array $content, string $userLocale = null
+        array $content = null, string $userLocale = null
     ) {
         $results = null;
 
@@ -350,7 +350,7 @@ class ESPerson extends ElasticSearch
      *
      * @return \DateTime|null
      */
-    protected function extractDate(string $date)
+    protected function extractDate(string $date = null)
     {
         if ($date !== null) {
             return new \DateTime($date);

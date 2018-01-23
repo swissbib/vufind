@@ -27,6 +27,8 @@
  */
 namespace ElasticSearch\View\Helper;
 
+use Swissbib\Util\Text\Splitter;
+
 /**
  * Class ESPerson
  *
@@ -291,67 +293,30 @@ class ESPerson extends AbstractHelper
     /**
      * Gets the AbstractInfo
      *
-     * @param int  $splitPoint Indicates after how many words (or characters) to
+     * @param int  $limit      Indicates after how many words (or characters) to
      *                         split.
      * @param bool $countWords Indicates whether $splitPoint expresses the number of
      *                         words (true) or characters (false) after which
      *                         truncation has to be performed.
      *
-     * @return array
+     * @return \stdClass
      */
-    public function getAbstractInfo(int $splitPoint = 30, bool $countWords = true)
+    public function getAbstractInfo(int $limit = 30, bool $countWords = true)
     {
-        $info = [
-            'label' => $this->getView()->translate(
-                'card.knowledge.person.metadata.abstract'
-            ), 'text' => '', 'truncated' => false, 'overflow' => ''
-        ];
+        $info = null;
 
         if ($this->hasAbstract()) {
             $abstract = $this->getPerson()->getAbstract();
-            $splitPoint = $this->calculateSplitPoint($abstract);
+            // ignore surrounding whitespace at all
+            $abstract = trim($abstract);
 
-            if ($splitPoint === -1) {
-                $info['text'] = $abstract;
-            } else {
-                $info['truncated'] = true;
-                $info['text'] = substr($abstract, 0, $splitPoint);
-                $info['overflow'] = substr($abstract, $splitPoint);
-            }
+            $info = (new Splitter($countWords))->split($abstract, $limit);
+            $info->label = $this->getView()->translate(
+                'card.knowledge.person.metadata.abstract'
+            );
         }
 
         return $info;
-    }
-
-    /**
-     * Calculates the SplitPoint
-     *
-     * @param string $text                The text
-     * @param int    $truncationWordCount The truncationWordCount
-     *
-     * @return int
-     */
-    protected function calculateSplitPoint(
-        string $text, int $truncationWordCount = 30
-    ) {
-        // pattern matches the same way as trim() will do by default
-        $words = preg_split('/[ \t\n\r\0\x0B]/', $text);
-        $wordCount = 0;
-        $processedWords = '';
-        $splitPoint = -1;
-
-        foreach ($words as $word) {
-            // exclude any whitespace from word count
-            $wordCount += strlen($word) === 0 ? 0 : 1;
-            $processedWords .= $word;
-
-            if ($wordCount === $truncationWordCount) {
-                $splitPoint = strlen($processedWords);
-                break;
-            }
-        }
-
-        return $splitPoint === strlen($text) ? -1 : $splitPoint;
     }
 
     /**
