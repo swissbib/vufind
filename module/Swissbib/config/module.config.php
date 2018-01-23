@@ -242,6 +242,7 @@ return [
     'controller_plugins' => [
         'factories' => [
             'tagcloud' => 'Swissbib\Controller\Plugin\Factory::getTagCloud',
+            'solrsearch' => 'Swissbib\Controller\Plugin\Factory::getSolrSearch',
         ],
     ], 'service_manager' => [
         'invokables' => [

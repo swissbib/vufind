@@ -29,6 +29,7 @@
 namespace Swissbib\Controller\Plugin;
 
 use ElasticSearch\VuFind\RecordDriver\ESSubject;
+use Zend\Config\Config;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
@@ -43,17 +44,33 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 class TagCloud extends AbstractPlugin
 {
     /**
+     * The tag cloud config
+     *
+     * @var Config $_config The tag cloud config
+     */
+    private $_config;
+
+    /**
+     * TagCloud constructor.
+     *
+     * @param Config $config The tag cloud config
+     */
+    public function __construct(
+        Config $config
+    ) {
+        $this->_config = $config;
+    }
+
+    /**
      * Gets the Tagcloud
      *
-     * @param array $subjectIds  All subject ids, including duplicates
-     * @param array $subjects    All subjects
-     * @param int   $minFontSize The minimal font size
-     * @param int   $maxFontSize The maximal font size
+     * @param array $subjectIds All subject ids, including duplicates
+     * @param array $subjects   All subjects
      *
      * @return array
      */
     public function getTagCloud(
-        array $subjectIds, array $subjects, int $minFontSize, int $maxFontSize
+        array $subjectIds, array $subjects
     ) {
         $counts = array_count_values($subjectIds);
         $cloud = [];
@@ -61,9 +78,10 @@ class TagCloud extends AbstractPlugin
 
         foreach ($counts as $id => $count) {
             $filtered = array_filter(
-                $subjects, function (ESSubject $item) use ($id) {
-                return $item->getFullUniqueID() === $id;
-            }
+                $subjects,
+                function (ESSubject $item) use ($id) {
+                    return $item->getFullUniqueID() === $id;
+                }
             );
             if (count($filtered) > 0) {
                 // @var ESSubject $subject
@@ -72,7 +90,8 @@ class TagCloud extends AbstractPlugin
                 $cloud[$name] = [
                     "subject" => $subject, "count" => $count,
                     "weight" => $this->calculateFontSize(
-                        $count, $max, $minFontSize, $maxFontSize
+                        $count, $max, $this->_config->minFontSize,
+                        $this->_config->maxFontSize
                     )
                 ];
             }

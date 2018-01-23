@@ -26,6 +26,7 @@
  * @link     http://www.vufind.org  Main Page
  */
 namespace Swissbib\Controller\Plugin;
+
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -40,14 +41,30 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class Factory
 {
     /**
-     * Construct the TagCloud plugin.
+     * Constructs the TagCloud plugin.
      *
-     * @param ServiceLocatorInterface $sm
+     * @param ServiceLocatorInterface $sm The service locator
      *
      * @return \Swissbib\Controller\Plugin\TagCloud
      */
     public static function getTagCloud(ServiceLocatorInterface $sm)
     {
-        return new TagCloud();
+        return new TagCloud(
+            $sm->getServiceLocator()->get('VuFind\Config')->get(
+                'config'
+            )->TagCloud
+        );
+    }
+
+    /**
+     * Constructs the SolrSearch plugin
+     *
+     * @param ServiceLocatorInterface $sm The service locator
+     *
+     * @return \Swissbib\Controller\Plugin\SolrSearch
+     */
+    public static function getSolrSearch(ServiceLocatorInterface $sm)
+    {
+        return new SolrSearch($sm->getServiceLocator());
     }
 }

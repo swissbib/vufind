@@ -29,7 +29,6 @@ namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use ElasticSearch\VuFind\RecordDriver\ESPerson;
-use ElasticSearch\VuFind\RecordDriver\ESSubject;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -69,7 +68,10 @@ class PersonDetailPageController extends DetailPageController
         ViewModel &$viewModel, string $id, ElasticSearch $driver,
         array $bibliographicResources, array $subjectIds, array $subjects
     ) {
-        $media = $this->getMedia("Author", $driver);
+        $media = $this->solrsearch()
+            ->getMedia(
+                "Author", $driver, $this->config->mediaLimit
+            );
         $viewModel->setVariable("media", $media);
         $contributors = $this->getCoContributors(
             $driver, $bibliographicResources
