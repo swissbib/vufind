@@ -28,6 +28,7 @@
 namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
+use ElasticSearch\VuFind\RecordDriver\ESSubject;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
 
@@ -131,7 +132,7 @@ abstract class DetailPageController extends AbstractDetailsController
      *
      * @return array
      */
-    protected function getMedia(string $type, ElasticSearch $record)
+    protected function getMedias(string $type, ElasticSearch $record)
     {
         $name = $record->getName();
         $results = $this->searchSolr($name, $type);
@@ -146,5 +147,61 @@ abstract class DetailPageController extends AbstractDetailsController
     protected function getResultsManager()
     {
         return $this->serviceLocator->get('VuFind\SearchResultsPluginManager');
+    }
+
+    /**
+     * Gets the Tagcloud
+     *
+     * @param array $subjectIds All subject ids, including duplicates
+     * @param array $subjects   All subjects
+     *
+     * @return array
+     */
+    protected function getTagCloud(array $subjectIds, array $subjects)
+    {
+        $counts = array_count_values($subjectIds);
+        $cloud = [];
+        $max = max($counts);
+
+        foreach ($counts as $id => $count) {
+            $filtered = array_filter(
+                $subjects,
+                function (ESSubject $item) use ($id) {
+                    return $item->getFullUniqueID() === $id;
+                }
+            );
+            if (count($filtered) > 0) {
+                // @var ESSubject $subject
+                $subject = array_shift($filtered);
+
+                $subject->setAbsoluteFrequency($count);
+                $subject->setRelativeFrequency(
+                    $this->calculateFontSize($count, $max)
+                );
+
+                $cloud[] = $subject;
+
+            }
+        }
+
+        return $cloud;
+    }
+
+    /**
+     * Calculates the font sizes for the tag cloud
+     *
+     * @param int $count The count
+     * @param int $max   Max count
+     *
+     * @return float
+     */
+    protected function calculateFontSize($count, $max): float
+    {
+        $tagCloudMaxFontSize = $this->config->tagCloudMaxFontSize;
+        $tagCloudMinFontSize = $this->config->tagCloudMinFontSize;
+
+        $delta = $tagCloudMaxFontSize - $tagCloudMinFontSize;
+
+        return $delta * ($count / $max) + $tagCloudMinFontSize;
     }
 }
