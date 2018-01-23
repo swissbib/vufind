@@ -47,7 +47,7 @@ class ESPerson extends AbstractHelper
      */
     protected function getMetadataPrefix(): string
     {
-        return 'card.knowledge.person.metadata';
+        return 'person.metadata';
     }
 
     /**
@@ -312,7 +312,7 @@ class ESPerson extends AbstractHelper
 
             $info = (new Splitter($countWords))->split($abstract, $limit);
             $info->label = $this->getView()->translate(
-                'card.knowledge.person.metadata.abstract'
+                'person.metadata.abstract'
             );
         }
 
@@ -327,7 +327,7 @@ class ESPerson extends AbstractHelper
     public function getRelatedSubjectsLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'card.knowledge.person.metadata.related.subjects'
+            'person.metadata.related.subjects'
         );
     }
 
@@ -350,7 +350,7 @@ class ESPerson extends AbstractHelper
     public function getNotableWorkLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'card.knowledge.person.medias'
+            'person.medias'
         );
     }
 
@@ -362,7 +362,7 @@ class ESPerson extends AbstractHelper
     public function getMoreNotableWorkLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'card.knowledge.person.medias.more'
+            'person.medias.more'
         );
     }
 
@@ -419,7 +419,7 @@ class ESPerson extends AbstractHelper
     public function getDetailPageLinkLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'card.knowledge.person.page.link'
+            'person.page.link'
         );
     }
 }

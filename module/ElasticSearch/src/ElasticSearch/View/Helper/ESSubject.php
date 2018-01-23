@@ -52,7 +52,7 @@ class ESSubject extends AbstractHelper
      */
     protected function getMetadataPrefix(): string
     {
-        return 'card.knowledge.subject.metadata';
+        return 'subject.metadata';
     }
 
     /**
@@ -174,7 +174,7 @@ class ESSubject extends AbstractHelper
     public function getDetailPageLinkLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'card.knowledge.subject.page.link'
+            'subject.page.link'
         );
     }
 
@@ -186,7 +186,7 @@ class ESSubject extends AbstractHelper
     public function getMoreMediaLinkLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'card.knowledge.subject.medias'
+            'subject.medias'
         );
     }
 
