@@ -1,6 +1,6 @@
 <?php
 /**
- * KnowledgeCardController.php
+ * SubjectDetailPageController.php
  *
  * PHP Version 7
  *
@@ -26,13 +26,13 @@
  * @link     http://www.vufind.org  Main Page
  */
 namespace Swissbib\Controller;
+
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
+use ElasticSearch\VuFind\RecordDriver\ESSubject;
 use Zend\View\Model\ViewModel;
 
 /**
- * Class KnowledgeCardController
- *
- * Provides information to be rendered in knowledge cards (light-boxes).
+ * Class SubjectDetailPageController
  *
  * @category VuFind
  * @package  Swissbib\Controller
@@ -40,18 +40,8 @@ use Zend\View\Model\ViewModel;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class KnowledgeCardController extends AbstractDetailsController
+class SubjectDetailPageController extends DetailPageController
 {
-    /**
-     * /Page/Detail/Person/:id
-     *
-     * @return \Zend\View\Model\ViewModel
-     */
-    public function personAction()
-    {
-        return parent::personAction();
-    }
-
     /**
      * /Page/Detail/Subject/:id
      *
@@ -59,7 +49,7 @@ class KnowledgeCardController extends AbstractDetailsController
      */
     public function subjectAction()
     {
-        return parent::subjectAction();
+        return parent::subjectAction()->setTemplate("detailpage/subject");
     }
 
     /**
@@ -78,7 +68,60 @@ class KnowledgeCardController extends AbstractDetailsController
         ViewModel &$viewModel, string $id, ElasticSearch $driver,
         array $bibliographicResources, array $subjectIds, array $subjects
     ) {
-        // TODO: Implement addData() method.
+        $media = $this->getMedia("Subject", $driver);
+        $viewModel->setVariable("media", $media);
     }
 
+    /**
+     * Gets the Tagcloud
+     *
+     * @param array $subjectIds All subject ids, including duplicates
+     * @param array $subjects   All subjects
+     *
+     * @return array
+     */
+    protected function getTagCloud(array $subjectIds, array $subjects)
+    {
+        $counts = array_count_values($subjectIds);
+        $cloud = [];
+        $max = max($counts);
+
+        foreach ($counts as $id => $count) {
+            $filtered = array_filter(
+                $subjects,
+                function (ESSubject $item) use ($id) {
+                    return $item->getFullUniqueID() === $id;
+                }
+            );
+            if (count($filtered) > 0) {
+                // @var ESSubject $subject
+                $subject = array_shift($filtered);
+                $name = $subject->getName();
+                $cloud[$name] = [
+                    "subject" => $subject, "count" => $count,
+                    "weight" => $this->calculateFontSize($count, $max)
+                ];
+            }
+        }
+
+        return $cloud;
+    }
+
+    /**
+     * Calculates the font size for the tag cloud
+     *
+     * @param int $count The count
+     * @param int $max   Max count
+     *
+     * @return int
+     */
+    protected function calculateFontSize($count, $max): int
+    {
+        $tagCloudMaxFontSize = $this->config->tagCloudMaxFontSize;
+        $tagCloudMinFontSize = $this->config->tagCloudMinFontSize;
+        return round(
+            ($tagCloudMaxFontSize - $tagCloudMinFontSize) * ($count / $max)
+            + $tagCloudMinFontSize
+        );
+    }
 }

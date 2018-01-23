@@ -195,7 +195,7 @@ return [
             'id'     => '[a-fA-F0-9-]+',
           ],
           'defaults' => [
-            'controller' => 'detail-page',
+            'controller' => 'person-detail-page',
             'action'     => 'person',
           ],
         ]
@@ -208,7 +208,7 @@ return [
             'id'     => '[a-fA-F0-9-]+',
           ],
           'defaults' => [
-            'controller' => 'detail-page',
+            'controller' => 'subject-detail-page',
             'action'     => 'subject',
           ],
         ]
@@ -317,7 +317,8 @@ return [
       'my-research'   => 'Swissbib\Controller\Factory::getMyResearchController',
       'console'       => 'Swissbib\Controller\Factory::getConsoleController',
       'knowledge-card' => 'Swissbib\Controller\Factory::getKnowledgeCardController',
-       'detail-page' => 'Swissbib\Controller\Factory::getDetailPageController',
+        'person-detail-page' => 'Swissbib\Controller\Factory::getPersonDetailPageController',
+        'subject-detail-page' => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
     ]
   ],
   'service_manager' => [

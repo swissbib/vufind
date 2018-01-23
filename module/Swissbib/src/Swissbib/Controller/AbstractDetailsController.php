@@ -43,7 +43,7 @@ use Zend\View\Model\ViewModel;
 abstract class AbstractDetailsController extends AbstractBase
 {
     /**
-     * The persona action
+     * The person action
      *
      * @return \Zend\View\Model\ViewModel
      */
@@ -54,21 +54,27 @@ abstract class AbstractDetailsController extends AbstractBase
         $id = $this->params()->fromRoute('id', []);
 
         try {
-            $driver = $this->getInformation($id, $personIndex, $personType);
+            $driver = $this->getRecordDriver($id, $personIndex, $personType);
 
             $bibliographicResources = $this->getBibliographicResourcesOf($id);
+
             $subjectIds = $this->getSubjectIdsFrom($bibliographicResources);
 
-            if (count($subjectIds) > 0) {
-                $subjects = $this->getSubjectsOf($subjectIds);
-            }
+            $subjects = $this->getSubjectsOf($subjectIds);
 
-            return $this->createViewModel(
+            $viewModel = $this->createViewModel(
                 [
-                    "driver" => $driver, "subjects" => $subjects ?? null,
+                    "driver" => $driver, "subjects" => $subjects,
                     "books" => $bibliographicResources
                 ]
             );
+
+            $this->addData(
+                $viewModel, $id, $driver, $bibliographicResources, $subjectIds,
+                $subjects
+            );
+
+            return $viewModel;
         } catch (\Exception $e) {
             return $this->createErrorView($id, $e);
         }
@@ -87,7 +93,7 @@ abstract class AbstractDetailsController extends AbstractBase
         $id = "http://d-nb.info/gnd/" . $this->params()->fromRoute('id', []);
 
         try {
-            $driver = $this->getInformation($id, $subjectIndex, $subjectType);
+            $driver = $this->getRecordDriver($id, $subjectIndex, $subjectType);
             $subSubjects = $this->getSubSubjects($id);
             $parentSubjects = $this->getParentSubjects(
                 $driver->getParentSubjects()
@@ -100,12 +106,29 @@ abstract class AbstractDetailsController extends AbstractBase
                 ]
             );
         } catch (\Exception $e) {
-            return $this->createErrorView($id);
+            return $this->createErrorView($id, $e);
         }
     }
 
     /**
-     * Gets the information for id
+     * Adds additional data to view model
+     *
+     * @param ViewModel     $viewModel              The view model
+     * @param string        $id                     The id
+     * @param ElasticSearch $driver                 The record driver
+     * @param array         $bibliographicResources The bibliographic resources
+     * @param array         $subjectIds             The subject ids
+     * @param array         $subjects               The subjects
+     *
+     * @return void
+     */
+    protected abstract function addData(
+        ViewModel &$viewModel, string $id, ElasticSearch $driver,
+        array $bibliographicResources, array $subjectIds, array $subjects
+    );
+
+    /**
+     * Gets the record driver for id
      *
      * @param string $id    The id
      * @param string $index The index
@@ -113,9 +136,9 @@ abstract class AbstractDetailsController extends AbstractBase
      *
      * @return ElasticSearch
      */
-    protected function getInformation($id, $index, $type): ElasticSearch
+    protected function getRecordDriver($id, $index, $type): ElasticSearch
     {
-        $content = $this->search($id, "id", $index, $type);
+        $content = $this->searchElasticSearch($id, "id", $index, $type);
 
         if ($content !== null && is_array($content) && count($content) === 1) {
             return array_pop($content);
@@ -132,7 +155,7 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getBibliographicResourcesOf(string $id): array
     {
-        return $this->search(
+        return $this->searchElasticSearch(
             "http://data.swissbib.ch/person/" . $id,
             "bibliographicResources_by_author", "lsb", "bibliographicResource"
         );
@@ -147,7 +170,7 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getSubjectsOf(array $ids): array
     {
-        return $this->search(
+        return $this->searchElasticSearch(
             $this->arrayToSearchString(array_unique($ids)), "id", "gnd", "DEFAULT"
         );
     }
@@ -161,7 +184,7 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getSubSubjects(string $id)
     {
-        return $this->search($id, "sub_subjects");
+        return $this->searchElasticSearch($id, "sub_subjects");
     }
 
     /**
@@ -173,7 +196,7 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getParentSubjects(array $ids)
     {
-        return $this->search(
+        return $this->searchElasticSearch(
             $this->arrayToSearchString($ids), "id", "gnd", "DEFAULT"
         );
     }
@@ -188,7 +211,7 @@ abstract class AbstractDetailsController extends AbstractBase
      *
      * @return array
      */
-    protected function search(
+    protected function searchElasticSearch(
         string $q, string $template, string $index = null, string $type = null
     ): array {
         $manager = $this->serviceLocator->get(
@@ -217,7 +240,7 @@ abstract class AbstractDetailsController extends AbstractBase
         // @var $content array
         $content = $results->getResults();
 
-        return $content;
+        return $content ?? [];
     }
 
     /**
@@ -231,7 +254,11 @@ abstract class AbstractDetailsController extends AbstractBase
     protected function createErrorView(string $id, \Exception $e): ViewModel
     {
         $model = new ViewModel(
-            ['message' => 'Can not find a Knowledge Card for id: ' . $id]
+            [
+                'message' => 'Can not find a Knowledge Card for id: ' . $id,
+                'display_exceptions' => true,
+                'exception' => $e
+            ]
         );
         $model->setTemplate('error/index');
         return $model;
