@@ -4,17 +4,16 @@ $record = $this->driver;
 /** @var \VuFind\View\Helper\Root\Record $viewRecord */
 $viewRecord = $this->record($record);
 
-$authors    = $record->getDeduplicatedAuthors();
-// Exclude $authors['primary']. It is not returned by ES bibliographicResource
-$hasAuthors = !empty($authors['secondary']) || !is_null($authors['corporate']) && !empty($authors['corporate']);
+$authors = $record->getDeduplicatedAuthors();
+$hasAuthors = !empty($authors['primary']) || !empty($authors['secondary'])
+    || !is_null($authors['corporate']) && !empty($authors['corporate']);
 
 if (!$hasAuthors) {
-  return '';
+    return '';
 }
 ?>
-
-  <h4 class="list-group-item title"><?= $this->transEsc('Author') ?></h4>
-  <ul class="list-group author"></ul>
+<h4 class="list-group-item author title"><?= $this->transEsc('Author') ?></h4>
+<ul class="list-group author"></ul>
 
 
 
