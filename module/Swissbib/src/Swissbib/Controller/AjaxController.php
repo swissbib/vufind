@@ -77,7 +77,7 @@ class AjaxController extends VFAjaxController
     }
 
     /**
-     * Get Subjects Ajax
+     * Get Subjects
      *
      * @return \Zend\Stdlib\ResponseInterface
      */
@@ -106,6 +106,11 @@ class AjaxController extends VFAjaxController
         return $response;
     }
 
+    /**
+     * Gets organisations
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
     protected function getOrganisationsAjax(): ResponseInterface
     {
         $content = $this->search();
@@ -132,7 +137,7 @@ class AjaxController extends VFAjaxController
     }
 
     /**
-     * Get Authors Ajax
+     * Get Authors
      *
      * @return \Zend\Stdlib\ResponseInterface
      */

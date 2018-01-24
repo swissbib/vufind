@@ -58,11 +58,21 @@ class ESBibliographicResource extends ElasticSearch
         return $this->getIdFromUrlSource('dct:contributor');
     }
 
+    /**
+     * Gets contributing persons
+     *
+     * @return array
+     */
     public function getContributingPersons(): array
     {
         return $this->getIdFromUrlSource('dct:contributor', "person");
     }
 
+    /**
+     * Gets contributing organisations
+     *
+     * @return array
+     */
     public function getContributingOrganisations(): array
     {
         return $this->getIdFromUrlSource('dct:contributor', "organisation");

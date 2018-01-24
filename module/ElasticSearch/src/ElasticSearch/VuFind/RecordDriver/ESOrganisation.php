@@ -20,14 +20,22 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
  *
  * @category VuFind
- * @package
+ * @package  ElasticSearch\VuFind\RecordDriver
  * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-
 namespace ElasticSearch\VuFind\RecordDriver;
 
+/**
+ * Class ESOrganisation
+ *
+ * @category VuFind
+ * @package  ElasticSearch\VuFind\RecordDriver
+ * @author   Christoph Boehm <cbo@outermedia.de>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
+ */
 class ESOrganisation extends ElasticSearch
 {
     /**
