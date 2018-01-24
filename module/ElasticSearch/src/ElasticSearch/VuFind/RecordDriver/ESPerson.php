@@ -291,7 +291,7 @@ class ESPerson extends ElasticSearch
      * @param array  $content    The content
      * @param string $userLocale The (optional) locale
      *
-     * @return null
+     * @return array|null
      */
     protected function getValueByLanguagePriority(
         array $content = null, string $userLocale = null
