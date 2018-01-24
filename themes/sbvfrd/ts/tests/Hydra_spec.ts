@@ -37,8 +37,8 @@ it("Should load json", () => {
     expect.assertions(2);
     // Return to evaluate promise
     return actual.then((details: BibliographicDetails) => {
-        expect(details.contributors.split(",")).toHaveLength(4);
-        expect(details.contributors).toContain("145a6d92-7afa-3589-aba8-28e9aec9b03d");
+        expect(details.persons.split(",")).toHaveLength(4);
+        expect(details.persons).toContain("145a6d92-7afa-3589-aba8-28e9aec9b03d");
     });
 });
 
