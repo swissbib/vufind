@@ -27,9 +27,7 @@
  */
 namespace Swissbib\Controller;
 
-use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Model\ViewModel;
 
 /**
  * Class DetailPageController
