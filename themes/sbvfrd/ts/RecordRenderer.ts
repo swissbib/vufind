@@ -33,6 +33,9 @@ export class RecordRenderer {
                                 this.renderDetails(detail, template, htmlList),
                             );
                         }
+                        if (details.length > 0) {
+                            $(htmlList).parent("div").toggleClass("hidden");
+                        }
                         return elements;
                     });
             });

@@ -63,7 +63,7 @@ class ESOrganisation extends ElasticSearch
      */
     public function getName()
     {
-        $name = $this->getField('name', 'foaf');;
+        $name = $this->getField('name', 'foaf');
         if (isset($name)) {
             return $name;
         }
