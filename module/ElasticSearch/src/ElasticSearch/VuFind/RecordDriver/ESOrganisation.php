@@ -56,7 +56,6 @@ class ESOrganisation extends ElasticSearch
         return $this->getField($fieldName, "foaf");
     }
 
-
     /**
      * Gets the Name
      *
@@ -70,7 +69,6 @@ class ESOrganisation extends ElasticSearch
         }
         return $this->getField('label', 'rdfs');
     }
-
 
     /**
      * Never true
