@@ -38,7 +38,7 @@ use VuFind\RecordDriver\AbstractBase;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class ElasticSearch extends AbstractBase
+abstract class ElasticSearch extends AbstractBase
 {
     /**
      * The source indentifier
@@ -56,6 +56,13 @@ class ElasticSearch extends AbstractBase
     {
         return $this->getName();
     }
+
+    /**
+     * The name of the person, subbject etc. Needs to be implemented in some way.
+     *
+     * @return string|null
+     */
+    abstract public function getName();
 
     /**
      * Return the unique identifier of this record for retrieving additional

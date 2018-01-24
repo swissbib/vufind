@@ -47,7 +47,7 @@ class ESPerson extends AbstractHelper
      */
     protected function getMetadataPrefix(): string
     {
-        return 'card.knowledge.person.metadata';
+        return 'person.metadata';
     }
 
     /**
@@ -62,10 +62,13 @@ class ESPerson extends AbstractHelper
     protected function getMetadataMethodMap(): array
     {
         return [
-            'job'         => 'getJobInfo',
-            'birth'       => 'getBirthInfo',
-            'death'       => 'getDeathInfo',
-            'nationality' => 'getNationalityInfo'
+            'job'          => 'getJobInfo',
+            'birth'        => 'getBirthInfo',
+            'death'        => 'getDeathInfo',
+            'nationality'  => 'getNationalityInfo',
+            'notable.work' => 'getNotableWorkList',
+            'genre'        => 'getGenreList',
+            'movement'     => 'getMovementList'
         ];
     }
 
@@ -230,33 +233,23 @@ class ESPerson extends AbstractHelper
      *
      * @param string $delimiter The delimiter
      *
-     * @return null|string
+     * @return string|null
      */
     public function getJobInfo(string $delimiter = ', ')
     {
-        $occupation = $this->getPerson()->getOccupationDisplayField();
-
-        if (is_array($occupation)) {
-            $occupation = implode($delimiter, $occupation);
-        }
-
-        return strlen($occupation) > 0 ? $occupation : null;
+        return $this->fieldToString('occupationDisplayField', $delimiter);
     }
 
     /**
      * Gets the NationalityInfo
      *
-     * @return null
+     * @param string $delimiter Used to join multiple values to a single string.
+     *
+     * @return string|null
      */
-    public function getNationalityInfo()
+    public function getNationalityInfo(string $delimiter = ', ')
     {
-        $nationality = $this->getPerson()->getNationalityDisplayField();
-
-        if (is_array($nationality)) {
-            $nationality = count($nationality) > 0 ? $nationality[0] : '';
-        }
-
-        return strlen($nationality) > 0 ? $nationality : null;
+        return $this->fieldToString('nationalityDisplayField', $delimiter);
     }
 
     /**
@@ -312,7 +305,7 @@ class ESPerson extends AbstractHelper
 
             $info = (new Splitter($countWords))->split($abstract, $limit);
             $info->label = $this->getView()->translate(
-                'card.knowledge.person.metadata.abstract'
+                'person.metadata.abstract'
             );
         }
 
@@ -327,7 +320,7 @@ class ESPerson extends AbstractHelper
     public function getRelatedSubjectsLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'card.knowledge.person.metadata.related.subjects'
+            'person.metadata.related.subjects'
         );
     }
 
@@ -350,7 +343,7 @@ class ESPerson extends AbstractHelper
     public function getNotableWorkLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'card.knowledge.person.medias'
+            'person.medias'
         );
     }
 
@@ -362,7 +355,7 @@ class ESPerson extends AbstractHelper
     public function getMoreNotableWorkLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'card.knowledge.person.medias.more'
+            'person.medias.more'
         );
     }
 
@@ -385,30 +378,41 @@ class ESPerson extends AbstractHelper
         return sprintf($template, $url, $label);
     }
 
-    // TODO: Remove temporary notable work once actual data is available
-    private static $_notableWork
-        = [
-            ['label' => 'Werk 01', 'link' => '#'],
-            ['label' => 'Werk 02', 'link' => '#'],
-            ['label' => 'Werk 03', 'link' => '#'],
-            ['label' => 'Werk 04', 'link' => '#'],
-            ['label' => 'Werk 05', 'link' => '#'],
-            ['label' => 'Werk 06', 'link' => '#'],
-            ['label' => 'Werk 07', 'link' => '#'],
-            ['label' => 'Werk 08', 'link' => '#'],
-            ['label' => 'Werk 09', 'link' => '#'],
-            ['label' => 'Werk 10', 'link' => '#'],
-        ];
-
     /**
      * Gets the NotableWork
      *
-     * @return array
+     * @param string $delimiter The notable work item delimiter to join all items
+     *                          with.
+     *
+     * @return string|null
      */
-    public function getNotableWork()
+    public function getNotableWorkList(string $delimiter = ', ')
     {
-        // TODO: Implement method
-        return self::$_notableWork;
+        return $this->fieldToString('notableWorkDisplayField', $delimiter);
+    }
+
+    /**
+     * Provides the genre as string that can be rendered directly.
+     *
+     * @param string $delimiter The genre item delimiter to join all items with.
+     *
+     * @return string|null
+     */
+    public function getGenreList(string $delimiter = ', ')
+    {
+        return $this->fieldToString('genreDisplayField', $delimiter);
+    }
+
+    /**
+     * Provides the movement as string that can be rendered directly.
+     *
+     * @param string $delimiter The movement item delimiter to join all items with.
+     *
+     * @return string|null
+     */
+    public function getMovementList(string $delimiter = ', ')
+    {
+        return $this->fieldToString('movementDisplayField', $delimiter);
     }
 
     /**
@@ -419,7 +423,7 @@ class ESPerson extends AbstractHelper
     public function getDetailPageLinkLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'card.knowledge.person.page.link'
+            'person.page.link'
         );
     }
 }

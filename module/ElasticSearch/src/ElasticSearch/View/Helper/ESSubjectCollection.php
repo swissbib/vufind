@@ -60,13 +60,13 @@ class ESSubjectCollection extends AbstractHelper
     /**
      * Sets the Collection
      *
-     * @param array $_collection The collection
+     * @param array $collection The collection
      *
      * @return void
      */
-    public function setCollection(array $_collection)
+    public function setCollection(array $collection)
     {
-        $this->_collection = $_collection;
+        $this->_collection = $collection;
     }
 
     /**

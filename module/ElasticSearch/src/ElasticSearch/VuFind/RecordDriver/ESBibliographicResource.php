@@ -39,6 +39,16 @@ namespace ElasticSearch\VuFind\RecordDriver;
 class ESBibliographicResource extends ElasticSearch
 {
     /**
+     * Provides the name of the bibliographic resource.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getTitle();
+    }
+
+    /**
      * Gets the Title
      *
      * @return string

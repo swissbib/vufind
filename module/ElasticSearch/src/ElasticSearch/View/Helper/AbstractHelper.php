@@ -158,6 +158,33 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     }
 
     /**
+     * Converts the field specified by $name into a string. Fields are expected to be
+     * an array of values which will be joined by the given $delimiter. In case the
+     * field is either null, an empty array or an empty string, null will be the
+     * result.
+     * This method is useful for fields which contain ready to use lists of strings
+     * like the localized display fields.
+     *
+     * @param string $name      The name of the field to convert into a string.
+     * @param string $delimiter The delimiter join elements in the field's array.
+     *
+     * @return string
+     */
+    protected function fieldToString(string $name, string $delimiter)
+    {
+        $field = 'get' . ucfirst($name);
+        $value = $this->getDriver()->{$field}();
+
+        if (is_string($value) && strlen($value) > 0) {
+            $value = [$value];
+        }
+
+        $available = (is_array($value) && count($value) > 0);
+
+        return $available ? implode($delimiter, $value) : null;
+    }
+
+    /**
      * Provides the localized label for the link on the detail page of the
      * underlying managed record driver. The method is used by the
      * getDetailPageLink() method for link generation.

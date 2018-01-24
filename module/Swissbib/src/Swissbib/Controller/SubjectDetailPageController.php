@@ -68,8 +68,8 @@ class SubjectDetailPageController extends DetailPageController
         ViewModel &$viewModel, string $id, ElasticSearch $driver,
         array $bibliographicResources, array $subjectIds, array $subjects
     ) {
-        $media = $this->getMedia("Subject", $driver);
-        $viewModel->setVariable("media", $media);
+        $media = $this->getMedias("Subject", $driver);
+        $viewModel->setVariable("medias", $media);
     }
 
     /**

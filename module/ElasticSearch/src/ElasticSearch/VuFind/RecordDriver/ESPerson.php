@@ -124,11 +124,17 @@ class ESPerson extends ElasticSearch
     /**
      * Gets the Name
      *
-     * @return array|null
+     * @return string|null
      */
     public function getName()
     {
-        return $this->getField('label', 'rdfs');
+        $value = $this->getField('label', 'rdfs');
+
+        if (is_array($value)) {
+            $value = implode(' ', $value);
+        }
+
+        return is_string($value) && strlen($value) > 0 ? $value : null;
     }
 
     /**
@@ -286,7 +292,7 @@ class ESPerson extends ElasticSearch
      * @param array  $content    The content
      * @param string $userLocale The (optional) locale
      *
-     * @return null
+     * @return array|null
      */
     protected function getValueByLanguagePriority(
         array $content = null, string $userLocale = null
