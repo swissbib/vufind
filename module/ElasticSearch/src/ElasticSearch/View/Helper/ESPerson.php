@@ -67,7 +67,8 @@ class ESPerson extends AbstractHelper
             'death'        => 'getDeathInfo',
             'nationality'  => 'getNationalityInfo',
             'notable.work' => 'getNotableWorkList',
-            'genre'        => 'getGenreList'
+            'genre'        => 'getGenreList',
+            'movement'     => 'getMovementList'
         ];
     }
 
@@ -400,6 +401,18 @@ class ESPerson extends AbstractHelper
     public function getGenreList(string $delimiter = ', ')
     {
         return $this->fieldToString('genreDisplayField', $delimiter);
+    }
+
+    /**
+     * Provides the movement as string that can be rendered directly.
+     *
+     * @param string $delimiter The movement item delimiter to join all items with.
+     *
+     * @return string|null
+     */
+    public function getMovementList(string $delimiter = ', ')
+    {
+        return $this->fieldToString('movementDisplayField', $delimiter);
     }
 
     /**
