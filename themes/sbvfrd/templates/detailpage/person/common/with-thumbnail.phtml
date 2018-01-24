@@ -1,19 +1,14 @@
 <div class="row">
     <div class="col-sm-2">
         <h2 class="visible-xs-block"><?= $this->esperson()->getDisplayName() ?></h2>
-        <?= $this->render('detailpage/person/common/thumbnail.phtml') ?>
+        <?= $this->render('/detailpage/person/common/thumbnail.phtml') ?>
     </div>
     <div class="col-sm-10">
         <div class="row">
             <div class="col-sm-12">
                 <h2 class="hidden-xs"><?= $this->esperson()->getDisplayName() ?></h2>
-                <?= $this->render('detailpage/person/common/metadata.phtml') ?>
+                <?= $this->render('/detailpage/person/common/metadata.phtml') ?>
             </div>
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-12">
-        <?= $this->render('detailpage/person/common/medias.phtml') ?>
     </div>
 </div>

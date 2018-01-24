@@ -29,7 +29,6 @@ namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use ElasticSearch\VuFind\RecordDriver\ESPerson;
-use ElasticSearch\VuFind\RecordDriver\ESSubject;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -50,7 +49,7 @@ class PersonDetailPageController extends DetailPageController
      */
     public function personAction()
     {
-        return parent::personAction()->setTemplate("detailpage/person");
+        return parent::personAction();
     }
 
     /**
@@ -69,8 +68,11 @@ class PersonDetailPageController extends DetailPageController
         ViewModel &$viewModel, string $id, ElasticSearch $driver,
         array $bibliographicResources, array $subjectIds, array $subjects
     ) {
-        $media = $this->getMedia("Author", $driver);
-        $viewModel->setVariable("media", $media);
+        $medias = $this->solrsearch()
+            ->getMedias(
+                "Author", $driver, $this->config->mediaLimit
+            );
+        $viewModel->setVariable("medias", $medias);
         $contributors = $this->getCoContributors(
             $driver, $bibliographicResources
         );
@@ -110,7 +112,7 @@ class PersonDetailPageController extends DetailPageController
             }
         );
 
-        $contributors = $this->searchElasticSearch(
+        $contributors = $this->elasticsearchsearch()->searchElasticSearch(
             $this->arrayToSearchString($contributorIds), "id", "lsb", "person"
         );
 
@@ -134,7 +136,9 @@ class PersonDetailPageController extends DetailPageController
 
         $authors = null;
         if (isset($genres)) {
-            $authors = $this->searchElasticSearch($genres, "person_by_genre");
+            $authors = $this
+                ->elasticsearchsearch()
+                ->searchElasticSearch($genres, "person_by_genre");
         }
 
         return $authors;
@@ -159,7 +163,9 @@ class PersonDetailPageController extends DetailPageController
 
         $authors = null;
         if (isset($movements)) {
-            $authors = $this->searchElasticSearch($movements, "person_by_movement");
+            $authors = $this->elasticsearchsearch()->searchElasticSearch(
+                $movements, "person_by_movement"
+            );
             $authors = array_filter(
                 $authors,
                 function (ESPerson $author) use ($authorId) {
@@ -168,58 +174,5 @@ class PersonDetailPageController extends DetailPageController
             );
         }
         return $authors;
-    }
-
-    /**
-     * Gets the Tagcloud
-     *
-     * @param array $subjectIds All subject ids, including duplicates
-     * @param array $subjects   All subjects
-     *
-     * @return array
-     */
-    protected function getTagCloud(array $subjectIds, array $subjects)
-    {
-        $counts = array_count_values($subjectIds);
-        $cloud = [];
-        $max = max($counts);
-
-        foreach ($counts as $id => $count) {
-            $filtered = array_filter(
-                $subjects,
-                function (ESSubject $item) use ($id) {
-                    return $item->getFullUniqueID() === $id;
-                }
-            );
-            if (count($filtered) > 0) {
-                // @var ESSubject $subject
-                $subject = array_shift($filtered);
-                $name = $subject->getName();
-                $cloud[$name] = [
-                    "subject" => $subject, "count" => $count,
-                    "weight" => $this->calculateFontSize($count, $max)
-                ];
-            }
-        }
-
-        return $cloud;
-    }
-
-    /**
-     * Calculates the font size for the tag cloud
-     *
-     * @param int $count The count
-     * @param int $max   Max count
-     *
-     * @return int
-     */
-    protected function calculateFontSize($count, $max): int
-    {
-        $tagCloudMaxFontSize = $this->config->tagCloudMaxFontSize;
-        $tagCloudMinFontSize = $this->config->tagCloudMinFontSize;
-        return round(
-            ($tagCloudMaxFontSize - $tagCloudMinFontSize) * ($count / $max)
-            + $tagCloudMinFontSize
-        );
     }
 }

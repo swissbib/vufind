@@ -1,6 +1,6 @@
 <?php
 /**
- * DetailPageController.php
+ * SubjectDetailPageControllerTest.php
  *
  * PHP Version 7
  *
@@ -20,61 +20,49 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
  *
  * @category VuFind
- * @package  Controller
+ * @package  SwissbibTest\Controller
  * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-namespace Swissbib\Controller;
+namespace SwissbibTest\Controller;
 
+use Swissbib\Controller\SubjectDetailPageController;
+use VuFindTest\Unit\TestCase as VuFindTestCase;
+use Zend\Config\Config;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class DetailPageController
+ * Class SubjectDetailPageControllerTest
  *
  * @category VuFind
- * @package  Swissbib\Controller
+ * @package  SwissbibTest\Controller
  * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-abstract class DetailPageController extends AbstractDetailsController
+class SubjectDetailPageControllerTest extends VuFindTestCase
 {
     /**
-     * The config for the detail page
-     *
-     * @var \Zend\Config\Config $config The Config
+     * @var SubjectDetailPageController $cut
      */
-    protected $config;
+    private $cut;
 
-    /**
-     * DetailPageController constructor.
-     *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service locator
-     */
-    public function __construct(ServiceLocatorInterface $sm)
+    protected function setUp()
     {
-        parent::__construct($sm);
-        $this->config = $this->serviceLocator->get('VuFind\Config')->get(
-            'config'
-        )->DetailPage;
+        parent::setUp();
+        $config = new Config(["config" => new Config(["DetailPage" => ""])]);
+        $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
+        $serviceLocator->method("get")->willReturn($config);
+        $this->cut = new SubjectDetailPageController($serviceLocator);
     }
 
-    /**
-     * Gets subjects
-     *
-     * @param array $subjectIds Ids of subjects
-     *
-     * @return array
-     */
-    protected function getSubjectsOf(array $subjectIds): array
+    public function testAddData()
     {
-        $subjects = parent::getSubjectsOf($subjectIds);
 
-        if (count($subjects) > 0) {
-            return $this->tagcloud()->getTagCloud($subjectIds, $subjects);
-        }
+        $method = self::getMethod('addData');
+        $actual = $method->invokeArgs($this->cut, []);
 
-        return [];
+        //$this->assertEquals("", $actual);
     }
 }

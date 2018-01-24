@@ -1,6 +1,6 @@
 <?php
 /**
- * DetailPageController.php
+ * ESOrganisation.php
  *
  * PHP Version 7
  *
@@ -20,61 +20,63 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
  *
  * @category VuFind
- * @package  Controller
+ * @package  ElasticSearch\VuFind\RecordDriver
  * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-namespace Swissbib\Controller;
-
-use Zend\ServiceManager\ServiceLocatorInterface;
+namespace ElasticSearch\VuFind\RecordDriver;
 
 /**
- * Class DetailPageController
+ * Class ESOrganisation
  *
  * @category VuFind
- * @package  Swissbib\Controller
+ * @package  ElasticSearch\VuFind\RecordDriver
  * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-abstract class DetailPageController extends AbstractDetailsController
+class ESOrganisation extends ElasticSearch
 {
     /**
-     * The config for the detail page
+     * Magic function to access all fields
      *
-     * @var \Zend\Config\Config $config The Config
-     */
-    protected $config;
-
-    /**
-     * DetailPageController constructor.
+     * @param string $name      Name of the field
+     * @param array  $arguments Unused but required
      *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service locator
+     * @method getHomepage()
+     * @method getMbox()
+     * @method getPhone()
+     *
+     * @return array|null
      */
-    public function __construct(ServiceLocatorInterface $sm)
+    public function __call(string $name, $arguments)
     {
-        parent::__construct($sm);
-        $this->config = $this->serviceLocator->get('VuFind\Config')->get(
-            'config'
-        )->DetailPage;
+        $fieldName = lcfirst(substr($name, 3));
+        return $this->getField($fieldName, "foaf");
     }
 
     /**
-     * Gets subjects
+     * Gets the Name
      *
-     * @param array $subjectIds Ids of subjects
-     *
-     * @return array
+     * @return array|null
      */
-    protected function getSubjectsOf(array $subjectIds): array
+    public function getName()
     {
-        $subjects = parent::getSubjectsOf($subjectIds);
-
-        if (count($subjects) > 0) {
-            return $this->tagcloud()->getTagCloud($subjectIds, $subjects);
+        $name = $this->getField('name', 'foaf');
+        if (isset($name)) {
+            return $name;
         }
+        return $this->getField('label', 'rdfs');
+    }
 
-        return [];
+    /**
+     * Never true
+     *
+     * @return bool
+     */
+    public function hasSufficientData(): bool
+    {
+        return false;
     }
 }

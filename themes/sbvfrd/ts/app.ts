@@ -12,11 +12,10 @@ $(document).ready(() => {
     const recordIdEl: HTMLInputElement = $("input#record_id")[0] as HTMLInputElement;
     const contributorsList: HTMLElement = $(".sidebar .list-group.author")[0];
     const contributorsTemplate: any = (p: any) => {
-        if (!p.lastName || !p.firstName) {
+        if (!p.name) {
             return "";
         }
-        return `<li class="list-group-item"><a href="${VuFind.path}/Search/Results?lookfor=${p.lastName},
-${p.firstName}&amp;type=Author" title=" ${p.lastName}, ${p.firstName}">${p.lastName}, ${p.firstName}</a><a href="${VuFind.path}/Card/Knowledge/Person/${p.id}" data-lightbox>
+        return `<li class="list-group-item"><a href="${VuFind.path}/Search/Results?lookfor=${p.name}&amp;type=Author" title="${p.name}">${p.name}</a><a href="${VuFind.path}/Card/Knowledge/Person/${p.id}" data-lightbox>
 <span ${ p.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"
 authorid="${p.id}"></span></a></li>`;
     };

@@ -1,6 +1,7 @@
 import {AxiosResponse, default as Axios} from "axios";
 import {BibliographicDetails} from "./BibliographicDetails";
-import {Contributor} from "./Contributor";
+import {Organisation} from "./Organisation";
+import {Person} from "./Person";
 import {Subject} from "./Subject";
 
 export class Hydra {
@@ -46,7 +47,7 @@ export class Hydra {
             });
     }
 
-    public getContributorDetails(contributorIds: string): Promise<Contributor[]> {
+    public getPersonDetails(personIds: string): Promise<Person[]> {
         const config = {
             ...this.axiosConfig,
             method: "get",
@@ -54,7 +55,7 @@ export class Hydra {
                 "index": "lsb",
                 // lookfor: "[" + contributorIds + "]",
                 "method": "getAuthors",
-                "overrideIds[]": contributorIds,
+                "overrideIds[]": personIds,
                 "searcher": "ElasticSearch",
                 "type": "person",
             },
@@ -62,7 +63,27 @@ export class Hydra {
 
         return Axios.request(config)
             .then((response: AxiosResponse) => {
-                return response.data as Contributor[];
+                return response.data as Person[];
+            });
+    }
+
+    public getOrganisationDetails(organisationIds: string): Promise<Organisation[]> {
+        const config = {
+            ...this.axiosConfig,
+            method: "get",
+            params: {
+                "index": "lsb",
+                // lookfor: "[" + contributorIds + "]",
+                "method": "getOrganisations",
+                "overrideIds[]": organisationIds,
+                "searcher": "ElasticSearch",
+                "type": "organisation",
+            },
+        };
+
+        return Axios.request(config)
+            .then((response: AxiosResponse) => {
+                return response.data as Organisation[];
             });
     }
 

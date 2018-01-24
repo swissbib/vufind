@@ -1,0 +1,11 @@
+<? if ($this->esperson()->hasThumbnail()): ?>
+    <?= $this->render('/detailpage/person/common/with-thumbnail.phtml') ?>
+<? else: ?>
+    <?= $this->render('/detailpage/person/common/without-thumbnail.phtml') ?>
+<? endif; ?>
+
+<div class="row">
+    <div class="col-sm-12">
+        <?= $this->render('/detailpage/medias.phtml') ?>
+    </div>
+</div>

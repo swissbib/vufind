@@ -1,5 +1,5 @@
 export class BibliographicDetails {
 
-    public contributors: string;
-    public subjects: string;
+    public persons: string;
+    public organisations: string;
 }

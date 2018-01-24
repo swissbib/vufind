@@ -17,9 +17,13 @@ export class RecordRenderer {
         return this.client.getBibliographicDetails(id)
             .then((bibliographicDetails: BibliographicDetails) => {
                 const promises: Array<Promise<Detail[]>> = [];
-                const contributorIds = bibliographicDetails.contributors;
-                if (contributorIds && contributorIds.length > 0) {
-                    promises.push(this.client.getContributorDetails(contributorIds));
+                const personIds = bibliographicDetails.persons;
+                if (personIds && personIds.length > 0) {
+                    promises.push(this.client.getPersonDetails(personIds));
+                }
+                const organisationIds = bibliographicDetails.organisations;
+                if (organisationIds && organisationIds.length > 0) {
+                    promises.push(this.client.getOrganisationDetails(organisationIds));
                 }
                 return Promise.all(promises)
                     .then((details: Detail[][]) => {
@@ -28,6 +32,9 @@ export class RecordRenderer {
                             elements.push(
                                 this.renderDetails(detail, template, htmlList),
                             );
+                        }
+                        if (details.length > 0) {
+                            $(htmlList).parent("div").toggleClass("hidden");
                         }
                         return elements;
                     });

@@ -1,6 +1,6 @@
 <?php
 /**
- * DetailPageController.php
+ * Factory.php
  *
  * PHP Version 7
  *
@@ -20,61 +20,63 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
  *
  * @category VuFind
- * @package  Controller
+ * @package  Swissbib\Controller\Plugin
  * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-namespace Swissbib\Controller;
+namespace Swissbib\Controller\Plugin;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class DetailPageController
+ * Class Factory
  *
  * @category VuFind
- * @package  Swissbib\Controller
+ * @package  Swissbib\Controller\Plugin
  * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-abstract class DetailPageController extends AbstractDetailsController
+class Factory
 {
     /**
-     * The config for the detail page
+     * Constructs the TagCloud plugin.
      *
-     * @var \Zend\Config\Config $config The Config
-     */
-    protected $config;
-
-    /**
-     * DetailPageController constructor.
+     * @param ServiceLocatorInterface $sm The service locator
      *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service locator
+     * @return \Swissbib\Controller\Plugin\TagCloud
      */
-    public function __construct(ServiceLocatorInterface $sm)
+    public static function getTagCloud(ServiceLocatorInterface $sm)
     {
-        parent::__construct($sm);
-        $this->config = $this->serviceLocator->get('VuFind\Config')->get(
-            'config'
-        )->DetailPage;
+        return new TagCloud(
+            $sm->getServiceLocator()->get('VuFind\Config')->get(
+                'config'
+            )->TagCloud
+        );
     }
 
     /**
-     * Gets subjects
+     * Constructs the SolrSearch plugin
      *
-     * @param array $subjectIds Ids of subjects
+     * @param ServiceLocatorInterface $sm The service locator
      *
-     * @return array
+     * @return \Swissbib\Controller\Plugin\SolrSearch
      */
-    protected function getSubjectsOf(array $subjectIds): array
+    public static function getSolrSearch(ServiceLocatorInterface $sm)
     {
-        $subjects = parent::getSubjectsOf($subjectIds);
+        return new SolrSearch($sm->getServiceLocator());
+    }
 
-        if (count($subjects) > 0) {
-            return $this->tagcloud()->getTagCloud($subjectIds, $subjects);
-        }
-
-        return [];
+    /**
+     * Constructs the ElasticSearchSearch plugin
+     *
+     * @param ServiceLocatorInterface $sm The service locator
+     *
+     * @return \Swissbib\Controller\Plugin\ElasticSearchSearch
+     */
+    public static function getElasticSearchSearch(ServiceLocatorInterface $sm)
+    {
+        return new ElasticSearchSearch($sm->getServiceLocator());
     }
 }
