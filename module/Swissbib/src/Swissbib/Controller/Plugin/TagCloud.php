@@ -107,13 +107,11 @@ class TagCloud extends AbstractPlugin
      * @param int $minFontSize The minimal font size
      * @param int $maxFontSize The maximal font size
      *
-     * @return int
+     * @return float
      */
     protected function calculateFontSize(
         $count, $max, int $minFontSize, int $maxFontSize
-    ): int {
-        return round(
-            ($maxFontSize - $minFontSize) * ($count / $max) + $minFontSize
-        );
+    ): float {
+        return ($maxFontSize - $minFontSize) * ($count / $max) + $minFontSize;
     }
 }
