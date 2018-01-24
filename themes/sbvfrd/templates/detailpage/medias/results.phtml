@@ -1,10 +1,5 @@
-<ul>
-    <?
-    // @var \Swissbib\RecordDriver\SolrMarc $m
-    foreach ($this->media as $m): ?>
-        <?= $this->render('detailpage/medias/item.phtml',
-            ["item" => $m]) ?>
-    <? endforeach; ?>
-</ul>
-<? # TODO: loop over media search results ?>
+<?
+foreach ($this->medias as $media): ?>
+    <?= $this->render('/detailpage/medias/item.phtml', ["item" => $media]) ?>
+<? endforeach; ?>
 

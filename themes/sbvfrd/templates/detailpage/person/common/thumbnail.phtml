@@ -1,0 +1,5 @@
+<div>
+    <? if ($this->esperson()->hasThumbnail()): ?>
+        <img class="avatar" src="<?= $this->esperson()->getThumbnailPath(); ?>" />
+    <? endif; ?>
+</div>

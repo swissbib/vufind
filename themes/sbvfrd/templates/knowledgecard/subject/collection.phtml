@@ -1,6 +1,6 @@
 <? $this->essubjectcollection()->setCollection($this->{$this->collection}); ?>
 
 <? if ($this->essubjectcollection()->hasItems()): ?>
-    <span class="entry-label"><?= $this->translate('card.knowledge.subject.metadata.subject.'.$this->collection) ?></span>
-    <?= $this->render('knowledgecard/subject/links.phtml'); ?>
+    <span class="entry-label"><?= $this->translate('subject.metadata.subject.'.$this->collection) ?></span>
+    <?= $this->render('/knowledgecard/subject/links.phtml'); ?>
 <? endif; ?>
