@@ -243,6 +243,7 @@ return [
         'factories' => [
             'tagcloud' => 'Swissbib\Controller\Plugin\Factory::getTagCloud',
             'solrsearch' => 'Swissbib\Controller\Plugin\Factory::getSolrSearch',
+            'elasticsearchsearch' => 'Swissbib\Controller\Plugin\Factory::getElasticSearchSearch',
         ],
     ], 'service_manager' => [
         'invokables' => [

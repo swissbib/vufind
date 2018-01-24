@@ -112,7 +112,7 @@ class PersonDetailPageController extends DetailPageController
             }
         );
 
-        $contributors = $this->searchElasticSearch(
+        $contributors = $this->elasticsearchsearch()->searchElasticSearch(
             $this->arrayToSearchString($contributorIds), "id", "lsb", "person"
         );
 
@@ -136,7 +136,9 @@ class PersonDetailPageController extends DetailPageController
 
         $authors = null;
         if (isset($genres)) {
-            $authors = $this->searchElasticSearch($genres, "person_by_genre");
+            $authors = $this
+                ->elasticsearchsearch()
+                ->searchElasticSearch($genres, "person_by_genre");
         }
 
         return $authors;
@@ -161,7 +163,9 @@ class PersonDetailPageController extends DetailPageController
 
         $authors = null;
         if (isset($movements)) {
-            $authors = $this->searchElasticSearch($movements, "person_by_movement");
+            $authors = $this->elasticsearchsearch()->searchElasticSearch(
+                $movements, "person_by_movement"
+            );
             $authors = array_filter(
                 $authors,
                 function (ESPerson $author) use ($authorId) {
