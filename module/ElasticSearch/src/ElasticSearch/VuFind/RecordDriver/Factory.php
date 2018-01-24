@@ -99,4 +99,16 @@ class Factory
     {
         return new ESSubject();
     }
+
+    /**
+     * Creates a OrganisationRecord
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm The Service Manager
+     *
+     * @return \ElasticSearch\VuFind\RecordDriver\ESOrganisation
+     */
+    public static function getESOrganisationRecord(ServiceManager $sm)
+    {
+        return new ESOrganisation();
+    }
 }

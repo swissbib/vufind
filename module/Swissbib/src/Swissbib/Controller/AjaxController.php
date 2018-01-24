@@ -106,6 +106,31 @@ class AjaxController extends VFAjaxController
         return $response;
     }
 
+    protected function getOrganisationsAjax(): ResponseInterface
+    {
+        $content = $this->search();
+
+        // TODO externalize spec
+        $specBuilder = new RecordDataFormatter\SpecBuilder();
+        $specBuilder->setLine(
+            "id", "getUniqueID", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "type", "getType", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "name", "getName", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "hasSufficientData", "hasSufficientData", "Simple",
+            ['allowZero' => false]
+        );
+        $spec = $specBuilder->getArray();
+
+        $response = $this->buildResponse($content, $spec);
+        return $response;
+    }
+
     /**
      * Get Authors Ajax
      *
@@ -154,7 +179,11 @@ class AjaxController extends VFAjaxController
         // TODO externalize spec
         $specBuilder = new RecordDataFormatter\SpecBuilder();
         $specBuilder->setLine(
-            "contributors", "getContributors", "Simple",
+            "persons", "getContributingPersons", "Simple",
+            ['allowZero' => true, 'separator' => ',']
+        );
+        $specBuilder->setLine(
+            "organisations", "getContributingOrganisations", "Simple",
             ['allowZero' => true, 'separator' => ',']
         );
         $spec = $specBuilder->getArray();

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as $ from "jquery";
-import {Contributor} from "../Contributor";
+import {Person} from "../Contributor";
 import {RecordRenderer} from "../RecordRenderer";
 import {Subject} from "../Subject";
 
@@ -52,7 +52,7 @@ it("Html should contain list element with contributors", () => {
 
     expect.assertions(2);
 
-    const contributorsTemplate = (p: Contributor) => {
+    const contributorsTemplate = (p: Person) => {
         return `<li>${p.firstName}</li>`;
     };
     const contributorsList = $(list)[0];

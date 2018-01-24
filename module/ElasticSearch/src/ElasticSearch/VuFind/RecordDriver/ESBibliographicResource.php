@@ -58,6 +58,16 @@ class ESBibliographicResource extends ElasticSearch
         return $this->getIdFromUrlSource('dct:contributor');
     }
 
+    public function getContributingPersons(): array
+    {
+        return $this->getIdFromUrlSource('dct:contributor', "person");
+    }
+
+    public function getContributingOrganisations(): array
+    {
+        return $this->getIdFromUrlSource('dct:contributor', "organisation");
+    }
+
     /**
      * Gets the Subjects
      *
@@ -88,17 +98,18 @@ class ESBibliographicResource extends ElasticSearch
      * Gets the Id from UrlSource
      *
      * @param string $field The field
+     * @param string $type  person or organisation
      *
      * @return mixed
      */
-    protected function getIdFromUrlSource(string $field)
+    protected function getIdFromUrlSource(string $field, string $type = "")
     {
         $contributors = $this->fields["_source"][$field];
         if (is_array($contributors)) {
             $contributors = implode(",", $contributors);
         }
         preg_match_all(
-            "/\/([\w-]+)(,+|$)/", $contributors, $matches
+            "/" . $type . "\/([\w-]+)(,+|$)/", $contributors, $matches
         );
         return $matches[1];
     }
@@ -114,8 +125,10 @@ class ESBibliographicResource extends ElasticSearch
     {
         if (is_array($items)) {
             return $items;
-        } else if (isset($items)) {
-            return [$items];
+        } else {
+            if (isset($items)) {
+                return [$items];
+            }
         }
         return [];
     }
