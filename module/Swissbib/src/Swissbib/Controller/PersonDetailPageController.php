@@ -68,11 +68,11 @@ class PersonDetailPageController extends DetailPageController
         ViewModel &$viewModel, string $id, ElasticSearch $driver,
         array $bibliographicResources, array $subjectIds, array $subjects
     ) {
-        $media = $this->solrsearch()
-            ->getMedia(
+        $medias = $this->solrsearch()
+            ->getMedias(
                 "Author", $driver, $this->config->mediaLimit
             );
-        $viewModel->setVariable("media", $media);
+        $viewModel->setVariable("medias", $medias);
         $contributors = $this->getCoContributors(
             $driver, $bibliographicResources
         );

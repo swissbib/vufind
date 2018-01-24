@@ -28,6 +28,7 @@
 namespace Swissbib\Controller\Plugin;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
+use VuFind\Search\Results\PluginManager;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -61,8 +62,8 @@ class SolrSearch extends AbstractPlugin
      *
      * @param ServiceLocatorInterface $serviceLocator The service locator
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator
-    ) {
+    public function __construct(ServiceLocatorInterface $serviceLocator)
+    {
         $this->_serviceLocator = $serviceLocator;
         $this->_config = $this->_serviceLocator->get('VuFind\Config')->get(
             'config'
@@ -74,7 +75,7 @@ class SolrSearch extends AbstractPlugin
      */
 
     /**
-     * Adds media of author to ViewModel
+     * Adds medias of author to ViewModel
      *
      * @param string        $type   The type (Author or Subject)
      * @param ElasticSearch $record The record
@@ -82,8 +83,9 @@ class SolrSearch extends AbstractPlugin
      *
      * @return array
      */
-    public function getMedia(string $type, ElasticSearch $record, int $limit = 20)
-    {
+    public function getMedias(
+        string $type, ElasticSearch $record, int $limit = 20
+    ): array {
         $name = $record->getName();
         if (isset($name)) {
             $results = $this->searchSolr($name, $type, $limit);
@@ -141,7 +143,7 @@ class SolrSearch extends AbstractPlugin
      *
      * @return \VuFind\Search\Results\PluginManager
      */
-    protected function getResultsManager()
+    protected function getResultsManager(): PluginManager
     {
         return $this->_serviceLocator->get('VuFind\SearchResultsPluginManager');
     }
