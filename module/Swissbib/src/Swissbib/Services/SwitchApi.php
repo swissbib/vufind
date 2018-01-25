@@ -66,32 +66,13 @@ class SwitchApi
     /**
      * SwitchApi constructor.
      *
-     * @param VuFind\Config\PluginManager          $config Swissbib configuration.
-     * @param ServiceManager $sm     Service manager.
+     * @param \VuFind\Config\PluginManager $config Swissbib configuration.
+     * @param ServiceManager               $sm     Service manager.
      */
     public function __construct($config, $sm)
     {
-        //$this->config   = $config->get('config');
-
-        $this->config['SwitchApi']['auth_user'] = 'natlic';
-        $this->config['SwitchApi']['auth_password'] = 'Amg6vZXo';
-
-
-        $this->configNL["national_licence_programme_group_id"] = "f4d40595-6d7d-41bc-9fa2-7139d2fcf892";
-        $this->configNL["base_endpoint_url"] = "https://test.eduid.ch/sg/index.php";
-        $this->configNL["schema_patch"] = "urn:ietf:params:scim:api:messages:2.0:PatchOp";
-        $this->configNL["operation_add"] = "add";
-        $this->configNL["operation_remove"] = "remove";
-        $this->configNL["path_member"] = "members";
-
-        $this->configNL["back_channel_param_entityID"] = "https://test.eduid.ch/idp/shibboleth";
-        $this->configNL["back_channel_endpoint_path"] = "/Shibboleth.sso/AttributeResolver";
-        $this->configNL["back_channel_endpoint_host"] = "https://localhost";
-
-
-
-
-
+        $this->config   = $config->get('config');
+        $this->configNL = $config->get('NationalLicences')['SwitchApi'];
         $this->setServiceLocator($sm);
     }
 

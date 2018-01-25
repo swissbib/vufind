@@ -34,6 +34,8 @@ use Zend\ServiceManager\ServiceManager;
 use SwissbibTest\Bootstrap;
 use ReflectionClass;
 use Zend\Config\Config;
+use Zend\Config\Reader\Ini as IniReader;
+
 /**
  * Class NationalLicenceServiceTest.
  *
@@ -80,7 +82,6 @@ class NationalLicenceServiceTest extends VuFindTestCase
      */
     protected $nationalLicenceConfig;
 
-
     /**
      * Set up service manager and National Licence Service.
      *
@@ -88,26 +89,23 @@ class NationalLicenceServiceTest extends VuFindTestCase
      */
     public function setUp()
     {
+        echo "\n\nNL Service Test Set Up\n\n";
         parent::setUp();
         $this->sm = Bootstrap::getServiceManager();
 
         /* create a Mock of VuFind\Config\PluginManager to read dedicated
          * configuration files for testing
          */
-
         $configPM = $this->getMockBuilder('VuFind\Config\PluginManager')
             ->disableOriginalConstructor()->getMock();
         $configPM
             ->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback(array($this, 'myCallback')));
-
-
-
-
+            ->will($this->returnCallback([$this, 'myCallback']));
 
         $this->switchApiService = new SwitchApi($configPM, $this->sm);
-        $this->externalIdTest = "1234567@test.eduid.ch";
+        $this->externalIdTest = $configPM->get('NationalLicences')
+            ['SwitchApi']['external_id_test'];
         $this->nationalLicenceService
             = new NationalLicence(
                 $this->switchApiService,
@@ -115,15 +113,6 @@ class NationalLicenceServiceTest extends VuFindTestCase
                 $configPM->get('NationalLicences'),
                 $this->sm
             );
-
-
-
-
-
-
-
-
-        $this->externalIdTest = "1234567@test.eduid.ch";
     }
 
     /**
@@ -170,6 +159,7 @@ class NationalLicenceServiceTest extends VuFindTestCase
     /**
      * Test isTemporaryAccessCurrentlyValid method.
      *
+     * @return void
      * @throws \Exception
      */
     public function testIsTemporaryAccessCurrentlyValid()
@@ -195,7 +185,6 @@ class NationalLicenceServiceTest extends VuFindTestCase
         $res = $this->nationalLicenceService
             ->isTemporaryAccessCurrentlyValid($user);
         $this->assertEquals(true, $res);
-        fwrite(STDERR, print_r($res, true));
     }
 
     /**
@@ -227,6 +216,7 @@ class NationalLicenceServiceTest extends VuFindTestCase
     /**
      * Test if the user has acess to national licence content.
      *
+     * @return void
      * @throws \Exception
      */
     public function testHasAccessToNationalLicenceContent()
@@ -370,18 +360,21 @@ class NationalLicenceServiceTest extends VuFindTestCase
         $arg = $arguments[0];
 
         $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/NationalLicence/fixtures/';
-        $iniReader = new \Zend\Config\Reader\Ini();
+        $iniReader = new IniReader();
 
-        $configNL = new Config($iniReader->fromFile($path . 'NationalLicencesTest.ini'));
-        $configUserSwitchAPI = new Config($iniReader->fromFile($path . 'config.ini'));
+        $configNL = new Config(
+            $iniReader->fromFile($path . 'NationalLicencesTest.ini')
+        );
+        $configUserSwitchAPI = new Config(
+            $iniReader->fromFile($path . 'config.ini')
+        );
 
-        if ($arg == "NationalLicences")
-        {
+        if ($arg == "NationalLicences") {
             return $configNL;
-        }
-        if ($arg == "config")
-        {
+        } else if ($arg == "config") {
             return $configUserSwitchAPI;
+        } else {
+            return null;
         }
     }
 }
