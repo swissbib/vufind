@@ -89,7 +89,6 @@ class NationalLicenceServiceTest extends VuFindTestCase
      */
     public function setUp()
     {
-        echo "\n\nNL Service Test Set Up\n\n";
         parent::setUp();
         $this->sm = Bootstrap::getServiceManager();
 
