@@ -31,6 +31,7 @@ use Swissbib\Services\SwitchApi;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
 use SwissbibTest\Bootstrap;
 use Zend\ServiceManager\ServiceManager;
+use Zend\Config\Config;
 
 /**
  * Class SwitchApiServiceTest.
@@ -60,7 +61,7 @@ class SwitchApiServiceTest extends VuFindTestCase
      *
      * @var array $config
      */
-    protected $config;
+    protected $externalIdTest;
     /**
      * Service manager.
      *
@@ -77,13 +78,14 @@ class SwitchApiServiceTest extends VuFindTestCase
     {
         parent::setUp();
         $this->sm = Bootstrap::getServiceManager();
+
         $this->switchApiServiceOriginal = $this->sm
             ->get('Swissbib\SwitchApiService');
         $this->switchApiServiceReflected = new ReflectionClass(
             $this->switchApiServiceOriginal
         );
-        $this->config
-            = ($this->sm->get('Config'))['swissbib']['tests']['switch_api'];
+
+        $this->externalIdTest = "987654321@eduid.ch";
     }
 
     /**
@@ -94,7 +96,7 @@ class SwitchApiServiceTest extends VuFindTestCase
      */
     public function testUnsetNationalCompliantFlag()
     {
-        $externalId = $this->config['external_id_test'];
+        $externalId = $this->externalIdTest;
         $isOnGroup = $this->switchApiServiceOriginal
             ->userIsOnNationalCompliantSwitchGroup($externalId);
         if (!$isOnGroup) {
@@ -120,7 +122,7 @@ class SwitchApiServiceTest extends VuFindTestCase
      */
     public function testSetNationalCompliantFlag()
     {
-        $externalId = $this->config['external_id_test'];
+        $externalId = $this->externalIdTest;
         $isOnGroup = $this->switchApiServiceOriginal
             ->userIsOnNationalCompliantSwitchGroup($externalId);
         if ($isOnGroup) {
@@ -157,6 +159,10 @@ class SwitchApiServiceTest extends VuFindTestCase
      */
     public function testGetUserUpdatedInformation()
     {
+        //what could be done :
+        //use reflection class to test the protected method
+        //getNationalLicenceUserCurrentInformation
+
         //$res = $this->switchApiServiceOriginal
         //->getUserUpdatedInformation('L34Mbh0HJUmUM6h2Rql/DNF9oRk=',
         // 'https://eduid.ch/idp/shibboleth!https://test.swissbib.ch/
