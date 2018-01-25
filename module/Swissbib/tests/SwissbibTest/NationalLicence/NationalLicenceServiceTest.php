@@ -34,7 +34,6 @@ use Zend\ServiceManager\ServiceManager;
 use SwissbibTest\Bootstrap;
 use ReflectionClass;
 use Zend\Config\Config;
-
 /**
  * Class NationalLicenceServiceTest.
  *
@@ -87,62 +86,44 @@ class NationalLicenceServiceTest extends VuFindTestCase
      *
      * @return void
      */
-    public function initialize()
-    {
-        if (!$this->nationalLicenceService) {
-            $serviceLocator = new ServiceManager();
-
-            $factory = new \VuFind\Db\Table\PluginManager(
-                new \Zend\ServiceManager\Config(
-                    [
-                        'abstract_factories' =>
-                            ['VuFind\Db\Table\PluginFactory'],
-                        'factories' => [
-                            'nationallicence' => 'Swissbib\VuFind\Db\Table\Factory::getNationalLicenceUser',
-                            'user' => 'VuFind\Db\Table\Factory::getUser'
-                        ],
-                    ]
-                )
-            );
-            $factory->setServiceLocator($serviceLocator);
-            $serviceLocator->setService('VuFind\DbTablePluginManager', $factory);
-
-            $mockSessionManager = $this->getMockBuilder('Vufind\SessionManager')->disableOriginalConstructor()->getMock();
-
-            $serviceLocator->setService('VuFind\SessionManager', $mockSessionManager);
-
-            $this->sm = $serviceLocator;
-
-            //create a Mock for the Vufind\Config\PluginManager
-
-            $configPM = $this->getMockBuilder('VuFind\Config\PluginManager')
-                ->disableOriginalConstructor()->getMock();
-
-            $configPM
-                ->expects($this->any())
-                ->method('get')
-                ->will($this->returnCallback(array($this, 'myCallback')));
-
-            $this->switchApiService = new SwitchApi($configPM, $serviceLocator);
-            $this->externalIdTest = "1234567@test.eduid.ch";
-            $this->nationalLicenceService
-                = new NationalLicence(
-                    $this->switchApiService,
-                    null,
-                    $configPM->get('NationalLicences'),
-                    $serviceLocator
-                );
-        }
-    }
-
-    /**
-     * Setup
-     *
-     * @return void
-     */
     public function setUp()
     {
-        $this->initialize();
+        parent::setUp();
+        $this->sm = Bootstrap::getServiceManager();
+
+        /* create a Mock of VuFind\Config\PluginManager to read dedicated
+         * configuration files for testing
+         */
+
+        $configPM = $this->getMockBuilder('VuFind\Config\PluginManager')
+            ->disableOriginalConstructor()->getMock();
+        $configPM
+            ->expects($this->any())
+            ->method('get')
+            ->will($this->returnCallback(array($this, 'myCallback')));
+
+
+
+
+
+        $this->switchApiService = new SwitchApi($configPM, $this->sm);
+        $this->externalIdTest = "1234567@test.eduid.ch";
+        $this->nationalLicenceService
+            = new NationalLicence(
+                $this->switchApiService,
+                null,
+                $configPM->get('NationalLicences'),
+                $this->sm
+            );
+
+
+
+
+
+
+
+
+        $this->externalIdTest = "1234567@test.eduid.ch";
     }
 
     /**
@@ -388,10 +369,10 @@ class NationalLicenceServiceTest extends VuFindTestCase
         $arguments = func_get_args();
         $arg = $arguments[0];
 
-        $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/NationalLicence/';
+        $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/NationalLicence/fixtures/';
         $iniReader = new \Zend\Config\Reader\Ini();
 
-        $configNL = new Config($iniReader->fromFile($path . 'NationalLicences.ini'));
+        $configNL = new Config($iniReader->fromFile($path . 'NationalLicencesTest.ini'));
         $configUserSwitchAPI = new Config($iniReader->fromFile($path . 'config.ini'));
 
         if ($arg == "NationalLicences")
