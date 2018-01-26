@@ -13,7 +13,7 @@ export class RecordRenderer {
         this.client = new Hydra(dataUrl);
     }
 
-    public render(id: string, template: any, htmlList: HTMLElement): Promise<HTMLElement[]> {
+    public renderContributors(id: string, template: any, htmlList: HTMLElement): Promise<HTMLElement[]> {
         return this.client.getBibliographicDetails(id)
             .then((bibliographicDetails: BibliographicDetails) => {
                 const personIds = bibliographicDetails.persons;
@@ -36,8 +36,6 @@ export class RecordRenderer {
                             elements.push(
                                 this.renderDetails(detail, template, htmlList),
                             );
-                        }
-                        if (details.length > 0) {
                         }
                         return elements;
                     });
