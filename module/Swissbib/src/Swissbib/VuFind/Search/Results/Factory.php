@@ -66,11 +66,10 @@ class Factory
         return $solr;
     }
 
-
     /**
      * Returns MixedList
      *
-     * @param  ServiceManager $sm servicemanager
+     * @param ServiceManager $sm servicemanager
      *
      * @return object
      */
@@ -87,8 +86,6 @@ class Factory
 
         return $mixedlist;
     }
-
-
 
     /**
      * Factory for Solr Authors.

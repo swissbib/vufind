@@ -26,7 +26,6 @@
  * @link     https://vufind.org Main Site
  */
 namespace Swissbib\VuFind\Search\MixedList;
-use VuFind\Search\Base\Results as BaseResults;
 use VuFind\Search\MixedList\Results as VuFindMixedListResults;
 
 /**
