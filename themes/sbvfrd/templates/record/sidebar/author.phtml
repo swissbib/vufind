@@ -14,7 +14,44 @@ if (!$hasAuthors) {
 ?>
 <div class="hidden">
     <h4 class="list-group-item author title"><?= $this->transEsc('Author') ?></h4>
-    <ul class="list-group author"></ul>
+    <ul class="list-group author">
+        <?php if (!empty($authors['primary'])): ?>
+
+            <li class="list-group-item">
+                <? reset($authors['primary']); $authorMain = key($authors['primary']); ?>
+                <a href="<? $authorMain ?><?= $viewRecord->getLink('author', $authorMain) ?>"
+                   title="<? $authorMain ?><?= $this->escapeHtml($authorMain) ?>"><?= $this->escapeHtml($authorMain) ?></a>
+            </li>
+        <?php endif; ?>
+
+        <?php if (!empty($authors['secondary'])): ?>
+            <? $tauthors = array(); //de-dublication in PHP style...?>
+
+            <?php foreach ($authors['secondary'] as $secondaryAuthor => $secondaryAuthorRoles): ?>
+                <? $tauthors[$secondaryAuthor] = $secondaryAuthor ?>
+            <?php endforeach; ?>
+
+            <?php foreach ($tauthors as $secondaryAuthor): ?>
+                <li class="list-group-item">
+                    <a href="<?= $viewRecord->getLink('author', $secondaryAuthor) ?>" title="<?= $this->escapeHtml($secondaryAuthor) ?>">
+                        <?= $this->escapeHtml($secondaryAuthor) ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <?php if (!is_null($authors['corporate']) && !empty($authors['corporate'])): ?>
+            <? if (!is_array($authors['corporate'])): ?>
+                <? $authors['corporate'] = array($authors['corporate']);?>
+            <? endif; ?>
+
+            <?php foreach ($authors['corporate'] as $corporateAuthor => $corporateAuthorRoles): ?>
+                <li class="list-group-item">
+                    <a href="<?= $viewRecord->getLink('author', $corporateAuthor) ?>" title="<?= $this->escapeHtml($corporateAuthor) ?>">
+                        <?= $this->escapeHtml($corporateAuthor) ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </ul>
 </div>
-
-

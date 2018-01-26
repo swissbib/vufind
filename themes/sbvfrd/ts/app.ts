@@ -26,8 +26,9 @@ authorid="${p.id}"></span></a></li>`;
 <span ${ s.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"</span></a>`;
     };
     if (recordIdEl) {
-        recordRenderer.render(recordIdEl.value, contributorsTemplate, contributorsList)
+        recordRenderer.renderContributors(recordIdEl.value, contributorsTemplate, contributorsList)
             .then(() => {
+                $(contributorsList).parent("div").toggleClass("hidden");
                 // TODO Required to bind lightbox. Is this the correct way?
                 VuFind.lightbox.init();
             });

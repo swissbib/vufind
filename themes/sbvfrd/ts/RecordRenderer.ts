@@ -13,16 +13,20 @@ export class RecordRenderer {
         this.client = new Hydra(dataUrl);
     }
 
-    public render(id: string, template: any, htmlList: HTMLElement): Promise<HTMLElement[]> {
+    public renderContributors(id: string, template: any, htmlList: HTMLElement): Promise<HTMLElement[]> {
         return this.client.getBibliographicDetails(id)
             .then((bibliographicDetails: BibliographicDetails) => {
-                const promises: Array<Promise<Detail[]>> = [];
                 const personIds = bibliographicDetails.persons;
-                if (personIds && personIds.length > 0) {
+                const organisationIds = bibliographicDetails.organisations;
+                if (!(personIds || organisationIds)) {
+                    return;
+                }
+                $(htmlList).empty();
+                const promises: Array<Promise<Detail[]>> = [];
+                if (personIds) {
                     promises.push(this.client.getPersonDetails(personIds));
                 }
-                const organisationIds = bibliographicDetails.organisations;
-                if (organisationIds && organisationIds.length > 0) {
+                if (organisationIds) {
                     promises.push(this.client.getOrganisationDetails(organisationIds));
                 }
                 return Promise.all(promises)
@@ -32,9 +36,6 @@ export class RecordRenderer {
                             elements.push(
                                 this.renderDetails(detail, template, htmlList),
                             );
-                        }
-                        if (details.length > 0) {
-                            $(htmlList).parent("div").toggleClass("hidden");
                         }
                         return elements;
                     });
