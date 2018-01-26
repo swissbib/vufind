@@ -338,7 +338,6 @@ class Bootstrapper
      *
      * @return void
      */
-    /*
     protected function initZendValidatorTranslations()
     {
         $callback = function ($event) {
@@ -347,7 +346,7 @@ class Bootstrapper
 
             $translator->addTranslationFile(
                 'phparray',
-                'vendor/zendframework/zendframework/resources/languages/' .
+                'vendor/zendframework/zend-i18n-resources/languages/' .
                 $translator->getLocale() . '/Zend_Validate.php',
                 'default',
                 $translator->getLocale()
@@ -356,7 +355,6 @@ class Bootstrapper
 
         $this->events->attach('dispatch', $callback, 8996);
     }
-    */
 
     /**
      * Enables class loading for local composer dependencies
