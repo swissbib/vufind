@@ -278,4 +278,14 @@ class Missing extends VFMissing implements SwissbibRecordDriver
     {
         return [];
     }
+
+    /**
+     * DisplayLinks
+     *
+     * @return Boolean
+     */
+    public function displayLinks()
+    {
+        return false;
+    }
 }

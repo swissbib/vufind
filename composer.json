@@ -103,6 +103,7 @@
         "zf-commons/zfc-rbac": "2.6.3",
         "ghislainf/zf2-whoops": "dev-master#2649cf7caf400409942ddc3f8fe15b89381fc74e",
         "pear/archive_tar": "^1.4",
+        "zendframework/zend-i18n-resources": "^2.5",
         "elasticsearch/elasticsearch": "5.2.*",
         "linked-swissbib/adapterESdev": "dev-updateOngr2Version5",
         "ongr/elasticsearch-dsl": "5.0.*"

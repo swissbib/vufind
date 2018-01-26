@@ -111,22 +111,6 @@ class Factory
      *
      * @param ServiceManager $sm Service manager.
      *
-     * @return Resource
-     */
-    public static function getResource(ServiceManager $sm)
-    {
-        $converter = $sm->getServiceLocator()->get('VuFind\DateConverter');
-        $loader = $sm->getServiceLocator()->get('VuFind\RecordLoader');
-        return static::getGenericTable(
-            'NationalLicenceUser', $sm, 'nationallicenceuser', [$converter, $loader]
-        );
-    }
-
-    /**
-     * Construct the NationalLicenceUser table.
-     *
-     * @param ServiceManager $sm Service manager.
-     *
      * @return NationalLicenceUser
      */
     public static function getNationalLicenceUser(ServiceManager $sm)
