@@ -10,9 +10,8 @@
                 $subject->getName()
             ) . '&amp;type=Subject';
         ?>
-        <a href="<?= $searchUrl ?>" style="font-size: <?= $val["weight"] ?>px">
-            <?= $name ?>
-        </a>
+        <a href="<?= $searchUrl ?>" style="font-size: <?= sprintf("%F",
+        $val["weight"]) ?>px"><?= $name ?><!-- <?= $val["count"] ?> Hits--></a>
         <? if ($subject->hasSufficientData()): ?>
             <?
             $knowledgeCardUrl = $this->url(
