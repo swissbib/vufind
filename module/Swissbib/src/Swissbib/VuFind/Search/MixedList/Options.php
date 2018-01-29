@@ -29,7 +29,6 @@ namespace Swissbib\VuFind\Search\MixedList;
 
 use VuFind\Search\MixedList\Options as VuFindMixedListOptions;
 
-
 /**
  * Search Mixed List Parameters
  * We need this class simply because the AbstractFactory Mechanism for
@@ -44,7 +43,6 @@ use VuFind\Search\MixedList\Options as VuFindMixedListOptions;
  */
 class Options extends VuFindMixedListOptions
 {
-
     /**
      * Get the identifier used for naming the various search classes in this family.
      *
@@ -56,6 +54,5 @@ class Options extends VuFindMixedListOptions
         $class = explode('\\', get_class($this));
         return $class[3];
     }
-
 
 }

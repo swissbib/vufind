@@ -66,7 +66,6 @@ class Factory
         return $solr;
     }
 
-
     /**
      * Returns MixedList
      *
@@ -87,8 +86,6 @@ class Factory
 
         return $mixedlist;
     }
-
-
 
     /**
      * Factory for Solr Authors.
