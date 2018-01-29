@@ -119,14 +119,14 @@ class TagCloud extends AbstractPlugin
      */
     protected function getSubjectById($id, array $subjects)
     {
-        $filtered = array_filter(
+        $subject = array_filter(
             $subjects,
             function (ESSubject $item) use ($id) {
                 return $item->getFullUniqueID() === $id;
             }
         );
-        if (count($filtered) > 0) {
-            return $subject = array_shift($subject);
+        if (count($subject) > 0) {
+            return array_shift($subject);
         }
         return null;
     }
