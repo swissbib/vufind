@@ -31,6 +31,8 @@ use Swissbib\Services\SwitchApi;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
 use SwissbibTest\Bootstrap;
 use Zend\ServiceManager\ServiceManager;
+use Zend\Config\Config;
+use Zend\Config\Reader\Ini as IniReader;
 
 /**
  * Class SwitchApiServiceTest.
@@ -60,7 +62,7 @@ class SwitchApiServiceTest extends VuFindTestCase
      *
      * @var array $config
      */
-    protected $config;
+    protected $externalIdTest;
     /**
      * Service manager.
      *
@@ -77,13 +79,24 @@ class SwitchApiServiceTest extends VuFindTestCase
     {
         parent::setUp();
         $this->sm = Bootstrap::getServiceManager();
-        $this->switchApiServiceOriginal = $this->sm
-            ->get('Swissbib\SwitchApiService');
+
+        /* create a Mock of VuFind\Config\PluginManager to read dedicated
+         * configuration files for testing
+         */
+        $configPM = $this->getMockBuilder('VuFind\Config\PluginManager')
+            ->disableOriginalConstructor()->getMock();
+        $configPM
+            ->expects($this->any())
+            ->method('get')
+            ->will($this->returnCallback([$this, 'myCallback']));
+
+        $this->switchApiServiceOriginal = new SwitchApi($configPM, $this->sm);
         $this->switchApiServiceReflected = new ReflectionClass(
             $this->switchApiServiceOriginal
         );
-        $this->config
-            = ($this->sm->get('Config'))['swissbib']['tests']['switch_api'];
+
+        $this->externalIdTest = $configPM->get('NationalLicences')
+        ['SwitchApi']['external_id_test'];
     }
 
     /**
@@ -94,7 +107,7 @@ class SwitchApiServiceTest extends VuFindTestCase
      */
     public function testUnsetNationalCompliantFlag()
     {
-        $externalId = $this->config['external_id_test'];
+        $externalId = $this->externalIdTest;
         $isOnGroup = $this->switchApiServiceOriginal
             ->userIsOnNationalCompliantSwitchGroup($externalId);
         if (!$isOnGroup) {
@@ -120,7 +133,7 @@ class SwitchApiServiceTest extends VuFindTestCase
      */
     public function testSetNationalCompliantFlag()
     {
-        $externalId = $this->config['external_id_test'];
+        $externalId = $this->externalIdTest;
         $isOnGroup = $this->switchApiServiceOriginal
             ->userIsOnNationalCompliantSwitchGroup($externalId);
         if ($isOnGroup) {
@@ -157,6 +170,10 @@ class SwitchApiServiceTest extends VuFindTestCase
      */
     public function testGetUserUpdatedInformation()
     {
+        //what could be done :
+        //use reflection class to test the protected method
+        //getNationalLicenceUserCurrentInformation
+
         //$res = $this->switchApiServiceOriginal
         //->getUserUpdatedInformation('L34Mbh0HJUmUM6h2Rql/DNF9oRk=',
         // 'https://eduid.ch/idp/shibboleth!https://test.swissbib.ch/
@@ -189,5 +206,34 @@ class SwitchApiServiceTest extends VuFindTestCase
         $class = new ReflectionClass($originalClass);
 
         return $class;
+    }
+
+    /**
+     * Callback function for the Vufind\Config\PluginManager Mock
+     *
+     * @return Config
+     */
+    public function myCallback()
+    {
+        $arguments = func_get_args();
+        $arg = $arguments[0];
+
+        $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/NationalLicence/fixtures/';
+        $iniReader = new IniReader();
+
+        $configNL = new Config(
+            $iniReader->fromFile($path . 'NationalLicencesTest.ini')
+        );
+        $configUserSwitchAPI = new Config(
+            $iniReader->fromFile($path . 'config.ini')
+        );
+
+        if ($arg == "NationalLicences") {
+            return $configNL;
+        } else if ($arg == "config") {
+            return $configUserSwitchAPI;
+        } else {
+            return null;
+        }
     }
 }
