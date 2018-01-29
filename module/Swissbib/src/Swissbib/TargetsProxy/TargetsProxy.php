@@ -251,8 +251,7 @@ class TargetsProxy
              *
              * @var \Zend\Config\Config $targetConfig
              */
-            $targetConfig
-                = $this->config->get($targetKey);
+            $targetConfig = $this->config->get($targetKey);
             $patternsIP = '';
             $patternsURL = '';
 
