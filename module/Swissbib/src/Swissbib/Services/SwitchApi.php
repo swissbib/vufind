@@ -75,6 +75,8 @@ class SwitchApi
         $this->config   = $config->get('config');
         $this->configNL = $config->get('NationalLicences')['SwitchApi'];
         $this->setServiceLocator($sm);
+        $test = new SwitchSharedAttributesAPIClient();
+        $test->helloWorld();
     }
 
     /**
