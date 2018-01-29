@@ -29,6 +29,7 @@ namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use ElasticSearch\VuFind\RecordDriver\ESPerson;
+use ElasticSearch\VuFind\Search\ElasticSearch\Results;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -68,19 +69,35 @@ class PersonDetailPageController extends DetailPageController
         ViewModel &$viewModel, string $id, ElasticSearch $driver,
         array $bibliographicResources, array $subjectIds, array $subjects
     ) {
-        $medias = $this->solrsearch()
-            ->getMedias(
-                "Author", $driver, $this->config->mediaLimit
-            );
+        $medias = $this->solrsearch()->getMedias(
+            "Author", $driver, $this->config->mediaLimit
+        );
         $viewModel->setVariable("medias", $medias);
         $contributors = $this->getCoContributors(
             $driver, $bibliographicResources
         );
-        $viewModel->setVariable("coContributors", $contributors);
+        $viewModel->setVariable("coContributors", $contributors->getResults());
+        $viewModel->setVariable(
+            "coContributorsTotal", $contributors->getResultTotal()
+        );
         $personsOfSameGenre = $this->getPersonsOfSameGenre($driver);
-        $viewModel->setVariable("authorsOfSameGenre", $personsOfSameGenre);
+        if (isset($personsOfSameGenre)) {
+            $viewModel->setVariable(
+                "authorsOfSameGenre", $personsOfSameGenre->getResults()
+            );
+            $viewModel->setVariable(
+                "authorsOfSameGenreTotal", $personsOfSameGenre->getResultTotal()
+            );
+        }
         $personsOfSameMovement = $this->getPersonsOfSameMovement($driver);
-        $viewModel->setVariable("authorsOfSameGenre", $personsOfSameMovement);
+        if (isset($personsOfSameMovement)) {
+            $viewModel->setVariable(
+                "authorsOfSameGenre", $personsOfSameMovement->getResults()
+            );
+            $viewModel->setVariable(
+                "authorsOfSameGenreTotal", $personsOfSameMovement->getResultTotal()
+            );
+        }
     }
 
     /**
@@ -89,11 +106,11 @@ class PersonDetailPageController extends DetailPageController
      * @param ESPerson $driver                 The driver
      * @param array    $bibliographicResources The bibliographic resources
      *
-     * @return array
+     * @return Results
      */
     protected function getCoContributors(
         ESPerson $driver, array $bibliographicResources
-    ) {
+    ): Results {
         $authorId = $driver->getUniqueId();
         $contributorIds = [];
         // @var \ElasticSearch\VuFind\RecordDriver\ESBibliographicResource
@@ -112,11 +129,9 @@ class PersonDetailPageController extends DetailPageController
             }
         );
 
-        $contributors = $this->elasticsearchsearch()->searchElasticSearch(
+        return $this->elasticsearchsearch()->searchElasticSearch(
             $this->arrayToSearchString($contributorIds), "id", "lsb", "person"
         );
-
-        return $contributors;
     }
 
     /**
@@ -124,7 +139,7 @@ class PersonDetailPageController extends DetailPageController
      *
      * @param ESPerson $driver The driver
      *
-     * @return array
+     * @return Results|null
      */
     protected function getPersonsOfSameGenre(ESPerson $driver)
     {
@@ -136,9 +151,9 @@ class PersonDetailPageController extends DetailPageController
 
         $authors = null;
         if (isset($genres)) {
-            $authors = $this
-                ->elasticsearchsearch()
-                ->searchElasticSearch($genres, "person_by_genre");
+            $authors = $this->elasticsearchsearch()->searchElasticSearch(
+                $genres, "person_by_genre"
+            );
         }
 
         return $authors;
@@ -149,7 +164,7 @@ class PersonDetailPageController extends DetailPageController
      *
      * @param ESPerson $driver The driver
      *
-     * @return array
+     * @return Results|null
      */
     protected function getPersonsOfSameMovement(ESPerson $driver)
     {

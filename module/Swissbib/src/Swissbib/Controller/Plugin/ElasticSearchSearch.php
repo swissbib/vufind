@@ -79,11 +79,11 @@ class ElasticSearchSearch extends AbstractPlugin
      * @param string $index    The index
      * @param string $type     The type
      *
-     * @return array
+     * @return Results
      */
     public function searchElasticSearch(
         string $q, string $template, string $index = null, string $type = null
-    ): array {
+    ) {
         // Set up the search:
         $searchClassId = "ElasticSearch";
 
@@ -107,10 +107,7 @@ class ElasticSearchSearch extends AbstractPlugin
 
         $results->performAndProcessSearch();
 
-        // @var $content array
-        $content = $results->getResults();
-
-        return $content ?? [];
+        return $results;
     }
 
     /**
