@@ -138,7 +138,9 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getRecordDriver($id, $index, $type): ElasticSearch
     {
-        $content = $this->searchElasticSearch($id, "id", $index, $type);
+        $content = $this->elasticsearchsearch()->searchElasticSearch(
+            $id, "id", $index, $type
+        );
 
         if ($content !== null && is_array($content) && count($content) === 1) {
             return array_pop($content);
@@ -155,7 +157,7 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getBibliographicResourcesOf(string $id): array
     {
-        return $this->searchElasticSearch(
+        return $this->elasticsearchsearch()->searchElasticSearch(
             "http://data.swissbib.ch/person/" . $id,
             "bibliographicResources_by_author", "lsb", "bibliographicResource"
         );
@@ -170,7 +172,7 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getSubjectsOf(array $ids): array
     {
-        return $this->searchElasticSearch(
+        return $this->elasticsearchsearch()->searchElasticSearch(
             $this->arrayToSearchString(array_unique($ids)), "id", "gnd", "DEFAULT"
         );
     }
@@ -184,7 +186,9 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getSubSubjects(string $id)
     {
-        return $this->searchElasticSearch($id, "sub_subjects");
+        return $this->elasticsearchsearch()->searchElasticSearch(
+            $id, "sub_subjects"
+        );
     }
 
     /**
@@ -196,51 +200,9 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getParentSubjects(array $ids)
     {
-        return $this->searchElasticSearch(
+        return $this->elasticsearchsearch()->searchElasticSearch(
             $this->arrayToSearchString($ids), "id", "gnd", "DEFAULT"
         );
-    }
-
-    /**
-     * Execute the search
-     *
-     * @param string $q        The query string
-     * @param string $template The template
-     * @param string $index    The index
-     * @param string $type     The type
-     *
-     * @return array
-     */
-    protected function searchElasticSearch(
-        string $q, string $template, string $index = null, string $type = null
-    ): array {
-        $manager = $this->serviceLocator->get(
-            'VuFind\SearchResultsPluginManager'
-        );
-        // @var Results
-        $results = $manager->get("ElasticSearch");
-
-        // @var Params
-        $params = $results->getParams();
-
-        if (isset($index)) {
-            $params->setIndex($index);
-        }
-        $params->setTemplate($template);
-
-        // @var Query $query
-        $query = $params->getQuery();
-        if (isset($type)) {
-            $query->setHandler($type);
-        }
-        $query->setString($q);
-
-        $results->performAndProcessSearch();
-
-        // @var $content array
-        $content = $results->getResults();
-
-        return $content ?? [];
     }
 
     /**

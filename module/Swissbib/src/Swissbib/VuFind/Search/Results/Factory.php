@@ -67,6 +67,27 @@ class Factory
     }
 
     /**
+     * Returns MixedList
+     *
+     * @param ServiceManager $sm servicemanager
+     *
+     * @return object
+     */
+    public static function getMixdList(ServiceManager $sm)
+    {
+        $factory = new PluginFactory();
+
+        /**
+         * Create Service With Name Solr
+         *
+         * @var $solr \Swissbib\VuFind\Search\Solr\Results
+         */
+        $mixedlist = $factory->createServiceWithName($sm, 'mixedlist', 'MixedList');
+
+        return $mixedlist;
+    }
+
+    /**
      * Factory for Solr Authors.
      * Achtung: hier müssen wir dringend ein Refactoring machen
      * swissbib hat sich vor einiger Zeit mal dazu entschieden, Autorensuchen wie

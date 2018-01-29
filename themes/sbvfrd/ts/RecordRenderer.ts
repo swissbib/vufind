@@ -13,13 +13,21 @@ export class RecordRenderer {
         this.client = new Hydra(dataUrl);
     }
 
-    public render(id: string, template: any, htmlList: HTMLElement): Promise<HTMLElement[]> {
+    public renderContributors(id: string, template: any, htmlList: HTMLElement): Promise<HTMLElement[]> {
         return this.client.getBibliographicDetails(id)
             .then((bibliographicDetails: BibliographicDetails) => {
+                const personIds = bibliographicDetails.persons;
+                const organisationIds = bibliographicDetails.organisations;
+                if (!(personIds || organisationIds)) {
+                    return;
+                }
+                $(htmlList).empty();
                 const promises: Array<Promise<Detail[]>> = [];
-                const contributorIds = bibliographicDetails.contributors;
-                if (contributorIds && contributorIds.length > 0) {
-                    promises.push(this.client.getContributorDetails(contributorIds));
+                if (personIds) {
+                    promises.push(this.client.getPersonDetails(personIds));
+                }
+                if (organisationIds) {
+                    promises.push(this.client.getOrganisationDetails(organisationIds));
                 }
                 return Promise.all(promises)
                     .then((details: Detail[][]) => {

@@ -1,10 +1,8 @@
 import {Detail} from "./Detail";
 
-export class Contributor implements Detail {
+export class Organisation implements Detail {
     public hasSufficientData: boolean;
     public type: string;
     public id: string;
-    public firstName: string;
-    public lastName: string;
     public name: string;
 }

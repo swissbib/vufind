@@ -77,7 +77,7 @@ class AjaxController extends VFAjaxController
     }
 
     /**
-     * Get Subjects Ajax
+     * Get Subjects
      *
      * @return \Zend\Stdlib\ResponseInterface
      */
@@ -107,7 +107,37 @@ class AjaxController extends VFAjaxController
     }
 
     /**
-     * Get Authors Ajax
+     * Gets organisations
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    protected function getOrganisationsAjax(): ResponseInterface
+    {
+        $content = $this->search();
+
+        // TODO externalize spec
+        $specBuilder = new RecordDataFormatter\SpecBuilder();
+        $specBuilder->setLine(
+            "id", "getUniqueID", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "type", "getType", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "name", "getName", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "hasSufficientData", "hasSufficientData", "Simple",
+            ['allowZero' => false]
+        );
+        $spec = $specBuilder->getArray();
+
+        $response = $this->buildResponse($content, $spec);
+        return $response;
+    }
+
+    /**
+     * Get Authors
      *
      * @return \Zend\Stdlib\ResponseInterface
      */
@@ -154,7 +184,11 @@ class AjaxController extends VFAjaxController
         // TODO externalize spec
         $specBuilder = new RecordDataFormatter\SpecBuilder();
         $specBuilder->setLine(
-            "contributors", "getContributors", "Simple",
+            "persons", "getContributingPersons", "Simple",
+            ['allowZero' => true, 'separator' => ',']
+        );
+        $specBuilder->setLine(
+            "organisations", "getContributingOrganisations", "Simple",
             ['allowZero' => true, 'separator' => ',']
         );
         $spec = $specBuilder->getArray();

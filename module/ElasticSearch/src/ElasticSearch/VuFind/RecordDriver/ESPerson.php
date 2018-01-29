@@ -124,17 +124,16 @@ class ESPerson extends ElasticSearch
     /**
      * Gets the Name
      *
-     * @return string|null
+     * @return array|null
      */
     public function getName()
     {
-        $value = $this->getField('label', 'rdfs');
-
-        if (is_array($value)) {
-            $value = implode(' ', $value);
+        $firstName = $this->getFirstName();
+        $lastName = $this->getLastName();
+        if (isset($firstName) && isset($lastName)) {
+            return $lastName . ", " . $firstName;
         }
-
-        return is_string($value) && strlen($value) > 0 ? $value : null;
+        return $this->getField('label', 'rdfs');
     }
 
     /**

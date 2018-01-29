@@ -62,10 +62,10 @@ class ESPerson extends AbstractHelper
     protected function getMetadataMethodMap(): array
     {
         return [
-            'job'          => 'getJobInfo',
-            'birth'        => 'getBirthInfo',
-            'death'        => 'getDeathInfo',
-            'nationality'  => 'getNationalityInfo',
+            'job'         => 'getJobInfo',
+            'birth'       => 'getBirthInfo',
+            'death'       => 'getDeathInfo',
+            'nationality' => 'getNationalityInfo',
             'notable.work' => 'getNotableWorkList',
             'genre'        => 'getGenreList',
             'movement'     => 'getMovementList'
@@ -207,7 +207,7 @@ class ESPerson extends AbstractHelper
      * @param \DateTime|null $date       The (optional) date
      * @param array          $place      The (optional) place
      *
-     * @return null|string
+     * @return string|null
      */
     protected function getDateAndPlaceInfo(
         string $dateFormat, string $separator, \DateTime $date = null,
@@ -233,7 +233,7 @@ class ESPerson extends AbstractHelper
      *
      * @param string $delimiter The delimiter
      *
-     * @return string|null
+     * @return null|string
      */
     public function getJobInfo(string $delimiter = ', ')
     {

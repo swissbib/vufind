@@ -2,5 +2,5 @@
 
 <? if ($this->essubjectcollection()->hasItems()): ?>
     <span class="entry-label"><?= $this->translate('subject.metadata.subject.'.$this->collection) ?></span>
-    <?= $this->render('knowledgecard/subject/links.phtml'); ?>
+    <?= $this->render('/knowledgecard/subject/links.phtml'); ?>
 <? endif; ?>

@@ -1,6 +1,6 @@
 <? if ($this->esperson()->hasNotableWork()): ?>
 <div class="work">
-    <!--
+    <? /*
     <h2 class="headline"><?= $this->esperson()->getNotableWorkLabel(); ?></h2>
     <ul>
         <? $notableWork = $this->esperson()->getNotableWork(); ?>
@@ -8,7 +8,7 @@
         <li><a href="<?= $work['link']; ?>"><?= $work['label']; ?></a></li>
         <? endforeach; ?>
     </ul>
-    -->
+    */?>
     <?= $this->esperson()->getNotableWorkSearchLink('<a class="ref inline" data-lightbox-ignore href="%s">%s</a>') ?>
 
 </div>

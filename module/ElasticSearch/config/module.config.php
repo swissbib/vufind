@@ -38,6 +38,7 @@ $config = [
           'esperson' => 'ElasticSearch\VuFind\RecordDriver\Factory::getESPersonRecord',
           'esdefault' => 'ElasticSearch\VuFind\RecordDriver\Factory::getESSubjectRecord',
           'esbibliographicresource' => 'ElasticSearch\VuFind\RecordDriver\Factory::getESBibliographicResourceRecord',
+          'esorganisation' => 'ElasticSearch\VuFind\RecordDriver\Factory::getESOrganisationRecord',
         ],
       ],
     ],

@@ -1,11 +1,11 @@
 <? # TODO loop over metadata list of person ?>
 
-<?= $this->render('detailpage/common/metadata/list.phtml',
+<?= $this->render('/detailpage/common/metadata/list.phtml',
     ['list' => $this->esperson()->getMetadata()->getList('job', 'birth', 'death', 'nationality')]) ?>
 
-<?= $this->render('detailpage/person/common/metadata/abstract.phtml') ?>
+<?= $this->render('/detailpage/person/common/metadata/abstract.phtml') ?>
 
-<?= $this->render('detailpage/common/metadata/list.phtml',
+<?= $this->render('/detailpage/common/metadata/list.phtml',
     ['list' => $this->esperson()->getMetadata()->getList('notable.work', 'genre', 'movement')]) ?>
 <!--
 <div class="row">

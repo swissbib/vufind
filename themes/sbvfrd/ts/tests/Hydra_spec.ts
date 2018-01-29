@@ -37,8 +37,8 @@ it("Should load json", () => {
     expect.assertions(2);
     // Return to evaluate promise
     return actual.then((details: BibliographicDetails) => {
-        expect(details.contributors.split(",")).toHaveLength(4);
-        expect(details.contributors).toContain("145a6d92-7afa-3589-aba8-28e9aec9b03d");
+        expect(details.persons.split(",")).toHaveLength(4);
+        expect(details.persons).toContain("145a6d92-7afa-3589-aba8-28e9aec9b03d");
     });
 });
 
@@ -65,7 +65,7 @@ it("should return all contributor details", () => {
         5f679432-5f41-3bd8-a19f-8a20c4431aea,
         d792881e-1e3e-36df-8489-a6c3ba957e24`;
 
-    const actual: Promise<object[]> = cut.getContributorDetails(contributorIds);
+    const actual: Promise<object[]> = cut.getPersonDetails(contributorIds);
 
     expect.assertions(4);
 

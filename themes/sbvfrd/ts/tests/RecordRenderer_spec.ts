@@ -1,8 +1,9 @@
 import * as fs from "fs";
 import * as $ from "jquery";
-import {Contributor} from "../Contributor";
+import {Person} from "../Contributor";
 import {RecordRenderer} from "../RecordRenderer";
 import {Subject} from "../Subject";
+import {Detail} from "../Detail";
 
 // const mock = jest.genMockFromModule("Hydra");
 
@@ -10,7 +11,7 @@ const Mock = jest.fn(() => ({
     getBibliographicDetails: jest.fn((ids) => {
         return readFixture("bibliographicResource");
     }),
-    getContributorDetails: jest.fn((ids) => {
+    getPersonDetails: jest.fn((ids) => {
         return readFixture("contributors");
     }),
     getSubjectDetails: jest.fn((ids) => {
@@ -52,16 +53,16 @@ it("Html should contain list element with contributors", () => {
 
     expect.assertions(2);
 
-    const contributorsTemplate = (p: Contributor) => {
-        return `<li>${p.firstName}</li>`;
+    const contributorsTemplate = (p: Detail) => {
+        return `<li>${p.name}</li>`;
     };
     const contributorsList = $(list)[0];
 
-    return cut.render("023426233", contributorsTemplate, contributorsList)
+    return cut.renderContributors("023426233", contributorsTemplate, contributorsList)
         .then((html: HTMLElement[]) => {
             const actual: JQuery<HTMLElement> = $(html[0]);
             expect(actual.children("li").length).toBe(10);
-            expect(actual.find("li").get(0).innerHTML).toEqual("David");
+            expect(actual.find("li").get(0).innerHTML).toEqual("Bamber, David");
         })
         ;
 });
