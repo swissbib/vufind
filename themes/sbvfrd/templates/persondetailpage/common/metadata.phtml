@@ -3,10 +3,13 @@
 <?= $this->render('/detailpage/common/metadata/list.phtml',
     ['list' => $this->esperson()->getMetadata()->getList('job', 'birth', 'death', 'nationality')]) ?>
 
-<?= $this->render('/detailpage/person/common/metadata/abstract.phtml') ?>
+<?= $this->render('common/metadata/abstract.phtml') ?>
 
 <?= $this->render('/detailpage/common/metadata/list.phtml',
-    ['list' => $this->esperson()->getMetadata()->getList('notable.work', 'genre', 'movement')]) ?>
+    ['list' => $this->esperson()->getMetadata()->getList('notable.work', 'genre', 'movement', 'names', 'pseudonym', 'spouse', 'influencers', 'influenced')]) ?>
+
+<? #var_dump($this->driver->getAllFields()) ?>
+
 <!--
 <div class="row">
     <div class="col-sm-2">{field-label}:</div>
