@@ -62,13 +62,18 @@ class ESPerson extends AbstractHelper
     protected function getMetadataMethodMap(): array
     {
         return [
-            'job'         => 'getJobInfo',
-            'birth'       => 'getBirthInfo',
-            'death'       => 'getDeathInfo',
-            'nationality' => 'getNationalityInfo',
+            'job'          => 'getJobInfo',
+            'birth'        => 'getBirthInfo',
+            'death'        => 'getDeathInfo',
+            'nationality'  => 'getNationalityInfo',
             'notable.work' => 'getNotableWorkList',
             'genre'        => 'getGenreList',
-            'movement'     => 'getMovementList'
+            'movement'     => 'getMovementList',
+            'names'        => 'getAlternateNames',
+            'pseudonym'    => 'getPseudonym',
+            'spouse'       => 'getSpouse',
+            'influencers'  => 'getInfluencedBy',
+            'influenced'   => 'getInfluenced'
         ];
     }
 
@@ -413,6 +418,66 @@ class ESPerson extends AbstractHelper
     public function getMovementList(string $delimiter = ', ')
     {
         return $this->fieldToString('movementDisplayField', $delimiter);
+    }
+
+    /**
+     * Provides the alternate names for the underlying person.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getAlternateNames(string $delimiter = ', ')
+    {
+        return $this->fieldToString('alternateNames', $delimiter);
+    }
+
+    /**
+     * Provides the pseudonym for the underlying person.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getPseudonym(string $delimiter = ', ')
+    {
+        return $this->fieldToString('pseudonym', $delimiter);
+    }
+
+    /**
+     * Provides the spouse value for the underlying person.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getSpouse(string $delimiter = ', ')
+    {
+        return $this->fieldToString('spouseDisplayField', $delimiter);
+    }
+
+    /**
+     * Provides the influencers for the underlying person.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getInfluencedBy(string $delimiter = ', ')
+    {
+        return $this->fieldToString('influencedByDisplayField', $delimiter);
+    }
+
+    /**
+     * Provides the influenced value for the underlying person.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getInfluenced(string $delimiter = ', ')
+    {
+        return $this->fieldToString('influencedDisplayField', $delimiter);
     }
 
     /**

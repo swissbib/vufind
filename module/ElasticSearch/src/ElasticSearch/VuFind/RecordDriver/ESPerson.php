@@ -163,7 +163,7 @@ class ESPerson extends ElasticSearch
     /**
      * Gets the Pseudonym
      *
-     * @return null
+     * @return array|null
      */
     public function getPseudonym()
     {
@@ -174,7 +174,7 @@ class ESPerson extends ElasticSearch
     /**
      * Gets the BirthPlaceDisplayField
      *
-     * @return null
+     * @return array|null
      */
     public function getBirthPlaceDisplayField()
     {
@@ -185,7 +185,7 @@ class ESPerson extends ElasticSearch
     /**
      * Gets the DeathPlaceDisplayField
      *
-     * @return null
+     * @return array|null
      */
     public function getDeathPlaceDisplayField()
     {
@@ -284,6 +284,16 @@ class ESPerson extends ElasticSearch
             "type": "text"
           }
      */
+
+    /**
+     * Gets the alternate names available from the underlying fields.
+     *
+     * @return array|null
+     */
+    public function getAlternateNames()
+    {
+        return $this->getField('alternateName', 'schema');
+    }
 
     /**
      * Gets the ValueByLanguagePriority
