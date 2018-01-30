@@ -70,21 +70,15 @@ class TagCloud extends AbstractPlugin
      */
     public function getTagCloud(
         array $subjectIds, array $subjects
-    ) {
-        $counts = array_count_values($subjectIds);
+    ): array {
+        $frequencies = array_count_values($subjectIds);
         $cloud = [];
-        $max = max($counts);
+        $max = max($frequencies);
 
-        foreach ($counts as $id => $count) {
-            $filtered = array_filter(
-                $subjects,
-                function (ESSubject $item) use ($id) {
-                    return $item->getFullUniqueID() === $id;
-                }
-            );
-            if (count($filtered) > 0) {
-                // @var ESSubject $subject
-                $subject = array_shift($filtered);
+        foreach ($frequencies as $id => $count) {
+            // @var ESSubject $subject
+            $subject = $this->getSubjectById($id, $subjects);
+            if ($subject !== null) {
                 $name = $subject->getName();
                 $cloud[$name] = [
                     "subject" => $subject, "count" => $count,
@@ -113,5 +107,27 @@ class TagCloud extends AbstractPlugin
         $count, $max, int $minFontSize, int $maxFontSize
     ): float {
         return ($maxFontSize - $minFontSize) * ($count / $max) + $minFontSize;
+    }
+
+    /**
+     * Returns the subject by id
+     *
+     * @param string $id       The id
+     * @param array  $subjects The subjects
+     *
+     * @return ESSubject|null
+     */
+    protected function getSubjectById($id, array $subjects)
+    {
+        $subject = array_filter(
+            $subjects,
+            function (ESSubject $item) use ($id) {
+                return $item->getFullUniqueID() === $id;
+            }
+        );
+        if (count($subject) > 0) {
+            return array_shift($subject);
+        }
+        return null;
     }
 }

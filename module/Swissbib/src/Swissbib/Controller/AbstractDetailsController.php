@@ -140,7 +140,7 @@ abstract class AbstractDetailsController extends AbstractBase
     {
         $content = $this->elasticsearchsearch()->searchElasticSearch(
             $id, "id", $index, $type
-        );
+        )->getResults();
 
         if ($content !== null && is_array($content) && count($content) === 1) {
             return array_pop($content);
@@ -160,7 +160,7 @@ abstract class AbstractDetailsController extends AbstractBase
         return $this->elasticsearchsearch()->searchElasticSearch(
             "http://data.swissbib.ch/person/" . $id,
             "bibliographicResources_by_author", "lsb", "bibliographicResource"
-        );
+        )->getResults();
     }
 
     /**
@@ -174,7 +174,7 @@ abstract class AbstractDetailsController extends AbstractBase
     {
         return $this->elasticsearchsearch()->searchElasticSearch(
             $this->arrayToSearchString(array_unique($ids)), "id", "gnd", "DEFAULT"
-        );
+        )->getResults();
     }
 
     /**
@@ -188,7 +188,7 @@ abstract class AbstractDetailsController extends AbstractBase
     {
         return $this->elasticsearchsearch()->searchElasticSearch(
             $id, "sub_subjects"
-        );
+        )->getResults();
     }
 
     /**
@@ -202,7 +202,7 @@ abstract class AbstractDetailsController extends AbstractBase
     {
         return $this->elasticsearchsearch()->searchElasticSearch(
             $this->arrayToSearchString($ids), "id", "gnd", "DEFAULT"
-        );
+        )->getResults();
     }
 
     /**
