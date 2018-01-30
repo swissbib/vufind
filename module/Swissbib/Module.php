@@ -77,7 +77,6 @@ class Module implements Autoloadable, Configurable, Initializable, Consolable
      */
     public function getAutoloaderConfig()
     {
-
         return [
             'Zend\Loader\StandardAutoloader' => [
                 'namespaces' => [
