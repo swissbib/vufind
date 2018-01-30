@@ -122,7 +122,8 @@ class NationalLicenceServiceTest extends VuFindTestCase
     public function testIsSwissPhoneNumber()
     {
         $testPhones = [
-            '+41 793433434' => true,
+            '+41793433434' => true,
+            '+41 79 3433434' => true,
             '+41 773433434' => true,
             '+41 763433434' => true,
             '+41 743433434' => false,
