@@ -258,6 +258,15 @@ var swissbib = {
     //delete it when we have implemented a correct response
     return false;
 
+  }),
+
+  trackLink: (function (url) {
+    $.ajax({
+      type: "HEAD",
+      async: true,
+      data: "trackUrl=" + url,
+      url: window.location
+    });
   })
 
 };

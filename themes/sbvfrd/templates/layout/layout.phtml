@@ -151,40 +151,33 @@ if (!isset($this->layout()->searchbox)) {
 <script type="text/javascript">
 $(document).ready(function()
 {
-  function trackLink(url)
-  {
-    console.log("-HEAD to " + url);
-    //TODO: check if HEAD request is executed properly, evtl add sessionId as well
-    $.ajax({
-      type: "HEAD",
-      async: true,
-      data: "trackUrl=" + url,
-      url: window.location
-    });
-  }
-
   /**
    * fügt den GET parameter key=val zu einer url hinzu.
    * respektiert evtl bereits vorhandene weitere parameter und '#'
    */
+  /*
   function setParam(uri, key, val) {
     return uri
         .replace(RegExp("([?&]"+key+"(?=[=&#]|$)[^#&]*|(?=#|$))"),
             "&"+key+"="+encodeURIComponent(val))
         .replace(/^([^?&]+)&/, "$1?");
   }
+  */
 
   // alle externen links;
   $("a[href^='http']").not("a[href*='//<?=$_SERVER['HTTP_HOST']?>']").each(function(){
-      $(this).on("click",function(){trackLink($(this).attr('href'));});
+      $(this).on("click",function(){swissbib.trackLink($(this).attr('href'));});
   });
 
+  /*
   // alle internen links;
   $("a[href^='/'],a[href*='//<?=$_SERVER['HTTP_HOST']?>']").each(function(){
     var href = setParam($(this).attr("href"), 'trackLang', '<?=$this->layout()->userLang?>');
     $(this).attr("href", href);
   });
+  */
 
 });
 </script>
+
 </html>
