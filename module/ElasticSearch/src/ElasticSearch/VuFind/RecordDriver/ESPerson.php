@@ -131,6 +131,12 @@ class ESPerson extends ElasticSearch
         $firstName = $this->getFirstName();
         $lastName = $this->getLastName();
         if (isset($firstName) && isset($lastName)) {
+            if (is_array($firstName)) {
+                $firstName = array_shift($firstName);
+            }
+            if (is_array($lastName)) {
+                $lastName = array_shift($lastName);
+            }
             return $lastName . ", " . $firstName;
         }
         return $this->getField('label', 'rdfs');

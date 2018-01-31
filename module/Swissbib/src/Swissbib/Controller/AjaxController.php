@@ -77,6 +77,60 @@ class AjaxController extends VFAjaxController
     }
 
     /**
+     * Gets Authors by id. Expects comma separated ids.
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    protected function getCoAuthorsAjax()
+    {
+        $id = $this->getRequest()->getQuery()['id'];
+        $page = $this->getRequest()->getQuery()['page'];
+
+        $authors = $this->elasticsearchsearch()->searchCoContributorsOf(
+            $id, $this->getConfig()->DetailPage->coAuthorsSize,
+            $this->getConfig()->DetailPage->searchSize, $page
+        )->getResults();
+
+        return $this->buildResponse($authors, $this->getAuthorPaginationSpec());
+    }
+
+    /**
+     * Gets authors by genre supports pagination
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    protected function getSameGenreAuthorsAjax()
+    {
+        $genre = $this->getRequest()->getQuery()['genre'];
+        $page = $this->getRequest()->getQuery()['page'];
+        $limit = $this->getConfig()->DetailPage->sameGenreAuthorsSize;
+
+        $authors = $this->elasticsearchsearch()->searchElasticSearch(
+            $genre, "person_by_genre", null, null, $limit, $page ?? 1
+        );
+
+        return $this->buildResponse($authors, $this->getAuthorPaginationSpec());
+    }
+
+    /**
+     * Gets authors by movement supports pagination
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    protected function getSameMovementAuthorsAjax()
+    {
+        $movement = $this->getRequest()->getQuery()['movement'];
+        $page = $this->getRequest()->getQuery()['page'];
+        $limit = $this->getConfig()->DetailPage->sameMovementAuthorsSize;
+
+        $authors = $this->elasticsearchsearch()->searchElasticSearch(
+            $movement, "person_by_genre", null, null, $limit, $page ?? 1
+        );
+
+        return $this->buildResponse($authors, $this->getAuthorPaginationSpec());
+    }
+
+    /**
      * Get Subjects
      *
      * @return \Zend\Stdlib\ResponseInterface
@@ -282,5 +336,28 @@ class AjaxController extends VFAjaxController
                 $value = $value['value'];
             }
         );
+    }
+
+    /**
+     * Get the spec for author pagination
+     *
+     * @return array
+     */
+    protected function getAuthorPaginationSpec(): array
+    {
+        $specBuilder = new RecordDataFormatter\SpecBuilder();
+        $specBuilder->setLine(
+            "id", "getUniqueID", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "name", "getName", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "thumbnail", "getThumbnail", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "sufficientData", "hasSufficientData", "Simple", ['allowZero' => false]
+        );
+        return $specBuilder->getArray();
     }
 }

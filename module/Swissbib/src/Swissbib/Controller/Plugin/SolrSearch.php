@@ -29,6 +29,7 @@ namespace Swissbib\Controller\Plugin;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use VuFind\Search\Results\PluginManager;
+use VuFind\Search\Solr\Results;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -81,11 +82,11 @@ class SolrSearch extends AbstractPlugin
      * @param ElasticSearch $record The record
      * @param int           $limit  The limit
      *
-     * @return array
+     * @return Results
      */
     public function getMedias(
         string $type, ElasticSearch $record, int $limit = 20
-    ): array {
+    ): Results {
         $name = $record->getName();
         if (isset($name)) {
             $results = $this->searchSolr($name, $type, $limit);
@@ -101,9 +102,9 @@ class SolrSearch extends AbstractPlugin
      * @param string $type  The type
      * @param int    $limit The limit
      *
-     * @return mixed
+     * @return \Swissbib\VuFind\Search\Solr\Results
      */
-    protected function searchSolr(string $query, string $type, int $limit): array
+    protected function searchSolr(string $query, string $type, int $limit): Results
     {
         // Set up the search:
         $searchClassId = "Solr";
@@ -135,7 +136,7 @@ class SolrSearch extends AbstractPlugin
             }
         }
 
-        return $results->getResults();
+        return $results;
     }
 
     /**

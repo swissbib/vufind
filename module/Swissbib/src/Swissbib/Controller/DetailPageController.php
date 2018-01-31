@@ -41,13 +41,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class DetailPageController extends AbstractDetailsController
 {
     /**
-     * The config for the detail page
-     *
-     * @var \Zend\Config\Config $config The Config
-     */
-    protected $config;
-
-    /**
      * DetailPageController constructor.
      *
      * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service locator
@@ -55,9 +48,7 @@ abstract class DetailPageController extends AbstractDetailsController
     public function __construct(ServiceLocatorInterface $sm)
     {
         parent::__construct($sm);
-        $this->config = $this->serviceLocator->get('VuFind\Config')->get(
-            'config'
-        )->DetailPage;
+        $this->config = $this->getConfig()->DetailPage;
     }
 
     /**
