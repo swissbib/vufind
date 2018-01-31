@@ -182,7 +182,7 @@ return [
                     ],
                 ]
             ],
-            'persons-search-coauthors' => [
+            'persons-search-coauthor' => [
                 'type'    => 'literal',
                 'options' => [
                     'route'    => '/Search/Persons/CoAuthor',
