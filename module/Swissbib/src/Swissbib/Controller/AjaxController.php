@@ -124,7 +124,7 @@ class AjaxController extends VFAjaxController
         $limit = $this->getConfig()->DetailPage->sameMovementAuthorsSize;
 
         $authors = $this->elasticsearchsearch()->searchElasticSearch(
-            $movement, "person_by_genre", null, null, $limit, $page ?? 1
+            $movement, "person_by_movement", null, null, $limit, $page ?? 1
         );
 
         return $this->buildResponse($authors, $this->getAuthorPaginationSpec());

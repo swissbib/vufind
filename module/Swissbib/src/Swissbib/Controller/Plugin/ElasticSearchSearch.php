@@ -167,13 +167,16 @@ class ElasticSearchSearch extends AbstractPlugin
         $contributorIds = $this->getCoContributorIds($bibliographicResources, $id);
 
         $start = $resultSize * ($page - 1);
-        $contributorIds = $start < count($contributorIds) ? array_slice(
+        $searchIds = $start < count($contributorIds) ? array_slice(
             $contributorIds, $start, $resultSize
         ) : [];
-        return $this->searchElasticSearch(
-            $this->arrayToSearchString($contributorIds), "id", "lsb", "person",
+        $results = $this->searchElasticSearch(
+            $this->arrayToSearchString($searchIds), "id", "lsb", "person",
             $resultSize
         );
+
+        $this->_fixResultForPagination($id, $page, $results, $contributorIds);
+        return $results;
     }
 
     /**
@@ -225,5 +228,26 @@ class ElasticSearchSearch extends AbstractPlugin
     protected function getResultsManager()
     {
         return $this->_serviceLocator->get('VuFind\SearchResultsPluginManager');
+    }
+
+    /**
+     * @param string $id
+     * @param int $page
+     * @param \ElasticSearch\VuFind\Search\ElasticSearch\Results $results
+     * @param array $contributorIds
+     *
+     * @throws \ReflectionException
+     */
+    private function _fixResultForPagination(
+        string $id, int $page, Results &$results, array $contributorIds
+    ): void {
+        $reflectionClass = new \ReflectionClass(Results::class);
+        $reflectionProperty = $reflectionClass->getProperty("resultTotal");
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($results, count($contributorIds));
+        $params = $results->getParams();
+        $params->setPage($page);
+        $query = $params->getQuery();
+        $query->setString($id);
     }
 }
