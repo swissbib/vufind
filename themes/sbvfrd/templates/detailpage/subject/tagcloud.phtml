@@ -1,8 +1,0 @@
-<? foreach ($this->essubjectcollection()->getCollection() as $subject): ?>
-<span class="tagcloud-tag">
-    <a href="#" style="font-size: <?= sprintf('%F', $subject->getRelativeFrequency()) ?>px"><?= $subject->getName() ?></a>
-    <a href="#" data-lightbox>
-        <span class="fa fa-info-circle fa-lg" style="display: inline;"></span>
-    </a>
-</span>
-<? endforeach; ?>
