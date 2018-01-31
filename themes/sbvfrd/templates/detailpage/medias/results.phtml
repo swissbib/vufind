@@ -1,5 +1,5 @@
 <?
-foreach ($this->medias as $media): ?>
+foreach ($this->medias->getResults() as $media): ?>
     <?= $this->render('/detailpage/medias/item.phtml', ["item" => $media]) ?>
 <? endforeach; ?>
 

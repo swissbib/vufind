@@ -75,15 +75,15 @@ class TagCloud extends AbstractPlugin
         $cloud = [];
         $max = max($frequencies);
 
-        foreach ($frequencies as $id => $count) {
-            // @var ESSubject $subject
+        foreach ($frequencies as $id => $frequency) {
             $subject = $this->getSubjectById($id, $subjects);
             if ($subject !== null) {
                 $name = $subject->getName();
                 $cloud[$name] = [
-                    "subject" => $subject, "count" => $count,
-                    "weight" => $this->calculateFontSize(
-                        $count, $max, $this->_config->minFontSize,
+                    "subject"   => $subject,
+                    "frequency" => $frequency,
+                    "weight"    => $this->calculateFontSize(
+                        $frequency, $max, $this->_config->minFontSize,
                         $this->_config->maxFontSize
                     )
                 ];
@@ -96,7 +96,7 @@ class TagCloud extends AbstractPlugin
     /**
      * Calculates the font size for the tag cloud
      *
-     * @param int $count       The count
+     * @param int $frequency   The frequency
      * @param int $max         Max count
      * @param int $minFontSize The minimal font size
      * @param int $maxFontSize The maximal font size
@@ -104,9 +104,9 @@ class TagCloud extends AbstractPlugin
      * @return float
      */
     protected function calculateFontSize(
-        $count, $max, int $minFontSize, int $maxFontSize
+        int $frequency, int $max, int $minFontSize, int $maxFontSize
     ): float {
-        return ($maxFontSize - $minFontSize) * ($count / $max) + $minFontSize;
+        return ($maxFontSize - $minFontSize) * ($frequency / $max) + $minFontSize;
     }
 
     /**
@@ -125,9 +125,7 @@ class TagCloud extends AbstractPlugin
                 return $item->getFullUniqueID() === $id;
             }
         );
-        if (count($subject) > 0) {
-            return array_shift($subject);
-        }
-        return null;
+
+        return count($subject) > 0 ? array_shift($subject) : null;
     }
 }
