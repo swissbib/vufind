@@ -29,6 +29,7 @@ namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use VuFind\Controller\AbstractBase;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -42,6 +43,23 @@ use Zend\View\Model\ViewModel;
  */
 abstract class AbstractDetailsController extends AbstractBase
 {
+    /**
+     * The config.
+     *
+     * @var \Zend\Config\Config $config The Config
+     */
+    protected $config;
+
+    /**
+     * AbstractDetailsController constructor.
+     *
+     * @param ServiceLocatorInterface $sm The service locator
+     */
+    public function __construct(ServiceLocatorInterface $sm)
+    {
+        parent::__construct($sm);
+    }
+
     /**
      * The person action
      *
@@ -139,7 +157,7 @@ abstract class AbstractDetailsController extends AbstractBase
     protected function getRecordDriver($id, $index, $type): ElasticSearch
     {
         $content = $this->elasticsearchsearch()->searchElasticSearch(
-            $id, "id", $index, $type
+            $id, "id", $index, $type, 1
         )->getResults();
 
         if ($content !== null && is_array($content) && count($content) === 1) {
@@ -157,9 +175,11 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getBibliographicResourcesOf(string $id): array
     {
+        $searchSize = $this->config->searchSize;
         return $this->elasticsearchsearch()->searchElasticSearch(
             "http://data.swissbib.ch/person/" . $id,
-            "bibliographicResources_by_author", "lsb", "bibliographicResource"
+            "bibliographicResources_by_author", "lsb", "bibliographicResource",
+            $searchSize
         )->getResults();
     }
 
@@ -173,7 +193,8 @@ abstract class AbstractDetailsController extends AbstractBase
     protected function getSubjectsOf(array $ids): array
     {
         return $this->elasticsearchsearch()->searchElasticSearch(
-            $this->arrayToSearchString(array_unique($ids)), "id", "gnd", "DEFAULT"
+            $this->arrayToSearchString(array_unique($ids)), "id", "gnd", "DEFAULT",
+            $this->config->subjectsSize
         )->getResults();
     }
 
@@ -187,7 +208,7 @@ abstract class AbstractDetailsController extends AbstractBase
     protected function getSubSubjects(string $id)
     {
         return $this->elasticsearchsearch()->searchElasticSearch(
-            $id, "sub_subjects"
+            $id, "sub_subjects", $this->config->subjectsSize
         )->getResults();
     }
 
@@ -201,7 +222,8 @@ abstract class AbstractDetailsController extends AbstractBase
     protected function getParentSubjects(array $ids)
     {
         return $this->elasticsearchsearch()->searchElasticSearch(
-            $this->arrayToSearchString($ids), "id", "gnd", "DEFAULT"
+            $this->arrayToSearchString($ids), "id", "gnd", "DEFAULT",
+            $this->config->subjectsSize
         )->getResults();
     }
 

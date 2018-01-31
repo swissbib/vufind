@@ -74,12 +74,14 @@ class PersonDetailPageController extends DetailPageController
         );
         $viewModel->setVariable("medias", $medias);
         $contributors = $this->getCoContributors(
-            $driver, $bibliographicResources
+            $driver->getUniqueID(), $bibliographicResources
         );
-        $viewModel->setVariable("coContributors", $contributors->getResults());
-        $viewModel->setVariable(
-            "coContributorsTotal", $contributors->getResultTotal()
-        );
+        if (isset($contributors)) {
+            $viewModel->setVariable("coContributors", $contributors->getResults());
+            $viewModel->setVariable(
+                "coContributorsTotal", $contributors->getResultTotal()
+            );
+        }
         $personsOfSameGenre = $this->getPersonsOfSameGenre($driver);
         if (isset($personsOfSameGenre)) {
             $viewModel->setVariable(
@@ -92,10 +94,11 @@ class PersonDetailPageController extends DetailPageController
         $personsOfSameMovement = $this->getPersonsOfSameMovement($driver);
         if (isset($personsOfSameMovement)) {
             $viewModel->setVariable(
-                "authorsOfSameGenre", $personsOfSameMovement->getResults()
+                "personsOfSameMovement", $personsOfSameMovement->getResults()
             );
             $viewModel->setVariable(
-                "authorsOfSameGenreTotal", $personsOfSameMovement->getResultTotal()
+                "personsOfSameMovementTotal",
+                $personsOfSameMovement->getResultTotal()
             );
         }
     }
@@ -103,34 +106,15 @@ class PersonDetailPageController extends DetailPageController
     /**
      * Adds co contributors of author
      *
-     * @param ESPerson $driver                 The driver
-     * @param array    $bibliographicResources The bibliographic resources
+     * @param string $id                     The id
+     * @param array  $bibliographicResources The bibliographic resources
      *
      * @return Results
      */
-    protected function getCoContributors(
-        ESPerson $driver, array $bibliographicResources
+    protected function getCoContributors(string $id, array $bibliographicResources
     ): Results {
-        $authorId = $driver->getUniqueId();
-        $contributorIds = [];
-        // @var \ElasticSearch\VuFind\RecordDriver\ESBibliographicResource
-        // $bibliographicResource
-        foreach ($bibliographicResources as $bibliographicResource) {
-            $contributorIds = array_merge(
-                $contributorIds, $bibliographicResource->getContributors()
-            );
-        }
-        $contributorIds = array_unique($contributorIds);
-
-        $contributorIds = array_filter(
-            $contributorIds,
-            function ($val) use ($authorId) {
-                return $val !== $authorId;
-            }
-        );
-
-        return $this->elasticsearchsearch()->searchElasticSearch(
-            $this->arrayToSearchString($contributorIds), "id", "lsb", "person"
+        return $this->elasticsearchsearch()->searchCoContributorsFrom(
+            $bibliographicResources, $id, $this->config->coAuthorsSize
         );
     }
 
@@ -152,7 +136,8 @@ class PersonDetailPageController extends DetailPageController
         $authors = null;
         if (isset($genres)) {
             $authors = $this->elasticsearchsearch()->searchElasticSearch(
-                $genres, "person_by_genre"
+                $genres, "person_by_genre", null, null,
+                $this->config->sameGenreAuthorsSize
             );
         }
 
@@ -179,13 +164,8 @@ class PersonDetailPageController extends DetailPageController
         $authors = null;
         if (isset($movements)) {
             $authors = $this->elasticsearchsearch()->searchElasticSearch(
-                $movements, "person_by_movement"
-            );
-            $authors = array_filter(
-                $authors,
-                function (ESPerson $author) use ($authorId) {
-                    return $author->getUniqueID() !== $authorId;
-                }
+                $movements, "person_by_movement", null, null,
+                $this->config->sameMovementAuthorsSize
             );
         }
         return $authors;
