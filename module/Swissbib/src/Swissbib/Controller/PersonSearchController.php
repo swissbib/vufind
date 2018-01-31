@@ -57,7 +57,7 @@ class PersonSearchController extends AbstractBase
      *
      * @return \Zend\View\Model\ViewModel
      */
-    public function coAuthorsAction()
+    public function coAuthorAction()
     {
         $id = $this->getRequest()->getQuery()['lookfor'] ?? "";
         $page = $this->getRequest()->getQuery()['page'] ?? 1;

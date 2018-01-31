@@ -182,30 +182,30 @@ return [
                     ],
                 ]
             ],
-            'person-search-coauthors' => [
+            'persons-search-coauthors' => [
                 'type'    => 'literal',
                 'options' => [
-                    'route'    => '/Search/Person/CoAuthors',
+                    'route'    => '/Search/Persons/CoAuthor',
                     'defaults' => [
                         'controller' => 'person-search',
-                        'action'     => 'coauthors'
+                        'action'     => 'coauthor'
                     ]
                 ]
             ],
-            'person-search-samegenre' => [
+            'persons-search-samegenre' => [
                 'type'    => 'literal',
                 'options' => [
-                    'route'    => '/Search/Person/Genre',
+                    'route'    => '/Search/Persons/Genre',
                     'defaults' => [
                         'controller' => 'person-search',
                         'action'     => 'samegenre'
                     ]
                 ]
             ],
-            'person-search-samemovement' => [
+            'persons-search-samemovement' => [
                 'type'    => 'literal',
                 'options' => [
-                    'route'    => '/Search/Person/Movement',
+                    'route'    => '/Search/Persons/Movement',
                     'defaults' => [
                         'controller' => 'person-search',
                         'action'     => 'samemovement'
