@@ -257,9 +257,6 @@ class ESPerson extends ElasticSearch
      * "rdfs:label": {
             "type": "text"
           },
-          "schema:alternateName": {
-            "type": "text"
-          },
           "schema:birthDate": {
             "type": "date",
             "format": "year"
