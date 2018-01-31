@@ -231,12 +231,16 @@ class ElasticSearchSearch extends AbstractPlugin
     }
 
     /**
-     * @param string $id
-     * @param int $page
-     * @param \ElasticSearch\VuFind\Search\ElasticSearch\Results $results
-     * @param array $contributorIds
+     * Fixes the results object to work with pagination
+     *
+     * @param string  $id             The id
+     * @param int     $page           The page
+     * @param Results $results        The results
+     * @param array   $contributorIds The contributor ids
      *
      * @throws \ReflectionException
+     *
+     * @return void
      */
     private function _fixResultForPagination(
         string $id, int $page, Results &$results, array $contributorIds
