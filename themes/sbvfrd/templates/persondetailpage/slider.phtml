@@ -1,2 +1,4 @@
-<h1>{slider-title}</h1>
-<p>{horizontal-slider-component}</p>
+<h1><?= $title ?> (<?= $total ?>)</h1>
+<? foreach ($persons as $p): ?>
+<p><?= $p->getName() ?></p>
+<? endforeach; ?>
