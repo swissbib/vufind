@@ -182,6 +182,36 @@ return [
                     ],
                 ]
             ],
+            'persons-search-coauthor' => [
+                'type'    => 'literal',
+                'options' => [
+                    'route'    => '/Search/Persons/CoAuthor',
+                    'defaults' => [
+                        'controller' => 'person-search',
+                        'action'     => 'coauthor'
+                    ]
+                ]
+            ],
+            'persons-search-samegenre' => [
+                'type'    => 'literal',
+                'options' => [
+                    'route'    => '/Search/Persons/Genre',
+                    'defaults' => [
+                        'controller' => 'person-search',
+                        'action'     => 'samegenre'
+                    ]
+                ]
+            ],
+            'persons-search-samemovement' => [
+                'type'    => 'literal',
+                'options' => [
+                    'route'    => '/Search/Persons/Movement',
+                    'defaults' => [
+                        'controller' => 'person-search',
+                        'action'     => 'samemovement'
+                    ]
+                ]
+            ],
         ]
     ],
     'console' => [
@@ -288,6 +318,7 @@ return [
             'knowledge-card' => 'Swissbib\Controller\Factory::getKnowledgeCardController',
             'person-detail-page' => 'Swissbib\Controller\Factory::getPersonDetailPageController',
             'subject-detail-page' => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
+            'person-search' => 'Swissbib\Controller\Factory::getPersonSearchController'
         ]
     ],
     'controller_plugins' => [
