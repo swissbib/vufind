@@ -89,7 +89,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      *
      * @return string
      */
-    protected function resolveLabelWithDisplayName(string $translationKeyBase)
+    public function resolveLabelWithDisplayName(string $translationKeyBase)
     {
         $displayName = $this->getDisplayName();
         $label = null;

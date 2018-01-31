@@ -373,7 +373,25 @@ class ESPerson extends AbstractHelper
      */
     public function getNotableWorkSearchLink(string $template): string
     {
-        $label = $this->getMoreNotableWorkLabel();
+        return $this->getMediaSearchLink(
+            $template, $this->getMoreNotableWorkLabel()
+        );
+    }
+
+    /**
+     * Gets the MediaSearchLink
+     *
+     * @param string $template       The template
+     * @param string $label          The label to be rendered.
+     * @param bool   $translateLabel Indicates whether to treat the label parameter
+     *                               as localization key or to use it as is.
+     *
+     * @return string
+     */
+    public function getMediaSearchLink(
+        string $template, string $label, bool $translateLabel = false
+    ): string {
+        $label = $translateLabel ? $this->getView()->translate($label) : $label;
         $url = $this->getView()->url('search-results');
         $url = sprintf(
             '%s?lookfor=%s&type=Author', $url,
