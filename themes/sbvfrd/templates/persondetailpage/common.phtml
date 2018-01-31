@@ -1,7 +1,7 @@
 <? if ($this->esperson()->hasThumbnail()): ?>
-    <?= $this->render('/detailpage/person/common/with-thumbnail.phtml') ?>
+    <?= $this->render('common/with-thumbnail.phtml') ?>
 <? else: ?>
-    <?= $this->render('/detailpage/person/common/without-thumbnail.phtml') ?>
+    <?= $this->render('common/without-thumbnail.phtml') ?>
 <? endif; ?>
 
 <div class="row">

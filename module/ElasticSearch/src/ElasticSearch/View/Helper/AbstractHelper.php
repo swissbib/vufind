@@ -28,6 +28,7 @@
 namespace ElasticSearch\View\Helper;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
+use VuFind\Search\Base\Results;
 
 /**
  * Class AbstractHelper
@@ -89,7 +90,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      *
      * @return string
      */
-    protected function resolveLabelWithDisplayName(string $translationKeyBase)
+    public function resolveLabelWithDisplayName(string $translationKeyBase)
     {
         $displayName = $this->getDisplayName();
         $label = null;
@@ -213,5 +214,23 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
         $url = $this->getView()->url($route, $segments);
 
         return sprintf($template, $url, $label);
+    }
+
+    /**
+     * Generates a label string with counting information based on the given results.
+     *
+     * @param \VuFind\Search\Base\Results $results The results to use for retrieving
+     *                                             counting information.
+     *
+     * @return string
+     */
+    public function getResultsCountingInfoLabel(Results $results)
+    {
+        $total = $results->getResultTotal();
+        $loaded = count($results->getResults());
+        $first = $loaded > 0 ? 1 : 0;
+        $template = $this->getView()->translate('page.detail.media.list.hits');
+
+        return sprintf($template, $first, $loaded, $total);
     }
 }

@@ -169,7 +169,7 @@ class ESPerson extends ElasticSearch
     /**
      * Gets the Pseudonym
      *
-     * @return null
+     * @return array|null
      */
     public function getPseudonym()
     {
@@ -180,7 +180,7 @@ class ESPerson extends ElasticSearch
     /**
      * Gets the BirthPlaceDisplayField
      *
-     * @return null
+     * @return array|null
      */
     public function getBirthPlaceDisplayField()
     {
@@ -191,7 +191,7 @@ class ESPerson extends ElasticSearch
     /**
      * Gets the DeathPlaceDisplayField
      *
-     * @return null
+     * @return array|null
      */
     public function getDeathPlaceDisplayField()
     {
@@ -263,9 +263,6 @@ class ESPerson extends ElasticSearch
      * "rdfs:label": {
             "type": "text"
           },
-          "schema:alternateName": {
-            "type": "text"
-          },
           "schema:birthDate": {
             "type": "date",
             "format": "year"
@@ -290,6 +287,16 @@ class ESPerson extends ElasticSearch
             "type": "text"
           }
      */
+
+    /**
+     * Gets the alternate names available from the underlying fields.
+     *
+     * @return array|null
+     */
+    public function getAlternateNames()
+    {
+        return $this->getField('alternateName', 'schema');
+    }
 
     /**
      * Gets the ValueByLanguagePriority
