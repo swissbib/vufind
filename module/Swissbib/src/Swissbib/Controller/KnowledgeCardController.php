@@ -27,6 +27,7 @@
  */
 namespace Swissbib\Controller;
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -42,6 +43,17 @@ use Zend\View\Model\ViewModel;
  */
 class KnowledgeCardController extends AbstractDetailsController
 {
+    /**
+     * KnowledgeCardController constructor.
+     *
+     * @param ServiceLocatorInterface $sm The service locator
+     */
+    public function __construct(ServiceLocatorInterface $sm)
+    {
+        parent::__construct($sm);
+        $this->config = $this->getConfig()->KnowledgeCard;
+    }
+
     /**
      * /Page/Detail/Person/:id
      *
@@ -78,7 +90,7 @@ class KnowledgeCardController extends AbstractDetailsController
         ViewModel &$viewModel, string $id, ElasticSearch $driver,
         array $bibliographicResources, array $subjectIds, array $subjects
     ) {
-        // TODO: Implement addData() method.
+        // Nothing to add yet
     }
 
 }

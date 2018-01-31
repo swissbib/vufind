@@ -31,10 +31,11 @@ parameters:
     id:
       index: '{index}'
       type: '{type}'
+      size: '{size}'
+      from: '{from}'
       query:
         ids:
           values: ['{q}']
-      size: 100
 
     collection_fields:
       index: 'lsb'
@@ -144,6 +145,8 @@ parameters:
         - DEFAULT
       index:
         - gnd
+      size: '{size}'
+      from: '{from}'
       query:
         multi_match:
           query: '{q}'
@@ -154,7 +157,8 @@ parameters:
     bibliographicResources_by_author:
       type: 'bibliographicResource'
       index: 'lsb'
-      size: 100
+      size: '{size}'
+      from: '{from}'
       query:
         bool:
           must:
@@ -167,7 +171,8 @@ parameters:
     person_by_genre:
       type: 'person'
       index: 'lsb'
-      size: 100
+      size: '{size}'
+      from: '{from}'
       query:
         bool:
           must:
@@ -180,7 +185,8 @@ parameters:
     person_by_movement:
       type: 'person'
       index: 'lsb'
-      size: 100
+      size: '{size}'
+      from: '{from}'
       query:
         bool:
           must:
@@ -188,5 +194,5 @@ parameters:
               - '{}'
           filter:
             term:
-              'dbp:genre': '{q}'
+              'dbp:movement': '{q}'
 
