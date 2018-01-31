@@ -83,8 +83,8 @@ class AjaxController extends VFAjaxController
      */
     protected function getCoAuthorsAjax()
     {
-        $id = $this->getRequest()->getQuery()['id'];
-        $page = $this->getRequest()->getQuery()['page'];
+        $id = $this->getRequest()->getQuery()['person'] ?? "";
+        $page = $this->getRequest()->getQuery()['page'] ?? 1;
 
         $authors = $this->elasticsearchsearch()->searchCoContributorsOf(
             $id, $this->getConfig()->DetailPage->coAuthorsSize,
@@ -101,13 +101,13 @@ class AjaxController extends VFAjaxController
      */
     protected function getSameGenreAuthorsAjax()
     {
-        $genre = $this->getRequest()->getQuery()['genre'];
-        $page = $this->getRequest()->getQuery()['page'];
+        $genre = $this->getRequest()->getQuery()['genre'] ?? "";
+        $page = $this->getRequest()->getQuery()['page'] ?? 1;
         $limit = $this->getConfig()->DetailPage->sameGenreAuthorsSize;
 
         $authors = $this->elasticsearchsearch()->searchElasticSearch(
             $genre, "person_by_genre", null, null, $limit, $page ?? 1
-        );
+        )->getResults();
 
         return $this->buildResponse($authors, $this->getAuthorPaginationSpec());
     }
@@ -119,13 +119,13 @@ class AjaxController extends VFAjaxController
      */
     protected function getSameMovementAuthorsAjax()
     {
-        $movement = $this->getRequest()->getQuery()['movement'];
-        $page = $this->getRequest()->getQuery()['page'];
+        $movement = $this->getRequest()->getQuery()['movement'] ?? "";
+        $page = $this->getRequest()->getQuery()['page'] ?? 1;
         $limit = $this->getConfig()->DetailPage->sameMovementAuthorsSize;
 
         $authors = $this->elasticsearchsearch()->searchElasticSearch(
             $movement, "person_by_movement", null, null, $limit, $page ?? 1
-        );
+        )->getResults();
 
         return $this->buildResponse($authors, $this->getAuthorPaginationSpec());
     }
