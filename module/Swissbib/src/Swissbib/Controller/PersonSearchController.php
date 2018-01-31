@@ -28,6 +28,7 @@
 namespace Swissbib\Controller;
 
 use VuFind\Controller\AbstractBase;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class PersonSearchController
@@ -41,6 +42,17 @@ use VuFind\Controller\AbstractBase;
 class PersonSearchController extends AbstractBase
 {
     /**
+     * PersonSearchController constructor.
+     *
+     * @param ServiceLocatorInterface $sm The service locator
+     */
+    public function __construct(ServiceLocatorInterface $sm)
+    {
+        parent::__construct($sm);
+        $this->config = $this->getConfig()->PersonSearch;
+    }
+
+    /**
      * The action for co authors
      *
      * @return \Zend\View\Model\ViewModel
@@ -52,7 +64,7 @@ class PersonSearchController extends AbstractBase
         $limit = $this->getRequest()->getQuery()['limit'] ?? 20;
 
         $authors = $this->elasticsearchsearch()->searchCoContributorsOf(
-            $id, $limit, 1000, $page
+            $id, $limit, $this->config->searchSize ?? 100, $page
         );
 
         return $this->createViewModel(["results" => $authors]);
