@@ -275,23 +275,27 @@
      * @param pagination
      * A generic object that contains responsive pagination page size values. It uses the Bootstrap layout size prefixes
      * 'xs', 'sm', 'md' and 'lg'.
+     *
+     * @return {Object}
+     * A configuration object with the given data as it is stored internally.
      */
-    this.addInfo = function (id, template, pagination) {
+    this.add = function (id, template, pagination) {
       infos[id] = { id: id, template: template, pagination: pagination };
+      return this.get(id);
     };
 
     /**
-     * Accessor for previously registered results carousel information.
+     * Accessor for previously registered carousel configuration.
      *
      * @param id
-     * The unique identifier of the carousel to retrieve the information for.
+     * The unique identifier of the carousel to retrieve the configuration for.
      *
      * @returns {Object|null}
-     * A generic object in case the identifer exists or null otherwise.
-     * The generic object has the properties 'id', 'template' and 'pagination' which map 1 on 1 on the parameters passed
+     * The configuration item entry in case the identifier exists or null otherwise.
+     * The entry has the properties 'id', 'template' and 'pagination' which map 1 on 1 on the parameters passed
      * in to the addResultsCarouselInfo() method.
      */
-    this.getInfo = function(id) {
+    this.get = function(id) {
       var info = infos[id] || null;
       return info ? JSON.parse(JSON.stringify(info)) : null;
     };
@@ -301,7 +305,7 @@
      *
      * @return {Array}
      */
-    this.getIdentifiers = function () {
+    this.identifiers = function () {
       return Object.keys(infos);
     };
 
@@ -310,7 +314,7 @@
      *
      * @returns {boolean}
      */
-    this.infosAvailable = function () {
+    this.available = function () {
       return this.getIdentifiers().length > 0;
     };
   };
