@@ -256,7 +256,67 @@
     //delete it when we have implemented a correct response
     return false;
 
-  })
+  });
+
+
+  var Carousel = function () {
+    var infos = {};
+
+    /**
+     * Adds information for a Bootstrap carousel component rendered on the current page.
+     *
+     * @param id
+     * The unique identifier of the carousel. Each carousel component's root element has an id-attribute value of the
+     * format results-carousel-<id> where <id> is the value passed in for this parameter.
+     *
+     * @param template
+     * A template string that contains placeholders for page index and page size to implement pagination.
+     *
+     * @param pagination
+     * A generic object that contains responsive pagination page size values. It uses the Bootstrap layout size prefixes
+     * 'xs', 'sm', 'md' and 'lg'.
+     */
+    this.addInfo = function (id, template, pagination) {
+      infos[id] = { id: id, template: template, pagination: pagination };
+    };
+
+    /**
+     * Accessor for previously registered results carousel information.
+     *
+     * @param id
+     * The unique identifier of the carousel to retrieve the information for.
+     *
+     * @returns {Object|null}
+     * A generic object in case the identifer exists or null otherwise.
+     * The generic object has the properties 'id', 'template' and 'pagination' which map 1 on 1 on the parameters passed
+     * in to the addResultsCarouselInfo() method.
+     */
+    this.getInfo = function(id) {
+      var info = infos[id] || null;
+      return info ? JSON.parse(JSON.stringify(info)) : null;
+    };
+
+    /**
+     * Provides all available results carousel info identifiers.
+     *
+     * @return {Array}
+     */
+    this.getIdentifiers = function () {
+      return Object.keys(infos);
+    };
+
+    /**
+     * Indicates whether there are carousel infos are registered.
+     *
+     * @returns {boolean}
+     */
+    this.infosAvailable = function () {
+      return this.getIdentifiers().length > 0;
+    };
+  };
+
+  s.carousel = new Carousel();
+
 })(window.swissbib = window.swissbib || {});
 
 

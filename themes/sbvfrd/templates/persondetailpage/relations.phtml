@@ -1,17 +1,19 @@
+<? // setup page sizes for different screens (keys are Bootstrap breakpoint prefixes) ?>
+<? $pagination = ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6] ?>
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <?= $this->render('slider.phtml') ?>
+            <?= $this->render('carousel.phtml', ['id' => 'coauthors', 'pagination' => $pagination]) ?>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <?= $this->render('slider.phtml') ?>
+            <?= $this->render('carousel.phtml', ['id' => 'genres', 'pagination' => $pagination]) ?>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <?= $this->render('slider.phtml') ?>
+            <?= $this->render('carousel.phtml', ['id' => 'movements', 'pagination' => $pagination]) ?>
         </div>
     </div>
     <div class="row">
