@@ -356,10 +356,12 @@ class AjaxController extends VFAjaxController
             "name", "getName", "Simple", ['allowZero' => false]
         );
         $specBuilder->setLine(
-            "thumbnail", "getThumbnail", "Simple", ['allowZero' => false]
+            "thumbnail", "getThumbnail", "RecordHelper",
+            ['allowZero' => false, 'helperMethod' => 'getThumbnail']
         );
         $specBuilder->setLine(
-            "sufficientData", "hasSufficientData", "Simple", ['allowZero' => false]
+            "sufficientData", "hasSufficientData", "RecordHelper",
+            ['allowZero' => false, 'helperMethod' => 'hasSufficientData']
         );
         return $specBuilder->getArray();
     }

@@ -613,4 +613,16 @@ class Record extends VuFindRecord
 
         return $renderedLink;
     }
+
+    /**
+     * Checks whether the underlying record driver has sufficient data to display.
+     * If no 'hasSufficientData' method is defined on the driver, the method assumes
+     * that the record has sufficient data.
+     *
+     * @return boolean
+     */
+    public function hasSufficientData()
+    {
+        return $this->driver->tryMethod('hasSufficientData', [], true);
+    }
 }
