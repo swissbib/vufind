@@ -51,7 +51,7 @@ $this->headTitle($this->translate('Holdings') . ': ' . $this->driver->getBreadcr
                     </div>
                   </div>
                   <a data-toggle="collapse" href="#collapse-<?= $groupCode ?>-<?= $institutionCode ?>" aria-expanded="false" aria-controls="collapse-<?= $groupCode ?>-<?= $institutionCode ?>"
-                     id="holding-institution-<?= $groupCode ?>-<?= $institutionCode ?>" class="toggler institutionToggler">
+                     id="holding-institution-<?= $groupCode ?>-<?= $institutionCode ?>" class="toggler institutionToggler" data-isExpandedId="<?= $groupCode ?>-<?= $institutionCode ?>" onclick="window.sessionStorage.setItem('<?= $groupCode ?>-<?= $institutionCode ?>', true)">
                     <?= $this->escapeHtml($this->zendTranslate($institution['label'], 'institution')) ?>
                   </a>
                 </h4>
@@ -97,6 +97,15 @@ $this->headTitle($this->translate('Holdings') . ': ' . $this->driver->getBreadcr
     swissbib.HoldingFavorites.initRecord('<?=$record->getUniqueID()?>');
     swissbib.Accordion.initRecord('<?=$record->getUniqueID()?>');
     vufindString.favoriteReload = '<?=$this->transEsc('mylibraries.reload')?>';
+  </script>
+
+  <script type="text/javascript">
+    $("a.institutionToggler").each(function(){
+      if (window.sessionStorage.getItem($(this).attr("data-isExpandedId")) == "true") {
+        $(this).trigger("click");
+        window.sessionStorage.removeItem($(this).attr("data-isExpandedId"));
+      }
+    });
   </script>
 
 <? else: ?>
