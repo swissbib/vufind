@@ -295,8 +295,8 @@ class AjaxController extends VFAjaxController
     /**
      * Builds the Response
      *
-     * @param arrray $content Content
-     * @param array  $spec    Specification
+     * @param array $content Content
+     * @param array $spec    Specification
      *
      * @return \Zend\Stdlib\ResponseInterface
      */
@@ -309,9 +309,9 @@ class AjaxController extends VFAjaxController
         );
         // @var AbstractBase $record
         foreach ($content as $record) {
-            $formatedRecord = $recordFormatter->getData($record, $spec);
-            $this->_format($formatedRecord);
-            array_push($data, $formatedRecord);
+            $formattedRecord = $recordFormatter->getData($record, $spec);
+            $this->_format($formattedRecord);
+            array_push($data, $formattedRecord);
         }
         $response = $this->getResponse();
         $response->getHeaders()->addHeaderLine(
@@ -327,14 +327,14 @@ class AjaxController extends VFAjaxController
     /**
      * Formats the record
      *
-     * @param array $formatedRecord Formated Record
+     * @param array $formattedRecord Formatted Record
      *
      * @return void
      */
-    private function _format(&$formatedRecord)
+    private function _format(&$formattedRecord)
     {
         array_walk(
-            $formatedRecord,
+            $formattedRecord,
             function (&$value, $key) {
                 $value = $value['value'];
             }
