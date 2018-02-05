@@ -1,7 +1,7 @@
 /**
  * An interface for data entries fetched for a carousel.
  */
-export default interface CarouselDataEntry {
+export default interface DataEntry {
 
     readonly id: string;
 

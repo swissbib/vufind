@@ -2,6 +2,7 @@ import ConfigurationItem from "./ConfigurationItem";
 import MediaQueryObserver from "../common/MediaQueryObserver";
 import BootstrapBreakpoints from "../common/BootstrapBreakpoints";
 import Paginator from "./Paginator";
+import DataLoader from "./DataLoader";
 
 /**
  * Maintains a single carousel instance.
@@ -19,6 +20,12 @@ export default class Carousel {
      * @type {Paginator}
      */
     private paginator: Paginator;
+
+    /**
+     * @private
+     * @type {DataLoader}
+     */
+    private loader: DataLoader;
 
     /**
      * @private
@@ -44,7 +51,9 @@ export default class Carousel {
      * @param {ConfigurationItem} configuration
      * The carousel configuration item that contains the information for this instance.
      */
-    constructor(readonly configuration:ConfigurationItem, readonly mediaQueryObserver: MediaQueryObserver) { }
+    constructor(readonly configuration:ConfigurationItem, readonly mediaQueryObserver: MediaQueryObserver) {
+
+    }
 
     /**
      * Initializes the carousel by connecting to the component in the DOM that has its
@@ -52,15 +61,18 @@ export default class Carousel {
      */
     public initialize(): void {
         if (!this.initialized) {
+            this.setupDataLoader();
             this.setupWithMediaQueryObserver();
             this.setupFromConfiguration();
             this.initialized = true;
         }
     }
 
-    public dataLoaded(data:Array<any>, page: number, size: number): void {
-        const from = page * size;
-        const to = from + size;
+    /**
+     * @private
+     */
+    private setupDataLoader(): void {
+        this.loader = new DataLoader(this);
     }
 
     /**
@@ -104,9 +116,11 @@ export default class Carousel {
         // update paginator (previous)
         this.paginator.previous();
         // load results from paginator infos
+        this.loader.load(this.paginator, this.dataLoaded);
 
-        // apply search result
-        // switch to loaded slide
+        // apply search result (see dataLoaded)
+        //     switch to loaded slide (implicit action which may not result in page changes
+        //     of this method in case another page change triggered asynchronous processes
 
     };
 
@@ -119,9 +133,12 @@ export default class Carousel {
         // TODO: implement method
         // steps:
         // update paginator (next)
+        this.paginator.next();
         // load results from paginator infos
-        // apply search result
-        // switch to loaded slide
+        this.loader.load(this.paginator, this.dataLoaded);
+        // apply search result (see dataLoaded)
+        //     switch to loaded slide (implicit action which may not result in page changes
+        //     of this method in case another page change triggered asynchronous processes
     };
 
     /**
@@ -130,11 +147,24 @@ export default class Carousel {
      *
      * @private
      */
-    private mediaQueryObserverCallback = (query: string) => {
+    private mediaQueryObserverCallback = (query: string): void => {
         // TODO: implement method
         // steps:
         // update paginator (from query)
         // force relayout of slides
         // (re)activate current page from paginator info
     };
+
+    /**
+     * Callback that is invoked whenever the data loader received new results.
+     *
+     * @private
+     */
+    private dataLoaded = (page: number, size: number): void => {
+        // TODO: implement method
+        // steps:
+        // check if page and size meets the current paginator state
+        //     if so: apply data directly
+        //     otherwise: resolve data location from paginator and update then if necessary
+    }
 }

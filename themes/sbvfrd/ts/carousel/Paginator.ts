@@ -89,4 +89,18 @@ export default class Paginator {
     public get pageCount(): number {
         return Math.ceil(this.elementCount / this.currentPageSize);
     }
+
+    /**
+     * Provides the largest page size. Useful to prefetch data to always have enough data when the carousel updates its
+     * layout due to media query changes.
+     *
+     * @return {number}
+     */
+    public get largestPageSize(): number {
+        const sizes: Array<number> = [];
+
+        BootstrapBreakpoints.getAllNames().forEach(name => sizes.push(Object(this.pagination)[name]));
+
+        return Math.max.apply(Math, sizes);
+    }
 }

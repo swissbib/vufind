@@ -23,6 +23,12 @@ export default class BootstrapBreakpoints {
         return this.names.hasOwnProperty(breakpoint) ? this.names[breakpoint] : null;
     }
 
+    public static getAllNames(): Array<string> {
+        const names: Array<string> = [];
+        Object(this.names).keys().map((key: string) => names.push(this.names[key]));
+        return names;
+    }
+
     public static initialize(): void {
         this.names[this.LG] = "lg";
         this.names[this.MD] = "md";
