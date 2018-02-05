@@ -10,7 +10,7 @@ if (count($actions) > 0):
 
 		<li class="<?=$action['class']?>">
 			<a href="<?=$action['href']?>" <?php if(isset($action['target'])): ?>target="<?=$action['target']?>"<?php endif; ?> title="<?=$this->escapeHtml($action['label'])?>"
-				<?php if($action['class'] === 'sign_in'): ?> data-lightbox-ignore <?php endif; ?> onclick="swissbib.trackLink('<?= $this->escapeHtml($action['href']) ?>')">
+				<?php if($action['class'] === 'sign_in'): ?> data-lightbox-ignore <?php else: ?> onclick="swissbib.trackLink('<?= $this->escapeHtml($action['href']) ?>')" <?php endif; ?>>
 				<span><?=$this->escapeHtml($action['label'])?></span>
 			</a>
 		</li>
