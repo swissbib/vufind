@@ -1,12 +1,11 @@
-///<reference path="autosuggest/AutoSuggest.ts" />
-
 import * as $ from "jquery";
 
 import AutoSuggest from "./autosuggest/AutoSuggest";
 import Configuration from "./autosuggest/Configuration";
 import Settings from "./autosuggest/Settings";
-import {RecordRenderer} from "./RecordRenderer";
-import Carousel from "./carousel/Carousel";
+import RecordRenderer from "./RecordRenderer";
+import CarouselManager from "./carousel/CarouselManager";
+import MediaQueryObserver from "./common/MediaQueryObserver";
 
 $(document).ready(() => {
     const recordRenderer = new RecordRenderer(window.location.origin + VuFind.path + "/AJAX/Json");
@@ -48,5 +47,6 @@ authorid="${p.id}"></span></a></li>`;
     autoSuggest.initialize();
 
     // carousel
-    const carousel: Carousel = new Carousel(swissbib.carousel);
+    const carouselManager: CarouselManager = new CarouselManager(swissbib.carousel, new MediaQueryObserver());
+    carouselManager.initialize();
 });

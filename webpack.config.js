@@ -15,8 +15,7 @@ module.exports = {
         './themes/sbvfrd/ts/autosuggest/ResultCallback.ts',
         './themes/sbvfrd/ts/autosuggest/Item.ts',
         './themes/sbvfrd/ts/autosuggest/ItemCollection.ts',
-        './themes/sbvfrd/ts/autosuggest/AutoSuggest.ts',
-        // './themes/sbvfrd/ts/app.ts'
+        './themes/sbvfrd/ts/autosuggest/AutoSuggest.ts'
     ],
     output: {
         path: path.resolve(__dirname),
