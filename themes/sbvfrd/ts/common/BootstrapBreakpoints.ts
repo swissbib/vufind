@@ -3,11 +3,11 @@
  */
 export default class BootstrapBreakpoints {
 
-    static readonly XS: string = "only screen and (min-width : 480px)";
+    static readonly XS: string = "only screen and (min-width : 480px) and (max-width: 767px)";
 
-    static readonly SM: string = "only screen and (min-width : 768px)";
+    static readonly SM: string = "only screen and (min-width : 768px) and (max-width: 991px)";
 
-    static readonly MD: string = "only screen and (min-width : 992px)";
+    static readonly MD: string = "only screen and (min-width : 992px) and (max-width: 1199px)";
 
     static readonly LG: string = "only screen and (min-width : 1200px)";
 

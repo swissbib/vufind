@@ -1,0 +1,13 @@
+<h1><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.authors.coauthors') ?></h1>
+<?= $this->render(
+    '/detailpage/carousel.phtml', [
+        'id' => 'coauthors',
+        'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
+        'template' => $this->ajax()->url([
+            'method' => 'getCoAuthors',
+            'person' => $this->escapeUrl($this->driver->getUniqueId()),
+            'page' => '{page}',
+            'size' => '{size}'
+        ], '{}')
+    ]
+) ?>

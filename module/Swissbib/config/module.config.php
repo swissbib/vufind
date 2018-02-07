@@ -402,7 +402,8 @@ return [
             'qrCodeHolding'                  => 'Swissbib\View\Helper\QrCodeHolding',
             'holdingItemsPaging'             => 'Swissbib\View\Helper\HoldingItemsPaging',
             'filterUntranslatedInstitutions' => 'Swissbib\View\Helper\FilterUntranslatedInstitutions',
-            'layoutClass'                    => 'Swissbib\View\Helper\LayoutClass'
+            'layoutClass'                    => 'Swissbib\View\Helper\LayoutClass',
+            'ajax'                           => 'Swissbib\View\Helper\Ajax'
         ],
         'factories'  => [
             'configAccess'                              =>  'Swissbib\View\Helper\Factory::getConfig',

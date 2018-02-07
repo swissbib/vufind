@@ -1,0 +1,15 @@
+<? if(!is_null($this->driver->getGenre())): ?>
+<h1><?= $this->translate('page.detail.authors.genres') ?></h1>
+<?= $this->render(
+    'carousel.phtml', [
+        'id' => 'genres',
+        'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
+        'template' => $this->ajax()->url([
+            'method' => 'getSameGenreAuthors',
+            'genre' => $this->escapeUrl($this->driver->getGenre()),
+            'page' => '{page}',
+            'size' => '{size}'
+        ], '{}')
+    ]
+) ?>
+<? endif; ?>

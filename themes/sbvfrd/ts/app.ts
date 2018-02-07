@@ -49,4 +49,6 @@ authorid="${p.id}"></span></a></li>`;
     // carousel
     const carouselManager: CarouselManager = new CarouselManager(swissbib.carousel, new MediaQueryObserver());
     carouselManager.initialize();
+    carouselManager.activate();
+    swissbib.carouselManager = carouselManager;
 });

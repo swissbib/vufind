@@ -95,7 +95,9 @@ export default class MediaQueryObserver {
         const matches: Array<string> = [];
 
         for (let query in this.registry) {
-            this.matchMedia(query, matches);
+            if (this.matchMedia(query, matches)) {
+                matches.push(query);
+            }
         }
 
         this.latestMatches = matches;
