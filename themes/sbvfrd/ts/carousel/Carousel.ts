@@ -196,8 +196,7 @@ export default class Carousel implements SearchResultProvider {
         this.renderer.render(useCurrentPage);
 
         if (useCurrentPage) {
-            // TODO: Check this here!
-            //this.carouselElement.carousel(page - 1);
+            this.carouselElement.carousel(page - 1);
         }
     }
 }
