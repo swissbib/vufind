@@ -301,7 +301,7 @@ class TargetsProxy
     private function _setConfigKeys($targetKey)
     {
         $this->targetKey = $targetKey;
-        $vfConfig = $this->config->get('TargetsProxy')->toArray();
+        $vfConfig = $this->config->get('config')->toArray();
         $this->targetApiId = $vfConfig[$this->targetKey]['apiId'];
         $this->targetApiKey = $vfConfig[$this->targetKey]['apiKey'];
     }
