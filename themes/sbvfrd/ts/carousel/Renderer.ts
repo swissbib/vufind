@@ -70,7 +70,7 @@ export default class Renderer {
         row = slide.append(`<div class="row"></div>`);
 
         result.entries.forEach((entry: DataEntry) => {
-            row.append(`<div class="xs-col-${result.size / 12}">${entry.name}</div>`);
+            row.append(`<div class="col-xs-${12 / result.size}">${entry.name}</div>`);
         });
     }
 }
