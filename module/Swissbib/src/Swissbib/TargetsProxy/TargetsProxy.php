@@ -110,7 +110,7 @@ class TargetsProxy
     public function __construct(VFConfigPluginManager $configPluginManager,
         ZendLogger $logger, Request $request
     ) {
-        $this->config = $config;
+        $this->config = $configPluginManager;
         $this->logger = $logger;
         $trustedProxies = explode(
             ',',
