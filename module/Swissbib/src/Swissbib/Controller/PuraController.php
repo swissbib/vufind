@@ -165,7 +165,7 @@ class PuraController extends BaseController
      * The token must contain only numbers and upper case letters
      * otherwise an image containing an error text is returned
      *
-     * @return void
+     * @return bool
      */
     public function barcodeAction()
     {
@@ -184,6 +184,9 @@ class PuraController extends BaseController
         Barcode::factory(
             'code39', 'image', $barcodeOptions, $rendererOptions
         )->render();
+
+        // disable rendering
+        return false;
     }
 
     /**
