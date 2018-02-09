@@ -159,8 +159,8 @@ export default class Renderer {
 
         result.entries.forEach((entry: DataEntry, index: number): void => {
             const element: JQuery<HTMLElement> = $(elements.get(index));
-            const template: string = this.templates.entry(entry, this.carousel.configuration.thumbnail);
-            console.log(element, template);
+            const template: string = this.templates.entry(entry);
+            //console.log(element, template);
             element.empty().append($(template));
         });
     }
@@ -178,7 +178,7 @@ class Templates extends TemplateBase {
         const columns:Array<string> = new Array(columnCount);
 
         for (let index: number = 0; index < columnCount; ++index) {
-            columns[index] = `<div class="col-xs-${columnSize}"></div>`;
+            columns[index] = `<div class="col-xs-${columnSize}">${this.emptyEntry()}</div>`;
         }
 
         const template: string =
@@ -193,11 +193,13 @@ class Templates extends TemplateBase {
         return template;
     }
 
-    public entry(entry: DataEntry, thumbnail: string): string {
+    public entry(entry: DataEntry): string {
+        const thumbnail: string = entry.thumbnail ? entry.thumbnail : this.configuration.thumbnail;
         const infoLink: string = entry.sufficientData ? `(i)`: ``;
+
         const template: string =
             `<div class="thumbnail-wrapper">` +
-                `<img src="${entry.thumbnail ? entry.thumbnail : thumbnail}">` +
+                `<img src="${thumbnail}">` +
             `</div>` +
             `<div class="label-wrapper">` +
                 `<span>${entry.name}</span>` +
@@ -205,5 +207,9 @@ class Templates extends TemplateBase {
             `</div>`;
 
         return template;
+    }
+
+    public emptyEntry(): string {
+        return this.entry({id: "", name: "&nbsp", sufficientData: false, thumbnail: null});
     }
 }
