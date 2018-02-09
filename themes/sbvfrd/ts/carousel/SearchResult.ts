@@ -20,9 +20,9 @@ export default class SearchResult implements SearchResultProvider {
      * contains all available entries.
      */
     constructor(
-        readonly entries:Array<DataEntry>,
-        readonly page: number,
-        readonly size: number
+        readonly entries:Array<DataEntry> = [],
+        readonly page: number = -1,
+        readonly size: number = -1
     ) { }
 
     /**
@@ -60,7 +60,7 @@ export default class SearchResult implements SearchResultProvider {
             const to: number = from * size;
             result = new SearchResult(this.entries.slice(from, to), page, size);
         } else {
-            result = new SearchResult(this.entries.slice(), -1, -1);
+            result = new SearchResult(this.entries.slice());
         }
 
         return result;

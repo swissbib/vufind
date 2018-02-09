@@ -1,5 +1,5 @@
 import Pagination from "./Pagination";
-import BootstrapBreakpoints from "../common/BootstrapBreakpoints";
+import Breakpoints from "../common/Breakpoints";
 
 /**
  * Holds the pagination state of a carousel and provides
@@ -15,8 +15,8 @@ export default class Paginator {
      * @param {number} elementCount
      * The total number of elements the paginator has to take into account for paging calculations.
      */
-    // TODO: check whether we actually need elementCount and of so, whether to retrieve it from server-side config or by special request.
-    constructor(readonly pagination:Pagination, public elementCount: number = 100) { }
+    constructor(readonly pagination:Pagination, public elementCount: number = 100) {
+    }
 
     /**
      * Recalculates all values of the paginator based on the given query.
@@ -24,12 +24,47 @@ export default class Paginator {
      * @param {String} query
      */
     public updateFromQuery(query: string): void {
-        console.log("Paginator: update from query", query);
-        const name = BootstrapBreakpoints.getName(query);
+        this._lastState = this.clone();
+
+        const name = Breakpoints.CAROUSEL.getName(query);
         const newPageSize = Object(this.pagination)[name];
 
-        this._page = Math.floor((this._page * this._size) / newPageSize);
+        this._page = Math.floor((this.page * this.size) / newPageSize);
         this._size = newPageSize;
+    }
+
+    /**
+     * Storage for the lastState property.
+     *
+     * @private
+     * @type {Paginator}
+     */
+    private _lastState: Paginator;
+
+    /**
+     * Last pagination state before {@link #next}, {@link #previous} or {@link #updateFromQuery} was called.
+     *
+     * @return {Paginator}
+     */
+    public get lastState(): Paginator {
+        if (!this._lastState) {
+            this._lastState = this.clone();
+        }
+        return this._lastState;
+    }
+
+    /**
+     * Creates a copy of this paginator.
+     *
+     * @return {Paginator}
+     */
+    public clone(): Paginator {
+        const copy: Paginator = new Paginator(this.pagination, this.elementCount);
+
+        copy._size = this._size;
+        copy._page = this._page;
+
+        return copy;
     }
 
     /**
@@ -48,7 +83,7 @@ export default class Paginator {
      * @return {number}
      */
     public get page(): number {
-        return this._page + 1;
+        return this._page;
     }
 
     /**
@@ -57,7 +92,7 @@ export default class Paginator {
      * @private
      * @type {number}
      */
-    private _size: number = 0;
+    private _size: number = 1;
 
     /**
      * The page size which belongs to the last query the paginator was updated with.
@@ -74,7 +109,7 @@ export default class Paginator {
      * @return {number}
      */
     public get from(): number {
-        return this._page * this._size;
+        return this.page * this.size;
     }
 
     /**
@@ -83,21 +118,24 @@ export default class Paginator {
      * @return {number}
      */
     public get to(): number {
-        return this._page * this._size + this._size;
+        return this.page * this.size + this.size;
     }
 
     /**
      * Moves one page back. In case the current page is the first, then it circulates to the last page.
      */
     public previous(): void {
-        this._page = (this._page - 1) % this.pageCount;
+        this._lastState = this.clone();
+        // add pageCount to always have positive page values
+        this._page = (this.page - 1 + this.pageCount) % this.pageCount;
     }
 
     /**
      * Moves one page forward. In case the current page is the last, then it circulates to the first page.
      */
     public next(): void {
-        this._page = (this._page + 1) % this.pageCount;
+        this._lastState = this.clone();
+        this._page = (this.page + 1) % this.pageCount;
     }
 
     /**
@@ -106,21 +144,7 @@ export default class Paginator {
      * @return {number}
      */
     public get pageCount(): number {
-        return Math.ceil(this.elementCount / this._size);
-    }
-
-    /**
-     * Provides the largest page size. Useful to prefetch data to always have enough data when the carousel updates its
-     * layout due to media query changes.
-     *
-     * @return {number}
-     */
-    public get largestPageSize(): number {
-        const sizes: Array<number> = [];
-
-        BootstrapBreakpoints.getAllNames().forEach(name => sizes.push(Object(this.pagination)[name]));
-
-        return Math.max.apply(Math, sizes);
+        return Math.ceil(this.elementCount / this.size);
     }
 
     /**

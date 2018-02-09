@@ -1,11 +1,16 @@
 import Carousel from "./Carousel";
 import SearchResult from "./SearchResult";
 import DataEntry from "./DataEntry";
+import ConfigurationItem from "./ConfigurationItem";
+import TemplateBase from "../common/Templates";
+import Paginator from "./Paginator";
 
 /**
  * A component to apply layout changes when paginator changes due to media query updates.
  */
 export default class Renderer {
+
+    private templates: Templates;
 
     /**
      * Constructor.
@@ -13,64 +18,192 @@ export default class Renderer {
      * @param {Carousel} carousel
      * The carousel object the layout operates on.
      */
-    constructor(readonly carousel: Carousel) { }
-
-    /**
-     * Renders all available data or the current page based on the paginator's state.
-     *
-     * @param {boolean} useCurrentPage
-     * Indicates whether to render only the data for the current page or all pages.
-     */
-    public render(useCurrentPage?: boolean): void {
-        const page: number = this.carousel.paginator.page;
-        const size: number = this.carousel.paginator.size;
-        const result: SearchResult = useCurrentPage ? this.carousel.getData(page, size) : this.carousel.getData();
-
-        this.renderResult(result, page, size);
+    constructor(readonly carousel: Carousel) {
+        this.templates = new Templates(carousel.configuration);
     }
 
+    /**
+     * Renders all slides based on the carousel's configuration and paginator information. This method will always
+     * regenerate all slides and applies all available data.
+     */
+    public render(): void {
+        this.renderSlides();
+
+        const result: SearchResult = this.carousel.getData();
+
+        if (!result.empty) {
+            this.applyResult(result);
+        }
+    }
 
     /**
-     * Renders the given result into the slide container element of the carousel
+     * Applies data entries according to the given page and size. When page and size are not matching the carousel's
+     * paginator state page, then following will happen:
+     * 1) When either page or size is not a number or page is less than zero or size less than one, then all data
+     *    entries available will be applied.
+     * 2) When page and size are greater than zero or one respectively and not completely exceeding the total amount of
+     *    entries, then page and size will be remapped to match the correct range of entries to apply to the current
+     *    pagination state.
+     * 3) When page and size are positive integers and completely exceeding the total of entries, then nothing happens.
      *
-     * @param {SearchResult} result
      * @param {number} page
+     * The page to apply data for.
+     *
      * @param {number} size
+     * The size of the page to apply data for.
      */
-    private renderResult(result: SearchResult, page: number, size: number): void {
-        if (result.containsAll) {
-            this.renderAll(result, size);
+    public apply(page?: number, size?: number): void {
+        let result: SearchResult;
+
+        if (isNaN(page) || isNaN(size) || page < 0 || size < 1) {
+            result = this.carousel.getData(); // retrieve the whole data entry collection
+        } else if ((page * size) < this.carousel.configuration.total) {
+            // pages start at one while indices are zero-based
+            result = this.carousel.getData(page, size);
         } else {
-            this.renderPage(result);
+            result = new SearchResult();
+        }
+
+        if (!result.empty) {
+            this.applyResult(result);
         }
     }
 
-    private renderAll(result: SearchResult, size:number): void {
+    /**
+     * Renders all slides based on the total amount of entries given by the carousel configuration and its paginator
+     * state.
+     *
+     * @private
+     */
+    private renderSlides(): void {
+        const size: number = this.carousel.paginator.size;
+        const numSlides: number = Math.floor(this.carousel.configuration.total / size);
+        const remaining: number = this.carousel.configuration.total % size;
+        const slideIndex: number = this.getActiveSlideIndex();
+
         this.carousel.slideContainerElement.empty();
-        const pageCount: number = Math.ceil(result.entries.length / size);
 
-        for (let page: number = 0; page < pageCount; ++page) {
-            this.renderPage(result.getData(page, size));
+        for (let slide: number = 0; slide < numSlides; ++slide) {
+            this.renderSlide(size);
         }
+
+        if (remaining > 0) {
+            // we have remaining columns when the total amount of entries cannot be spread evenly
+            this.renderSlide(size, remaining);
+        }
+
+        this.apply();
+        this.restoreSlideIndex(slideIndex);
     }
 
-    private renderPage(result: SearchResult): void {
-        const selector: string = `> .item:nth-child(${result.page + 1})`;
+    /**
+     * Maps the slide that is currently active from the previous page size to the new one, so the active slide can be
+     * restored after re-rendering.
+     *
+     * @private
+     * @return {number}
+     */
+    private getActiveSlideIndex(): number {
         const container: JQuery<HTMLElement> = this.carousel.slideContainerElement;
+        const current: Paginator = this.carousel.paginator;
+        const previous: Paginator = current.lastState;
 
-        let slide: JQuery<HTMLElement> = container.find(selector);
-        let row: JQuery<HTMLElement>;
+        const slide: number = container.find(".item").index(container.find(".item.active"));
 
-        if (slide.length === 0) {
-            // insert new slide
-            slide = container.append(`<div class="item"></div>`);
+        // map currently active slide to new paging
+        return slide < 1 ? 0 : Math.floor((slide * previous.size) / current.size);
+    }
+
+    /**
+     * Applies the given slide index to restore active slide after re-rendering.
+     *
+     * @private
+     * @param {number} index
+     * The index of the slide to restore.
+     */
+    private restoreSlideIndex(index: number): void {
+        $(this.carousel.slideContainerElement.find(".item").get(index)).addClass("active");
+    }
+
+
+    /**
+     * Renders a single slide based on the given size.
+     *
+     * @private
+     *
+     * @param {number} size
+     * Used to determine the column sizes and the number of columns to generate.
+     *
+     * @param {number} remaining
+     * When greater than zero, then only the number of columns will be generated which is expressed by this parameter.
+     * Otherwise size is used.
+     */
+    private renderSlide(size: number, remaining: number = 0): void {
+        const template: string = this.templates.slide(size, remaining);
+        const element: JQuery<HTMLElement> = $(template);
+
+        this.carousel.slideContainerElement.append(element);
+    }
+
+    /**
+     * Applies the data entries of the given result.
+     *
+     * @private
+     * @param {SearchResult} result
+     */
+    private applyResult(result: SearchResult): void {
+        const from: number = result.containsAll ? 0 : (result.page) * result.size;
+        const to: number = result.containsAll ? result.entries.length : (from + result.size);
+        const container: JQuery<HTMLElement> = this.carousel.slideContainerElement;
+        const elements:JQuery<HTMLElement> = container.find('div[class^="col-xs-"]').slice(from, to);
+
+        result.entries.forEach((entry: DataEntry, index: number): void => {
+            const element: JQuery<HTMLElement> = $(elements.get(index));
+            const template: string = this.templates.entry(entry, this.carousel.configuration.thumbnail);
+            console.log(element, template);
+            element.empty().append($(template));
+        });
+    }
+}
+
+class Templates extends TemplateBase {
+
+    constructor(readonly configuration: ConfigurationItem) {
+        super();
+    }
+
+    public slide(size: number, remaining: number = 0): string {
+        const columnSize: number = 12 / size;
+        const columnCount: number = remaining > 0 ? remaining : size;
+        const columns:Array<string> = new Array(columnCount);
+
+        for (let index: number = 0; index < columnCount; ++index) {
+            columns[index] = `<div class="col-xs-${columnSize}"></div>`;
         }
 
-        slide.empty();
-        row = slide.append(`<div class="row"></div>`);
+        const template: string =
+            `<div class="item">` +
+                //`<div class="container">` +
+                    `<div class="row">` +
+                        `${columns.join('')}` +
+                    `</div>` +
+                //`</div>` +
+            `</div>`;
 
-        result.entries.forEach((entry: DataEntry) => {
-            row.append(`<div class="col-xs-${12 / result.size}">${entry.name}</div>`);
-        });
+        return template;
+    }
+
+    public entry(entry: DataEntry, thumbnail: string): string {
+        const infoLink: string = entry.sufficientData ? `(i)`: ``;
+        const template: string =
+            `<div class="thumbnail-wrapper">` +
+                `<img src="${entry.thumbnail ? entry.thumbnail : thumbnail}">` +
+            `</div>` +
+            `<div class="label-wrapper">` +
+                `<span>${entry.name}</span>` +
+                `${infoLink}` +
+            `</div>`;
+
+        return template;
     }
 }

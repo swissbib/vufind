@@ -276,11 +276,17 @@
      * A generic object that contains responsive pagination page size values. It uses the Bootstrap layout size prefixes
      * 'xs', 'sm', 'md' and 'lg'.
      *
+     * @param thumbnail
+     * The path to an image to be used as fallback image when a data entry in the carousel does not provide one.
+     *
+     * @param {number} total
+     * The total amount of data entries to show in the carousel.
+     *
      * @return {Object}
      * A configuration object with the given data as it is stored internally.
      */
-    this.add = function (id, template, pagination) {
-      infos[id] = { id: id, template: template, pagination: pagination };
+    this.add = function (id, template, pagination, thumbnail, total) {
+      infos[id] = { id: id, template: template, pagination: pagination, thumbnail: thumbnail, total: total };
       return this.get(id);
     };
 

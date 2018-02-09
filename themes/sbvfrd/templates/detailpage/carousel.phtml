@@ -1,4 +1,4 @@
-<div id="carousel-<?= $this->id ?>" class="carousel slide">
+<div id="carousel-<?= $this->id ?>" class="sbvfrd carousel slide">
     <div class="carousel-inner" role="listbox"></div>
 
     <a class="left carousel-control" href="#carousel-<?= $this->id ?>" role="button">
@@ -13,5 +13,10 @@
 </div>
 
 <script type="text/javascript">
-    window.swissbib.carousel.add("<?= $this->id ?>", "<?= $this->template ?>", <?= json_encode($this->pagination) ?>);
+    window.swissbib.carousel.add(
+        "<?= $this->id ?>",
+        "<?= $this->template ?>",
+        <?= json_encode($this->pagination) ?>,
+        "<?= $this->thumbnail ?>",
+        <?= $this->total ?>);
 </script>

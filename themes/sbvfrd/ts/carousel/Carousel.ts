@@ -2,7 +2,7 @@
 
 import ConfigurationItem from "./ConfigurationItem";
 import MediaQueryObserver from "../common/MediaQueryObserver";
-import BootstrapBreakpoints from "../common/BootstrapBreakpoints";
+import Breakpoints from "../common/Breakpoints";
 import Paginator from "./Paginator";
 import DataLoader from "./DataLoader";
 import SearchResult, {SearchResultProvider} from "./SearchResult";
@@ -24,12 +24,6 @@ export default class Carousel implements SearchResultProvider {
      * @type {DataLoader}
      */
     private loader: DataLoader;
-
-    /**
-     * @private
-     * @type {JQuery<HTMLElement>}
-     */
-    private carouselElement: JQuery<HTMLElement>;
 
     /**
      * @private
@@ -59,6 +53,23 @@ export default class Carousel implements SearchResultProvider {
      */
     constructor(readonly configuration:ConfigurationItem, readonly mediaQueryObserver: MediaQueryObserver) { }
 
+
+    /**
+     * Storage for the element property.
+     *
+     * @private
+     * @type {JQuery<HTMLElement>}
+     */
+    private _element: JQuery<HTMLElement>;
+
+    /**
+     * A reference on the carousel's root element.
+     *
+     * @return {JQuery<HTMLElement>}
+     */
+    public get element(): JQuery<HTMLElement> {
+        return this._element;
+    }
 
     /**
      * Storage for the sliderContainerElement property.
@@ -128,7 +139,7 @@ export default class Carousel implements SearchResultProvider {
         const observer: MediaQueryObserver = this.mediaQueryObserver;
         const callback: (query: string) => void = this.mediaQueryObserverCallback;
 
-        BootstrapBreakpoints.allMobileFirst().forEach(query => observer.register(query, callback));
+        Breakpoints.CAROUSEL.mobileFirst.forEach(query => observer.register(query, callback));
     }
 
     /**
@@ -137,17 +148,17 @@ export default class Carousel implements SearchResultProvider {
      * @private
      */
     private setupFromConfiguration(): void {
-        this.carouselElement = $(`#carousel-${this.configuration.id}`);
+        this._element = $(`#carousel-${this.configuration.id}`);
 
-        this.previousSlideControl = this.carouselElement.find('.left.carousel-control');
+        this.previousSlideControl = this.element.find('.left.carousel-control');
         this.previousSlideControl.click(this.previous);
 
-        this.nextSlideControl = this.carouselElement.find('.right.carousel-control');
+        this.nextSlideControl = this.element.find('.right.carousel-control');
         this.nextSlideControl.click(this.next);
 
-        this._slideContainerElement = this.carouselElement.find('.carousel-inner');
+        this._slideContainerElement = this.element.find('.carousel-inner');
 
-        this._paginator = new Paginator(this.configuration.pagination);
+        this._paginator = new Paginator(this.configuration.pagination, this.configuration.total);
         this.renderer = new Renderer(this);
     }
 
@@ -161,6 +172,7 @@ export default class Carousel implements SearchResultProvider {
 
         this.paginator.previous();
         this.loader.load(this.paginator, this.dataLoaded);
+        this.element.carousel(this.paginator.page);
     };
 
     /**
@@ -173,6 +185,7 @@ export default class Carousel implements SearchResultProvider {
 
         this.paginator.next();
         this.loader.load(this.paginator, this.dataLoaded);
+        this.element.carousel(this.paginator.page);
     };
 
     /**
@@ -183,6 +196,7 @@ export default class Carousel implements SearchResultProvider {
      */
     private mediaQueryObserverCallback = (query: string): void => {
         this.paginator.updateFromQuery(query);
+        this.renderer.render();
         this.loader.load(this.paginator, this.dataLoaded);
     };
 
@@ -192,11 +206,20 @@ export default class Carousel implements SearchResultProvider {
      * @private
      */
     private dataLoaded = (page: number, size: number): void => {
-        const useCurrentPage: boolean = this.paginator.matches(page, size);
-        this.renderer.render(useCurrentPage);
+        this.renderer.apply(page, size);
+    };
 
-        if (useCurrentPage) {
-            this.carouselElement.carousel(page - 1);
+
+
+    private activateSlide(slide: number): void {
+        console.log("activateSlide", slide);
+        const activeSlide:JQuery<HTMLElement> = this.slideContainerElement.find(".item.active");
+
+        if (activeSlide.length === 0) {
+            // no active slide, so activate the given one
+            this.slideContainerElement.find(`> .item:nth-child(${slide + 1})`).addClass("active");
         }
+
+        this.element.carousel(slide);
     }
 }

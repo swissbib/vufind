@@ -90,6 +90,6 @@ export default class DataCache {
     }
 
     public all(): SearchResult {
-        return new SearchResult(this.cache.slice(), -1, -1);
+        return new SearchResult(this.cache.slice());
     }
 }

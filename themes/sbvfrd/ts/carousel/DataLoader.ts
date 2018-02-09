@@ -91,7 +91,9 @@ export default class DataLoader implements SearchResultProvider {
     private getSearchUrl(page: number, size: number): string {
         const template: string = this.carousel.configuration.template;
         const replacements:{[key: string]: any} = {
-            "page": page,
+            // TODO: Check whether the following is actually true
+            // page is zero-based internally but one-based interpreted by server side
+            "page": page + 1,
             "size": size
         };
 

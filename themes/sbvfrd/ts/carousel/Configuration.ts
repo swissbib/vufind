@@ -20,10 +20,16 @@ export default interface Configuration {
      * @param {Pagination} pagination
      * Responsive pagination data to handle carousel slides on different screen sizes.
      *
+     * @param {string} thumbnail
+     * The path to an image to be used as fallback image when a data entry in the carousel does not provide one.
+     *
+     * @param {number} total
+     * The total amount of data entries to show in the carousel.
+     *
      * @return {ConfigurationItem}
      * The resulting configuration item entry.
      */
-    add: (id: string, template: string, pagination: Pagination) => ConfigurationItem;
+    add: (id: string, template: string, pagination: Pagination, thumbnail: string, total: number) => ConfigurationItem;
 
     /**
      * Accessor for previously registered carousel configuration.
