@@ -1,5 +1,4 @@
-<h2>{subjects-headline}</h2>
-<p>{subjects-tag-cloud}</p>
+<h2><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related') ?></h2>
 <? if (isset($subjects)): ?>
     <? foreach ($subjects as $name => $val): ?>
         <?
