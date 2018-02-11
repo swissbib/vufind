@@ -7,12 +7,17 @@
         'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
         'thumbnail' => '/themes/sbvfrd/images/person-placeholder.png',
         'total' => 100,
-        'template' => $this->ajax()->url([
-            'method' => 'getSameGenreAuthors',
-            'genre' => $this->escapeUrl($this->driver->getGenre()),
-            'page' => '{page}',
-            'size' => '{size}'
-        ], '{}')
+        'templates' => [
+            'ajax' => $this->ajax()->url([
+                'method' => 'getSameGenreAuthors',
+                'genre' => $this->escapeUrl($this->driver->getGenre()),
+                'page' => '{page}',
+                'size' => '{size}'
+            ], '{}'),
+            'page' => urldecode($this->url('page-detail-person', ['id' => '{id}'])),
+            'info' => urldecode($this->url('card-knowledge-person', ['id' => '{id}'])),
+            'list' => $this->url('persons-search-coauthor').'?lookfor={name}'
+        ]
     ]
 ) ?>
 <? endif; ?>

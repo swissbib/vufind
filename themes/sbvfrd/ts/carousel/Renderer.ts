@@ -1,8 +1,7 @@
 import Carousel from "./Carousel";
 import SearchResult from "./SearchResult";
 import DataEntry from "./DataEntry";
-import ConfigurationItem from "./ConfigurationItem";
-import TemplateBase from "../common/Templates";
+import Templates from "./Templates";
 import Paginator from "./Paginator";
 
 /**
@@ -163,53 +162,5 @@ export default class Renderer {
             //console.log(element, template);
             element.empty().append($(template));
         });
-    }
-}
-
-class Templates extends TemplateBase {
-
-    constructor(readonly configuration: ConfigurationItem) {
-        super();
-    }
-
-    public slide(size: number, remaining: number = 0): string {
-        const columnSize: number = 12 / size;
-        const columnCount: number = remaining > 0 ? remaining : size;
-        const columns:Array<string> = new Array(columnCount);
-
-        for (let index: number = 0; index < columnCount; ++index) {
-            columns[index] = `<div class="col-xs-${columnSize}">${this.emptyEntry()}</div>`;
-        }
-
-        const template: string =
-            `<div class="item">` +
-                //`<div class="container">` +
-                    `<div class="row">` +
-                        `${columns.join('')}` +
-                    `</div>` +
-                //`</div>` +
-            `</div>`;
-
-        return template;
-    }
-
-    public entry(entry: DataEntry): string {
-        const thumbnail: string = entry.thumbnail ? entry.thumbnail : this.configuration.thumbnail;
-        const infoLink: string = entry.sufficientData ? `(i)`: ``;
-
-        const template: string =
-            `<div class="thumbnail-wrapper">` +
-                `<img src="${thumbnail}">` +
-            `</div>` +
-            `<div class="label-wrapper">` +
-                `<span>${entry.name}</span>` +
-                `${infoLink}` +
-            `</div>`;
-
-        return template;
-    }
-
-    public emptyEntry(): string {
-        return this.entry({id: "", name: "&nbsp", sufficientData: false, thumbnail: null});
     }
 }

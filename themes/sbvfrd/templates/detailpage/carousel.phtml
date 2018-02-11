@@ -15,7 +15,7 @@
 <script type="text/javascript">
     window.swissbib.carousel.add(
         "<?= $this->id ?>",
-        "<?= $this->template ?>",
+        <?= json_encode($this->templates) ?>,
         <?= json_encode($this->pagination) ?>,
         "<?= $this->thumbnail ?>",
         <?= $this->total ?>);

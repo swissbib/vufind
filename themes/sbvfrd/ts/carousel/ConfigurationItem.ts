@@ -15,7 +15,7 @@ export default interface ConfigurationItem {
      * A template string that contains placeholders for page index ('{PAGE-INDEX}') and page size ('{PAGE-SIZE}') to
      * implement pagination.
      */
-    readonly template: string;
+    readonly templates: ItemTemplates;
 
     /**
      * The pagination information used handle responsive carousel slide construction.
@@ -31,4 +31,26 @@ export default interface ConfigurationItem {
      * The amount of data entries to use in total for the carousel.
      */
     readonly total: number;
+}
+
+
+interface ItemTemplates {
+
+    /**
+     * Used to fetch new data for the carousel.
+     * Placeholders: page, size
+     */
+    readonly ajax: string;
+
+    /**
+     * Used to render the link to the data entry detail page.
+     * Placeholders: id
+     */
+    readonly page: string;
+
+    /**
+     * Used to render the info link icon that will open up an inline info container (e.g. knowledge-card).
+     * Placeholders: id
+     */
+    readonly info: string;
 }

@@ -1,4 +1,4 @@
-import Templates from "../common/Templates";
+import Templates from "./Templates";
 import Carousel from "./Carousel";
 import DataCache from "./DataCache";
 import DataEntry from "./DataEntry";
@@ -89,15 +89,9 @@ export default class DataLoader implements SearchResultProvider {
      * The resulting request URL.
      */
     private getSearchUrl(page: number, size: number): string {
-        const template: string = this.carousel.configuration.template;
-        const replacements:{[key: string]: any} = {
-            // TODO: Check whether the following is actually true
-            // page is zero-based internally but one-based interpreted by server side
-            "page": page + 1,
-            "size": size
-        };
-
-        return (new Templates()).resolve(template, replacements);
+        // TODO: Check whether the following is actually true
+        // page is zero-based internally but one-based interpreted by server side
+        return (new Templates(this.carousel.configuration)).ajax(page + 1, size);
     }
 
     /**

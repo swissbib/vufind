@@ -269,8 +269,13 @@
      * The unique identifier of the carousel. Each carousel component's root element has an id-attribute value of the
      * format results-carousel-<id> where <id> is the value passed in for this parameter.
      *
-     * @param template
-     * A template string that contains placeholders for page index and page size to implement pagination.
+     * @param templates
+     * An object that provides URL templates as strings:
+     * ajax: The AJAX URL template to use for fetching new data for the carousel.
+     * page: The page URL template is used by the carousel's column label to link to the detail page if the rendered
+     *       data entry.
+     * info: The info URL template is used to refer to an inline info box (e.g. knowledge-card) that renders most
+     *       relevant information that belongs to the rendered data entry.
      *
      * @param pagination
      * A generic object that contains responsive pagination page size values. It uses the Bootstrap layout size prefixes
@@ -285,8 +290,8 @@
      * @return {Object}
      * A configuration object with the given data as it is stored internally.
      */
-    this.add = function (id, template, pagination, thumbnail, total) {
-      infos[id] = { id: id, template: template, pagination: pagination, thumbnail: thumbnail, total: total };
+    this.add = function (id, templates, pagination, thumbnail, total) {
+      infos[id] = { id: id, templates: templates, pagination: pagination, thumbnail: thumbnail, total: total };
       return this.get(id);
     };
 
