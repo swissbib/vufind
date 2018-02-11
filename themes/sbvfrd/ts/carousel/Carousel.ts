@@ -186,6 +186,7 @@ export default class Carousel implements SearchResultProvider {
         this.paginator.next();
         this.loader.load(this.paginator, this.dataLoaded);
         this.element.carousel(this.paginator.page);
+        this.element.carousel("pause");
     };
 
     /**
