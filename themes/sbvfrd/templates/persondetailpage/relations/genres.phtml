@@ -1,5 +1,6 @@
 <? if(!is_null($this->driver->getGenre())): ?>
 <h1><?= $this->translate('page.detail.authors.genres') ?></h1>
+<a id="detailpage-genres" />
 <?= $this->render(
     '/detailpage/carousel.phtml', [
         'id' => 'genres',

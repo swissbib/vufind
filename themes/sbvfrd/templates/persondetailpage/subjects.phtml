@@ -1,5 +1,6 @@
-<h2><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related') ?></h2>
 <? if (isset($subjects)): ?>
+<a id="detailpage-subjects" />
+<h2><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related') ?></h2>
     <? foreach ($subjects as $name => $val): ?>
         <?
         /** @var \ElasticSearch\VuFind\RecordDriver\ESSubject $subject */

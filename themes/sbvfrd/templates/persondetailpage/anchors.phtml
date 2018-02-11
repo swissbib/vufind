@@ -1,2 +1,13 @@
-<h1>{page-anchor-list-title}</h1>
-<p>{page-anchor-list}</p>
+<h1><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.anchors.title') ?></h1>
+<ul>
+    <li><a href="#detailpage-common"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.common') ?></a></li>
+    <li><a href="#detailpage-medias"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.media.list.title') ?></a></li>
+    <li><a href="#detailpage-coauthors"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.authors.coauthors') ?></a></li>
+    <? if(!is_null($this->driver->getGenre())): ?>
+    <li><a href="#detailpage-genres"><?= $this->esperson()->translate('page.detail.authors.genres') ?></a></li>
+    <? endif; ?>
+    <? if (!is_null($this->driver->getMovement())): ?>
+    <li><a href="#detailpage-movements"><?= $this->esperson()->translate('page.detail.authors.movements') ?></a></li>
+    <? endif; ?>
+    <li><a href="#detailpage-subjects"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related') ?></a></li>
+</ul>
