@@ -65,6 +65,8 @@ export default class Renderer {
 
         if (!result.empty) {
             this.applyResult(result);
+            // TODO: Move this to app.ts and send notifications when to perform lightbox updates
+            VuFind.lightbox.init();
         }
     }
 
