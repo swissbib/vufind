@@ -1,6 +1,12 @@
 <? if (!is_null($this->driver->getMovement())): ?>
-<h1><?= $this->translate('page.detail.authors.movements') ?></h1>
 <a id="detailpage-movements" />
+<div class="row">
+    <div class="col-xs-9">
+        <h1><?= $this->translate('page.detail.authors.movements') ?></h1>
+    </div>
+    <div class="col-xs-3">Alle anzeigen</div>
+</div>
+
 <?= $this->render(
     '/detailpage/carousel.phtml', [
         'id' => 'movements',

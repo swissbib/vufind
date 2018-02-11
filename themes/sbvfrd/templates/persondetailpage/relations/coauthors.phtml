@@ -1,5 +1,10 @@
-<h1><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.authors.coauthors') ?></h1>
 <a id="detailpage-coauthors" />
+<div class="row">
+    <div class="col-xs-9">
+        <h1><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.authors.coauthors') ?></h1>
+    </div>
+    <div class="col-xs-3">Alle anzeigen</div>
+</div>
 <?= $this->render(
     '/detailpage/carousel.phtml', [
         'id' => 'coauthors',
