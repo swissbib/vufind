@@ -4,7 +4,9 @@
     <div class="col-xs-9">
         <h1><?= $this->translate('page.detail.authors.genres') ?></h1>
     </div>
-    <div class="col-xs-3">Alle anzeigen</div>
+    <div class="col-xs-3">
+        <a href="<?= $this->esperson()->getSameGenreSearchLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
+    </div>
 </div>
 <?= $this->render(
     '/detailpage/carousel.phtml', [
@@ -20,8 +22,7 @@
                 'size' => '{size}'
             ], '{}'),
             'page' => urldecode($this->url('page-detail-person', ['id' => '{id}'])),
-            'info' => urldecode($this->url('card-knowledge-person', ['id' => '{id}'])),
-            'list' => $this->url('persons-search-coauthor').'?lookfor={name}'
+            'info' => urldecode($this->url('card-knowledge-person', ['id' => '{id}']))
         ]
     ]
 ) ?>

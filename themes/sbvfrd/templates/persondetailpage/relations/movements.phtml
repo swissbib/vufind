@@ -4,7 +4,9 @@
     <div class="col-xs-9">
         <h1><?= $this->translate('page.detail.authors.movements') ?></h1>
     </div>
-    <div class="col-xs-3">Alle anzeigen</div>
+    <div class="col-xs-3">
+        <a href="<?= $this->esperson()->getSameMovementSearchLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
+    </div>
 </div>
 
 <?= $this->render(
