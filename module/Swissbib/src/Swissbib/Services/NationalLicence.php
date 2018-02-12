@@ -285,7 +285,9 @@ class NationalLicence
         if (!$phoneNumber) {
             return false;
         }
-        $prefix = substr($phoneNumber, 0, 6);
+
+        $phoneNumber = str_replace(" ", "", $phoneNumber);
+        $prefix = substr($phoneNumber, 0, 5);
         foreach ($this->config['allowed_mobile_prefixes'] as $allowedPrefix) {
             if ($prefix === $allowedPrefix) {
                 return true;

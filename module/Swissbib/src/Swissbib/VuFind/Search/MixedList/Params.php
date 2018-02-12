@@ -29,7 +29,6 @@ namespace Swissbib\VuFind\Search\MixedList;
 
 use VuFind\Search\MixedList\Params as VuFindMixedListParams;
 
-
 /**
  * Search Mixed List Parameters
  * We need this class simply because the AbstractFactory Mechanism for
