@@ -3,6 +3,7 @@ const path = require('path');
 module.exports = {
     entry: [
         './themes/sbvfrd/ts/app.ts',
+        './themes/sbvfrd/ts/Hydra.ts',
         './themes/sbvfrd/ts/RecordRenderer.ts',
         './themes/sbvfrd/ts/autosuggest/Translator.ts',
         './themes/sbvfrd/ts/autosuggest/Configuration.ts',
