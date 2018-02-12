@@ -213,7 +213,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
         $segments = ['id' => $this->getDriver()->getUniqueID()];
         $url = $this->getView()->url($route, $segments);
 
-        return sprintf($template, urlencode($url), $label);
+        return sprintf($template, $url, $label);
     }
 
     /**
