@@ -252,6 +252,11 @@ class SwitchBackChannel
                 'encoding' => "JSON/CGI"
             ]
         );
+        /**
+         * Response.
+         *
+         * @var Response $response
+         */
         $response = $client->send();
         $statusCode = $response->getStatusCode();
         $body = $response->getBody();

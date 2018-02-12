@@ -31,6 +31,7 @@ namespace Swissbib\Services;
 use Zend\ServiceManager\ServiceManager;
 use Swissbib\VuFind\Recommend\FavoriteFacets;
 use Zend\Json\Server\Exception\ErrorException;
+use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient;
 /**
  * Factory for Services.
  *
@@ -273,7 +274,13 @@ class Factory
      */
     public static function getSwitchApiService(ServiceManager $sm)
     {
-        return new SwitchApi($sm->get('VuFind\Config'));
+        $credentials
+            = $sm->get('VuFind\Config')
+                ->get('config')['SwitchApiCredentials'];
+        $configSwitchApi
+            = $sm->get('VuFind\Config')
+                ->get('SwitchApi')['SwitchApi'];
+        return new SwitchSharedAttributesAPIClient($credentials, $configSwitchApi);
     }
 
     /**
@@ -285,7 +292,11 @@ class Factory
      */
     public static function getSwitchBackChannelService(ServiceManager $sm)
     {
-        return new SwitchBackChannel($sm->get('VuFind\Config')->get('NationalLicences')['SwitchApi'], $sm);
+        return new SwitchBackChannel(
+            $sm->get('VuFind\Config')
+                ->get('NationalLicences')['SwitchBackChannel'],
+            $sm
+        );
     }
 
     /**

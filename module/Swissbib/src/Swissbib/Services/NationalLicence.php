@@ -27,6 +27,7 @@ namespace Swissbib\Services;
 use Swissbib\Libadmin\Exception\Exception;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
 
 /**
  * Class NationalLicence.
@@ -540,8 +541,14 @@ class NationalLicence
     public function isEduIDUser($user)
     {
         $persistentId = $user->getPersistentId();
-        if (0 === strpos($persistentId, "https://eduid.ch/idp/shibboleth") or
-            0 === strpos($persistentId, "https://test.eduid.ch/idp/shibboleth")
+        if (0 === strpos(
+            $persistentId,
+            "https://eduid.ch/idp/shibboleth"
+        )
+            or 0 === strpos(
+                $persistentId,
+                "https://test.eduid.ch/idp/shibboleth"
+            )
         ) {
             return true;
         } else {

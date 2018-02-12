@@ -114,7 +114,8 @@ class TargetsProxy
         $this->logger = $logger;
         $trustedProxies = explode(
             ',',
-            $this->config->get('TargetsProxy')->get('TrustedProxy')->get('loadbalancer')
+            $this->config->get('TargetsProxy')
+                ->get('TrustedProxy')->get('loadbalancer')
         );
 
         // Populate client info properties from request

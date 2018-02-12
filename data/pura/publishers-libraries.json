@@ -17,7 +17,7 @@
       "description" : "a collection of journals",
       "switch_group_id" : "",
       "libraries_with_contract" : [
-        "Z01"
+        "E02"
       ]
     },
     {
@@ -25,9 +25,9 @@
       "url" : "https://www.thieme.de",
       "wayfless_url" : "",
       "description" : "a collection of journals",
-      "switch_group_id" : "",
+      "switch_group_id" : "2c0ddd57-5172-412a-9a57-30e85d79ea40",
       "libraries_with_contract" : [
-        "RE01001"
+        "Z01"
       ]
     }
   ]

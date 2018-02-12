@@ -27,7 +27,7 @@
 namespace SwissbibTest\NationalLicence;
 
 use Swissbib\Services\NationalLicence;
-use Swissbib\Services\SwitchApi;
+use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
 use Zend\ServiceManager\ServiceManager;
@@ -92,25 +92,43 @@ class NationalLicenceServiceTest extends VuFindTestCase
         parent::setUp();
         $this->sm = Bootstrap::getServiceManager();
 
-        /* create a Mock of VuFind\Config\PluginManager to read dedicated
-         * configuration files for testing
-         */
-        $configPM = $this->getMockBuilder('VuFind\Config\PluginManager')
-            ->disableOriginalConstructor()->getMock();
-        $configPM
-            ->expects($this->any())
-            ->method('get')
-            ->will($this->returnCallback([$this, 'myCallback']));
 
-        $this->switchApiService = new SwitchApi($configPM, $this->sm);
-        $this->externalIdTest = $configPM->get('NationalLicences')
-            ['SwitchApi']['external_id_test'];
+
+
+
+        $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/NationalLicence/fixtures/';
+        $iniReader = new IniReader();
+
+        $configFull = new Config(
+            $iniReader->fromFile($path . 'SwitchApi.ini')
+        );
+        $configSwitchAPI = $configFull['SwitchApi'];
+
+        $config = new Config(
+            $iniReader->fromFile($path . 'config.ini')
+        );
+        $credentials = $config['SwitchApiCredentials'];
+
+
+        $configNL = new Config(
+            $iniReader->fromFile($path . 'NationalLicencesTest.ini')
+        );
+
+        $this->switchApiService = new SwitchApi($credentials, $configSwitchAPI);
+
+
+        $this->externalIdTest = $configSwitchAPI['external_id_test'];
+
+
+
+
+
         $this->nationalLicenceService
             = new NationalLicence(
                 $this->switchApiService,
                 null,
                 null,
-                $configPM->get('NationalLicences'),
+                $configNL,
                 $this->sm
             );
     }
