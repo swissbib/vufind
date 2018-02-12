@@ -92,6 +92,29 @@ class Solr extends VFAutocompleteSolr
     }
 
     /**
+     * A separate search with the original query is required to get a valid total
+     *
+     * @param string $query The query
+     *
+     * @return int
+     */
+    protected function getTotal($query)
+    {
+        $this->searchObject->getParams()->setBasicSearch(
+            $query, $this->handler
+        );
+        foreach ($this->filters as $current) {
+            $this->searchObject->getParams()->addFilter($current);
+        }
+
+        // Perform the search:
+        $this->searchObject->getResults();
+        $resultTotal = $this->searchObject->getResultTotal();
+        $this->initSearchObject();
+        return $resultTotal;
+    }
+
+    /**
      * This method returns an array of strings matching the user's query for
      * display in the autocomplete box.
      *
@@ -106,6 +129,8 @@ class Solr extends VFAutocompleteSolr
         }
 
         try {
+            $total = $this->getTotal($query);
+
             $this->searchObject->getParams()->setBasicSearch(
                 $this->mungeQuery($query), $this->handler
             );
@@ -133,7 +158,7 @@ class Solr extends VFAutocompleteSolr
         // Wrap in array as only values of result array are part of response
         $results = [
           [
-            "total" => $this->searchObject->getResultTotal(),
+            "total" => $total ?? 0,
             "suggestions" => isset($results) ? $results : []
           ]
         ];
