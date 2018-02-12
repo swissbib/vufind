@@ -66,8 +66,8 @@ class SwitchApi
     /**
      * SwitchApi constructor.
      *
-     * @param array          $config Swissbib configuration.
-     * @param ServiceManager $sm     Service manager.
+     * @param \VuFind\Config\PluginManager $config Swissbib configuration.
+     * @param ServiceManager               $sm     Service manager.
      */
     public function __construct($config, $sm)
     {
