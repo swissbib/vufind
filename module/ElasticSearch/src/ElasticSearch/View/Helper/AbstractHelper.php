@@ -240,10 +240,10 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      *
      * @param string $value The value to HTML-escape
      *
-     * @return string
+     * @return string|null
      */
-    protected function escape(string $value): string
+    protected function escape(string $value = null)
     {
-        return $this->getView()->escapeHtml($value);
+        return is_null($value) ? null : $this->getView()->escapeHtml($value);
     }
 }
