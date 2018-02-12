@@ -220,6 +220,7 @@ class Factory
     {
         return new NationalLicence(
             $sm->get('Swissbib\SwitchApiService'),
+            $sm->get('Swissbib\SwitchBackChannelService'),
             $sm->get('Swissbib\EmailService'),
             $sm->get('VuFind\Config')->get('NationalLicences'),
             $sm
@@ -272,7 +273,19 @@ class Factory
      */
     public static function getSwitchApiService(ServiceManager $sm)
     {
-        return new SwitchApi($sm->get('VuFind\Config'), $sm);
+        return new SwitchApi($sm->get('VuFind\Config'));
+    }
+
+    /**
+     * Get SwitchBackChannel service.
+     *
+     * @param ServiceManager $sm Service manager
+     *
+     * @return SwitchBackChannel
+     */
+    public static function getSwitchBackChannelService(ServiceManager $sm)
+    {
+        return new SwitchBackChannel($sm->get('VuFind\Config')->get('NationalLicences')['SwitchApi'], $sm);
     }
 
     /**

@@ -90,7 +90,7 @@ class SwitchApiServiceTest extends VuFindTestCase
             ->method('get')
             ->will($this->returnCallback([$this, 'myCallback']));
 
-        $this->switchApiServiceOriginal = new SwitchApi($configPM, $this->sm);
+        $this->switchApiServiceOriginal = new SwitchApi($configPM);
         $this->switchApiServiceReflected = new ReflectionClass(
             $this->switchApiServiceOriginal
         );

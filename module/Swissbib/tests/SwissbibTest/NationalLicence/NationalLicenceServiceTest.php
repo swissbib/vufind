@@ -109,6 +109,7 @@ class NationalLicenceServiceTest extends VuFindTestCase
             = new NationalLicence(
                 $this->switchApiService,
                 null,
+                null,
                 $configPM->get('NationalLicences'),
                 $this->sm
             );

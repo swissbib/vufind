@@ -58,6 +58,12 @@ class NationalLicence
      */
     protected $switchApiService;
     /**
+     * Switch Back-Channel.
+     *
+     * @var SwitchBackChannel $switchBackChannelService
+     */
+    protected $switchBackChannelService;
+    /**
      * Email service.
      *
      * @var Email $emailService
@@ -73,15 +79,21 @@ class NationalLicence
     /**
      * NationalLicence constructor.
      *
-     * @param SwitchApi               $switchApiService Switch Api service
-     * @param Email                   $emailService     Email service
-     * @param array                   $config           Config
-     * @param ServiceLocatorInterface $serviceLocator   Service locator.
+     * @param SwitchApi               $switchApiService         Switch Api service
+     * @param SwitchBackChannel       $switchBackChannelService Switch Back Channel
+     * @param Email                   $emailService             Email service
+     * @param array                   $config                   Config
+     * @param ServiceLocatorInterface $serviceLocator           Service locator.
      */
-    public function __construct($switchApiService, $emailService, $config,
+    public function __construct(
+        $switchApiService,
+        $switchBackChannelService,
+        $emailService,
+        $config,
         $serviceLocator
     ) {
         $this->switchApiService = $switchApiService;
+        $this->switchBackChannelService = $switchBackChannelService;
         $this->emailService = $emailService;
         $this->config = $config['NationalLicenceService'];
         $this->serviceLocator = $serviceLocator;
@@ -528,7 +540,9 @@ class NationalLicence
     public function isEduIDUser($user)
     {
         $persistentId = $user->getPersistentId();
-        if (0 === strpos($persistentId, "https://eduid.ch/idp/shibboleth")) {
+        if (0 === strpos($persistentId, "https://eduid.ch/idp/shibboleth") or
+            0 === strpos($persistentId, "https://test.eduid.ch/idp/shibboleth")
+        ) {
             return true;
         } else {
             return false;
@@ -849,7 +863,7 @@ class NationalLicence
             }
             //Update attributes from the edu-Id account
             try{
-                $user = $this->switchApiService->getUserUpdatedInformation(
+                $user = $this->switchBackChannelService->getUserUpdatedInformation(
                     $user->getNameId(), $user->getPersistentId()
                 );
                 //for registered users who haven't used their Switch edu-ID
