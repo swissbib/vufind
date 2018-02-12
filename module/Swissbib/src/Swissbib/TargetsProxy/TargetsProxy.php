@@ -114,7 +114,7 @@ class TargetsProxy
         $this->logger = $logger;
         $trustedProxies = explode(
             ',',
-            $this->config->get('TrustedProxy')->get('loadbalancer')
+            $this->config->get('TargetsProxy')->get('TrustedProxy')->get('loadbalancer')
         );
 
         // Populate client info properties from request
@@ -224,7 +224,7 @@ class TargetsProxy
 
         $targetKeys = explode(
             ',',
-            $this->config->get('TargetsProxy')
+            $this->config->get('TargetsProxy')->get('TargetsProxy')
                 ->get('targetKeys' . $this->searchClass)
         );
 
@@ -251,7 +251,7 @@ class TargetsProxy
              *
              * @var \Zend\Config\Config $targetConfig
              */
-            $targetConfig = $this->config->get($targetKey);
+            $targetConfig = $this->config->get('TargetsProxy')->get($targetKey);
             $patternsIP = '';
             $patternsURL = '';
 
