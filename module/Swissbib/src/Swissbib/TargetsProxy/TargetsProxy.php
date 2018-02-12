@@ -33,8 +33,8 @@ use Zend\Di\ServiceLocator;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Http\PhpEnvironment\RemoteAddress;
 use Zend\Http\PhpEnvironment\Request;
-
 use Zend\Log\Logger as ZendLogger;
+use VuFind\Config\PluginManager as VFConfigPluginManager;
 
 /**
  * Targets proxy
@@ -96,21 +96,21 @@ class TargetsProxy
     /**
      * Config
      *
-     * @var Config
+     * @var VFConfigPluginManager
      */
     protected $config;
 
     /**
      * Initialize proxy with config
      *
-     * @param Config     $config  Config
-     * @param ZendLogger $logger  ZendLogger
-     * @param Request    $request Request
+     * @param VFConfigPluginManager $configPluginManager Config
+     * @param ZendLogger            $logger              ZendLogger
+     * @param Request               $request             Request
      */
-    public function __construct(Config $config,
+    public function __construct(VFConfigPluginManager $configPluginManager,
         ZendLogger $logger, Request $request
     ) {
-        $this->config = $config;
+        $this->config = $configPluginManager;
         $this->logger = $logger;
         $trustedProxies = explode(
             ',',
@@ -301,7 +301,7 @@ class TargetsProxy
     private function _setConfigKeys($targetKey)
     {
         $this->targetKey = $targetKey;
-        $vfConfig = $this->config->toArray();
+        $vfConfig = $this->config->get('config')->toArray();
         $this->targetApiId = $vfConfig[$this->targetKey]['apiId'];
         $this->targetApiKey = $vfConfig[$this->targetKey]['apiKey'];
     }
