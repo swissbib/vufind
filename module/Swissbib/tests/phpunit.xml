@@ -3,7 +3,6 @@
 		<testsuite name="sbvfrd">
 			<directory>./SwissbibTest/View</directory>
 			<directory>./SwissbibTest/RecordDriver</directory>
-			<directory>./SwissbibTest/TargetsProxy</directory>
 			<directory>./SwissbibTest/NationalLicence</directory>
 		</testsuite>
 	</testsuites>
