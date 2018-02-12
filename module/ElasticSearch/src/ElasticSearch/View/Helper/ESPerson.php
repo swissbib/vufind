@@ -145,7 +145,7 @@ class ESPerson extends AbstractHelper
             $displayName = sprintf('%s', $name);
         }
 
-        return $displayName;
+        return $this->escape($displayName);
     }
 
     /**
@@ -167,7 +167,7 @@ class ESPerson extends AbstractHelper
             $lifetime = sprintf('(? - %s)', $death);
         }
 
-        return $lifetime;
+        return $this->escape($lifetime);
     }
 
     /**
@@ -230,7 +230,7 @@ class ESPerson extends AbstractHelper
             $result = sprintf('%s', $place);
         }
 
-        return $result;
+        return $this->escape($result);
     }
 
     /**
@@ -312,6 +312,9 @@ class ESPerson extends AbstractHelper
             $info->label = $this->getView()->translate(
                 'person.metadata.abstract'
             );
+
+            $info->text = $this->escape($info->text);
+            $info->overflow = $this->escape($info->overflow);
         }
 
         return $info;
@@ -553,6 +556,6 @@ class ESPerson extends AbstractHelper
         $lookfor = sprintf('?lookfor=%s', $this->getPerson()->getName());
         $route = sprintf('persons-search-%s', $search);
 
-        return $this->getView()->url($route) . $lookfor;
+        return $this->getView()->url($route) . urlencode($lookfor);
     }
 }
