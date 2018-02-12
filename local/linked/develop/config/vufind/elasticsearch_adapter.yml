@@ -174,13 +174,8 @@ parameters:
       size: '{size}'
       from: '{from}'
       query:
-        bool:
-          must:
-            match_all:
-              - '{}'
-          filter:
-            term:
-              'dbp:genre': '{q}'
+        terms:
+          'dbp:genre': '{q}'
 
     person_by_movement:
       type: 'person'
@@ -188,11 +183,6 @@ parameters:
       size: '{size}'
       from: '{from}'
       query:
-        bool:
-          must:
-            match_all:
-              - '{}'
-          filter:
-            term:
-              'dbp:movement': '{q}'
+        terms:
+          'dbp:movement': '{q}'
 
