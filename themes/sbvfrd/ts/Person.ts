@@ -1,6 +1,6 @@
-import {Detail} from "./Detail";
+import Detail from "./Detail";
 
-export class Person implements Detail {
+export default class Person implements Detail {
     public hasSufficientData: boolean;
     public type: string;
     public id: string;
