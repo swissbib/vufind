@@ -2,7 +2,7 @@
 <a id="detailpage-genres" />
 <div class="row">
     <div class="col-xs-9">
-        <h1><?= $this->translate('page.detail.authors.genres') ?> (<?= $this->authorsOfSameGenreTotal ?>)</h1>
+        <h1><?= $this->esperson()->getSearchResultHeadline('page.detail.authors.genres', $this->authorsOfSameGenreTotal) ?></h1>
     </div>
     <div class="col-xs-3">
         <a href="<?= $this->esperson()->getSameGenreSearchLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
