@@ -28,6 +28,7 @@
 namespace ElasticSearch\View\Helper;
 
 use Swissbib\Util\Text\Splitter;
+use Zend\Config\Config as ZendConfig;
 
 /**
  * Class ESPerson
@@ -557,5 +558,34 @@ class ESPerson extends AbstractHelper
         $route = sprintf('persons-search-%s', $search);
 
         return $this->getView()->url($route) . urlencode($lookfor);
+    }
+
+    /**
+     * Generates a person reference link when the given link matches one of the
+     * patterns in the record references configuration.
+     *
+     * @param string              $template   The template string to use.
+     * @param string              $link       The link to be checked and meroged into
+     *                                        the template string.
+     * @param \Zend\Config\Config $references All configured record references.
+     *
+     * @return string
+     * In case the given link does not match on one of the record reference patterns,
+     * then an empty string is returned.
+     */
+    public function getRecordReference(
+        string $template, string $link, ZendConfig $references
+    ) {
+
+        $result = '';
+
+        foreach ($references as $id => $reference) {
+            if (preg_match($reference->pattern, $link) === 1) {
+                $result = sprintf($template, $link, $reference->label);
+                break;
+            }
+        }
+
+        return $result;
     }
 }
