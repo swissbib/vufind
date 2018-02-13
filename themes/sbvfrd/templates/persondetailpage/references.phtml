@@ -1,14 +1,28 @@
-<? $links = $this->driver->getSameAs(); ?>
+<?
+$links = $this->driver->getSameAs();
+$patterns = [
+    "GND" => "/^http:\\/\\/d-nb.info\\/gnd\\/.*$/",
+    "DBPedia" => "/^http:\\/\\/dbpedia.org\\/resource\\/.*$/",
+    "VIAF" => "/^http:\\/\\/viaf.org\\/viaf\\/.*$/"
+];
+?>
 <? if (isset($links)): ?>
     <h1>{reference-link-list-title}</h1>
     <ul>
-        <? foreach ($links as $link):  ?>
-            <li>
-                <a href="<?= $link ?>">
-                    <?= $link ?>
-                </a>
-            </li>
-        <? endforeach; ?>
+        <?
+        foreach ($links as $link):
+            foreach ($patterns as $label => $pattern):
+                if (preg_match($pattern, $link, $matches) === 1):
+                    ?>
+                    <li>
+                        <a href="<?= $link ?>">
+                            <?= $label ?>
+                        </a>
+                    </li>
+                <?
+                endif;
+            endforeach;
+        endforeach; ?>
     </ul>
 <? endif; ?>
 
