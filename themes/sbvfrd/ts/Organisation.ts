@@ -1,6 +1,6 @@
-import {Detail} from "./Detail";
+import Detail from "./Detail";
 
-export class Organisation implements Detail {
+export default class Organisation implements Detail {
     public hasSufficientData: boolean;
     public type: string;
     public id: string;

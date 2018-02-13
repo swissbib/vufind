@@ -182,7 +182,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
 
         $available = (is_array($value) && count($value) > 0);
 
-        return $available ? implode($delimiter, $value) : null;
+        return $available ? $this->escape(implode($delimiter, $value)) : null;
     }
 
     /**
@@ -231,6 +231,19 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
         $first = $loaded > 0 ? 1 : 0;
         $template = $this->getView()->translate('page.detail.media.list.hits');
 
-        return sprintf($template, $first, $loaded, $total);
+        return $this->escape(sprintf($template, $first, $loaded, $total));
+    }
+
+    /**
+     * Shortcut to HTML-escape the given string using the escapeHtml() Escaper from
+     * the connected view.
+     *
+     * @param string $value The value to HTML-escape
+     *
+     * @return string|null
+     */
+    protected function escape(string $value = null)
+    {
+        return is_null($value) ? null : $this->getView()->escapeHtml($value);
     }
 }

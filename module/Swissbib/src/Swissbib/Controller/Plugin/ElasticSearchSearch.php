@@ -244,7 +244,7 @@ class ElasticSearchSearch extends AbstractPlugin
      */
     private function _fixResultForPagination(
         string $id, int $page, Results &$results, array $contributorIds
-    ): void {
+    ) {
         $reflectionClass = new \ReflectionClass(Results::class);
         $reflectionProperty = $reflectionClass->getProperty("resultTotal");
         $reflectionProperty->setAccessible(true);

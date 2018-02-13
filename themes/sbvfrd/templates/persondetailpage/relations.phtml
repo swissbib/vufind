@@ -1,67 +1,20 @@
+<? // setup page sizes for different screens (keys are Bootstrap breakpoint prefixes) ?>
 <div class="container">
-    <? if (isset($this->coContributors)): ?>
-        <?
-        $params = [
-            "title" => "Co-AutorInnen von " . $this->driver->getName(),
-            "total" => $this->coContributorsTotal, "persons" => $this->coContributors
-        ]
-        ?>
-        <div class="row">
-            <div class="col-xs-12">
-                <?= $this->render('slider.phtml', $params) ?>
-            </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <?= $this->render('relations/coauthors.phtml') ?>
         </div>
-        <a class="btn btn-primary"
-           href="/Search/Persons/CoAuthor?lookfor=<?= $this->driver->getUniqueID(
-           ) ?>">Zeige
-            alle</a>
-    <? endif; ?>
-    <? if (isset($this->authorsOfSameGenre)): ?>
-        <?
-        $params = [
-            "title" => "AutorInnen mit gleichen Genres",
-            "total" => $this->authorsOfSameGenreTotal,
-            "persons" => $this->authorsOfSameGenre
-        ]
-        ?>
-        <div class="row">
-            <div class="col-xs-12">
-                <?= $this->render('slider.phtml', $params) ?>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <?= $this->render('relations/genres.phtml') ?>
         </div>
-        <?
-        $genres = $this->driver->getGenre();
-        if (is_array($genres)) {
-            $genres = implode(",", $genres);
-        }
-        ?>
-        <a class="btn btn-primary"
-           href="/Search/Persons/Genre?lookfor=<?= $genres ?>">Zeige
-            alle</a>
-    <? endif; ?>
-    <? if (isset($this->personsOfSameMovement)): ?>
-        <?
-        $params = [
-            "title" => "AutorInnen der gleichen Bewegung/Epoche",
-            "total" => $this->personsOfSameMovementTotal,
-            "persons" => $this->personsOfSameMovement
-        ]
-        ?>
-        <div class="row">
-            <div class="col-xs-12">
-                <?= $this->render('slider.phtml', $params) ?>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <?= $this->render('relations/movements.phtml') ?>
         </div>
-        <?
-        $movement = $this->driver->getMovement();
-        if (is_array($movement)) {
-            $movement = implode(",", $movement);
-        }
-        ?>
-        <a class="btn btn-primary"
-           href="/Search/Persons/Movement?lookfor=<?= $movement ?>">Zeige
-            alle</a>
-    <? endif; ?>
+    </div>
     <div class="row">
         <div class="col-xs-12">
             <?= $this->render('subjects.phtml') ?>

@@ -1,10 +1,10 @@
 import {AxiosResponse, default as Axios} from "axios";
-import {BibliographicDetails} from "./BibliographicDetails";
-import {Organisation} from "./Organisation";
-import {Person} from "./Person";
-import {Subject} from "./Subject";
+import BibliographicDetails from "./BibliographicDetails";
+import Organisation from "./Organisation";
+import Person from "./Person";
+import Subject from "./Subject";
 
-export class Hydra {
+export default class Hydra {
 
     private apiUrl: string;
     private axiosConfig: object;

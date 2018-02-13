@@ -1,4 +1,4 @@
-export interface Detail {
+export default interface Detail {
     id: string;
     name: string;
     type: string;

@@ -145,7 +145,7 @@ class ESPerson extends AbstractHelper
             $displayName = sprintf('%s', $name);
         }
 
-        return $displayName;
+        return $this->escape($displayName);
     }
 
     /**
@@ -167,7 +167,7 @@ class ESPerson extends AbstractHelper
             $lifetime = sprintf('(? - %s)', $death);
         }
 
-        return $lifetime;
+        return $this->escape($lifetime);
     }
 
     /**
@@ -230,7 +230,7 @@ class ESPerson extends AbstractHelper
             $result = sprintf('%s', $place);
         }
 
-        return $result;
+        return $this->escape($result);
     }
 
     /**
@@ -312,6 +312,9 @@ class ESPerson extends AbstractHelper
             $info->label = $this->getView()->translate(
                 'person.metadata.abstract'
             );
+
+            $info->text = $this->escape($info->text);
+            $info->overflow = $this->escape($info->overflow);
         }
 
         return $info;
@@ -508,5 +511,51 @@ class ESPerson extends AbstractHelper
         return $this->resolveLabelWithDisplayName(
             'person.page.link'
         );
+    }
+
+    /**
+     * Provides a link to the search for coauthors of the underlying person record.
+     *
+     * @return string
+     */
+    public function getCoauthorsSearchLink(): string
+    {
+        return $this->getNameBasedSearchLink('coauthor');
+    }
+
+    /**
+     * Provides a link to the search for authors of the same movement.
+     *
+     * @return string
+     */
+    public function getSameMovementSearchLink(): string
+    {
+        return $this->getNameBasedSearchLink('samemovement');
+    }
+
+    /**
+     * Provides a link to the search for authors of the same genre.
+     *
+     * @return string
+     */
+    public function getSameGenreSearchLink(): string
+    {
+        return $this->getNameBasedSearchLink('samegenre');
+    }
+
+    /**
+     * Resolves the given search to a link that uses the underlying person record's
+     * name as lookup query parameter.
+     *
+     * @param string $search The person search to perform.
+     *
+     * @return string
+     */
+    protected function getNameBasedSearchLink(string $search): string
+    {
+        $lookfor = sprintf('?lookfor=%s', $this->getPerson()->getName());
+        $route = sprintf('persons-search-%s', $search);
+
+        return $this->getView()->url($route) . urlencode($lookfor);
     }
 }

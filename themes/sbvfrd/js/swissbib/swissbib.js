@@ -256,7 +256,82 @@
     //delete it when we have implemented a correct response
     return false;
 
-  })
+  });
+
+
+  var Carousel = function () {
+    var infos = {};
+
+    /**
+     * Adds information for a Bootstrap carousel component rendered on the current page.
+     *
+     * @param id
+     * The unique identifier of the carousel. Each carousel component's root element has an id-attribute value of the
+     * format results-carousel-<id> where <id> is the value passed in for this parameter.
+     *
+     * @param templates
+     * An object that provides URL templates as strings:
+     * ajax: The AJAX URL template to use for fetching new data for the carousel.
+     * page: The page URL template is used by the carousel's column label to link to the detail page if the rendered
+     *       data entry.
+     * info: The info URL template is used to refer to an inline info box (e.g. knowledge-card) that renders most
+     *       relevant information that belongs to the rendered data entry.
+     *
+     * @param pagination
+     * A generic object that contains responsive pagination page size values. It uses the Bootstrap layout size prefixes
+     * 'xs', 'sm', 'md' and 'lg'.
+     *
+     * @param thumbnail
+     * The path to an image to be used as fallback image when a data entry in the carousel does not provide one.
+     *
+     * @param {number} total
+     * The total amount of data entries to show in the carousel.
+     *
+     * @return {Object}
+     * A configuration object with the given data as it is stored internally.
+     */
+    this.add = function (id, templates, pagination, thumbnail, total) {
+      infos[id] = { id: id, templates: templates, pagination: pagination, thumbnail: thumbnail, total: total };
+      return this.get(id);
+    };
+
+    /**
+     * Accessor for previously registered carousel configuration.
+     *
+     * @param id
+     * The unique identifier of the carousel to retrieve the configuration for.
+     *
+     * @returns {Object|null}
+     * The configuration item entry in case the identifier exists or null otherwise.
+     * The entry has the properties 'id', 'template' and 'pagination' which map 1 on 1 on the parameters passed
+     * in to the addResultsCarouselInfo() method.
+     */
+    this.get = function(id) {
+      var info = infos[id] || null;
+      return info ? JSON.parse(JSON.stringify(info)) : null;
+    };
+
+    /**
+     * Provides all available results carousel info identifiers.
+     *
+     * @return {Array}
+     */
+    this.identifiers = function () {
+      return Object.keys(infos);
+    };
+
+    /**
+     * Indicates whether there are carousel infos are registered.
+     *
+     * @returns {boolean}
+     */
+    this.available = function () {
+      return this.getIdentifiers().length > 0;
+    };
+  };
+
+  s.carousel = new Carousel();
+
 })(window.swissbib = window.swissbib || {});
 
 

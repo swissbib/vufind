@@ -1,7 +1,7 @@
 import Axios from "axios";
 import * as fs from "fs";
-import {BibliographicDetails} from "../BibliographicDetails";
-import {Hydra} from "../Hydra";
+import BibliographicDetails from "../BibliographicDetails";
+import Hydra from "../Hydra";
 
 const cut: Hydra = new Hydra(
     "http://data.swissbib.ch/",

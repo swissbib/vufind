@@ -152,7 +152,7 @@ return [
             ], 'card-knowledge-person' => [
                 'type' => 'segment', 'options' => [
                     'route' => '/Card/Knowledge/Person/:id', 'constraints' => [
-                        'id' => '[a-fA-F0-9-]+',
+                        'id' => '[a-fA-F0-9-{}]+',
                     ], 'defaults' => [
                         'controller' => 'knowledge-card', 'action' => 'person',
                     ],
@@ -160,7 +160,7 @@ return [
             ], 'card-knowledge-subject' => [
                 'type' => 'segment', 'options' => [
                     'route' => '/Card/Knowledge/Subject/:id', 'constraints' => [
-                        'id' => '[a-fA-F0-9-]+',
+                        'id' => '[a-fA-F0-9-{}]+',
                     ], 'defaults' => [
                         'controller' => 'knowledge-card', 'action' => 'subject',
                     ],
@@ -168,7 +168,7 @@ return [
             ], 'page-detail-person' => [
                 'type' => 'segment', 'options' => [
                     'route' => '/Page/Detail/Person/:id', 'constraints' => [
-                        'id' => '[a-fA-F0-9-]+',
+                        'id' => '[a-fA-F0-9-{}]+',
                     ], 'defaults' => [
                         'controller' => 'person-detail-page', 'action' => 'person',
                     ],
@@ -176,7 +176,7 @@ return [
             ], 'page-detail-subject' => [
                 'type' => 'segment', 'options' => [
                     'route' => '/Page/Detail/Subject/:id', 'constraints' => [
-                        'id' => '[a-fA-F0-9-]+',
+                        'id' => '[a-fA-F0-9-{}]+',
                     ], 'defaults' => [
                         'controller' => 'subject-detail-page', 'action' => 'subject',
                     ],
@@ -402,7 +402,8 @@ return [
             'qrCodeHolding'                  => 'Swissbib\View\Helper\QrCodeHolding',
             'holdingItemsPaging'             => 'Swissbib\View\Helper\HoldingItemsPaging',
             'filterUntranslatedInstitutions' => 'Swissbib\View\Helper\FilterUntranslatedInstitutions',
-            'layoutClass'                    => 'Swissbib\View\Helper\LayoutClass'
+            'layoutClass'                    => 'Swissbib\View\Helper\LayoutClass',
+            'ajax'                           => 'Swissbib\View\Helper\Ajax'
         ],
         'factories'  => [
             'configAccess'                              =>  'Swissbib\View\Helper\Factory::getConfig',

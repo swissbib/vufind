@@ -85,10 +85,11 @@ class AjaxController extends VFAjaxController
     {
         $id = $this->getRequest()->getQuery()['person'] ?? "";
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
+        $pageSize = $this->getRequest()->getQuery()['size'] ??
+            $this->getConfig()->DetailPage->coAuthorsSize;
 
         $authors = $this->elasticsearchsearch()->searchCoContributorsOf(
-            $id, $this->getConfig()->DetailPage->coAuthorsSize,
-            $this->getConfig()->DetailPage->searchSize, $page
+            $id, $pageSize, $this->getConfig()->DetailPage->searchSize, $page
         )->getResults();
 
         return $this->buildResponse($authors, $this->getAuthorPaginationSpec());
@@ -103,10 +104,11 @@ class AjaxController extends VFAjaxController
     {
         $genre = $this->getRequest()->getQuery()['genre'] ?? "";
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
-        $limit = $this->getConfig()->DetailPage->sameGenreAuthorsSize;
+        $pageSize = $this->getRequest()->getQuery()['size'] ??
+            $this->getConfig()->DetailPage->sameGenreAuthorsSize;
 
         $authors = $this->elasticsearchsearch()->searchElasticSearch(
-            $genre, "person_by_genre", null, null, $limit, $page ?? 1
+            $genre, "person_by_genre", null, null, $pageSize, $page ?? 1
         )->getResults();
 
         return $this->buildResponse($authors, $this->getAuthorPaginationSpec());
@@ -121,10 +123,11 @@ class AjaxController extends VFAjaxController
     {
         $movement = $this->getRequest()->getQuery()['movement'] ?? "";
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
-        $limit = $this->getConfig()->DetailPage->sameMovementAuthorsSize;
+        $pageSize = $this->getRequest()->getQuery()['size'] ??
+            $this->getConfig()->DetailPage->sameMovementAuthorsSize;
 
         $authors = $this->elasticsearchsearch()->searchElasticSearch(
-            $movement, "person_by_movement", null, null, $limit, $page ?? 1
+            $movement, "person_by_movement", null, null, $pageSize, $page ?? 1
         )->getResults();
 
         return $this->buildResponse($authors, $this->getAuthorPaginationSpec());
@@ -292,8 +295,8 @@ class AjaxController extends VFAjaxController
     /**
      * Builds the Response
      *
-     * @param arrray $content Content
-     * @param array  $spec    Specification
+     * @param array $content Content
+     * @param array $spec    Specification
      *
      * @return \Zend\Stdlib\ResponseInterface
      */
@@ -306,9 +309,9 @@ class AjaxController extends VFAjaxController
         );
         // @var AbstractBase $record
         foreach ($content as $record) {
-            $formatedRecord = $recordFormatter->getData($record, $spec);
-            $this->_format($formatedRecord);
-            array_push($data, $formatedRecord);
+            $formattedRecord = $recordFormatter->getData($record, $spec);
+            $this->_format($formattedRecord);
+            array_push($data, $formattedRecord);
         }
         $response = $this->getResponse();
         $response->getHeaders()->addHeaderLine(
@@ -324,14 +327,14 @@ class AjaxController extends VFAjaxController
     /**
      * Formats the record
      *
-     * @param array $formatedRecord Formated Record
+     * @param array $formattedRecord Formatted Record
      *
      * @return void
      */
-    private function _format(&$formatedRecord)
+    private function _format(&$formattedRecord)
     {
         array_walk(
-            $formatedRecord,
+            $formattedRecord,
             function (&$value, $key) {
                 $value = $value['value'];
             }
@@ -353,10 +356,12 @@ class AjaxController extends VFAjaxController
             "name", "getName", "Simple", ['allowZero' => false]
         );
         $specBuilder->setLine(
-            "thumbnail", "getThumbnail", "Simple", ['allowZero' => false]
+            "thumbnail", "getThumbnail", "RecordHelper",
+            ['allowZero' => false, 'helperMethod' => 'getThumbnail']
         );
         $specBuilder->setLine(
-            "sufficientData", "hasSufficientData", "Simple", ['allowZero' => false]
+            "sufficientData", "hasSufficientData", "RecordHelper",
+            ['allowZero' => false, 'helperMethod' => 'hasSufficientData']
         );
         return $specBuilder->getArray();
     }
