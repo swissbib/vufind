@@ -1,0 +1,30 @@
+<? if (!is_null($this->driver->getMovement())): ?>
+<a id="detailpage-movements" />
+<div class="row">
+    <div class="col-xs-9">
+        <h1><?= $this->translate('page.detail.authors.movements') ?></h1>
+    </div>
+    <div class="col-xs-3">
+        <a href="<?= $this->esperson()->getSameMovementSearchLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
+    </div>
+</div>
+
+<?= $this->render(
+    '/detailpage/carousel.phtml', [
+        'id' => 'movements',
+        'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
+        'thumbnail' => '/themes/sbvfrd/images/person-placeholder.png',
+        'total' => 100,
+        'templates' => [
+            'ajax' => $this->ajax()->url([
+                'method' => 'getSameMovementAuthors',
+                'movement' => $this->escapeUrl($this->driver->getMovement()),
+                'page' => '{page}',
+                'size' => '{size}'
+            ], '{}'),
+            'page' => urldecode($this->url('page-detail-person', ['id' => '{id}'])),
+            'info' => urldecode($this->url('card-knowledge-person', ['id' => '{id}']))
+        ]
+    ]
+) ?>
+<? endif; ?>

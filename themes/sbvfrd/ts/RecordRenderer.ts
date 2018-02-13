@@ -1,11 +1,11 @@
 import {AxiosPromise} from "axios";
 import * as $ from "jquery";
-import {BibliographicDetails} from "./BibliographicDetails";
-import {Detail} from "./Detail";
-import {Hydra} from "./Hydra";
-import {Subject} from "./Subject";
+import BibliographicDetails from "./BibliographicDetails";
+import Detail from "./Detail";
+import Hydra from "./Hydra";
+import Subject from "./Subject";
 
-export class RecordRenderer {
+export default class RecordRenderer {
 
     protected client: Hydra;
 

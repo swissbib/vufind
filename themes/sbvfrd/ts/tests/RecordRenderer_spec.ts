@@ -1,9 +1,8 @@
 import * as fs from "fs";
 import * as $ from "jquery";
-import {Person} from "../Contributor";
-import {RecordRenderer} from "../RecordRenderer";
-import {Subject} from "../Subject";
-import {Detail} from "../Detail";
+import RecordRenderer from "../RecordRenderer";
+import Subject from "../Subject";
+import Detail from "../Detail";
 
 // const mock = jest.genMockFromModule("Hydra");
 
