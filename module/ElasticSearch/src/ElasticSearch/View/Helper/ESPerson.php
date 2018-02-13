@@ -575,7 +575,7 @@ class ESPerson extends AbstractHelper
      */
     public function getRecordReference(
         string $template, string $link, ZendConfig $references
-    ) {
+    ): string {
 
         $result = '';
 
