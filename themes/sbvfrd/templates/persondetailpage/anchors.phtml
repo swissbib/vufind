@@ -2,12 +2,16 @@
 <ul>
     <li><a href="#detailpage-common"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.common') ?></a></li>
     <li><a href="#detailpage-medias"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.media.list.title') ?></a></li>
+    <? if ($this->coContributorsTotal > 0): ?>
     <li><a href="#detailpage-coauthors"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.authors.coauthors') ?></a></li>
-    <? if(!is_null($this->driver->getGenre())): ?>
+    <? endif; ?>
+    <? if ($this->authorsOfSameGenreTotal > 0): ?>
     <li><a href="#detailpage-genres"><?= $this->translate('page.detail.authors.genres') ?></a></li>
     <? endif; ?>
-    <? if (!is_null($this->driver->getMovement())): ?>
+    <? if ($this->personsOfSameMovementTotal > 0): ?>
     <li><a href="#detailpage-movements"><?= $this->translate('page.detail.authors.movements') ?></a></li>
     <? endif; ?>
+    <? if (isset($subjects) && count($subjects) > 0): ?>
     <li><a href="#detailpage-subjects"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related') ?></a></li>
+    <? endif; ?>
 </ul>

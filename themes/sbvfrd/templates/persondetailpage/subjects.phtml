@@ -1,26 +1,6 @@
-<? if (isset($subjects)): ?>
-<a id="detailpage-subjects"></a>
-<h2><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related') ?></h2>
-    <? foreach ($subjects as $name => $val): ?>
-        <?
-        /** @var \ElasticSearch\VuFind\RecordDriver\ESSubject $subject */
-        $subject = $val["subject"];
-        $searchUrl
-            = $this->url('search-results') . '?lookfor=' . urlencode(
-                $subject->getName()
-            ) . '&amp;type=Subject';
-        ?>
-        <a href="<?= $searchUrl ?>" style="font-size: <?= sprintf("%F",
-        $val["weight"]) ?>px"><?= $name ?><!-- <?= $val["frequency"] ?> Hits--></a>
-        <? if ($subject->hasSufficientData()): ?>
-            <?
-            $knowledgeCardUrl = $this->url(
-                'card-knowledge-subject', ["id" => $subject->getUniqueID()]
-            );
-            ?>
-            <a href="<?= $knowledgeCardUrl ?>" data-lightbox>
-                <span class="fa fa-info-circle fa-lg" style="display: inline;"</span>
-            </a>
-        <? endif; ?>
-    <? endforeach; ?>
-<? endif; ?>
+<?= $this->render('/detailpage/common/tagcloud.phtml', [
+    'records' => $subjects ?? [],
+    'name' => 'subjects',
+    'type' => 'Subject',
+    'headline' => $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related'),
+]) ?>
