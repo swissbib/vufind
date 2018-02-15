@@ -554,10 +554,10 @@ class ESPerson extends AbstractHelper
      */
     protected function getNameBasedSearchLink(string $search): string
     {
-        $lookfor = sprintf('?lookfor=%s', $this->getPerson()->getName());
+        $name = urlencode($this->getPerson()->getName());
         $route = sprintf('persons-search-%s', $search);
 
-        return $this->getView()->url($route) . urlencode($lookfor);
+        return sprintf('%s?lookfor=%s', $this->getView()->url($route), $name);
     }
 
     /**
