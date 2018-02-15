@@ -265,8 +265,8 @@ class ESPerson extends AbstractHelper
      */
     public function hasThumbnail(): bool
     {
-        $thumbnail = $this->getPerson()->getThumbnail();
-        return is_array($thumbnail) && count($thumbnail) > 0;
+        $thumbnail = $this->getThumbnailFromRecord();
+        return is_string($thumbnail);
     }
 
     /**
@@ -276,7 +276,8 @@ class ESPerson extends AbstractHelper
      */
     public function getThumbnailPath()
     {
-        return $this->hasThumbnail() ? $this->getPerson()->getThumbnail()[0] : null;
+        $thumbnail = $this->getThumbnailFromRecord();
+        return is_string($thumbnail) ? $thumbnail : null;
     }
 
     /**

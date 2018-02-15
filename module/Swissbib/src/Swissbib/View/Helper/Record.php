@@ -508,12 +508,15 @@ class Record extends VuFindRecord
     /**
      * Generate a thumbnail URL (return false if unsupported).
      *
-     * @param string $size Size of thumbnail (small, medium or large -- small is
-     *                     default).
+     * @param string $size                Size of thumbnail (small, medium or large
+     *                                    -- small is default).
+     * @param bool   $fallbackToCoverShow Indicates whether to use /Cover/Show as
+     *                                    fallback when no thumbnail could be
+     *                                    resolved from an external resource server.
      *
      * @return string|bool
      */
-    public function getThumbnail($size = 'small')
+    public function getThumbnail($size = 'small', $fallbackToCoverShow = true)
     {
         // Try to build thumbnail:
         $thumb = $this->driver->tryMethod('getThumbnail', [$size]);
@@ -529,7 +532,7 @@ class Record extends VuFindRecord
 
                 return  $this->config->Content->externalResourcesServer .
                     substr($urlSrc, $position) . '?' . http_build_query($thumb);
-            } else {
+            } else if ($fallbackToCoverShow) {
                 $urlHelper = $this->getView()->plugin('url');
 
                 return $urlHelper('cover-show') . '?' . http_build_query($thumb);
@@ -624,5 +627,33 @@ class Record extends VuFindRecord
     public function hasSufficientData()
     {
         return $this->driver->tryMethod('hasSufficientData', [], true);
+    }
+
+    /**
+     * Tries to extract a thumbnail URL from the underlying record driver. This is a
+     * variant of the getThumbnail() method which handles the data from the record in
+     * a different way. If no thumbnail is available it tries the getThumbnail()
+     * method as a last option.
+     *
+     * @param bool $fallbackToCoverShow Indicates whether to use /Cover/Show as
+     *                                  fallback when no thumbnail could be
+     *                                  resolved from an external resource server.
+     *
+     * @return string|null
+     */
+    public function getThumbnailFromRecord($fallbackToCoverShow = true)
+    {
+        $thumbnails = $this->driver->tryMethod('getThumbnail');
+        $result = null;
+
+        if (is_array($thumbnails) && count($thumbnails) > 0) {
+            $result = $thumbnails[0];
+        }
+
+        if (is_null($result)) {
+            $result = $this->getThumbnail('small', $fallbackToCoverShow);
+        }
+
+        return $result;
     }
 }
