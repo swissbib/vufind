@@ -96,9 +96,16 @@ class TargetsProxy
     /**
      * Config
      *
-     * @var VFConfigPluginManager
+     * @var Config
      */
     protected $config;
+
+    /**
+     * TargetsProxyConfig
+     *
+     * @var Config
+     */
+    protected $targetsProxyConfig;
 
     /**
      * Initialize proxy with config
@@ -107,14 +114,15 @@ class TargetsProxy
      * @param ZendLogger            $logger              ZendLogger
      * @param Request               $request             Request
      */
-    public function __construct(VFConfigPluginManager $configPluginManager,
+    public function __construct($config, $targetsProxyConfig,
         ZendLogger $logger, Request $request
     ) {
-        $this->config = $configPluginManager;
+        $this->config = $config;
+        $this->targetsProxyConfig = $targetsProxyConfig;
         $this->logger = $logger;
         $trustedProxies = explode(
             ',',
-            $this->config->get('TargetsProxy')->get('TrustedProxy')->get('loadbalancer')
+            $this->targetsProxyConfig->get('TrustedProxy')->get('loadbalancer')
         );
 
         // Populate client info properties from request
@@ -203,7 +211,7 @@ class TargetsProxy
      */
     public function getConfig()
     {
-        return $this->config;
+        return $this->targetsProxyConfig;
     }
 
     /**
@@ -224,7 +232,7 @@ class TargetsProxy
 
         $targetKeys = explode(
             ',',
-            $this->config->get('TargetsProxy')->get('TargetsProxy')
+            $this->targetsProxyConfig->get('TargetsProxy')
                 ->get('targetKeys' . $this->searchClass)
         );
 
@@ -251,7 +259,7 @@ class TargetsProxy
              *
              * @var \Zend\Config\Config $targetConfig
              */
-            $targetConfig = $this->config->get('TargetsProxy')->get($targetKey);
+            $targetConfig = $this->targetsProxyConfig->get($targetKey);
             $patternsIP = '';
             $patternsURL = '';
 
@@ -301,7 +309,7 @@ class TargetsProxy
     private function _setConfigKeys($targetKey)
     {
         $this->targetKey = $targetKey;
-        $vfConfig = $this->config->get('config')->toArray();
+        $vfConfig = $this->config->toArray();
         $this->targetApiId = $vfConfig[$this->targetKey]['apiId'];
         $this->targetApiKey = $vfConfig[$this->targetKey]['apiKey'];
     }
