@@ -158,7 +158,8 @@ class HoldingActions extends AbstractTranslatorHelper
 
         $data = [
             'actions'     => $actions,
-            'listClass'    => $listClass
+            'listClass'    => $listClass,
+            'networkAndInstitutionCode' => $item['network'] . '-' . $item['institution']
         ];
 
         return $this->getView()->render('Holdings/holding-actions', $data);

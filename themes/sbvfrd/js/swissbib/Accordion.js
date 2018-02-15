@@ -100,6 +100,10 @@ $(document).ready(function () {
 
     //on (re)load - open direct link library
     var expandlib = swissbib.Accordion.getParameterByName('expandlib');
+    if (expandlib === null) {
+        expandlib = window.sessionStorage.getItem('expandlib');
+        window.sessionStorage.removeItem('expandlib');
+    }
     if (expandlib != null) {
         var favoriteId = "favorite";
         var groupId =  expandlib.split('-')[0];
@@ -112,6 +116,7 @@ $(document).ready(function () {
         accordionContainer.find("#collapse-" + groupId).collapse('show');
         accordionContainer.find("a[href='#collapse-" + groupId + "-" + institutionId + "']").click();
     }
+
 
     //on (re)load - open previously expanded groups. if none, open favorites as default an clear cookie as user opened a new record
     var expandedGroupIds = JSON.parse($.cookie(swissbib.Accordion.cookieName));
@@ -129,7 +134,6 @@ $(document).ready(function () {
             var elId = location.hash.replace('#','');
             var scrollToEl = document.getElementById(elId);
             scrollToEl.scrollIntoView(true);
-            console.log(elId);
         }
     }
 });
