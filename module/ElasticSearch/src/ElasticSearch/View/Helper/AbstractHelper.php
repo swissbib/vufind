@@ -271,6 +271,28 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     }
 
     /**
+     * Has Thumbnail
+     *
+     * @return bool
+     */
+    public function hasThumbnail(): bool
+    {
+        $thumbnail = $this->getThumbnailFromRecord();
+        return is_string($thumbnail);
+    }
+
+    /**
+     * Resolves the url to the thumbnail image for a person.
+     *
+     * @return string
+     */
+    public function getThumbnailPath()
+    {
+        $thumbnail = $this->getThumbnailFromRecord();
+        return is_string($thumbnail) ? $thumbnail : null;
+    }
+
+    /**
      * Tries to resolve a thumbnail for the underlying record driver by delegating
      * to the 'record' view helper which attempts to grab a thumbnail path from the
      * record first and if that fails it tries to build a URL from an external server

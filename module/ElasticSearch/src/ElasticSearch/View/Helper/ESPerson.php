@@ -259,28 +259,6 @@ class ESPerson extends AbstractHelper
     }
 
     /**
-     * Has Thumbnail
-     *
-     * @return bool
-     */
-    public function hasThumbnail(): bool
-    {
-        $thumbnail = $this->getThumbnailFromRecord();
-        return is_string($thumbnail);
-    }
-
-    /**
-     * Resolves the url to the thumbnail image for a person.
-     *
-     * @return string
-     */
-    public function getThumbnailPath()
-    {
-        $thumbnail = $this->getThumbnailFromRecord();
-        return is_string($thumbnail) ? $thumbnail : null;
-    }
-
-    /**
      * Has Abstract
      *
      * @return bool
