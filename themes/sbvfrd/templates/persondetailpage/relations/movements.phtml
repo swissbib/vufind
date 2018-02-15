@@ -8,13 +8,12 @@
         <a href="<?= $this->esperson()->getSameMovementSearchLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
     </div>
 </div>
-
 <?= $this->render(
     '/detailpage/carousel.phtml', [
         'id' => 'movements',
         'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
         'thumbnail' => '/themes/sbvfrd/images/person-placeholder.png',
-        'total' => 100,
+        'total' => $this->personsOfSameMovementTotal,
         'templates' => [
             'ajax' => $this->ajax()->url([
                 'method' => 'getSameMovementAuthors',

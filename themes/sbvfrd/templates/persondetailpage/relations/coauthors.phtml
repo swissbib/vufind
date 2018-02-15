@@ -13,7 +13,7 @@
         'id' => 'coauthors',
         'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
         'thumbnail' => '/themes/sbvfrd/images/person-placeholder.png',
-        'total' => 100,
+        'total' => $this->coContributorsTotal,
         'templates' => [
             'ajax' => $this->ajax()->url([
                 'method' => 'getCoAuthors',
@@ -26,3 +26,4 @@
         ]
     ]
 ) ?>
+<? endif; ?>
