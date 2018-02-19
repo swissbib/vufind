@@ -1,7 +1,7 @@
 /**
  * Defines breakpoint names for common screen sizes.
  */
-class BreakpointNames {
+export class BreakpointNames {
 
     /**
      * Name for extra small devices like smartphones.
@@ -46,7 +46,7 @@ class BreakpointNames {
 /**
  * A data structure that describes a collection of named breakpoints.
  */
-class BreakpointCollection {
+export class BreakpointCollection {
 
     /**
      * Maps media queries to breakpoint names for easier access.
@@ -105,8 +105,15 @@ export default class Breakpoints {
 
     static readonly CAROUSEL: BreakpointCollection = new BreakpointCollection(
         "only screen and (max-width: 767px)",
-        "only screen and (min-width : 768px) and (max-width: 991px)",
-        "only screen and (min-width : 992px) and (max-width: 1199px)",
-        "only screen and (min-width : 1200px)"
+        "only screen and (min-width: 768px) and (max-width: 991px)",
+        "only screen and (min-width: 992px) and (max-width: 1199px)",
+        "only screen and (min-width: 1200px)"
+    );
+
+    static readonly BOOTSTRAP: BreakpointCollection = new BreakpointCollection(
+        "only screen and (max-width: 480px)",
+        "only screen and (min-width: 481px) and (max-width: 768px)",
+        "only screen and (min-width: 769px) and (max-width: 1199px)",
+        "only screen and (min-width: 1200px)"
     );
 }
