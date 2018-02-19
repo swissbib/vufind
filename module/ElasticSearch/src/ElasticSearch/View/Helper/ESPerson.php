@@ -127,26 +127,8 @@ class ESPerson extends AbstractHelper
      */
     public function getDisplayName()
     {
-        $first = $this->getPerson()->getFirstName();
-        $last = $this->getPerson()->getLastName();
-        $name = $this->getPerson()->getName();
-        $displayName = null;
-
-        $first = is_array($first) ? implode(' ', $first) : $first;
-        $last = is_array($last) ? implode(' ', $last) : $last;
-        $name = is_array($name) ? implode(' ', $name) : $name;
-
-        if (!is_null($first) && !is_null($last)) {
-            $displayName = sprintf('%s %s', $first, $last);
-        } else if (!is_null($first)) {
-            $displayName = sprintf('%s', $first);
-        } else if (!is_null($last)) {
-            $displayName = sprintf('%s', $last);
-        } else if (!is_null($name)) {
-            $displayName = sprintf('%s', $name);
-        }
-
-        return $this->escape($displayName);
+        $recordHelper = $this->getView()->record($this->getDriver());
+        return $recordHelper->getDisplayName();
     }
 
     /**

@@ -656,4 +656,35 @@ class Record extends VuFindRecord
 
         return $result;
     }
+
+    /**
+     * Attempts to resolve a display name from the underlying record driver. The
+     * method takes the first name, last name and name fields into account if
+     * available. If non is available null is returned.
+     *
+     * @return null|string
+     */
+    public function getDisplayName()
+    {
+        $first = $this->driver->tryMethod('getFirstName');
+        $last = $this->driver->tryMethod('getLastName');
+        $name = $this->driver->tryMethod('getName');
+        $displayName = null;
+
+        $first = is_array($first) ? implode(' ', $first) : $first;
+        $last = is_array($last) ? implode(' ', $last) : $last;
+        $name = is_array($name) ? implode(' ', $name) : $name;
+
+        if (!is_null($first) && !is_null($last)) {
+            $displayName = sprintf('%s %s', $first, $last);
+        } else if (!is_null($first)) {
+            $displayName = sprintf('%s', $first);
+        } else if (!is_null($last)) {
+            $displayName = sprintf('%s', $last);
+        } else if (!is_null($name)) {
+            $displayName = sprintf('%s', $name);
+        }
+
+        return $displayName;
+    }
 }
