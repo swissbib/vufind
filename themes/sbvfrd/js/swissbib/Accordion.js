@@ -102,7 +102,6 @@ $(document).ready(function () {
     var expandlib = swissbib.Accordion.getParameterByName('expandlib');
     if (expandlib === null) {
         expandlib = window.sessionStorage.getItem('expandlib');
-        window.sessionStorage.removeItem('expandlib');
     }
     if (expandlib != null) {
         var favoriteId = "favorite";
@@ -124,6 +123,7 @@ $(document).ready(function () {
         $.each((expandedGroupIds[swissbib.Accordion.idRecord]), function (index, value){
             $("#" + value).collapse('show');
         });
+        window.sessionStorage.removeItem('expandlib');
     } else {
         accordionContainer.find("#collapse-favorite").collapse('show');
         $.cookie(swissbib.Accordion.cookieName, null);
