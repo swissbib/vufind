@@ -248,6 +248,30 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     }
 
     /**
+     * Utilizes the URL escaper and performs batch escaping in case the given value
+     * is an array.
+     *
+     * @param string|array|null $value the value to escape.
+     *
+     * @return array|string|null
+     */
+    public function escapeUrl($value = null)
+    {
+        $result = null;
+
+        if (is_array($value)) {
+            $result = [];
+            foreach ($value as $key => $url) {
+                $result[$key] = $this->getView()->escapeUrl($url);
+            }
+        } else if (!is_null($value)) {
+            $result = $this->getView()->escapeUrl($value);
+        }
+
+        return $result;
+    }
+
+    /**
      * Creates a string that contains the resolve translation value for the given key
      * and appends the specified number of results in round brackets.
      *
