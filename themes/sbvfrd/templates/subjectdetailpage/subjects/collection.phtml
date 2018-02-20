@@ -1,0 +1,8 @@
+<? $this->essubjectcollection()->setCollection($this->{$this->collection}); ?>
+
+<? if ($this->essubjectcollection()->hasItems()): ?>
+    <div class="row <?= $this->collection ?>">
+        <div class="col-sm-2"><?= $this->translate('subject.metadata.subject.'.$this->collection) ?></div>
+        <div class="col-sm-10"><?= $this->render('subjects/links.phtml'); ?></div>
+    </div>
+<? endif; ?>

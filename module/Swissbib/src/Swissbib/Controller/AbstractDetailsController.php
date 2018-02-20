@@ -116,17 +116,29 @@ abstract class AbstractDetailsController extends AbstractBase
 
         try {
             $driver = $this->getRecordDriver($id, $subjectIndex, $subjectType);
+
+            $bibliographicResources = $this->getBibliographicResourcesOf($id);
+            $subjectIds = $this->getSubjectIdsFrom($bibliographicResources);
+            $subjects = $this->getSubjectsOf($subjectIds);
+
             $subSubjects = $this->getSubSubjects($id);
             $parentSubjects = $this->getParentSubjects(
                 $driver->getParentSubjects()
             );
 
-            return $this->createViewModel(
+            $viewModel = $this->createViewModel(
                 [
                     "driver" => $driver, "parents" => $parentSubjects,
                     "children" => $subSubjects
                 ]
             );
+
+            $this->addData(
+                $viewModel, $id, $driver, $bibliographicResources, $subjectIds,
+                $subjects
+            );
+
+            return $viewModel;
         } catch (\Exception $e) {
             return $this->createErrorView($id, $e);
         }
