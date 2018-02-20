@@ -61,15 +61,20 @@ export default class Templates extends TemplateBase {
     public entry(entry: DataEntry): string {
         const thumbnail: string = entry.thumbnail ? entry.thumbnail : this.configuration.thumbnail;
         const infoLink: string = entry.sufficientData ? `<a data-lightbox href="${this.info(entry)}"><span class="fa fa-info-circle fa-lg" style="display: inline;"></span></a>`: ``;
+        let imagePageLink: string;
+        let labelPageLink: string;
+
+        if (entry.id) {
+            imagePageLink = `<a href="${this.page(entry)}"><img src="${thumbnail}"></a>`;
+            labelPageLink = `<a href="${this.page(entry)}">${entry.displayName}</a>`;
+        } else {
+            imagePageLink = `<img src="${thumbnail}">`;
+            labelPageLink = entry.displayName;
+        }
 
         const template: string =
-            `<div class="thumbnail-wrapper">` +
-                `<a href="${this.page(entry)}"><img src="${thumbnail}"></a>` +
-            `</div>` +
-            `<div class="label-wrapper">` +
-                `<a href="${this.page(entry)}">${entry.name}</a>` + '&nbsp;' +
-                `${infoLink}` +
-            `</div>`;
+            `<div class="thumbnail-wrapper">${imagePageLink}</div>` +
+            `<div class="label-wrapper">${labelPageLink}&nbsp;${infoLink}</div>`;
 
         return template;
     }
@@ -80,7 +85,7 @@ export default class Templates extends TemplateBase {
      * @return {string}
      */
     public emptyEntry(): string {
-        return this.entry({id: "", name: "&nbsp", sufficientData: false, thumbnail: null});
+        return this.entry({id: null, name: null, displayName: "&nbsp;", sufficientData: false, thumbnail: null});
     }
 
     /**

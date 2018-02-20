@@ -246,4 +246,63 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     {
         return is_null($value) ? null : $this->getView()->escapeHtml($value);
     }
+
+    /**
+     * Creates a string that contains the resolve translation value for the given key
+     * and appends the specified number of results in round brackets.
+     *
+     * @param string $translationKey The key to localize the headline text.
+     * @param int    $numResults     The total number of results of the according
+     *                               search.
+     * @param bool   $useDisplayName Indicates whether to use the translation key to
+     *                               resolve a label based on the display name of the
+     *                               helper's underlying record.
+     *
+     * @return string
+     */
+    public function getSearchResultHeadline(
+        string $translationKey, int $numResults, bool $useDisplayName = false
+    ): string {
+        $headline = $useDisplayName
+            ? $this->resolveLabelWithDisplayName($translationKey)
+            : $this->getView()->translate($translationKey);
+
+        return sprintf('%s (%u)', $headline, $numResults);
+    }
+
+    /**
+     * Has Thumbnail
+     *
+     * @return bool
+     */
+    public function hasThumbnail(): bool
+    {
+        $thumbnail = $this->getThumbnailFromRecord();
+        return is_string($thumbnail);
+    }
+
+    /**
+     * Resolves the url to the thumbnail image for a person.
+     *
+     * @return string
+     */
+    public function getThumbnailPath()
+    {
+        $thumbnail = $this->getThumbnailFromRecord();
+        return is_string($thumbnail) ? $thumbnail : null;
+    }
+
+    /**
+     * Tries to resolve a thumbnail for the underlying record driver by delegating
+     * to the 'record' view helper which attempts to grab a thumbnail path from the
+     * record first and if that fails it tries to build a URL from an external server
+     * configuration as last option.
+     *
+     * @return string|null
+     */
+    protected function getThumbnailFromRecord()
+    {
+        $recordHelper = $this->getView()->record($this->getDriver());
+        return $recordHelper->getThumbnailFromRecord(false);
+    }
 }

@@ -2,7 +2,60 @@
  * This component connects to the window's 'resize' event and triggers registered callbacks whenever a specific media
  * query matches.
  */
+import {BreakpointCollection, BreakpointNames} from "./Breakpoints";
+
 export default class MediaQueryObserver {
+
+    /**
+     * Tests all defined breakpoint in the given collection whether they match the current media state.
+     *
+     * @param {BreakpointCollection} collection
+     * The breakpoint collection to test.
+     *
+     * @return {Array<string>}
+     * An array of the breakpoint names which matched the current media state.
+     */
+    public static test(collection:BreakpointCollection): Array<string> {
+        const result:Array<string> = [];
+
+        BreakpointNames.all.forEach((name: string): void => {
+            if (window.matchMedia(Object(collection)[name]).matches) {
+                console.log("matched:", name, Object(collection)[name]);
+                result.push(name);
+            }
+        });
+
+        return result;
+    }
+
+    /**
+     * Tests whether at least one or all given names have matching breakpoints in the specified collection.
+     *
+     * @param {BreakpointCollection} collection
+     * The breakpoint collection to test.
+     *
+     * @param {Array<string>} names
+     * The breakpoint names to check for.
+     *
+     * @param {Boolean} inclusive
+     * Indicates whether all names (true) or at least one name (false) has to match.
+     *
+     * @return {Boolean}
+     * In case the breakpoints for all given names are matching then true is returned.
+     */
+    public static matchesNames(collection:BreakpointCollection, names:Array<string>, inclusive:boolean = false): boolean {
+        const matchingNames:Array<string> = this.test(collection);
+        let result: boolean = inclusive;
+
+        matchingNames.forEach((name: string): void => {
+            const matched: boolean = names.indexOf(name) !== -1;
+            result = inclusive
+                ? result && matched
+                : result || matched;
+        });
+
+        return result;
+    }
 
     /**
      * Storage for registered callbacks.

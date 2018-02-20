@@ -65,6 +65,14 @@ abstract class ElasticSearch extends AbstractBase
     abstract public function getName();
 
     /**
+     * Indicates whether the record has sufficient data to be shown in lean record
+     * views like knowledge-cards.
+     *
+     * @return bool
+     */
+    abstract public function hasSufficientData(): bool;
+
+    /**
      * Return the unique identifier of this record for retrieving additional
      * information (like tags and user comments) from the external MySQL
      * database.

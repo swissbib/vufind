@@ -152,4 +152,15 @@ class ESBibliographicResource extends ElasticSearch
         }
         return [];
     }
+
+    /**
+     * Indicates whether the record has sufficient data to be shown in lean record
+     * views like knowledge-cards.
+     *
+     * @return bool
+     */
+    public function hasSufficientData(): bool
+    {
+        return true;
+    }
 }

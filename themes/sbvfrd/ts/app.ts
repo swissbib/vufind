@@ -6,6 +6,7 @@ import Settings from "./autosuggest/Settings";
 import RecordRenderer from "./RecordRenderer";
 import CarouselManager from "./carousel/CarouselManager";
 import MediaQueryObserver from "./common/MediaQueryObserver";
+import BackToTopButton from "./components/BackToTopButton";
 
 $(document).ready(() => {
     const recordRenderer = new RecordRenderer(window.location.origin + VuFind.path + "/AJAX/Json");
@@ -51,4 +52,9 @@ authorid="${p.id}"></span></a></li>`;
     carouselManager.initialize();
     carouselManager.activate();
     swissbib.carouselManager = carouselManager;
+
+    // components
+    const backToTopButtonDom: string = '<a id="back-to-top-btn" href="#" class="hidden-md hidden-lg"></a>';
+    const backToTopButton: BackToTopButton = new BackToTopButton(backToTopButtonDom);
+    backToTopButton.initialize();
 });
