@@ -43,7 +43,7 @@ if (preg_match('/[\s\S]*<ul[\s\S]*<\/ul>[\s\S]*/', $holdingActionsContent)): ?>
 <? endif; ?>
 <tr>
   <th><?= $headers['availability'] ?></th>
-  <td><?= $this->availabilityInfo($item['availability']) ?>
+  <td><?= $this->availabilityInfo($item['availability'], $institution) ?>
     <? if (($item['network'] === 'IDSBB') && (isset($item['holding_status']) | isset($item['process_status'])) && (($item['holding_status'] === '55') | ($item['process_status'] === 'ES'))): ?>
       <? $addressURL = $this->redirectProtocolWrapper()->getWrappedURL('http://aleph.unibas.ch/F/?func=item-loan&adm_library=DSV51&doc_number='. $item['localid'] . '&item_sequence='. $item['sequencenumber']); ?>
       <a href="<?= $this->escapeHtml($addressURL)?>" target="_blank" title="<?= $this->transEsc('Address') ?>" onclick="swissbib.trackLink('<?=$this->escapeHtml($addressURL)?>')"><?= $this->transEsc('Address') ?></a>
