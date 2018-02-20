@@ -92,10 +92,6 @@ class NationalLicenceServiceTest extends VuFindTestCase
         parent::setUp();
         $this->sm = Bootstrap::getServiceManager();
 
-
-
-
-
         $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/NationalLicence/fixtures/';
         $iniReader = new IniReader();
 
@@ -109,19 +105,13 @@ class NationalLicenceServiceTest extends VuFindTestCase
         );
         $credentials = $config['SwitchApiCredentials'];
 
-
         $configNL = new Config(
             $iniReader->fromFile($path . 'NationalLicencesTest.ini')
         );
 
         $this->switchApiService = new SwitchApi($credentials, $configSwitchAPI);
 
-
         $this->externalIdTest = $configSwitchAPI['external_id_test'];
-
-
-
-
 
         $this->nationalLicenceService
             = new NationalLicence(
