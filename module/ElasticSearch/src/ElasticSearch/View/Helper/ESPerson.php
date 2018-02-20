@@ -90,6 +90,16 @@ class ESPerson extends AbstractHelper
     }
 
     /**
+     * Provides the type to use as search queries.
+     *
+     * @return string
+     */
+    public function getSearchType(): string
+    {
+        return 'Author';
+    }
+
+    /**
      * The person
      *
      * @var \ElasticSearch\VuFind\RecordDriver\ESPerson
@@ -344,29 +354,6 @@ class ESPerson extends AbstractHelper
     }
 
     /**
-     * Gets the MediaSearchLink
-     *
-     * @param string $template       The template
-     * @param string $label          The label to be rendered.
-     * @param bool   $translateLabel Indicates whether to treat the label parameter
-     *                               as localization key or to use it as is.
-     *
-     * @return string
-     */
-    public function getMediaSearchLink(
-        string $template, string $label, bool $translateLabel = false
-    ): string {
-        $label = $translateLabel ? $this->getView()->translate($label) : $label;
-        $url = $this->getView()->url('search-results');
-        $url = sprintf(
-            '%s?lookfor=%s&type=Author', $url,
-            urlencode($this->getPerson()->getName())
-        );
-
-        return sprintf($template, $url, $label);
-    }
-
-    /**
      * Gets the NotableWork
      *
      * @param string $delimiter The notable work item delimiter to join all items
@@ -519,34 +506,5 @@ class ESPerson extends AbstractHelper
         $route = sprintf('persons-search-%s', $search);
 
         return sprintf('%s?lookfor=%s', $this->getView()->url($route), $name);
-    }
-
-    /**
-     * Generates a person reference link when the given link matches one of the
-     * patterns in the record references configuration.
-     *
-     * @param string              $template   The template string to use.
-     * @param string              $link       The link to be checked and meroged into
-     *                                        the template string.
-     * @param \Zend\Config\Config $references All configured record references.
-     *
-     * @return string
-     * In case the given link does not match on one of the record reference patterns,
-     * then an empty string is returned.
-     */
-    public function getRecordReference(
-        string $template, string $link, ZendConfig $references
-    ): string {
-
-        $result = '';
-
-        foreach ($references as $id => $reference) {
-            if (preg_match($reference->pattern, $link) === 1) {
-                $result = sprintf($template, $link, $reference->label);
-                break;
-            }
-        }
-
-        return $result;
     }
 }
