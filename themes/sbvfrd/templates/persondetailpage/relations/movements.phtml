@@ -17,7 +17,7 @@
         'templates' => [
             'ajax' => $this->ajax()->url([
                 'method' => 'getSameMovementAuthors',
-                'movement' => $this->escapeUrl($this->driver->getMovement()),
+                'movement' => $this->esperson()->escapeUrl($this->driver->getMovement()),
                 'page' => '{page}',
                 'size' => '{size}'
             ], '{}'),
