@@ -91,7 +91,7 @@ export default class DataLoader implements SearchResultProvider {
     private getSearchUrl(page: number, size: number): string {
         // TODO: Check whether the following is actually true
         // page is zero-based internally but one-based interpreted by server side
-        return VuFind.path + (new Templates(this.carousel.configuration)).ajax(page + 1, size);
+        return (new Templates(this.carousel.configuration)).ajax(page + 1, size);
     }
 
     /**
