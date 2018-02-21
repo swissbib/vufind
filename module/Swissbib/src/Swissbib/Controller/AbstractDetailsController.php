@@ -270,7 +270,7 @@ abstract class AbstractDetailsController extends AbstractBase
     {
         $model = new ViewModel(
             [
-                'message' => 'Can not find a Knowledge Card for id: ' . $id,
+                'message' => 'Can not find a Record for id: ' . $id,
                 'display_exceptions' => APPLICATION_ENV === "development",
                 'exception' => $e
             ]

@@ -12,7 +12,7 @@
     '/detailpage/carousel.phtml', [
         'id' => 'coauthors',
         'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
-        'thumbnail' => '/themes/sbvfrd/images/person-placeholder.png',
+        'thumbnail' => $this->imageLink('person-placeholder.png'),
         'total' => $this->coContributorsTotal,
         'templates' => [
             'ajax' => $this->ajax()->url([
