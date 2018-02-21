@@ -70,14 +70,12 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     public function personAction()
     {
-        $personIndex = "lsb";
-        $personType = "person";
-        $id = $this->params()->fromRoute('id', []);
+        $info = $this->getPersonInfo();
 
         try {
-            $driver = $this->getRecordDriver($id, $personIndex, $personType);
+            $driver = $this->getRecordDriver($info->id, $info->index, $info->type);
 
-            $bibliographicResources = $this->getBibliographicResourcesOf($id);
+            $bibliographicResources = $this->getBibliographicResourcesOf($info->id);
 
             $subjectIds = $this->getSubjectIdsFrom($bibliographicResources);
 
@@ -92,14 +90,28 @@ abstract class AbstractDetailsController extends AbstractBase
             );
 
             $this->addData(
-                $viewModel, $id, $driver, $bibliographicResources, $subjectIds,
-                $subjects
+                $viewModel, $info->id, $driver, $bibliographicResources,
+                $subjectIds, $subjects
             );
 
             return $viewModel;
         } catch (\Exception $e) {
-            return $this->createErrorView($id, $e);
+            return $this->createErrorView($info->id, $e);
         }
+    }
+
+    /**
+     * Provides an object with index, type and id for a person.
+     *
+     * @return \stdClass
+     */
+    protected function getPersonInfo(): \stdClass
+    {
+        return (object)[
+            'index' => 'lsb',
+            'type' => 'person',
+            'id' => $this->params()->fromRoute('id', [])
+        ];
     }
 
     /**
@@ -109,39 +121,40 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     public function subjectAction()
     {
-        $subjectIndex = "gnd";
-        $subjectType = "DEFAULT";
-
-        $id = "http://d-nb.info/gnd/" . $this->params()->fromRoute('id', []);
+        $info = $this->getSubjectInfo();
 
         try {
-            $driver = $this->getRecordDriver($id, $subjectIndex, $subjectType);
-
-            $bibliographicResources = $this->getBibliographicResourcesOf($id);
-            $subjectIds = $this->getSubjectIdsFrom($bibliographicResources);
-            $subjects = $this->getSubjectsOf($subjectIds);
-
-            $subSubjects = $this->getSubSubjects($id);
+            $driver = $this->getRecordDriver($info->id, $info->index, $info->type);
+            $subSubjects = $this->getSubSubjects($info->id);
             $parentSubjects = $this->getParentSubjects(
                 $driver->getParentSubjects()
             );
 
-            $viewModel = $this->createViewModel(
+            return $this->createViewModel(
                 [
                     "driver" => $driver, "parents" => $parentSubjects,
                     "children" => $subSubjects
                 ]
             );
-
-            $this->addData(
-                $viewModel, $id, $driver, $bibliographicResources, $subjectIds,
-                $subjects
-            );
-
-            return $viewModel;
         } catch (\Exception $e) {
-            return $this->createErrorView($id, $e);
+            return $this->createErrorView($info->id, $e);
         }
+    }
+
+    /**
+     * Provides an object with index, type and id for a subject.
+     *
+     * @return \stdClass
+     */
+    protected function getSubjectInfo(): \stdClass
+    {
+        $prefix = 'http://d-nb.info/gnd/';
+
+        return (object)[
+            'index' => "gnd",
+            'type' => "DEFAULT",
+            'id' => $prefix . $this->params()->fromRoute('id', [])
+        ];
     }
 
     /**
