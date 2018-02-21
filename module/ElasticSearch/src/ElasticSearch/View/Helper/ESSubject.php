@@ -79,6 +79,16 @@ class ESSubject extends AbstractHelper
     }
 
     /**
+     * Provides the type to use as search queries.
+     *
+     * @return string
+     */
+    public function getSearchType(): string
+    {
+        return 'DEFAULT';
+    }
+
+    /**
      * Gets the  s the Subject
      *
      * @return \ElasticSearch\VuFind\RecordDriver\ESSubject

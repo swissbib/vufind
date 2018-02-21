@@ -1,0 +1,17 @@
+<a id="detailpage-common"></a>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="hidden-xs"><?= $this->essubject()->getDisplayName() ?></h2>
+                <?= $this->render('common/metadata.phtml') ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <?= $this->context($this)->renderInContext('/detailpage/medias.phtml', ['type' => 'subject']) ?>
+    </div>
+</div>

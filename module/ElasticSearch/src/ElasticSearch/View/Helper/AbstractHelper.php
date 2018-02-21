@@ -27,8 +27,9 @@
  */
 namespace ElasticSearch\View\Helper;
 
-use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
-use VuFind\Search\Base\Results;
+use ElasticSearch\VuFind\RecordDriver\ElasticSearch as ElasticSearch;
+use VuFind\Search\Base\Results as Results;
+use Zend\Config\Config as ZendConfig;
 
 /**
  * Class AbstractHelper
@@ -82,6 +83,13 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      * @return string
      */
     abstract public function getType(): string;
+
+    /**
+     * Provides the type to use as search queries.
+     *
+     * @return string
+     */
+    abstract public function getSearchType(): string;
 
     /**
      * Resolves Label With Display Name
@@ -219,8 +227,8 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     /**
      * Generates a label string with counting information based on the given results.
      *
-     * @param \VuFind\Search\Base\Results $results The results to use for retrieving
-     *                                             counting information.
+     * @param Results $results The results to use for retrieving counting
+     *                         information.
      *
      * @return string
      */
@@ -245,6 +253,30 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     protected function escape(string $value = null)
     {
         return is_null($value) ? null : $this->getView()->escapeHtml($value);
+    }
+
+    /**
+     * Utilizes the URL escaper and performs batch escaping in case the given value
+     * is an array.
+     *
+     * @param string|array|null $value the value to escape.
+     *
+     * @return array|string|null
+     */
+    public function escapeUrl($value = null)
+    {
+        $result = null;
+
+        if (is_array($value)) {
+            $result = [];
+            foreach ($value as $key => $url) {
+                $result[$key] = $this->getView()->escapeUrl($url);
+            }
+        } else if (!is_null($value)) {
+            $result = $this->getView()->escapeUrl($value);
+        }
+
+        return $result;
     }
 
     /**
@@ -305,4 +337,57 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
         $recordHelper = $this->getView()->record($this->getDriver());
         return $recordHelper->getThumbnailFromRecord(false);
     }
+
+    /**
+     * Generates a reference link to an external resource about the record when the
+     * given link matches one of the patterns in the record references configuration.
+     *
+     * @param string     $template   The template string to use.
+     * @param string     $link       The link to be checked and meroged into
+     *                                        the template string.
+     * @param ZendConfig $references All configured record references.
+     *
+     * @return string
+     * In case the given link does not match on one of the record reference patterns,
+     * then an empty string is returned.
+     */
+    public function getRecordReference(
+        string $template, string $link, ZendConfig $references
+    ): string {
+
+        $result = '';
+
+        foreach ($references as $id => $reference) {
+            if (preg_match($reference->pattern, $link) === 1) {
+                $result = sprintf($template, $link, $reference->label);
+                break;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Gets the MediaSearchLink
+     *
+     * @param string $template       The template
+     * @param string $label          The label to be rendered.
+     * @param bool   $translateLabel Indicates whether to treat the label parameter
+     *                               as localization key or to use it as is.
+     *
+     * @return string
+     */
+    public function getMediaSearchLink(
+        string $template, string $label, bool $translateLabel = false
+    ): string {
+        $label = $translateLabel ? $this->getView()->translate($label) : $label;
+        $url = $this->getView()->url('search-results');
+        $url = sprintf(
+            '%s?lookfor=%s&type=%s', $url,
+            urlencode($this->getDriver()->getName()), $this->getSearchType()
+        );
+
+        return sprintf($template, $url, $label);
+    }
+
 }

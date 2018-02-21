@@ -7,6 +7,6 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <?= $this->render('/detailpage/medias.phtml') ?>
+        <?= $this->context($this)->renderInContext('/detailpage/medias.phtml', ['type' => 'person']) ?>
     </div>
 </div>

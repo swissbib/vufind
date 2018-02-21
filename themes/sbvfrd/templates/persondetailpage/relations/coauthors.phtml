@@ -17,7 +17,7 @@
         'templates' => [
             'ajax' => $this->ajax()->url([
                 'method' => 'getCoAuthors',
-                'person' => $this->escapeUrl($this->driver->getUniqueId()),
+                'person' => $this->esperson()->escapeUrl($this->driver->getUniqueId()),
                 'page' => '{page}',
                 'size' => '{size}'
             ], '{}'),

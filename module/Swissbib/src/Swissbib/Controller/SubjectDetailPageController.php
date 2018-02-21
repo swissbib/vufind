@@ -48,7 +48,46 @@ class SubjectDetailPageController extends DetailPageController
      */
     public function subjectAction()
     {
-        return parent::subjectAction();
+        $viewModel = parent::subjectAction();
+
+        if (!isset($viewModel->exception)) {
+            // in case parent class implementation did not generate an error already
+            $viewModel = $this->extendViewModel($viewModel);
+        }
+
+        return $viewModel;
+    }
+
+    /**
+     * Extends the view model by media data if possible.
+     *
+     * @param \Zend\View\Model\ViewModel $viewModel The view model to extend.
+     *
+     * @return \Zend\View\Model\ViewModel
+     * Either the extended model or a new view model in case an exception occurred.
+     */
+    protected function extendViewModel(ViewModel $viewModel): ViewModel
+    {
+        $info = $this->getSubjectInfo();
+
+        try {
+            // access the driver from the view model directly instead of triggering
+            // complex resolution jobs again
+            $driver = $viewModel->driver;
+
+            $bibliographicResources = $this->getBibliographicResourcesOf($info->id);
+            $subjectIds = $this->getSubjectIdsFrom($bibliographicResources);
+            $subjects = $this->getSubjectsOf($subjectIds);
+
+            $this->addData(
+                $viewModel, $info->id, $driver, $bibliographicResources,
+                $subjectIds, $subjects
+            );
+
+            return $viewModel;
+        } catch (\Exception $e) {
+            return $this->createErrorView($info->id, $e);
+        }
     }
 
     /**

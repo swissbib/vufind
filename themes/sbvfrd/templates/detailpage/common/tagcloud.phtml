@@ -11,7 +11,7 @@
         ]);
     ?>
     <? if ($record->hasSufficientData()): ?>
-        <?= $this->render('knowledgecard/common/link.phtml', [
+        <?= $this->render('/knowledgecard/common/link.phtml', [
                 'type' => strtolower($this->type),
                 'record' => $record
             ]);
