@@ -28,7 +28,6 @@
 namespace ElasticSearch\View\Helper;
 
 use Swissbib\Util\Text\Splitter;
-use Zend\Config\Config as ZendConfig;
 
 /**
  * Class ESPerson
