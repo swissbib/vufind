@@ -1,28 +1,9 @@
-<?
-$links = $this->driver->getSameAs();
-$patterns = [
-    "GND" => "/^http:\\/\\/d-nb.info\\/gnd\\/.*$/",
-    "DBPedia" => "/^http:\\/\\/dbpedia.org\\/resource\\/.*$/",
-    "VIAF" => "/^http:\\/\\/viaf.org\\/viaf\\/.*$/"
-];
-?>
-<? if (isset($links)): ?>
-    <h1>{reference-link-list-title}</h1>
+<? $availableReferences = $this->driver->getSameAs(); ?>
+<? if (is_array($availableReferences) && count($availableReferences) > 0): ?>
+    <h1><?= $this->translate('page.detail.person.more') ?></h1>
     <ul>
-        <?
-        foreach ($links as $link):
-            foreach ($patterns as $label => $pattern):
-                if (preg_match($pattern, $link, $matches) === 1):
-                    ?>
-                    <li>
-                        <a href="<?= $link ?>">
-                            <?= $label ?>
-                        </a>
-                    </li>
-                <?
-                endif;
-            endforeach;
-        endforeach; ?>
+        <? foreach ($availableReferences as $link): ?>
+        <?= $this->esperson()->getRecordReference('<li><a href="%s">%s</a></li>', $link, $this->references->record->references) ?>
+        <? endforeach; ?>
     </ul>
 <? endif; ?>
-

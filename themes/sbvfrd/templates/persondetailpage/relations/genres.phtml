@@ -1,8 +1,8 @@
-<? if(!is_null($this->driver->getGenre())): ?>
-<a id="detailpage-genres" />
+<? if ($this->authorsOfSameGenreTotal > 0): ?>
+<a id="detailpage-genres"></a>
 <div class="row">
     <div class="col-xs-9">
-        <h1><?= $this->translate('page.detail.authors.genres') ?> (<?= $this->authorsOfSameGenreTotal ?>)</h1>
+        <h1><?= $this->esperson()->getSearchResultHeadline('page.detail.authors.genres', $this->authorsOfSameGenreTotal) ?></h1>
     </div>
     <div class="col-xs-3">
         <a href="<?= $this->esperson()->getSameGenreSearchLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
@@ -13,7 +13,7 @@
         'id' => 'genres',
         'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
         'thumbnail' => '/themes/sbvfrd/images/person-placeholder.png',
-        'total' => 100,
+        'total' => $this->authorsOfSameGenreTotal,
         'templates' => [
             'ajax' => $this->ajax()->url([
                 'method' => 'getSameGenreAuthors',

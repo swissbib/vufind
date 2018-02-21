@@ -7,6 +7,15 @@ import Breakpoints from "../common/Breakpoints";
 export default class Paginator {
 
     /**
+     * The maximum number of elements to display in the carousel. The carousel will never show more then
+     * MAX_ELEMENT_COUNT elements. Means, that the minimum of MAX_ELEMENT_COUNT and the constructor's elementCount
+     * parameter will be used as maximum.
+     *
+     * @type {number}
+     */
+    private static readonly MAX_ELEMENT_COUNT: number = 120;
+
+    /**
      * Constructor.
      *
      * @param {Pagination} pagination
@@ -15,7 +24,8 @@ export default class Paginator {
      * @param {number} elementCount
      * The total number of elements the paginator has to take into account for paging calculations.
      */
-    constructor(readonly pagination:Pagination, public elementCount: number = 100) {
+    constructor(readonly pagination:Pagination, readonly elementCount: number = 120) {
+        this.elementCount = Math.min(Paginator.MAX_ELEMENT_COUNT, elementCount);
     }
 
     /**

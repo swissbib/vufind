@@ -9,18 +9,51 @@
         width: 100%;
       }
     }
+
+    .label-wrapper {
+      height: 57px;
+      overflow: hidden;
+    }
   }
   .carousel-control {
     &.left, &.right {
       background: none;
+      pointer-events: none;
+      width: 40px;
+      height: 82.5%;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+
+    &.left .icon-prev,
+    &.right .icon-next {
+      pointer-events: all;
+      background-size: 40px 40px;
+      width: 40px;
+      height: 40px;
+
+      &:before {
+        content: " ";
+      }
     }
 
     &.left {
-      left: -15px;
+      left: -20px;
+
+      .icon-prev {
+        background-image: url('/themes/sbvfrd/images/symbols-arrow_left.png');
+      }
     }
 
     &.right {
-      right: -15px;
+      right: -20px;
+
+      .icon-next {
+        background-image: url('/themes/sbvfrd/images/symbols-arrow_right.png');
+      }
     }
 
     &:focus {

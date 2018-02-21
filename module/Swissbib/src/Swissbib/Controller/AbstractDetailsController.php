@@ -28,9 +28,12 @@
 namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
+use Swissbib\Util\Config\FlatArrayConverter;
+use Swissbib\Util\Config\ValueConverter;
 use VuFind\Controller\AbstractBase;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
+use Zend\Config\Config as ZendConfig;
 
 /**
  * Class AbstractDetailsController
@@ -83,7 +86,8 @@ abstract class AbstractDetailsController extends AbstractBase
             $viewModel = $this->createViewModel(
                 [
                     "driver" => $driver, "subjects" => $subjects,
-                    "books" => $bibliographicResources
+                    "books" => $bibliographicResources,
+                    "references" => $this->getPersonRecordReferencesConfig()
                 ]
             );
 
@@ -153,6 +157,8 @@ abstract class AbstractDetailsController extends AbstractBase
      * @param string $type  The type
      *
      * @return ElasticSearch
+     *
+     * @throws \Exception
      */
     protected function getRecordDriver($id, $index, $type): ElasticSearch
     {
@@ -278,5 +284,29 @@ abstract class AbstractDetailsController extends AbstractBase
             }
         }
         return $ids;
+    }
+
+    /**
+     * Provides the record references configuration section.
+     *
+     * @return \Zend\Config\Config
+     */
+    protected function getPersonRecordReferencesConfig(): ZendConfig
+    {
+        $flatArrayConverter = new FlatArrayConverter();
+        $valueConverter = new ValueConverter();
+
+        $searchesConfig
+            = $this->serviceLocator->get('VuFind\Config')->get('searches');
+        $recordReferencesConfig = $flatArrayConverter->fromConfigSections(
+            $searchesConfig, 'RecordReferences'
+        );
+
+        $recordReferencesConfig
+            = $recordReferencesConfig->get('RecordReferences')->toArray();
+
+        return $valueConverter->convert(
+            new ZendConfig($recordReferencesConfig)
+        );
     }
 }
