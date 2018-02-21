@@ -103,6 +103,7 @@ class AjaxController extends VFAjaxController
     protected function getSameGenreAuthorsAjax()
     {
         $genre = $this->getRequest()->getQuery()['genre'] ?? "";
+        $genre =  "[" . urldecode($genre) . "]";
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
         $pageSize = $this->getRequest()->getQuery()['size'] ??
             $this->getConfig()->DetailPage->sameGenreAuthorsSize;
@@ -122,6 +123,7 @@ class AjaxController extends VFAjaxController
     protected function getSameMovementAuthorsAjax()
     {
         $movement = $this->getRequest()->getQuery()['movement'] ?? "";
+        $movement = "[" . urldecode($movement) . "]";
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
         $pageSize = $this->getRequest()->getQuery()['size'] ??
             $this->getConfig()->DetailPage->sameMovementAuthorsSize;
