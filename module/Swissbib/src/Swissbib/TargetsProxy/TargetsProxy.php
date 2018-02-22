@@ -34,7 +34,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Http\PhpEnvironment\RemoteAddress;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger as ZendLogger;
-use VuFind\Config\PluginManager as VFConfigPluginManager;
 
 /**
  * Targets proxy
