@@ -15,7 +15,7 @@
         'thumbnail' => $this->imageLink('person-placeholder.png'),
         'total' => $this->authorsOfSameGenreTotal,
         'templates' => [
-            'ajax' => $this->ajax()->url([
+            'ajax' => $this->ajax([
                 'method' => 'getSameGenreAuthors',
                 'genre' => $this->escapeUrl(implode(",", $this->driver->getGenre())),
                 'page' => '{page}',
