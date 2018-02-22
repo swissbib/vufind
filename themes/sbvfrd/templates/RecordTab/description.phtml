@@ -395,10 +395,12 @@ $prevTitles      = $record->getPreviousTitles();
           <th><?= $this->transEsc('Citation_Note') ?>: </th>
           <td>
               <? foreach ($citenotes as $field): ?>
-                  <? if (empty($field['location'])): ?>
-                      <? $fieldDesc = $field['source']; ?>
-                  <? else: ?>
-                      <? $fieldDesc = $field['source'] . ', ' . $field['location']; ?>
+                  <? if (!empty($field['source'])): ?>
+                      <? if (empty($field['location'])): ?>
+                          <? $fieldDesc = $field['source']; ?>
+                      <? else: ?>
+                          <? $fieldDesc = $field['source'] . ', ' . $field['location']; ?>
+                      <? endif; ?>
                   <? endif; ?>
                   <? if (empty($field['url'])): ?>
                       <?= $this->escapeHtml($fieldDesc) ?> <br/>
