@@ -51,7 +51,7 @@ class Translate extends VFTranslate
      * @param string $str     String to translate
      * @param array  $tokens  Tokens to inject into the translated string
      * @param string $default Default value to use if no translation is found (null
-     * for no default).
+     *                        for no default).
      *
      * @return string
      */

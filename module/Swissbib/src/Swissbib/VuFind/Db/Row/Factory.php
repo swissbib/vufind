@@ -46,7 +46,7 @@ class Factory
      * Construct a generic row object.
      *
      * @param string         $name Name of row to construct (fully qualified
-     * class name, or else a class name within the current namespace)
+     *                             class name, or else a class name within the current namespace)
      * @param ServiceManager $sm   Service manager
      * @param array          $args Extra constructor arguments for row object
      *

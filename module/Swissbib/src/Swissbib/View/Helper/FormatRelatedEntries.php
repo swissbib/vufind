@@ -66,9 +66,9 @@ class FormatRelatedEntries extends AbstractHelper
      *
      * @param array $relatedEntries Related Corporations and Persons
      *                              [
-     *                                  'persons' => [..],
-     *                                  'corporations110' => [...],
-     *                                  'corporations' => [..]
+     *                              'persons' => [..],
+     *                              'corporations110' => [...],
+     *                              'corporations' => [..]
      *                              ]
      *
      * @return array

@@ -45,7 +45,7 @@ class Loader extends VFLoader
      * Support method for loadImage() -- sanitize and store some key values.
      *
      * @param array $settings Settings from loadImage (with missing defaults
-     * already filled in).
+     *                        already filled in).
      *
      * @return void
      */

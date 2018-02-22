@@ -273,7 +273,7 @@ class MultiBackend extends VFMultiBackend
      * otherwise we will return an empty array.
      *
      * @param string $source The source id to use for determining the
-     * configuration file
+     *                       configuration file
      *
      * @return array   The configuration of the driver
      *

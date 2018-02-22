@@ -47,7 +47,7 @@ class Json extends VuFindJson
      *
      * @param object $record   Solr record to format
      * @param string $parentID The starting point for the current recursion
-     * (equivalent to Solr field hierarchy_parent_id)
+     *                         (equivalent to Solr field hierarchy_parent_id)
      *
      * @return string
      */
