@@ -48,7 +48,7 @@ return array(
       'formatRelatedEntries'      => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
       'piwik'                     => 'Swissbib\View\Helper\Swissbib\Factory::getPiwik',
       'nationalLicences'          => 'Swissbib\View\Helper\Swissbib\Factory::getNationalLicences',
-      'autoSuggestConfig'        => 'Swissbib\View\Helper\Swissbib\Factory::getAutoSuggestConfig',
+      'autoSuggestConfig'         => 'Swissbib\View\Helper\Swissbib\Factory::getAutoSuggestConfig',
     ),
     'invokables' => array(
       //'translate' => 'Swissbib\VuFind\View\Helper\Root\Translate',

@@ -168,7 +168,7 @@
   /**
    * Placeholder function for VuFind hook
    */
-  s.updatePageForLoginParent = function() {},
+  s.updatePageForLoginParent = function() {};
 
   /**
    *
@@ -234,7 +234,7 @@
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   };
 
-  s.initNationaLicensesFlow = (function() {
+  s.initNationaLicensesFlow = function() {
 
     $('.nlItem').on("click", function(event) {
       event.preventDefault();
@@ -256,20 +256,19 @@
     //delete it when we have implemented a correct response
     return false;
 
-  }),
+  };
 
-  trackLink: (function (url) {
+  s.trackLink = function(url) {
     $.ajax({
       type: "HEAD",
       async: true,
       data: "trackUrl=" + url,
       url: window.location
     });
-  })
-  });
+  };
 
 
-  var Carousel = function () {
+  var Carousel = function() {
     var infos = {};
 
     /**
