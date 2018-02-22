@@ -60,7 +60,8 @@ class FeedbackForm
      *          "feedback.form.questionType.2":"feedback.form.questionType.2.value"
      *     }
      * })
-     * @Annotation\Attributes({"type":"radio"})
+     * @Annotation\Attributes({"type":"radio", "value":"none"})
+     * @Annotation\Required(true)
      */
     public $questionType;
 
