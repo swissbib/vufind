@@ -1,0 +1,3 @@
+<a href="<?=$this->recordLink()->getUrl($item)?>" class="img-responsive">
+    <img alt="<?= $this->escapeHtml($item->getShortTitle()) ?>" class="recordcover" src="<?= $this->record($item)->getThumbnail('small') ?>"/>
+</a>

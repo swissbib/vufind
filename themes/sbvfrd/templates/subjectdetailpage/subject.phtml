@@ -1,0 +1,15 @@
+<? $this->essubject()->setSubject($this->driver) ?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3 col-sm-push-9">
+            <?= $this->render('navigation.phtml') ?>
+        </div>
+        <div class="col-sm-9 col-sm-pull-3">
+            <?= $this->render('common.phtml') ?>
+        </div>
+    </div>
+</div>
+
+<?= $this->render('relations.phtml') ?>
+<?# var_dump($this->driver->getAllFields()) ?>

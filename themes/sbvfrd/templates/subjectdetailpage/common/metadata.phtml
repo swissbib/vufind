@@ -1,0 +1,5 @@
+<?= $this->render('/detailpage/common/metadata/list.phtml',
+    ['list' => $this->essubject()->getMetadata()->getList('variants', 'definition')]) ?>
+
+<?= $this->render('subjects/parents.phtml'); ?>
+<?= $this->render('subjects/children.phtml'); ?>

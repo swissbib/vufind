@@ -1,0 +1,63 @@
+.sbvfrd.carousel {
+  .carousel-inner {
+    .thumbnail-wrapper {
+      height: 0;
+      padding-bottom: 130%;
+      overflow: hidden;
+
+      & img {
+        width: 100%;
+      }
+    }
+
+    .label-wrapper {
+      height: 57px;
+      overflow: hidden;
+    }
+  }
+  .carousel-control {
+    &.left, &.right {
+      background: none;
+      pointer-events: none;
+      width: 40px;
+      height: 82.5%;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+
+    &.left .icon-prev,
+    &.right .icon-next {
+      pointer-events: all;
+      background-size: 40px 40px;
+      width: 40px;
+      height: 40px;
+
+      &:before {
+        content: " ";
+      }
+    }
+
+    &.left {
+      left: -20px;
+
+      .icon-prev {
+        background-image: url('/themes/sbvfrd/images/symbols-arrow_left.png');
+      }
+    }
+
+    &.right {
+      right: -20px;
+
+      .icon-next {
+        background-image: url('/themes/sbvfrd/images/symbols-arrow_right.png');
+      }
+    }
+
+    &:focus {
+      outline: 0 none;
+    }
+  }
+}

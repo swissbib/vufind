@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "outDir": "themes/sbvfrd/js/swissbib/",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "lib": ["dom", "es6", "es2015.promise"],
+    "target": "es5"
+  },
+  "include": [
+    "themes/**/*.ts",
+    "node_modules/awesome-typescript-loader/lib/runtime.d.ts",
+    "node_modules/@types/jquery/index.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*_spec.ts"
+  ]
+}

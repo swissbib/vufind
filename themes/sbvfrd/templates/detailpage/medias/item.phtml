@@ -1,0 +1,35 @@
+<? // @var $m  Swissbib\RecordDriver\SolrMarc ?>
+<? $record = $this->record($item); ?>
+<div class="row">
+    <div class="hidden-xs col-md-2 no-gutter hidden-print">
+        <?= $this->render('/detailpage/medias/item/thumbnail.phtml') ?>
+    </div>
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>
+                    <a href="<?=$this->recordLink()->getUrl($item)?>" class="title singleLinkForBulk" title="<?= $this->escapeHtml($item->getShortTitle()) ?>">
+                        <?= $this->escapeHtml($item->getShortTitle()) ?>
+                    </a>
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><?= $this->transEsc('page.detail.media.item.author')
+                ?>:</div>
+            <div class="col-md-10"><?= $this->escapeHtml($record->getResponsible($item->getTitleStatement(true), $item)) ?></div>
+        </div>
+        <? if ($item->getHumanReadablePublicationDates()): ?>
+        <div class="row">
+            <div class="col-md-2"><?= $this->transEsc('Year') ?>:</div>
+            <div class="col-md-10"><?= $this->escapeHtml($item->getHumanReadablePublicationDates()[0]) ?></div>
+        </div>
+        <? endif; ?>
+        <? if (!empty($record->getFormatList())): ?>
+        <div class="row">
+            <div class="col-md-2"><?= $this->transEsc('Format') ?>:</div>
+            <div class="col-md-10"><?= $record->getFormatList() ?></div>
+        </div>
+        <? endif; ?>
+    </div>
+</div>

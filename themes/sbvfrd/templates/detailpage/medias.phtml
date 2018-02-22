@@ -1,0 +1,15 @@
+<? $this->accessor = $this->accessor ?? 'medias' ?>
+<? if (isset($this->name)): ?>
+<a id="detailpage-medias-<?= $this->name ?>"></a>
+<? else: ?>
+<a id="detailpage-medias"></a>
+<? endif; ?>
+
+<? $helper = sprintf('es%s', $this->type) ?>
+<? $headline = sprintf('page.detail.%s.media.list.title', $this->type) ?>
+
+<h2><?= $this->{$helper}()->resolveLabelWithDisplayName($headline) ?></h2>
+<h3><?= $this->{$helper}()->getResultsCountingInfoLabel($this->{$this->accessor}) ?></h3>
+
+<?= $this->context($this)->renderInContext('/detailpage/medias/results.phtml', ['accessor' => $this->accessor]) ?>
+<?= $this->{$helper}()->getMediaSearchLink('<a class="btn btn-primary" href="%s">%s</a>', 'common.show.results.all', true) ?>

@@ -1,0 +1,29 @@
+<? if ($this->coContributorsTotal > 0): ?>
+<a id="detailpage-coauthors"></a>
+<div class="row">
+    <div class="col-xs-9">
+        <h1><?= $this->esperson()->getSearchResultHeadline('page.detail.authors.coauthors', $this->coContributorsTotal, true) ?></h1>
+    </div>
+    <div class="col-xs-3">
+        <a href="<?= $this->esperson()->getCoauthorsSearchLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
+    </div>
+</div>
+<?= $this->render(
+    '/detailpage/carousel.phtml', [
+        'id' => 'coauthors',
+        'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
+        'thumbnail' => $this->imageLink('person-placeholder.png'),
+        'total' => $this->coContributorsTotal,
+        'templates' => [
+            'ajax' => $this->ajax()->url([
+                'method' => 'getCoAuthors',
+                'person' => $this->esperson()->escapeUrl($this->driver->getUniqueId()),
+                'page' => '{page}',
+                'size' => '{size}'
+            ], '{}'),
+            'page' => urldecode($this->url('page-detail-person', ['id' => '{id}'])),
+            'info' => urldecode($this->url('card-knowledge-person', ['id' => '{id}']))
+        ]
+    ]
+) ?>
+<? endif; ?>

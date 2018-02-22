@@ -1,0 +1,15 @@
+<ul class="metadata">
+    <?= $this->context($this)->renderInContext(
+        '/knowledgecard/common/metadata/list.phtml', ['list' => $this->esperson()->getMetadata()->getList('job', 'birth', 'death', 'nationality')]
+    )
+    ?>
+
+    <?= $this->render('/knowledgecard/person/common/metadata/abstract.phtml') ?>
+
+    <? if ($this->essubjectcollection()->hasSubjectsInCollection()): ?>
+        <li class="entry section-start">
+            <span class="entry-label"><?= $this->esperson()->getRelatedSubjectsLabel(); ?></span>
+            <span class="entry-value"><?= $this->essubjectcollection()->getSubjectCollectionLinkList('<a class="ref" href="%s">%s</a>'); ?></span>
+        </li>
+    <? endif; ?>
+</ul>

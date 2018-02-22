@@ -54,8 +54,8 @@ class Factory
     public static function getGenericController($name, ServiceManager $sm)
     {
         // Prepend the current namespace unless we receive a FQCN:
-        $class = (strpos($name, '\\') === false)
-            ? __NAMESPACE__ . '\\' . $name : $name;
+        $class = (strpos($name, '\\') === false) ? __NAMESPACE__ . '\\' . $name
+            : $name;
         if (!class_exists($class)) {
             throw new \Exception('Cannot construct ' . $class);
         }
@@ -92,7 +92,6 @@ class Factory
             $sm->getServiceLocator(),
             $sm->getServiceLocator()->get('VuFind\Config')->get('config')
         );
-
     }
 
     /**
@@ -112,7 +111,7 @@ class Factory
      * NationalLicence service.
      *
      * @param ServiceManager $sm Service manager.
-     *                            
+     *
      * @return NationalLicencesController
      */
     public function getNationalLicenceController(ServiceManager $sm)
@@ -139,4 +138,41 @@ class Factory
         );
     }
 
+    /**
+     * Get Knowledge Card Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\KnowledgeCardController
+     */
+    public static function getKnowledgeCardController(ServiceManager $sm)
+    {
+        return new KnowledgeCardController($sm->getServiceLocator());
+    }
+
+    /**
+     * Get Person Detail Page Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\PersonDetailPageController
+     */
+    public static function getPersonDetailPageController(ServiceManager $sm)
+    {
+        $serviceLocator = $sm->getServiceLocator();
+        return new PersonDetailPageController($serviceLocator);
+    }
+
+    /**
+     * Get Subject Detail Page Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\PersonDetailPageController
+     */
+    public static function getSubjectDetailPageController(ServiceManager $sm)
+    {
+        $serviceLocator = $sm->getServiceLocator();
+        return new SubjectDetailPageController($serviceLocator);
+    }
 }

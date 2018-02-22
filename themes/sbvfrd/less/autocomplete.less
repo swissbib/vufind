@@ -1,3 +1,44 @@
 /* crhallberg/autocomplete.js 0.14 */
 @brand-primary : @theme-color;
 @autocomplete-hover-bg  : @brand-primary;
+
+@autocomplete-section-header-bg: @link-color;
+
+
+
+.autocomplete-results {
+
+  -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
+  -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
+
+  border: 0 none;
+
+  .ac-section-divider {
+    display: none;
+  }
+
+  header.ac-section-header {
+    float: none;
+    min-height: 2.5em;
+    max-height: 2.5em;
+    background-color: @autocomplete-section-header-bg;
+    margin-top: auto;
+
+    span.section-label {
+      display: inline-block;
+      margin: 0.5em;
+      float: left;
+    }
+
+    a {
+      display: block;
+      margin: 0.5em;
+      float: right;
+    }
+  }
+
+  a.ac-item:hover {
+    color: white;
+  }
+}
