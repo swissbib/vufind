@@ -109,7 +109,9 @@ class SubjectDetailPageController extends DetailPageController
         ViewModel &$viewModel, string $id, ElasticSearch $driver,
         array $bibliographicResources, array $subjectIds, array $subjects
     ) {
-        $medias = $this->solrsearch()->getMedias("Subject", $driver);
+        $medias = $this->solrsearch()->getMedias(
+            "Subject", $driver, $this->config->mediaLimit
+        );
         $viewModel->setVariable("medias", $medias);
     }
 }
