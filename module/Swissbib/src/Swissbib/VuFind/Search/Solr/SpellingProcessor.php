@@ -93,9 +93,11 @@ class SpellingProcessor extends VFSpellingProcessor
      * @param SpellingResults $spellingResults Spelling configuration (optional)
      * @param ZendConfig      $config          configuration
      *
-     * todo: so far no unit tests - by now I simply extended the class
-     * todo: because I had a problem with the setSpellingProcessor
-     * method in VuFind\Search\Solr\Results
+     *                                         todo: so far no unit tests - by now
+     *                                         todo: I simply extended the class
+     *                                         todo: because I had a problem with
+     *                                         todo: the setSpellingProcessor
+     *                                         method in VuFind\Search\Solr\Results
      */
     public function __construct(SpellingResults $spellingResults, ZendConfig $config)
     {
@@ -226,8 +228,9 @@ class SpellingProcessor extends VFSpellingProcessor
      * @param AbstractQuery $query         Query for which info should be retrieved
      * @param string        $term          Term to check
      * @param bool          $queryContains Should we skip the term if it is found
-     * in the query (true), or should we skip the term if it is NOT found in the
-     * query (false)?
+     *                                     in the query (true), or should we skip the
+     *                                     term if it is NOT found in the
+     *                                     query (false)?
      *
      * @return bool
      */

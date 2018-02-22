@@ -110,9 +110,10 @@ class TargetsProxy
     /**
      * Initialize proxy with config
      *
-     * @param VFConfigPluginManager $configPluginManager Config
-     * @param ZendLogger            $logger              ZendLogger
-     * @param Request               $request             Request
+     * @param Config     $config             Config
+     * @param Config     $targetsProxyConfig Config
+     * @param ZendLogger $logger             ZendLogger
+     * @param Request    $request            Request
      */
     public function __construct($config, $targetsProxyConfig,
         ZendLogger $logger, Request $request

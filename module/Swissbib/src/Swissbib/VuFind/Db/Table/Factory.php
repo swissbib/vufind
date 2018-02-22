@@ -64,10 +64,11 @@ class Factory
      * Construct a generic table object.
      *
      * @param string         $name    Name of table to construct (fully qualified
-     * class name, or else a class name within the current namespace)
+     *                                class name, or else a class name within
+     *                                the current namespace)
      * @param ServiceManager $sm      Service manager
      * @param string         $rowName Name of custom row prototype object to
-     * retrieve (null for none).
+     *                                retrieve (null for none).
      * @param array          $args    Extra constructor arguments for table object
      *
      * @return object

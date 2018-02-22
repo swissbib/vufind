@@ -80,7 +80,8 @@ class PluginFactory extends VuFindParamsPluginFactory
      * @param string                  $name           Name of service
      * @param string                  $requestedName  Unfiltered name of service
      * @param array                   $extraParams    Extra constructor parameters
-     * (to follow the Options object and config loader)
+     *                                                (to follow the Options object
+     *                                                and config loader)
      *
      * @return object
      */

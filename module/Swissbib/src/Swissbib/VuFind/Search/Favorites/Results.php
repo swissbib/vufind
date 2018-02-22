@@ -54,7 +54,8 @@ class Results extends VFFavoriteResults
      * Returns the stored list of facets for the last search
      *
      * @param array $filter Array of field => on-screen description listing
-     * all of the desired facet fields; set to null to get all configured values.
+     *                      all of the desired facet fields; set to null to get
+     *                      all configured values.
      *
      * @return array        Facets data arrays
      */
