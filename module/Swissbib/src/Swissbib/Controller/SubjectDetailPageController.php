@@ -53,6 +53,9 @@ class SubjectDetailPageController extends DetailPageController
         if (!isset($viewModel->exception)) {
             // in case parent class implementation did not generate an error already
             $viewModel = $this->extendViewModel($viewModel);
+            $viewModel->setVariable(
+                "references", $this->getRecordReferencesConfig()
+            );
         }
 
         return $viewModel;

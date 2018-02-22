@@ -84,8 +84,7 @@ abstract class AbstractDetailsController extends AbstractBase
             $viewModel = $this->createViewModel(
                 [
                     "driver" => $driver, "subjects" => $subjects,
-                    "books" => $bibliographicResources,
-                    "references" => $this->getPersonRecordReferencesConfig()
+                    "books" => $bibliographicResources
                 ]
             );
 
@@ -316,7 +315,7 @@ abstract class AbstractDetailsController extends AbstractBase
      *
      * @return \Zend\Config\Config
      */
-    protected function getPersonRecordReferencesConfig(): ZendConfig
+    protected function getRecordReferencesConfig(): ZendConfig
     {
         $flatArrayConverter = new FlatArrayConverter();
         $valueConverter = new ValueConverter();
