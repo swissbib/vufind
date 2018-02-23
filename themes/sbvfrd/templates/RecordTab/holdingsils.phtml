@@ -2,13 +2,34 @@
 
 /** @var  Swissbib\RecordDriver\SolrMarc $record */
 $record = $this->driver;
+$titleStatement = $record->getTitleStatement(true);
+
+
+/** @var Swissbib\View\Helper\Record $viewRecord */
+$viewRecord     = $this->record($record);
+$responsible          = $viewRecord->getResponsible($titleStatement, $record);
+$formats              = $record->getFormats();
+
+//for the head title
+$extendedTitle = '';
+
+if (isset($responsible)) {
+    $extendedTitle .= ' / ' . $responsible;
+}
+
+$extendedTitle .= '. ';
+
+if (isset($formats) and isset($formats[0])) {
+    $extendedTitle .= $this->transEsc($formats[0]) . '.';
+}
+
 $holdings = $record->getHoldingsStructure();
 
 // Copy favorites to own container
 $holdings = $this->extractFavoriteInstitutionsForHoldings($holdings);
 
 // Set page title.
-$this->headTitle($this->translate('Holdings') . ': ' . $this->driver->getBreadcrumb());
+$this->headTitle('swissbib : ' . $this->driver->getBreadcrumb() . $extendedTitle);
 
 ?>
 <? if ($holdings): ?>

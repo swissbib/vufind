@@ -4,7 +4,7 @@
   if (isset($this->overrideTitle)) {
       $this->headTitle($this->overrideTitle);
   } else {
-      $this->headTitle($this->translate('Search Results') . (empty($this->lookfor) ? '' : " - {$this->lookfor}"));
+      $this->headTitle('swissbib : ' . $this->translate('Search Results') . (empty($this->lookfor) ? '' : " - {$this->lookfor}"));
   }
 
   // Set up search box:
