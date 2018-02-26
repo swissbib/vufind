@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs></defs>
+    <g id="arrow-down" transform="rotate(90 20 20)">
+        <circle fill="#0D785B" cx="20" cy="20" r="20"></circle>
+        <polygon fill="#FFFFFF" points="18.115 11 16 13.115 22.87 20 16 26.885 18.115 29 27.115 20"></polygon>
+    </g>
+</svg>
