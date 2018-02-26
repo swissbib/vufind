@@ -20,7 +20,6 @@ export default class MediaQueryObserver {
 
         BreakpointNames.all.forEach((name: string): void => {
             if (window.matchMedia(Object(collection)[name]).matches) {
-                console.log("matched:", name, Object(collection)[name]);
                 result.push(name);
             }
         });

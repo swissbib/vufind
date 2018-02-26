@@ -78,7 +78,7 @@ final class ValueConverter
      * @param bool   $fuzzy  Indicates whether to use the fuzzy type checks for
      *                       boolean values. When true (default), then the
      *                       {@link #isTruthy} and {@link #isFalsy} methods are
-     *                       used. Otherwise only the strings 'true'and 'false'
+     *                       used. Otherwise only the strings 'true' and 'false'
      *                       are allowed as values.
      *
      * @return Config

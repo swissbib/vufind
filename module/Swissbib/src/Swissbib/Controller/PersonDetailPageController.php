@@ -50,7 +50,12 @@ class PersonDetailPageController extends DetailPageController
      */
     public function personAction()
     {
-        return parent::personAction();
+        $viewModel = parent::personAction();
+        $viewModel->setVariable(
+            "references", $this->getRecordReferencesConfig()
+        );
+
+        return $viewModel;
     }
 
     /**

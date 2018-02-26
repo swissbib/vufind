@@ -15,7 +15,7 @@
         'thumbnail' => $this->imageLink('person-placeholder.png'),
         'total' => $this->personsOfSameMovementTotal,
         'templates' => [
-            'ajax' => $this->ajax()->url([
+            'ajax' => $this->ajax([
                 'method' => 'getSameMovementAuthors',
                 'movement' => $this->esperson()->escapeUrl($this->driver->getMovement()),
                 'page' => '{page}',

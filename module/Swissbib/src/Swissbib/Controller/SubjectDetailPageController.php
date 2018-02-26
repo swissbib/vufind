@@ -53,6 +53,9 @@ class SubjectDetailPageController extends DetailPageController
         if (!isset($viewModel->exception)) {
             // in case parent class implementation did not generate an error already
             $viewModel = $this->extendViewModel($viewModel);
+            $viewModel->setVariable(
+                "references", $this->getRecordReferencesConfig()
+            );
         }
 
         return $viewModel;
@@ -106,7 +109,9 @@ class SubjectDetailPageController extends DetailPageController
         ViewModel &$viewModel, string $id, ElasticSearch $driver,
         array $bibliographicResources, array $subjectIds, array $subjects
     ) {
-        $medias = $this->solrsearch()->getMedias("Subject", $driver);
+        $medias = $this->solrsearch()->getMedias(
+            "Subject", $driver, $this->config->mediaLimit
+        );
         $viewModel->setVariable("medias", $medias);
     }
 }
