@@ -3,10 +3,14 @@
 .page-anchors, .record-references {
   .title {
     font-size: 1.14rem;
+    display: inline-block;
+  }
+
+  .list {
+    border-top: 3px solid #D9DCE1;
   }
 
   ul {
-    border-top: 3px solid #D9DCE1;
     padding: 0;
     list-style: none;
 
@@ -40,5 +44,19 @@
 .record-references {
   ul > li > a {
     background: url('/themes/sbvfrd/images/icons/arrow-external-link.svg') no-repeat 0 (@detailpage-navigation-link-inset * 0.7);
+  }
+}
+
+button.accordion-collapse {
+  display: inline-block;
+  float: right;
+  margin: 20px 0 10px;
+  border: 0 none;
+  background: transparent url('/themes/sbvfrd/images/icons/arrow-accordion.svg') no-repeat center center;
+  height: 1.14rem;
+  width: 2rem;
+
+  &:focus {
+    outline: 0 none;
   }
 }

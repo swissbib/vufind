@@ -1,19 +1,22 @@
 <div class="page-anchors">
-<h1 class="title"><?= $this->translate('page.detail.anchors.title') ?></h1>
-<ul>
-    <li><a href="#detailpage-common"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.common') ?></a></li>
-    <li><a href="#detailpage-medias"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.media.list.title') ?></a></li>
-    <? if ($this->coContributorsTotal > 0): ?>
-    <li><a href="#detailpage-coauthors"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.authors.coauthors') ?></a></li>
-    <? endif; ?>
-    <? if ($this->authorsOfSameGenreTotal > 0): ?>
-    <li><a href="#detailpage-genres"><?= $this->translate('page.detail.authors.genres') ?></a></li>
-    <? endif; ?>
-    <? if ($this->personsOfSameMovementTotal > 0): ?>
-    <li><a href="#detailpage-movements"><?= $this->translate('page.detail.authors.movements') ?></a></li>
-    <? endif; ?>
-    <? if (isset($subjects) && count($subjects) > 0): ?>
-    <li><a href="#detailpage-subjects"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related') ?></a></li>
-    <? endif; ?>
-</ul>
+    <h1 class="title"><?= $this->translate('page.detail.anchors.title') ?></h1>
+    <button class="accordion-collapse hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-person-anchors"></button>
+    <div class="list">
+        <ul id="detailpage-person-anchors">
+            <li><a href="#detailpage-common"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.common') ?></a></li>
+            <li><a href="#detailpage-medias"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.media.list.title') ?></a></li>
+            <? if ($this->coContributorsTotal > 0): ?>
+            <li><a href="#detailpage-coauthors"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.authors.coauthors') ?></a></li>
+            <? endif; ?>
+            <? if ($this->authorsOfSameGenreTotal > 0): ?>
+            <li><a href="#detailpage-genres"><?= $this->translate('page.detail.authors.genres') ?></a></li>
+            <? endif; ?>
+            <? if ($this->personsOfSameMovementTotal > 0): ?>
+            <li><a href="#detailpage-movements"><?= $this->translate('page.detail.authors.movements') ?></a></li>
+            <? endif; ?>
+            <? if (isset($subjects) && count($subjects) > 0): ?>
+            <li><a href="#detailpage-subjects"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related') ?></a></li>
+            <? endif; ?>
+        </ul>
+    </div>
 </div>
