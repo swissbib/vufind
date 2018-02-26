@@ -1,6 +1,6 @@
 <?php
 /**
- * DetailPageController.php
+ * SubjectKnowledgeCardController.php
  *
  * PHP Version 7
  *
@@ -20,17 +20,20 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
  *
  * @category VuFind
- * @package  Controller
+ * @package  Swissbib\Controller
  * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
 namespace Swissbib\Controller;
-
+use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\Model\ViewModel;
 
 /**
- * Class DetailPageController
+ * Class SubjectKnowledgeCardController
+ *
+ * Provides information to be rendered in knowledge cards (light-boxes).
  *
  * @category VuFind
  * @package  Swissbib\Controller
@@ -38,34 +41,39 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-abstract class DetailPageController extends AbstractDetailsController
+class SubjectKnowledgeCardController extends AbstractSubjectsController
 {
     /**
-     * DetailPageController constructor.
+     * KnowledgeCardController constructor.
      *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service locator
+     * @param ServiceLocatorInterface $sm The service locator
      */
     public function __construct(ServiceLocatorInterface $sm)
     {
         parent::__construct($sm);
-        $this->config = $this->getConfig()->DetailPage;
+        $this->config = $this->getConfig()->KnowledgeCard;
     }
 
     /**
-     * Gets subjects
+     * /Page/Detail/Subject/:id
      *
-     * @return array
+     * @return \Zend\View\Model\ViewModel
      */
-    protected function getSubjectsOf(): array
+    public function subjectAction()
     {
-        //$subjects = parent::getSubjectsOf($subjectIds);
+        return parent::subjectAction();
+    }
 
-        if (count($this->subjects) > 0) {
-            return $this->tagcloud()->getTagCloud(
-                $this->subjectIds, $this->subjects
-            );
-        }
-
-        return [];
+    /**
+     * Adds additional data to view model
+     *
+     * @param ViewModel $viewModel The view model
+     *
+     * @return void
+     */
+    protected function addData(
+        ViewModel &$viewModel
+    ) {
+        // Not required
     }
 }

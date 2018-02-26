@@ -28,12 +28,9 @@
 namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
-use Swissbib\Util\Config\FlatArrayConverter;
-use Swissbib\Util\Config\ValueConverter;
 use VuFind\Controller\AbstractBase;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
-use Zend\Config\Config as ZendConfig;
 
 /**
  * Class AbstractDetailsController
@@ -46,6 +43,9 @@ use Zend\Config\Config as ZendConfig;
  */
 abstract class AbstractDetailsController extends AbstractBase
 {
+    protected $subSubjects;
+    protected $parentSubjects;
+    protected $subjectIds;
     /**
      * The config.
      *
@@ -64,114 +64,14 @@ abstract class AbstractDetailsController extends AbstractBase
     }
 
     /**
-     * The person action
-     *
-     * @return \Zend\View\Model\ViewModel
-     */
-    public function personAction()
-    {
-        $info = $this->getPersonInfo();
-
-        try {
-            $driver = $this->getRecordDriver($info->id, $info->index, $info->type);
-
-            $bibliographicResources = $this->getBibliographicResourcesOf($info->id);
-
-            $subjectIds = $this->getSubjectIdsFrom($bibliographicResources);
-
-            $subjects = $this->getSubjectsOf($subjectIds);
-
-            $viewModel = $this->createViewModel(
-                [
-                    "driver" => $driver, "subjects" => $subjects,
-                    "books" => $bibliographicResources,
-                    "references" => $this->getPersonRecordReferencesConfig()
-                ]
-            );
-
-            $this->addData(
-                $viewModel, $info->id, $driver, $bibliographicResources,
-                $subjectIds, $subjects
-            );
-
-            return $viewModel;
-        } catch (\Exception $e) {
-            return $this->createErrorView($info->id, $e);
-        }
-    }
-
-    /**
-     * Provides an object with index, type and id for a person.
-     *
-     * @return \stdClass
-     */
-    protected function getPersonInfo(): \stdClass
-    {
-        return (object)[
-            'index' => 'lsb',
-            'type' => 'person',
-            'id' => $this->params()->fromRoute('id', [])
-        ];
-    }
-
-    /**
-     * The subject action
-     *
-     * @return \Zend\View\Model\ViewModel
-     */
-    public function subjectAction()
-    {
-        $info = $this->getSubjectInfo();
-
-        try {
-            $driver = $this->getRecordDriver($info->id, $info->index, $info->type);
-            $subSubjects = $this->getSubSubjects($info->id);
-            $parentSubjects = $this->getParentSubjects(
-                $driver->getParentSubjects()
-            );
-
-            return $this->createViewModel(
-                [
-                    "driver" => $driver, "parents" => $parentSubjects,
-                    "children" => $subSubjects
-                ]
-            );
-        } catch (\Exception $e) {
-            return $this->createErrorView($info->id, $e);
-        }
-    }
-
-    /**
-     * Provides an object with index, type and id for a subject.
-     *
-     * @return \stdClass
-     */
-    protected function getSubjectInfo(): \stdClass
-    {
-        $prefix = 'http://d-nb.info/gnd/';
-
-        return (object)[
-            'index' => "gnd",
-            'type' => "DEFAULT",
-            'id' => $prefix . $this->params()->fromRoute('id', [])
-        ];
-    }
-
-    /**
      * Adds additional data to view model
      *
-     * @param ViewModel     $viewModel              The view model
-     * @param string        $id                     The id
-     * @param ElasticSearch $driver                 The record driver
-     * @param array         $bibliographicResources The bibliographic resources
-     * @param array         $subjectIds             The subject ids
-     * @param array         $subjects               The subjects
+     * @param ViewModel $viewModel The view model
      *
      * @return void
      */
     abstract protected function addData(
-        ViewModel &$viewModel, string $id, ElasticSearch $driver,
-        array $bibliographicResources, array $subjectIds, array $subjects
+        ViewModel &$viewModel
     );
 
     /**
@@ -217,45 +117,32 @@ abstract class AbstractDetailsController extends AbstractBase
     /**
      * Gets the Subjects of the bibliographic resources
      *
-     * @param array $ids The subject ids
-     *
      * @return array
      */
-    protected function getSubjectsOf(array $ids): array
+    protected function getSubjectsOf(): array
     {
         return $this->elasticsearchsearch()->searchElasticSearch(
-            $this->arrayToSearchString(array_unique($ids)), "id", "gnd", "DEFAULT",
-            $this->config->subjectsSize
+            $this->arrayToSearchString(array_unique($this->subjectIds)), "id", "gnd",
+            "DEFAULT", $this->config->subjectsSize
         )->getResults();
     }
 
     /**
-     * Gets the SubSubjects
-     *
-     * @param string $id The id
+     * Gets the subject ids from the bibliographic resources
      *
      * @return array
      */
-    protected function getSubSubjects(string $id)
+    protected function getSubjectIdsFrom(): array
     {
-        return $this->elasticsearchsearch()->searchElasticSearch(
-            $id, "sub_subjects", $this->config->subjectsSize
-        )->getResults();
-    }
-
-    /**
-     * Gets the ParentSubjects
-     *
-     * @param array $ids Array of ids
-     *
-     * @return array
-     */
-    protected function getParentSubjects(array $ids)
-    {
-        return $this->elasticsearchsearch()->searchElasticSearch(
-            $this->arrayToSearchString($ids), "id", "gnd", "DEFAULT",
-            $this->config->subjectsSize
-        )->getResults();
+        $ids = [];
+        // @var ESBibliographicResource $bibliographicResource
+        foreach ($this->bibliographicResources as $bibliographicResource) {
+            $subjects = $bibliographicResource->getSubjects();
+            if (count($subjects) > 0) {
+                $ids = array_merge($ids, $subjects);
+            }
+        }
+        return $ids;
     }
 
     /**
@@ -291,47 +178,4 @@ abstract class AbstractDetailsController extends AbstractBase
         return '[' . implode(",", $ids) . ']';
     }
 
-    /**
-     * Gets the subject ids from the bibliographic resources
-     *
-     * @param array $bibliographicResources The bibliographic resources
-     *
-     * @return array
-     */
-    protected function getSubjectIdsFrom(array $bibliographicResources): array
-    {
-        $ids = [];
-        // @var ESBibliographicResource $bibliographicResource
-        foreach ($bibliographicResources as $bibliographicResource) {
-            $subjects = $bibliographicResource->getSubjects();
-            if (count($subjects) > 0) {
-                $ids = array_merge($ids, $subjects);
-            }
-        }
-        return $ids;
-    }
-
-    /**
-     * Provides the record references configuration section.
-     *
-     * @return \Zend\Config\Config
-     */
-    protected function getPersonRecordReferencesConfig(): ZendConfig
-    {
-        $flatArrayConverter = new FlatArrayConverter();
-        $valueConverter = new ValueConverter();
-
-        $searchesConfig
-            = $this->serviceLocator->get('VuFind\Config')->get('searches');
-        $recordReferencesConfig = $flatArrayConverter->fromConfigSections(
-            $searchesConfig, 'RecordReferences'
-        );
-
-        $recordReferencesConfig
-            = $recordReferencesConfig->get('RecordReferences')->toArray();
-
-        return $valueConverter->convert(
-            new ZendConfig($recordReferencesConfig)
-        );
-    }
 }

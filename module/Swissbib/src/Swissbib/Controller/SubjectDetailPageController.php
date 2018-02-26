@@ -27,7 +27,6 @@
  */
 namespace Swissbib\Controller;
 
-use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -39,7 +38,7 @@ use Zend\View\Model\ViewModel;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class SubjectDetailPageController extends DetailPageController
+class SubjectDetailPageController extends AbstractSubjectsController
 {
     /**
      * /Page/Detail/Subject/:id
@@ -75,13 +74,14 @@ class SubjectDetailPageController extends DetailPageController
             // complex resolution jobs again
             $driver = $viewModel->driver;
 
-            $bibliographicResources = $this->getBibliographicResourcesOf($info->id);
-            $subjectIds = $this->getSubjectIdsFrom($bibliographicResources);
-            $subjects = $this->getSubjectsOf($subjectIds);
+            $this->bibliographicResources = $this->getBibliographicResourcesOf(
+                $info->id
+            );
+            $this->subjectIds = $this->getSubjectIdsFrom();
+            $this->subjects = $this->getSubjectsOf();
 
             $this->addData(
-                $viewModel, $info->id, $driver, $bibliographicResources,
-                $subjectIds, $subjects
+                $viewModel
             );
 
             return $viewModel;
@@ -93,20 +93,24 @@ class SubjectDetailPageController extends DetailPageController
     /**
      * Adds additional data to view model
      *
-     * @param ViewModel     $viewModel              The view model
-     * @param string        $id                     The id
-     * @param ElasticSearch $driver                 The record driver
-     * @param array         $bibliographicResources The bibliographic resources
-     * @param array         $subjectIds             The subject ids
-     * @param array         $subjects               The subjects
+     * @param ViewModel $viewModel The view model
      *
      * @return void
      */
     protected function addData(
-        ViewModel &$viewModel, string $id, ElasticSearch $driver,
-        array $bibliographicResources, array $subjectIds, array $subjects
+        ViewModel &$viewModel
     ) {
-        $medias = $this->solrsearch()->getMedias("Subject", $driver);
+        $medias = $this->solrsearch()->getMedias("Subject", $this->driver);
         $viewModel->setVariable("medias", $medias);
+
+        $parentSubjectsMedias = $this->solrsearch()->getMedias(
+            "Subject", $this->parentSubjects, $this->config->mediaLimit
+        );
+        $viewModel->setVariable("parentMedias", $parentSubjectsMedias);
+
+        $subSubjectsMedias = $this->solrsearch()->getMedias(
+            "Subject", $this->subSubjects, $this->config->mediaLimit
+        );
+        $viewModel->setVariable("childrenMedias", $subSubjectsMedias);
     }
 }

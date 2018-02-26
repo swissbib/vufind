@@ -1,6 +1,6 @@
 <?php
 /**
- * KnowledgeCardController.php
+ * PersonKnowledgeCardController.php
  *
  * PHP Version 7
  *
@@ -31,7 +31,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
 
 /**
- * Class KnowledgeCardController
+ * Class PersonKnowledgeCardController
  *
  * Provides information to be rendered in knowledge cards (light-boxes).
  *
@@ -41,7 +41,7 @@ use Zend\View\Model\ViewModel;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class KnowledgeCardController extends AbstractDetailsController
+class PersonKnowledgeCardController extends AbstractPersonController
 {
     /**
      * KnowledgeCardController constructor.
@@ -65,32 +65,15 @@ class KnowledgeCardController extends AbstractDetailsController
     }
 
     /**
-     * /Page/Detail/Subject/:id
-     *
-     * @return \Zend\View\Model\ViewModel
-     */
-    public function subjectAction()
-    {
-        return parent::subjectAction();
-    }
-
-    /**
      * Adds additional data to view model
      *
-     * @param ViewModel     $viewModel              The view model
-     * @param string        $id                     The id
-     * @param ElasticSearch $driver                 The record driver
-     * @param array         $bibliographicResources The bibliographic resources
-     * @param array         $subjectIds             The subject ids
-     * @param array         $subjects               The subjects
+     * @param ViewModel $viewModel The view model
      *
      * @return void
      */
     protected function addData(
-        ViewModel &$viewModel, string $id, ElasticSearch $driver,
-        array $bibliographicResources, array $subjectIds, array $subjects
+        ViewModel &$viewModel
     ) {
-        // Nothing to add yet
+        // Not used right now
     }
-
 }

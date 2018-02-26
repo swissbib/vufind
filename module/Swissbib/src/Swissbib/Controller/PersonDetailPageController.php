@@ -27,8 +27,6 @@
  */
 namespace Swissbib\Controller;
 
-use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
-use ElasticSearch\VuFind\RecordDriver\ESPerson;
 use ElasticSearch\VuFind\Search\ElasticSearch\Results;
 use Zend\View\Model\ViewModel;
 
@@ -41,10 +39,10 @@ use Zend\View\Model\ViewModel;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class PersonDetailPageController extends DetailPageController
+class PersonDetailPageController extends AbstractPersonController
 {
     /**
-     * /Page/Person/Subject/:id
+     * /Page/Detail/Person/:id
      *
      * @return \Zend\View\Model\ViewModel
      */
@@ -56,25 +54,19 @@ class PersonDetailPageController extends DetailPageController
     /**
      * Adds additional data to view model
      *
-     * @param ViewModel     $viewModel              The view model
-     * @param string        $id                     The id
-     * @param ElasticSearch $driver                 The view model
-     * @param array         $bibliographicResources The bibliographic resources
-     * @param array         $subjectIds             The subject ids
-     * @param array         $subjects               The subjects
+     * @param ViewModel $viewModel The view model
      *
      * @return void
      */
     protected function addData(
-        ViewModel &$viewModel, string $id, ElasticSearch $driver,
-        array $bibliographicResources, array $subjectIds, array $subjects
+        ViewModel &$viewModel
     ) {
         $medias = $this->solrsearch()->getMedias(
-            "Author", $driver, $this->config->mediaLimit
+            "Author", $this->driver, $this->config->mediaLimit
         );
         $viewModel->setVariable("medias", $medias);
         $contributors = $this->getCoContributors(
-            $driver->getUniqueID(), $bibliographicResources
+            $this->driver->getUniqueID(), $this->bibliographicResources
         );
         if (isset($contributors)) {
             $viewModel->setVariable("coContributors", $contributors->getResults());
@@ -82,7 +74,7 @@ class PersonDetailPageController extends DetailPageController
                 "coContributorsTotal", $contributors->getResultTotal()
             );
         }
-        $personsOfSameGenre = $this->getPersonsOfSameGenre($driver);
+        $personsOfSameGenre = $this->getPersonsOfSameGenre($this->driver);
         if (isset($personsOfSameGenre)) {
             $viewModel->setVariable(
                 "authorsOfSameGenre", $personsOfSameGenre->getResults()
@@ -91,7 +83,7 @@ class PersonDetailPageController extends DetailPageController
                 "authorsOfSameGenreTotal", $personsOfSameGenre->getResultTotal()
             );
         }
-        $personsOfSameMovement = $this->getPersonsOfSameMovement($driver);
+        $personsOfSameMovement = $this->getPersonsOfSameMovement($this->driver);
         if (isset($personsOfSameMovement)) {
             $viewModel->setVariable(
                 "personsOfSameMovement", $personsOfSameMovement->getResults()
@@ -104,30 +96,42 @@ class PersonDetailPageController extends DetailPageController
     }
 
     /**
+     * Gets subjects
+     *
+     * @return array
+     */
+    protected function getSubjectsOf(): array
+    {
+        $subjects = parent::getSubjectsOf();
+
+        if (count($subjects) > 0) {
+            return $this->tagcloud()->getTagCloud($this->subjectIds, $subjects);
+        }
+        return [];
+    }
+
+    /**
      * Adds co contributors of author
      *
-     * @param string $id                     The id
-     * @param array  $bibliographicResources The bibliographic resources
+     * @param string $id The id
      *
      * @return Results
      */
-    protected function getCoContributors(string $id, array $bibliographicResources
-    ): Results {
+    protected function getCoContributors(string $id): Results
+    {
         return $this->elasticsearchsearch()->searchCoContributorsFrom(
-            $bibliographicResources, $id, $this->config->coAuthorsSize
+            $this->bibliographicResources, $id, $this->config->coAuthorsSize
         );
     }
 
     /**
      * Adds persons of same genre as author
      *
-     * @param ESPerson $driver The driver
-     *
      * @return Results|null
      */
-    protected function getPersonsOfSameGenre(ESPerson $driver)
+    protected function getPersonsOfSameGenre()
     {
-        $genres = $driver->getGenre();
+        $genres = $this->driver->getGenre();
 
         if (is_array($genres)) {
             $genres = $this->arrayToSearchString($genres);
@@ -147,15 +151,11 @@ class PersonDetailPageController extends DetailPageController
     /**
      * Adds persons of same movement as author
      *
-     * @param ESPerson $driver The driver
-     *
      * @return Results|null
      */
-    protected function getPersonsOfSameMovement(ESPerson $driver)
+    protected function getPersonsOfSameMovement()
     {
-        $authorId = $driver->getUniqueId();
-
-        $movements = $driver->getMovement();
+        $movements = $this->driver->getMovement();
 
         if (is_array($movements)) {
             $movements = $this->arrayToSearchString($movements);
