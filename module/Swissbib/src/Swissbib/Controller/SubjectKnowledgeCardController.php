@@ -41,7 +41,7 @@ use Zend\View\Model\ViewModel;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class SubjectKnowledgeCardController extends AbstractSubjectsController
+class SubjectKnowledgeCardController extends AbstractSubjectController
 {
     /**
      * KnowledgeCardController constructor.

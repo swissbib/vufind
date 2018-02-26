@@ -1,6 +1,6 @@
 <?php
 /**
- * AbstractSubjectsController.php
+ * AbstractSubjectController.php
  *
  * PHP Version 7
  *
@@ -39,7 +39,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-abstract class AbstractSubjectsController extends AbstractDetailsController
+abstract class AbstractSubjectController extends AbstractDetailsController
 {
     protected $driver;
 
