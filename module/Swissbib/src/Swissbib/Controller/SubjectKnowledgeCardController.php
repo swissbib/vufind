@@ -26,7 +26,7 @@
  * @link     http://www.vufind.org  Main Page
  */
 namespace Swissbib\Controller;
-use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
+
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
 
