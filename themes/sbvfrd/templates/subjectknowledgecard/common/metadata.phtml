@@ -1,0 +1,5 @@
+<ul class="metadata">
+    <?= $this->context($this)->renderInContext('/knowledgecard/common/metadata/list.phtml', ['list' => $this->essubject()->getMetadata()->getList('variants', 'definition')]) ?>
+    <li class="entry section-start section-end"><?= $this->render('parents.phtml'); ?></li>
+    <li class="entry"><?= $this->render('children.phtml'); ?></li>
+</ul>

@@ -1,6 +1,6 @@
 <?php
 /**
- * KnowledgeCardController.php
+ * SubjectKnowledgeCardController.php
  *
  * PHP Version 7
  *
@@ -26,12 +26,12 @@
  * @link     http://www.vufind.org  Main Page
  */
 namespace Swissbib\Controller;
-use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
+
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
 
 /**
- * Class KnowledgeCardController
+ * Class SubjectKnowledgeCardController
  *
  * Provides information to be rendered in knowledge cards (light-boxes).
  *
@@ -41,7 +41,7 @@ use Zend\View\Model\ViewModel;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class KnowledgeCardController extends AbstractDetailsController
+class SubjectKnowledgeCardController extends AbstractSubjectController
 {
     /**
      * KnowledgeCardController constructor.
@@ -52,16 +52,6 @@ class KnowledgeCardController extends AbstractDetailsController
     {
         parent::__construct($sm);
         $this->config = $this->getConfig()->KnowledgeCard;
-    }
-
-    /**
-     * /Page/Detail/Person/:id
-     *
-     * @return \Zend\View\Model\ViewModel
-     */
-    public function personAction()
-    {
-        return parent::personAction();
     }
 
     /**
@@ -77,20 +67,13 @@ class KnowledgeCardController extends AbstractDetailsController
     /**
      * Adds additional data to view model
      *
-     * @param ViewModel     $viewModel              The view model
-     * @param string        $id                     The id
-     * @param ElasticSearch $driver                 The record driver
-     * @param array         $bibliographicResources The bibliographic resources
-     * @param array         $subjectIds             The subject ids
-     * @param array         $subjects               The subjects
+     * @param ViewModel $viewModel The view model
      *
      * @return void
      */
     protected function addData(
-        ViewModel &$viewModel, string $id, ElasticSearch $driver,
-        array $bibliographicResources, array $subjectIds, array $subjects
+        ViewModel &$viewModel
     ) {
-        // Nothing to add yet
+        // Not required
     }
-
 }
