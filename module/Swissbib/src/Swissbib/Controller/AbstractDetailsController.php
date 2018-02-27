@@ -28,7 +28,10 @@
 namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
+use Swissbib\Util\Config\FlatArrayConverter;
+use Swissbib\Util\Config\ValueConverter;
 use VuFind\Controller\AbstractBase;
+use Zend\Config\Config as ZendConfig;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
 
