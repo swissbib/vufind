@@ -262,7 +262,6 @@ class Factory
         $groups = $sm->get('VuFind\Config')->get('libadmin-groups')
             ->groups;
 
-
         return new Pura(
             $sm->get('VuFind\Config')->get('NationalLicences'),
             $publishersList,
