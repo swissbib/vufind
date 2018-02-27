@@ -116,5 +116,15 @@ class SubjectDetailPageController extends AbstractSubjectController
             "Subject", $this->subSubjects, $this->config->mediaLimit
         );
         $viewModel->setVariable("childrenMedias", $subSubjectsMedias);
+
+        $relatedTermsIds = $this->driver->getRelatedTerm();
+        if (isset($relatedTermsIds)) {
+            $relatedTermsIds = is_array($relatedTermsIds)
+                ? $this->arrayToSearchString($relatedTermsIds) : $relatedTermsIds;
+            $relatedTerms = $this->elasticsearchsearch()->searchElasticSearch(
+                $relatedTermsIds, "id", "gnd", "DEFAULT", 100
+            )->getResults();
+            $viewModel->setVariable("relatedTerms", $relatedTerms);
+        }
     }
 }

@@ -160,7 +160,7 @@ return [
             ], 'card-knowledge-subject' => [
                 'type' => 'segment', 'options' => [
                     'route' => '/Card/Knowledge/Subject/:id', 'constraints' => [
-                        'id' => '[a-fA-F0-9-{}]+',
+                        'id' => '[0-9A-Z\--{}]+',
                     ], 'defaults' => [
                         'controller' => 'subject-knowledge-card', 'action' => 'subject',
                     ],
@@ -176,7 +176,7 @@ return [
             ], 'page-detail-subject' => [
                 'type' => 'segment', 'options' => [
                     'route' => '/Page/Detail/Subject/:id', 'constraints' => [
-                        'id' => '[a-fA-F0-9-{}]+',
+                        'id' => '[0-9A-Z\--{}]+',
                     ], 'defaults' => [
                         'controller' => 'subject-detail-page', 'action' => 'subject',
                     ],
