@@ -72,24 +72,30 @@ class SolrSearch extends AbstractPlugin
     }
 
     /**
-     * SolrSearch constructor.
-     */
-
-    /**
      * Adds medias of author to ViewModel
      *
-     * @param string        $type   The type (Author or Subject)
-     * @param ElasticSearch $record The record
-     * @param int           $limit  The limit
+     * @param string              $type  The type (Author or Subject)
+     * @param ElasticSearch|array $input The record or an array of records
+     * @param int                 $limit The limit
      *
      * @return Results
      */
     public function getMedias(
-        string $type, ElasticSearch $record, int $limit = 20
+        string $type, $input, int $limit = 20
     ): Results {
-        $name = $record->getName();
-        if (isset($name)) {
-            $results = $this->searchSolr($name, $type, $limit);
+        if (is_array($input)) {
+            $query = array_map(
+                function ($el) {
+                    return $el->getName();
+                }, $input
+            );
+            $query = '[' . implode(",", $query) . ']';
+        } else {
+            $query = $input->getName();
+        }
+
+        if (isset($query)) {
+            $results = $this->searchSolr($query, $type, $limit);
             return $results;
         }
         return [];

@@ -54,16 +54,16 @@ abstract class DetailPageController extends AbstractDetailsController
     /**
      * Gets subjects
      *
-     * @param array $subjectIds Ids of subjects
-     *
      * @return array
      */
-    protected function getSubjectsOf(array $subjectIds): array
+    protected function getSubjectsOf(): array
     {
-        $subjects = parent::getSubjectsOf($subjectIds);
+        //$subjects = parent::getSubjectsOf($subjectIds);
 
-        if (count($subjects) > 0) {
-            return $this->tagcloud()->getTagCloud($subjectIds, $subjects);
+        if (count($this->subjects) > 0) {
+            return $this->tagcloud()->getTagCloud(
+                $this->subjectIds, $this->subjects
+            );
         }
 
         return [];

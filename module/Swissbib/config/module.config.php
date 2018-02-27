@@ -154,7 +154,7 @@ return [
                     'route' => '/Card/Knowledge/Person/:id', 'constraints' => [
                         'id' => '[a-fA-F0-9-{}]+',
                     ], 'defaults' => [
-                        'controller' => 'knowledge-card', 'action' => 'person',
+                        'controller' => 'person-knowledge-card', 'action' => 'person',
                     ],
                 ]
             ], 'card-knowledge-subject' => [
@@ -162,7 +162,7 @@ return [
                     'route' => '/Card/Knowledge/Subject/:id', 'constraints' => [
                         'id' => '[a-fA-F0-9-{}]+',
                     ], 'defaults' => [
-                        'controller' => 'knowledge-card', 'action' => 'subject',
+                        'controller' => 'subject-knowledge-card', 'action' => 'subject',
                     ],
                 ]
             ], 'page-detail-person' => [
@@ -315,7 +315,8 @@ return [
             'libadminsync' => 'Swissbib\Controller\Factory::getLibadminSyncController',
             'my-research' => 'Swissbib\Controller\Factory::getMyResearchController',
             'console' => 'Swissbib\Controller\Factory::getConsoleController',
-            'knowledge-card' => 'Swissbib\Controller\Factory::getKnowledgeCardController',
+            'person-knowledge-card' => 'Swissbib\Controller\Factory::getPersonKnowledgeCardController',
+            'subject-knowledge-card' => 'Swissbib\Controller\Factory::getSubjectKnowledgeCardController',
             'person-detail-page' => 'Swissbib\Controller\Factory::getPersonDetailPageController',
             'subject-detail-page' => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
             'person-search' => 'Swissbib\Controller\Factory::getPersonSearchController'

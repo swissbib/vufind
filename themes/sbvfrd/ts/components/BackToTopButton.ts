@@ -45,7 +45,6 @@ export default class BackToTopButton {
     private windowScrollHandler = (): void => {
         const names:Array<string> = [BreakpointNames.XS, BreakpointNames.SM];
         if (MediaQueryObserver.matchesNames(Breakpoints.BOOTSTRAP, names)) {
-            console.log("use back-to-top button");
             if ($(window).scrollTop() > this.threshold) {
                 this.target.fadeIn(200);
             } else {
