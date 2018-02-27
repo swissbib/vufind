@@ -60,7 +60,7 @@ class PuraUser extends Gateway
      *
      * @param int $id Id
      *
-     * @return \Swissbib\VuFind\Db\Row\NationalLicenceUser
+     * @return \Swissbib\VuFind\Db\Row\PuraUser
      * @throws \Exception
      */
     public function getUserById($id)

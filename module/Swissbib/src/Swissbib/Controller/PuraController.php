@@ -24,6 +24,7 @@
  */
 namespace Swissbib\Controller;
 
+use SwitchSharedAttributesAPIClient\PublishersList;
 use Zend\View\Model\ViewModel;
 use Swissbib\Services\Pura;
 use Zend\Barcode\Barcode;
@@ -64,6 +65,7 @@ class PuraController extends BaseController
      * Show the list of libraries which offer Pura Service
      *
      * @return mixed|ViewModel
+     * @throws \Exception
      */
     public function indexAction()
     {
@@ -88,6 +90,7 @@ class PuraController extends BaseController
      * Show the registration for a specific Pura Library
      *
      * @return mixed|ViewModel
+     * @throws \Exception
      */
     public function libraryAction()
     {
@@ -105,7 +108,13 @@ class PuraController extends BaseController
             $libraryCode = "Z01";
         }
 
-        $publishers = $this->puraService->getPublishersForALibrary($libraryCode);
+        /**
+         * Publishers List
+         *
+         * @var PublishersList $publishers Publishers List
+         */
+        $publishers = $this->puraService->getPublishers()
+            ->getPublishersForALibrary($libraryCode);
         $institution = $this->puraService->getInstitutionInfo($libraryCode);
 
         if (strstr($uniqueId, "eduid.ch") == false) {
@@ -166,6 +175,7 @@ class PuraController extends BaseController
      * otherwise an image containing an error text is returned
      *
      * @return bool
+     * @throws \Zend\Barcode\Exception\ExceptionInterface
      */
     public function barcodeAction()
     {

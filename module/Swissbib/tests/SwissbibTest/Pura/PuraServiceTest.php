@@ -69,12 +69,4 @@ class PuraServiceTest extends VuFindTestCase
             'Swissbib\PuraService'
         );
     }
-
-    public function testGetPublishersForALibrary()
-    {
-        $publishersZ01 = $this->puraService->getPublishersForALibrary("Z01");
-        $this->assertEquals("Cambridge University Press", $publishersZ01[0]["name"]);
-        $this->assertEquals("Munzinger", $publishersZ01[1]["name"]);
-        $this->assertEquals(sizeof($publishersZ01), 2);
-    }
 }

@@ -28,9 +28,12 @@
  */
 namespace Swissbib\Services;
 
+use Swissbib\Export;
+use Swissbib\Highlight\SolrConfigurator;
+use Swissbib\Log\Logger;
+use SwitchSharedAttributesAPIClient\PublishersList;
 use Zend\ServiceManager\ServiceManager;
 use Swissbib\VuFind\Recommend\FavoriteFacets;
-use Zend\Json\Server\Exception\ErrorException;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient;
 /**
  * Factory for Services.
@@ -88,8 +91,7 @@ class Factory
         $config = $sm->get('Vufind\Config')->get('config')->Highlight;
         $eventsManager = $sm->get('SharedEventManager');
         $memory = $sm->get('VuFind\Search\Memory');
-
-        return new \Swissbib\Highlight\SolrConfigurator(
+        return new SolrConfigurator(
             $eventsManager, $config, $memory
         );
     }
@@ -103,7 +105,7 @@ class Factory
      */
     public static function getSwissbibLogger(ServiceManager $sm)
     {
-        $logger = new  \Swissbib\Log\Logger();
+        $logger = new Logger();
         $logger->addWriter(
             'stream', 1, [
                 'stream' => 'log/swissbib.log'
@@ -119,6 +121,8 @@ class Factory
      * @param ServiceManager $sm Service manager.
      *
      * @return FavoriteFacets
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public static function getFavoriteFacets(ServiceManager $sm)
     {
@@ -148,7 +152,7 @@ class Factory
      */
     public static function getExport(ServiceManager $sm)
     {
-        return new \Swissbib\Export(
+        return new Export(
             $sm->get('VuFind\Config')->get('config'),
             $sm->get('VuFind\Config')->get('export')
         );
@@ -234,6 +238,7 @@ class Factory
      * @param ServiceManager $sm Service manager
      *
      * @return Pura
+     * @throws \Exception
      */
     public static function getPuraService(ServiceManager $sm)
     {
@@ -241,7 +246,15 @@ class Factory
         $filePath = $dataDir . '/pura/publishers-libraries.json';
         $publishersJsonData
             = file_exists($filePath) ? file_get_contents($filePath) : '';
-        $publishers = json_decode($publishersJsonData, true);
+
+        /**
+         * Publishers List
+         *
+         * @var PublishersList $publishersList
+         */
+        $publishersList = new PublishersList();
+
+        $publishersList->loadPublishersFromJsonFile($publishersJsonData);
 
         $groupMapping = $sm->get('VuFind\Config')->get('libadmin-groups')
             ->institutions;
@@ -249,15 +262,10 @@ class Factory
         $groups = $sm->get('VuFind\Config')->get('libadmin-groups')
             ->groups;
 
-        if (empty($publishers['publishers'])) {
-            throw new ErrorException(
-                "No valid publishers data supplied in " . $filePath . "."
-            );
-        }
 
         return new Pura(
             $sm->get('VuFind\Config')->get('NationalLicences'),
-            $publishers['publishers'],
+            $publishersList,
             $groupMapping,
             $groups,
             $sm->get('Swissbib\EmailService'),
@@ -270,7 +278,7 @@ class Factory
      *
      * @param ServiceManager $sm Service manager
      *
-     * @return SwitchApi
+     * @return SwitchSharedAttributesAPIClient
      */
     public static function getSwitchApiService(ServiceManager $sm)
     {

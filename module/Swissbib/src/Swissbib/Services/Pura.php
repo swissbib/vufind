@@ -24,6 +24,8 @@
  */
 namespace Swissbib\Services;
 
+use Exception;
+use SwitchSharedAttributesAPIClient\PublishersList;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Swissbib\VuFind\Db\Row\PuraUser;
 use Zend\Config\Config;
@@ -59,7 +61,7 @@ class Pura
      * contracts with libraries as well as
      * url and name and similar information
      *
-     * @var array $publishers
+     * @var PublishersList $publishers
      */
     protected $publishers;
 
@@ -88,7 +90,7 @@ class Pura
      * Pura constructor.
      *
      * @param object                  $config         Config
-     * @param array                   $publishers     List of Publishers
+     * @param PublishersList          $publishers     List of Publishers
      * @param Config                  $groupMapping   Map the institution code
      *                                                to a group (network)
      * @param Config                  $groups         The indices of the groups
@@ -98,7 +100,7 @@ class Pura
      */
     public function __construct(
         $config,
-        array $publishers,
+        PublishersList $publishers,
         Config $groupMapping,
         Config $groups,
         Email $emailService,
@@ -113,21 +115,13 @@ class Pura
     }
 
     /**
-     * Get the list of publishers which have a contract with this library
+     * Return Publishers List
      *
-     * @param string $libraryCode The library code, for example Z01
-     *
-     * @return array  PublishersWithContracts with that library
+     * @return PublishersList
      */
-    public function getPublishersForALibrary($libraryCode)
+    public function getPublishers(): PublishersList
     {
-        $publishersWithContracts = [];
-        foreach ($this->publishers as $publisher) {
-            if ($this->hasContract($libraryCode, $publisher)) {
-                array_push($publishersWithContracts, $publisher);
-            }
-        }
-        return $publishersWithContracts;
+        return $this->publishers;
     }
 
     /**
@@ -135,8 +129,8 @@ class Pura
      *
      * @param string $userNumber id in the pura-user table
      *
-     * @return PuraUser $user
-     * @throws \Exception if the user doesn't exist
+     * @return \Swissbib\VuFind\Db\Row\PuraUser $user
+     * @throws Exception if the user doesn't exist
      */
     public function getPuraUser(
         $userNumber
@@ -159,8 +153,7 @@ class Pura
      *
      * @param string $puraUserId id in the pura-user table
      *
-     * @return PuraUser $user
-     * @throws \Exception
+     * @return array|\ArrayObject|null
      */
     public function getVuFindUser(
         $puraUserId
@@ -213,7 +206,8 @@ class Pura
      * @param string $libraryCode the library code (for example Z01)
      *
      * @return array Institution information
-     * @throws \Exception
+     * @throws Exception
+     * @throws \Zend\Json\Server\Exception\ErrorException
      */
     public function getInstitutionInfo($libraryCode)
     {
@@ -225,7 +219,7 @@ class Pura
             $this->groupMapping[$libraryCode] : 'unknown';
 
         if ($groupCode == 'unknown') {
-            throw new \Exception(
+            throw new Exception(
                 'The institution with code ' .
                 $libraryCode .
                 ' is not in a libadmin group.'
@@ -235,7 +229,7 @@ class Pura
         $groupKey = array_search($groupCode, $this->groups->toArray());
 
         if ($groupKey == false) {
-            throw new \Exception(
+            throw new Exception(
                 'The institution with code ' .
                 $libraryCode .
                 ' does not exist.'
@@ -250,7 +244,7 @@ class Pura
         $institutionKey = array_search($libraryCode, $libraryCodes);
 
         if ($institutionKey == false) {
-            throw new \Exception(
+            throw new Exception(
                 'The institution with code ' .
                 $libraryCode .
                 ' was not found.'
@@ -318,7 +312,7 @@ class Pura
      * @param string $libraryCode  the library code of the user library
      *
      * @return PuraUser $user
-     * @throws \Exception
+     * @throws Exception
      */
     public function getOrCreatePuraUserIfNotExists(
         $eduId,
@@ -356,6 +350,7 @@ class Pura
      * (check expiration date for example, send emails)
      *
      * @return void
+     * @throws Exception
      */
     public function checkValidityPuraUsers()
     {
@@ -386,8 +381,8 @@ class Pura
     /**
      * Get list of all pura users
      *
-     * @return \Zend\Db\ResultSet\ResultSet
-     * @throws \Exception
+     * @return array
+     * @throws Exception
      */
     public function getListPuraUsers()
     {
