@@ -178,4 +178,27 @@ abstract class AbstractDetailsController extends AbstractBase
         return '[' . implode(",", $ids) . ']';
     }
 
+    /**
+     * Provides the record references configuration section.
+     *
+     * @return \Zend\Config\Config
+     */
+    protected function getRecordReferencesConfig(): ZendConfig
+    {
+        $flatArrayConverter = new FlatArrayConverter();
+        $valueConverter = new ValueConverter();
+
+        $searchesConfig
+            = $this->serviceLocator->get('VuFind\Config')->get('searches');
+        $recordReferencesConfig = $flatArrayConverter->fromConfigSections(
+            $searchesConfig, 'RecordReferences'
+        );
+
+        $recordReferencesConfig
+            = $recordReferencesConfig->get('RecordReferences')->toArray();
+
+        return $valueConverter->convert(
+            new ZendConfig($recordReferencesConfig)
+        );
+    }
 }

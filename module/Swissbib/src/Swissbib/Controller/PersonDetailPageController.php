@@ -48,7 +48,12 @@ class PersonDetailPageController extends AbstractPersonController
      */
     public function personAction()
     {
-        return parent::personAction();
+        $viewModel = parent::personAction();
+        $viewModel->setVariable(
+            "references", $this->getRecordReferencesConfig()
+        );
+
+        return $viewModel;
     }
 
     /**

@@ -52,6 +52,9 @@ class SubjectDetailPageController extends AbstractSubjectController
         if (!isset($viewModel->exception)) {
             // in case parent class implementation did not generate an error already
             $viewModel = $this->extendViewModel($viewModel);
+            $viewModel->setVariable(
+                "references", $this->getRecordReferencesConfig()
+            );
         }
 
         return $viewModel;
@@ -100,7 +103,9 @@ class SubjectDetailPageController extends AbstractSubjectController
     protected function addData(
         ViewModel &$viewModel
     ) {
-        $medias = $this->solrsearch()->getMedias("Subject", $this->driver);
+        $medias = $this->solrsearch()->getMedias(
+            "Subject", $driver, $this->config->mediaLimit
+        );
         $viewModel->setVariable("medias", $medias);
 
         $parentSubjectsMedias = $this->solrsearch()->getMedias(
