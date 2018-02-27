@@ -39,6 +39,11 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 abstract class AbstractSubjectController extends AbstractDetailsController
 {
+    /**
+     * The subject record driver
+     *
+     * @var \ElasticSearch\VuFind\RecordDriver\ESSubject
+     */
     protected $driver;
 
     /**
