@@ -119,8 +119,8 @@ class SubjectDetailPageController extends AbstractSubjectController
 
         $relatedTermsIds = $this->driver->getRelatedTerm();
         if (isset($relatedTermsIds)) {
-            $relatedTermsIds = is_array($relatedTermsIds) ? $this->arrayToSearchString
-            ($relatedTermsIds) : $relatedTermsIds;
+            $relatedTermsIds = is_array($relatedTermsIds)
+                ? $this->arrayToSearchString($relatedTermsIds) : $relatedTermsIds;
             $relatedTerms = $this->elasticsearchsearch()->searchElasticSearch(
                 $relatedTermsIds, "id", "gnd", "DEFAULT", 100
             )->getResults();
