@@ -15,3 +15,17 @@
         <?= $this->context($this)->renderInContext('/detailpage/medias.phtml', ['type' => 'subject']) ?>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <? $this->accessor = "childrenMedias" ?>
+        <?= $this->context($this)->renderInContext('/detailpage/medias.phtml', ['type' => 'subject']) ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <? $this->accessor = "parentMedias" ?>
+        <?= $this->context($this)->renderInContext('/detailpage/medias.phtml', ['type' => 'subject']) ?>
+    </div>
+</div>
