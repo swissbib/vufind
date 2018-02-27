@@ -1,0 +1,62 @@
+@detailpage-navigation-link-inset: .71rem;
+
+.page-anchors, .record-references {
+  .title {
+    font-size: 1.14rem;
+    display: inline-block;
+  }
+
+  .list {
+    border-top: 3px solid #D9DCE1;
+  }
+
+  ul {
+    padding: 0;
+    list-style: none;
+
+    li {
+      border-bottom: 1px solid #D9DCE1;
+
+      a {
+        display: block;
+        padding: @detailpage-navigation-link-inset 0 @detailpage-navigation-link-inset 1.71rem;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.page-anchors {
+
+  margin-bottom: 2.35rem;
+
+  ul > li > a {
+    color: @font-color;
+
+    background: url('/themes/sbvfrd/images/icons/sprungmarke-inhalt.svg') no-repeat 0 (@detailpage-navigation-link-inset * 0.7);
+
+    &:hover {
+      color: @link-color;
+    }
+  }
+}
+
+.record-references {
+  ul > li > a {
+    background: url('/themes/sbvfrd/images/icons/arrow-external-link.svg') no-repeat 0 (@detailpage-navigation-link-inset * 0.7);
+  }
+}
+
+button.accordion-collapse {
+  display: inline-block;
+  float: right;
+  margin: 20px 0 10px;
+  border: 0 none;
+  background: transparent url('/themes/sbvfrd/images/icons/arrow-accordion.svg') no-repeat center center;
+  height: 1.14rem;
+  width: 2rem;
+
+  &:focus {
+    outline: 0 none;
+  }
+}

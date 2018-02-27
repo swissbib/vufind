@@ -100,11 +100,10 @@ class SubjectDetailPageController extends AbstractSubjectController
      *
      * @return void
      */
-    protected function addData(
-        ViewModel &$viewModel
-    ) {
+    protected function addData(ViewModel &$viewModel)
+    {
         $medias = $this->solrsearch()->getMedias(
-            "Subject", $driver, $this->config->mediaLimit
+            "Subject", $this->driver, $this->config->mediaLimit
         );
         $viewModel->setVariable("medias", $medias);
 
