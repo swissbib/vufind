@@ -2,7 +2,7 @@
 <? $results = $this->{$this->accessor} ?>
 
 <? if ($results->getResultTotal() > 0): ?>
-
+<div class="media-search-results">
     <? if (isset($this->name)): ?>
         <a id="detailpage-medias-<?= $this->name ?>"></a>
     <? else: ?>
@@ -17,10 +17,11 @@
     <?= $this->context($this)->renderInContext(
         '/detailpage/medias/results.phtml', ['accessor' => $this->accessor]
     ) ?>
-    <? if ($results->getResultTotal() > 1): ?>
+    <? if ($results->getResultTotal() > count($results->getResults())): ?>
         <?= $this->{$helper}()->getMediaSearchLink(
             '<a class="btn btn-primary" href="%s">%s</a>',
             'common.show.results.all.long', true
         ) ?>
     <? endif; ?>
+</div>
 <? endif; ?>
