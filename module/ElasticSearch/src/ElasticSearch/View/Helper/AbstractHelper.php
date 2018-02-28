@@ -236,8 +236,12 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     {
         $total = $results->getResultTotal();
         $loaded = count($results->getResults());
-        $first = $loaded > 0 ? 1 : 0;
-        $template = $this->getView()->translate('page.detail.media.list.hits');
+        $translationKey = $loaded === 1
+            ? 'page.detail.media.list.hits.one.only'
+            : 'page.detail.media.list.hits';
+
+        $template = $this->getView()->translate($translationKey);
+        $first = 1;
 
         return $this->escape(sprintf($template, $first, $loaded, $total));
     }
