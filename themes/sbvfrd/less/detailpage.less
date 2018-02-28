@@ -78,7 +78,9 @@ button.accordion-collapse {
 
   & > span {
     display: inline-block;
-    margin: 0 0.25rem;
+    &:not(:last-child) {
+      margin-right: 0.25rem;
+    }
   }
 }
 
