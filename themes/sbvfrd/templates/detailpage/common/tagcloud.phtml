@@ -1,21 +1,25 @@
 <? if (count($this->records) > 0) : ?>
-<a id="detailpage-<?= $this->name ?>"></a>
-<h2><?= $this->headline ?></h2>
-<? foreach ($this->records as $recordName => $recordValue): ?>
-    <? $record = $recordValue[strtolower($this->type)] ?>
-    <?= $this->render('/detailpage/common/tagcloud/link.phtml', [
-            'name' => $recordName,
-            'record' => $record,
-            'weight' => $recordValue['weight'],
-            'type' => $this->type
-        ]);
-    ?>
-    <? if ($record->hasSufficientData()): ?>
-        <?= $this->render('/knowledgecard/common/link.phtml', [
-                'type' => strtolower($this->type),
-                'record' => $record
+<div class="tagcloud">
+    <a id="detailpage-<?= $this->name ?>"></a>
+    <h2><?= $this->headline ?></h2>
+    <? foreach ($this->records as $recordName => $recordValue): ?>
+        <? $record = $recordValue[strtolower($this->type)] ?>
+        <span>
+        <?= $this->render('/detailpage/common/tagcloud/link.phtml', [
+                'name' => $recordName,
+                'record' => $record,
+                'weight' => $recordValue['weight'],
+                'type' => $this->type
             ]);
         ?>
-    <? endif; ?>
-<? endforeach; ?>
+        <? if ($record->hasSufficientData()): ?>
+            <?= $this->render('/knowledgecard/common/link.phtml', [
+                    'type' => strtolower($this->type),
+                    'record' => $record
+                ]);
+            ?>
+        <? endif; ?>
+        </span>
+    <? endforeach; ?>
+</div>
 <? endif; ?>

@@ -18,10 +18,12 @@
         '/detailpage/medias/results.phtml', ['accessor' => $this->accessor]
     ) ?>
     <? if ($results->getResultTotal() > count($results->getResults())): ?>
+        <div class="all-results-box">
         <?= $this->{$helper}()->getMediaSearchLink(
             '<a class="btn btn-primary" href="%s">%s</a>',
             'common.show.results.all.long', true
         ) ?>
+        </div>
     <? endif; ?>
 </div>
 <? endif; ?>
