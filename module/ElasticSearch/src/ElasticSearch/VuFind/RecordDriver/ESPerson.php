@@ -124,7 +124,7 @@ class ESPerson extends ElasticSearch
     /**
      * Gets the Name
      *
-     * @return array|null
+     * @return string|null
      */
     public function getName()
     {
@@ -139,7 +139,11 @@ class ESPerson extends ElasticSearch
             }
             return $lastName . ", " . $firstName;
         }
-        return $this->getField('label', 'rdfs');
+        $name = $this->getField('label', 'rdfs');
+        if (isset($name) && is_array($name)) {
+            return array_shift($name);
+        }
+        return $name;
     }
 
     /**
