@@ -1,11 +1,11 @@
-<? $availableReferences = $this->driver->getSameAs(); ?>
-<? if (is_array($availableReferences) && count($availableReferences) > 0): ?>
+<? $configuredReferences = $this->references->record->references ?>
+<? if ($this->esperson()->hasMatchingRecordReferences($configuredReferences)): ?>
 <div class="record-references hidden-xs hidden-sm">
     <h1 class="title"><?= $this->translate('page.detail.person.more') ?></h1>
     <div class="list">
         <ul id="detailpage-person-references">
-            <? foreach ($availableReferences as $link): ?>
-            <?= $this->esperson()->getRecordReference('<li><a href="%s">%s</a></li>', $link, $this->references->record->references) ?>
+            <? foreach ($this->esperson()->getSameAs() as $link): ?>
+            <?= $this->esperson()->getRecordReference('<li><a href="%s">%s</a></li>', $link, $configuredReferences) ?>
             <? endforeach; ?>
         </ul>
     </div>

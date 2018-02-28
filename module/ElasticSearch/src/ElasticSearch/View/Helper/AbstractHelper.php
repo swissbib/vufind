@@ -343,6 +343,62 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     }
 
     /**
+     * Normalizes access to record references on the underlying record driver.
+     *
+     * @return array|null
+     */
+    public function getSameAs()
+    {
+        $source = $this->getDriver()->tryMethod('getSameAs');
+        return is_string($source) ? [$source] : $source;
+    }
+
+    /**
+     * Checks whether the underlying driver has matching record references based on
+     * the references defined in the searches.ini configuration.
+     *
+     * @param ZendConfig $references The available record reference configurations.
+     *
+     * @return bool
+     */
+    public function hasMatchingRecordReferences(
+        ZendConfig $references
+    ): bool {
+        $source = $this->getSameAs();
+
+        if (is_array($source)) {
+            foreach ($source as $link) {
+                if ($this->hasMatchingRecordReference($references, $link)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks whether the given link matches one of the configured record references.
+     *
+     * @param ZendConfig $references The available record reference configurations.
+     * @param string     $link       An array or string representing the available
+     *                               references.
+     *
+     * @return bool
+     */
+    protected function hasMatchingRecordReference(
+        ZendConfig $references, string $link
+    ): bool {
+        foreach ($references as $id => $reference) {
+            if (preg_match($reference->pattern, $link) === 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Generates a reference link to an external resource about the record when the
      * given link matches one of the patterns in the record references configuration.
      *
