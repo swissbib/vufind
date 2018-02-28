@@ -7,6 +7,11 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <?= $this->context($this)->renderInContext('/detailpage/medias.phtml', ['type' => 'person']) ?>
+        <?= $this->context($this)->renderInContext(
+            '/detailpage/medias.phtml', [
+                'type' => 'person',
+                'headline' => 'page.detail.person.media.list.title'
+            ]
+        ) ?>
     </div>
 </div>
