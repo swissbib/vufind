@@ -1,13 +1,19 @@
 <div class="page-anchors">
-    <h1><?= $this->translate('page.detail.anchors.title') ?></h1>
+    <h1 class="title"><?= $this->translate('page.detail.anchors.title') ?></h1>
     <button class="accordion-collapse hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-subject-references"></button>
     <div class="list">
         <ul id="detailpage-subject-anchors">
             <li><a href="#detailpage-common"><?= $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.common') ?></a></li>
+            <? if ($this->medias->getResultTotal() > 0): ?>
             <li><a href="#detailpage-medias"><?= $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.media.list.title') ?></a></li>
+            <? endif; ?>
             <li><a href="#detailpage-authors"><?= $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.authors') ?></a></li>
-            <li><a href="#detailpage-parents"><?= $this->translate('page.detail.subject.media.parents') ?></a></li>
-            <li><a href="#detailpage-children"><?= $this->translate('page.detail.subject.media.children') ?></a></li>
+            <? if ($this->parentMedias->getResultTotal() > 0): ?>
+            <li><a href="#detailpage-medias-parents"><?= $this->translate('page.detail.subject.media.parents') ?></a></li>
+            <? endif; ?>
+            <? if ($this->childrenMedias->getResultTotal() > 0): ?>
+            <li><a href="#detailpage-medias-children"><?= $this->translate('page.detail.subject.media.children') ?></a></li>
+            <? endif; ?>
             <li><a href="#detailpage-subjects"><?= $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.subjects.related') ?></a></li>
         </ul>
     </div>

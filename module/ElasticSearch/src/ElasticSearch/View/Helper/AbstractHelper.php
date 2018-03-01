@@ -236,8 +236,12 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     {
         $total = $results->getResultTotal();
         $loaded = count($results->getResults());
-        $first = $loaded > 0 ? 1 : 0;
-        $template = $this->getView()->translate('page.detail.media.list.hits');
+        $translationKey = $loaded === 1
+            ? 'page.detail.media.list.hits.one.only'
+            : 'page.detail.media.list.hits';
+
+        $template = $this->getView()->translate($translationKey);
+        $first = 1;
 
         return $this->escape(sprintf($template, $first, $loaded, $total));
     }
@@ -336,6 +340,62 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     {
         $recordHelper = $this->getView()->record($this->getDriver());
         return $recordHelper->getThumbnailFromRecord(false);
+    }
+
+    /**
+     * Normalizes access to record references on the underlying record driver.
+     *
+     * @return array|null
+     */
+    public function getSameAs()
+    {
+        $source = $this->getDriver()->tryMethod('getSameAs');
+        return is_string($source) ? [$source] : $source;
+    }
+
+    /**
+     * Checks whether the underlying driver has matching record references based on
+     * the references defined in the searches.ini configuration.
+     *
+     * @param ZendConfig $references The available record reference configurations.
+     *
+     * @return bool
+     */
+    public function hasMatchingRecordReferences(
+        ZendConfig $references
+    ): bool {
+        $source = $this->getSameAs();
+
+        if (is_array($source)) {
+            foreach ($source as $link) {
+                if ($this->hasMatchingRecordReference($references, $link)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks whether the given link matches one of the configured record references.
+     *
+     * @param ZendConfig $references The available record reference configurations.
+     * @param string     $link       An array or string representing the available
+     *                               references.
+     *
+     * @return bool
+     */
+    protected function hasMatchingRecordReference(
+        ZendConfig $references, string $link
+    ): bool {
+        foreach ($references as $id => $reference) {
+            if (preg_match($reference->pattern, $link) === 1) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
