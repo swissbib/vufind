@@ -22,6 +22,7 @@ if [ "$UID"  -eq 0 ]; then
                      "local/classic/productive/cache"
                      "local/baselbern/productive/cache"
                      "local/jus/productive/cache"
+                     "local/classic/c2sbmanually/cache"
                      )
 
     for cacheDir in "${hosts[@]}"
