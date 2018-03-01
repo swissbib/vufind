@@ -35,6 +35,7 @@ use Zend\Console\Request as ConsoleRequest;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 
 use Swissbib\Libadmin\Importer;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Synchronize VuFind with LibAdmin
@@ -48,6 +49,14 @@ use Swissbib\Libadmin\Importer;
  */
 class LibadminSyncController extends AbstractActionController
 {
+    /** @var ServiceManager $sm */
+    private $serviceManager;
+
+    public function __construct(ServiceManager $sm)
+    {
+        $this->serviceManager = $sm;
+    }
+
     /**
      * Synchronize with libadmin system
      *
@@ -78,7 +87,7 @@ class LibadminSyncController extends AbstractActionController
          * @var Importer $importer
          */
         try {
-            $importer = $this->getServiceLocator()
+            $importer = $this->serviceManager
                 ->get('Swissbib\Libadmin\Importer');
             $result   = $importer->import($dryRun);
             $hasErrors = $result->hasErrors();
@@ -137,7 +146,7 @@ class LibadminSyncController extends AbstractActionController
          * @var Importer $importer
          */
         try {
-            $importer = $this->getServiceLocator()
+            $importer = $this->serviceManager
                 ->get('Swissbib\Libadmin\Importer');
             $result   = $importer->importMapPortalData($path);
             $hasErrors = $result->hasErrors();

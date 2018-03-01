@@ -2,6 +2,8 @@
 
 namespace Swissbib\Module\Config;
 
+use Swissbib\Controller\LibadminSyncController;
+
 return [
     'router' => [
         'routes' => [
@@ -171,7 +173,7 @@ return [
                     'options' => [
                         'route'    => 'libadmin sync [--verbose|-v] [--dry|-d] [--result|-r]',
                         'defaults' => [
-                            'controller' => 'libadminsync',
+                            'controller' => LibadminSyncController::class,
                             'action'     => 'sync'
                         ]
                     ]
@@ -180,7 +182,7 @@ return [
                     'options' => [
                         'route'    => 'libadmin syncMapPortal [--verbose|-v] [--result|-r] [<path>] ',
                         'defaults' => [
-                            'controller' => 'libadminsync',
+                            'controller' => LibadminSyncController::class,
                             'action'     => 'syncMapPortal'
                         ]
                     ]
@@ -261,7 +263,7 @@ return [
             'hierarchycache'       => 'Swissbib\Controller\Factory::getHierarchyCacheController',
             //nicht getestet
             'helppage'    => 'Swissbib\Controller\Factory::getHelpPageController',
-            'libadminsync' => 'Swissbib\Controller\Factory::getLibadminSyncController',
+            LibadminSyncController::class => 'Swissbib\Controller\Factory::getLibadminSyncController',
             'my-research'   => 'Swissbib\Controller\Factory::getMyResearchController',
             'console'       => 'Swissbib\Controller\Factory::getConsoleController'
         ]

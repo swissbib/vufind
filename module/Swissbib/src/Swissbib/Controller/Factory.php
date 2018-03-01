@@ -28,6 +28,7 @@
  */
 namespace Swissbib\Controller;
 
+use VuFind\Controller\GenericFactory;
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -39,46 +40,8 @@ use Zend\ServiceManager\ServiceManager;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class Factory
+class Factory extends GenericFactory
 {
-    /**
-     * Construct a generic controller.
-     *
-     * @param string         $name Name of table to construct (fully qualified
-     *                             class name, or else a class name within the
-     *                             current namespace)
-     * @param ServiceManager $sm   Service manager
-     *
-     * @return object
-     */
-    public static function getGenericController($name, ServiceManager $sm)
-    {
-        // Prepend the current namespace unless we receive a FQCN:
-        $class = (strpos($name, '\\') === false)
-            ? __NAMESPACE__ . '\\' . $name : $name;
-        if (!class_exists($class)) {
-            throw new \Exception('Cannot construct ' . $class);
-        }
-        return new $class($sm->getServiceLocator());
-    }
-
-    /**
-     * Construct a generic controller.
-     *
-     * @param string $name Method name being called
-     * @param array  $args Method arguments
-     *
-     * @return object
-     */
-    public static function __callStatic($name, $args)
-    {
-        // Strip "get" from method name to get name of class; pass first argument
-        // on assumption that it should be the ServiceManager object.
-        return static::getGenericController(
-            substr($name, 3), isset($args[0]) ? $args[0] : null
-        );
-    }
-
     /**
      * Construct the RecordController.
      *
@@ -89,8 +52,8 @@ class Factory
     public static function getRecordController(ServiceManager $sm)
     {
         return new RecordController(
-            $sm->getServiceLocator(),
-            $sm->getServiceLocator()->get('VuFind\Config')->get('config')
+            $sm,
+            $sm->get('VuFind\Config')->get('config')
         );
 
     }
@@ -118,7 +81,7 @@ class Factory
     public function getNationalLicenceController(ServiceManager $sm)
     {
         return new NationalLicencesController(
-            $sm->getServiceLocator()
+            $sm
         );
     }
 
@@ -132,10 +95,15 @@ class Factory
      */
     public function getMyResearchNationalLicenceController(ServiceManager $sm)
     {
-        $sl = $sm->getServiceLocator();
-
         return new MyResearchNationalLicensesController(
-            $sl->get('Swissbib\NationalLicenceService')
+            $sm->get('Swissbib\NationalLicenceService')
+        );
+    }
+
+    public function getLibadminSyncController(ServiceManager $sm)
+    {
+        return new LibadminSyncController(
+          $sm
         );
     }
 
