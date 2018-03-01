@@ -313,8 +313,8 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      */
     public function hasThumbnail(): bool
     {
-        $thumbnail = $this->getThumbnailFromRecord();
-        return is_string($thumbnail);
+        $available = $this->getAvailableThumbnails();
+        return is_array($available) && count($available) > 0;
     }
 
     /**
@@ -340,6 +340,18 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     {
         $recordHelper = $this->getView()->record($this->getDriver());
         return $recordHelper->getThumbnailFromRecord(false);
+    }
+
+    /**
+     * Provides an array of all available thumbnails. This includes all thumbnails
+     * from the underlying record driver and a possibly auto-resolved thumbnail.
+     *
+     * @return array|null
+     */
+    public function getAvailableThumbnails()
+    {
+        $recordHelper = $this->getView()->record($this->getDriver());
+        return $recordHelper->getAvailableThumbnails();
     }
 
     /**
