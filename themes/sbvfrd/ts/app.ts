@@ -7,6 +7,10 @@ import RecordRenderer from "./RecordRenderer";
 import CarouselManager from "./carousel/CarouselManager";
 import MediaQueryObserver from "./common/MediaQueryObserver";
 import BackToTopButton from "./components/BackToTopButton";
+import ImageSequence from "./components/ImageSequence";
+
+// must be available immediately
+swissbib.imageSequence = ImageSequence;
 
 $(document).ready(() => {
     const recordRenderer = new RecordRenderer(window.location.origin + VuFind.path + "/AJAX/Json");
