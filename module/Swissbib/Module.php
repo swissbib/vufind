@@ -28,6 +28,7 @@
  */
 namespace Swissbib;
 
+use Swissbib\VuFind\Factory;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface as Autoloadable;
 use Zend\ModuleManager\Feature\ConfigProviderInterface as Configurable;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface as Consolable;
@@ -82,6 +83,21 @@ class Module implements Autoloadable, Configurable, Initializable, Consolable
                 'namespaces' => [
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ],
+            ],
+        ];
+    }
+
+    /**
+     * Return service configuration.
+     *
+     * @return array
+     */
+    public function getServiceConfig()
+    {
+        return [
+            'factories' => [
+                'VuFindTheme\ResourceContainer' =>
+                    'Swissbib\VuFind\Factory::getResourceContainer',
             ],
         ];
     }

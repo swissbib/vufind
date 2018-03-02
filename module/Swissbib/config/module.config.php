@@ -274,7 +274,7 @@ return [
             'MarcFormatter'                                 => 'Swissbib\XSLT\MARCFormatter',
         ],
         'factories' => [
-            'VuFindTheme\ResourceContainer'                 =>  'Swissbib\VuFind\ResourceContainer',
+            'VuFindTheme\ResourceContainer'                 =>  'Swissbib\VuFind\Factory::getResourceContainer',
             'Swissbib\HoldingsHelper'                       =>  'Swissbib\RecordDriver\Helper\Factory::getHoldingsHelper',
             'Swissbib\Services\RedirectProtocolWrapper'     =>  'Swissbib\Services\Factory::getProtocolWrapper',
             'Swissbib\TargetsProxy\TargetsProxy'            =>  'Swissbib\TargetsProxy\Factory::getTargetsProxy',
