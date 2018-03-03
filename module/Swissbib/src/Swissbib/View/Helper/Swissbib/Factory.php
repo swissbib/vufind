@@ -172,9 +172,9 @@ class Factory
     public static function getSearchTabs(ServiceManager $sm)
     {
         return new SearchTabs(
-            $sm->getServiceLocator()->get('VuFind\SearchResultsPluginManager'),
-            $sm->get('url'),
-            $sm->getServiceLocator()->get('Swissbib\SearchTabsHelper')
+            $sm->get('VuFind\Search\Results\PluginManager'),
+            $helpers->get('url'),
+            $sm->get('Swissbib\SearchTabsHelper')
         );
     }
 
