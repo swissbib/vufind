@@ -3,6 +3,7 @@
 namespace Swissbib\Module\Config;
 
 use Swissbib\Controller\LibadminSyncController;
+use VuFind\Controller\AjaxController;
 
 return [
     'router' => [
@@ -246,7 +247,7 @@ return [
             //'cover'                => 'Swissbib\Controller\CoverController',
         ],
         'factories'  => [
-            'ajax' => 'Swissbib\Controller\Factory::getAjaxController',
+            AjaxController::class => 'Swissbib\Controller\Factory::getAjaxController',
             'search' => 'Swissbib\Controller\Factory::getSearchController',
             'record' => 'Swissbib\Controller\Factory::getRecordController',
             'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
