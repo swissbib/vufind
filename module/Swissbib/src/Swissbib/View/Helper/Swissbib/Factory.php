@@ -171,6 +171,7 @@ class Factory
      */
     public static function getSearchTabs(ServiceManager $sm)
     {
+        $helpers = $sm->get('ViewHelperManager');
         return new SearchTabs(
             $sm->get('VuFind\Search\Results\PluginManager'),
             $helpers->get('url'),
