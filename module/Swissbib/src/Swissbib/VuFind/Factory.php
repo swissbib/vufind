@@ -47,9 +47,9 @@ class Factory
      *
      * @return ResourceContainer
      */
-    public static function getResourceContainer()
+    public static function getResourceContainer($sm)
     {
-        $rc = new ResourceContainer();
+        $rc = new ResourceContainer($sm);
         return $rc;
     }
 }

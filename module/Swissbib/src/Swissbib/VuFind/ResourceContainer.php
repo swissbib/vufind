@@ -72,14 +72,12 @@ class ResourceContainer extends VfResourceContainer
      * @param ServiceLocatorInterface $sm Service manager
      */
     //public function __construct(ServiceLocatorInterface $sm)
-    public function __construct()
+    public function __construct($sm)
     {
-        /*
-        $this->serviceLocator = $sm;
-        $config               = new Config($this->serviceLocator);
+        $config                = new Config($sm->get('Config'));
+
         $this->ignoredCssFiles = $config->swissbib->ignore_css_assets->toArray();
         $this->ignoredJsFiles  = $config->swissbib->ignore_js_assets->toArray();
-        */
     }
 
     /**
