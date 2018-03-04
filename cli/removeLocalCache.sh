@@ -30,6 +30,7 @@ if [ "$UID"  -eq 0 ]; then
         VUFIND_CACHE=$VUFIND_BASE/${cacheDir}
         echo "Trying to remove local cache: ${VUFIND_CACHE}"
         # no removal of hierarchy cache
+        rm -rf $VUFIND_CACHE/configs/*
         rm -rf $VUFIND_CACHE/searchspecs/*
         rm -rf $VUFIND_CACHE/objects/*
         rm -rf $VUFIND_CACHE/languages/*

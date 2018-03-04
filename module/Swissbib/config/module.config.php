@@ -248,7 +248,7 @@ return [
         ],
         'factories'  => [
             AjaxController::class => 'Swissbib\Controller\Factory::getAjaxController',
-            'search' => 'Swissbib\Controller\Factory::getSearchController',
+            'search' => 'Swissbib\Controller\SearchController',
             'record' => 'Swissbib\Controller\Factory::getRecordController',
             'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
