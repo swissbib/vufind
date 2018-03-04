@@ -42,21 +42,6 @@ use Swissbib\VuFind\Recommend\FavoriteFacets;
 class Factory
 {
     /**
-     * Constructs a type for redirecting resources using the appropriate protocol
-     * (most often used for http resources in https environments).
-     *
-     * @param ServiceManager $sm Service manager.
-     *
-     * @return RedirectProtocolWrapper
-     */
-    public static function getProtocolWrapper(ServiceManager $sm)
-    {
-        $config = $sm->get('VuFind\Config')->get('config');
-
-        return new RedirectProtocolWrapper($config);
-    }
-
-    /**
      * Constructs Theme - a type used to load Theme specific configuration
      *
      * @param ServiceManager $sm ServiceManager

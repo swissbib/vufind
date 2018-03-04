@@ -137,13 +137,6 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     ];
 
     /**
-     * ProtocolWrapper
-     *
-     * @var String
-     */
-    protected $protocolWrapper = null;
-
-    /**
      * MultiValuedFRBRField
      *
      * @var Boolean
@@ -199,17 +192,15 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      *                                             (omit to use $mainConfig
      *                                             as $recordConfig)
      * @param \Zend\Config\Config $searchSettings  Search-specific configuration file
-     * @param String              $protocolWrapper ProtocolWrapper
      */
     public function __construct($mainConfig = null, $recordConfig = null,
-        $searchSettings = null, $protocolWrapper = null
+        $searchSettings = null
     ) {
         parent::__construct($mainConfig, $recordConfig, $searchSettings);
 
         $this->multiValuedFRBRField
             = isset($searchSettings->General->multiValuedFRBRField) ?
             $searchSettings->General->multiValuedFRBRField : true;
-        $this->protocolWrapper = $protocolWrapper;
     }
 
     /**

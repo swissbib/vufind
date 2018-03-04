@@ -65,8 +65,7 @@ class HoldingActions extends AbstractTranslatorHelper
             if (isset($item['network'])) {
                 $actions['backlink'] = [
                     'label' => $this->translate('hold_backlink'),
-                    'href' => $this->getView()->redirectProtocolWrapper()
-                        ->getWrappedURL($item['backlink']),
+                    'href' => $item['backlink'],
                     'target' => '_blank'
                 ];
             }

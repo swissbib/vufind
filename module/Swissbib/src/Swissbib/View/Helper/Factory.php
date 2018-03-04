@@ -29,7 +29,6 @@
 namespace Swissbib\View\Helper;
 
 use Zend\ServiceManager\ServiceManager;
-use Swissbib\View\Helper\RedirectProtocolWrapper as RedirectProtocolWrapperHelper;
 
 /**
  * Factory for swissbib specific view helpers.
@@ -151,22 +150,6 @@ class Factory
         $locator = $sm->getServiceLocator();
 
         return new DomainURL($locator->get('Request'));
-    }
-
-    /**
-     * GetRedirectProtocolWrapperHelper
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return RedirectProtocolWrapper
-     */
-    public static function getRedirectProtocolWrapperHelper(ServiceManager $sm)
-    {
-        $locator = $sm->getServiceLocator();
-
-        return new  RedirectProtocolWrapperHelper(
-            $locator->get('Swissbib\Services\RedirectProtocolWrapper')
-        );
     }
 
     /**

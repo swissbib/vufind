@@ -277,7 +277,6 @@ return [
         'factories' => [
             'VuFindTheme\ResourceContainer'                 =>  'Swissbib\VuFind\Factory::getResourceContainer',
             'Swissbib\HoldingsHelper'                       =>  'Swissbib\RecordDriver\Helper\Factory::getHoldingsHelper',
-            'Swissbib\Services\RedirectProtocolWrapper'     =>  'Swissbib\Services\Factory::getProtocolWrapper',
             'Swissbib\TargetsProxy\TargetsProxy'            =>  'Swissbib\TargetsProxy\Factory::getTargetsProxy',
             'Swissbib\TargetsProxy\IpMatcher'               =>  'Swissbib\TargetsProxy\Factory::getIpMatcher',
             'Swissbib\TargetsProxy\UrlMatcher'              =>  'Swissbib\TargetsProxy\Factory::getURLMatcher',
@@ -354,7 +353,6 @@ return [
             'qrCode'                                    =>  'Swissbib\View\Helper\Factory::getQRCodeHelper',
             'isFavoriteInstitution'                     =>  'Swissbib\View\Helper\Factory::isFavoriteInstitutionHelper',
             'domainURL'                                 =>  'Swissbib\View\Helper\Factory::getDomainURLHelper',
-            'redirectProtocolWrapper'                   =>  'Swissbib\View\Helper\Factory::getRedirectProtocolWrapperHelper'
         ]
     ],
     'vufind' => [

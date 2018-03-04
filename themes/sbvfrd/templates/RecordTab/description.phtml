@@ -69,7 +69,7 @@ $prevTitles      = $record->getPreviousTitles();
         <td>
             <? foreach ($dois as $field): ?>
                 <? $fieldUrl = 'http://doi.org/' . $field; ?>
-                <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL($fieldUrl) ?>" target="_blank"> <?= $this->escapeHtml($field) ?><br/></a>
+                <a href="<?= $fieldUrl ?>" target="_blank"> <?= $this->escapeHtml($field) ?><br/></a>
             <? endforeach; ?>
         </td>
     </tr>
@@ -331,7 +331,7 @@ $prevTitles      = $record->getPreviousTitles();
                       <? if (empty($field['url'])): ?>
                           <?= $this->escapeHtml($fieldDesc) ?> <br/>
                       <? else: ?>
-                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['url'])) ?>"
                              target="_blank">
                               <?= $this->escapeHtml($fieldDesc) ?>
                           </a><br/>
@@ -405,7 +405,7 @@ $prevTitles      = $record->getPreviousTitles();
                   <? if (empty($field['url'])): ?>
                       <?= $this->escapeHtml($fieldDesc) ?> <br/>
                   <? else: ?>
-                      <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                      <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['url'])) ?>"
                          target="_blank">
                           <?= $this->escapeHtml($fieldDesc) ?>
                       </a><br/>
@@ -477,7 +477,7 @@ $prevTitles      = $record->getPreviousTitles();
                       <? if (empty($field['url'])): ?>
                           <?= $this->escapeHtml($fieldDesc) ?> <br/>
                       <? else: ?>
-                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['url'])) ?>"
                              target="_blank">
                               <?= $this->escapeHtml($fieldDesc) ?>
                           </a><br/>
@@ -594,7 +594,7 @@ $prevTitles      = $record->getPreviousTitles();
                       <? if (empty($field['url'])): ?>
                           <?= $this->escapeHtml($fieldDesc) ?> <br/>
                       <? else: ?>
-                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['url'])) ?>"
                              target="_blank">
                               <?= $this->escapeHtml($fieldDesc) ?>
                           </a><br/>
@@ -722,7 +722,7 @@ $prevTitles      = $record->getPreviousTitles();
                     <? if (empty($field['url'])): ?>
                         <?= $this->escapeHtml($fieldDesc) ?> <br/>
                     <? else: ?>
-                        <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                        <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['url'])) ?>"
                            target="_blank">
                             <?= $this->escapeHtml($fieldDesc) ?>
                         </a><br/>
@@ -758,7 +758,7 @@ $prevTitles      = $record->getPreviousTitles();
                     <? if (empty($field['url'])): ?>
                         <?= $this->escapeHtml($fieldDesc) ?> <br/>
                     <? else: ?>
-                        <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($field['url']))) ?>"
+                        <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['url'])) ?>"
                            target="_blank">
                             <?= $this->escapeHtml($fieldDesc) ?>
                         </a><br/>

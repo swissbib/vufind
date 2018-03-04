@@ -147,7 +147,7 @@ $linkSFX = $viewRecord->getLinkSFX();
         <span class="label"><?=$this->transEsc('Online Access')?>: </span>
         <span><br />
           <? foreach ($urls as $current): ?>
-            <a href="<?=$this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($current['url'])))?>" target="_blank" title="<?=$this->escapeHtml($current['desc'])?>">
+            <a href="<?=$this->escapeHtmlAttr($this->proxyUrl($current['url']))?>" target="_blank" title="<?=$this->escapeHtml($current['desc'])?>">
                 <?=$this->escapeHtml($current['desc'])?>
             </a><br/>
           <? endforeach; ?>

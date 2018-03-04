@@ -25,8 +25,7 @@ if (isset($item['locationMap']) && $item['locationMap']) {
   <td>
     <?php if ($institution == 'NATIONALLICENCE'): ?>
       <?php $nlUrl = $this->nationalLicences()->getUrl($driver)['url']; ?>
-      <?php $wrappedURL = $this->redirectProtocolWrapper()->getWrappedURL($nlUrl) ?>
-      <a href="<?= $this->escapeHtml($wrappedURL) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>" onclick="swissbib.trackLink('<?=$this->escapeHtml($wrappedURL)?>')">Get it Online</a>
+      <a href="<?= $this->escapeHtml($nlUrl) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>" onclick="swissbib.trackLink('<?=$this->escapeHtml($nlUrl)?>')">Get it Online</a>
     <?php else: ?>
       <?= $this->holdingActions($item, 'holdingActionsItem', $record) ?>
     <?php endif; ?>
@@ -36,7 +35,7 @@ if (isset($item['locationMap']) && $item['locationMap']) {
     <? else: ?>
     <?= $this->availabilityInfo($item['availability'], $institution) ?>
       <? if (($item['network'] === 'IDSBB') && (isset($item['holding_status']) | isset($item['process_status'])) && (($item['holding_status'] === '55') | ($item['process_status'] === 'ES'))): ?>
-        <? $addressURL = $this->redirectProtocolWrapper()->getWrappedURL('http://aleph.unibas.ch/F/?func=item-loan&adm_library=DSV51&doc_number='. $item['localid'] . '&item_sequence='. $item['sequencenumber']); ?>
+        <? $addressURL = 'http://aleph.unibas.ch/F/?func=item-loan&adm_library=DSV51&doc_number='. $item['localid'] . '&item_sequence='. $item['sequencenumber'] ?>
         <a href="<?= $this->escapeHtml($addressURL)?>" target="_blank" title="<?= $this->transEsc('Address') ?>" onclick="swissbib.trackLink('<?=$this->escapeHtml($addressURL)?>')"><?= $this->transEsc('Address') ?></a>
       <? endif; ?>
     <? endif; ?>
@@ -45,8 +44,7 @@ if (isset($item['locationMap']) && $item['locationMap']) {
     <?= $this->escapeHtml($item['locationLabel']) ?>
     <?= $mapLink ?>
     <?php if (isset($item['institutionUrl'])): ?>
-      <?php $wrappedURL = $this->redirectProtocolWrapper()->getWrappedURL($item['institutionUrl']) ?>
-      <a href="<?= $this->escapeHtml($wrappedURL) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>" data-lightbox-ignore onclick="swissbib.trackLink('<?=$this->escapeHtml($wrappedURL)?>')"> <i class="fa fa-info-circle"></i></a>
+      <a href="<?= $item['institutionUrl'] ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>" data-lightbox-ignore onclick="swissbib.trackLink('<?=$this->escapeHtml($item['institutionUrl'])?>')"> <i class="fa fa-info-circle"></i></a>
     <?php endif; ?>
   </td>
   <td><?= $this->escapeHtml($item['signature']) ?></td>

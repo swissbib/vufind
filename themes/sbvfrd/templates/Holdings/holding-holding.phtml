@@ -43,8 +43,7 @@ if (!empty($holding['opac_note'])) {
     <?=$this->escapeHtml($holding['locationLabel'])?>
     <?=$mapLink?>
     <?php  if (isset($holding['institutionUrl']) && !empty($holding['institutionUrl'])): ?>
-        <?php $wrappedURL = $this->redirectProtocolWrapper()->getWrappedURL($holding['institutionUrl']) ?>
-        <a href="<?= $this->escapeHtml($wrappedURL) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>" onclick="swissbib.trackLink('<?=$this->escapeHtml($wrappedURL)?>')"> <i class="fa fa-info-circle"></i></a>
+        <a href="<?= $this->escapeHtml($holding['institutionUrl']) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>" onclick="swissbib.trackLink('<?=$this->escapeHtml($holding['institutionUrl'])?>')"> <i class="fa fa-info-circle"></i></a>
     <?php endif; ?>
   </td>
   <td><?=$this->escapeHtml($holding['signature'])?></td>

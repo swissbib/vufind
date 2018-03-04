@@ -68,8 +68,7 @@ class Factory
         $driver = new \Swissbib\RecordDriver\SolrMarc(
             $serviceLocator->get('VuFind\Config')->get('config'),
             null,
-            $serviceLocator->get('VuFind\Config')->get('searches'),
-            $serviceLocator->get('Swissbib\Services\RedirectProtocolWrapper')
+            $serviceLocator->get('VuFind\Config')->get('searches')
         );
         $driver->attachILS(
             $serviceLocator->get('VuFind\ILSConnection'),
