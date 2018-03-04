@@ -68,7 +68,7 @@ class Factory
      */
     public static function getSOLRHighlightingConfigurator(ServiceManager $sm)
     {
-        $config = $sm->get('Vufind\Config')->get('config')->Highlight;
+        $config = $sm->get('VuFind\Config')->get('config')->Highlight;
         $eventsManager = $sm->get('SharedEventManager');
         $memory = $sm->get('VuFind\Search\Memory');
 

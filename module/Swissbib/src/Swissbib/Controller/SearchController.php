@@ -136,7 +136,7 @@ class SearchController extends VuFindSearchController
     protected function getResultsManager()
     {
         if (!isset($this->extendedTargets)) {
-            $mainConfig = $this->serviceLocator->get('Vufind\Config')
+            $mainConfig = $this->serviceLocator->get('VuFind\Config')
                 ->get('config');
             $extendedTargetsSearchClassList
                 = $mainConfig->SwissbibSearchExtensions->extendedTargets;

@@ -50,7 +50,7 @@ class Factory
      */
     public static function getSolrDefaultAdapter(ServiceManager $sm)
     {
-        $config = $sm->get('Vufind\Config')->get('Config');
+        $config = $sm->get('VuFind\Config')->get('Config');
         return new SolrDefaultAdapter($config);
     }
 
