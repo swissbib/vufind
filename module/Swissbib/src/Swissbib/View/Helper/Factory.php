@@ -104,20 +104,6 @@ class Factory
     }
 
     /**
-     * GetQRCodeHelper
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return QrCode
-     */
-    public static function getQRCodeHelper(ServiceManager $sm)
-    {
-        $qrCodeService = $sm->getServiceLocator()->get('Swissbib\QRCode');
-
-        return new QrCode($qrCodeService);
-    }
-
-    /**
      * IsFavoriteInstitutionHelper
      *
      * @param ServiceManager $sm ServiceManager

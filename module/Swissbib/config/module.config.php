@@ -350,7 +350,6 @@ return [
             'institutionSorter'                         =>  'Swissbib\View\Helper\Factory::getInstitutionSorter',
             'extractFavoriteInstitutionsForHoldings'    =>  'Swissbib\View\Helper\Factory::getFavoriteInstitutionsExtractor',
             'institutionDefinedAsFavorite'              =>  'Swissbib\View\Helper\Factory::getInstitutionsAsDefinedFavorites',
-            'qrCode'                                    =>  'Swissbib\View\Helper\Factory::getQRCodeHelper',
             'isFavoriteInstitution'                     =>  'Swissbib\View\Helper\Factory::isFavoriteInstitutionHelper',
             'domainURL'                                 =>  'Swissbib\View\Helper\Factory::getDomainURLHelper',
         ]
