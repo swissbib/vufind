@@ -55,7 +55,7 @@ class Factory
          *
          * @var Config $relationConfig
          */
-        $relationConfig = $sm->getServiceLocator()->get('VuFind\Config')
+        $relationConfig = $sm->get('VuFind\Config')
             ->get('libadmin-groups');
         $institutionList = [];
 
@@ -80,8 +80,7 @@ class Factory
          *
          * @var \Swissbib\Favorites\Manager $favoriteManager
          */
-        $favoriteManager = $sm->getServiceLocator()
-            ->get('Swissbib\FavoriteInstitutions\Manager');
+        $favoriteManager = $sm->get('Swissbib\FavoriteInstitutions\Manager');
         $userInstitutionCodes = $favoriteManager->getUserInstitutions();
 
         return new ExtractFavoriteInstitutionsForHoldings($userInstitutionCodes);
@@ -96,8 +95,7 @@ class Factory
      */
     public static function getInstitutionsAsDefinedFavorites(ServiceManager $sm)
     {
-        $dataSource = $sm->getServiceLocator()
-            ->get('Swissbib\FavoriteInstitutions\DataSource');
+        $dataSource = $sm->get('Swissbib\FavoriteInstitutions\DataSource');
         $tInstitutions = $dataSource->getFavoriteInstitutions();
 
         return new InstitutionDefinedAsFavorite($tInstitutions);
@@ -117,8 +115,7 @@ class Factory
          *
          * @var \Swissbib\Favorites\Manager $favoriteManager
          */
-        $favoriteManager = $sm->getServiceLocator()
-            ->get('Swissbib\FavoriteInstitutions\Manager');
+        $favoriteManager = $sm->get('Swissbib\FavoriteInstitutions\Manager');
         $userInstitutionCodes = $favoriteManager->getUserInstitutions();
 
         return new IsFavoriteInstitution($userInstitutionCodes);
@@ -133,9 +130,7 @@ class Factory
      */
     public static function getDomainURLHelper(ServiceManager $sm)
     {
-        $locator = $sm->getServiceLocator();
-
-        return new DomainURL($locator->get('Request'));
+        return new DomainURL($sm->get('Request'));
     }
 
     /**
@@ -147,8 +142,6 @@ class Factory
      */
     public static function getConfig(ServiceManager $sm)
     {
-        $locator = $sm->getServiceLocator();
-
-        return new  Config($locator);
+        return new  Config($sm);
     }
 }

@@ -63,17 +63,15 @@ class Factory
      */
     public static function getSolrMarcRecordDriver(ServiceManager $sm)
     {
-        $serviceLocator = $sm->getServiceLocator();
-
         $driver = new \Swissbib\RecordDriver\SolrMarc(
-            $serviceLocator->get('VuFind\Config')->get('config'),
+            $sm->get('VuFind\Config')->get('config'),
             null,
-            $serviceLocator->get('VuFind\Config')->get('searches')
+            $sm->get('VuFind\Config')->get('searches')
         );
         $driver->attachILS(
-            $serviceLocator->get('VuFind\ILSConnection'),
-            $serviceLocator->get('VuFind\ILSHoldLogic'),
-            $serviceLocator->get('VuFind\ILSTitleHoldLogic')
+            $sm->get('VuFind\ILSConnection'),
+            $sm->get('VuFind\ILSHoldLogic'),
+            $sm->get('VuFind\ILSTitleHoldLogic')
         );
 
         return $driver;
@@ -89,8 +87,8 @@ class Factory
      */
     public static function getSummonRecordDriver(ServiceManager $sm)
     {
-        $baseConfig = $sm->getServiceLocator()->get('VuFind\Config')->get('config');
-        $summonConfig = $sm->getServiceLocator()->get('VuFind\Config')
+        $baseConfig = $sm->get('VuFind\Config')->get('config');
+        $summonConfig = $sm->get('VuFind\Config')
             ->get('Summon');
 
         return new Summon(
@@ -108,8 +106,8 @@ class Factory
      */
     public static function getWorldCatRecordDriver(ServiceManager $sm)
     {
-        $baseConfig = $sm->getServiceLocator()->get('VuFind\Config')->get('config');
-        $worldcatConfig = $sm->getServiceLocator()->get('VuFind\Config')
+        $baseConfig = $sm->get('VuFind\Config')->get('config');
+        $worldcatConfig = $sm->get('VuFind\Config')
             ->get('WorldCat');
 
         return new WorldCat(
@@ -127,7 +125,7 @@ class Factory
      */
     public static function getRecordDriverMissing(ServiceManager $sm)
     {
-        $baseConfig = $sm->getServiceLocator()->get('VuFind\Config')->get('config');
+        $baseConfig = $sm->get('VuFind\Config')->get('config');
 
         return new Missing($baseConfig);
     }

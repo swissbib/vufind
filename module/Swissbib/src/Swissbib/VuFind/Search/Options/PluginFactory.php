@@ -62,7 +62,7 @@ class PluginFactory extends VuFindOptionsPluginFactory
          *
          * @var ExtendedSolrFactoryHelper $extendedTargetHelper
          */
-        $extendedTargetHelper = $serviceLocator->getServiceLocator()
+        $extendedTargetHelper = $serviceLocator
             ->get('Swissbib\ExtendedSolrFactoryHelper');
         $this->defaultNamespace = $extendedTargetHelper
             ->getNamespace($name, $requestedName);

@@ -57,7 +57,7 @@ class Factory
         // Factory method which could be called directly
         // by the client in need for this type.
         return \VuFind\Hierarchy\Driver\Factory::get(
-            $sm->getServiceLocator(), 'HierarchySeries'
+            $sm, 'HierarchySeries'
         );
     }
 
@@ -71,7 +71,7 @@ class Factory
     public static function getHierarchyDriverArchival(ServiceManager $sm)
     {
         return \VuFind\Hierarchy\Driver\Factory::get(
-            $sm->getServiceLocator(), 'HierarchyArchival'
+            $sm, 'HierarchyArchival'
         );
     }
 
@@ -84,10 +84,9 @@ class Factory
      */
     public static function getJSTree(ServiceManager $sm)
     {
-        $searchService = $sm->getServiceLocator()
-            ->get('VuFind\Search');
+        $searchService = $sm->get('VuFind\Search');
         $swissbibJSTree = new SwissbibJsTree(
-            $sm->getServiceLocator()->get('ControllerPluginManager')->get('Url'),
+            $sm->get('ControllerPluginManager')->get('Url'),
             $searchService
         );
         return $swissbibJSTree;

@@ -60,8 +60,7 @@ class Factory
         $solr = $factory->createServiceWithName($sm, 'solr', 'Solr');
 
         $solr->setSpellingProcessor(
-            $sm->getServiceLocator()
-                ->get("sbSpellingProcessor")
+            $sm->get("sbSpellingProcessor")
         );
         return $solr;
     }
@@ -117,7 +116,7 @@ class Factory
     public static function getFavorites(ServiceManager $sm)
     {
         $factory = new PluginFactory();
-        $tm = $sm->getServiceLocator()->get('VuFind\DbTablePluginManager');
+        $tm = $sm->get('VuFind\DbTablePluginManager');
         $obj = $factory->createServiceWithName(
             $sm, 'favorites', 'Favorites',
             [$tm->get('Resource'), $tm->get('UserList')]

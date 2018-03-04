@@ -69,7 +69,7 @@ class Factory
     public static function getJusbibSearchOptionsForHelperOptions(ServiceManager $sm)
     {
         return new SearchOptions(
-            $sm->getServiceLocator()->get('Jusbib\SearchOptionsPluginManager')
+            $sm->get('Jusbib\SearchOptionsPluginManager')
         );
     }
 }

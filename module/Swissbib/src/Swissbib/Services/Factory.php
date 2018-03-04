@@ -118,7 +118,7 @@ class Factory
         */
 
         return new FavoriteFacets(
-            $sm->getServiceLocator()->get('VuFind\Config')
+            $sm->get('VuFind\Config')
         );
     }
 

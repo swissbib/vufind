@@ -62,7 +62,7 @@ class PluginFactory extends VuFindResultsPluginFactory
          *
          * @var ExtendedSolrFactoryHelper $extendedTargetHelper
          */
-        $extendedTargetHelper = $serviceLocator->getServiceLocator()
+        $extendedTargetHelper = $serviceLocator
             ->get('Swissbib\ExtendedSolrFactoryHelper');
         $this->defaultNamespace = $extendedTargetHelper
             ->getNamespace($name, $requestedName);
@@ -90,7 +90,7 @@ class PluginFactory extends VuFindResultsPluginFactory
          * 
          * @var ExtendedSolrFactoryHelper $extendedTargetHelper
          */
-        $extendedTargetHelper = $serviceLocator->getServiceLocator()
+        $extendedTargetHelper = $serviceLocator
             ->get('Swissbib\ExtendedSolrFactoryHelper');
         $this->defaultNamespace = $extendedTargetHelper
             ->getNamespace($name, $requestedName);
@@ -103,7 +103,7 @@ class PluginFactory extends VuFindResultsPluginFactory
         $sbSolrResults =  parent::createServiceWithName(
             $serviceLocator, $name, $requestedName, $extraParams
         );
-        $facetConfigs = $serviceLocator->getServiceLocator()->get('VuFind\Config')
+        $facetConfigs = $serviceLocator->get('VuFind\Config')
             ->get($sbSolrResults->getOptions()->getFacetsIni());
         
         //todo

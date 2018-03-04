@@ -52,7 +52,7 @@ class Factory
     {
         return new Aleph(
             new \Swissbib\VuFind\Date\Converter(),
-            $sm->getServiceLocator()->get('VuFind\CacheManager')
+            $sm->get('VuFind\CacheManager')
         );
 
     }
@@ -67,8 +67,8 @@ class Factory
     public static function getMultiBackend(ServiceManager $sm)
     {
         return new MultiBackend(
-            $sm->getServiceLocator()->get('VuFind\Config'),
-            $sm->getServiceLocator()->get('VuFind\ILSAuthenticator'),
+            $sm->get('VuFind\Config'),
+            $sm->get('VuFind\ILSAuthenticator'),
             $sm
         );
     }

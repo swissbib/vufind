@@ -62,7 +62,7 @@ class PluginFactory extends VuFindParamsPluginFactory
          *
          * @var ExtendedSolrFactoryHelper $extendedTargetHelper
          */
-        $extendedTargetHelper = $serviceLocator->getServiceLocator()
+        $extendedTargetHelper = $serviceLocator
             ->get('Swissbib\ExtendedSolrFactoryHelper');
 
         $this->defaultNamespace = $extendedTargetHelper
@@ -88,26 +88,26 @@ class PluginFactory extends VuFindParamsPluginFactory
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator,
         $name, $requestedName, array $extraParams = []
     ) {
-        $options   = $serviceLocator->getServiceLocator()
+        $options   = $serviceLocator
             ->get('VuFind\SearchOptionsPluginManager')->get($requestedName);
 
-        $extendedTargetHelper = $serviceLocator->getServiceLocator()
+        $extendedTargetHelper = $serviceLocator
             ->get('Swissbib\ExtendedSolrFactoryHelper');
 
         $this->defaultNamespace = $extendedTargetHelper
             ->getNamespace($name, $requestedName);
 
-        $authManager = $serviceLocator->getServiceLocator()->get(
+        $authManager = $serviceLocator->get(
             'VuFind\AuthManager'
         );
-        $labelMappingHelper = $serviceLocator->getServiceLocator()->get(
+        $labelMappingHelper = $serviceLocator->get(
             'Swissbib\TypeLabelMappingHelper'
         );
-        $favoriteInstitutionsManager = $serviceLocator->getServiceLocator()->get(
+        $favoriteInstitutionsManager = $serviceLocator->get(
             'Swissbib\FavoriteInstitutions\Manager'
         );
         $class = $this->getClassName($name, $requestedName);
-        $configLoader = $serviceLocator->getServiceLocator()->get('VuFind\Config');
+        $configLoader = $serviceLocator->get('VuFind\Config');
         // Clone the options instance in case caller modifies it:
         return new $class(clone($options), $configLoader, $authManager,
             $labelMappingHelper, $favoriteInstitutionsManager,

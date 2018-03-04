@@ -65,7 +65,7 @@ class Factory
     public static function getRecordHelper(ServiceManager $sm)
     {
         return new \Swissbib\View\Helper\Record(
-            $sm->getServiceLocator()->get('VuFind\Config')->get('config')
+            $sm->get('VuFind\Config')->get('config')
         );
     }
 
@@ -79,7 +79,7 @@ class Factory
     public static function getCitation(ServiceManager $sm)
     {
         return new \Swissbib\VuFind\View\Helper\Root\Citation(
-            $sm->getServiceLocator()->get('VuFind\DateConverter')
+            $sm->get('VuFind\DateConverter')
         );
     }
 
@@ -93,7 +93,7 @@ class Factory
     public static function getRecordLink(ServiceManager $sm)
     {
         return new \Swissbib\View\Helper\RecordLink(
-            $sm->getServiceLocator()->get('VuFind\RecordRouter')
+            $sm->get('VuFind\RecordRouter')
         );
     }
 
@@ -107,7 +107,7 @@ class Factory
     public static function getExtendedLastSearchLink(ServiceManager $sm)
     {
         return new \Swissbib\View\Helper\GetExtendedLastSearchLink(
-            $sm->getServiceLocator()->get('VuFind\Search\Memory')
+            $sm->get('VuFind\Search\Memory')
         );
     }
 
@@ -121,13 +121,13 @@ class Factory
     public static function getAuth(ServiceManager $sm)
     {
         $config = isset(
-            $sm->getServiceLocator()->get('VuFind\Config')->get('config')
+            $sm->get('VuFind\Config')->get('config')
                 ->Authentication->noAjaxLogin
-        ) ? $sm->getServiceLocator()->get('VuFind\Config')->get('config')
+        ) ? $sm->get('VuFind\Config')->get('config')
             ->Authentication->noAjaxLogin->toArray() : [];
 
         return new Auth(
-            $sm->getServiceLocator()->get('VuFind\AuthManager'),
+            $sm->get('VuFind\AuthManager'),
             $config
         );
     }
@@ -141,7 +141,7 @@ class Factory
      */
     public static function getFacetTranslator(ServiceManager $sm)
     {
-        $config =  $sm->getServiceLocator()->get('VuFind\Config')->get('facets')
+        $config =  $sm->get('VuFind\Config')->get('facets')
             ->Advanced_Settings->translated_facets->toArray();
         return new TranslateFacets($config);
     }
@@ -155,7 +155,7 @@ class Factory
      */
     public static function getLayoutClass(ServiceManager $sm)
     {
-        $config = $sm->getServiceLocator()->get('VuFind\Config')->get('config');
+        $config = $sm->get('VuFind\Config')->get('config');
         $left = !isset($config->Site->sidebarOnLeft)
             ? false : $config->Site->sidebarOnLeft;
 
@@ -228,7 +228,7 @@ class Factory
     public static function getFormatRelatedEntries(ServiceManager $sm)
     {
         return new FormatRelatedEntries(
-            $sm->getServiceLocator()->get('VuFind\Translator')
+            $sm->get('VuFind\Translator')
         );
     }
 
@@ -241,14 +241,14 @@ class Factory
      */
     public static function getPiwik(ServiceManager $sm)
     {
-        $config = $sm->getServiceLocator()->get('VuFind\Config')->get('config');
+        $config = $sm->get('VuFind\Config')->get('config');
         $url = isset($config->Piwik->url) ? $config->Piwik->url : false;
         $siteId = isset($config->Piwik->site_id) ? $config->Piwik->site_id : 1;
         $customVars = isset($config->Piwik->custom_variables)
             ? $config->Piwik->custom_variables
             : false;
-        $request = $sm->getServiceLocator()->get('Request');
-        $router = $sm->getServiceLocator()->get('Router');
+        $request = $sm->get('Request');
+        $router = $sm->get('Router');
         return new Piwik($url, $siteId, $customVars, $router, $request);
     }
 
