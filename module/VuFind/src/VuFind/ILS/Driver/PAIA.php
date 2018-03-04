@@ -30,6 +30,7 @@
  * @link     https://vufind.org/wiki/development:plugins:ils_drivers Wiki
  */
 namespace VuFind\ILS\Driver;
+
 use VuFind\Exception\ILS as ILSException;
 
 /**
@@ -80,7 +81,7 @@ class PAIA extends DAIA
     /**
      * SessionManager
      *
-     * @var \VuFind\SessionManager
+     * @var \Zend\Session\SessionManager
      */
     protected $sessionManager;
 
@@ -369,7 +370,7 @@ class PAIA extends DAIA
      */
     public function getCancelHoldDetails($checkOutDetails)
     {
-        return($checkOutDetails['cancel_details']);
+        return $checkOutDetails['cancel_details'];
     }
 
     /**
@@ -475,6 +476,7 @@ class PAIA extends DAIA
         // Not yet implemented
         return false;
     }
+
     /**
      * Place ILL Request
      *
@@ -583,7 +585,7 @@ class PAIA extends DAIA
             $paiaCurrencyPattern = "/^([0-9]+\.[0-9][0-9]) ([A-Z][A-Z][A-Z])$/";
             if (preg_match($paiaCurrencyPattern, $fee, $feeMatches)) {
                 // VuFind expects fees in PENNIES
-                return ($feeMatches[1] * 100);
+                return $feeMatches[1] * 100;
             }
             return $fee;
         };
@@ -592,18 +594,18 @@ class PAIA extends DAIA
         if (isset($fees['fee'])) {
             foreach ($fees['fee'] as $fee) {
                 $result = [
-                    // fee.amount 	1..1 	money 	amount of a single fee
+                    // fee.amount    1..1   money    amount of a single fee
                     'amount'      => $feeConverter($fee['amount']),
                     'checkout'    => '',
-                    // fee.feetype 	0..1 	string 	textual description of the type
+                    // fee.feetype   0..1   string   textual description of the type
                     // of service that caused the fee
                     'fine'    => (isset($fee['feetype']) ? $fee['feetype'] : null),
                     'balance' => $feeConverter($fee['amount']),
-                    // fee.date 	0..1 	date 	date when the fee was claimed
+                    // fee.date      0..1   date     date when the fee was claimed
                     'createdate'  => (isset($fee['date'])
                         ? $this->convertDate($fee['date']) : null),
                     'duedate' => '',
-                    // fee.edition 	0..1 	URI 	edition that caused the fee
+                    // fee.edition   0..1   URI      edition that caused the fee
                     'id' => (isset($fee['edition'])
                         ? $this->getAlternativeItemId($fee['edition']) : ''),
                 ];
@@ -634,9 +636,9 @@ class PAIA extends DAIA
         }
 
         // custom PAIA fields
-        // fee.about 	0..1 	string 	textual information about the fee
-        // fee.item 	0..1 	URI 	item that caused the fee
-        // fee.feeid 	0..1 	URI 	URI of the type of service that
+        // fee.about     0..1     string    textual information about the fee
+        // fee.item      0..1     URI       item that caused the fee
+        // fee.feeid     0..1     URI       URI of the type of service that
         // caused the fee
         $additionalData['feeid']      = (isset($fee['feeid'])
             ? $fee['feeid'] : null);
@@ -802,7 +804,7 @@ class PAIA extends DAIA
      */
     public function getRenewDetails($checkOutDetails)
     {
-        return($checkOutDetails['renew_details']);
+        return $checkOutDetails['renew_details'];
     }
 
     /**
@@ -1338,10 +1340,10 @@ class PAIA extends DAIA
             $result['available'] = $doc['status'] == 4 ? true : false;
 
             $results[] = $result;
-
         }
         return $results;
     }
+
     /**
      * This PAIA helper function allows custom overrides for mapping of PAIA response
      * to getMyStorageRetrievalRequests data structure.
@@ -1358,7 +1360,6 @@ class PAIA extends DAIA
             $result = $this->getBasicDetails($doc);
 
             $results[] = $result;
-
         }
         return $results;
     }
@@ -1499,7 +1500,7 @@ class PAIA extends DAIA
             );
         }
         // return any result as error-handling is done elsewhere
-        return ($result->getBody());
+        return $result->getBody();
     }
 
     /**
@@ -1535,7 +1536,7 @@ class PAIA extends DAIA
             );
         }
         // return any result as error-handling is done elsewhere
-        return ($result->getBody());
+        return $result->getBody();
     }
 
     /**
@@ -1735,7 +1736,7 @@ class PAIA extends DAIA
     public function checkRequestIsValid($id, $data, $patron)
     {
         // TODO: make this more configurable
-        if (isset($patron['status']) && $patron['status']  == 0
+        if (isset($patron['status']) && $patron['status'] == 0
             && isset($patron['expires']) && $patron['expires'] > date('Y-m-d')
             && in_array('write_items', $this->getScope())
         ) {

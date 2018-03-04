@@ -6,7 +6,7 @@
   foreach (isset($filters['Other']) ? $filters['Other'] : [] as $filter) {
     $filter['urlPart'] = $filter['field'] . ':' . $filter['value'];
     $filterList[] = $filter;
-    $filterString .= '&' . urlencode('filter[]') .  '=' . urlencode($filter['urlPart']);
+    $filterString .= '&' . urlencode('filter[]') . '=' . urlencode($filter['urlPart']);
   }
 ?>
 
@@ -42,7 +42,7 @@
         $removalUrl = $this->url('collections-home') . '?from=' . urlencode($from);
         foreach ($filterList as $current) {
           if ($current['urlPart'] != $filter['urlPart']) {
-            $removalUrl .= '&' . urlencode('filter[]') .  '=' . urlencode($current['urlPart']);
+            $removalUrl .= '&' . urlencode('filter[]') . '=' . urlencode($current['urlPart']);
           }
         }
       ?>
@@ -55,7 +55,7 @@
 
 <ul class="pagination">
   <? foreach ($letters as $letter): ?>
-    <li<? if($letter === $from): ?> class="active"<?endif?>><a href="<?=$this->url('collections-home')?>?from=<?=urlencode($letter)?><?=$this->escapeHtmlAttr($filterString)?>"><?=$this->escapeHtml($letter)?></a></li>
+    <li<? if (strcasecmp($letter, $from) == 0): ?> class="active"<?endif?>><a href="<?=$this->url('collections-home')?>?from=<?=urlencode($letter)?><?=$this->escapeHtmlAttr($filterString)?>"><?=$this->escapeHtml($letter)?></a></li>
   <? endforeach; ?>
 </ul>
 <?=$pageLinks ?>

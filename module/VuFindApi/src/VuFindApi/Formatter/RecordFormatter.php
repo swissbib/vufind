@@ -26,6 +26,7 @@
  * @link     https://vufind.org/wiki/development:plugins:controllers Wiki
  */
 namespace VuFindApi\Formatter;
+
 use VuFind\I18n\TranslatableString;
 use Zend\View\HelperPluginManager;
 
@@ -155,7 +156,7 @@ class RecordFormatter extends BaseFormatter
      */
     protected function getURLs($record)
     {
-        $recordHelper = $this->helperManager->get('Record');
+        $recordHelper = $this->helperManager->get('record');
         return $recordHelper($record)->getLinkDetails();
     }
 
