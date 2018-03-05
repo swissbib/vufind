@@ -60,7 +60,7 @@ export default class Templates extends TemplateBase {
      */
     public entry(entry: DataEntry): string {
         const thumbnail: string = entry.thumbnail ? entry.thumbnail : this.configuration.thumbnail;
-        const infoLink: string = entry.sufficientData ? `<a class="info-link" data-lightbox href="${this.info(entry)}"><span class="fa fa-info-circle fa-lg" style="display: inline;"></span></a>`: ``;
+        const infoLink: string = entry.sufficientData ? `<a class="info-link" data-lightbox href="${this.info(entry)}"><span class="fa icon-info fa-lg" style="display: inline;"></span></a>`: ``;
         let imagePageLink: string;
         let labelPageLink: string;
 
