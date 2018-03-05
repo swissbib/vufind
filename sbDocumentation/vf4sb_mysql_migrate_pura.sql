@@ -24,5 +24,5 @@ CREATE TABLE `pura_user` (
   FOREIGN KEY (`user_id`) REFERENCES user(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-GRANT INSERT, SELECT, UPDATE, DELETE ON pura_user to 'pura-back-end'@'localhost';
-GRANT SELECT ON user to 'pura-back-end'@'localhost';
+GRANT INSERT, SELECT, UPDATE, DELETE ON pura_user to 'pura-back-end'@'%';
+GRANT SELECT ON user to 'pura-back-end'@'%';
