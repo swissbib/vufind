@@ -58,7 +58,7 @@ authorid="${p.id}"></span></a></li>`;
     swissbib.carouselManager = carouselManager;
 
     // components
-    const backToTopButtonDom: string = '<a id="back-to-top-btn" href="#" class="hidden-md hidden-lg"></a>';
+    const backToTopButtonDom: string = '<a id="back-to-top-btn" class="icon-arrow-up" href="#" class="hidden-md hidden-lg"></a>';
     const backToTopButton: BackToTopButton = new BackToTopButton(backToTopButtonDom);
     backToTopButton.initialize();
 });
