@@ -5,7 +5,8 @@
     font-size: 1.14rem;
     display: inline-block;
 
-    &:first-child {
+    &:first-child,
+    &:first-child + button.accordion-collapse {
       margin-top: 0;
     }
   }
@@ -18,13 +19,17 @@
     padding: 0;
     list-style: none;
 
-    li {
+    & > li {
       border-bottom: 1px solid @separator-border-color;
 
-      a {
-        display: block;
-        padding: @detailpage-navigation-link-inset 0 @detailpage-navigation-link-inset 1.71rem;
+      & > a {
+        display: flex;
+        padding: @detailpage-navigation-link-inset 0;
         font-size: 1rem;
+
+        & > span {
+          flex: auto;
+        }
       }
     }
   }
@@ -37,17 +42,24 @@
   ul > li > a {
     color: @font-color;
 
-    background: url('/themes/sbvfrd/images/icons/sprungmarke-inhalt.svg') no-repeat 0 (@detailpage-navigation-link-inset * 0.7);
-
     &:hover {
       color: @link-color;
+    }
+
+    &.icon-jump-label-content:before {
+      flex-shrink: 0;
+      margin-top: -0.1429rem;
     }
   }
 }
 
 .record-references {
   ul > li > a {
-    background: url('/themes/sbvfrd/images/icons/arrow-external-link.svg') no-repeat 0 (@detailpage-navigation-link-inset * 0.7);
+
+    &.icon-arrow-external-link:before {
+      flex-shrink: 0;
+      margin-top: -0.1429rem;
+    }
   }
 }
 
@@ -56,8 +68,8 @@ button.accordion-collapse {
   float: right;
   margin: 20px 0 10px;
   border: 0 none;
-  background: transparent url('/themes/sbvfrd/images/icons/arrow-accordion.svg') no-repeat center center;
-  height: 1.14rem;
+  //height: 1.14rem;
+  background: transparent;
   width: 2rem;
 
   &:focus {
