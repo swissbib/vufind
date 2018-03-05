@@ -100,18 +100,20 @@ class NationalLicenceServiceTest extends VuFindTestCase
         );
         $configSwitchAPI = $configFull['SwitchApi'];
 
-        $config = new Config(
+        $configIni = new Config(
             $iniReader->fromFile($path . 'config.ini')
         );
-        $credentials = $config['SwitchApiCredentials'];
+        $credentials = $configIni['SwitchApiCredentials'];
+
+        $config = array_merge($credentials->toArray(), $configSwitchAPI->toArray());
+
+        $this->switchApiService = new SwitchApi($config);
+
+        $this->externalIdTest = $configSwitchAPI['external_id_test'];
 
         $configNL = new Config(
             $iniReader->fromFile($path . 'NationalLicencesTest.ini')
         );
-
-        $this->switchApiService = new SwitchApi($credentials, $configSwitchAPI);
-
-        $this->externalIdTest = $configSwitchAPI['external_id_test'];
 
         $this->nationalLicenceService
             = new NationalLicence(

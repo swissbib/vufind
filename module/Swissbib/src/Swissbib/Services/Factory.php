@@ -284,10 +284,14 @@ class Factory
         $credentials
             = $sm->get('VuFind\Config')
                 ->get('config')['SwitchApiCredentials'];
+
         $configSwitchApi
             = $sm->get('VuFind\Config')
                 ->get('SwitchApi')['SwitchApi'];
-        return new SwitchSharedAttributesAPIClient($credentials, $configSwitchApi);
+
+        $config = array_merge($credentials->toArray(), $configSwitchApi->toArray());
+
+        return new SwitchSharedAttributesAPIClient($config);
     }
 
     /**

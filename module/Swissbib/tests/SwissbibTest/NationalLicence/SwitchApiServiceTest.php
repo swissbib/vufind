@@ -97,7 +97,9 @@ class SwitchApiServiceTest extends VuFindTestCase
         );
         $credentials = $config['SwitchApiCredentials'];
 
-        $this->switchApiServiceOriginal = new SwitchApi($credentials, $configSwitchAPI);
+        $config = array_merge($credentials->toArray(), $configSwitchAPI->toArray());
+
+        $this->switchApiServiceOriginal = new SwitchApi($config);
         $this->switchApiServiceReflected = new ReflectionClass(
             $this->switchApiServiceOriginal
         );
