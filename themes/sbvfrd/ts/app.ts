@@ -21,14 +21,14 @@ $(document).ready(() => {
             return "";
         }
         return `<li class="list-group-item"><a href="${VuFind.path}/Search/Results?lookfor=${p.name}&amp;type=Author" title="${p.name}">${p.name}</a><a href="${VuFind.path}/Card/Knowledge/Person/${p.id}" data-lightbox>
-<span ${ p.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"
+<span ${ p.hasSufficientData === "1" ? ' class="fa icon-info fa-lg"' : "" } style="display: inline;"
 authorid="${p.id}"></span></a></li>`;
     };
 
     const subjects: JQuery<HTMLElement> = $(".subject [subjectid]");
     const subjectsTemplate: any = (s: any) => {
         return `<a href="${VuFind.path}/Card/Knowledge/Subject/${s.id}" data-lightbox>
-<span ${ s.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"</span></a>`;
+<span ${ s.hasSufficientData === "1" ? ' class="fa icon-info fa-lg"' : "" } style="display: inline;"</span></a>`;
     };
     if (recordIdEl) {
         recordRenderer.renderContributors(recordIdEl.value, contributorsTemplate, contributorsList)
@@ -58,7 +58,7 @@ authorid="${p.id}"></span></a></li>`;
     swissbib.carouselManager = carouselManager;
 
     // components
-    const backToTopButtonDom: string = '<a id="back-to-top-btn" href="#" class="hidden-md hidden-lg"></a>';
+    const backToTopButtonDom: string = '<a id="back-to-top-btn" class="icon-arrow-up" href="#" class="hidden-md hidden-lg"></a>';
     const backToTopButton: BackToTopButton = new BackToTopButton(backToTopButtonDom);
     backToTopButton.initialize();
 });

@@ -1,21 +1,22 @@
+<? $template = '/detailpage/common/anchor.phtml' ?>
 <div class="page-anchors">
     <h1 class="title"><?= $this->translate('page.detail.anchors.title') ?></h1>
-    <button class="accordion-collapse hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-person-anchors"></button>
+    <button class="accordion-collapse icon-arrow-accordion hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-person-anchors"></button>
     <div class="list">
         <ul id="detailpage-person-anchors">
-            <li><a href="#detailpage-common"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.common') ?></a></li>
-            <li><a href="#detailpage-medias"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.media.list.title') ?></a></li>
+            <li><?= $this->render($template, ['name' => 'common', 'label' => $this->esperson()->resolveLabelWithDisplayName('page.detail.person.common')]) ?></li>
+            <li><?= $this->render($template, ['name' => 'medias', 'label' => $this->esperson()->resolveLabelWithDisplayName('page.detail.person.media.list.title')]) ?></li>
             <? if ($this->coContributorsTotal > 0): ?>
-            <li><a href="#detailpage-coauthors"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.authors.coauthors') ?></a></li>
+            <li><?= $this->render($template, ['name' => 'coauthors', 'label' => $this->esperson()->resolveLabelWithDisplayName('page.detail.authors.coauthors')]) ?></li>
             <? endif; ?>
             <? if ($this->authorsOfSameGenreTotal > 0): ?>
-            <li><a href="#detailpage-genres"><?= $this->translate('page.detail.authors.genres') ?></a></li>
+            <li><?= $this->render($template, ['name' => 'genres', 'label' => $this->translate('page.detail.authors.genres')]) ?></li>
             <? endif; ?>
             <? if ($this->personsOfSameMovementTotal > 0): ?>
-            <li><a href="#detailpage-movements"><?= $this->translate('page.detail.authors.movements') ?></a></li>
+            <li><?= $this->render($template, ['name' => 'movements', 'label' => $this->translate('page.detail.authors.movements')]) ?></li>
             <? endif; ?>
             <? if (isset($subjects) && count($subjects) > 0): ?>
-            <li><a href="#detailpage-subjects"><?= $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related') ?></a></li>
+            <li><?= $this->render($template, ['name' => 'subjects', 'label' => $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related')]) ?></li>
             <? endif; ?>
         </ul>
     </div>
