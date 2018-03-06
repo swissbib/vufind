@@ -5,10 +5,15 @@ $encodedTarget = urlencode($this->serverUrl() . "/MyResearch/Home");
 $encodedprivateUserURL = "https://login.test.eduid.ch/idp/profile/SAML2/Unsolicited/SSO?providerId=" . $encodedProviderID . "&target=" . $encodedTarget;
 ?>
 
+<style>
+    .wayf_submit_button {
+        background-color: #0d785b;
+        border-color: #0d785b;
+    }
+</style>
+
 
 <?= $this->transEsc('login.choose.option') ?>
-
-
 <script type="text/javascript"><!--
     // To use this JavaScript, please access:
     // https://wayf.switch.ch/SWITCHaai/WAYF/embedded-wayf.js/snippet.html
@@ -22,6 +27,8 @@ $encodedprivateUserURL = "https://login.test.eduid.ch/idp/profile/SAML2/Unsolici
     // Examples: "https://wayf.switch.ch/SWITCHaai/WAYF", "https://wayf-test.switch.ch/aaitest/WAYF";
     // [Mandatory]
     var wayf_URL = "https://wayf-test.switch.ch/SWITCHaai/WAYF";
+
+    //var wayf_width  = 100;
 
     // EntityID of the Service Provider that protects this Resource
     // Examples: "https://econf.switch.ch/shibboleth", "https://dokeos.unige.ch/shibboleth"
@@ -45,6 +52,7 @@ $encodedprivateUserURL = "https://login.test.eduid.ch/idp/profile/SAML2/Unsolici
 
     //////////////////// RECOMMENDED SETTINGS ////////////////////
 
+
     var wayf_hide_categories = new Array("tertiaryb", "uppersecondary");
 
     var wayf_unhide_idps = new Array();
@@ -52,7 +60,20 @@ $encodedprivateUserURL = "https://login.test.eduid.ch/idp/profile/SAML2/Unsolici
 
     var wayf_hide_idps = new Array("https://eduid.ch/idp/shibboleth");
 
+    var wayf_use_improved_drop_down_list = false;
 
+    var wayf_show_remember_checkbox = false;
+
+    var wayf_border_color = '#ffffff';
+
+    //var wayf_overwrite_submit_button_text = 'Go';
+
+    var wayf_overwrite_intro_text = '';
+
+    var wayf_hide_logo = true;
+
+
+    var wayf_background_color = '#ffffff';
     //////////////////// ADVANCED SETTINGS ////////////////////
 
     var wayf_sp_samlDSURL = <?= '"' . $this->serverUrl() . "/Shibboleth.sso/Login" . '"'; ?>;
@@ -61,8 +82,11 @@ $encodedprivateUserURL = "https://login.test.eduid.ch/idp/profile/SAML2/Unsolici
     //////////////////// ADDITIONAL CSS CUSTOMIZATIONS ////////////////////
 
 
+
     //-->
 </script>
+
+
 
 <noscript>
     <div class="status_error">
@@ -71,60 +95,40 @@ $encodedprivateUserURL = "https://login.test.eduid.ch/idp/profile/SAML2/Unsolici
 </noscript>
 
 
-<table class="data">
-    <colgroup>
-        <col width="60%">
-        <col width="5%">
-        <col width="35%">
-    </colgroup>
 
-    <thead>
-    <tr>
-        <td>
-            <h3><?= $this->transEsc('login.aai') ?></h3>
-            <?= $this->transEsc('logininfo.li.1') ?>
-        </td>
-        <td class="nodivider right">&nbsp;</td>
-        <td>
-            <h3><?= $this->transEsc('login.guest') ?></h3>
-            <?= $this->transEsc('logininfo.li.2') ?>
-        </td>
-    </tr>
-    </thead>
-    <tbody>
+<div class="row">
+    <div class="col-md-6">
+        <h3><?= $this->transEsc('login.aai') ?></h3>
+        <?= $this->transEsc('logininfo.li.1') ?>
+        <p>
+            <script type="text/javascript"
+                    src="https://wayf-test.switch.ch/aaitest/WAYF/embedded-wayf.js"></script>
+        <noscript>
+            <? $sessionInitiator = empty($sessionInitiator) ? '' : $sessionInitiator; // initialize variable?>
+            <a href="<?= $this->escapeHtml($sessionInitiator) ?>"><?= $this->transEsc("Institutional Login with external WAYF - non Java Script") ?></a>
+        </noscript>
+        </p>
 
-    <tr>
+    </div>
+    <div class="col-md-6">
+        <h3><?= $this->transEsc('login.guest') ?></h3>
+        <?= $this->transEsc('logininfo.li.2') ?>
+        <p></p>
+        <p class="text-center">
+            <!--
+         with http and https endpoints
+         <input type="button" onclick="window.location = 'https://aai.guest-login.ch/idp/profile/SAML2/Unsolicited/SSO?providerId=https%3A%2F%2Ftestvf.swissbib.ch%2Fshibboleth&target=https%3A%2F%2Ftestvf.swissbib.ch%2FMyResearch%2FHome&shire=https%3A%2F%2Ftestvf.swissbib.ch%2FShibboleth.sso%2FSAML2%2FPOST'" value="Guest Login"/>
+         -->
+            <a href="<?= $encodedprivateUserURL ?>">
+                <button class="btn btn-primary">
+                    <?= $this->transEsc('login.guest2') ?>
+                </button>
+            </a>
+        </p>
 
-        <td>
-            <p>
-                <script type="text/javascript"
-                        src="https://wayf-test.switch.ch/aaitest/WAYF/embedded-wayf.js"></script>
-            <noscript>
-                <? $sessionInitiator = empty($sessionInitiator) ? '' : $sessionInitiator; // initialize variable?>
-                <a href="<?= $this->escapeHtml($sessionInitiator) ?>"><?= $this->transEsc("Institutional Login with external WAYF - non Java Script") ?></a>
-            </noscript>
-            </p>
+    </div>
+</div>
 
-        </td>
-        <td class="nodivider right">&nbsp;</td>
-        <td>
-            <p>
-                <!--
-             with http and https endpoints
-             <input type="button" onclick="window.location = 'https://aai.guest-login.ch/idp/profile/SAML2/Unsolicited/SSO?providerId=https%3A%2F%2Ftestvf.swissbib.ch%2Fshibboleth&target=https%3A%2F%2Ftestvf.swissbib.ch%2FMyResearch%2FHome&shire=https%3A%2F%2Ftestvf.swissbib.ch%2FShibboleth.sso%2FSAML2%2FPOST'" value="Guest Login"/>
-             -->
-                <a href="<?= $encodedprivateUserURL ?>">
-                    <button class="btn btn-primary">
-                        <?= $this->transEsc('login.guest2') ?>
-                    </button>
-                </a>
-            </p>
-        </td>
-
-    </tr>
-
-    </tbody>
-</table>
 
 <div class="status information">
 
