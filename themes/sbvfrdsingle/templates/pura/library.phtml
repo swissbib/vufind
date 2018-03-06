@@ -1,9 +1,9 @@
 <?
 // Set up page title:
-$this->headTitle($this->translate('pura.remoteAccessForPrivateUsers'));
+$this->headTitle($this->translate('pura.remoteAccessForPrivateUsers') . ' - ' . $this->institution["label"][$this->layout()->userLang]);
 
 // Set up breadcrumbs:
-$this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li> <li class="active">' . $this->transEsc('pura.remoteAccessForPrivateUsers') . '</li>';
+$this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li> <li><a href="' . $this->url('pura') . '">' . $this->transEsc('pura.remoteAccessForPrivateUsers') . '</a></li> <li class="active">' .    $this->institution["label"][$this->layout()->userLang] .     '</li>';
 ?>
 
 <div class="<?= $this->layoutClass('mainbody') ?>">
