@@ -28,6 +28,7 @@
  */
 namespace Swissbib\Controller;
 
+use VuFind\Controller\AbstractBaseFactory;
 use VuFind\Controller\GenericFactory;
 use Zend\ServiceManager\ServiceManager;
 
@@ -40,7 +41,7 @@ use Zend\ServiceManager\ServiceManager;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class Factory extends GenericFactory
+class Factory extends AbstractBaseFactory
 {
     /**
      * Construct the RecordController.

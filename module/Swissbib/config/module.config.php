@@ -2,7 +2,9 @@
 
 namespace Swissbib\Module\Config;
 
+use Swissbib\Controller\HelpPageController;
 use Swissbib\Controller\LibadminSyncController;
+use VuFind\Controller\AbstractBaseFactory;
 use VuFind\Controller\AjaxController;
 
 return [
@@ -260,13 +262,16 @@ return [
             'install'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             //nicht getestet
             'tab40import'   => 'Swissbib\Controller\Factory::getTab40ImportController',
-            'institutionFavorites' => 'Swissbib\Controller\Factory::getFavoritesController',
+            'institutionFavorites' => AbstractBaseFactory::class,
             'hierarchycache'       => 'Swissbib\Controller\Factory::getHierarchyCacheController',
             //nicht getestet
-            'helppage'    => 'Swissbib\Controller\Factory::getHelpPageController',
+            HelpPageController::class => AbstractBaseFactory::class,
             LibadminSyncController::class => 'Swissbib\Controller\Factory::getLibadminSyncController',
             'my-research'   => 'Swissbib\Controller\Factory::getMyResearchController',
             'console'       => 'Swissbib\Controller\Factory::getConsoleController'
+        ],
+        'aliases' => [
+            'institutionFavorites' => 'Swissbib\Controller\FavoritesController',
         ]
     ],
     'service_manager' => [
