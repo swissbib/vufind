@@ -21,6 +21,7 @@ CREATE TABLE `pura_user` (
   `last_account_extension_request` datetime DEFAULT NULL,
   `created` datetime  DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `barcode` (`barcode`),
   FOREIGN KEY (`user_id`) REFERENCES user(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
