@@ -100,13 +100,14 @@ return [
                     'barcode' => [
                         'type'    => 'segment',
                         'options' => [
-                            'route'       => '/barcode/:token',
+                            'route'       => '/barcode/:token[/:size]',
                             'defaults'    => [
                                 'controller' => 'pura',
                                 'action' => 'barcode',
                             ],
                             'constraints' => [
                                 'token' => '[A-Z0-9]*',
+                                'size' => 'big',
                             ],
                         ],
                     ]

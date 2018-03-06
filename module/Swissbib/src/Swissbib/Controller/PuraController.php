@@ -173,6 +173,7 @@ class PuraController extends BaseController
      * Renders a barcode in an image, which corresponds to the token
      * The token must contain only numbers and upper case letters
      * otherwise an image containing an error text is returned
+     * $factor is the size : 1 is small, 2 is larger
      *
      * @return bool
      * @throws \Zend\Barcode\Exception\ExceptionInterface
@@ -180,11 +181,18 @@ class PuraController extends BaseController
     public function barcodeAction()
     {
         $token = $this->params()->fromRoute('token');
+        $size = $this->params()->fromRoute('size');
+
+        if ($size == 'big') {
+            $factor = 2;
+        } else {
+            $factor = 1;
+        }
 
         // Only the text to draw is required
         $barcodeOptions = [
             'text' => $token,
-            'factor' => '2',
+            'factor' => $factor,
         ];
 
         // No required options
