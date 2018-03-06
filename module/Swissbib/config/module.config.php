@@ -272,6 +272,7 @@ return [
         ],
         'aliases' => [
             'institutionFavorites' => 'Swissbib\Controller\FavoritesController',
+            'helppage' => 'Swissbib\Controller\HelpPageController',
         ],
     ],
     'service_manager' => [

@@ -218,7 +218,7 @@ class Bootstrapper
                  *
                  * @var TranslatorImpl $translator
                  */
-                $translator = $this->serviceManager->get('VuFind\Translator');
+                $translator = $this->serviceManager->get('Zend\Mvc\I18n\Translator');
                 $viewModel = $serviceLocator->get('viewmanager')->getViewModel();
 
                 $callback = function ($event) use ($locale, $translator,
@@ -314,7 +314,7 @@ class Bootstrapper
          *
          * @var TranslatorImpl $translator
          */
-        $translator = $serviceLocator->get('VuFind\Translator');
+        $translator = $serviceLocator->get('Zend\Mvc\I18n\Translator');
 
         /**
          * Logging untranslated institutions
@@ -342,7 +342,7 @@ class Bootstrapper
     {
         $callback = function ($event) {
             $translator = $event->getApplication()->getServiceManager()
-                ->get('VuFind\Translator');
+                ->get('Zend\Mvc\I18n\Translator');
 
             $translator->addTranslationFile(
                 'phparray',

@@ -228,7 +228,7 @@ class Factory
     public static function getFormatRelatedEntries(ServiceManager $sm)
     {
         return new FormatRelatedEntries(
-            $sm->get('VuFind\Translator')
+            $sm->get('Zend\Mvc\I18n\Translator')
         );
     }
 

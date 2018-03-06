@@ -58,7 +58,7 @@ class Factory
         $authManager = $sm->get('VuFind\AuthManager');
         $ilsAuth = $sm->get('Vufind\ILSAuthenticator');
         $config = $sm->get('VuFind\Config');
-        $translator = $sm->get('VuFind\Translator');
+        $translator = $sm->get('Zend\Mvc\I18n\Translator');
         $locationMap = $sm->get('Swissbib\LocationMap');
         $eBooksOnDemand = $sm->get('Swissbib\EbooksOnDemand');
         $availability = $sm->get('Swissbib\Availability');
@@ -104,7 +104,7 @@ class Factory
     {
         $eBooksOnDemandConfig = $sm->get('VuFind\Config')->get('config')
             ->eBooksOnDemand;
-        $translator = $sm->get('VuFind\Translator');
+        $translator = $sm->get('Zend\Mvc\I18n\Translator');
 
         return new EbooksOnDemand($eBooksOnDemandConfig, $translator);
 

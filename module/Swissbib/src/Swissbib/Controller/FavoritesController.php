@@ -190,7 +190,7 @@ class FavoritesController extends BaseController
     {
         $availableInstitutions = $this->getAvailableInstitutions();
         $data = [];
-        $translator = $this->serviceLocator->get('VuFind\Translator');
+        $translator = $this->serviceLocator->get('Zend\Mvc\I18n\Translator');
 
         $i = 0;
         foreach ($availableInstitutions as $institutionCode => $additionalInfo) {
