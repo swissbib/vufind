@@ -30,6 +30,7 @@
  */
 namespace Swissbib\Controller;
 
+use VuFind\Controller\AbstractBase;
 use Zend\View\Model\ViewModel;
 use Swissbib\Favorites\DataSource as FavoriteDataSource;
 use Swissbib\Favorites\Manager as FavoriteManager;
@@ -189,7 +190,7 @@ class FavoritesController extends BaseController
     {
         $availableInstitutions = $this->getAvailableInstitutions();
         $data = [];
-        $translator = $this->getServiceLocator()->get('VuFind\Translator');
+        $translator = $this->serviceLocator->get('VuFind\Translator');
 
         $i = 0;
         foreach ($availableInstitutions as $institutionCode => $additionalInfo) {
@@ -231,7 +232,7 @@ class FavoritesController extends BaseController
      */
     protected function getFavoriteManager()
     {
-        return $this->getServiceLocator()
+        return $this->serviceLocator
             ->get('Swissbib\FavoriteInstitutions\Manager');
     }
 
@@ -242,7 +243,7 @@ class FavoritesController extends BaseController
      */
     protected function getFavoriteDataSource()
     {
-        return $this->getServiceLocator()
+        return $this->serviceLocator
             ->get('Swissbib\FavoriteInstitutions\DataSource');
     }
 }

@@ -351,7 +351,7 @@ class MyResearchController extends VuFindMyResearchController
             //But we have to be careful: we should append additional default
             // parameters only for Solr or Summon
             // search Routes
-            $solrResultsManager = $this->getServiceLocator()
+            $solrResultsManager = $this->serviceLocator
                 ->get('VuFind\SearchResultsPluginManager')->get('Solr');
             $options = $solrResultsManager->getParams()->getOptions();
             $defaultSort = $options->getDefaultSortByHandler();
