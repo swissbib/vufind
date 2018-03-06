@@ -13,7 +13,7 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
     <? if ($this->nonEduId): ?>
         <div class="alert alert-danger"><?= $this->transEsc('pura.nonEduId') ?></div>
-    <? elseif (!($this->active)): ?>
+    <? elseif (!($this->showListResources)): ?>
         <p>To access remotely some of the e-resources of the <?= $this->institution["label"][$this->layout()->userLang] ?>, you need to print this page and bring it to the ZB Desk, along with your ID and Library Card. You can also show this screen on your mobile phone or laptop.</p>
 
 
@@ -51,7 +51,6 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
     <? else: ?>
         <p>You are registered for this service.</p>
-        <p>Your account is valid until <?= $this->user->getExpirationDate()->format('j.n.Y') ?>.</p>
         <p>Access e-resourcen : </p>
 
         <ul>
@@ -61,6 +60,12 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
             <?php endforeach; ?>
         </ul>
+
+        <p>Your account is valid until <?= $this->user->getExpirationDate()->format('j.n.Y') ?>.</p>
+        <a href="<?= $this->url('pura/library', ['libraryCode' => $this->institution["bib_code"],'page' => 'registration']) ?>">
+        <button class="btn btn-primary">Renew</button>
+        </a>
+
 
     <? endif; ?>
 

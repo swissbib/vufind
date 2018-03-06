@@ -257,23 +257,6 @@ class Pura
     }
 
     /**
-     * Return true if a library has a contract with this publisher
-     *
-     * @param string $libraryCode the library code, for example Z01
-     * @param array  $publisher   array of properties for a specific publisher
-     *
-     * @return bool
-     */
-    protected function hasContract($libraryCode, $publisher)
-    {
-        if (in_array($libraryCode, $publisher["libraries_with_contract"])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Get a database table object.
      *
      * @param string $table Name of table to retrieve

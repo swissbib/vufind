@@ -85,6 +85,16 @@ class PuraUser extends RowGateway
     }
 
     /**
+     * Check if user has access
+     *
+     * @return bool
+     */
+    public function hasAccess()
+    {
+        return $this->has_access;
+    }
+
+    /**
      * Set related user.
      *
      * @param \VuFind\Db\Row\User $relUser Related user

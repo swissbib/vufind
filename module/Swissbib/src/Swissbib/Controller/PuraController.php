@@ -102,7 +102,6 @@ class PuraController extends BaseController
 
         $libraryCode = $this->params()->fromRoute('libraryCode');
 
-        $active = $this->params()->fromRoute('active');
 
         if (!isset($libraryCode)) {
             $libraryCode = "Z01";
@@ -153,6 +152,28 @@ class PuraController extends BaseController
             $lastName = $vuFindUser->lastname;
             $token = $puraUser->getBarcode();
 
+
+
+            $page = $this->params()->fromRoute('page');
+
+            //decide if we render the barcode page or the list of resources
+            //the url parameters have priority for example in the case of renewal
+            $showRegistration = false;
+            $showListResources = false;
+
+            if ($page == 'registration') {
+                $showRegistration = true;
+            } else if ($page == 'listResources') {
+                $showListResources = true;
+            } else {
+                $hasAccess = $puraUser->hasAccess();
+                if ($hasAccess) {
+                    $showListResources = true;
+                } else {
+                    $showRegistration = true;
+                }
+            }
+
             $view = new ViewModel(
                 [
                     'publishers' => $publishers,
@@ -162,7 +183,8 @@ class PuraController extends BaseController
                     'firstname' => $firstName,
                     'lastname' => $lastName,
                     'token' => $token,
-                    'active' => $active
+                    'showRegistration' => $showRegistration,
+                    'showListResources' => $showListResources,
                 ]
             );
             return $view;
