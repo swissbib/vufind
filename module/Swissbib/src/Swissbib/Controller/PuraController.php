@@ -102,7 +102,6 @@ class PuraController extends BaseController
 
         $libraryCode = $this->params()->fromRoute('libraryCode');
 
-
         if (!isset($libraryCode)) {
             $libraryCode = "Z01";
         }
@@ -151,8 +150,6 @@ class PuraController extends BaseController
             $firstName = $vuFindUser->firstname;
             $lastName = $vuFindUser->lastname;
             $token = $puraUser->getBarcode();
-
-
 
             $page = $this->params()->fromRoute('page');
 
