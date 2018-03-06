@@ -262,7 +262,7 @@ return [
             'install'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             //nicht getestet
             'tab40import'   => 'Swissbib\Controller\Factory::getTab40ImportController',
-            'institutionFavorites' => AbstractBaseFactory::class,
+            'Swissbib\Controller\FavoritesController' => 'VuFind\Controller\AbstractBaseFactory',
             'hierarchycache'       => 'Swissbib\Controller\Factory::getHierarchyCacheController',
             //nicht getestet
             HelpPageController::class => AbstractBaseFactory::class,
@@ -272,7 +272,7 @@ return [
         ],
         'aliases' => [
             'institutionFavorites' => 'Swissbib\Controller\FavoritesController',
-        ]
+        ],
     ],
     'service_manager' => [
         'invokables' => [
