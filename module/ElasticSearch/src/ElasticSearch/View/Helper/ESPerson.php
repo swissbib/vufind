@@ -331,7 +331,7 @@ class ESPerson extends AbstractHelper
      *
      * @return string
      */
-    public function getMoreNotableWorkLabel()
+    public function getMoreMediasLabel()
     {
         return $this->resolveLabelWithDisplayName(
             'person.medias.more'
@@ -339,16 +339,16 @@ class ESPerson extends AbstractHelper
     }
 
     /**
-     * Gets the NotableWorkSearchLink
+     * Gets the RelatedMediasLink
      *
      * @param string $template The template
      *
      * @return string
      */
-    public function getNotableWorkSearchLink(string $template): string
+    public function getMoreMediasLink(string $template): string
     {
         return $this->getMediaSearchLink(
-            $template, $this->getMoreNotableWorkLabel()
+            $template, $this->getMoreMediasLabel()
         );
     }
 
