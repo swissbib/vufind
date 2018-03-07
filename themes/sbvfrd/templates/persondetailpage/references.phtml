@@ -1,7 +1,7 @@
 <? $configuredReferences = $this->references->record->references ?>
 <? $template = '/detailpage/common/reference.phtml' ?>
 <? if ($this->esperson()->hasMatchingRecordReferences($configuredReferences)): ?>
-<div class="record-references hidden-xs hidden-sm">
+<div class="record-references <?= $this->visibility ?>">
     <h1 class="title"><?= $this->translate('page.detail.person.more') ?></h1>
     <div class="list">
         <ul id="detailpage-person-references">

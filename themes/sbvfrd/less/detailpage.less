@@ -24,13 +24,25 @@
 
       & > a {
         display: flex;
-        padding: @detailpage-navigation-link-inset 0;
+        padding: .71rem 0 .5714rem;
         font-size: 1rem;
 
         & > span {
           flex: auto;
         }
       }
+    }
+  }
+}
+
+.below {
+  margin-bottom: -4.286rem;
+
+  & > .record-references {
+    margin-top: 2.35rem;
+
+    ul > li:last-child {
+      border-bottom: 0 none;
     }
   }
 }
@@ -87,6 +99,12 @@ button.accordion-collapse {
 
   .row.metadata:not(:last-child) {
     margin-bottom: 0.79rem;
+  }
+}
+
+@media (max-width: @screen-sm-max) {
+  .detailpage-common {
+    padding-right: 0;
   }
 }
 
