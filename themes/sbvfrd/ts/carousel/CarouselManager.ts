@@ -44,13 +44,6 @@ export default class CarouselManager {
     }
 
     /**
-     * Activates the manager by switching on the media query observer.
-     */
-    public activate(): void {
-        this.mediaQueryObserver.on();
-    }
-
-    /**
      * Initializes from the configuration passed in to the constructor.
      */
     private setupFromConfiguration():void {

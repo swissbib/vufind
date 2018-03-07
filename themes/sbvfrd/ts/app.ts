@@ -9,6 +9,7 @@ import MediaQueryObserver from "./common/MediaQueryObserver";
 import BackToTopButton from "./components/BackToTopButton";
 import ImageSequence from "./components/ImageSequence";
 import MoreContentExpander from "./common/MoreContentExpander";
+import Breakpoints from "./common/Breakpoints";
 
 // must be available immediately
 swissbib.imageSequence = ImageSequence;
@@ -52,10 +53,11 @@ authorid="${p.id}"></span></a></li>`;
 
     autoSuggest.initialize();
 
+    const mediaQueryObserver: MediaQueryObserver = new MediaQueryObserver();
+
     // carousel
-    const carouselManager: CarouselManager = new CarouselManager(swissbib.carousel, new MediaQueryObserver());
+    const carouselManager: CarouselManager = new CarouselManager(swissbib.carousel, mediaQueryObserver);
     carouselManager.initialize();
-    carouselManager.activate();
     swissbib.carouselManager = carouselManager;
 
     // components
@@ -63,8 +65,21 @@ authorid="${p.id}"></span></a></li>`;
     const backToTopButton: BackToTopButton = new BackToTopButton(backToTopButtonDom);
     backToTopButton.initialize();
 
-    const abstractContentExpander: MoreContentExpander = new MoreContentExpander(
+    const abstractContentExpander: MoreContentExpander = new MoreContentExpander(mediaQueryObserver,
         $(".abstract-text"), $(".abstract-overflow"), $(".abstract-overflow-more")
     );
     abstractContentExpander.initialize();
+
+    // add 'collapse' class to page-anchors list on load when screen size is in the xs range
+    const pageAnchorsMenuCollapseCallback = (query: string): void => {
+        const className: string = Breakpoints.BOOSTTRAP_MIN.xs === query ? "collapse" : "collapse in";
+        $("#detailpage-person-anchors").addClass(className);
+    };
+
+    mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.xs, pageAnchorsMenuCollapseCallback);
+    mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.sm, pageAnchorsMenuCollapseCallback);
+    mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.md, pageAnchorsMenuCollapseCallback);
+    mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.lg, pageAnchorsMenuCollapseCallback);
+
+    mediaQueryObserver.on();
 });

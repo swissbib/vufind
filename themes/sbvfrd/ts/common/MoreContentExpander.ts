@@ -10,15 +10,11 @@ export default class MoreContentExpander {
      */
     private initialized: boolean;
 
-    /**
-     * 
-     */
-    private mediaQueryObserver: MediaQueryObserver;
 
     /**
      * 
      */
-    constructor(private text:JQuery<HTMLElement>, private overflow:JQuery<HTMLElement>, private trigger:JQuery<HTMLElement>) { }
+    constructor(readonly mediaQueryObserver: MediaQueryObserver, private text:JQuery<HTMLElement>, private overflow:JQuery<HTMLElement>, private trigger:JQuery<HTMLElement>) { }
 
     /**
      * 
@@ -27,9 +23,7 @@ export default class MoreContentExpander {
         if (!this.initialized) {
             if (this.overflow.length > 0) {
                 this.trigger.on("click", this.triggerClickHandler);
-                this.mediaQueryObserver = new MediaQueryObserver();
                 this.mediaQueryObserver.register("only screen and (min-width: 481px)", this.observerCallback);
-                this.mediaQueryObserver.on();
             }
             this.initialized = true;
         }
