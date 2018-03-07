@@ -85,7 +85,7 @@ class ESSubject extends AbstractHelper
      */
     public function getSearchType(): string
     {
-        return 'DEFAULT';
+        return 'Subject';
     }
 
     /**
