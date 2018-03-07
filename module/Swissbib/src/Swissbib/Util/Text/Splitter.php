@@ -81,7 +81,8 @@ class Splitter
      *
      * 'text': The text before the actual split point.
      * 'truncated': Boolean that indicates whether the text was split actually.
-     * 'overflow': The text after the split point.
+     * 'overflow': An array with a single element representing the text after the
+     * split point.
      *
      * The actual split position must not be at $limit in case it points directly
      * into a word or whitespace character sequence. In those cases it will be the
@@ -95,21 +96,55 @@ class Splitter
     public function split(string $text, int $limit): \stdClass
     {
         $splitPoint = $this->calculateSplitPoint($text, $limit);
-        $info = (object)[
-            'text'      => '',
-            'truncated' => false,
-            'overflow'  => ''
-        ];
+        $result = $this->createEmptySplitResult();
 
         if ($splitPoint === 0) {
-            $info->text = $text;
+            $result->text = $text;
         } else {
-            $info->truncated = true;
-            $info->text = substr($text, 0, $splitPoint);
-            $info->overflow = substr($text, $splitPoint);
+            $result->truncated = true;
+            $result->text = substr($text, 0, $splitPoint);
+            $result->overflow[] = substr($text, $splitPoint);
         }
 
-        return $info;
+        return $result;
+    }
+
+    /**
+     * Performs multiple splits on the given text. The result of this method will be
+     * an object with the same structure as returned by the split() method except
+     * that 'overflow' is expected to contain more then one result.
+     * 
+     * @param string $text   The text to split.
+     * @param array  $limits A sequence of positions where ideally to split the text.
+     * 
+     * @return \stdClass
+     */
+    public function splitMultiple(string $text, ...$limits)
+    {
+        // sanitize limit order and remove duplicates
+        $limits = array_unique($limits, SORT_NUMERIC);
+        $splitPoints = $this->calculateSplitPoints($text, ...$limits);
+        $numSplitPoints = count($splitPoints);
+        $result = $this->createEmptySplitResult();
+
+        if ($numSplitPoints === 0) {
+            $result->text = $text;
+        } else {
+            // extend split points by text length for proper sequence calculation
+            $splitPoints[] = strlen($text);
+            $numSplitPoints += 1;
+
+            $result->truncated = true;
+            $result->text = substr($text, 0, $splitPoints[0]);
+            
+            for ($index = 1; $index < $numSplitPoints; ++$index) {
+                $start = $splitPoints[$index - 1];
+                $length = $splitPoints[$index] - $start;
+                $result->overflow[] = substr($text, $start, $length);
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -131,7 +166,7 @@ class Splitter
      *
      * @return int The computed actual split position.
      */
-    public function calculateSplitPoint(string $text, int $limit): int
+    protected function calculateSplitPoint(string $text, int $limit): int
     {
         $sanitized = trim($text);
         $data = $this->_analyze($sanitized);
@@ -139,6 +174,45 @@ class Splitter
         return $this->useWords()
             ? $this->_calculateWordSplitPoint($data, $limit)
             : $this->_calculateCharacterSplitPoint($data, $limit);
+    }
+
+    /**
+     * Batch processing variant of {@link #calculateSplitPoint}. Invalid split
+     * positions are filtered.
+     * 
+     * @param string $text   The text to split.
+     * @param array  $limits A sequence of words resp. characters after which to
+     *                       apply the split.
+     * 
+     * @return array
+     * An array of integers representing the calculated split positions.
+     */
+    protected function calculateSplitPoints(string $text, ...$limits): array
+    {
+        $splitPoints = [];
+
+        foreach($limits as $limit) {
+            $splitPoint = $this->calculateSplitPoint($text, $limit);
+            if ($splitPoint !== 0) {
+                $splitPoints[] = $splitPoint;
+            }
+        }
+
+        return $splitPoints;
+    }
+
+    /**
+     * Creates a new object pre-filled with default values for split information.
+     * 
+     * @return \stdClass
+     */
+    protected function createEmptySplitResult(): \stdClass
+    {
+        return (object)[
+            'text'      => '',
+            'truncated' => false,
+            'overflow'  => []
+        ];
     }
 
     /**

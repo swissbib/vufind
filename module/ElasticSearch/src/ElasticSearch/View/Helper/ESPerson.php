@@ -262,24 +262,32 @@ class ESPerson extends AbstractHelper
     /**
      * Gets the AbstractInfo
      *
-     * @param int  $limit      Indicates after how many words (or characters) to
-     *                         split.
      * @param bool $countWords Indicates whether $splitPoint expresses the number of
      *                         words (true) or characters (false) after which
      *                         truncation has to be performed.
+     * @param int  $limits     Indicates after how many words (or characters) to
+     *                         split. Can be any number of integer values. If not
+     *                         specified then the default split point will be at 30
+     *                         characters/words.
      *
      * @return \stdClass
      */
-    public function getAbstractInfo(int $limit = 30, bool $countWords = true)
+    public function getAbstractInfo(bool $countWords = true, ...$limits)
     {
         $info = null;
 
         if ($this->hasAbstract()) {
+            $limits = count($limits) === 0 ? [30] : $limits;
+
             $abstract = $this->getPerson()->getAbstract();
             // ignore surrounding whitespace at all
             $abstract = trim($abstract);
 
-            $info = (new Splitter($countWords))->split($abstract, $limit);
+            $splitter = new Splitter($countWords);
+            $info = count($limits) === 1
+                ? $splitter->split($abstract, $limits[0])
+                : $splitter->splitMultiple($abstract, ...$limits);
+
             $info->label = $this->getView()->translate(
                 'person.metadata.abstract'
             );

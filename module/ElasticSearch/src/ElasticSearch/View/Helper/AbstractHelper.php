@@ -250,13 +250,23 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      * Shortcut to HTML-escape the given string using the escapeHtml() Escaper from
      * the connected view.
      *
-     * @param string $value The value to HTML-escape
+     * @param string|array|null $value The value to HTML-escape
      *
      * @return string|null
      */
-    protected function escape(string $value = null)
+    protected function escape($value = null)
     {
-        return is_null($value) ? null : $this->getView()->escapeHtml($value);
+        $result = $value;
+
+        if (is_array($result)) {
+            foreach ($result as $key => $string) {
+                $result[$key] = $this->getView()->escapeHtml($string);
+            }
+        } else if (is_string($result)) {
+            $result = $this->getView()->escapeHtml($result);
+        }
+
+        return $result;
     }
 
     /**
