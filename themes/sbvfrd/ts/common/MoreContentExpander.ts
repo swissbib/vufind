@@ -11,14 +11,17 @@ export default class MoreContentExpander {
     /**
      * 
      */
-    constructor(private contentElement:JQuery<HTMLElement>, private trigger:JQuery<HTMLElement>) { }
+    constructor(private text:JQuery<HTMLElement>, private more:JQuery<HTMLElement>, private trigger:JQuery<HTMLElement>) { }
 
     /**
      * 
      */
     public initialize(): void {
         if (!this.initialized) {
-            this.trigger.on("click", this.triggerClickHandler);
+            if (this.more.length > 0) {
+                this.trigger.on("click", this.triggerClickHandler);
+                this.text.addClass('more-indicator');
+            }
             this.initialized = true;
         }
     }
@@ -29,8 +32,9 @@ export default class MoreContentExpander {
     triggerClickHandler = (event:JQuery.Event) => {
         event.preventDefault();
         event.stopPropagation();
-        this.contentElement.addClass("visible");
+        this.text.toggleClass("more-indicator");
+        this.more.toggleClass("visible");
         //this.trigger.addClass("overflow-hidden");
-        this.trigger.addClass("hidden");
+        this.trigger.toggleClass("hidden");
     };
 }

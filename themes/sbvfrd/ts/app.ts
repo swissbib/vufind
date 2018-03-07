@@ -64,7 +64,7 @@ authorid="${p.id}"></span></a></li>`;
     backToTopButton.initialize();
 
     const abstractContentExpander: MoreContentExpander = new MoreContentExpander(
-        $(".abstract-overflow"), $(".abstract-overflow-more")
+        $(".abstract-text"), $(".abstract-overflow"), $(".abstract-overflow-more")
     );
     abstractContentExpander.initialize();
 });
