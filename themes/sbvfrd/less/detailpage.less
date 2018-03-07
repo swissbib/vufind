@@ -109,3 +109,32 @@ button.accordion-collapse {
 .separator + .tagcloud h2 {
   margin-top: 0;
 }
+
+
+.abstract-overflow {
+  display: none;
+
+  &.visible {
+    display: inline;
+  }
+
+  
+}
+
+
+.abstract-overflow-more {
+  //display: none;
+  &.hidden {
+    display: none;
+  }
+
+  &:before {
+    content: '\2026';
+    display: inline;
+    padding: 0 0.1429rem;
+  }
+
+  &.overflow-hidden:before {
+    display: none;
+  }
+}

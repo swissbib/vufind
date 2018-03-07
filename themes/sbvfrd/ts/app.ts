@@ -8,6 +8,7 @@ import CarouselManager from "./carousel/CarouselManager";
 import MediaQueryObserver from "./common/MediaQueryObserver";
 import BackToTopButton from "./components/BackToTopButton";
 import ImageSequence from "./components/ImageSequence";
+import MoreContentExpander from "./common/MoreContentExpander";
 
 // must be available immediately
 swissbib.imageSequence = ImageSequence;
@@ -61,4 +62,9 @@ authorid="${p.id}"></span></a></li>`;
     const backToTopButtonDom: string = '<a id="back-to-top-btn" class="icon-arrow-up" href="#" class="hidden-md hidden-lg"></a>';
     const backToTopButton: BackToTopButton = new BackToTopButton(backToTopButtonDom);
     backToTopButton.initialize();
+
+    const abstractContentExpander: MoreContentExpander = new MoreContentExpander(
+        $(".abstract-overflow"), $(".abstract-overflow-more")
+    );
+    abstractContentExpander.initialize();
 });
