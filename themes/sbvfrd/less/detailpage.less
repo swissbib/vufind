@@ -111,32 +111,29 @@ button.accordion-collapse {
 }
 
 
-.abstract-text {
-
-  &.more-indicator:after {
+@media (max-width: @screen-xs-max) { 
+  .abstract-text.overflow-hidden:after {
     content: '\2026';
     display: inline;
     padding: 0 0.1429rem;
   }
 }
 
-.abstract-overflow {
-  display: none;
-
-  &.visible {
+.abstract-overflow.hidden-xs {
+  &:not(.abstract-overflow.hidden-xs:last-child):after {
+    content: '\2026';
     display: inline;
+    padding: 0 0.1429rem;
   }
-  
+  &.hidden {
+    display: none;
+  }
 }
 
 
 .abstract-overflow-more {
   //display: none;
   &.hidden {
-    display: none;
-  }
-
-  &.overflow-hidden:before {
     display: none;
   }
 }

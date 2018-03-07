@@ -1,3 +1,5 @@
+import MediaQueryObserver from "./MediaQueryObserver";
+
 /**
  * 
  */
@@ -11,16 +13,23 @@ export default class MoreContentExpander {
     /**
      * 
      */
-    constructor(private text:JQuery<HTMLElement>, private more:JQuery<HTMLElement>, private trigger:JQuery<HTMLElement>) { }
+    private mediaQueryObserver: MediaQueryObserver;
+
+    /**
+     * 
+     */
+    constructor(private text:JQuery<HTMLElement>, private overflow:JQuery<HTMLElement>, private trigger:JQuery<HTMLElement>) { }
 
     /**
      * 
      */
     public initialize(): void {
         if (!this.initialized) {
-            if (this.more.length > 0) {
+            if (this.overflow.length > 0) {
                 this.trigger.on("click", this.triggerClickHandler);
-                this.text.addClass('more-indicator');
+                this.mediaQueryObserver = new MediaQueryObserver();
+                this.mediaQueryObserver.register("only screen and (min-width: 481px)", this.observerCallback);
+                this.mediaQueryObserver.on();
             }
             this.initialized = true;
         }
@@ -29,12 +38,21 @@ export default class MoreContentExpander {
     /**
      * 
      */
-    triggerClickHandler = (event:JQuery.Event) => {
+    private triggerClickHandler = (event:JQuery.Event): void => {
         event.preventDefault();
         event.stopPropagation();
-        this.text.toggleClass("more-indicator");
-        this.more.toggleClass("visible");
-        //this.trigger.addClass("overflow-hidden");
-        this.trigger.toggleClass("hidden");
+
+        this.text.removeClass("overflow-hidden");
+        this.overflow.removeClass("hidden-xs").removeClass("hidden");
+        this.trigger.addClass("hidden").removeClass("visible-xs-inline");
     };
+
+    /**
+     * 
+     */
+    private observerCallback = (query: string): void => {
+        if (!this.trigger.hasClass("hidden") && this.overflow.is(":visible")) {
+            this.trigger.addClass("visible-xs-inline");
+        }
+    }
 }
