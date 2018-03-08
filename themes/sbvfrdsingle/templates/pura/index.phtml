@@ -12,7 +12,9 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
     <h2><?= $this->institution["label"][$this->layout()->userLang] ?></h2>
 
-    <p>Some libraries offer a remote access for private users. You can register here.</p>
+    <p><?= $this->transEsc('pura.intro1') ?></p>
+
+    <p><?= $this->transEsc('pura.intro2') ?></p>
 
     <ul>
     <?php foreach ($this->institutions as $institution) : ?>

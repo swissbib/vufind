@@ -9,26 +9,28 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 <div class="<?= $this->layoutClass('mainbody') ?>">
     <?= $this->flashmessages(); ?>
 
-    <h2><?= $this->institution["label"][$this->layout()->userLang] ?></h2>
+    <h2><?= $this->institution["name"][$this->layout()->userLang] ?></h2>
 
     <? if ($this->nonEduId): ?>
         <div class="alert alert-danger"><?= $this->transEsc('pura.nonEduId') ?></div>
     <? elseif (!($this->showListResources)): ?>
-        <p>To access remotely some of the e-resources of the <?= $this->institution["label"][$this->layout()->userLang] ?>, you need to print this page and bring it to the ZB Desk, along with your ID and Library Card. You can also show this screen on your mobile phone or laptop.</p>
+        <p><?= $this->transEsc('pura.registration1.1') ?> <?= $this->institution["name"][$this->layout()->userLang] ?><?= $this->transEsc('pura.registration1.2') ?></p>
+        <p><?= $this->transEsc('pura.registration2.1') ?> <?= $this->institution["name"][$this->layout()->userLang] ?> <?= $this->transEsc('pura.registration2.2') ?></p>
+        <p><?= $this->transEsc('pura.registration3') ?></p>
 
 
 
         <table>
             <tr>
-                <td>Name:&nbsp;</td>
+                <td><?= $this->transEsc('pura.name') ?>:&nbsp;</td>
                 <td><?= $this->firstname ? $this->escapeHtml($this->firstname . ' ' . $this->lastname) : ''; ?></td>
             </tr>
             <tr>
-                <td>Email:&nbsp;</td>
+                <td><?= $this->transEsc('Email') ?>:&nbsp;</td>
                 <td><?= $this->email ? $this->escapeHtml($this->email) : ''; ?></td>
             </tr>
             <tr>
-                <td>Barcode:&nbsp;</td>
+                <td><?= $this->transEsc('pura.barcode') ?>:&nbsp;</td>
                 <td><?= $this->token ? $this->escapeHtml($this->token) : ''; ?></td>
             </tr>
         </table>
@@ -42,16 +44,13 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
             </a>
         </p>
 
-        <p>Hiermit beantrage ich Zugang auf die digitalen Angebote
-            der Zentralbibliothek Zürich über SWITCH edu-ID.</p>
-
         <button class="btn btn-primary" onClick="window.print()">
             <?= $this->transEsc('Print') ?>
         </button>
 
     <? else: ?>
-        <p>You are registered for this service.</p>
-        <p>Access e-resourcen : </p>
+        <p><?= $this->transEsc('pura.registered1.1') ?> <?= $this->institution["name"][$this->layout()->userLang] ?>. <?= $this->transEsc('pura.registered1.2') ?></p>
+        <p><?= $this->transEsc('pura.registered2.1') ?></p>
 
         <ul>
             <?php foreach ($this->publishers as $publisher) : ?>
@@ -61,9 +60,10 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
             <?php endforeach; ?>
         </ul>
 
-        <p>Your account is valid until <?= $this->user->getExpirationDate()->format('j.n.Y') ?>.</p>
+        <p><?= $this->transEsc('pura.accountValidity1') ?> <?= $this->user->getExpirationDate()->format('j.n.Y') ?>.</p>
+        <p></p><?= $this->transEsc('pura.accountValidity2') ?></p>
         <a href="<?= $this->url('pura/library', ['libraryCode' => $this->institution["bib_code"],'page' => 'registration']) ?>">
-        <button class="btn btn-primary">Renew</button>
+        <button class="btn btn-primary"><?= $this->transEsc('pura.renew') ?></button>
         </a>
 
 
