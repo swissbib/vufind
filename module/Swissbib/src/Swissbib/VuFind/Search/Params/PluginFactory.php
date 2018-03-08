@@ -98,7 +98,7 @@ class PluginFactory extends VuFindParamsPluginFactory
             ->getNamespace($name, $requestedName);
 
         $authManager = $serviceLocator->get(
-            'VuFind\AuthManager'
+            'VuFind\Auth\Manager'
         );
         $labelMappingHelper = $serviceLocator->get(
             'Swissbib\TypeLabelMappingHelper'

@@ -127,7 +127,7 @@ class Factory
             ->Authentication->noAjaxLogin->toArray() : [];
 
         return new Auth(
-            $sm->get('VuFind\AuthManager'),
+            $sm->get('VuFind\Auth\Manager'),
             $config
         );
     }

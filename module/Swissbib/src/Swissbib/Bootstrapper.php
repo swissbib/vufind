@@ -160,7 +160,7 @@ class Bootstrapper
          *
          * @var Manager $authManager
          */
-        $authManager = $serviceLocator->get('VuFind\AuthManager');
+        $authManager = $serviceLocator->get('VuFind\Auth\Manager');
 
         if ($authManager->isLoggedIn()) {
             $user = $authManager->isLoggedIn();
@@ -200,7 +200,7 @@ class Bootstrapper
          *
          * @var Manager $authManager
          */
-        $authManager    = $serviceLocator->get('VuFind\AuthManager');
+        $authManager    = $serviceLocator->get('VuFind\Auth\Manager');
 
         /**
          * Config
