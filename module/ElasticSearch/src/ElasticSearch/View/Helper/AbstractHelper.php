@@ -250,13 +250,23 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      * Shortcut to HTML-escape the given string using the escapeHtml() Escaper from
      * the connected view.
      *
-     * @param string $value The value to HTML-escape
+     * @param string|array|null $value The value to HTML-escape
      *
      * @return string|null
      */
-    protected function escape(string $value = null)
+    protected function escape($value = null)
     {
-        return is_null($value) ? null : $this->getView()->escapeHtml($value);
+        $result = $value;
+
+        if (is_array($result)) {
+            foreach ($result as $key => $string) {
+                $result[$key] = $this->getView()->escapeHtml($string);
+            }
+        } else if (is_string($result)) {
+            $result = $this->getView()->escapeHtml($result);
+        }
+
+        return $result;
     }
 
     /**
@@ -401,6 +411,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     protected function hasMatchingRecordReference(
         ZendConfig $references, string $link
     ): bool {
+
         foreach ($references as $id => $reference) {
             if (preg_match($reference->pattern, $link) === 1) {
                 return true;
@@ -411,31 +422,29 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     }
 
     /**
-     * Provides an object with 'link' and 'label' keys where the link is the link
-     * passed in and the label the record reference label that belongs to the given
-     * link. The label is resolved based on pattern matching the specified link
-     * against the available references passed in.
+     * Provides an on array of the record reference that matched the given link. The
+     * resulting array will contain a 'label' and a 'link' key where the label is the
+     * one configured for the reference the link matched on and the link will be the
+     * link parameter value passed in to the method.
      *
-     * @param string     $link       The link to check against the given reference.
+     * @param string     $link       The link to match against the record references.
      * @param ZendConfig $references All configured record references.
      *
-     * @return array
+     * @return string
      * In case the given link does not match on one of the record reference patterns,
-     * then an empty string is returned. In case the link does not match any
-     * reference an array with '#' as link and empty string as label is returned.
+     * then a NullObject pattern is returned which represents an empty labeled link
+     * on the '#'.
      */
     public function getRecordReference(string $link, ZendConfig $references)
     {
-        $result = ['link' => '#', 'label' => ''];
-
         foreach ($references as $id => $reference) {
             if (preg_match($reference->pattern, $link) === 1) {
-                $result = ['link' => $link, 'label' => $reference->label];
-                break;
+                return ['label' => $reference->label, 'link' => $link];
+
             }
         }
 
-        return $result;
+        return ['label' => '', 'link' => '#'];
     }
 
     /**

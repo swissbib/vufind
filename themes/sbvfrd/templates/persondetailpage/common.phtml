@@ -5,6 +5,11 @@
     <? else: ?>
         <?= $this->render('common/without-thumbnail.phtml') ?>
     <? endif; ?>
+    <div class="row">
+        <div class="col-xs-12 below">
+            <?= $this->context($this)->renderInContext('references.phtml', ['visibility' => 'hidden-md hidden-lg']) ?>
+        </div>
+    </div>
     <div class="separator"></div>
     
     <?= $this->context($this)->renderInContext(

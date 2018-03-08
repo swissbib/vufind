@@ -120,12 +120,15 @@ export default class MediaQueryObserver {
     }
 
     /**
-     * Starts listening on screen size changes.
+     * Starts listening on screen size changes and triggers an initial 'resize' event on window.
+     * 
+     * @param {boolean} suppressResizeEvent Indicates whether to not firing the 'resize' event. Defaults to false.
      */
-    public on(): void {
+    public on(suppressResizeEvent: boolean = false): void {
         if (!this.observing) {
             $(window).on('resize', this.windowResizeHandler);
             this.observing = true;
+            !suppressResizeEvent && $(window).trigger('resize');
         }
     }
 

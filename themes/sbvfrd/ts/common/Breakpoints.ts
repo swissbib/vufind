@@ -116,4 +116,11 @@ export default class Breakpoints {
         "only screen and (min-width: 769px) and (max-width: 1199px)",
         "only screen and (min-width: 1200px)"
     );
+
+    static readonly BOOSTTRAP_MIN: BreakpointCollection = new BreakpointCollection(
+        "only screen and (max-width: 480px)",
+        "only screen and (min-width: 481px)",
+        "only screen and (min-width: 769px)",
+        "only screen and (min-width: 1200px)"
+    );
 }
