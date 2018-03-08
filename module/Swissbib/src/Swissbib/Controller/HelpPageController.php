@@ -165,7 +165,7 @@ class HelpPageController extends BaseController
      */
     protected function getPages()
     {
-        $config = $this->serviceLocator->get('VuFind/Config')->get('config');
+        $config = $this->serviceLocator->get('VuFind\Config\PluginManager')->get('config');
         $pages    = [];
 
         if ($config) {

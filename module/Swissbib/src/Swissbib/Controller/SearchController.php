@@ -123,7 +123,7 @@ class SearchController extends VuFindSearchController
      */
     protected function getFacetConfig()
     {
-        return $this->serviceLocator->get('VuFind\Config')->get('facets')
+        return $this->serviceLocator->get('VuFind\Config\PluginManager')->get('facets')
             ->get('Results_Settings');
     }
 
@@ -136,7 +136,7 @@ class SearchController extends VuFindSearchController
     protected function getResultsManager()
     {
         if (!isset($this->extendedTargets)) {
-            $mainConfig = $this->serviceLocator->get('VuFind\Config')
+            $mainConfig = $this->serviceLocator->get('VuFind\Config\PluginManager')
                 ->get('config');
             $extendedTargetsSearchClassList
                 = $mainConfig->SwissbibSearchExtensions->extendedTargets;

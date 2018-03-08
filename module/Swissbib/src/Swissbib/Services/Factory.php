@@ -68,7 +68,7 @@ class Factory
      */
     public static function getSOLRHighlightingConfigurator(ServiceManager $sm)
     {
-        $config = $sm->get('VuFind\Config')->get('config')->Highlight;
+        $config = $sm->get('VuFind\Config\PluginManager')->get('config')->Highlight;
         $eventsManager = $sm->get('SharedEventManager');
         $memory = $sm->get('VuFind\Search\Memory');
 
@@ -118,7 +118,7 @@ class Factory
         */
 
         return new FavoriteFacets(
-            $sm->get('VuFind\Config')
+            $sm->get('VuFind\Config\PluginManager')
         );
     }
 
@@ -132,8 +132,8 @@ class Factory
     public static function getExport(ServiceManager $sm)
     {
         return new \Swissbib\Export(
-            $sm->get('VuFind\Config')->get('config'),
-            $sm->get('VuFind\Config')->get('export')
+            $sm->get('VuFind\Config\PluginManager')->get('config'),
+            $sm->get('VuFind\Config\PluginManager')->get('export')
         );
     }
 
@@ -205,7 +205,7 @@ class Factory
         return new NationalLicence(
             $sm->get('Swissbib\SwitchApiService'),
             $sm->get('Swissbib\EmailService'),
-            $sm->get('VuFind\Config')->get('NationalLicences'),
+            $sm->get('VuFind\Config\PluginManager')->get('NationalLicences'),
             $sm
         );
     }
@@ -219,7 +219,7 @@ class Factory
      */
     public static function getSwitchApiService(ServiceManager $sm)
     {
-        return new SwitchApi($sm->get('VuFind\Config'), $sm);
+        return new SwitchApi($sm->get('VuFind\Config\PluginManager'), $sm);
     }
 
     /**
@@ -231,6 +231,6 @@ class Factory
      */
     public static function getEmailService(ServiceManager $sm)
     {
-        return new Email($sm->get('VuFind\Config'), $sm);
+        return new Email($sm->get('VuFind\Config\PluginManager'), $sm);
     }
 }

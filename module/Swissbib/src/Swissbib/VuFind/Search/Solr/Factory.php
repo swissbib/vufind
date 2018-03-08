@@ -52,7 +52,7 @@ class Factory
     {
 
         $config = $sm
-            ->get('VuFind\Config')->get('config');
+            ->get('VuFind\Config\PluginManager')->get('config');
         /**
          * SpellConfig
          *

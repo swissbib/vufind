@@ -57,7 +57,7 @@ class Factory
         $hmac = $sm->get('VuFind\HMAC');
         $authManager = $sm->get('VuFind\AuthManager');
         $ilsAuth = $sm->get('Vufind\ILSAuthenticator');
-        $config = $sm->get('VuFind\Config');
+        $config = $sm->get('VuFind\Config\PluginManager');
         $translator = $sm->get('Zend\Mvc\I18n\Translator');
         $locationMap = $sm->get('Swissbib\LocationMap');
         $eBooksOnDemand = $sm->get('Swissbib\EbooksOnDemand');
@@ -89,7 +89,7 @@ class Factory
      */
     public static function getLocationMap(ServiceManager $sm)
     {
-        $locationMapConfig = $sm->get('VuFind\Config')->get('config')->locationMap;
+        $locationMapConfig = $sm->get('VuFind\Config\PluginManager')->get('config')->locationMap;
         return new LocationMap($locationMapConfig);
     }
 
@@ -102,7 +102,7 @@ class Factory
      */
     public static function getEbooksOnDemand(ServiceManager $sm)
     {
-        $eBooksOnDemandConfig = $sm->get('VuFind\Config')->get('config')
+        $eBooksOnDemandConfig = $sm->get('VuFind\Config\PluginManager')->get('config')
             ->eBooksOnDemand;
         $translator = $sm->get('Zend\Mvc\I18n\Translator');
 
@@ -121,7 +121,7 @@ class Factory
     {
 
         $bibCodeHelper = $sm->get('Swissbib\BibCodeHelper');
-        $availabilityConfig = $sm->get('VuFind\Config')->get('config')->Availability;
+        $availabilityConfig = $sm->get('VuFind\Config\PluginManager')->get('config')->Availability;
 
         return new AvailabilityHelper($bibCodeHelper, $availabilityConfig);
 
@@ -138,7 +138,7 @@ class Factory
      */
     public static function getBibCodeHelper(ServiceManager $sm)
     {
-        $alephNetworkConfig = $sm->get('VuFind\Config')->get('Holdings')
+        $alephNetworkConfig = $sm->get('VuFind\Config\PluginManager')->get('Holdings')
             ->AlephNetworks;
 
         return new BibCode($alephNetworkConfig);

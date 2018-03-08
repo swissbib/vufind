@@ -51,7 +51,7 @@ class Factory
     public static function getSideFacets(ServiceManager $sm)
     {
         return new SideFacets(
-            $sm->get('VuFind\Config'),
+            $sm->get('VuFind\Config\PluginManager'),
             $sm->get('VuFind\HierarchicalFacetHelper')
         );
     }

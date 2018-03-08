@@ -76,7 +76,7 @@ class Config extends AbstractHelper
     {
         if (!$this->config) {
             $this->config = $this->serviceLocator
-                ->get('VuFind\Config')->get('config');
+                ->get('VuFind\Config\PluginManager')->get('config');
         }
 
         return $this->config;

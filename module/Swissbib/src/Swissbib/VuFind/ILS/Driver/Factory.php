@@ -67,7 +67,7 @@ class Factory
     public static function getMultiBackend(ServiceManager $sm)
     {
         return new MultiBackend(
-            $sm->get('VuFind\Config'),
+            $sm->get('VuFind\Config\PluginManager'),
             $sm->get('VuFind\ILSAuthenticator'),
             $sm
         );

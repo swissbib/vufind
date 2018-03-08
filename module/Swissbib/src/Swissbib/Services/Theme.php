@@ -79,7 +79,7 @@ class Theme
      */
     protected function getTheme()
     {
-        return $this->getServiceLocator()->get('VuFind\Config')->get('config')
+        return $this->getServiceLocator()->get('VuFind\Config\PluginManager')->get('config')
             ->Site->theme;
     }
 

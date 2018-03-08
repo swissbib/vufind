@@ -65,7 +65,7 @@ class Factory
     public static function getRecordHelper(ServiceManager $sm)
     {
         return new \Swissbib\View\Helper\Record(
-            $sm->get('VuFind\Config')->get('config')
+            $sm->get('VuFind\Config\PluginManager')->get('config')
         );
     }
 
@@ -121,9 +121,9 @@ class Factory
     public static function getAuth(ServiceManager $sm)
     {
         $config = isset(
-            $sm->get('VuFind\Config')->get('config')
+            $sm->get('VuFind\Config\PluginManager')->get('config')
                 ->Authentication->noAjaxLogin
-        ) ? $sm->get('VuFind\Config')->get('config')
+        ) ? $sm->get('VuFind\Config\PluginManager')->get('config')
             ->Authentication->noAjaxLogin->toArray() : [];
 
         return new Auth(
@@ -141,7 +141,7 @@ class Factory
      */
     public static function getFacetTranslator(ServiceManager $sm)
     {
-        $config =  $sm->get('VuFind\Config')->get('facets')
+        $config =  $sm->get('VuFind\Config\PluginManager')->get('facets')
             ->Advanced_Settings->translated_facets->toArray();
         return new TranslateFacets($config);
     }
@@ -155,7 +155,7 @@ class Factory
      */
     public static function getLayoutClass(ServiceManager $sm)
     {
-        $config = $sm->get('VuFind\Config')->get('config');
+        $config = $sm->get('VuFind\Config\PluginManager')->get('config');
         $left = !isset($config->Site->sidebarOnLeft)
             ? false : $config->Site->sidebarOnLeft;
 
@@ -188,7 +188,7 @@ class Factory
      */
     public static function getSearchTabsHelper(ServiceManager $sm)
     {
-        $config = $sm->get('VuFind\Config')->get('config');
+        $config = $sm->get('VuFind\Config\PluginManager')->get('config');
         $tabConfig = [];
         if (isset($config->SearchTabs)) {
             $tabConfig['SearchTabs'] = $config->SearchTabs->toArray();
@@ -241,7 +241,7 @@ class Factory
      */
     public static function getPiwik(ServiceManager $sm)
     {
-        $config = $sm->get('VuFind\Config')->get('config');
+        $config = $sm->get('VuFind\Config\PluginManager')->get('config');
         $url = isset($config->Piwik->url) ? $config->Piwik->url : false;
         $siteId = isset($config->Piwik->site_id) ? $config->Piwik->site_id : 1;
         $customVars = isset($config->Piwik->custom_variables)

@@ -66,7 +66,7 @@ class Factory
      */
     public static function getMultiTreeGenerator(ServiceManager $sm)
     {
-        $config = $sm->get('VuFind\Config')->get('Config');
+        $config = $sm->get('VuFind\Config\PluginManager')->get('Config');
         $simpleTreeGenerator = $sm->get('Swissbib\Hierarchy\SimpleTreeGenerator');
 
         return new MultiTreeGenerator($config, $simpleTreeGenerator);

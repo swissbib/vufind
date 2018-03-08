@@ -55,7 +55,7 @@ class Factory
     public static function getFavoritesDataSource(ServiceManager $sm)
     {
         $objectCache = $sm->get('VuFind\CacheManager')->getCache('object');
-        $configManager = $sm->get('VuFind\Config');
+        $configManager = $sm->get('VuFind\Config\PluginManager');
 
         return new FavoritesDataSource($objectCache, $configManager);
     }
@@ -70,7 +70,7 @@ class Factory
     public static function getFavoritesManager(ServiceManager $sm)
     {
         $sessionStorage = $sm->get('VuFind\SessionManager')->getStorage();
-        $groupMapping = $sm->get('VuFind\Config')->get('libadmin-groups')
+        $groupMapping = $sm->get('VuFind\Config\PluginManager')->get('libadmin-groups')
             ->institutions;
         $authManager = $sm->get('VuFind\AuthManager');
 

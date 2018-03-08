@@ -55,7 +55,7 @@ class Factory
          *
          * @var Config $relationConfig
          */
-        $relationConfig = $sm->get('VuFind\Config')
+        $relationConfig = $sm->get('VuFind\Config\PluginManager')
             ->get('libadmin-groups');
         $institutionList = [];
 

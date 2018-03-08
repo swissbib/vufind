@@ -136,7 +136,7 @@ class FeedbackController extends VuFindFeedbackController
      */
     protected function sendMail(array $data)
     {
-        $config = $this->serviceLocator->get('VuFind\Config')->get('config');
+        $config = $this->serviceLocator->get('VuFind\Config\PluginManager')->get('config');
 
         // These settings are set in the feedback settion of your config.ini
         $feedback = isset($config->Feedback) ? $config->Feedback : null;

@@ -70,7 +70,7 @@ class TargetsProxyTestCase extends VuFindTestCase
             $iniReader = new \Zend\Config\Reader\Ini();
             $serviceLocator = new ServiceManager();
             $config = new Config($iniReader->fromFile($configFile));
-            $serviceLocator->setService('VuFind\Config', $config);
+            $serviceLocator->setService('VuFind\Config\PluginManager', $config);
             $targetsProxyConfig = new Config();
             $this->targetsProxy = new TargetsProxy(
                 $config,

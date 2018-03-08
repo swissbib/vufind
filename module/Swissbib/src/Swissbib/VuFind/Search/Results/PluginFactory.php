@@ -103,7 +103,7 @@ class PluginFactory extends VuFindResultsPluginFactory
         $sbSolrResults =  parent::createServiceWithName(
             $serviceLocator, $name, $requestedName, $extraParams
         );
-        $facetConfigs = $serviceLocator->get('VuFind\Config')
+        $facetConfigs = $serviceLocator->get('VuFind\Config\PluginManager')
             ->get($sbSolrResults->getOptions()->getFacetsIni());
         
         //todo

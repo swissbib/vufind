@@ -54,7 +54,7 @@ class Factory extends AbstractBaseFactory
     {
         return new RecordController(
             $sm,
-            $sm->get('VuFind\Config')->get('config')
+            $sm->get('VuFind\Config\PluginManager')->get('config')
         );
 
     }

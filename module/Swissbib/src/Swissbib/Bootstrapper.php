@@ -97,7 +97,7 @@ class Bootstrapper
     {
         $this->application = $event->getApplication();
         $this->serviceManager = $this->application->getServiceManager();
-        $this->config = $this->serviceManager->get('VuFind\Config')->get('config');
+        $this->config = $this->serviceManager->get('VuFind\Config\PluginManager')->get('config');
         $this->event = $event;
         $this->events = $this->application->getEventManager();
     }

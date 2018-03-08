@@ -66,24 +66,24 @@ class NationalLicences extends AbstractHelper
     public function __construct(ServiceManager $sm)
     {
         $this->sm = $sm;
-        $this->config = $sm->get('VuFind\Config')
+        $this->config = $sm->get('VuFind\Config\PluginManager')
             ->get("NationalLicences");
         $this->helperManager =  $sm->get('viewhelpermanager');
         $this->ipMatcher = new IpMatcher();
 
         $sectionPresent = !empty(
-            $sm->get('VuFind\Config')->get('config')->SwissAcademicLibraries
+            $sm->get('VuFind\Config\PluginManager')->get('config')->SwissAcademicLibraries
         );
         if ($sectionPresent) {
             $this->validIps = explode(
-                ",", $sm->get('VuFind\Config')
+                ",", $sm->get('VuFind\Config\PluginManager')
                     ->get('config')->SwissAcademicLibraries->patterns_ip
             );
         }
         $this->remoteAddress = new RemoteAddress();
         $this->remoteAddress->setUseProxy();
         $trustedProxies = explode(
-            ',', $sm->get('VuFind\Config')
+            ',', $sm->get('VuFind\Config\PluginManager')
                 ->get('TargetsProxy')->get('TrustedProxy')->get('loadbalancer')
         );
         $this->remoteAddress->setTrustedProxies($trustedProxies);

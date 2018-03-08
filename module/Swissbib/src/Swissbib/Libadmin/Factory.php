@@ -53,7 +53,7 @@ class Factory
      */
     public static function getLibadminImporter(ServiceManager $sm)
     {
-        $config = $sm->get('VuFind\Config')->get('config')->Libadmin;
+        $config = $sm->get('VuFind\Config\PluginManager')->get('config')->Libadmin;
         $languageCache = $sm->get('VuFind\CacheManager')->getCache('language');
 
         return new LibadminImporter($config, $languageCache);

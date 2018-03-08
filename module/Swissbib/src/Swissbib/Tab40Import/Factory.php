@@ -51,7 +51,7 @@ class Factory
      */
     public static function getTab40Importer(ServiceManager $sm)
     {
-        $config = $sm->get('VuFind\Config')->get('config')->tab40import;
+        $config = $sm->get('VuFind\Config\PluginManager')->get('config')->tab40import;
 
         return new Tab40Importer($config);
     }
