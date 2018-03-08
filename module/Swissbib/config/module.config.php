@@ -4,6 +4,7 @@ namespace Swissbib\Module\Config;
 
 use Swissbib\Controller\HelpPageController;
 use Swissbib\Controller\LibadminSyncController;
+use Swissbib\Controller\MyResearchController;
 use VuFind\Controller\AbstractBaseFactory;
 use VuFind\Controller\AjaxController;
 
@@ -267,17 +268,17 @@ return [
             //nicht getestet
             HelpPageController::class => AbstractBaseFactory::class,
             LibadminSyncController::class => 'Swissbib\Controller\Factory::getLibadminSyncController',
-            'my-research'   => 'Swissbib\Controller\Factory::getMyResearchController',
+            MyResearchController::class => AbstractBaseFactory::class,
             'console'       => 'Swissbib\Controller\Factory::getConsoleController'
         ],
         'aliases' => [
             'institutionFavorites' => 'Swissbib\Controller\FavoritesController',
             'helppage' => 'Swissbib\Controller\HelpPageController',
+            'my-research' => 'Swissbib\Controller\MyResearchController',
         ],
     ],
     'service_manager' => [
         'invokables' => [
-            'Swissbib\QRCode'                               => 'Swissbib\CRCode\QrCodeService',
             'MarcFormatter'                                 => 'Swissbib\XSLT\MARCFormatter',
         ],
         'factories' => [
