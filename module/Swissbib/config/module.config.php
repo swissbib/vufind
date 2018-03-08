@@ -5,6 +5,7 @@ namespace Swissbib\Module\Config;
 use Swissbib\Controller\HelpPageController;
 use Swissbib\Controller\LibadminSyncController;
 use Swissbib\Controller\MyResearchController;
+use Swissbib\Controller\NationalLicencesController;
 use VuFind\Controller\AbstractBaseFactory;
 use VuFind\Controller\AjaxController;
 
@@ -253,7 +254,7 @@ return [
             AjaxController::class => 'Swissbib\Controller\Factory::getAjaxController',
             'search' => 'Swissbib\Controller\SearchController',
             'record' => 'Swissbib\Controller\Factory::getRecordController',
-            'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
+            NationalLicencesController::class => AbstractBaseFactory::class,
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
             'summon' => 'Swissbib\Controller\Factory::getSummonController',
             'holdings' => 'Swissbib\Controller\Factory::getHoldingsController',
@@ -275,6 +276,7 @@ return [
             'institutionFavorites' => 'Swissbib\Controller\FavoritesController',
             'helppage' => 'Swissbib\Controller\HelpPageController',
             'my-research' => 'Swissbib\Controller\MyResearchController',
+            'national-licences' => 'Swissbib\Controller\NationalLicencesController',
         ],
     ],
     'service_manager' => [

@@ -72,21 +72,6 @@ class Factory extends AbstractBaseFactory
     }
 
     /**
-     * Construct the NationalLicenceController by injecting the
-     * NationalLicence service.
-     *
-     * @param ServiceManager $sm Service manager.
-     *                            
-     * @return NationalLicencesController
-     */
-    public function getNationalLicenceController(ServiceManager $sm)
-    {
-        return new NationalLicencesController(
-            $sm
-        );
-    }
-
-    /**
      * Construct the MyResearchNationalLicensesController by injecting the
      * NationalLicence service.
      *

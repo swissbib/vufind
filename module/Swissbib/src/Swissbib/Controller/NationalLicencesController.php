@@ -58,6 +58,7 @@ class NationalLicencesController extends BaseController
     {
         $this->nationalLicenceService = $sm->get('Swissbib\NationalLicenceService');
         $this->nationalLicenceService->setServiceLocator($sm);
+        parent::__construct($sm);
     }
 
     /**
