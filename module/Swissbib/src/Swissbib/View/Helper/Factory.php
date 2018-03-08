@@ -28,6 +28,8 @@
  */
 namespace Swissbib\View\Helper;
 
+use Zend\I18n\Translator\Translator;
+use Zend\I18n\View\Helper\Translate;
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -143,5 +145,12 @@ class Factory
     public static function getConfig(ServiceManager $sm)
     {
         return new  Config($sm);
+    }
+
+    public static function getTranslator(ServiceManager $sm)
+    {
+        $translator = new Translate();
+        $translator->setTranslator(new Translator());
+        return $translator;
     }
 }

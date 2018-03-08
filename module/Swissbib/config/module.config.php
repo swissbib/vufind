@@ -344,7 +344,7 @@ return [
             'subjectHeadingFormatter'        => 'Swissbib\View\Helper\SubjectHeadings',
             'SortAndPrepareFacetList'        => 'Swissbib\View\Helper\SortAndPrepareFacetList',
             'tabTemplate'                    => 'Swissbib\View\Helper\TabTemplate',
-            'zendTranslate'                  => 'Zend\I18n\View\Helper\Translate',
+            //'zendTranslate'                  => 'Zend\I18n\View\Helper\Translate',
             'getVersion'                     => 'Swissbib\View\Helper\GetVersion',
             'holdingActions'                 => 'Swissbib\View\Helper\HoldingActions',
             'availabilityInfo'               => 'Swissbib\View\Helper\AvailabilityInfo',
@@ -355,6 +355,7 @@ return [
             'layoutClass'                    => 'Swissbib\View\Helper\LayoutClass'
         ],
         'factories'  => [
+            'zendTranslate'                             =>  'Swissbib\View\Helper\Factory::getTranslator',
             'configAccess'                              =>  'Swissbib\View\Helper\Factory::getConfig',
             'institutionSorter'                         =>  'Swissbib\View\Helper\Factory::getInstitutionSorter',
             'extractFavoriteInstitutionsForHoldings'    =>  'Swissbib\View\Helper\Factory::getFavoriteInstitutionsExtractor',
