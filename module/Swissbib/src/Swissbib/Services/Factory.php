@@ -255,8 +255,6 @@ class Factory
             );
         }
 
-
-
         /**
          * Publishers List
          *
