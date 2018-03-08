@@ -242,10 +242,20 @@ class Factory
      */
     public static function getPuraService(ServiceManager $sm)
     {
-        $dataDir = realpath(APPLICATION_PATH . '/data');
-        $filePath = $dataDir . '/pura/publishers-libraries.json';
-        $publishersJsonData
-            = file_exists($filePath) ? file_get_contents($filePath) : '';
+        //$dataDir = realpath(APPLICATION_PATH . '/data');
+        //$filePath = $dataDir . '/pura/publishers-libraries.json';
+
+        $filePath = 'http://pura.swissbib.ch/publishers-libraries.json';
+
+        $publishersJsonData = file_get_contents($filePath);
+
+        if ($publishersJsonData === false) {
+            throw new \Exception(
+                'Error when reading ' . $filePath . '.'
+            );
+        }
+
+
 
         /**
          * Publishers List
