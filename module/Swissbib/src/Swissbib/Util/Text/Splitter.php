@@ -114,8 +114,9 @@ class Splitter
      * an object with the same structure as returned by the split() method except
      * that 'overflow' is expected to contain more then one result.
      * 
-     * @param string $text   The text to split.
-     * @param array  $limits A sequence of positions where ideally to split the text.
+     * @param string $text      The text to split.
+     * @param array  ...$limits A sequence of positions where ideally to split the
+     *                          text.
      * 
      * @return \stdClass
      */
@@ -180,9 +181,9 @@ class Splitter
      * Batch processing variant of {@link #calculateSplitPoint}. Invalid split
      * positions are filtered.
      * 
-     * @param string $text   The text to split.
-     * @param array  $limits A sequence of words resp. characters after which to
-     *                       apply the split.
+     * @param string $text      The text to split.
+     * @param array  ...$limits A sequence of words resp. characters after which to
+     *                          apply the split.
      * 
      * @return array
      * An array of integers representing the calculated split positions.
@@ -191,7 +192,7 @@ class Splitter
     {
         $splitPoints = [];
 
-        foreach($limits as $limit) {
+        foreach ($limits as $limit) {
             $splitPoint = $this->calculateSplitPoint($text, $limit);
             if ($splitPoint !== 0) {
                 $splitPoints[] = $splitPoint;

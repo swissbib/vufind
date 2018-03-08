@@ -265,7 +265,7 @@ class ESPerson extends AbstractHelper
      * @param bool $countWords Indicates whether $splitPoint expresses the number of
      *                         words (true) or characters (false) after which
      *                         truncation has to be performed.
-     * @param int  $limits     Indicates after how many words (or characters) to
+     * @param int  ...$limits  Indicates after how many words (or characters) to
      *                         split. Can be any number of integer values. If not
      *                         specified then the default split point will be at 30
      *                         characters/words.
