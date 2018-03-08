@@ -73,7 +73,7 @@ authorid="${p.id}"></span></a></li>`;
     // add 'collapse' class to page-anchors list on load when screen size is in the xs range
     const pageAnchorsMenuCollapseCallback = (query: string): void => {
         const className: string = Breakpoints.BOOSTTRAP_MIN.xs === query ? "collapse" : "collapse in";
-        $("#detailpage-person-anchors").addClass(className);
+        $("#detailpage-section-anchors").addClass(className);
     };
 
     mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.xs, pageAnchorsMenuCollapseCallback);
