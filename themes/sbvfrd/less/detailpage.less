@@ -109,14 +109,17 @@ button.accordion-collapse {
   }
 }
 
-@media (max-width: @screen-sm-max) {
-  .detailpage-common {
-    padding-right: 0;
-  }
-}
+
 
 .detailpage-media-list-wrapper {
   padding-right: 1.5rem;
+}
+
+@media (max-width: @screen-sm-max) {
+  .detailpage-common,
+  .detailpage-media-list-wrapper {
+    padding-right: 0;
+  }
 }
 
 .tagcloud {

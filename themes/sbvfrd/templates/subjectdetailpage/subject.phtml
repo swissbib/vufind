@@ -1,7 +1,6 @@
 <? $this->essubject()->setSubject($this->driver) ?>
 
 <div id="detailpage">
-<div class="container">
     <div class="row">
         <div class="col-sm-3 col-sm-push-9">
             <?= $this->render('navigation.phtml') ?>
@@ -10,8 +9,6 @@
             <?= $this->render('common.phtml') ?>
         </div>
     </div>
-</div>
 
-<?= $this->render('relations.phtml') ?>
-<?# var_dump($this->driver->getAllFields()) ?>
+    <?= $this->render('relations.phtml') ?>
 </div>
