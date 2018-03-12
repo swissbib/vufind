@@ -179,7 +179,8 @@ class ElasticSearchSearch extends AbstractPlugin
     public function searchContributorsOfSubject(
         string $id, int $resultSize, int $searchSize, int $page
     ): Results {
-        $bibliographicResources = $this->searchBibliographiResourcesOfSubject($id, $searchSize);
+        $bibliographicResources
+            = $this->searchBibliographiResourcesOfSubject($id, $searchSize);
         return $this->searchCoContributorsFrom(
             $bibliographicResources, $id, $resultSize, $page
         );
