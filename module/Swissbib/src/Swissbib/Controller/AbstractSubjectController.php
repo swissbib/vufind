@@ -45,6 +45,7 @@ abstract class AbstractSubjectController extends AbstractDetailsController
      * @var \ElasticSearch\VuFind\RecordDriver\ESSubject
      */
     protected $driver;
+    protected $bibliographicResources;
 
     /**
      * DetailPageController constructor.
@@ -128,5 +129,19 @@ abstract class AbstractSubjectController extends AbstractDetailsController
             $this->arrayToSearchString($ids), "id", "gnd", "DEFAULT",
             $this->config->subjectsSize
         )->getResults();
+    }
+
+    /**
+     * Gets the  BibliographicResources
+     *
+     * @param string $id The id of the subject
+     *
+     * @return array
+     */
+    protected function getBibliographicResourcesOf(string $id): array
+    {
+        $searchSize = $this->config->searchSize;
+        return $this->elasticsearchsearch()
+            ->searchBibliographiResourcesOfSubject($id, $searchSize);
     }
 }

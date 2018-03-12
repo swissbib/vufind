@@ -77,9 +77,8 @@ class SubjectDetailPageController extends AbstractSubjectController
             // complex resolution jobs again
             $driver = $viewModel->driver;
 
-            $this->bibliographicResources = $this->getBibliographicResourcesOf(
-                $info->id
-            );
+            $this->bibliographicResources
+                = $this->getBibliographicResourcesOf($this->driver->getUniqueID());
             $this->subjectIds = $this->getSubjectIdsFrom();
             $this->subjects = $this->getSubjectsOf();
 
@@ -126,5 +125,27 @@ class SubjectDetailPageController extends AbstractSubjectController
             )->getResults();
             $viewModel->setVariable("relatedTerms", $relatedTerms);
         }
+        $personIds = $this->getContributorsIdsFrom();
+        if (isset($personIds)) {
+            $viewModel->setVariable("personsTotal", count($personIds));
+        }
+    }
+
+    /**
+     * Gets the subject ids from the bibliographic resources
+     *
+     * @return array
+     */
+    protected function getContributorsIdsFrom(): array
+    {
+        $ids = [];
+        // @var ESBibliographicResource $bibliographicResource
+        foreach ($this->bibliographicResources as $bibliographicResource) {
+            $persons = $bibliographicResource->getContributors();
+            if (count($persons) > 0) {
+                $ids = array_merge($ids, $persons);
+            }
+        }
+        return array_unique($ids);
     }
 }
