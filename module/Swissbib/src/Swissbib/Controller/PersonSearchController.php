@@ -63,7 +63,7 @@ class PersonSearchController extends AbstractBase
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
         $limit = $this->getRequest()->getQuery()['limit'] ?? 20;
 
-        $authors = $this->elasticsearchsearch()->searchCoContributorsOf(
+        $authors = $this->elasticsearchsearch()->searchCoContributorsOfPerson(
             $id, $limit, $this->config->searchSize ?? 100, $page
         );
 
