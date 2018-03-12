@@ -4,6 +4,7 @@
   .title {
     font-size: 1.14rem;
     display: inline-block;
+    padding-left: 0.36rem;
 
     &:first-child,
     &:first-child + button.accordion-collapse {
@@ -36,15 +37,19 @@
 }
 
 .below {
-  margin-bottom: -4.286rem;
+  margin-bottom: 3.57rem;
 
-  & > .record-references {
+  & .record-references {
     margin-top: 2.35rem;
-
-    ul > li:last-child {
-      border-bottom: 0 none;
-    }
   }
+
+  & + .separator {
+    display: none;
+  }
+}
+
+.row .below .collapse.in + .separator {
+  border-color: red;
 }
 
 .page-anchors {
@@ -95,13 +100,28 @@ button.accordion-collapse {
     margin-top: 0;
   }
 
+  .record-thumbnail {
+    width: 100%;
+  }
+
   .row.metadata:not(:last-child) {
     margin-bottom: 0.79rem;
   }
+
+  .row.metadata:first-of-type {
+    margin-top: 1.79rem;
+  }
+}
+
+
+
+.detailpage-media-list-wrapper {
+  padding-right: 1.5rem;
 }
 
 @media (max-width: @screen-sm-max) {
-  .detailpage-common {
+  .detailpage-common,
+  .detailpage-media-list-wrapper {
     padding-right: 0;
   }
 }
@@ -127,6 +147,18 @@ button.accordion-collapse {
 }
 
 
+@media (max-width: @screen-sm-max) {
+  .page-anchors {
+    margin-top: 1.43rem;
+    margin-bottom: 2.11rem;
+  }
+
+  .detailpage-common {
+    margin-top: 0;
+    padding-right: 0;    
+  }
+}
+
 @media (max-width: @screen-xs-max) { 
   .abstract-text.overflow-hidden:after {
     content: '\2026';
@@ -151,5 +183,25 @@ button.accordion-collapse {
   //display: none;
   &.hidden {
     display: none;
+  }
+}
+
+#detailpage {
+
+  h2 {
+    font-size: 1.57143rem;
+
+    &.subject {
+      margin-top: 0;
+    }
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  #detailpage {
+
+    h2 {
+      font-size: 1.35714rem;
+    }
   }
 }
