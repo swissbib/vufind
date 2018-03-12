@@ -27,6 +27,11 @@ export default class SectionLoader {
 
     /**
      * @private
+     */
+    private callback: ResultCallback;
+
+    /**
+     * @private
      * Storage for the loading property.
      */
     private _loading: boolean;
@@ -58,21 +63,36 @@ export default class SectionLoader {
      * Invoked when the result has been received from the search backend.
      */
     public load(callback: ResultCallback) {
-        if (this.loading) {
+        if (this.request) {
             this.request.abort();
+            this.cleanup();
         }
 
-        let autoSuggest: AutoSuggest = this.autoSuggest;
-        let section: Section = this.section;
+        this.callback = callback;
 
         this.request = $.ajax({
             dataType: "json",
-            success: (result: SearchResult) => {
-                const converter: SearchResultConverter = new SearchResultConverter();
-                section.result = converter.convert(autoSuggest.configuration, result);
-                autoSuggest.updateResultsContainer(callback);
-            },
-            url: autoSuggest.configuration.getSectionAutoSuggestLink(section),
+            success: this.successHandler,
+            error: this.errorHandler,
+            url: this.autoSuggest.configuration.getSectionAutoSuggestLink(this.section)
         });
+    }
+
+    private successHandler = (result: SearchResult, status: string, request:jqXHR) => {
+        if (this.request === request) {
+            const converter: SearchResultConverter = new SearchResultConverter();
+            this.section.result = converter.convert(this.autoSuggest.configuration, result);
+            this.autoSuggest.updateResultsContainer(this.callback);
+        }
+        this.cleanup();
+    };
+
+    private cleanup(): void {
+        this.request = null;
+        this.callback = null;
+    }
+
+    private errorHandler = (request: jqXHR, status: string, error: string) => {
+        this.cleanup();
     }
 }

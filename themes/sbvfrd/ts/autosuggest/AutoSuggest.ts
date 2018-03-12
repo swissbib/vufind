@@ -40,6 +40,11 @@ export default class AutoSuggest {
 
     /**
      * @private
+     */
+    private autocompleteInstance: any;
+
+    /**
+     * @private
      * The element that renders the results of the auto-suggest search.
      */
     private resultListContainerElement: JQuery<HTMLElement>;
@@ -142,10 +147,15 @@ export default class AutoSuggest {
 
         if (collection.groups.length === 1) {
             // in case only one section is available, then simply use its items to exclude section header
-            collection.groups[0] = (collection.groups[0] as ItemSection).items;
+            collection.groups[0] = {
+                label: undefined,
+                items: (collection.groups[0] as ItemSection).items
+            };
         }
 
         this.applyResults(collection, callback);
+        this.searchInputElement.removeClass('hidden');//autocomplete('show');
+        this.autocompleteInstance.show();
     }
 
     /**
@@ -155,7 +165,7 @@ export default class AutoSuggest {
         this.searchInputElement = $(this.searchInputSelector);
 
         if (this.configuration.enabled) {
-            this.searchInputElement.autocomplete({
+            this.autocompleteInstance = this.searchInputElement.autocomplete({
                 handler: this.autoCompleteHandler,
             });
         }
