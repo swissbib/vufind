@@ -143,6 +143,17 @@ class ESSubject extends AbstractHelper
     }
 
     /**
+     * Provides the link to the subject based authors search result page.
+     * 
+     * @return string
+     */
+    public function getSubjectAuthorsLink(): string
+    {
+        // TODO: Implement link resolution once the required route becomes available
+        return '#';
+    }
+
+    /**
      * Gets the  VariantNames
      *
      * @param string $delimiter The delimiter
