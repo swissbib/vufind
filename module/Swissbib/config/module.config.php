@@ -212,7 +212,7 @@ return [
                     ]
                 ]
             ],
-            'person-search-subject' => [
+            'persons-search-subject' => [
                 'type'    => 'literal',
                 'options' => [
                     'route'    => '/Search/Persons/Subject',
