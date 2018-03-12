@@ -212,6 +212,16 @@ return [
                     ]
                 ]
             ],
+            'person-search-subject' => [
+                'type'    => 'literal',
+                'options' => [
+                    'route'    => '/Search/Persons/Subject',
+                    'defaults' => [
+                        'controller' => 'person-search',
+                        'action'     => 'subject'
+                    ]
+                ]
+            ],
         ]
     ],
     'console' => [
@@ -319,7 +329,7 @@ return [
             'subject-knowledge-card' => 'Swissbib\Controller\Factory::getSubjectKnowledgeCardController',
             'person-detail-page' => 'Swissbib\Controller\Factory::getPersonDetailPageController',
             'subject-detail-page' => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
-            'person-search' => 'Swissbib\Controller\Factory::getPersonSearchController'
+            'person-search' => 'Swissbib\Controller\Factory::getPersonSearchController',
         ]
     ],
     'controller_plugins' => [
