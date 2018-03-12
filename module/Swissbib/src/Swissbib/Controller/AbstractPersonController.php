@@ -130,4 +130,18 @@ abstract class AbstractPersonController extends AbstractDetailsController
             new ZendConfig($recordReferencesConfig)
         );
     }
+
+    /**
+     * Gets the  BibliographicResources
+     *
+     * @param string $id The id of the author
+     *
+     * @return array
+     */
+    protected function getBibliographicResourcesOf(string $id): array
+    {
+        $searchSize = $this->config->searchSize;
+        return $this->elasticsearchsearch()
+            ->searchBibliographiResourcesOfPerson($id, $searchSize);
+    }
 }
