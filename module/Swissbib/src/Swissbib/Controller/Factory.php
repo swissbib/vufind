@@ -176,6 +176,19 @@ class Factory
     }
 
     /**
+     * Get Person Search Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\PersonSearchController
+     */
+    public static function getPersonSearchController(ServiceManager $sm)
+    {
+        $serviceLocator = $sm->getServiceLocator();
+        return new PersonSearchController($serviceLocator);
+    }
+
+    /**
      * Get Subject Detail Page Controller
      *
      * @param \Zend\ServiceManager\ServiceManager $sm Service manager
