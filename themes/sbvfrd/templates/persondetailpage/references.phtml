@@ -3,8 +3,9 @@
 <? if ($this->esperson()->hasMatchingRecordReferences($configuredReferences)): ?>
 <div class="record-references <?= $this->visibility ?>">
     <h1 class="title"><?= $this->translate('page.detail.person.more') ?></h1>
+    <button class="accordion-collapse icon-arrow-accordion hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-section-references-<?= $this->index ?>"></button>
     <div class="list">
-        <ul id="detailpage-person-references">
+        <ul id="detailpage-section-references-<?= $this->index ?>">
             <? foreach ($this->esperson()->getSameAs() as $link): ?>
             <li><?= $this->render($template, $this->esperson()->getRecordReference($link, $configuredReferences)) ?></li>
             <? endforeach; ?>

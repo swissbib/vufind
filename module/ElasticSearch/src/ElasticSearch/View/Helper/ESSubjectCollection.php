@@ -82,20 +82,21 @@ class ESSubjectCollection extends AbstractHelper
     /**
      * Gets the SubjectCollectionLinkList
      *
-     * @param string $template  The template
-     * @param string $separator The seperator
+     * @param string $template    The template
+     * @param string $routePrefix The route prefix
+     * @param string $separator   The seperator
      *
      * @return string
      */
     public function getSubjectCollectionLinkList(
-        string $template, string $separator = ', '
+        string $template, string $routePrefix, string $separator = ', '
     ): string {
         $helper = $this->getSubjectHelper();
         $subjects = [];
 
         foreach ($this->_collection as $subject) {
             $helper->setSubject($subject);
-            $subjects[] = $helper->getSubjectLink($template);
+            $subjects[] = $helper->getSubjectLink($template, $routePrefix);
         }
 
         $helper->setSubject(null);

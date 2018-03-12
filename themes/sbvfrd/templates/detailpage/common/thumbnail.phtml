@@ -1,4 +1,4 @@
-<img data-person-thumbnail-id="<?= $this->id ?>" alt="<?= $this->esperson()->getDisplayName() ?>" />
+<img class="record-thumbnail" data-person-thumbnail-id="<?= $this->id ?>" alt="<?= $this->esperson()->getDisplayName() ?>" />
 <script>
     swissbib.imageSequence.register($('*[data-person-thumbnail-id="<?= $this->id ?>"]'), <?= json_encode($this->paths) ?>).process();
 </script>

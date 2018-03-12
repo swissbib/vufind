@@ -1,14 +1,15 @@
 <? $this->esperson()->setPerson($this->driver) ?>
 <? $this->essubjectcollection()->setCollection($this->subjects) ?>
 
-<div class="row">
-    <div class="col-md-3 col-md-push-9">
-        <?= $this->render('navigation.phtml') ?>
+<div id="detailpage">
+    <div class="row">
+        <div class="col-md-3 col-md-push-9">
+            <?= $this->render('navigation.phtml') ?>
+        </div>
+        <div class="col-md-9 col-md-pull-3">
+            <?= $this->render('common.phtml') ?>
+        </div>
     </div>
-    <div class="col-md-9 col-md-pull-3">
-        <?= $this->render('common.phtml') ?>
-    </div>
-</div>
 
-<?= $this->render('relations.phtml') ?>
-<? #var_dump($this->driver->getAllFields()) ?>
+    <?= $this->render('relations.phtml') ?>
+</div>

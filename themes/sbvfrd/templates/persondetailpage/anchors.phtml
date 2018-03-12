@@ -1,9 +1,9 @@
 <? $template = '/detailpage/common/anchor.phtml' ?>
 <div class="page-anchors">
     <h1 class="title"><?= $this->translate('page.detail.anchors.title') ?></h1>
-    <button class="accordion-collapse icon-arrow-accordion hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-person-anchors"></button>
+    <button class="accordion-collapse icon-arrow-accordion hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-section-anchors"></button>
     <div class="list">
-        <ul id="detailpage-person-anchors">
+        <ul id="detailpage-section-anchors">
             <li><?= $this->render($template, ['name' => 'common', 'label' => $this->esperson()->resolveLabelWithDisplayName('page.detail.person.common')]) ?></li>
             <li><?= $this->render($template, ['name' => 'medias', 'label' => $this->esperson()->resolveLabelWithDisplayName('page.detail.person.media.list.title')]) ?></li>
             <? if ($this->coContributorsTotal > 0): ?>
