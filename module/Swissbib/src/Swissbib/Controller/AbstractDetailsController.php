@@ -103,19 +103,11 @@ abstract class AbstractDetailsController extends AbstractBase
     /**
      * Gets the  BibliographicResources
      *
-     * @param string $id The id of the author
+     * @param string $id The id
      *
      * @return array
      */
-    protected function getBibliographicResourcesOf(string $id): array
-    {
-        $searchSize = $this->config->searchSize;
-        return $this->elasticsearchsearch()->searchElasticSearch(
-            "http://data.swissbib.ch/person/" . $id,
-            "bibliographicResources_by_author", "lsb", "bibliographicResource",
-            $searchSize
-        )->getResults();
-    }
+    abstract protected function getBibliographicResourcesOf(string $id): array;
 
     /**
      * Gets the Subjects of the bibliographic resources
