@@ -105,4 +105,22 @@ class PersonSearchController extends AbstractBase
 
         return $this->createViewModel(["results" => $authors]);
     }
+
+    /**
+     * The action for same subject authors
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function subjectAction()
+    {
+        $id = $this->getRequest()->getQuery()['lookfor'] ?? "";
+        $page = $this->getRequest()->getQuery()['page'] ?? 1;
+        $limit = $this->getRequest()->getQuery()['limit'] ?? 20;
+
+        $authors = $this->elasticsearchsearch()->searchContributorsOfSubject(
+            $id, $limit, $this->config->searchSize ?? 100, $page
+        );
+
+        return $this->createViewModel(["results" => $authors]);
+    }
 }

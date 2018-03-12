@@ -135,6 +135,11 @@ class AjaxController extends VFAjaxController
         return $this->buildResponse($authors, $this->getAuthorPaginationSpec());
     }
 
+    /**
+     * Gets authors by subject, supports pagination
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
     protected function getSubjectAuthorsAjax()
     {
         $id = $this->getRequest()->getQuery()['subject'] ?? "";
