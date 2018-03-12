@@ -8,7 +8,9 @@
             <? if ($this->medias->getResultTotal() > 0): ?>
             <li><?= $this->render($template, ['name' => 'medias', 'label' => $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.media.list.title')]) ?></li>
             <? endif; ?>
+            <? if ($this->subjectAuthorsTotal > 0): ?>
             <li><?= $this->render($template, ['name' => 'authors', 'label' => $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.authors')]) ?></li>
+            <? endif; ?>
             <? if ($this->parentMedias->getResultTotal() > 0): ?>
             <li><?= $this->render($template, ['name' => 'medias-parents', 'label' => $this->translate('page.detail.subject.media.parents')]) ?></li>
             <? endif; ?>

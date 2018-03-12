@@ -149,8 +149,7 @@ class ESSubject extends AbstractHelper
      */
     public function getSubjectAuthorsLink(): string
     {
-        // TODO: Implement link resolution once the required route becomes available
-        return '#';
+        return $this->getPersonsSearchLink('subject');
     }
 
     /**
