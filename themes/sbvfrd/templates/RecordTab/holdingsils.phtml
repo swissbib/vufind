@@ -6,9 +6,9 @@ $titleStatement = $record->getTitleStatement(true);
 
 
 /** @var Swissbib\View\Helper\Record $viewRecord */
-$viewRecord     = $this->record($record);
-$responsible          = $viewRecord->getResponsible($titleStatement, $record);
-$formats              = $record->getFormats();
+$viewRecord  = $this->record($record);
+$responsible = $viewRecord->getResponsible($titleStatement, $record);
+$formats     = $record->getFormats();
 
 //for the head title
 $extendedTitle = '';
@@ -20,7 +20,7 @@ if (isset($responsible)) {
 $extendedTitle .= '. ';
 
 if (isset($formats) and isset($formats[0])) {
-    $extendedTitle .= $this->transEsc($formats[0]) . '.';
+    $extendedTitle .= $this->zendTranslate($formats[0], 'formats') . '.';
 }
 
 $holdings = $record->getHoldingsStructure();
