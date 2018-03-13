@@ -92,10 +92,19 @@ class SwitchApiServiceTest extends VuFindTestCase
         );
         $configSwitchAPI = $configFull['SwitchApi'];
 
-        $config = new Config(
-            $iniReader->fromFile($path . 'config.ini')
-        );
-        $credentials = $config['SwitchApiCredentials'];
+        //on Travis the credentials for switch api are stored as an
+        //environment variable, defined in travis repository settings
+        if (getenv('TRAVIS_SWITCH_API_AUTH_USER')) {
+            $credentials['auth_user']
+                = getenv('TRAVIS_SWITCH_API_AUTH_USER');
+            $credentials['auth_password']
+                = getenv('TRAVIS_SWITCH_API_AUTH_PASSWORD');
+        } else {
+            $configIni = new Config(
+                $iniReader->fromFile($path . 'config.ini')
+            );
+            $credentials = $configIni['SwitchApiCredentials'];
+        }
 
         $config = array_merge($credentials->toArray(), $configSwitchAPI->toArray());
 
