@@ -375,7 +375,7 @@ class ESPerson extends ElasticSearch
     protected function extractDate(string $date = null)
     {
         if ($date !== null) {
-            return new \DateTime($date);
+            return $this->bestGuessDate($date);
         }
         return null;
     }
@@ -403,5 +403,24 @@ class ESPerson extends ElasticSearch
     public function getAllFields()
     {
         return $this->fields;
+    }
+
+    /**
+     * Tries to guess the date from the input string
+     *
+     * @param string $date The date
+     *
+     * @return \DateTime
+     */
+    protected function bestGuessDate(string $date): \DateTime
+    {
+        if (preg_match('/^\d{2}$/', $date)) {
+            return \DateTime::createFromFormat("y", $date);
+        }
+        if (preg_match('/^\d{4}$/', $date)) {
+            return \DateTime::createFromFormat("Y", $date);
+        }
+
+        return new \DateTime($date);
     }
 }
