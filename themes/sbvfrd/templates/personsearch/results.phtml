@@ -1,12 +1,7 @@
 <? $recordTotal = $this->recordTotal = $this->results->getResultTotal(); ?>
 <div class="hidden-print search-controls clearfix row">
     <div class="col-lg-6 col-md-7 col-sm-7">
-        <?= $this->paginationControl(
-            $this->results->getPaginator(), 'Sliding', 'search/pagination.phtml', [
-                'results' => $this->results, 'recordTotal' => $recordTotal,
-                'params' => $this->params, 'lookfor' => $this->lookfor
-            ]
-        ) ?>
+        <?= $this->render('pagination.phtml', ['results' => $this->results]) ?>
     </div>
 </div>
 <div class="container">
@@ -16,4 +11,4 @@
         </div>
     <? endforeach; ?>
 </div>
-<?= $this->paginationControl($this->results->getPaginator(), 'Sliding', 'search/pagination.phtml', array('results' => $this->results, 'recordTotal' => $recordTotal, 'params' => $this->params, 'lookfor' => $this->lookfor, 'hideHits' => true)) ?>
+<?= $this->render('pagination.phtml', ['results' => $this->results, 'hideHits' => true]) ?>

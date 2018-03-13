@@ -470,4 +470,20 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
         return sprintf($template, $url, $label);
     }
 
+    /**
+     * Resolves the given search to a link that uses the underlying record's
+     * unique identifier as lookup query parameter.
+     *
+     * @param string $search The person search to perform.
+     *
+     * @return string
+     */
+    protected function getPersonsSearchLink(string $search): string
+    {
+        $id = urlencode($this->getDriver()->getUniqueID());
+        $route = sprintf('persons-search-%s', $search);
+
+        return sprintf('%s?lookfor=%s', $this->getView()->url($route), $id);
+    }
+
 }

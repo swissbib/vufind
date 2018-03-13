@@ -476,7 +476,7 @@ class ESPerson extends AbstractHelper
      */
     public function getCoauthorsSearchLink(): string
     {
-        return $this->getNameBasedSearchLink('coauthor');
+        return $this->getPersonsSearchLink('coauthor');
     }
 
     /**
@@ -486,7 +486,7 @@ class ESPerson extends AbstractHelper
      */
     public function getSameMovementSearchLink(): string
     {
-        return $this->getNameBasedSearchLink('samemovement');
+        return $this->getPersonsSearchLink('samemovement');
     }
 
     /**
@@ -496,22 +496,6 @@ class ESPerson extends AbstractHelper
      */
     public function getSameGenreSearchLink(): string
     {
-        return $this->getNameBasedSearchLink('samegenre');
-    }
-
-    /**
-     * Resolves the given search to a link that uses the underlying person record's
-     * name as lookup query parameter.
-     *
-     * @param string $search The person search to perform.
-     *
-     * @return string
-     */
-    protected function getNameBasedSearchLink(string $search): string
-    {
-        $name = urlencode($this->getPerson()->getName());
-        $route = sprintf('persons-search-%s', $search);
-
-        return sprintf('%s?lookfor=%s', $this->getView()->url($route), $name);
+        return $this->getPersonsSearchLink('samegenre');
     }
 }

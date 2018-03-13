@@ -127,7 +127,7 @@ class SubjectDetailPageController extends AbstractSubjectController
         }
         $personIds = $this->getContributorsIdsFrom();
         if (isset($personIds)) {
-            $viewModel->setVariable("personsTotal", count($personIds));
+            $viewModel->setVariable("subjectAuthorsTotal", count($personIds));
         }
     }
 
