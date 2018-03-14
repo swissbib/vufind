@@ -792,3 +792,14 @@ Autosuggest:
       - [and, 50]
       - [or, 20]
 
+AuthorSuggest:
+  DismaxHandler: edismax
+  DismaxFields:
+    - author
+  QueryFields:
+    author:
+      - [onephrase, 350]
+      - [and, 200]
+      - [or, 100]
+  DismaxParams:
+    - [mm, '100%']
