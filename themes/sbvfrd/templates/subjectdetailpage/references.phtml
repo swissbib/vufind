@@ -2,7 +2,7 @@
 <? $template = '/detailpage/common/reference.phtml' ?>
 <? if ($this->essubject()->hasMatchingRecordReferences($configuredReferences)): ?>
 <div class="record-references hidden-xs hidden-sm">
-    <h1 class="title"><?= $this->translate('page.detail.person.more') ?></h1>
+    <h1 class="title"><?= $this->translate('page.detail.subject.more') ?></h1>
     <div class="list">
         <ul id="detailpage-subject-references">
             <? foreach ($this->essubject()->getSameAs() as $link): ?>
