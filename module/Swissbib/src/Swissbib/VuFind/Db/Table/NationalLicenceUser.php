@@ -83,7 +83,16 @@ class NationalLicenceUser extends Gateway
     ) {
         if (empty($persistentId)) {
             throw new \Exception(
-                'The persistent-id is mandatory for creating a National Licence User'
+                'The persistent-id is mandatory to create a National Licence User.'
+            );
+        }
+
+        $eduIdNumber
+            = isset($fieldsValue['edu_id']) ? $fieldsValue['edu_id'] : null;
+
+        if (empty($eduIdNumber)) {
+            throw new \Exception(
+                'The edu-id number is mandatory to create a National Licence User.'
             );
         }
 
