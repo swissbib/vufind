@@ -24,6 +24,9 @@
   // Set global path for Javascript code:
   $this->headScript()->prependScript("path = '" . rtrim($this->url('home'), '/') . "';");
 
+  // add polyfill for ES6 Promise component as some scripts rely on ot
+  $this->headScript()->appendFile('https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js');
+
   // Deal with cart stuff:
   if (!isset($this->renderingError)) {
     $cart = $this->cart();
