@@ -1,7 +1,7 @@
 <h1>Suchen</h1>
 
 <h2>Suchbegriffe kombinieren</h2>
-<p>Boolsche Operatoren (AND, OR, NOT) erlauben es, Suchbegriffe logisch miteinander zu verknüpfen. Boolsche Operatoren werden groß geschrieben.</p>
+<p>Boolesche Operatoren (AND, OR, NOT) erlauben es, Suchbegriffe logisch miteinander zu verknüpfen. Boolesche Operatoren werden groß geschrieben.</p>
 <table class="table table-striped">
     <tbody>
     <tr>
@@ -25,6 +25,10 @@
         <td>Siehe <a class="help-link" data-lightbox href="<?=$this->url('help-home')?>?topic=search" title="<?=$this->transEsc('Help with Search Operators')?>"><?=$this->transEsc("Help with Search Operators")?></a>.
         </td>
     </tr>
+    <tr>
+        <td><i>joyce AND (ulysses OR dubliners) NOT exiles</i></td>    
+        <td>Bei der Kombination mit mehreren Boolschen Operatoren muss AND ausgeschrieben werden.</td>  
+     </tr>   
     </tbody>
 </table>
 <br />
@@ -79,3 +83,6 @@
     </tr>
     </tbody>
 </table>
+
+<h2>Komposita</h2>
+<p>Zusammengesetzte Wörter wie z.B. <i>Literatur-Lexikon</i> / <i>Literaturlexikon</i> / <i>Literatur Lexikon</i> werden in swissbib Basel Bern am besten gefunden, wenn sie in der Suchmaske mit Bindestrich geschrieben werden. So findet <i>Literatur-Lexikon</i> Aufnahmen mit <i>Literatur-Lexikon</i>, <i>Literatur Lexikon</i> und <i>Literaturlexikon</i>.</p>
