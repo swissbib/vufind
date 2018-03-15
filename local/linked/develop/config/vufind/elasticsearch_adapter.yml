@@ -168,6 +168,20 @@ parameters:
             term:
               'dct:contributor': '{q}'
 
+    bibliographicResources_by_subject:
+      type: 'bibliographicResource'
+      index: 'lsb'
+      size: '{size}'
+      from: '{from}'
+      query:
+        bool:
+          must:
+            match_all:
+              - '{}'
+          filter:
+            term:
+              'dct:subject': '{q}'
+
     person_by_genre:
       type: 'person'
       index: 'lsb'

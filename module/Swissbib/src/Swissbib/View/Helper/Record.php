@@ -648,6 +648,8 @@ class Record extends VuFindRecord
 
         if (is_array($thumbnails) && count($thumbnails) > 0) {
             $result = $thumbnails[0];
+        } else if (is_string($thumbnails)) {
+            $result = $thumbnails;
         }
 
         if (is_null($result)) {
@@ -655,6 +657,33 @@ class Record extends VuFindRecord
         }
 
         return $result;
+    }
+
+    /**
+     * Combines all available thumbnails from the underlying record driver and the
+     * one returned by getThumbnail().
+     *
+     * @param string $size Size of thumbnail (small, medium or large -- small is
+     *                     default) passed through to getThumbnail() method.
+     *
+     * @return array|null
+     */
+    public function getAvailableThumbnails($size = 'small')
+    {
+        $thumbnails = $this->driver->tryMethod('getThumbnail');
+        $defaultThumbnail = $this->getThumbnail($size);
+
+        if (is_string($thumbnails)) {
+            $thumbnails = [$thumbnails];
+        } else if (!is_array($thumbnails)) {
+            $thumbnails = [];
+        }
+
+        if (is_string($defaultThumbnail)) {
+            $thumbnails[] = $defaultThumbnail;
+        }
+
+        return count($thumbnails) > 0 ? $thumbnails : null;
     }
 
     /**

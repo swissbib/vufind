@@ -1,29 +1,34 @@
 <? if ($this->authorsOfSameGenreTotal > 0): ?>
-<a id="detailpage-genres"></a>
-<div class="row">
-    <div class="col-xs-9">
-        <h1><?= $this->esperson()->getSearchResultHeadline('page.detail.authors.genres', $this->authorsOfSameGenreTotal) ?></h1>
+<div class="carousel-container">
+    <a id="detailpage-genres"></a>
+    <div class="separator"></div>
+    <div class="row">
+        <div class="col-xs-8">
+            <h2><?= $this->esperson()->getSearchResultHeadline('page.detail.authors.genres', $this->authorsOfSameGenreTotal) ?></h2>
+        </div>
+        <div class="col-xs-4">
+            <span class="all-results-link">
+                <a href="<?= $this->esperson()->getSameGenreSearchLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
+            </span>
+        </div>
     </div>
-    <div class="col-xs-3">
-        <a href="<?= $this->esperson()->getSameGenreSearchLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
-    </div>
-</div>
-<?= $this->render(
-    '/detailpage/carousel.phtml', [
-        'id' => 'genres',
-        'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
-        'thumbnail' => $this->imageLink('person-placeholder.png'),
-        'total' => $this->authorsOfSameGenreTotal,
-        'templates' => [
-            'ajax' => $this->ajax()->url([
-                'method' => 'getSameGenreAuthors',
-                'genre' => $this->escapeUrl(implode(",", $this->driver->getGenre())),
-                'page' => '{page}',
-                'size' => '{size}'
-            ], '{}'),
-            'page' => urldecode($this->url('page-detail-person', ['id' => '{id}'])),
-            'info' => urldecode($this->url('card-knowledge-person', ['id' => '{id}']))
+    <?= $this->render(
+        '/detailpage/carousel.phtml', [
+            'id' => 'genres',
+            'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
+            'thumbnail' => $this->imageLink('person-placeholder.png'),
+            'total' => $this->authorsOfSameGenreTotal,
+            'templates' => [
+                'ajax' => $this->ajax([
+                    'method' => 'getSameGenreAuthors',
+                    'genre' =>  $this->escapeUrl(is_array($this->driver->getGenre()) ?implode(",", $this->driver->getGenre()) : $this->driver->getGenre()),
+                    'page' => '{page}',
+                    'size' => '{size}'
+                ], '{}'),
+                'page' => urldecode($this->url('page-detail-person', ['id' => '{id}'])),
+                'info' => urldecode($this->url('card-knowledge-person', ['id' => '{id}']))
+            ]
         ]
-    ]
-) ?>
+    ) ?>
+</div>
 <? endif; ?>

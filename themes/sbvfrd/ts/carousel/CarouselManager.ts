@@ -44,15 +44,6 @@ export default class CarouselManager {
     }
 
     /**
-     * Activates the manager by switching on the media query observer.
-     * It also triggers a 'resize' event on the window to initialize internal state of all configured carousels.
-     */
-    public activate(): void {
-        this.mediaQueryObserver.on();
-        $(window).trigger('resize');
-    }
-
-    /**
      * Initializes from the configuration passed in to the constructor.
      */
     private setupFromConfiguration():void {

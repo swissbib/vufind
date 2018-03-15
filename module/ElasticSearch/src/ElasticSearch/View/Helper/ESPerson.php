@@ -262,24 +262,32 @@ class ESPerson extends AbstractHelper
     /**
      * Gets the AbstractInfo
      *
-     * @param int  $limit      Indicates after how many words (or characters) to
-     *                         split.
      * @param bool $countWords Indicates whether $splitPoint expresses the number of
      *                         words (true) or characters (false) after which
      *                         truncation has to be performed.
+     * @param int  ...$limits  Indicates after how many words (or characters) to
+     *                         split. Can be any number of integer values. If not
+     *                         specified then the default split point will be at 30
+     *                         characters/words.
      *
      * @return \stdClass
      */
-    public function getAbstractInfo(int $limit = 30, bool $countWords = true)
+    public function getAbstractInfo(bool $countWords = true, ...$limits)
     {
         $info = null;
 
         if ($this->hasAbstract()) {
+            $limits = count($limits) === 0 ? [30] : $limits;
+
             $abstract = $this->getPerson()->getAbstract();
             // ignore surrounding whitespace at all
             $abstract = trim($abstract);
 
-            $info = (new Splitter($countWords))->split($abstract, $limit);
+            $splitter = new Splitter($countWords);
+            $info = count($limits) === 1
+                ? $splitter->split($abstract, $limits[0])
+                : $splitter->splitMultiple($abstract, ...$limits);
+
             $info->label = $this->getView()->translate(
                 'person.metadata.abstract'
             );
@@ -331,7 +339,7 @@ class ESPerson extends AbstractHelper
      *
      * @return string
      */
-    public function getMoreNotableWorkLabel()
+    public function getMoreMediasLabel()
     {
         return $this->resolveLabelWithDisplayName(
             'person.medias.more'
@@ -339,16 +347,16 @@ class ESPerson extends AbstractHelper
     }
 
     /**
-     * Gets the NotableWorkSearchLink
+     * Gets the RelatedMediasLink
      *
      * @param string $template The template
      *
      * @return string
      */
-    public function getNotableWorkSearchLink(string $template): string
+    public function getMoreMediasLink(string $template): string
     {
         return $this->getMediaSearchLink(
-            $template, $this->getMoreNotableWorkLabel()
+            $template, $this->getMoreMediasLabel()
         );
     }
 
@@ -468,7 +476,7 @@ class ESPerson extends AbstractHelper
      */
     public function getCoauthorsSearchLink(): string
     {
-        return $this->getNameBasedSearchLink('coauthor');
+        return $this->getPersonsSearchLink('coauthor');
     }
 
     /**
@@ -478,7 +486,7 @@ class ESPerson extends AbstractHelper
      */
     public function getSameMovementSearchLink(): string
     {
-        return $this->getNameBasedSearchLink('samemovement');
+        return $this->getPersonsSearchLink('samemovement');
     }
 
     /**
@@ -488,22 +496,6 @@ class ESPerson extends AbstractHelper
      */
     public function getSameGenreSearchLink(): string
     {
-        return $this->getNameBasedSearchLink('samegenre');
-    }
-
-    /**
-     * Resolves the given search to a link that uses the underlying person record's
-     * name as lookup query parameter.
-     *
-     * @param string $search The person search to perform.
-     *
-     * @return string
-     */
-    protected function getNameBasedSearchLink(string $search): string
-    {
-        $name = urlencode($this->getPerson()->getName());
-        $route = sprintf('persons-search-%s', $search);
-
-        return sprintf('%s?lookfor=%s', $this->getView()->url($route), $name);
+        return $this->getPersonsSearchLink('samegenre');
     }
 }

@@ -236,8 +236,12 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     {
         $total = $results->getResultTotal();
         $loaded = count($results->getResults());
-        $first = $loaded > 0 ? 1 : 0;
-        $template = $this->getView()->translate('page.detail.media.list.hits');
+        $translationKey = $loaded === 1
+            ? 'page.detail.media.list.hits.one.only'
+            : 'page.detail.media.list.hits';
+
+        $template = $this->getView()->translate($translationKey);
+        $first = 1;
 
         return $this->escape(sprintf($template, $first, $loaded, $total));
     }
@@ -246,13 +250,23 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      * Shortcut to HTML-escape the given string using the escapeHtml() Escaper from
      * the connected view.
      *
-     * @param string $value The value to HTML-escape
+     * @param string|array|null $value The value to HTML-escape
      *
      * @return string|null
      */
-    protected function escape(string $value = null)
+    protected function escape($value = null)
     {
-        return is_null($value) ? null : $this->getView()->escapeHtml($value);
+        $result = $value;
+
+        if (is_array($result)) {
+            foreach ($result as $key => $string) {
+                $result[$key] = $this->getView()->escapeHtml($string);
+            }
+        } else if (is_string($result)) {
+            $result = $this->getView()->escapeHtml($result);
+        }
+
+        return $result;
     }
 
     /**
@@ -309,8 +323,8 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      */
     public function hasThumbnail(): bool
     {
-        $thumbnail = $this->getThumbnailFromRecord();
-        return is_string($thumbnail);
+        $available = $this->getAvailableThumbnails();
+        return is_array($available) && count($available) > 0;
     }
 
     /**
@@ -339,32 +353,98 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     }
 
     /**
-     * Generates a reference link to an external resource about the record when the
-     * given link matches one of the patterns in the record references configuration.
+     * Provides an array of all available thumbnails. This includes all thumbnails
+     * from the underlying record driver and a possibly auto-resolved thumbnail.
      *
-     * @param string     $template   The template string to use.
-     * @param string     $link       The link to be checked and meroged into
-     *                                        the template string.
+     * @return array|null
+     */
+    public function getAvailableThumbnails()
+    {
+        $recordHelper = $this->getView()->record($this->getDriver());
+        return $recordHelper->getAvailableThumbnails();
+    }
+
+    /**
+     * Normalizes access to record references on the underlying record driver.
+     *
+     * @return array|null
+     */
+    public function getSameAs()
+    {
+        $source = $this->getDriver()->tryMethod('getSameAs');
+        return is_string($source) ? [$source] : $source;
+    }
+
+    /**
+     * Checks whether the underlying driver has matching record references based on
+     * the references defined in the searches.ini configuration.
+     *
+     * @param ZendConfig $references The available record reference configurations.
+     *
+     * @return bool
+     */
+    public function hasMatchingRecordReferences(
+        ZendConfig $references
+    ): bool {
+        $source = $this->getSameAs();
+
+        if (is_array($source)) {
+            foreach ($source as $link) {
+                if ($this->hasMatchingRecordReference($references, $link)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks whether the given link matches one of the configured record references.
+     *
+     * @param ZendConfig $references The available record reference configurations.
+     * @param string     $link       An array or string representing the available
+     *                               references.
+     *
+     * @return bool
+     */
+    protected function hasMatchingRecordReference(
+        ZendConfig $references, string $link
+    ): bool {
+
+        foreach ($references as $id => $reference) {
+            if (preg_match($reference->pattern, $link) === 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Provides an on array of the record reference that matched the given link. The
+     * resulting array will contain a 'label' and a 'link' key where the label is the
+     * one configured for the reference the link matched on and the link will be the
+     * link parameter value passed in to the method.
+     *
+     * @param string     $link       The link to match against the record references.
      * @param ZendConfig $references All configured record references.
      *
      * @return string
      * In case the given link does not match on one of the record reference patterns,
-     * then an empty string is returned.
+     * then a NullObject pattern is returned which represents an empty labeled link
+     * on the '#'.
      */
-    public function getRecordReference(
-        string $template, string $link, ZendConfig $references
-    ): string {
-
-        $result = '';
-
+    public function getRecordReference(string $link, ZendConfig $references)
+    {
         foreach ($references as $id => $reference) {
             if (preg_match($reference->pattern, $link) === 1) {
-                $result = sprintf($template, $link, $reference->label);
-                break;
+                return ['label' => $reference->label, 'link' => $link];
+
             }
         }
 
-        return $result;
+        return ['label' => '', 'link' => '#'];
     }
 
     /**
@@ -388,6 +468,22 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
         );
 
         return sprintf($template, $url, $label);
+    }
+
+    /**
+     * Resolves the given search to a link that uses the underlying record's
+     * unique identifier as lookup query parameter.
+     *
+     * @param string $search The person search to perform.
+     *
+     * @return string
+     */
+    protected function getPersonsSearchLink(string $search): string
+    {
+        $id = urlencode($this->getDriver()->getUniqueID());
+        $route = sprintf('persons-search-%s', $search);
+
+        return sprintf('%s?lookfor=%s', $this->getView()->url($route), $id);
     }
 
 }

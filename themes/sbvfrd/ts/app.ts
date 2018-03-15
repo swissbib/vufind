@@ -7,6 +7,12 @@ import RecordRenderer from "./RecordRenderer";
 import CarouselManager from "./carousel/CarouselManager";
 import MediaQueryObserver from "./common/MediaQueryObserver";
 import BackToTopButton from "./components/BackToTopButton";
+import ImageSequence from "./components/ImageSequence";
+import MoreContentExpander from "./common/MoreContentExpander";
+import Breakpoints from "./common/Breakpoints";
+
+// must be available immediately
+swissbib.imageSequence = ImageSequence;
 
 $(document).ready(() => {
     const recordRenderer = new RecordRenderer(window.location.origin + VuFind.path + "/AJAX/Json");
@@ -17,14 +23,14 @@ $(document).ready(() => {
             return "";
         }
         return `<li class="list-group-item"><a href="${VuFind.path}/Search/Results?lookfor=${p.name}&amp;type=Author" title="${p.name}">${p.name}</a><a href="${VuFind.path}/Card/Knowledge/Person/${p.id}" data-lightbox>
-<span ${ p.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"
+<span ${ p.hasSufficientData === "1" ? ' class="fa icon-info fa-lg"' : "" } style="display: inline;"
 authorid="${p.id}"></span></a></li>`;
     };
 
     const subjects: JQuery<HTMLElement> = $(".subject [subjectid]");
     const subjectsTemplate: any = (s: any) => {
         return `<a href="${VuFind.path}/Card/Knowledge/Subject/${s.id}" data-lightbox>
-<span ${ s.hasSufficientData === "1" ? ' class="fa fa-info-circle fa-lg"' : "" } style="display: inline;"</span></a>`;
+<span ${ s.hasSufficientData === "1" ? ' class="fa icon-info fa-lg"' : "" } style="display: inline;"</span></a>`;
     };
     if (recordIdEl) {
         recordRenderer.renderContributors(recordIdEl.value, contributorsTemplate, contributorsList)
@@ -47,14 +53,33 @@ authorid="${p.id}"></span></a></li>`;
 
     autoSuggest.initialize();
 
+    const mediaQueryObserver: MediaQueryObserver = new MediaQueryObserver();
+
     // carousel
-    const carouselManager: CarouselManager = new CarouselManager(swissbib.carousel, new MediaQueryObserver());
+    const carouselManager: CarouselManager = new CarouselManager(swissbib.carousel, mediaQueryObserver);
     carouselManager.initialize();
-    carouselManager.activate();
     swissbib.carouselManager = carouselManager;
 
     // components
-    const backToTopButtonDom: string = '<a id="back-to-top-btn" href="#" class="hidden-md hidden-lg"></a>';
+    const backToTopButtonDom: string = '<a id="back-to-top-btn" class="icon-arrow-up" href="#" class="hidden-md hidden-lg"></a>';
     const backToTopButton: BackToTopButton = new BackToTopButton(backToTopButtonDom);
     backToTopButton.initialize();
+
+    const abstractContentExpander: MoreContentExpander = new MoreContentExpander(mediaQueryObserver,
+        $(".abstract-text"), $(".abstract-overflow"), $(".abstract-overflow-more")
+    );
+    abstractContentExpander.initialize();
+
+    // add 'collapse' class to page-anchors list on load when screen size is in the xs range
+    const pageAnchorsMenuCollapseCallback = (query: string): void => {
+        const className: string = Breakpoints.BOOSTTRAP_MIN.xs === query ? "collapse" : "collapse in";
+        $('#detailpage-section-anchors, *[id^=detailpage-section-references]').addClass(className);
+    };
+
+    mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.xs, pageAnchorsMenuCollapseCallback);
+    mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.sm, pageAnchorsMenuCollapseCallback);
+    mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.md, pageAnchorsMenuCollapseCallback);
+    mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.lg, pageAnchorsMenuCollapseCallback);
+
+    mediaQueryObserver.on();
 });

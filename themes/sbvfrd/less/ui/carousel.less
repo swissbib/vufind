@@ -11,11 +11,18 @@
     }
 
     .label-wrapper {
-      height: 57px;
+      height: 4.071rem;
       overflow: hidden;
+      padding-top: 0.43rem;
+
+      a.info-link {
+        vertical-align: middle;
+      }
     }
   }
   .carousel-control {
+    opacity: 1;
+
     &.left, &.right {
       background: none;
       pointer-events: none;
@@ -26,7 +33,6 @@
         box-shadow: none;
       }
     }
-
 
     &.left .icon-prev,
     &.right .icon-next {
@@ -41,23 +47,52 @@
     }
 
     &.left {
-      left: -20px;
+      left: -25px;
+
+      @media (max-width: @screen-xs-max) {
+        left: -5px;
+      }
 
       .icon-prev {
-        background-image: url('/themes/sbvfrd/images/symbols-arrow_left.png');
+        margin-left: -20px;
+      }
+
+      .sr-only {
+        left: 0;
       }
     }
 
     &.right {
-      right: -20px;
+      right: -25px;
+
+      @media (max-width: @screen-xs-max) {
+        right: -5px;
+      }
 
       .icon-next {
-        background-image: url('/themes/sbvfrd/images/symbols-arrow_right.png');
+        margin-right: -20px;
+      }
+
+      .sr-only {
+        right: 0;
       }
     }
 
     &:focus {
       outline: 0 none;
     }
+  }
+}
+
+.carousel-container {
+
+  .all-results-link {
+    display: block;
+    text-align: right;
+    padding: 2.07rem 0;
+  }
+
+  .separator + .row .all-results-link {
+    padding-top: 0.28rem;
   }
 }

@@ -130,30 +130,83 @@ class ElasticSearchSearch extends AbstractPlugin
     /**
      * From Ajax request
      *
-     * @param string $id         The id
+     * @param string $id         The person id
      * @param int    $resultSize The result size
      * @param int    $searchSize The number of bibliographic resources to search in
      * @param int    $page       The page
      *
      * @return Results
      */
-    public function searchCoContributorsOf(
+    public function searchCoContributorsOfPerson(
         string $id, int $resultSize, int $searchSize, int $page
     ): Results {
-        $bibliographicResources = $this->searchElasticSearch(
-            "http://data.swissbib.ch/person/" . $id,
-            "bibliographicResources_by_author", "lsb", "bibliographicResource",
-            $searchSize
-        )->getResults();
+        $bibliographicResources = $this->searchBibliographiResourcesOfPerson(
+            $id, $searchSize
+        );
         return $this->searchCoContributorsFrom(
             $bibliographicResources, $id, $resultSize, $page
         );
     }
 
     /**
+     * Searches bibliographicResources of person with id
+     *
+     * @param string $id         Id of the person
+     * @param int    $resultSize The size of result
+     *
+     * @return array
+     */
+    public function searchBibliographiResourcesOfPerson(string $id, int $resultSize
+    ): array {
+        $bibliographicResources = $this->searchElasticSearch(
+            "http://data.swissbib.ch/person/" . $id,
+            "bibliographicResources_by_author", "lsb", "bibliographicResource",
+            $resultSize
+        )->getResults();
+        return $bibliographicResources;
+    }
+
+    /**
+     * From Ajax request
+     *
+     * @param string $id         The subject id
+     * @param int    $resultSize The result size
+     * @param int    $searchSize The number of bibliographic resources to search in
+     * @param int    $page       The page
+     *
+     * @return Results
+     */
+    public function searchContributorsOfSubject(
+        string $id, int $resultSize, int $searchSize, int $page
+    ): Results {
+        $bibliographicResources
+            = $this->searchBibliographiResourcesOfSubject($id, $searchSize);
+        return $this->searchCoContributorsFrom(
+            $bibliographicResources, $id, $resultSize, $page
+        );
+    }
+
+    /**
+     * Searches bibliographicResources of subject with id
+     *
+     * @param string $id         Id of the person
+     * @param int    $resultSize The size of result
+     *
+     * @return array
+     */
+    public function searchBibliographiResourcesOfSubject(string $id, int $resultSize
+    ): array {
+        return $bibliographicResources = $this->searchElasticSearch(
+            "http://d-nb.info/gnd/" . $id,
+            "bibliographicResources_by_subject", "lsb", "bibliographicResource",
+            $resultSize
+        )->getResults();
+    }
+
+    /**
      * Initial call or chained from Ajax
      *
-     * @param array  $bibliographicResources The The bibliographic resources
+     * @param array  $bibliographicResources The bibliographic resources
      * @param string $id                     The id of the person
      * @param int    $resultSize             The size of result
      * @param int    $page                   The page

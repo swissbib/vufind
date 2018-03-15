@@ -1,0 +1,8 @@
+<? foreach($this->overflow as $index => $value): ?>
+    <? if ($index === 0): ?>
+        <span class="abstract-overflow hidden-xs"><?= $value ?></span>
+    <? else: ?>
+        <span class="abstract-overflow hidden"><?= $value ?></span>
+    <? endif; ?>
+<? endforeach; ?>
+<?= $this->esperson()->getDetailPageLink('<a class="abstract-overflow-more ref external more" href="%s">%s</a>', 'common.more') ?>

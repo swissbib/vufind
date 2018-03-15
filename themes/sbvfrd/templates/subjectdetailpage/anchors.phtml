@@ -1,9 +1,25 @@
-<h1><?= $this->translate('page.detail.anchors.title') ?></h1>
-<ul>
-    <li><a href="#detailpage-common"><?= $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.common') ?></a></li>
-    <li><a href="#detailpage-medias"><?= $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.media.list.title') ?></a></li>
-    <li><a href="#detailpage-authors"><?= $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.authors') ?></a></li>
-    <li><a href="#detailpage-parents"><?= $this->translate('page.detail.subject.media.parents') ?></a></li>
-    <li><a href="#detailpage-children"><?= $this->translate('page.detail.subject.media.children') ?></a></li>
-    <li><a href="#detailpage-subjects"><?= $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.subjects.related') ?></a></li>
-</ul>
+<? $template = '/detailpage/common/anchor.phtml' ?>
+<div class="page-anchors">
+    <h1 class="title"><?= $this->translate('page.detail.anchors.title') ?></h1>
+    <button class="accordion-collapse icon-arrow-accordion hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-section-anchors"></button>
+    <div class="list">
+        <ul id="detailpage-section-anchors">
+            <li><?= $this->render($template, ['name' => 'common', 'label' => $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.common')]) ?></li>
+            <? if ($this->medias->getResultTotal() > 0): ?>
+            <li><?= $this->render($template, ['name' => 'medias', 'label' => $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.media.list.title')]) ?></li>
+            <? endif; ?>
+            <? if ($this->subjectAuthorsTotal > 0): ?>
+            <li><?= $this->render($template, ['name' => 'authors', 'label' => $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.authors')]) ?></li>
+            <? endif; ?>
+            <? if ($this->parentMedias->getResultTotal() > 0): ?>
+            <li><?= $this->render($template, ['name' => 'medias-parents', 'label' => $this->translate('page.detail.subject.media.parents')]) ?></li>
+            <? endif; ?>
+            <? if ($this->childrenMedias->getResultTotal() > 0): ?>
+            <li><?= $this->render($template, ['name' => 'medias-children', 'label' => $this->translate('page.detail.subject.media.children')]) ?></li>
+            <? endif; ?>
+            <!--
+            <li><?#= $this->render($template, ['name' => 'subjects', 'label' => $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.subjects.related')]) ?></li>
+            -->
+        </ul>
+    </div>
+</div>

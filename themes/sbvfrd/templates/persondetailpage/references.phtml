@@ -1,9 +1,15 @@
-<? $availableReferences = $this->driver->getSameAs(); ?>
-<? if (is_array($availableReferences) && count($availableReferences) > 0): ?>
-    <h1><?= $this->translate('page.detail.person.more') ?></h1>
-    <ul>
-        <? foreach ($availableReferences as $link): ?>
-        <?= $this->esperson()->getRecordReference('<li><a href="%s">%s</a></li>', $link, $this->references->record->references) ?>
-        <? endforeach; ?>
-    </ul>
+<? $configuredReferences = $this->references->record->references ?>
+<? $template = '/detailpage/common/reference.phtml' ?>
+<? if ($this->esperson()->hasMatchingRecordReferences($configuredReferences)): ?>
+<div class="record-references <?= $this->visibility ?>">
+    <h1 class="title"><?= $this->translate('page.detail.person.more') ?></h1>
+    <button class="accordion-collapse icon-arrow-accordion hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-section-references-<?= $this->index ?>"></button>
+    <div class="list">
+        <ul id="detailpage-section-references-<?= $this->index ?>">
+            <? foreach ($this->esperson()->getSameAs() as $link): ?>
+            <li><?= $this->render($template, $this->esperson()->getRecordReference($link, $configuredReferences)) ?></li>
+            <? endforeach; ?>
+        </ul>
+    </div>
+</div>
 <? endif; ?>

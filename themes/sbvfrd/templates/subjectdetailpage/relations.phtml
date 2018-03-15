@@ -1,24 +1,27 @@
-<div class="container">
-<!--
-    <div class="row">
-        <div class="col-xs-12">
-            <?#= $this->render('relations/coauthors.phtml') ?>
+<div class="row">
+    <div class="col-xs-12">
+        <?= $this->render('relations/authors.phtml') ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="detailpage-media-list-wrapper">
+                    <?= $this->render('common/medias/parents.phtml') ?>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <?#= $this->render('relations/genres.phtml') ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <?#= $this->render('relations/movements.phtml') ?>
-        </div>
-    </div>
--->
-    <div class="row">
-        <div class="col-xs-12">
-            <?= $this->render('subjects.phtml') ?>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="detailpage-media-list-wrapper">
+                    <?= $this->render('common/medias/children.phtml') ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>

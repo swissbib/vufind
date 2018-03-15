@@ -139,15 +139,27 @@ class Factory
     }
 
     /**
-     * Get Knowledge Card Controller
+     * Get Person Knowledge Card Controller
      *
      * @param \Zend\ServiceManager\ServiceManager $sm Service manager
      *
-     * @return \Swissbib\Controller\KnowledgeCardController
+     * @return \Swissbib\Controller\PersonKnowledgeCardController
      */
-    public static function getKnowledgeCardController(ServiceManager $sm)
+    public static function getPersonKnowledgeCardController(ServiceManager $sm)
     {
-        return new KnowledgeCardController($sm->getServiceLocator());
+        return new PersonKnowledgeCardController($sm->getServiceLocator());
+    }
+
+    /**
+     * Get Subject Knowledge Card Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\SubjectKnowledgeCardController
+     */
+    public static function getSubjectKnowledgeCardController(ServiceManager $sm)
+    {
+        return new SubjectKnowledgeCardController($sm->getServiceLocator());
     }
 
     /**
@@ -161,6 +173,19 @@ class Factory
     {
         $serviceLocator = $sm->getServiceLocator();
         return new PersonDetailPageController($serviceLocator);
+    }
+
+    /**
+     * Get Person Search Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\PersonSearchController
+     */
+    public static function getPersonSearchController(ServiceManager $sm)
+    {
+        $serviceLocator = $sm->getServiceLocator();
+        return new PersonSearchController($serviceLocator);
     }
 
     /**

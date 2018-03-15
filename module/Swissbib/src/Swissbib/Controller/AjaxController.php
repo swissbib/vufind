@@ -88,7 +88,7 @@ class AjaxController extends VFAjaxController
         $pageSize = $this->getRequest()->getQuery()['size'] ??
             $this->getConfig()->DetailPage->coAuthorsSize;
 
-        $authors = $this->elasticsearchsearch()->searchCoContributorsOf(
+        $authors = $this->elasticsearchsearch()->searchCoContributorsOfPerson(
             $id, $pageSize, $this->getConfig()->DetailPage->searchSize, $page
         )->getResults();
 
@@ -130,6 +130,25 @@ class AjaxController extends VFAjaxController
 
         $authors = $this->elasticsearchsearch()->searchElasticSearch(
             $movement, "person_by_movement", null, null, $pageSize, $page ?? 1
+        )->getResults();
+
+        return $this->buildResponse($authors, $this->getAuthorPaginationSpec());
+    }
+
+    /**
+     * Gets authors by subject, supports pagination
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    protected function getSubjectAuthorsAjax()
+    {
+        $id = $this->getRequest()->getQuery()['subject'] ?? "";
+        $page = $this->getRequest()->getQuery()['page'] ?? 1;
+        $pageSize = $this->getRequest()->getQuery()['size'] ??
+            $this->getConfig()->DetailPage->coAuthorsSize;
+
+        $authors = $this->elasticsearchsearch()->searchContributorsOfSubject(
+            $id, $pageSize, $this->getConfig()->DetailPage->searchSize, $page
         )->getResults();
 
         return $this->buildResponse($authors, $this->getAuthorPaginationSpec());

@@ -1,29 +1,34 @@
 <? if ($this->personsOfSameMovementTotal > 0): ?>
-<a id="detailpage-movements"></a>
-<div class="row">
-    <div class="col-xs-9">
-        <h1><?= $this->esperson()->getSearchResultHeadline('page.detail.authors.movements', $this->personsOfSameMovementTotal) ?></h1>
+<div class="carousel-container">
+    <a id="detailpage-movements"></a>
+    <div class="separator"></div>
+    <div class="row">
+        <div class="col-xs-8">
+            <h2><?= $this->esperson()->getSearchResultHeadline('page.detail.authors.movements', $this->personsOfSameMovementTotal) ?></h2>
+        </div>
+        <div class="col-xs-4">
+            <span class="all-results-link">
+                <a href="<?= $this->esperson()->getSameMovementSearchLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
+            </span>
+        </div>
     </div>
-    <div class="col-xs-3">
-        <a href="<?= $this->esperson()->getSameMovementSearchLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
-    </div>
-</div>
-<?= $this->render(
-    '/detailpage/carousel.phtml', [
-        'id' => 'movements',
-        'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
-        'thumbnail' => $this->imageLink('person-placeholder.png'),
-        'total' => $this->personsOfSameMovementTotal,
-        'templates' => [
-            'ajax' => $this->ajax()->url([
-                'method' => 'getSameMovementAuthors',
-                'movement' => $this->esperson()->escapeUrl($this->driver->getMovement()),
-                'page' => '{page}',
-                'size' => '{size}'
-            ], '{}'),
-            'page' => urldecode($this->url('page-detail-person', ['id' => '{id}'])),
-            'info' => urldecode($this->url('card-knowledge-person', ['id' => '{id}']))
+    <?= $this->render(
+        '/detailpage/carousel.phtml', [
+            'id' => 'movements',
+            'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
+            'thumbnail' => $this->imageLink('person-placeholder.png'),
+            'total' => $this->personsOfSameMovementTotal,
+            'templates' => [
+                'ajax' => $this->ajax([
+                    'method' => 'getSameMovementAuthors',
+                    'movement' => $this->esperson()->escapeUrl($this->driver->getMovement()),
+                    'page' => '{page}',
+                    'size' => '{size}'
+                ], '{}'),
+                'page' => urldecode($this->url('page-detail-person', ['id' => '{id}'])),
+                'info' => urldecode($this->url('card-knowledge-person', ['id' => '{id}']))
+            ]
         ]
-    ]
-) ?>
+    ) ?>
+</div>
 <? endif; ?>

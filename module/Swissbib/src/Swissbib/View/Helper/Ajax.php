@@ -55,7 +55,8 @@ class Ajax extends AbstractHelper
     public function url(array $params, string $exclusions = null): string
     {
         $exclusions = is_null($exclusions) ? '' : $exclusions;
-        $url = sprintf('/AJAX/JSON?%s', http_build_query($params));
+        $pattern = $this->getView()->serverUrl('/AJAX/JSON?%s');
+        $url = sprintf($pattern, http_build_query($params));
 
         for ($index = 0; $index < strlen($exclusions); ++$index) {
             $character = $exclusions[$index];
@@ -63,5 +64,21 @@ class Ajax extends AbstractHelper
         }
 
         return $url;
+    }
+
+    /**
+     * Delegates to the url() method in case parameters are passed in to allow for
+     * direct helper invocation. Otherwise the helper itself is returned to provide
+     * access to all helper methods.
+     *
+     * @param array|null  $params     The parameters to merge into the URL.
+     * @param string|null $exclusions A string containing characters to exclude from
+     *                                URL-encoding.
+     *
+     * @return string|\Swissbib\View\Helper\Ajax
+     */
+    public function __invoke(array $params = null, string $exclusions = null)
+    {
+        return is_null($params) ? $this : $this->url($params, $exclusions);
     }
 }

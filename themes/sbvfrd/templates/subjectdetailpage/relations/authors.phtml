@@ -1,0 +1,39 @@
+<? if ($this->subjectAuthorsTotal > 0): ?>
+<div class="carousel-container">
+    <a id="detailpage-authors"></a>
+    <div class="separator"></div>
+    <div class="row">
+        <div class="col-xs-8">
+            <h2><?= $this->essubject()->getSearchResultHeadline('page.detail.subject.authors', $this->subjectAuthorsTotal, true) ?></h2>
+        </div>
+        <div class="col-xs-4">
+            <span class="all-results-link">
+                <a href="<?= $this->essubject()->getSubjectAuthorsLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
+            </span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <?= $this->render(
+                '/detailpage/carousel.phtml', [
+                    'id' => 'subjects',
+                    'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
+                    'thumbnail' => $this->imageLink('person-placeholder.png'),
+                    'total' => $this->subjectAuthorsTotal,
+                    'templates' => [
+                        'ajax' => $this->ajax([
+                            'method' => 'getSubjectAuthors',
+                            'subject' => $this->essubject()->escapeUrl($this->driver->getUniqueId()),
+                            'page' => '{page}',
+                            'size' => '{size}'
+                        ], '{}'),
+                        'page' => urldecode($this->url('page-detail-person', ['id' => '{id}'])),
+                        'info' => urldecode($this->url('card-knowledge-person', ['id' => '{id}']))
+                    ]
+                ]
+            ) ?>
+        </div>
+    </div>
+</div>
+<? endif; ?>

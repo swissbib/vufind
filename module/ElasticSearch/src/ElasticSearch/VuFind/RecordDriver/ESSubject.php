@@ -80,7 +80,7 @@ class ESSubject extends ElasticSearch
     public function getUniqueID()
     {
         // actual record id is stored in the gndIdentifier field,
-        // while _id is prefix with 'http://d-nb.info/gnd/'
+        // while _id is prefixed with 'http://d-nb.info/gnd/'
         return $this->getGndIdentifier()[0];
     }
 
@@ -92,6 +92,17 @@ class ESSubject extends ElasticSearch
     public function getFullUniqueID()
     {
         return $this->fields["_id"];
+    }
+
+    /**
+     * Provides a list of external links in the same way as in ESPerson record
+     * driver.
+     *
+     * @return array
+     */
+    public function getSameAs()
+    {
+        return [$this->getFullUniqueID()];
     }
 
     /**

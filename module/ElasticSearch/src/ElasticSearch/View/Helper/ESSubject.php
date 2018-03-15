@@ -85,7 +85,7 @@ class ESSubject extends AbstractHelper
      */
     public function getSearchType(): string
     {
-        return 'DEFAULT';
+        return 'Subject';
     }
 
     /**
@@ -127,19 +127,29 @@ class ESSubject extends AbstractHelper
     /**
      * Gets the  SubjectLink
      *
-     * @param string $template The template
+     * @param string $template    The template
+     * @param string $routePrefix The route prefix
      *
      * @return string
      */
-    public function getSubjectLink(string $template): string
+    public function getSubjectLink(string $template, string $routePrefix): string
     {
         $subject = $this->getSubject();
+        $route = sprintf('%s-subject', $routePrefix);
 
-        $url = $this->getView()->url(
-            'card-knowledge-subject', ['id' => $subject->getUniqueID()]
-        );
+        $url = $this->getView()->url($route, ['id' => $subject->getUniqueID()]);
 
         return sprintf($template, $url, $subject->getName());
+    }
+
+    /**
+     * Provides the link to the subject based authors search result page.
+     * 
+     * @return string
+     */
+    public function getSubjectAuthorsLink(): string
+    {
+        return $this->getPersonsSearchLink('subject');
     }
 
     /**
