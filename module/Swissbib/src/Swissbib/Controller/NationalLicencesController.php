@@ -130,8 +130,17 @@ class NationalLicencesController extends BaseController
                     );
             } catch (\Exception $e) {
                 $this->flashMessenger()->addErrorMessage(
+                    $this->translate('snl.error')
+                );
+                $this->flashMessenger()->addErrorMessage(
                     $this->translate($e->getMessage())
                 );
+                $view = new ViewModel(
+                    [
+                        'error' => true
+                    ]
+                );
+                return $view;
             }
 
             // Compute the checks
@@ -150,9 +159,6 @@ class NationalLicencesController extends BaseController
             $hasVerifiedHomePostalAddress
                 = $this->nationalLicenceService->hasVerifiedSwissAddress();
             $hasPermanentAccess                 = $user->hasRequestPermanentAccess();
-            $hasAccessToNationalLicenceContent
-                = $this->nationalLicenceService
-                    ->hasAccessToNationalLicenceContent($user);
 
             $NLUrl = "/Search/Results?filter%5B%5D=union%3A%22NATIONALLICENCE%22";
 
@@ -224,13 +230,15 @@ class NationalLicencesController extends BaseController
                         $hasPermanentAccess,
                     'hasVerifiedHomePostalAddress' =>
                         $hasVerifiedHomePostalAddress,
+                    'error' => false,
                 ]
             );
             return $view;
         } else {
             $view = new ViewModel(
                 [
-                    'nonEduId' => true
+                    'nonEduId' => true,
+                    'error' => false,
                 ]
             );
             return $view;
