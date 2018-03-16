@@ -4,10 +4,27 @@
         <?= $this->render('pagination.phtml', ['results' => $this->results]) ?>
     </div>
 </div>
-<div class="container">
+<div class="person-search-results">
     <? foreach ($results->getResults() as $person): ?>
-        <div class="row">
-            <?= $person->getName() ?>
+        <? $this->esperson()->setPerson($person) ?>
+        <? $name = $this->esperson()->getDisplayName() ?>
+        <? $link = $this->url('page-detail-person', ['id' => $person->getUniqueID()]) ?>
+
+        <div class="row result-item">
+            <div class="item-thumbnail hidden-xs col-sm-2 no-gutter hidden-print">
+                <a href="<?= $link ?>" class="img-responsive">
+                    <?= $this->render('thumbnail.phtml') ?>
+                </a>
+            </div>
+            <div class="col-sm-10">
+                <div class="item-info">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="<?= $link ?>" alt="<?= $name ?>"><?= $name ?></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     <? endforeach; ?>
 </div>
