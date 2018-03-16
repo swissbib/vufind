@@ -63,24 +63,13 @@ class Solr extends VFAutocompleteSolr
                     );
                     if ($bestMatch) {
                         $forbidden = [
-                          ':',
-                          '&',
-                          '?',
-                          '*',
-                          '[',
-                          ']',
-                          '"',
-                          '/',
-                          '\\',
-                          ';',
-                          '.',
-                          '='
+                            ':', '&', '?', '*', '[', ']', '"', '/', '\\', ';', '.',
+                            '='
                         ];
                         $bestMatch = str_replace($forbidden, " ", $bestMatch);
 
                         $results[] = [
-                          'id' => $current['id'],
-                          'value' => $bestMatch
+                            'id' => $current['id'], 'value' => $bestMatch
                         ];
                         break;
                     }
@@ -151,18 +140,41 @@ class Solr extends VFAutocompleteSolr
                     $searchResults, $query, false
                 );
             }
+            $results = $this->removeDuplicates($results);
         } catch (\Exception $e) {
             // Ignore errors -- just return empty results if we must.
         }
 
         // Wrap in array as only values of result array are part of response
         $results = [
-          [
-            "total" => $total ?? 0,
-            "suggestions" => isset($results) ? $results : []
-          ]
+            [
+                "total" => $total ?? 0,
+                "suggestions" => isset($results) ? $results : []
+            ]
         ];
 
         return $results;
+    }
+
+    /**
+     * Removes entries with same value
+     *
+     * @param array $results The unfiltered results
+     *
+     * @return array
+     */
+    protected function removeDuplicates(array $results)
+    {
+        $unique = [];
+        return array_filter(
+            $results, function ($result) use (&$unique) {
+                $v = $result["value"];
+                if (array_search($v, $unique) === false) {
+                    $unique[] = $v;
+                    return true;
+                }
+                return false;
+            }
+        );
     }
 }
