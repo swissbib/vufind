@@ -24,13 +24,7 @@ export default class AutoSuggest {
      * @private
      * @type {string}
      */
-    private static SECTION_HEADER_LINK_SELECTOR: string = ".ac-section-header > a";
-
-    /**
-     * @private
-     * Sizzle selector for the search input element
-     */
-    private searchInputSelector: string;
+    private static SECTION_HEADER_LINK_SELECTOR: string = ".ac-group-header > a";
 
     /**
      * @private
@@ -68,28 +62,9 @@ export default class AutoSuggest {
      * @param {Configuration} configuration
      * The auto-suggest configuration for the auto-suggest.
      */
-    constructor(searchInputSelector: string, configuration: Configuration) {
-        this.searchInputSelector = searchInputSelector;
-        this._configuration = configuration;
-
+    constructor(private searchInputSelector: string, readonly configuration: Configuration) {
         this.limitValidator = new SectionLimitValidator();
         this.templates = new Templates();
-    }
-
-    /**
-     * @private
-     * Storage for the configuration property.
-     */
-    private _configuration: Configuration;
-
-    /**
-     * The configuration provides auto-suggest sections and an interface for translations and for generating links for
-     * further searches.
-     *
-     * @returns {Configuration}
-     */
-    public get configuration(): Configuration {
-        return this._configuration;
     }
 
     /**
@@ -167,6 +142,7 @@ export default class AutoSuggest {
         if (this.configuration.enabled) {
             this.autocompleteInstance = this.searchInputElement.autocomplete({
                 handler: this.autoCompleteHandler,
+                loadingString: this.configuration.translate('autosuggest.loading')
             });
         }
     }
