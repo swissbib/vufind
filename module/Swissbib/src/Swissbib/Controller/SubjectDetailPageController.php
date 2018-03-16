@@ -108,14 +108,14 @@ class SubjectDetailPageController extends AbstractSubjectController
 
         if (!empty($this->parentSubjects)) {
             $parentSubjectsMedias = $this->solrsearch()->getMedias(
-                "Subject", $this->parentSubjects, $this->config->mediaLimit
+                "Subject_OR", $this->parentSubjects, $this->config->mediaLimit
             );
             $viewModel->setVariable("parentMedias", $parentSubjectsMedias);
         }
 
         if (!empty($this->subSubjects)) {
             $subSubjectsMedias = $this->solrsearch()->getMedias(
-                "Subject", $this->subSubjects, $this->config->mediaLimit
+                "Subject_OR", $this->subSubjects, $this->config->mediaLimit
             );
             $viewModel->setVariable("childrenMedias", $subSubjectsMedias);
         }
