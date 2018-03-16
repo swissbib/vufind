@@ -165,16 +165,14 @@ class ESPerson extends AbstractHelper
     /**
      * Gets the BirthInfo
      *
-     * @param string $dateFormat The date format
-     * @param string $separator  The separator
+     * @param string $separator The separator
      *
      * @return null|string
      */
-    public function getBirthInfo(
-        string $dateFormat = 'd.m.Y', string $separator = ', '
-    ) {
+    public function getBirthInfo(string $separator = ', ')
+    {
         return $this->getDateAndPlaceInfo(
-            $dateFormat, $separator, $this->getPerson()->getBirthDate(),
+            $separator, $this->getPerson()->getBirthDate(),
             $this->getPerson()->getBirthPlaceDisplayField()
         );
     }
@@ -182,16 +180,14 @@ class ESPerson extends AbstractHelper
     /**
      * Gets the DeathInfo
      *
-     * @param string $dateFormat The date format
-     * @param string $separator  The separator
+     * @param string $separator The separator
      *
      * @return null|string
      */
-    public function getDeathInfo(
-        string $dateFormat = 'd.m.Y', string $separator = ', '
-    ) {
+    public function getDeathInfo(string $separator = ', ')
+    {
         return $this->getDateAndPlaceInfo(
-            $dateFormat, $separator, $this->getPerson()->getDeathDate(),
+            $separator, $this->getPerson()->getDeathDate(),
             $this->getPerson()->getDeathPlaceDisplayField()
         );
     }
@@ -199,18 +195,15 @@ class ESPerson extends AbstractHelper
     /**
      * Gets the DateAndPlaceInfo
      *
-     * @param string         $dateFormat The date format
-     * @param string         $separator  The separator
-     * @param \DateTime|null $date       The (optional) date
-     * @param array          $place      The (optional) place
+     * @param string      $separator The separator
+     * @param string|null $date      The (optional) date
+     * @param array       $place     The (optional) place
      *
      * @return string|null
      */
     protected function getDateAndPlaceInfo(
-        string $dateFormat, string $separator, \DateTime $date = null,
-        array $place = null
+        string $separator, string $date = null, array $place = null
     ) {
-        $date = is_null($date) ? null : $date->format($dateFormat);
         $place = is_null($place) ? null : implode($separator, $place);
         $result = null;
 
