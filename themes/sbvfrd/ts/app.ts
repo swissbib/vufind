@@ -53,6 +53,8 @@ authorid="${p.id}"></span></a></li>`;
 
     autoSuggest.initialize();
 
+    $("#searchForm_lookfor").blur();
+
     const mediaQueryObserver: MediaQueryObserver = new MediaQueryObserver();
 
     // carousel
