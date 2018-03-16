@@ -405,7 +405,7 @@ header {
 .list-group-item {
   text-overflow: ellipsis;
   overflow: hidden;
-  padding: 6px 15px;
+  //padding: 6px 15px;
 }
 
 .list-group-item.title {
@@ -675,7 +675,10 @@ ul[aria-labelledby=dropdownLibraries] {
   .list-group-item {
     text-overflow: ellipsis;
     overflow: hidden;
-    border: 1px solid #CCC;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    //border-bottom: 1px solid #CCC;
     //padding-left: 8px;
     padding-right: 8px;
   }
@@ -687,11 +690,11 @@ ul[aria-labelledby=dropdownLibraries] {
   }
   .list-group-item.title {
     margin-bottom: 0;
-    border-bottom: none;
+    //border-bottom: none;
 
-    &:first-child {
-      margin-top: 20px;
-    }
+//    &:first-child {
+//      margin-top: 20px;
+//    }
   }
   h4.list-group-item.title {
     padding-top: 9px;
