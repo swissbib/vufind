@@ -11,10 +11,10 @@
             <? if ($this->subjectAuthorsTotal > 0): ?>
             <li><?= $this->render($template, ['name' => 'authors', 'label' => $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.authors')]) ?></li>
             <? endif; ?>
-            <? if ($this->parentMedias->getResultTotal() > 0): ?>
+            <? if (isset($this->parentMedias) && $this->parentMedias->getResultTotal() > 0): ?>
             <li><?= $this->render($template, ['name' => 'medias-parents', 'label' => $this->translate('page.detail.subject.media.parents')]) ?></li>
             <? endif; ?>
-            <? if ($this->childrenMedias->getResultTotal() > 0): ?>
+            <? if (isset($this->childrenMedias) && $this->childrenMedias->getResultTotal() > 0): ?>
             <li><?= $this->render($template, ['name' => 'medias-children', 'label' => $this->translate('page.detail.subject.media.children')]) ?></li>
             <? endif; ?>
         </ul>
