@@ -23,6 +23,8 @@ return array(
 
     'vendor/jsTree/jstree.min.js',
 
+    'polyfill/es6-promise.auto.min.js',
+
     'swissbib/swissbib.js',
     'swissbib/common.js',
     'swissbib/AdvancedSearch.js',
