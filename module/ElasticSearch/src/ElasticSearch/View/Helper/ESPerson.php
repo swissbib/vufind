@@ -476,7 +476,7 @@ class ESPerson extends AbstractHelper
      */
     public function getCoauthorsSearchLink(): string
     {
-        return $this->getPersonsSearchLink('coauthor');
+        return $this->getPersonSearchLink('coauthor', 'getUniqueID');
     }
 
     /**
@@ -486,7 +486,7 @@ class ESPerson extends AbstractHelper
      */
     public function getSameMovementSearchLink(): string
     {
-        return $this->getPersonsSearchLink('samemovement');
+        return $this->getPersonSearchLink('samemovement', 'getMovement');
     }
 
     /**
@@ -496,6 +496,6 @@ class ESPerson extends AbstractHelper
      */
     public function getSameGenreSearchLink(): string
     {
-        return $this->getPersonsSearchLink('samegenre');
+        return $this->getPersonSearchLink('samegenre', 'getGenre');
     }
 }
