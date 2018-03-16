@@ -355,13 +355,23 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     /**
      * Provides an array of all available thumbnails. This includes all thumbnails
      * from the underlying record driver and a possibly auto-resolved thumbnail.
+     * 
+     * @param string $fallback A thumbnail image path to use as fallback when all of
+     *                         the available thumbnails do not load properly.
      *
      * @return array|null
      */
-    public function getAvailableThumbnails()
+    public function getAvailableThumbnails(string $fallback = null)
     {
         $recordHelper = $this->getView()->record($this->getDriver());
-        return $recordHelper->getAvailableThumbnails();
+        $thumbnails = $recordHelper->getAvailableThumbnails();
+
+        if (!is_null($fallback)) {
+            $thumbnails = is_array($thumbnails) ? $thumbnails : [];
+            $thumbnails[] = $fallback;
+        }
+
+        return $thumbnails;
     }
 
     /**
