@@ -40,6 +40,11 @@ export default class Section {
     readonly type: string;
 
     /**
+     * The field to read from search result items for use in item links as query.
+     */
+    readonly field: "label" | "value";
+
+    /**
      * The last search string queried.
      */
     query?: string;

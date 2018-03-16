@@ -81,7 +81,7 @@ export default class SectionLoader {
     private successHandler = (result: SearchResult, status: string, request:jqXHR) => {
         if (this.request === request) {
             const converter: SearchResultConverter = new SearchResultConverter();
-            this.section.result = converter.convert(this.autoSuggest.configuration, result);
+            this.section.result = converter.convert(this.autoSuggest.configuration, this.section, result);
             this.autoSuggest.updateResultsContainer(this.callback);
         }
         this.cleanup();
