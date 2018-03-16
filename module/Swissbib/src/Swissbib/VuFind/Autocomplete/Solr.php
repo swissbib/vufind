@@ -68,10 +68,12 @@ class Solr extends VFAutocompleteSolr
                         ];
                         $bestMatch = str_replace($forbidden, " ", $bestMatch);
 
-                        $results[] = [
-                            'id' => $current['id'], 'value' => $bestMatch
-                        ];
-                        break;
+                        if (!$this->isDuplicate($bestMatch, $results)) {
+                            $results[] = [
+                                'id' => $current['id'], 'value' => $bestMatch
+                            ];
+                            break;
+                        }
                     }
                 }
             }
@@ -140,7 +142,6 @@ class Solr extends VFAutocompleteSolr
                     $searchResults, $query, false
                 );
             }
-            $results = $this->removeDuplicates($results);
         } catch (\Exception $e) {
             // Ignore errors -- just return empty results if we must.
         }
@@ -157,24 +158,20 @@ class Solr extends VFAutocompleteSolr
     }
 
     /**
-     * Removes entries with same value
+     * Tests if an suggestion is already in the results
      *
-     * @param array $results The unfiltered results
+     * @param string $bestMatch The string to test
+     * @param array  $results   The result list
      *
-     * @return array
+     * @return bool
      */
-    protected function removeDuplicates(array $results)
+    protected function isDuplicate(string $bestMatch, array &$results)
     {
-        $unique = [];
-        return array_filter(
-            $results, function ($result) use (&$unique) {
-                $v = $result["value"];
-                if (array_search($v, $unique) === false) {
-                    $unique[] = $v;
-                    return true;
-                }
-                return false;
+        foreach ($results as $result) {
+            if ($result["value"] === $bestMatch) {
+                return true;
             }
-        );
+        }
+        return false;
     }
 }
