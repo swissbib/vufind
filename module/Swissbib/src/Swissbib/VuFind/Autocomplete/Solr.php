@@ -63,26 +63,17 @@ class Solr extends VFAutocompleteSolr
                     );
                     if ($bestMatch) {
                         $forbidden = [
-                          ':',
-                          '&',
-                          '?',
-                          '*',
-                          '[',
-                          ']',
-                          '"',
-                          '/',
-                          '\\',
-                          ';',
-                          '.',
-                          '='
+                            ':', '&', '?', '*', '[', ']', '"', '/', '\\', ';', '.',
+                            '='
                         ];
                         $bestMatch = str_replace($forbidden, " ", $bestMatch);
 
-                        $results[] = [
-                          'id' => $current['id'],
-                          'value' => $bestMatch
-                        ];
-                        break;
+                        if (!$this->isDuplicate($bestMatch, $results)) {
+                            $results[] = [
+                                'id' => $current['id'], 'value' => $bestMatch
+                            ];
+                            break;
+                        }
                     }
                 }
             }
@@ -157,12 +148,30 @@ class Solr extends VFAutocompleteSolr
 
         // Wrap in array as only values of result array are part of response
         $results = [
-          [
-            "total" => $total ?? 0,
-            "suggestions" => isset($results) ? $results : []
-          ]
+            [
+                "total" => $total ?? 0,
+                "suggestions" => isset($results) ? $results : []
+            ]
         ];
 
         return $results;
+    }
+
+    /**
+     * Tests if an suggestion is already in the results
+     *
+     * @param string $bestMatch The string to test
+     * @param array  $results   The result list
+     *
+     * @return bool
+     */
+    protected function isDuplicate(string $bestMatch, array &$results)
+    {
+        foreach ($results as $result) {
+            if ($result["value"] === $bestMatch) {
+                return true;
+            }
+        }
+        return false;
     }
 }
