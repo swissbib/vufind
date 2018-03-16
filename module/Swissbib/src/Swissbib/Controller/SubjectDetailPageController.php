@@ -106,15 +106,19 @@ class SubjectDetailPageController extends AbstractSubjectController
         );
         $viewModel->setVariable("medias", $medias);
 
-        $parentSubjectsMedias = $this->solrsearch()->getMedias(
-            "Subject", $this->parentSubjects, $this->config->mediaLimit
-        );
-        $viewModel->setVariable("parentMedias", $parentSubjectsMedias);
+        if(!empty($this->parentSubjects)) {
+            $parentSubjectsMedias = $this->solrsearch()->getMedias(
+                "Subject", $this->parentSubjects, $this->config->mediaLimit
+            );
+            $viewModel->setVariable("parentMedias", $parentSubjectsMedias);
+        }
 
-        $subSubjectsMedias = $this->solrsearch()->getMedias(
-            "Subject", $this->subSubjects, $this->config->mediaLimit
-        );
-        $viewModel->setVariable("childrenMedias", $subSubjectsMedias);
+        if(!empty($this->subSubjects)) {
+            $subSubjectsMedias = $this->solrsearch()->getMedias(
+                "Subject", $this->subSubjects, $this->config->mediaLimit
+            );
+            $viewModel->setVariable("childrenMedias", $subSubjectsMedias);
+        }
 
         $relatedTermsIds = $this->driver->getRelatedTerm();
         if (isset($relatedTermsIds)) {
