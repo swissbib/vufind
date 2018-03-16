@@ -102,9 +102,9 @@ export default class Configuration implements Translator {
      * @param {VuFindAutoCompleteItem} item
      * @returns {string}
      */
-    public getRecordLink(item: Item): string {
+    public getRecordLink(item: Item, section: Section): string {
         let template: string = VuFind.path + this.settings.templates.search.record;
-        return this.templates.resolve(template, item);
+        return this.templates.resolve(template, {query: item[section.field], type: section.type});
     }
 
     /**

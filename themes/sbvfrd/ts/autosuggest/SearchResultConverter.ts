@@ -1,6 +1,7 @@
 import Configuration from "./Configuration";
 import Item from "./Item";
 import SectionResult from "./SectionResult";
+import Section from "./Section";
 
 /**
  * Utility class that converts the results received from some search backend into VuFindAutoCompleteItem objects.
@@ -20,7 +21,7 @@ export default class SearchResultConverter {
      * @param {SearchResult} result
      * @returns {SectionResult}
      */
-    public convert(configuration: Configuration, result: SearchResult): SectionResult {
+    public convert(configuration: Configuration, section: Section, result: SearchResult): SectionResult {
         const sectionResult: SectionResult = { items: [], total: 0 };
         const data: SearchResultData = this.getResult(result);
 
@@ -32,7 +33,7 @@ export default class SearchResultConverter {
                 value: data.suggestions[index].id,
             };
 
-            item.href = configuration.getRecordLink(item);
+            item.href = configuration.getRecordLink(item, section);
 
             sectionResult.items[index] = item;
         }
