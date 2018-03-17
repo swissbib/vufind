@@ -53,7 +53,7 @@
 }
 
 .page-anchors {
-  margin-top: 5rem;
+  margin-top: 4rem;
   margin-bottom: 2.35rem;
 
   ul > li > a {
@@ -96,7 +96,7 @@ button.accordion-collapse {
 
 .detailpage-common {
   padding-right: 1.5rem;
-  margin-top: 5rem;
+  margin-top: 4rem;
 
   h2.name {
     margin-top: 0;
@@ -165,7 +165,13 @@ button.accordion-collapse {
   }
 }
 
-@media (max-width: @screen-xs-max) { 
+@media (max-width: @screen-xs-max) {
+
+  #detailpage h2.name {
+    margin-top: 1.11rem;
+    margin-bottom: 1rem;
+  }
+
   .abstract-text.overflow-hidden:after {
     content: '\2026';
     display: inline;
