@@ -74,14 +74,15 @@ authorid="${p.id}"></span></a></li>`;
 
     // add 'collapse' class to page-anchors list on load when screen size is in the xs range
     const pageAnchorsMenuCollapseCallback = (query: string): void => {
-        const className: string = Breakpoints.BOOSTTRAP_MIN.xs === query ? "collapse" : "collapse in";
-        $('#detailpage-section-anchors, *[id^=detailpage-section-references]').addClass(className);
+        const className: string = Breakpoints.BOOTSTRAP.isOneOf(query, "xs", "sm") ? "collapse" : "collapse in";
+        const target: JQuery<HTMLElement> = $('#detailpage-section-anchors, *[id^=detailpage-section-references]');
+        target.removeClass("collapse in").addClass(className);
     };
 
-    mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.xs, pageAnchorsMenuCollapseCallback);
-    mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.sm, pageAnchorsMenuCollapseCallback);
-    mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.md, pageAnchorsMenuCollapseCallback);
-    mediaQueryObserver.register(Breakpoints.BOOSTTRAP_MIN.lg, pageAnchorsMenuCollapseCallback);
+    mediaQueryObserver.register(Breakpoints.BOOTSTRAP.xs, pageAnchorsMenuCollapseCallback);
+    mediaQueryObserver.register(Breakpoints.BOOTSTRAP.sm, pageAnchorsMenuCollapseCallback);
+    mediaQueryObserver.register(Breakpoints.BOOTSTRAP.md, pageAnchorsMenuCollapseCallback);
+    mediaQueryObserver.register(Breakpoints.BOOTSTRAP.lg, pageAnchorsMenuCollapseCallback);
 
     mediaQueryObserver.on();
 });
