@@ -230,18 +230,24 @@ class Splitter
      */
     private function _calculateWordSplitPoint(\stdClass $data, int $limit): int
     {
-        $words = array_slice($data->words, 0, $limit);
-        $processed = [];
+        $result = 0;
 
-        while (count($words) > 1) {
+        if (count($data->words) > $limit) {
+            $words = array_slice($data->words, 0, $limit);
+            $processed = [];
+
+            while (count($words) > 1) {
+                $processed[] = array_shift($words);
+                $processed[] = array_shift($data->whitespaces);
+            }
+
+            // append last word
             $processed[] = array_shift($words);
-            $processed[] = array_shift($data->whitespaces);
+
+            $result = strlen(implode('', $processed));
         }
 
-        // append last word
-        $processed[] = array_shift($words);
-
-        return strlen(implode('', $processed));
+        return $result;
     }
 
     /**

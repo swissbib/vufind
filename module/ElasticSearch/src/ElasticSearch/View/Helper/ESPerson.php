@@ -281,12 +281,13 @@ class ESPerson extends AbstractHelper
                 ? $splitter->split($abstract, $limits[0])
                 : $splitter->splitMultiple($abstract, ...$limits);
 
-            $info->label = $this->getView()->translate(
-                'person.metadata.abstract'
-            );
+            $info->label = $this->getView()->translate('person.metadata.abstract');
 
             $info->text = $this->escape($info->text);
-            $info->overflow = $this->escape($info->overflow);
+
+            if ($info->truncated) {
+                $info->overflow = $this->escape($info->overflow);
+            }
         }
 
         return $info;
