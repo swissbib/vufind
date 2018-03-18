@@ -72,6 +72,11 @@ authorid="${p.id}"></span></a></li>`;
     );
     abstractContentExpander.initialize();
 
+    // allow global access to the TextOverflowExpander component
+    swissbib.components = swissbib.components || {};
+    swissbib.components.TextOverflowExpander = TextOverflowExpander;
+
+
     // add 'collapse' class to page-anchors list on load when screen size is in the xs range
     const pageAnchorsMenuCollapseCallback = (query: string): void => {
         const className: string = Breakpoints.BOOTSTRAP.isOneOf(query, "xs", "sm") ? "collapse" : "collapse in";
