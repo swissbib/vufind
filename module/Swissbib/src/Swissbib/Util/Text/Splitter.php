@@ -141,7 +141,11 @@ class Splitter
             for ($index = 1; $index < $numSplitPoints; ++$index) {
                 $start = $splitPoints[$index - 1];
                 $length = $splitPoints[$index] - $start;
-                $result->overflow[] = substr($text, $start, $length);
+                $overflow = substr($text, $start, $length);
+
+                if (strlen($overflow) > 0) {
+                    $result->overflow[] = $overflow;
+                }
             }
         }
 
