@@ -8,7 +8,7 @@ import CarouselManager from "./carousel/CarouselManager";
 import MediaQueryObserver from "./common/MediaQueryObserver";
 import BackToTopButton from "./components/BackToTopButton";
 import ImageSequence from "./components/ImageSequence";
-import MoreContentExpander from "./common/MoreContentExpander";
+import TextOverflowExpander from "./common/TextOverflowExpander";
 import Breakpoints from "./common/Breakpoints";
 
 // must be available immediately
@@ -67,7 +67,7 @@ authorid="${p.id}"></span></a></li>`;
     const backToTopButton: BackToTopButton = new BackToTopButton(backToTopButtonDom);
     backToTopButton.initialize();
 
-    const abstractContentExpander: MoreContentExpander = new MoreContentExpander(mediaQueryObserver,
+    const abstractContentExpander: TextOverflowExpander = new TextOverflowExpander(mediaQueryObserver,
         $(".abstract-text"), $(".abstract-overflow"), $(".abstract-overflow-more")
     );
     abstractContentExpander.initialize();

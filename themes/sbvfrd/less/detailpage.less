@@ -171,30 +171,20 @@ button.accordion-collapse {
     margin-top: 1.11rem;
     margin-bottom: 1rem;
   }
-
-  .abstract-text.overflow-hidden:after {
-    content: '\2026';
-    display: inline;
-    padding: 0 0.1429rem;
-  }
 }
 
-.abstract-overflow.hidden-xs {
-  &:not(.abstract-overflow.hidden-xs:last-child):after {
-    content: '\2026';
-    display: inline;
-    padding: 0 0.1429rem;
-  }
+.abstract-overflow, .abstract-overflow-more {
   &.hidden {
     display: none;
   }
 }
 
-
-.abstract-overflow-more {
-  //display: none;
-  &.hidden {
-    display: none;
+.abstract-text, .abstract-overflow {
+  /* show ellipsis character */
+  &.indicator:after {
+    content: '\2026';
+    display: inline;
+    padding: 0 0.1429rem;
   }
 }
 
