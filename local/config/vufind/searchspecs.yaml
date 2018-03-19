@@ -186,6 +186,9 @@ Subject_OR:
     topic:
       - [onephrase, 350]
       - [or, 500]
+  DismaxParams:
+    - [mm, '50%']
+
 
 JournalTitle:
   DismaxFields:
