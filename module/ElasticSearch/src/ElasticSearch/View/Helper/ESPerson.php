@@ -165,16 +165,14 @@ class ESPerson extends AbstractHelper
     /**
      * Gets the BirthInfo
      *
-     * @param string $dateFormat The date format
-     * @param string $separator  The separator
+     * @param string $separator The separator
      *
      * @return null|string
      */
-    public function getBirthInfo(
-        string $dateFormat = 'd.m.Y', string $separator = ', '
-    ) {
+    public function getBirthInfo(string $separator = ', ')
+    {
         return $this->getDateAndPlaceInfo(
-            $dateFormat, $separator, $this->getPerson()->getBirthDate(),
+            $separator, $this->getPerson()->getBirthDate(),
             $this->getPerson()->getBirthPlaceDisplayField()
         );
     }
@@ -182,16 +180,14 @@ class ESPerson extends AbstractHelper
     /**
      * Gets the DeathInfo
      *
-     * @param string $dateFormat The date format
-     * @param string $separator  The separator
+     * @param string $separator The separator
      *
      * @return null|string
      */
-    public function getDeathInfo(
-        string $dateFormat = 'd.m.Y', string $separator = ', '
-    ) {
+    public function getDeathInfo(string $separator = ', ')
+    {
         return $this->getDateAndPlaceInfo(
-            $dateFormat, $separator, $this->getPerson()->getDeathDate(),
+            $separator, $this->getPerson()->getDeathDate(),
             $this->getPerson()->getDeathPlaceDisplayField()
         );
     }
@@ -199,18 +195,15 @@ class ESPerson extends AbstractHelper
     /**
      * Gets the DateAndPlaceInfo
      *
-     * @param string         $dateFormat The date format
-     * @param string         $separator  The separator
-     * @param \DateTime|null $date       The (optional) date
-     * @param array          $place      The (optional) place
+     * @param string      $separator The separator
+     * @param string|null $date      The (optional) date
+     * @param array       $place     The (optional) place
      *
      * @return string|null
      */
     protected function getDateAndPlaceInfo(
-        string $dateFormat, string $separator, \DateTime $date = null,
-        array $place = null
+        string $separator, string $date = null, array $place = null
     ) {
-        $date = is_null($date) ? null : $date->format($dateFormat);
         $place = is_null($place) ? null : implode($separator, $place);
         $result = null;
 
@@ -288,12 +281,13 @@ class ESPerson extends AbstractHelper
                 ? $splitter->split($abstract, $limits[0])
                 : $splitter->splitMultiple($abstract, ...$limits);
 
-            $info->label = $this->getView()->translate(
-                'person.metadata.abstract'
-            );
+            $info->label = $this->getView()->translate('person.metadata.abstract');
 
             $info->text = $this->escape($info->text);
-            $info->overflow = $this->escape($info->overflow);
+
+            if ($info->truncated) {
+                $info->overflow = $this->escape($info->overflow);
+            }
         }
 
         return $info;
@@ -476,7 +470,7 @@ class ESPerson extends AbstractHelper
      */
     public function getCoauthorsSearchLink(): string
     {
-        return $this->getPersonsSearchLink('coauthor');
+        return $this->getPersonSearchLink('coauthor', 'getUniqueID');
     }
 
     /**
@@ -486,7 +480,7 @@ class ESPerson extends AbstractHelper
      */
     public function getSameMovementSearchLink(): string
     {
-        return $this->getPersonsSearchLink('samemovement');
+        return $this->getPersonSearchLink('samemovement', 'getMovement');
     }
 
     /**
@@ -496,6 +490,6 @@ class ESPerson extends AbstractHelper
      */
     public function getSameGenreSearchLink(): string
     {
-        return $this->getPersonsSearchLink('samegenre');
+        return $this->getPersonSearchLink('samegenre', 'getGenre');
     }
 }

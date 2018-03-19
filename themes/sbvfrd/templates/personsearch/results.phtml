@@ -4,11 +4,10 @@
         <?= $this->render('pagination.phtml', ['results' => $this->results]) ?>
     </div>
 </div>
-<div class="container">
+<div class="person-search-results">
     <? foreach ($results->getResults() as $person): ?>
-        <div class="row">
-            <?= $person->getName() ?>
-        </div>
+        <? $this->esperson()->setPerson($person) ?>
+        <?= $this->render('item.phtml') ?>
     <? endforeach; ?>
 </div>
 <?= $this->render('pagination.phtml', ['results' => $this->results, 'hideHits' => true]) ?>

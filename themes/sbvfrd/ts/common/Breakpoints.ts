@@ -95,6 +95,16 @@ export class BreakpointCollection {
     public getName(breakpoint: string): string {
         return this.names.hasOwnProperty(breakpoint) ? this.names[breakpoint] : null;
     }
+
+    public isOneOf(query:string, ...breakpoints:Array<string>): boolean {
+        let result: boolean = false;
+        
+        breakpoints.forEach(element => {
+            result = result || Object(this)[element] === query;
+        });
+        
+        return result;
+    }
 }
 
 
@@ -103,24 +113,10 @@ export class BreakpointCollection {
  */
 export default class Breakpoints {
 
-    static readonly CAROUSEL: BreakpointCollection = new BreakpointCollection(
-        "only screen and (max-width: 767px)",
-        "only screen and (min-width: 768px) and (max-width: 991px)",
-        "only screen and (min-width: 992px) and (max-width: 1199px)",
-        "only screen and (min-width: 1200px)"
-    );
-
     static readonly BOOTSTRAP: BreakpointCollection = new BreakpointCollection(
         "only screen and (max-width: 480px)",
         "only screen and (min-width: 481px) and (max-width: 768px)",
         "only screen and (min-width: 769px) and (max-width: 1199px)",
-        "only screen and (min-width: 1200px)"
-    );
-
-    static readonly BOOSTTRAP_MIN: BreakpointCollection = new BreakpointCollection(
-        "only screen and (max-width: 480px)",
-        "only screen and (min-width: 481px)",
-        "only screen and (min-width: 769px)",
         "only screen and (min-width: 1200px)"
     );
 }

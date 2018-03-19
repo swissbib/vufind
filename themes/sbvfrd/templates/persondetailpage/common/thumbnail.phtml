@@ -1,6 +1,6 @@
 <div>
     <? if ($this->esperson()->hasThumbnail()): ?>
-        <?= $this->render('/detailpage/common/thumbnail.phtml', [
+        <?= $this->render('/person/common/thumbnail.phtml', [
             'id' => $this->driver->getUniqueID(),
             'paths' => $this->esperson()->getAvailableThumbnails()
         ]); ?>
