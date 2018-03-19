@@ -15,7 +15,7 @@
     <?= $this->render(
         '/detailpage/carousel.phtml', [
             'id' => 'genres',
-            'pagination' => ['xs' => 2, 'sm' => 2, 'md' => 4, 'lg' => 6],
+            'pagination' => ['xs' => 2, 'sm' => 4, 'md' => 6, 'lg' => 6],
             'thumbnail' => $this->imageLink('person-placeholder.png'),
             'total' => $this->authorsOfSameGenreTotal,
             'templates' => [

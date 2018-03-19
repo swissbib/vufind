@@ -139,7 +139,7 @@ export default class Carousel implements SearchResultProvider {
         const observer: MediaQueryObserver = this.mediaQueryObserver;
         const callback: (query: string) => void = this.mediaQueryObserverCallback;
 
-        Breakpoints.CAROUSEL.mobileFirst.forEach(query => observer.register(query, callback));
+        Breakpoints.BOOTSTRAP.mobileFirst.forEach(query => observer.register(query, callback));
     }
 
     /**

@@ -17,9 +17,6 @@
             <? if (isset($this->childrenMedias) && $this->childrenMedias->getResultTotal() > 0): ?>
             <li><?= $this->render($template, ['name' => 'medias-children', 'label' => $this->translate('page.detail.subject.media.children')]) ?></li>
             <? endif; ?>
-            <!--
-            <li><?#= $this->render($template, ['name' => 'subjects', 'label' => $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.subjects.related')]) ?></li>
-            -->
         </ul>
     </div>
 </div>

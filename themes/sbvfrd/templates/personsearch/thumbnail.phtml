@@ -1,0 +1,6 @@
+<div>
+    <?= $this->render('/person/common/thumbnail.phtml', [
+        'id' => $this->esperson()->getDriver()->getUniqueID(),
+        'paths' => $this->esperson()->getAvailableThumbnails($this->imageLink('person-placeholder.png'))
+    ]); ?>
+</div>
