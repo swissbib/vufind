@@ -151,8 +151,9 @@ parameters:
         multi_match:
           query: '{q}'
           # Should rather be an Array but is not parsed correctly at ElasticsearchAdapter/Query/TemplateQuery.php:241
-          fields: 'http://d-nb_info/standards/elementset/gnd#broaderTerm*.@id'
-          operator: 'or'
+          fields: 'http://d-nb_info/standards/elementset/gnd#broaderTermGeneral.@id,http://d-nb_info/standards/elementset/gnd#broaderTermGeneric.@id'
+          # This is required to avoid search for the last digit only "-[09]"
+          operator: 'and'
 
     bibliographicResources_by_author:
       type: 'bibliographicResource'
