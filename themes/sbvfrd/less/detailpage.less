@@ -53,7 +53,7 @@
 }
 
 .page-anchors, .record-related-searches {
-  margin-top: 5rem;
+  margin-top: 4rem;
   margin-bottom: 2.35rem;
 
   ul > li > a {
@@ -71,6 +71,8 @@
 }
 
 .record-references {
+  margin-bottom: 2.35rem;
+  
   ul > li > a {
 
     &.icon-arrow-external-link:before {
@@ -94,7 +96,7 @@ button.accordion-collapse {
 
 .detailpage-common {
   padding-right: 1.5rem;
-  margin-top: 5rem;
+  margin-top: 4rem;
 
   h2.name {
     margin-top: 0;
@@ -150,6 +152,10 @@ button.accordion-collapse {
 @media (max-width: @screen-sm-max) {
   .page-anchors, .record-related-searches {
     margin-top: 1.43rem;
+    margin-bottom: 1rem;
+  }
+
+  .record-references {
     margin-bottom: 2.11rem;
   }
 
@@ -159,30 +165,26 @@ button.accordion-collapse {
   }
 }
 
-@media (max-width: @screen-xs-max) { 
-  .abstract-text.overflow-hidden:after {
-    content: '\2026';
-    display: inline;
-    padding: 0 0.1429rem;
+@media (max-width: @screen-xs-max) {
+
+  #detailpage h2.name {
+    margin-top: 1.11rem;
+    margin-bottom: 1rem;
   }
 }
 
-.abstract-overflow.hidden-xs {
-  &:not(.abstract-overflow.hidden-xs:last-child):after {
-    content: '\2026';
-    display: inline;
-    padding: 0 0.1429rem;
-  }
+.abstract-overflow, .abstract-overflow-more {
   &.hidden {
     display: none;
   }
 }
 
-
-.abstract-overflow-more {
-  //display: none;
-  &.hidden {
-    display: none;
+.abstract-text, .abstract-overflow {
+  /* show ellipsis character */
+  &.indicator:after {
+    content: '\2026';
+    display: inline;
+    padding: 0 0.1429rem;
   }
 }
 
@@ -202,6 +204,14 @@ button.accordion-collapse {
 
     h2 {
       font-size: 1.35714rem;
+    }
+  }
+}
+
+@media (max-width: @screen-sm-max) {
+  #detailpage.subject {
+    & .page-anchors {
+      margin-bottom: 2.35rem;
     }
   }
 }

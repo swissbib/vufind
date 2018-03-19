@@ -149,7 +149,7 @@ class ESSubject extends AbstractHelper
      */
     public function getSubjectAuthorsLink(): string
     {
-        return $this->getPersonsSearchLink('subject');
+        return $this->getPersonSearchLink('subject', 'getUniqueID');
     }
 
     /**

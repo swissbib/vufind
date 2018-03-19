@@ -1,6 +1,5 @@
 <? if ($this->esperson()->hasAbstract()): ?>
-    <? $abstractInfo = $this->esperson()->getAbstractInfo(); ?>
-
+    <? $abstractInfo = $this->esperson()->getAbstractInfo(true, 30); ?>
     <li class="entry section-start">
         <span class="entry-label"><?= $abstractInfo->label ?></span>
         <span class="entry-value"><?= $abstractInfo->text ?></span>

@@ -1,1 +1,13 @@
 '@parent_yaml': "local/config/vufind/searchspecs.yaml"
+
+Subject_OR:
+  DismaxHandler: edismax
+  DismaxFields:
+    - topic^150
+  QueryFields:
+    topic:
+      - [onephrase, 350]
+      - [or, 500]
+  DismaxParams:
+    - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
+    - [mm, '100%']
