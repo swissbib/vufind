@@ -13,15 +13,16 @@ $formats     = $record->getFormats();
 //for the head title
 $extendedTitle = '';
 
-if (isset($responsible)) {
+if (!empty($responsible)) {
     $extendedTitle .= ' / ' . $responsible;
 }
 
-$extendedTitle .= '. ';
 
 if (isset($formats) and isset($formats[0])) {
-    $extendedTitle .= $this->zendTranslate($formats[0], 'formats') . '.';
+    $extendedTitle .= ' (' . $this->zendTranslate($formats[0], 'formats') . ')';
 }
+
+$extendedTitle .= '. ';
 
 $holdings = $record->getHoldingsStructure();
 

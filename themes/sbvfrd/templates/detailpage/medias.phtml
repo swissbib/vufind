@@ -1,7 +1,7 @@
 <? $this->accessor = $this->accessor ?? 'medias' ?>
 <? $results = $this->{$this->accessor} ?>
 
-<? if ($results->getResultTotal() > 0): ?>
+<? if (isset($results) && $results->getResultTotal() > 0): ?>
 <div class="media-search-results">
     <? if (isset($this->name)): ?>
         <a id="detailpage-medias-<?= $this->name ?>"></a>

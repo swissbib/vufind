@@ -149,12 +149,11 @@ class ESPerson extends ElasticSearch
     /**
      * Gets the BirthDate
      *
-     * @return \DateTime|null
+     * @return string|null
      */
     public function getBirthDate()
     {
-        $date = $this->getField('birthDate');
-        return $this->extractDate($date);
+        return $this->getField('birthDate');
     }
 
     /**
@@ -206,12 +205,11 @@ class ESPerson extends ElasticSearch
     /**
      * Gets the DeathDate
      *
-     * @return \DateTime|null
+     * @return string|null
      */
     public function getDeathDate()
     {
-        $date = $this->getField("deathDate");
-        return $this->extractDate($date);
+        return $this->getField("deathDate");
     }
 
     /**
@@ -366,21 +364,6 @@ class ESPerson extends ElasticSearch
     }
 
     /**
-     * Extracts date
-     *
-     * @param string $date The date
-     *
-     * @return \DateTime|null
-     */
-    protected function extractDate(string $date = null)
-    {
-        if ($date !== null) {
-            return $this->bestGuessDate($date);
-        }
-        return null;
-    }
-
-    /**
      * Gets the Field
      *
      * @param string $name      Name of the field
@@ -403,24 +386,5 @@ class ESPerson extends ElasticSearch
     public function getAllFields()
     {
         return $this->fields;
-    }
-
-    /**
-     * Tries to guess the date from the input string
-     *
-     * @param string $date The date
-     *
-     * @return \DateTime
-     */
-    protected function bestGuessDate(string $date): \DateTime
-    {
-        if (preg_match('/^\d{2}$/', $date)) {
-            return \DateTime::createFromFormat("y", $date);
-        }
-        if (preg_match('/^\d{4}$/', $date)) {
-            return \DateTime::createFromFormat("Y", $date);
-        }
-
-        return new \DateTime($date);
     }
 }

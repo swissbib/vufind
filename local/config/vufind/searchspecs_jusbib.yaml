@@ -171,6 +171,18 @@ Subject:
     - [mm, '100%']
 
 
+Subject_OR:
+  DismaxHandler: dismax
+  DismaxFields:
+    - topic^150
+  QueryFields:
+    topic:
+      - [onephrase, 350]
+      - [or, 500]
+  DismaxParams:
+    - [mm, '50%']
+
+
 JournalTitle:
   DismaxFields:
     - title_short^1000

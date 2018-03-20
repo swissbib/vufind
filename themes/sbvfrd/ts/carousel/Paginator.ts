@@ -36,7 +36,7 @@ export default class Paginator {
     public updateFromQuery(query: string): void {
         this._lastState = this.clone();
 
-        const name = Breakpoints.CAROUSEL.getName(query);
+        const name = Breakpoints.BOOTSTRAP.getName(query);
         const newPageSize = Object(this.pagination)[name];
 
         this._page = Math.floor((this.page * this.size) / newPageSize);

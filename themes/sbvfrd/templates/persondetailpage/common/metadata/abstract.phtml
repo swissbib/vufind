@@ -3,11 +3,9 @@
     <div class="row metadata">
         <div class="col-sm-2"><?= $abstractInfo->label ?></div>
         <div class="col-sm-10">
+            <span class="abstract-text"><?= $abstractInfo->text ?></span>
             <? if ($abstractInfo->truncated): ?>
-                <span class="abstract-text overflow-hidden"><?= $abstractInfo->text ?></span>
                 <?= $this->render('/persondetailpage/common/metadata/abstract-overflow.phtml', ['overflow' => $abstractInfo->overflow]) ?>
-            <? else: ?>
-                <span class="abstract-text"><?= $abstractInfo->text ?></span>
             <? endif; ?>
         </div>
     </div>
