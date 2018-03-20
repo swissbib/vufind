@@ -8,48 +8,47 @@ if (!$gndHeadings) {
 }
 
 ?>
-<h4 class="list-group-item title"><?= $this->transEsc('Related Subjects') ?></h4>
-<ul class="list-group subject">
-    <? $subjects = []; ?>
-    <?php foreach ($gndHeadings as $fieldIndex => $fieldData): ?>
-        <?php foreach ($fieldData as $fieldValues): ?>
-            <?php
-            $urlValues = [];
-
-            // Add quotes if required
-            foreach ($fieldValues as $key => $fieldValue) {
-                if ($key !== 0 && $key !== 2) {
-                    if (strpos($fieldValue, ' ') !== false) {
-                        $urlValues[] = '"' . addslashes($fieldValue) . '"';
-                    } else {
-                        $urlValues[] = $fieldValue;
+<div class="record-related-searches">
+    <h1 class="title"><?= $this->transEsc('Related Subjects') ?></h1>
+    <ul class="list-group subject list">
+        <? $subjects = []; ?>
+        <?php foreach ($gndHeadings as $fieldIndex => $fieldData): ?>
+            <?php foreach ($fieldData as $fieldValues): ?>
+                <?php
+                $urlValues = [];
+                // Add quotes if required
+                foreach ($fieldValues as $key => $fieldValue) {
+                    if ($key !== 0 && $key !== 2) {
+                        if (strpos($fieldValue, ' ') !== false) {
+                            $urlValues[] = '"' . addslashes($fieldValue) . '"';
+                        } else {
+                            $urlValues[] = $fieldValue;
+                        }
                     }
                 }
-            }
+                $lookFor = implode(' ', $urlValues);
+                $searchUrl = $this->url('search-results') . '?lookfor=' . urlencode(
+                        $lookFor
+                    ) . '&amp;type=Subject';
 
-            $lookFor = implode(' ', $urlValues);
-            $searchUrl = $this->url('search-results') . '?lookfor=' . urlencode(
-                    $lookFor
-                ) . '&amp;type=Subject';
+                if (!in_array($fieldValues, $subjects)) {
 
-            if (!in_array($fieldValues, $subjects)) {
-
-                $id = array_key_exists(0, $fieldValues) ? "subjectid=\"" . explode(
-                        ")", $fieldValues[0]
-                    )[1] . "\"" : "";
-                unset($fieldValues[0]);
-                unset($fieldValues[2]);
-                echo '<li class="list-group-item" ' . $id . ' >';
-                echo '<a href="' . $searchUrl . '" title="' . $this->escapeHtml(
-                        implode(' > ', $fieldValues)
-                    ) . '">' . $this->escapeHtml(implode(' > ', $fieldValues))
-                    . '</a>';
-                echo '</li>';
-            }
-            array_push($subjects, $fieldValues);
-            ?>
+                    $id = array_key_exists(0, $fieldValues) ? "subjectid=\"" . explode(
+                            ")", $fieldValues[0]
+                        )[1] . "\"" : "";
+                    unset($fieldValues[0]);
+                    unset($fieldValues[2]);
+                    echo '<li class="list-group-item" ' . $id . ' >';
+                    echo '<a href="' . $searchUrl . '" title="' . $this->escapeHtml(
+                            implode(' > ', $fieldValues)
+                        ) . '">' . $this->escapeHtml(implode(' > ', $fieldValues))
+                        . '</a>';
+                    echo '</li>';
+                }
+                array_push($subjects, $fieldValues);
+                ?>
+            <?php endforeach; ?>
         <?php endforeach; ?>
-    <?php endforeach; ?>
-    <? $subjects ?>
-</ul>
-
+        <? $subjects ?>
+    </ul>
+</div>
