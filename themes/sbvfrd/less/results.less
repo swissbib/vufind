@@ -65,9 +65,6 @@
       font-size: 13px;
       padding: 4px 0;
     }
-    &:nth-child(odd) {
-      background: @sidebar-title-color;
-    }
     &:last-child {
       border-bottom: none;
     }
@@ -163,8 +160,20 @@
   }
 }
 
+/* begin: result-item definitions for the NON-linked part */
+.result-item {
+  .item-info {
+    h4 {
+      margin-top: 0;
+    }
+  }
+}
+.result-item:nth-child(even) {
+  background-color: @result-list-item-background-color;
+}
+/* end: result-item definitions for the NON-linked part */
 
-
+/* begin: result-item definitions for the linked part */
 .media-search-results,
 .person-search-results {
 
@@ -195,6 +204,7 @@
       }
     }
   }
+  /* end: result-item definitions for the linked part */
 
   .all-results-box {
     margin-top: 1.79rem;

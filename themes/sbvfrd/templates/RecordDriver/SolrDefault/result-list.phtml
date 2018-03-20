@@ -25,77 +25,85 @@ $formats = $viewRecord->getFormatList();
   <input type="hidden" value="<?=$this->escapeHtmlAttr($this->driver->getUniqueID())?>" class="hiddenId" />
   <input type="hidden" value="<?=$this->escapeHtmlAttr($this->driver->getResourceSource())?>" class="hiddenSource" />
 
-  <div class="hidden-xs col-sm-3 col-md-2 no-gutter hidden-print">
+  <div class="hidden-xs col-sm-2 col-md-2 no-gutter hidden-print">
     <a href="<?=$this->recordLink()->getUrl($this->driver)?>" class="img-responsive">
         <img alt="<?= $this->escapeHtml($shortTitle) ?>" class="recordcover" src="<?= $thumbnail ?>"/>
     </a>
   </div>
 
-  <!-- Kurztitel (vorher class="col-xs-7 col-sm-8 col-md-7" -->
-  <div class="col-xs-10 col-sm-8 col-md-7">
-    <div>
-        <h2>
-            <a href="<?=$this->recordLink()->getUrl($this->driver)?>" class="title singleLinkForBulk" title="<?= $this->escapeHtml($shortTitle) ?>">
-                <?= $this->escapeHtml($shortTitle) ?>
-            </a>
-        </h2>
-    </div>
+  <div class="col-xs-10 col-sm-6 col-md-7">
 
-    <!-- Untertitel und Verfasserangabe -->
-    <div class="meta">
-       <? if (isset($subtitle)): ?>
-        <span id="subtitle"><?= $this->escapeHtml($subtitle) ?></span><br />
-       <? endif; ?>
-        <? if ($responsible): ?>
-            <span class="hidden-xs label"><strong><?= $this->transEsc('Author') ?>:</strong></span>
-            <span>
-               <?= $this->escapeHtml($responsible) ?>
-            </span><br />
-        <? endif; ?>
-    </div>
+    <!-- Kurztitel -->
+    <div class="item-info">
 
-    <!-- Zeitschriftentitel, Erscheinungsjahr -->
-    <div class="meta">
-        <? if ($hostItems): ?>
-            <? foreach ($hostItems as $hostItem): ?>
-                <? if (array_key_exists('title', $hostItem)): ?>
-                    <span class="hidden-xs label"><strong><?= $this->transEsc('note_773') ?>:</strong></span>
-                    <? $text = array_key_exists('related', $hostItem) ? $hostItem['title'] . ', ' . $hostItem['related'] : $hostItem['title'] ?>
-                    <span><?= $this->escapeHtml($text) ?></span><br />
-                <? endif; ?>
-            <? endforeach; ?>
-        <? endif; ?>
-        <? if ($journalTitle): ?>
-            <span class="hidden-xs label"><strong><?= $this->transEsc('Published in')?>:</strong></span>
-            <span><a href="<?= $viewRecord->getLink('journaltitle', $journalTitle)?>"><?= $this->escapeHtml($journalTitle)?></a></span><br />
-        <? endif; ?>
-        <? if ($summDate): ?>
-        <span class="hidden-xs label"><strong><?= $this->transEsc('Year') ?>:</strong></span>
-        <span><?= $this->escapeHtml($summDate[0]) ?></span><br />
-        <? endif; ?>
-        <? if ($edition): ?>
-             <span class="hidden-xs label"><strong><?= $this->transEsc('Edition') ?>:</strong></span>
-             <span><?= $this->escapeHtml($edition) ?></span><br />
-        <? endif; ?>
-    </div>
+      <div class="row">
+        <div class="col-md-12">
+            <h4>
+                <a href="<?=$this->recordLink()->getUrl($this->driver)?>" class="title singleLinkForBulk" title="<?= $this->escapeHtml($shortTitle) ?>">
+                    <?= $this->escapeHtml($shortTitle) ?>
+                </a>
+            </h4>
+        </div>
+      </div>
 
-    <!-- ID -->
-    <div class="meta visible-print-block">
-      <? if ($uniqueID): ?>
-        <span class="hidden-xs label"><strong><?= $this->transEsc('Item_ID') ?>:</strong></span>
-        <span><?= $uniqueID ?></span><br />
-      <? endif; ?>
-    </div>
+        <!-- Untertitel und Verfasserangabe -->
+        <div class="row">
+           <? if (isset($subtitle)): ?>
+            <!--span id="subtitle">< ?= $this->escapeHtml($subtitle) ?></span><br /-->
+           <? endif; ?>
+            <? if ($responsible): ?>
+                <div class="col-md-3"><?= $this->transEsc('Author') ?>:</div>
+                <div class="col-md-9">
+                   <?= $this->escapeHtml($responsible) ?>
+                </div>
+            <? endif; ?>
+        </div>
 
-    <!-- Medien-Typ -->
-    <div class="meta">
-      <? if (!empty($formats)): ?>
-        <span class="hidden-xs label"><strong><?= $this->transEsc('Format') ?>:</strong></span>
-        <span><?= $formats ?></span><br />
-      <? endif; ?>
-    </div>
+        <!-- Zeitschriftentitel, Erscheinungsjahr -->
+        <div class="row">
+            <? if ($hostItems): ?>
+                <? foreach ($hostItems as $hostItem): ?>
+                    <? if (array_key_exists('title', $hostItem)): ?>
+                        <div class="col-md-3"><?= $this->transEsc('note_773') ?>:</div>
+                        <div class="col-md-9">
+                            <? $text = array_key_exists('related', $hostItem) ? $hostItem['title'] . ', ' . $hostItem['related'] : $hostItem['title'] ?>
+                            <?= $this->escapeHtml($text) ?>
+                        </div>
+                    <? endif; ?>
+                <? endforeach; ?>
+            <? endif; ?>
+            <? if ($journalTitle): ?>
+                <div class="col-md-3"><?= $this->transEsc('Published in')?>:</div>
+                <div class="col-md-9"><a href="<?= $viewRecord->getLink('journaltitle', $journalTitle)?>"><?= $this->escapeHtml($journalTitle)?></a></div>
+            <? endif; ?>
+            <? if ($summDate): ?>
+                    <div class="col-md-3"><?= $this->transEsc('Year') ?>:</div>
+                    <div class="col-md-9"><?= $this->escapeHtml($summDate[0]) ?></div>
+            <? endif; ?>
+            <? if ($edition): ?>
+                <div class="col-md-3"><?= $this->transEsc('Edition') ?>:</div>
+                <div class="col-md-9"><?= $this->escapeHtml($edition) ?></div>
+            <? endif; ?>
+        </div>
 
-  </div>
+        <!-- ID -->
+        <div class="row visible-print-block">
+          <? if ($uniqueID): ?>
+                <div class="col-md-3"><?= $this->transEsc('Item_ID') ?>:</div>
+                <div class="col-md-9"><?= $uniqueID ?></div>
+          <? endif; ?>
+        </div>
+
+        <!-- Medien-Typ -->
+        <div class="row">
+          <? if (!empty($formats)): ?>
+                <div class="col-md-3"><?= $this->transEsc('Format') ?>:</div>
+                <div class="col-md-9"><?= $formats ?></div>
+          <? endif; ?>
+        </div>
+
+      </div>
+    </div>
 
   <div class="col-xs-1 col-md-3 actions">
     <div>
@@ -128,14 +136,6 @@ $formats = $viewRecord->getFormatList();
             <div class="savedLists alert alert-info hidden hidden-xs hidden-sm hidden-print">
                 <strong><?=$this->transEsc('Saved in')?>:</strong>
             </div>
-      <? endif; ?>
-
-
-
-      <? if ($this->isFavoriteInstitution($record->getInstitutions())): ?>
-         <!--<i class="fa fa-heart"></i>
-          <img class="hidden-print" src="<?= $this->basePath('themes/swissbib/images/icon_favorit_library.gif') ?>"
-                 alt="Favourite library icon (heart)" class="favourite-library">-->
       <? endif; ?>
 
     </div>
