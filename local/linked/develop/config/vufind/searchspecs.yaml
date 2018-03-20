@@ -1,10 +1,2 @@
 '@parent_yaml': "local/config/vufind/searchspecs.yaml"
 
-Subject_OR:
-  DismaxHandler: dismax
-  DismaxFields:
-    - topic^150
-  QueryFields:
-    topic:
-      - [onephrase, 350]
-      - [or, 500]
