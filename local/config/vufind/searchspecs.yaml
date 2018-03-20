@@ -179,7 +179,7 @@ Subject:
     - [mm, '100%']
 
 Subject_OR:
-  DismaxHandler: edismax
+  DismaxHandler: dismax
   DismaxFields:
     - topic^150
   QueryFields:
@@ -187,8 +187,8 @@ Subject_OR:
       - [onephrase, 350]
       - [or, 500]
   DismaxParams:
-    - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
-    - [mm, '100%']
+    - [mm, '50%']
+
 
 JournalTitle:
   DismaxFields:
