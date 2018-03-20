@@ -21,7 +21,7 @@
         <div class="all-results-box">
         <?= $this->{$helper}()->getMediaSearchLink(
             '<a class="btn btn-primary" href="%s">%s</a>',
-            'common.show.results.all.long', true
+            'common.show.results.all.long', true, $data ?? []
         ) ?>
         </div>
     <? endif; ?>
