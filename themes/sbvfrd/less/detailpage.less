@@ -21,10 +21,17 @@
     list-style: none;
 
     & > li {
+      border-top: none;
+      border-left: none;
+      border-right: none;
       border-bottom: 1px solid @separator-border-color;
 
+      & > a:before {
+        content: "\00a0 ";
+      }
+
       & > a {
-        display: flex;
+        display: inline-flex;
         padding: .71rem 0 .5714rem;
         font-size: 1rem;
 

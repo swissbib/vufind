@@ -405,20 +405,31 @@ header {
 .list-group-item {
   text-overflow: ellipsis;
   overflow: hidden;
-  //padding: 6px 15px;
+  padding: 0;
+  margin-bottom: 0;
+  border-style: none;
+
+  &:first-child {
+    .border-top-radius(0);
+  }
+  &:last-child {
+    margin-bottom: 0;
+    .border-bottom-radius(0);
+  }
 }
 
 .list-group-item.title {
   font-weight: 600;
   background: @sidebar-title-color;
+  border-bottom-style: solid;
 }
 
 .list-group-item:first-child,
 .list-group-item:last-child {
-  border-top-right-radius: 2px;
-  border-top-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-  border-bottom-left-radius: 2px;
+  //border-top-right-radius: 2px;
+  //border-top-left-radius: 2px;
+  //border-bottom-right-radius: 2px;
+  //border-bottom-left-radius: 2px;
 }
 
 a.list-group-item.active,
@@ -675,11 +686,6 @@ ul[aria-labelledby=dropdownLibraries] {
   .list-group-item {
     text-overflow: ellipsis;
     overflow: hidden;
-    border-top-style: none;
-    border-left-style: none;
-    border-right-style: none;
-    //border-bottom: 1px solid #CCC;
-    //padding-left: 8px;
     padding-right: 8px;
   }
   .facetOR > a , .facetAND > a {
