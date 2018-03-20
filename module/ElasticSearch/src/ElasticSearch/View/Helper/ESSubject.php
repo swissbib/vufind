@@ -63,8 +63,7 @@ class ESSubject extends AbstractHelper
     protected function getMetadataMethodMap(): array
     {
         return [
-            'variants' => 'getVariantNames',
-            'definition' => 'getDefinition'
+            'variants' => 'getVariantNames', 'definition' => 'getDefinition'
         ];
     }
 
@@ -144,7 +143,7 @@ class ESSubject extends AbstractHelper
 
     /**
      * Provides the link to the subject based authors search result page.
-     * 
+     *
      * @return string
      */
     public function getSubjectAuthorsLink(): string
@@ -224,6 +223,39 @@ class ESSubject extends AbstractHelper
         $url = sprintf(
             '%s?lookfor=%s&type=Subject', $url,
             urlencode($this->getSubject()->getName())
+        );
+
+        return sprintf($template, $url, $label);
+    }
+
+    /**
+     * Gets the MediaSearchLink
+     *
+     * @param string $template       The template
+     * @param string $label          The label to be rendered.
+     * @param bool   $translateLabel Indicates whether to treat the label parameter
+     *                               as localization key or to use it as is.
+     * @param array  $data           Array of ESSubjects, if search is for sub- or
+     *                               parent subjects
+     *
+     * @return string
+     */
+    public function getMediaSearchLink(
+        string $template, string $label, bool $translateLabel = false,
+        array $data = []
+    ): string {
+        if (empty($data)) {
+            return parent::getMediaSearchLink($template, $label, $translateLabel);
+        }
+        $data = array_map(
+            function (\ElasticSearch\VuFind\RecordDriver\ESSubject $subject) {
+                return $subject->getName();
+            }, $data
+        );
+        $label = $translateLabel ? $this->getView()->translate($label) : $label;
+        $url = $this->getView()->url('search-results');
+        $url = sprintf(
+            '%s?lookfor=%s&type=%s', $url, implode(",", $data), "Subject_OR"
         );
 
         return sprintf($template, $url, $label);

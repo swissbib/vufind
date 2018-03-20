@@ -212,8 +212,8 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      *
      * @return string
      */
-    public function getDetailPageLink(string $template, string $label = null
-    ): string {
+    public function getDetailPageLink(string $template, string $label = null): string
+    {
         $label = is_null($label) ? $this->getDetailPageLinkLabel()
             : $this->getView()->translate($label);
 
@@ -236,8 +236,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     {
         $total = $results->getResultTotal();
         $loaded = count($results->getResults());
-        $translationKey = $loaded === 1
-            ? 'page.detail.media.list.hits.one.only'
+        $translationKey = $loaded === 1 ? 'page.detail.media.list.hits.one.only'
             : 'page.detail.media.list.hits';
 
         $template = $this->getView()->translate($translationKey);
@@ -262,8 +261,10 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
             foreach ($result as $key => $string) {
                 $result[$key] = $this->getView()->escapeHtml($string);
             }
-        } else if (is_string($result)) {
-            $result = $this->getView()->escapeHtml($result);
+        } else {
+            if (is_string($result)) {
+                $result = $this->getView()->escapeHtml($result);
+            }
         }
 
         return $result;
@@ -286,8 +287,10 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
             foreach ($value as $key => $url) {
                 $result[$key] = $this->getView()->escapeUrl($url);
             }
-        } else if (!is_null($value)) {
-            $result = $this->getView()->escapeUrl($value);
+        } else {
+            if (!is_null($value)) {
+                $result = $this->getView()->escapeUrl($value);
+            }
         }
 
         return $result;
@@ -309,9 +312,9 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     public function getSearchResultHeadline(
         string $translationKey, int $numResults, bool $useDisplayName = false
     ): string {
-        $headline = $useDisplayName
-            ? $this->resolveLabelWithDisplayName($translationKey)
-            : $this->getView()->translate($translationKey);
+        $headline = $useDisplayName ? $this->resolveLabelWithDisplayName(
+            $translationKey
+        ) : $this->getView()->translate($translationKey);
 
         return sprintf('%s (%u)', $headline, $numResults);
     }
@@ -355,7 +358,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     /**
      * Provides an array of all available thumbnails. This includes all thumbnails
      * from the underlying record driver and a possibly auto-resolved thumbnail.
-     * 
+     *
      * @param string $fallback A thumbnail image path to use as fallback when all of
      *                         the available thumbnails do not load properly.
      *
@@ -450,7 +453,6 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
         foreach ($references as $id => $reference) {
             if (preg_match($reference->pattern, $link) === 1) {
                 return ['label' => $reference->label, 'link' => $link];
-
             }
         }
 
@@ -464,17 +466,19 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      * @param string $label          The label to be rendered.
      * @param bool   $translateLabel Indicates whether to treat the label parameter
      *                               as localization key or to use it as is.
+     * @param array  $data           Ignored
      *
      * @return string
      */
     public function getMediaSearchLink(
-        string $template, string $label, bool $translateLabel = false
+        string $template, string $label, bool $translateLabel = false,
+        array $data = []
     ): string {
         $label = $translateLabel ? $this->getView()->translate($label) : $label;
         $url = $this->getView()->url('search-results');
         $url = sprintf(
-            '%s?lookfor=%s&type=%s', $url,
-            urlencode($this->getDriver()->getName()), $this->getSearchType()
+            '%s?lookfor=%s&type=%s', $url, urlencode($this->getDriver()->getName()),
+            $this->getSearchType()
         );
 
         return sprintf($template, $url, $label);
@@ -487,7 +491,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      * @param string $search   The person search to perform.
      * @param string $accessor The name of the field accessor method used to resolve
      *                         the value to look for.
-     * 
+     *
      * @return string
      */
     protected function getPersonSearchLink(string $search, string $accessor): string
