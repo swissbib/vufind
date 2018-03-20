@@ -1,5 +1,10 @@
 <? $this->esperson()->setPerson($this->driver) ?>
 <? $this->essubjectcollection()->setCollection($this->subjects) ?>
+<? $this->headTitle(
+    $this->translate("page.detail.authors.title",
+        ['%%person%%' => $this->escapeHtml($this->driver->getName())]
+    )
+) ?>
 
 <div id="detailpage" class="person">
     <div class="row">
