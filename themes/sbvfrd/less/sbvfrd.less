@@ -827,7 +827,6 @@ ul[aria-labelledby=dropdownLibraries] {
   }
 
   & > .row {
-    background-color: @content-box-background-color;
     margin-bottom: 20px;
     padding-bottom: 15px;
 
@@ -840,6 +839,9 @@ ul[aria-labelledby=dropdownLibraries] {
       height: 150px;
     }
 
+    h2 {
+      margin-top: 0;
+    }
 
     h3 {
       font-weight: 400;
@@ -865,6 +867,10 @@ ul[aria-labelledby=dropdownLibraries] {
         padding: 5px 4px 5px 0;
       }
     }
+  }
+
+  .btn.otherEditions {
+    margin-top: 3ex;
   }
 }
 
@@ -1825,7 +1831,7 @@ footer {
 }
 
 .thumbDetailView {
-  margin-top: 12px;
+  margin-top: 0;
 }
 
 /* hide custom print-button, use browser print instead */

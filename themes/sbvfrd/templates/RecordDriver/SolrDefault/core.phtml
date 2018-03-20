@@ -59,7 +59,7 @@ $linkSFX = $viewRecord->getLinkSFX();
   </div>
 
   <div class="col-sm-9 col-xs-12">
-    <h3 property="name"><?=$this->escapeHtml($shortTitle)?></h3>
+    <h2 property="name"><?=$this->escapeHtml($shortTitle)?></h2>
     <? if (isset($subtitle)): ?>
       <h4 class="resultViewSubTitle"><?= $this->escapeHtml($subtitle) ?></h4>
     <? endif; ?>
@@ -74,15 +74,18 @@ $linkSFX = $viewRecord->getLinkSFX();
     <?/* Display Main Details */?>
     <div class="meta" summary="<?=$this->transEsc('Bibliographic Details')?>">
     <? if (!empty($responsible)): ?>
+        <div class="row">
         <!-- Verfasser / Beitragende -->
-        <span class="label"><?=$this->transEsc('Author')?>:</span>
-        <span><?=$this->escapeHtml($responsible)?></span><br />
+        <div class="col-sm-4"><?=$this->transEsc('Author')?>:</div>
+        <div class="col-sm-8"><?=$this->escapeHtml($responsible)?></div>
+        </div>
     <? endif; ?>
 
     <!-- Impressum -->
     <? if (!empty($publications)): ?>
-      <span class="label"><?=$this->transEsc('Publication')?>: </span>
-      <span>
+      <div class="row">
+      <div class="col-sm-4"><?=$this->transEsc('Publication')?>: </div>
+      <div class="col-sm-8">
           <? foreach ($publications as $field): ?>
               <span property="publisher" typeof="Organization">
                   <? $pubPlace = $field->getPlace(); if (!empty($pubPlace)): ?>
@@ -97,78 +100,97 @@ $linkSFX = $viewRecord->getLinkSFX();
               <? endif; ?>
               <? if(!next($publications) === false){echo('<br />');} ?>
           <? endforeach; ?>
-      </span><br />
+      </div>
+      </div>
     <? endif; ?>
 
     <? if (!empty($journalTitle)): ?>
-      <span class="label"><?=$this->transEsc('Journal Title')?>:</span>
-      <span>
+      <div class="row">
+      <div class="col-sm-4"><?=$this->transEsc('Journal Title')?>:</div>
+        <div class="col-sm-8">
         <?=$this->escapeHtml($journalTitle) . ',' . ' '?>
         <? if (!empty($ref)) { echo $this->escapeHtml($ref); } ?>
-      </span><br />
+        </div>
+      </div>
       <? endif; ?>
 
       <? if ($hostItems): ?>
-      <span class="label"><?= $this->transEsc('note_773') ?>: </span>
-      <span>
+        <div class="row">
+        <div class="col-sm-4"><?= $this->transEsc('note_773') ?>: </div>
+        <div class="col-sm-8">
           <? foreach ($hostItems as $hostItem): ?>
               <? $text = isset($hostItem['title']) ? ( array_key_exists('related', $hostItem) ? $hostItem['title'] . ', ' . $hostItem['related'] : $hostItem['title'] ) : '' ?>
               <?= $this->escapeHtml($text) ?><br />
           <? endforeach; ?>
-      </span><br />
+        </div>
+        </div>
       <? endif; ?>
 
       <?php if ($cartMathData): ?>
-        <span class="label"><?= $this->transEsc('Map_Scale') ?>:</span>
-        <span><?= $this->escapeHtml($cartMathData) ?></span><br />
+        <div class="row">
+          <div class="col-sm-4"><?= $this->transEsc('Map_Scale') ?>:</div>
+          <div class="col-sm-8"><?= $this->escapeHtml($cartMathData) ?></div>
+        </div>
       <?php endif; ?>
 
       <?php if ($physicalDescriptions): ?>
-        <span class="label"><?= $this->transEsc('Physical Description') ?>:</span>
-        <span><?= $this->physicalDescription($physicalDescriptions) ?></span><br />
+        <div class="row">
+          <div class="col-sm-4"><?= $this->transEsc('Physical Description') ?>:</div>
+          <div class="col-sm-8"><?= $this->physicalDescription($physicalDescriptions) ?></div>
+        </div>
       <?php endif; ?>
 
       <? if (!empty($formats)): ?>
-        <span class="label"><?=$this->transEsc('Format')?>: </span>
-        <span><?= $formats ?></span><br />
+        <div class="row">
+          <div class="col-sm-4"><?=$this->transEsc('Format')?>: </div>
+          <div class="col-sm-8"><?= $formats ?></div>
+        </div>
       <? endif; ?>
 
       <? if (!empty($hierarchicalLevel)): ?>
-          <span class="label"><?=$this->transEsc('hierarchical_level')?>: </span>
-          <span><?= $this->zendTranslate($hierarchicalLevel, 'formats') ?></span><br />
+        <div class="row">
+          <div class="col-sm-4"><?=$this->transEsc('hierarchical_level')?>: </div>
+          <div class="col-sm-8"><?= $this->zendTranslate($hierarchicalLevel, 'formats') ?></div>
+        </div>
       <? endif; ?>
 
       <? if (!empty($edition)): ?>
-        <span class="label"><?=$this->transEsc('Edition')?>: </span>
-        <span property="bookEdition"><?=$this->escapeHtml($edition)?></span><br />
+        <div class="row">
+          <div class="col-sm-4"><?=$this->transEsc('Edition')?>: </div>
+          <div class="col-sm-8"><?=$this->escapeHtml($edition)?></div>
+        </div>
       <? endif; ?>
 
       <? if (!empty($urls)): ?>
-        <span class="label"><?=$this->transEsc('Online Access')?>: </span>
-        <span><br />
-          <? foreach ($urls as $current): ?>
-            <a href="<?=$this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($current['url'])))?>" target="_blank" title="<?=$this->escapeHtml($current['desc'])?>">
-                <?=$this->escapeHtml($current['desc'])?>
-            </a><br/>
-          <? endforeach; ?>
-          <? if ($linkSFX): ?>
-            <?= $linkSFX ?><br/>
-          <? endif; ?>
-          <? if(!empty($nl['message'])): ?>
-          <div class="flash-message alert alert-info">
-              <strong><?= $nl['message'] ?></strong>
+        <div class="row">
+          <div class="col-sm-4"><?=$this->transEsc('Online Access')?>: </div>
+          <div class="col-sm-8">
+            <? foreach ($urls as $current): ?>
+              <a href="<?=$this->escapeHtmlAttr($this->proxyUrl($this->redirectProtocolWrapper()->getWrappedURL($current['url'])))?>" target="_blank" title="<?=$this->escapeHtml($current['desc'])?>">
+                  <?=$this->escapeHtml($current['desc'])?>
+              </a><br/>
+            <? endforeach; ?>
+            <? if ($linkSFX): ?>
+              <?= $linkSFX ?><br/>
+            <? endif; ?>
+            <? if(!empty($nl['message'])): ?>
+            <div class="flash-message alert alert-info">
+                <strong><?= $nl['message'] ?></strong>
+            </div>
+            <? endif; ?>
           </div>
-          <? endif; ?>
-        </span><br />
+        </div>
       <? endif; ?>
 
       <? if (!empty($link360) || $linkSFX): ?>
-         <span class="label"><?= $this->transEsc('Online Access') ?>: </span>
-         <span><br />
-        <a title="<?= $this->transEsc('articles.link360') ?>" class="linkbutton primary icon_link_primary"
-           target="_blank" href="<?= $link360 ?>">get&#160;it</a><br/>
-        <?=$linkSFX ?></span>
-        <br/>
+        <div class="row">
+          <div class="col-sm-4"><?= $this->transEsc('Online Access') ?>: </div>
+          <div class="col-sm-8">
+              <a title="<?= $this->transEsc('articles.link360') ?>" class="linkbutton primary icon_link_primary"
+                 target="_blank" href="<?= $link360 ?>">get&#160;it</a><br/>
+              <?=$linkSFX ?>
+          </div>
+        </div>
       <? endif; ?>
 
       <?php if ($id): ?>
@@ -180,18 +202,17 @@ $linkSFX = $viewRecord->getLinkSFX();
        <span class="hidden-xs">
          <a href="<?=
           $this->url('search-results') . '?lookfor=' . $groupID . "&type=FRBR&sort=publishDateSort+desc" ?>"
-             class="btn btn-primary icon_show" title="<?= $this->transEsc('Other Editions') ?>">
+             class="btn btn-primary otherEditions" title="<?= $this->transEsc('Other Editions') ?>">
               <span><?= $this->transEsc('Other Editions') ?></span>
           </a>
        </span><br />
       <?php endif; ?>
-        <?php if ($highlightedFulltext): ?>
 
-                <span class="label"><?= $this->transEsc('fulltexthighlight') ?>: </span>
-                <span><br />
-                <?= $this->highlight($highlightedFulltext) ?></span>
-
-        <?php endif; ?>
+      <?php if ($highlightedFulltext): ?>
+              <span class="label"><?= $this->transEsc('fulltexthighlight') ?>: </span>
+              <span><br />
+              <?= $this->highlight($highlightedFulltext) ?></span>
+      <?php endif; ?>
 
     </div>
     <?/* End Main Details */?>
