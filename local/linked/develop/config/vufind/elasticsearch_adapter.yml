@@ -1,1 +1,1 @@
-@parent_yaml: "local/config/vufind/elasticsearch_adapter.yml"
+'@parent_yaml': "local/config/vufind/elasticsearch_adapter.yml"
