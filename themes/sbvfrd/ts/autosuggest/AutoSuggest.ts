@@ -87,6 +87,15 @@ export default class AutoSuggest {
     }
 
     /**
+     * Returns the value of the input field
+     *
+     * @returns {any} The value of the input field
+     */
+    public getValue(): any {
+        return this.searchInputElement.val();
+    }
+
+    /**
      * @private
      */
     public set defaultSectionLimit(value: number) {
