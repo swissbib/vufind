@@ -120,7 +120,9 @@
    * @param    {Object}    event
    */
   s.onBulkExportFormatClick = function(event) {
-    var driver = $('div.search-tabs-box:has(ul)').length ? $('div.search-tabs-box li.active').attr('data-searchClass') : 'VuFind';
+    var searchClass = $('div.search-tabs-box li.active').attr('data-searchClass');
+    if (typeof searchClass == 'undefined') searchClass = 'Solr';
+    var driver = $('div.search-tabs-box:has(ul)').length ? searchClass : 'VuFind';
     var baseUrl = event.target.href,
         idArgs = [],
         fullUrl,
