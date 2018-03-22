@@ -46,11 +46,12 @@ $formats = $viewRecord->getFormatList();
         </div>
       </div>
 
+        <!--? if (isset($subtitle)): ?-->
+            <span class="subtitle"><?= $this->escapeHtml($subtitle) ?></span>
+        <!--? endif; ?-->
+
         <!-- Untertitel und Verfasserangabe -->
         <div class="row">
-           <? if (isset($subtitle)): ?>
-            <!--span id="subtitle">< ?= $this->escapeHtml($subtitle) ?></span><br /-->
-           <? endif; ?>
             <? if ($responsible): ?>
                 <div class="col-md-3 hidden-xs"><?= $this->transEsc('Author') ?>:</div>
                 <div class="col-md-9">

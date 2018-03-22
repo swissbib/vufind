@@ -37,7 +37,7 @@
   }
 ?>
 
-<div class="row result">
+<div class="row result result-item">
     <div class="col-sm-1 hidden-print">
         <label class="pull-left"><?=$viewRecord->getCheckbox() ?></label>
         <input type="hidden" value="<?=$id ?>" class="hiddenId"/>
@@ -51,11 +51,11 @@
         <h4>
             <a class="title" title="<?= $shortTitle ?>" href="<?=$this->recordLink()->getUrl($record)?>"><?= $shortTitle ?></a>
         </h4>
+        <!--? if (isset($subtitle)): ?-->
+            <span class="subtitle"><?= $this->escapeHtml($subtitle) ?></span>
+        <!--? endif; ?-->
 
         <div class="row">
-            <? if (isset($subtitle)): ?>
-            <?= $this->escapeHtml($subtitle) ?><br />
-            <? endif; ?>
             <? if ($responsible): ?>
                 <div class="col-sm-4"><?= $this->transEsc('Author') ?>:</div>
                 <div class="col-sm-8">
