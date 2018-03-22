@@ -16,19 +16,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2"><?= $this->transEsc('page.detail.media.item.author')
+                <div class="col-md-2 hidden-xs"><?= $this->transEsc('page.detail.media.item.author')
                     ?>:</div>
                 <div class="col-md-10"><?= $this->escapeHtml($record->getResponsible($item->getTitleStatement(true), $item)) ?></div>
             </div>
             <? if ($item->getHumanReadablePublicationDates()): ?>
             <div class="row">
-                <div class="col-md-2"><?= $this->transEsc('Year') ?>:</div>
+                <div class="col-md-2 hidden-xs"><?= $this->transEsc('Year') ?>:</div>
                 <div class="col-md-10"><?= $this->escapeHtml($item->getHumanReadablePublicationDates()[0]) ?></div>
             </div>
             <? endif; ?>
             <? if (!empty($record->getFormatList())): ?>
             <div class="row">
-                <div class="col-md-2"><?= $this->transEsc('Format') ?>:</div>
+                <div class="col-md-2 hidden-xs"><?= $this->transEsc('Format') ?>:</div>
                 <div class="col-md-10"><?= $record->getFormatList() ?></div>
             </div>
             <? endif; ?>

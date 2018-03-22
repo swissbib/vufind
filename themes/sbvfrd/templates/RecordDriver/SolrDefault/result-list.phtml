@@ -52,7 +52,7 @@ $formats = $viewRecord->getFormatList();
             <!--span id="subtitle">< ?= $this->escapeHtml($subtitle) ?></span><br /-->
            <? endif; ?>
             <? if ($responsible): ?>
-                <div class="col-md-3"><?= $this->transEsc('Author') ?>:</div>
+                <div class="col-md-3 hidden-xs"><?= $this->transEsc('Author') ?>:</div>
                 <div class="col-md-9">
                    <?= $this->escapeHtml($responsible) ?>
                 </div>
@@ -64,7 +64,7 @@ $formats = $viewRecord->getFormatList();
             <? if ($hostItems): ?>
                 <? foreach ($hostItems as $hostItem): ?>
                     <? if (array_key_exists('title', $hostItem)): ?>
-                        <div class="col-md-3"><?= $this->transEsc('note_773') ?>:</div>
+                        <div class="col-md-3 hidden-xs"><?= $this->transEsc('note_773') ?>:</div>
                         <div class="col-md-9">
                             <? $text = array_key_exists('related', $hostItem) ? $hostItem['title'] . ', ' . $hostItem['related'] : $hostItem['title'] ?>
                             <?= $this->escapeHtml($text) ?>
@@ -75,19 +75,19 @@ $formats = $viewRecord->getFormatList();
         </div>
         <div class="row">
             <? if ($journalTitle): ?>
-                <div class="col-md-3"><?= $this->transEsc('Published in')?>:</div>
+                <div class="col-md-3 hidden-xs"><?= $this->transEsc('Published in')?>:</div>
                 <div class="col-md-9"><a href="<?= $viewRecord->getLink('journaltitle', $journalTitle)?>"><?= $this->escapeHtml($journalTitle)?></a></div>
             <? endif; ?>
         </div>
         <div class="row">
             <? if ($summDate): ?>
-                    <div class="col-md-3"><?= $this->transEsc('Year') ?>:</div>
+                    <div class="col-md-3 hidden-xs"><?= $this->transEsc('Year') ?>:</div>
                     <div class="col-md-9"><?= $this->escapeHtml($summDate[0]) ?></div>
             <? endif; ?>
         </div>
         <div class="row">
             <? if ($edition): ?>
-                <div class="col-md-3"><?= $this->transEsc('Edition') ?>:</div>
+                <div class="col-md-3 hidden-xs"><?= $this->transEsc('Edition') ?>:</div>
                 <div class="col-md-9"><?= $this->escapeHtml($edition) ?></div>
             <? endif; ?>
         </div>
@@ -95,7 +95,7 @@ $formats = $viewRecord->getFormatList();
         <!-- ID -->
         <div class="row visible-print-block">
           <? if ($uniqueID): ?>
-                <div class="col-md-3"><?= $this->transEsc('Item_ID') ?>:</div>
+                <div class="col-md-3 hidden-xs"><?= $this->transEsc('Item_ID') ?>:</div>
                 <div class="col-md-9"><?= $uniqueID ?></div>
           <? endif; ?>
         </div>
@@ -103,7 +103,7 @@ $formats = $viewRecord->getFormatList();
         <!-- Medien-Typ -->
         <div class="row">
           <? if (!empty($formats)): ?>
-                <div class="col-md-3"><?= $this->transEsc('Format') ?>:</div>
+                <div class="col-md-3 hidden-xs"><?= $this->transEsc('Format') ?>:</div>
                 <div class="col-md-9"><?= $formats ?></div>
           <? endif; ?>
         </div>
