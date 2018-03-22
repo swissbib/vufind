@@ -92,7 +92,8 @@ class NationalLicenceUser extends Gateway
 
         if (empty($eduIdNumber)) {
             throw new \Exception(
-                'The edu-id number is mandatory to create a National Licence User.'
+                'The edu-id number is mandatory to create a National Licence User. '
+                . 'Persistent-id : ' . $persistentId
             );
         }
 
