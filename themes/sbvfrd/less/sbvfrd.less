@@ -707,6 +707,9 @@ ul[aria-labelledby=dropdownLibraries] {
     overflow: hidden;
     padding: 8px;
   }
+  .record-related-searches .list-group-item {
+    padding: 0 8px 0 0;
+  }
   .facetOR > a , .facetAND > a {
     color: @font-color;
   }
@@ -1753,7 +1756,6 @@ footer {
 
       .jstree-anchor {
         display: block;
-        margin-left: -14px;
       }
 
       .jstree-icon,
@@ -1821,12 +1823,13 @@ footer {
   }
   .jstree-facet .jstree-container-ul li.active > a.jstree-anchor {
     background-color: @link-color-transparent;
+    .border-top-radius(4px);
+    .border-bottom-radius(4px);
     color: @white;
   }
   .jstree-facet .list-group-item.active,
   .jstree-facet .list-group-item.active:hover,
   .jstree-facet .list-group-item.active:focus {
-    border: 1px solid @content-box-border-color;
   }
 }
 
