@@ -290,23 +290,8 @@ class NationalLicences extends AbstractHelper
             return false;
         }
 
-        $issn = $this->marcFields[3];
-        $enumeration = $this->marcFields[2];
-        if (strpos($enumeration, ':') !== false) {
-            $splitted = explode(":", $enumeration);
-            $volume = $splitted[0];
-            $issuePage = explode("<", $splitted[1]);
-            $issue = $issuePage[0];
-            $page = $issuePage[1];
-        } else {
-            $volumeIssue = explode("<", $enumeration);
-            $volume = $volumeIssue[0];
-            $issue = "";
-            $page = $volumeIssue[1];
-        }
         $doi = $record->getDOIs()[0];
-        $journalCode = $this->marcFields[4];
-        $pii = $this->marcFields[5];
+        $journalCode = $this->marcFields[2];
 
         $message = "";
         $userIsAuthorized = false;
@@ -333,8 +318,7 @@ class NationalLicences extends AbstractHelper
         }
 
         $url = $this->buildUrl(
-            $userInIpRange, $issn, $volume,
-            $issue, $page, $pii, $doi, $journalCode
+            $userInIpRange, $doi, $journalCode
         );
         if (!$userIsAuthorized
             && !empty($this->config['NationaLicensesWorkflow'])
@@ -356,26 +340,15 @@ class NationalLicences extends AbstractHelper
      * Build the url.
      *
      * @param String $userAuthorized user authorized?
-     * @param String $issn           issn
-     * @param String $volume         volume
-     * @param String $issue          issue
-     * @param String $sPage          start page
-     * @param String $pii            publisher article identifier
      * @param String $doi            doi
      * @param String $journalCode    publisher journal code
      *
      * @return null
      */
-    protected function buildUrl($userAuthorized, $issn, $volume,
-        $issue, $sPage, $pii, $doi, $journalCode
+    protected function buildUrl($userAuthorized, $doi, $journalCode
     ) {
 
         $url = $this->getPublisherBlueprintUrl($userAuthorized);
-        $url = str_replace('{ISSN}', $issn, $url);
-        $url = str_replace('{VOLUME}', $volume, $url);
-        $url = str_replace('{ISSUE}', $issue, $url);
-        $url = str_replace('{SPAGE}', $sPage, $url);
-        $url = str_replace('{PII}', $pii, $url);
         $url = str_replace('{DOI}', $doi, $url);
         $url = str_replace(
             '{JOURNAL-URL-CODE}',
