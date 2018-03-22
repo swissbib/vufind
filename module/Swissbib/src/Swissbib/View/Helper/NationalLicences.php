@@ -30,6 +30,7 @@
  */
 namespace Swissbib\View\Helper;
 
+use Swissbib\Services\NationalLicence;
 use Zend\View\Helper\AbstractHelper;
 use Zend\Http\PhpEnvironment\RemoteAddress;
 use Swissbib\TargetsProxy\IpMatcher;
@@ -55,6 +56,10 @@ class NationalLicences extends AbstractHelper
     protected $ipMatcher;
     protected $validIps;
     protected $oxfordUrlCode;
+
+    /**
+     * @var NationalLicence $nationalLicenceService
+     */
     protected $nationalLicenceService;
     protected $remoteAddress;
 
@@ -299,12 +304,15 @@ class NationalLicences extends AbstractHelper
         if ($userInIpRange) {
             $userIsAuthorized = true;
         } else if ($this->isAuthenticatedWithSwissEduId()) {
-            $user = $this->nationalLicenceService
-                ->getOrCreateNationalLicenceUserIfNotExists(
-                    $_SERVER['persistent-id']
-                );
-            $userIsAuthorized = $this->nationalLicenceService
-                ->hasAccessToNationalLicenceContent($user);
+            try {
+                $user = $this->nationalLicenceService
+                    ->getCurrentNationalLicenceUser($_SERVER['persistent-id']);
+                $userIsAuthorized = $this->nationalLicenceService
+                    ->hasAccessToNationalLicenceContent($user);
+            } catch (\Exception $e) {
+                $userIsAuthorized = false;
+            }
+
             if (!$userIsAuthorized) {
                 $urlhelper = $this->getView()->plugin("url");
                 $url = $urlhelper('national-licences');
