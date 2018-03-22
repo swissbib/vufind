@@ -416,17 +416,13 @@ header {
     margin-bottom: 0;
     .border-bottom-radius(0);
   }
-
-  .active {
-    .border-top-radius(4px);
-    .border-bottom-radius(4px);
-  }
 }
 
 .list-group-item.title {
   font-weight: 600;
   background: @sidebar-title-color;
   border-bottom-style: solid;
+  border-bottom-width: 2px;
 }
 
 .list-group-item:first-child,
@@ -442,6 +438,14 @@ a.list-group-item.active:hover,
 a.list-group-item.active:focus {
   .mixin-btn-primary;
   border-color: #CCC;
+  .border-top-radius(4px);
+  .border-bottom-radius(4px);
+}
+
+.sidebar > .sidegroup > h4 {
+  padding-left: 9px;
+  padding-bottom: 2px;
+  border-bottom: 2px solid @sidebar-border-color;
 }
 
 /* tables */
@@ -696,7 +700,7 @@ ul[aria-labelledby=dropdownLibraries] {
   .list-group-item {
     text-overflow: ellipsis;
     overflow: hidden;
-    padding-right: 8px;
+    padding: 8px;
   }
   .facetOR > a , .facetAND > a {
     color: @font-color;
@@ -738,9 +742,11 @@ ul[aria-labelledby=dropdownLibraries] {
   }
   & > h4 {
     margin-bottom: 20px;
+    border-bottom: 2px solid @sidebar-border-color;
+    padding-bottom: 8px;
   }
   h4 {
-    font-size: 14px;
+    font-size: 16px;
   }
   h4.title:after {
     content: '';
