@@ -53,7 +53,15 @@ authorid="${p.id}"></span></a></li>`;
 
     autoSuggest.initialize();
 
-    $("#searchForm_lookfor").blur();
+    // Remove the focus and close the autosuggest, if the search field is not empty on load
+    if (! $.isEmptyObject(autoSuggest.getValue())) {
+        $("#searchForm_lookfor").blur();
+        // Blur has no effect on IE, so close it explicitly
+        // The documentation says this should work, but it does not
+        // $().autocomplete('hide');
+        // Doing it old fashoined :-(
+        $(".autocomplete-results").hide();
+    }
 
     const mediaQueryObserver: MediaQueryObserver = new MediaQueryObserver();
 
