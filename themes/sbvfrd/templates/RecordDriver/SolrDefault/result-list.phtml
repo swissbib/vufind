@@ -59,7 +59,7 @@ $formats = $viewRecord->getFormatList();
             <? endif; ?>
         </div>
 
-        <!-- Zeitschriftentitel, Erscheinungsjahr -->
+        <!-- Zeitschriftentitel, Erscheinungsjahr HU-->
         <div class="row">
             <? if ($hostItems): ?>
                 <? foreach ($hostItems as $hostItem): ?>
@@ -72,14 +72,20 @@ $formats = $viewRecord->getFormatList();
                     <? endif; ?>
                 <? endforeach; ?>
             <? endif; ?>
+        </div>
+        <div class="row">
             <? if ($journalTitle): ?>
                 <div class="col-md-3"><?= $this->transEsc('Published in')?>:</div>
                 <div class="col-md-9"><a href="<?= $viewRecord->getLink('journaltitle', $journalTitle)?>"><?= $this->escapeHtml($journalTitle)?></a></div>
             <? endif; ?>
+        </div>
+        <div class="row">
             <? if ($summDate): ?>
                     <div class="col-md-3"><?= $this->transEsc('Year') ?>:</div>
                     <div class="col-md-9"><?= $this->escapeHtml($summDate[0]) ?></div>
             <? endif; ?>
+        </div>
+        <div class="row">
             <? if ($edition): ?>
                 <div class="col-md-3"><?= $this->transEsc('Edition') ?>:</div>
                 <div class="col-md-9"><?= $this->escapeHtml($edition) ?></div>
