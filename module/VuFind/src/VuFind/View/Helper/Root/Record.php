@@ -228,10 +228,10 @@ class Record extends AbstractHelper
     }
 
     /**
-     * Render an entry in a favorite list.
+     * Render an entry in a Merklisten list.
      *
      * @param \VuFind\Db\Row\UserList $list Currently selected list (null for
-     * combined favorites)
+     * combined Merklisten)
      * @param \VuFind\Db\Row\User     $user Current logged in user (false if none)
      *
      * @return string

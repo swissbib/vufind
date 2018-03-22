@@ -84,33 +84,33 @@ $linkSFX = $viewRecord->getLinkSFX();
     <!-- Impressum -->
     <? if (!empty($publications)): ?>
       <div class="row">
-      <div class="col-sm-4"><?=$this->transEsc('Publication')?>: </div>
-      <div class="col-sm-8">
-          <? foreach ($publications as $field): ?>
-              <span property="publisher" typeof="Organization">
-                  <? $pubPlace = $field->getPlace(); if (!empty($pubPlace)): ?>
-                      <span property="location"><?=$this->escapeHtml($pubPlace)?> :</span>
+          <div class="col-sm-4"><?=$this->transEsc('Publication')?>: </div>
+          <div class="col-sm-8">
+              <? foreach ($publications as $field): ?>
+                  <span property="publisher" typeof="Organization">
+                      <? $pubPlace = $field->getPlace(); if (!empty($pubPlace)): ?>
+                          <span property="location"><?=$this->escapeHtml($pubPlace)?> :</span>
+                      <? endif; ?>
+                      <? $pubName = $field->getName(); if (!empty($pubName)): ?>
+                          <span property="name"> <?=$this->escapeHtml($pubName)?>, </span>
+                      <? endif; ?>
+                  </span>
+                  <? $pubDate = $field->getDate(); if (!empty($pubDate)): ?>
+                      <span property="publicationDate"><?=$this->escapeHtml($pubDate)?></span>
                   <? endif; ?>
-                  <? $pubName = $field->getName(); if (!empty($pubName)): ?>
-                      <span property="name"> <?=$this->escapeHtml($pubName)?>, </span>
-                  <? endif; ?>
-              </span>
-              <? $pubDate = $field->getDate(); if (!empty($pubDate)): ?>
-                  <span property="publicationDate"><?=$this->escapeHtml($pubDate)?></span>
-              <? endif; ?>
-              <? if(!next($publications) === false){echo('<br />');} ?>
-          <? endforeach; ?>
-      </div>
+                  <? if(!next($publications) === false){echo('<br />');} ?>
+              <? endforeach; ?>
+          </div>
       </div>
     <? endif; ?>
 
     <? if (!empty($journalTitle)): ?>
       <div class="row">
       <div class="col-sm-4"><?=$this->transEsc('Journal Title')?>:</div>
-        <div class="col-sm-8">
-        <?=$this->escapeHtml($journalTitle) . ',' . ' '?>
-        <? if (!empty($ref)) { echo $this->escapeHtml($ref); } ?>
-        </div>
+          <div class="col-sm-8">
+            <?=$this->escapeHtml($journalTitle) . ',' . ' '?>
+            <? if (!empty($ref)) { echo $this->escapeHtml($ref); } ?>
+          </div>
       </div>
       <? endif; ?>
 
