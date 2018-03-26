@@ -58,7 +58,9 @@ class NationalLicences extends AbstractHelper
     protected $oxfordUrlCode;
 
     /**
-     * @var NationalLicence $nationalLicenceService
+     * National Licence Service
+     * 
+     * @var NationalLicence $nationalLicenceService National Licence Service
      */
     protected $nationalLicenceService;
     protected $remoteAddress;
