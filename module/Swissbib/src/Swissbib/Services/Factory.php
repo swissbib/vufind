@@ -245,7 +245,9 @@ class Factory
         //$dataDir = realpath(APPLICATION_PATH . '/data');
         //$filePath = $dataDir . '/pura/publishers-libraries.json';
 
-        $filePath = 'http://pura.swissbib.ch/publishers-libraries.json';
+        $filePath = $sm->get('VuFind\Config')->get('Pura')['Publishers']['url'];
+
+        //$filePath = 'http://pura.swissbib.ch/publishers-libraries.json';
 
         $publishersJsonData = file_get_contents($filePath);
 

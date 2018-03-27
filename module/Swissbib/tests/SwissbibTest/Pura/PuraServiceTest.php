@@ -26,6 +26,7 @@
  */
 namespace SwissbibTest\Pura;
 
+use Swissbib\Services\Pura;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
 use SwissbibTest\Bootstrap;
 
@@ -54,6 +55,10 @@ class PuraServiceTest extends VuFindTestCase
      */
     protected $config;
 
+    /**
+     * Pura Service
+     * @var Pura $puraService Pura Service
+     */
     protected $puraService;
 
     /**
@@ -68,5 +73,16 @@ class PuraServiceTest extends VuFindTestCase
         $this->puraService = $this->sm->get(
             'Swissbib\PuraService'
         );
+    }
+
+    /**
+     * Test getPublishers
+     *
+     * @return void
+     */
+    public function testGetPublishers()
+    {
+        $publishers = $this->puraService->getPublishers();
+        $this->assertGreaterThan(sizeof($publishers), 0);
     }
 }
