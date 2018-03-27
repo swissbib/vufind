@@ -1,8 +1,19 @@
 <?php
 
+if ($this->serverUrl() == 'https://shibdev.swissbib.ch') {
+    ///AAI test federation
+    $wayfUrl = 'https://wayf-test.switch.ch/aaitest/WAYF';
+    $embeddedWayfJsUrl = 'https://wayf-test.switch.ch/aaitest/WAYF/embedded-wayf.js';
+    $loginEduId = 'https://login.test.eduid.ch';
+} else {
+    ///Productive AAI federation
+    $wayfUrl = 'https://wayf.switch.ch/SWITCHaai/WAYF';
+    $embeddedWayfJsUrl = 'https://wayf.switch.ch/SWITCHaai/WAYF/embedded-wayf.js';
+    $loginEduId = 'https://login.eduid.ch';
+}
 $encodedProviderID = urlencode($this->serverUrl() . "/" . "shibboleth");
 $encodedTarget = urlencode($this->serverUrl() . "/MyResearch/Home");
-$encodedprivateUserURL = "https://login.test.eduid.ch/idp/profile/SAML2/Unsolicited/SSO?providerId=" . $encodedProviderID . "&target=" . $encodedTarget;
+$encodedprivateUserURL = $loginEduId . "/idp/profile/SAML2/Unsolicited/SSO?providerId=" . $encodedProviderID . "&target=" . $encodedTarget;
 ?>
 
 <style>
@@ -26,7 +37,7 @@ $encodedprivateUserURL = "https://login.test.eduid.ch/idp/profile/SAML2/Unsolici
     // URL of the WAYF to use
     // Examples: "https://wayf.switch.ch/SWITCHaai/WAYF", "https://wayf-test.switch.ch/aaitest/WAYF";
     // [Mandatory]
-    var wayf_URL = "https://wayf-test.switch.ch/SWITCHaai/WAYF";
+    var wayf_URL = "<?= $wayfUrl ?>";
 
     //var wayf_width  = 100;
 
@@ -58,22 +69,22 @@ $encodedprivateUserURL = "https://login.test.eduid.ch/idp/profile/SAML2/Unsolici
     var wayf_unhide_idps = new Array();
 
 
-    var wayf_hide_idps = new Array("https://eduid.ch/idp/shibboleth");
+    var wayf_hide_idps = new Array("https://eduid.ch/idp/shibboleth", "https://test.eduid.ch/idp/shibboleth");
 
     var wayf_use_improved_drop_down_list = false;
 
     var wayf_show_remember_checkbox = false;
 
-    var wayf_border_color = '#ffffff';
+    var wayf_border_color = '#ccc';
 
     //var wayf_overwrite_submit_button_text = 'Go';
 
-    var wayf_overwrite_intro_text = '';
+    //var wayf_overwrite_intro_text = '';
 
-    var wayf_hide_logo = true;
+    var wayf_hide_logo = false;
 
 
-    var wayf_background_color = '#ffffff';
+    var wayf_background_color = '#f7f7f7';
     //////////////////// ADVANCED SETTINGS ////////////////////
 
     var wayf_sp_samlDSURL = <?= '"' . $this->serverUrl() . "/Shibboleth.sso/Login" . '"'; ?>;
@@ -102,7 +113,7 @@ $encodedprivateUserURL = "https://login.test.eduid.ch/idp/profile/SAML2/Unsolici
         <?= $this->transEsc('logininfo.li.1') ?>
         <p>
             <script type="text/javascript"
-                    src="https://wayf-test.switch.ch/aaitest/WAYF/embedded-wayf.js"></script>
+                    src="<?= $embeddedWayfJsUrl ?>"></script>
         <noscript>
             <? $sessionInitiator = empty($sessionInitiator) ? '' : $sessionInitiator; // initialize variable?>
             <a href="<?= $this->escapeHtml($sessionInitiator) ?>"><?= $this->transEsc("Institutional Login with external WAYF - non Java Script") ?></a>
@@ -115,10 +126,6 @@ $encodedprivateUserURL = "https://login.test.eduid.ch/idp/profile/SAML2/Unsolici
         <?= $this->transEsc('logininfo.li.2') ?>
         <p></p>
         <p class="text-center">
-            <!--
-         with http and https endpoints
-         <input type="button" onclick="window.location = 'https://aai.guest-login.ch/idp/profile/SAML2/Unsolicited/SSO?providerId=https%3A%2F%2Ftestvf.swissbib.ch%2Fshibboleth&target=https%3A%2F%2Ftestvf.swissbib.ch%2FMyResearch%2FHome&shire=https%3A%2F%2Ftestvf.swissbib.ch%2FShibboleth.sso%2FSAML2%2FPOST'" value="Guest Login"/>
-         -->
             <a href="<?= $encodedprivateUserURL ?>">
                 <button class="btn btn-primary">
                     <?= $this->transEsc('login.guest2') ?>
