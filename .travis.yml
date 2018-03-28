@@ -12,6 +12,7 @@ before_script:
   - phpenv config-rm xdebug.ini
   - phpenv rehash
   - composer install
+  - npm install
   - npm install -g eslint@"<3.0.0"
 
 cache:
@@ -21,4 +22,6 @@ cache:
     - $HOME/.composer/cache/files
 
 script:
-  - vendor/bin/phing eslint phpunitfast swissbibphpunitfast phpcs-console php-cs-fixer-dryrun
+  - vendor/bin/phing phpunitfast swissbibphpunitfast phpcs-console php-cs-fixer-dryrun eslint
+  - npm run test
+  - npm run build

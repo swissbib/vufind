@@ -63,17 +63,115 @@ class Solr extends VFAutocompleteSolr
                     );
                     if ($bestMatch) {
                         $forbidden = [
-                            ':', '&', '?', '*', '[',']', '"', '/','\\',';','.','='
+                            ':', '&', '?', '*', '[', ']', '"', '/', '\\', ';', '.',
+                            '='
                         ];
                         $bestMatch = str_replace($forbidden, " ", $bestMatch);
 
-                        $results[] = $bestMatch;
-                        break;
+                        if (!$this->isDuplicate($bestMatch, $results)) {
+                            $results[] = [
+                                'id' => $current['id'], 'value' => $bestMatch
+                            ];
+                            break;
+                        }
                     }
                 }
             }
         }
 
         return $results;
+    }
+
+    /**
+     * A separate search with the original query is required to get a valid total
+     *
+     * @param string $query The query
+     *
+     * @return int
+     */
+    protected function getTotal($query)
+    {
+        $this->searchObject->getParams()->setBasicSearch(
+            $query, $this->handler
+        );
+        foreach ($this->filters as $current) {
+            $this->searchObject->getParams()->addFilter($current);
+        }
+
+        // Perform the search:
+        $this->searchObject->getResults();
+        $resultTotal = $this->searchObject->getResultTotal();
+        $this->initSearchObject();
+        return $resultTotal;
+    }
+
+    /**
+     * This method returns an array of strings matching the user's query for
+     * display in the autocomplete box.
+     *
+     * @param string $query The user query
+     *
+     * @return array        The suggestions for the provided query
+     */
+    public function getSuggestions($query)
+    {
+        if (!is_object($this->searchObject)) {
+            throw new \Exception('Please set configuration first.');
+        }
+
+        try {
+            $total = $this->getTotal($query);
+
+            $this->searchObject->getParams()->setBasicSearch(
+                $this->mungeQuery($query), $this->handler
+            );
+            $this->searchObject->getParams()->setSort($this->sortField);
+            foreach ($this->filters as $current) {
+                $this->searchObject->getParams()->addFilter($current);
+            }
+
+            // Perform the search:
+            $searchResults = $this->searchObject->getResults();
+
+            // Build the recommendation list -- first we'll try with exact matches;
+            // if we don't get anything at all, we'll try again with a less strict
+            // set of rules.
+            $results = $this->getSuggestionsFromSearch($searchResults, $query, true);
+            if (empty($results)) {
+                $results = $this->getSuggestionsFromSearch(
+                    $searchResults, $query, false
+                );
+            }
+        } catch (\Exception $e) {
+            // Ignore errors -- just return empty results if we must.
+        }
+
+        // Wrap in array as only values of result array are part of response
+        $results = [
+            [
+                "total" => $total ?? 0,
+                "suggestions" => isset($results) ? $results : []
+            ]
+        ];
+
+        return $results;
+    }
+
+    /**
+     * Tests if an suggestion is already in the results
+     *
+     * @param string $bestMatch The string to test
+     * @param array  $results   The result list
+     *
+     * @return bool
+     */
+    protected function isDuplicate(string $bestMatch, array &$results)
+    {
+        foreach ($results as $result) {
+            if ($result["value"] === $bestMatch) {
+                return true;
+            }
+        }
+        return false;
     }
 }

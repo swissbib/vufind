@@ -46,7 +46,12 @@
             'number_thousands_separator' => [
                 'number_thousands_separator', null, ','
             ],
-            'sms_success' => 'sms_success'
+            'sms_success' => 'sms_success',
+            'autosuggest.loading' => 'autosuggest.loading',
+            'autosuggest.show.all' => 'autosuggest.show.all',
+            'autosuggest.section.label.titles' => 'autosuggest.section.label.titles',
+            'autosuggest.section.label.authors' => 'autosuggest.section.label.authors',
+            'autosuggest.section.label.topics' => 'autosuggest.section.label.topics'
         )
     );
     if ($cart->isActive()) {
@@ -95,6 +100,22 @@ VuFind.defaultSearchBackend = '{$dsb}';
 VuFind.addTranslations({$translations});
 JS;
   $this->headScript()->appendScript($setupJS);
+
+  // Append TypeScript generated output
+  $this->headScript()->appendFile("swissbib/swissbib.ts.js");
+
+  // Extend swissbib global object by autocomplete configuration
+  $autoSuggestConfig = json_encode($this->autoSuggestConfig()->toArray());
+  $swissbibObjectExtension = <<<JS
+(function(s) {
+  var autoSuggestConfiguration = {$autoSuggestConfig};
+  s.autoSuggestConfiguration = function () {
+    return autoSuggestConfiguration;
+  };
+})(window.swissbib = window.swissbib || {});
+JS;
+
+  $this->headScript()->appendScript($swissbibObjectExtension);
   ?>  <?=$this->headScript()?>
 </head>
 <body>

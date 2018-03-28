@@ -1,0 +1,98 @@
+.sbvfrd.carousel {
+  .carousel-inner {
+    .thumbnail-wrapper {
+      height: 0;
+      padding-bottom: 130%;
+      overflow: hidden;
+
+      & img {
+        width: 100%;
+      }
+    }
+
+    .label-wrapper {
+      height: 4.071rem;
+      overflow: hidden;
+      padding-top: 0.43rem;
+
+      a.info-link {
+        vertical-align: middle;
+      }
+    }
+  }
+  .carousel-control {
+    opacity: 1;
+
+    &.left, &.right {
+      background: none;
+      pointer-events: none;
+      width: 40px;
+      height: 82.5%;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    &.left .icon-prev,
+    &.right .icon-next {
+      pointer-events: all;
+      background-size: 40px 40px;
+      width: 40px;
+      height: 40px;
+
+      &:before {
+        content: " ";
+      }
+    }
+
+    &.left {
+      left: -25px;
+
+      @media (max-width: @screen-xs-max) {
+        left: -5px;
+      }
+
+      .icon-prev {
+        margin-left: -20px;
+      }
+
+      .sr-only {
+        left: 0;
+      }
+    }
+
+    &.right {
+      right: -25px;
+
+      @media (max-width: @screen-xs-max) {
+        right: -5px;
+      }
+
+      .icon-next {
+        margin-right: -20px;
+      }
+
+      .sr-only {
+        right: 0;
+      }
+    }
+
+    &:focus {
+      outline: 0 none;
+    }
+  }
+}
+
+.carousel-container {
+
+  .all-results-link {
+    display: block;
+    text-align: right;
+    padding: 2.07rem 0;
+  }
+
+  .separator + .row .all-results-link {
+    padding-top: 0.28rem;
+  }
+}

@@ -1,0 +1,13 @@
+<? $recordTotal = $this->recordTotal = $this->results->getResultTotal(); ?>
+<div class="hidden-print search-controls clearfix row">
+    <div class="col-lg-6 col-md-7 col-sm-7">
+        <?= $this->render('pagination.phtml', ['results' => $this->results]) ?>
+    </div>
+</div>
+<div class="person-search-results">
+    <? foreach ($results->getResults() as $person): ?>
+        <? $this->esperson()->setPerson($person) ?>
+        <?= $this->render('item.phtml') ?>
+    <? endforeach; ?>
+</div>
+<?= $this->render('pagination.phtml', ['results' => $this->results, 'hideHits' => true]) ?>

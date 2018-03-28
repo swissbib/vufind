@@ -139,32 +139,93 @@ return [
               ]
             ],
             'myresearch-bookings' => [ // Override vufind favorites route. Rename to Lists
-              'type'    => 'literal',
-              'options' => [
-                'route'    => '/MyResearch/Bookings',
-                'defaults' => [
-                  'controller' => 'my-research',
-                  'action'     => 'bookings'
+                'type' => 'literal', 'options' => [
+                    'route' => '/MyResearch/Bookings', 'defaults' => [
+                        'controller' => 'my-research', 'action' => 'bookings'
+                    ]
                 ]
-              ]
+            ], 'myresearch-changeaddress' => [
+                'type' => 'literal', 'options' => [
+                    'route' => '/MyResearch/Address', 'defaults' => [
+                        'controller' => 'my-research', 'action' => 'changeAddress'
+                    ]
+                ]
+            ], 'record-copy' => [
+                'type' => 'segment', 'options' => [
+                    'route' => '/Record/:id/Copy', 'defaults' => [
+                        'controller' => 'record', 'action' => 'copy'
+                    ]
+                ]
+            ], 'card-knowledge-person' => [
+                'type' => 'segment', 'options' => [
+                    'route' => '/Card/Knowledge/Person/:id', 'constraints' => [
+                        'id' => '[a-fA-F0-9-{}]+',
+                    ], 'defaults' => [
+                        'controller' => 'person-knowledge-card', 'action' => 'person',
+                    ],
+                ]
+            ], 'card-knowledge-subject' => [
+                'type' => 'segment', 'options' => [
+                    'route' => '/Card/Knowledge/Subject/:id', 'constraints' => [
+                        'id' => '[0-9A-Z\--{}]+',
+                    ], 'defaults' => [
+                        'controller' => 'subject-knowledge-card', 'action' => 'subject',
+                    ],
+                ]
+            ], 'page-detail-person' => [
+                'type' => 'segment', 'options' => [
+                    'route' => '/Page/Detail/Person/:id', 'constraints' => [
+                        'id' => '[a-fA-F0-9-{}]+',
+                    ], 'defaults' => [
+                        'controller' => 'person-detail-page', 'action' => 'person',
+                    ],
+                ]
+            ], 'page-detail-subject' => [
+                'type' => 'segment', 'options' => [
+                    'route' => '/Page/Detail/Subject/:id', 'constraints' => [
+                        'id' => '[0-9A-Z\--{}]+',
+                    ], 'defaults' => [
+                        'controller' => 'subject-detail-page', 'action' => 'subject',
+                    ],
+                ]
             ],
-            'myresearch-changeaddress' => [
+            'persons-search-coauthor' => [
                 'type'    => 'literal',
                 'options' => [
-                    'route'    => '/MyResearch/Address',
+                    'route'    => '/Search/Persons/CoAuthor',
                     'defaults' => [
-                        'controller' => 'my-research',
-                        'action'     => 'changeAddress'
+                        'controller' => 'person-search',
+                        'action'     => 'coauthor'
                     ]
                 ]
             ],
-            'record-copy' => [
-                'type'    => 'segment',
+            'persons-search-samegenre' => [
+                'type'    => 'literal',
                 'options' => [
-                    'route'    => '/Record/:id/Copy',
+                    'route'    => '/Search/Persons/Genre',
                     'defaults' => [
-                        'controller' => 'record',
-                        'action'     => 'copy'
+                        'controller' => 'person-search',
+                        'action'     => 'samegenre'
+                    ]
+                ]
+            ],
+            'persons-search-samemovement' => [
+                'type'    => 'literal',
+                'options' => [
+                    'route'    => '/Search/Persons/Movement',
+                    'defaults' => [
+                        'controller' => 'person-search',
+                        'action'     => 'samemovement'
+                    ]
+                ]
+            ],
+            'persons-search-subject' => [
+                'type'    => 'literal',
+                'options' => [
+                    'route'    => '/Search/Persons/Subject',
+                    'defaults' => [
+                        'controller' => 'person-search',
+                        'action'     => 'subject'
                     ]
                 ]
             ],
@@ -270,7 +331,12 @@ return [
             HelpPageController::class => AbstractBaseFactory::class,
             LibadminSyncController::class => 'Swissbib\Controller\Factory::getLibadminSyncController',
             MyResearchController::class => AbstractBaseFactory::class,
-            'console'       => 'Swissbib\Controller\Factory::getConsoleController'
+            'console' => 'Swissbib\Controller\Factory::getConsoleController',
+            'person-knowledge-card' => 'Swissbib\Controller\Factory::getPersonKnowledgeCardController',
+            'subject-knowledge-card' => 'Swissbib\Controller\Factory::getSubjectKnowledgeCardController',
+            'person-detail-page' => 'Swissbib\Controller\Factory::getPersonDetailPageController',
+            'subject-detail-page' => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
+            'person-search' => 'Swissbib\Controller\Factory::getPersonSearchController',
         ],
         'aliases' => [
             'institutionFavorites' => 'Swissbib\Controller\FavoritesController',
@@ -279,7 +345,13 @@ return [
             'national-licences' => 'Swissbib\Controller\NationalLicencesController',
         ],
     ],
-    'service_manager' => [
+    'controller_plugins' => [
+        'factories' => [
+            'tagcloud' => 'Swissbib\Controller\Plugin\Factory::getTagCloud',
+            'solrsearch' => 'Swissbib\Controller\Plugin\Factory::getSolrSearch',
+            'elasticsearchsearch' => 'Swissbib\Controller\Plugin\Factory::getElasticSearchSearch',
+        ],
+    ], 'service_manager' => [
         'invokables' => [
             'MarcFormatter'                                 => 'Swissbib\XSLT\MARCFormatter',
         ],
@@ -352,7 +424,8 @@ return [
             'qrCodeHolding'                  => 'Swissbib\View\Helper\QrCodeHolding',
             'holdingItemsPaging'             => 'Swissbib\View\Helper\HoldingItemsPaging',
             'filterUntranslatedInstitutions' => 'Swissbib\View\Helper\FilterUntranslatedInstitutions',
-            'layoutClass'                    => 'Swissbib\View\Helper\LayoutClass'
+            'layoutClass'                    => 'Swissbib\View\Helper\LayoutClass',
+            'ajax'                           => 'Swissbib\View\Helper\Ajax'
         ],
         'factories'  => [
             'zendTranslate'                             =>  'Swissbib\View\Helper\Factory::getTranslator',
@@ -497,11 +570,14 @@ return [
         'plugin_managers' => [
             'vufind_search_options' => [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Options\PluginFactory'],
-            ],
-            'vufind_search_params'  => [
+                'factories' => [
+                    'elasticsearch' => '\ElasticSearch\VuFind\Search\Options\Factory::getElasticSearch'
+                ],
+            ], 'vufind_search_params' => [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Params\PluginFactory'],
                 'factories' => [
                     'solr' => 'Swissbib\VuFind\Search\Params\Factory::getSolr',
+                    'elasticsearch' => '\ElasticSearch\VuFind\Search\Params\Factory::getElasticSearch'
                 ],
 
             ],
@@ -511,6 +587,7 @@ return [
                     'favorites' => 'Swissbib\VuFind\Search\Results\Factory::getFavorites',
                     'solr' => 'Swissbib\VuFind\Search\Results\Factory::getSolr',
                     'solrauthorfacets' => 'Swissbib\VuFind\Search\Results\Factory::getSolrAuthorFacets',
+                    'elasticsearch' => '\ElasticSearch\VuFind\Search\Results\Factory::getElasticSearch',
                     'mixedlist' => 'Swissbib\VuFind\Search\Results\Factory::getMixdList',
                 ],
             ]

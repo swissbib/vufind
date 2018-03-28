@@ -1,0 +1,9 @@
+<?= $this->context($this)->renderInContext(
+    '/detailpage/medias.phtml', [
+        'type' => 'subject',
+        'name' => 'parents',
+        'accessor' => 'parentMedias',
+        'headline' => 'page.detail.subject.media.parents',
+        'data' => $parents
+    ]
+) ?>

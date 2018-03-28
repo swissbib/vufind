@@ -56,7 +56,6 @@ class Factory extends AbstractBaseFactory
             $sm,
             $sm->get('VuFind\Config\PluginManager')->get('config')
         );
-
     }
 
     /**
@@ -93,4 +92,66 @@ class Factory extends AbstractBaseFactory
         );
     }
 
+    /**
+     * Get Person Knowledge Card Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\PersonKnowledgeCardController
+     */
+    public static function getPersonKnowledgeCardController(ServiceManager $sm)
+    {
+        return new PersonKnowledgeCardController($sm->getServiceLocator());
+    }
+
+    /**
+     * Get Subject Knowledge Card Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\SubjectKnowledgeCardController
+     */
+    public static function getSubjectKnowledgeCardController(ServiceManager $sm)
+    {
+        return new SubjectKnowledgeCardController($sm->getServiceLocator());
+    }
+
+    /**
+     * Get Person Detail Page Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\PersonDetailPageController
+     */
+    public static function getPersonDetailPageController(ServiceManager $sm)
+    {
+        $serviceLocator = $sm->getServiceLocator();
+        return new PersonDetailPageController($serviceLocator);
+    }
+
+    /**
+     * Get Person Search Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\PersonSearchController
+     */
+    public static function getPersonSearchController(ServiceManager $sm)
+    {
+        $serviceLocator = $sm->getServiceLocator();
+        return new PersonSearchController($serviceLocator);
+    }
+
+    /**
+     * Get Subject Detail Page Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\PersonDetailPageController
+     */
+    public static function getSubjectDetailPageController(ServiceManager $sm)
+    {
+        $serviceLocator = $sm->getServiceLocator();
+        return new SubjectDetailPageController($serviceLocator);
+    }
 }

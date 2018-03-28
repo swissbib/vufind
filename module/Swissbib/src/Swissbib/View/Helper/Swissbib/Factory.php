@@ -39,6 +39,7 @@ use Swissbib\VuFind\Search\Helper\SearchTabsHelper;
 use Swissbib\View\Helper\LayoutClass;
 use Swissbib\View\Helper\IncludeTemplate;
 use Swissbib\View\Helper\TranslateFacets;
+use Swissbib\View\Helper\AutoSuggestConfig;
 
 /**
  * Factory for swissbib specific view helpers related to the Swissbib Theme.
@@ -262,5 +263,17 @@ class Factory
     public static function getNationalLicences(ServiceManager $sm)
     {
         return new NationalLicences($sm);
+    }
+
+    /**
+     * Construct AutoSuggestConfig Helper
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return AutoSuggestConfig
+     */
+    public static function getAutoSuggestConfig(ServiceManager $sm)
+    {
+        return new AutoSuggestConfig($sm);
     }
 }

@@ -1,0 +1,43 @@
+{
+  "@context": "http://data.swissbib.ch/contexts/Person",
+  "@id": "http://data.swissbib.ch/person/145a6d92-7afa-3589-aba8-28e9aec9b03d",
+  "@type": "http://xmlns.com/foaf/0.1/Person",
+  "abstract": [
+    {
+      "en": "Colin Andrew Firth (born 10 September 1960) is an English actor. His films have grossed more than $3 billion from 42 releases worldwide. He has received an Academy Award, a Golden Globe Award, two British Academy Film Awards and three Screen Actors Guild Awards, as well as the Volpi Cup. His most notable and acclaimed role to date has been his 2010 portrayal of King George VI in The King's Speech, a performance that earned him an Oscar and multiple worldwide best actor awards. Identified in the late 1980s with the \\\"Brit Pack\\\" of rising, young British actors, it was not until Firth's portrayal of Mr. Darcy in the 1995 television adaptation of Jane Austen's Pride and Prejudice that he received more widespread attention. This led to roles in films such as The English Patient, Bridget Jones's Diary (for which he was nominated for a BAFTA), Shakespeare in Love and Love Actually. In 2009 he received widespread critical acclaim for his leading role in A Single Man, for which Firth gained his first Academy Award nomination, and won a BAFTA Award. He starred in the action spy comedy Kingsman: The Secret Service in 2014, which was a commercial success and received generally positive reviews. In 2011, Firth received a star on the Hollywood Walk of Fame and was also selected as one of the Time 100. He was awarded an honorary degree from the University of Winchester in 2007, and was made a Freeman of the City of London in 2012. Firth has campaigned for the rights of indigenous tribal peoples and is a member of Survival International. He has also campaigned on issues of asylum seekers and refugees' rights and the environment. Firth commissioned and is credited as a co-author on a scientific paper on a study into the differences in brain structure between people of differing political orientations."
+    },
+    {
+      "de": "Colin Andrew Firth, CBE (* 10. September 1960 in Grayshott, Hampshire, England) ist ein britischer Schauspieler. 2011 wurde er für seine Hauptrolle in dem Historienfilm The King’s Speech mit dem Oscar ausgezeichnet."
+    },
+    {
+      "fr": "Colin Firth, né le à Grayshott (en) dans le Hampshire, est un acteur anglais connu pour son rôle de Mark Darcy dans la saga Bridget Jones aux côtés de Hugh Grant et Renée Zellweger. Il a remporté de prestigieuses récompenses telles que l'Oscar du meilleur acteur et le Golden Globe du meilleur acteur pour Le Discours d'un roi en 2011, le BAFTA du meilleur acteur en 2010 pour son rôle dans A Single Man, la Coupe Volpi pour la meilleure interprétation masculine pour le même film."
+    },
+    {
+      "it": "Ha recitato in numerosi film di successo come Il diario di Bridget Jones, La ragazza con l'orecchino di perla, Love Actually - L'amore davvero, L'importanza di chiamarsi Ernest, A Single Man e Mamma Mia!, Un matrimonio all'inglese. Attore versatile e pluripremiato, vince nel 2009 la Coppa Volpi per la migliore interpretazione maschile alla Mostra internazionale d'arte cinematografica di Venezia e il Premio BAFTA al miglior attore per A Single Man di Tom Ford, ricevendo la sua prima candidatura all'Oscar al miglior attore. Nel 2011, grazie alla magistrale interpretazione di Giorgio VI del Regno Unito ne Il discorso del re di Tom Hooper vince il Premio Oscar come miglior attore protagonista, il Golden Globe per il miglior attore in un film drammatico, il Premio BAFTA e due Screen Actors Guild."
+    }
+  ],
+  "birthDate": "1960-09-10",
+  "birthPlace": [
+    "http://dbpedia.org/resource/England",
+    "http://dbpedia.org/resource/Grayshott",
+    "http://dbpedia.org/resource/Hampshire",
+    "http://dbpedia.org/resource/Hampshire_(disambiguation)"
+  ],
+  "birthYear": "1960",
+  "firstName": "Colin",
+  "id": "145a6d92-7afa-3589-aba8-28e9aec9b03d",
+  "label": "Firth, Colin, 1960-",
+  "lastName": "Firth",
+  "nationality": "http://dbpedia.org/resource/United_Kingdom",
+  "occupation": "http://dbpedia.org/resource/Colin_Firth__1",
+  "partner": "http://dbpedia.org/resource/Meg_Tilly",
+  "sameAs": [
+    "http://d-nb.info/gnd/130442887",
+    "http://dbpedia.org/resource/Colin_Firth"
+  ],
+  "thumbnail": [
+    "http://commons.wikimedia.org/wiki/Special:FilePath/Colin_Firth_(Berlin_Film_Festival_2011).jpg?width=300",
+    "http://commons.wikimedia.org/wiki/Special:FilePath/Colin_Firth_2009.jpg?width=300",
+    "http://commons.wikimedia.org/wiki/Special:FilePath/Colin_Firth_by_Gage_Skidmore.jpg?width=300"
+  ]
+}

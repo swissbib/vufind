@@ -120,7 +120,8 @@ class NationalLicence
          *
          * @var string $mobile
          */
-        $mobile = $_SERVER['mobile'];
+        $mobile
+            = isset($_SERVER['mobile']) ? $_SERVER['mobile'] : null;
 
         if (!$mobile) {
             throw new \Exception('snl.youDontHaveMobilePhoneNumeber');

@@ -1,0 +1,9 @@
+<? if (!is_null($this->esperson()->getDisplayName())): ?>
+    <? $this->headTitle($this->esperson()->getDisplayName()); ?>
+    <? if (!is_null($this->esperson()->getLifetime())): ?>
+        <h1 class="title"><?= $this->esperson()->getDisplayName(); ?> <?= $this->esperson()->getLifetime(); ?></h1>
+    <? else: ?>
+        <h1 class="title"><?= $this->esperson()->getDisplayName(); ?></h1>
+    <? endif; ?>
+<? endif; ?>
+

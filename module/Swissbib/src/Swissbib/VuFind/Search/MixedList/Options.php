@@ -54,5 +54,4 @@ class Options extends VuFindMixedListOptions
         $class = explode('\\', get_class($this));
         return $class[3];
     }
-
 }

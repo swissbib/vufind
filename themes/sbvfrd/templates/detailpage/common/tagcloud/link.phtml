@@ -1,0 +1,8 @@
+<?
+$url = sprintf('%s?lookfor=%s&type=%s',
+    $this->url('search-results'), $this->record->getName(), $this->type
+);
+?>
+<a href="<?= $url ?>" style="font-size: <?= sprintf('%Fpx', $this->weight) ?>">
+    <?= $this->name ?>
+</a>

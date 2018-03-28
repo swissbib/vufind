@@ -1,0 +1,22 @@
+<div id="carousel-<?= $this->id ?>" class="sbvfrd carousel slide">
+    <div class="carousel-inner" role="listbox"></div>
+
+    <a class="left carousel-control" href="#carousel-<?= $this->id ?>" role="button">
+        <span class="icon-prev icon-arrow-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+
+    <a class="right carousel-control" href="#carousel-<?= $this->id ?>" role="button">
+        <span class="icon-next icon-arrow-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<script type="text/javascript">
+    window.swissbib.carousel.add(
+        "<?= $this->id ?>",
+        <?= json_encode($this->templates) ?>,
+        <?= json_encode($this->pagination) ?>,
+        "<?= $this->thumbnail ?>",
+        <?= $this->total ?>);
+</script>

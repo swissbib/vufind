@@ -405,20 +405,32 @@ header {
 .list-group-item {
   text-overflow: ellipsis;
   overflow: hidden;
-  padding: 6px 15px;
+  padding: 0;
+  margin-bottom: 0;
+  border-style: none;
+
+  &:first-child {
+    .border-top-radius(0);
+  }
+  &:last-child {
+    margin-bottom: 0;
+    .border-bottom-radius(0);
+  }
 }
 
 .list-group-item.title {
   font-weight: 600;
   background: @sidebar-title-color;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
 }
 
 .list-group-item:first-child,
 .list-group-item:last-child {
-  border-top-right-radius: 2px;
-  border-top-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-  border-bottom-left-radius: 2px;
+  //border-top-right-radius: 2px;
+  //border-top-left-radius: 2px;
+  //border-bottom-right-radius: 2px;
+  //border-bottom-left-radius: 2px;
 }
 
 a.list-group-item.active,
@@ -426,7 +438,20 @@ a.list-group-item.active:hover,
 a.list-group-item.active:focus {
   .mixin-btn-primary;
   border-color: #CCC;
+  .border-top-radius(4px);
+  .border-bottom-radius(4px);
 }
+
+.sidebar > .sidegroup > h4 {
+  padding-left: 9px;
+  padding-bottom: 2px;
+  border-bottom: 2px solid @sidebar-border-color;
+}
+
+ul.list-group.myresearch > a.list-group-item.title {
+  font-size: 16px;
+}
+
 
 /* tables */
 .table {
@@ -632,6 +657,11 @@ ul[aria-labelledby=dropdownLibraries] {
   }
 }
 
+.js-facet-item {
+  padding: 6px;
+  border-bottom: 1px dotted @content-box-border-color;
+}
+
 .sidebar {
   background: @sidebar-background-color;
   vertical-align: top;
@@ -675,9 +705,10 @@ ul[aria-labelledby=dropdownLibraries] {
   .list-group-item {
     text-overflow: ellipsis;
     overflow: hidden;
-    border: 1px solid #CCC;
-    //padding-left: 8px;
-    padding-right: 8px;
+    padding: 8px;
+  }
+  .record-related-searches .list-group-item {
+    padding: 0 8px 0 0;
   }
   .facetOR > a , .facetAND > a {
     color: @font-color;
@@ -685,13 +716,16 @@ ul[aria-labelledby=dropdownLibraries] {
   .facetOR:hover , .facetAND:hover {
     background-color: @list-group-hover-bg;
   }
+  .facet div.list-group-item {
+    padding: 6px;
+  }
   .list-group-item.title {
     margin-bottom: 0;
-    border-bottom: none;
+    //border-bottom: none;
 
-    &:first-child {
-      margin-top: 20px;
-    }
+//    &:first-child {
+//      margin-top: 20px;
+//    }
   }
   h4.list-group-item.title {
     padding-top: 9px;
@@ -716,9 +750,11 @@ ul[aria-labelledby=dropdownLibraries] {
   }
   & > h4 {
     margin-bottom: 20px;
+    border-bottom: 2px solid @sidebar-border-color;
+    padding-bottom: 8px;
   }
   h4 {
-    font-size: 14px;
+    font-size: 16px;
   }
   h4.title:after {
     content: '';
@@ -805,7 +841,6 @@ ul[aria-labelledby=dropdownLibraries] {
   }
 
   & > .row {
-    background-color: @content-box-background-color;
     margin-bottom: 20px;
     padding-bottom: 15px;
 
@@ -818,6 +853,9 @@ ul[aria-labelledby=dropdownLibraries] {
       height: 150px;
     }
 
+    h2 {
+      margin-top: 0;
+    }
 
     h3 {
       font-weight: 400;
@@ -842,7 +880,16 @@ ul[aria-labelledby=dropdownLibraries] {
       span {
         padding: 5px 4px 5px 0;
       }
+
+      .row:not(:last-child) {
+          margin-bottom: 0.79rem;
+      }
+
     }
+  }
+
+  .btn.otherEditions {
+    margin-top: 3ex;
   }
 }
 
@@ -1709,7 +1756,6 @@ footer {
 
       .jstree-anchor {
         display: block;
-        margin-left: -14px;
       }
 
       .jstree-icon,
@@ -1777,12 +1823,14 @@ footer {
   }
   .jstree-facet .jstree-container-ul li.active > a.jstree-anchor {
     background-color: @link-color-transparent;
+    .border-top-radius(4px);
+    .border-bottom-radius(4px);
     color: @white;
   }
   .jstree-facet .list-group-item.active,
   .jstree-facet .list-group-item.active:hover,
   .jstree-facet .list-group-item.active:focus {
-    border: 1px solid @content-box-border-color;
+    //border: 1px solid @content-box-border-color;
   }
 }
 
@@ -1803,7 +1851,7 @@ footer {
 }
 
 .thumbDetailView {
-  margin-top: 12px;
+  margin-top: 0;
 }
 
 /* hide custom print-button, use browser print instead */
@@ -1861,4 +1909,10 @@ div.resultView form.form-inline div.btn-group input[name="print"] {
 
 a > i.fa-info-circle {
   cursor: pointer;
+}
+
+h2 {
+  font-size: 1.571rem;
+  margin: 1.79rem 0;
+  font-weight: bold;
 }

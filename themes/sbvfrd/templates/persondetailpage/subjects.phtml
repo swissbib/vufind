@@ -1,0 +1,6 @@
+<?= $this->render('/detailpage/common/tagcloud.phtml', [
+    'records' => $subjects ?? [],
+    'name' => 'subjects',
+    'type' => 'Subject',
+    'headline' => $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related'),
+]) ?>
