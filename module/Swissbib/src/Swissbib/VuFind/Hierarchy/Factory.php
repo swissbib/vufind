@@ -84,7 +84,7 @@ class Factory
      */
     public static function getJSTree(ServiceManager $sm)
     {
-        $searchService = $sm->get('VuFind\Search');
+        $searchService = $sm->get('VuFindSearch\Service');
         $swissbibJSTree = new SwissbibJsTree(
             $sm->get('ControllerPluginManager')->get('Url'),
             $searchService
