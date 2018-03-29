@@ -128,6 +128,7 @@ class Factory
 
         return new Auth(
             $sm->get('VuFind\Auth\Manager'),
+            $sm->get('VuFind\ILSAuthenticator'),
             $config
         );
     }

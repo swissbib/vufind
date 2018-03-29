@@ -36,6 +36,7 @@ return array(
   'favicon' => 'favicon.ico',
   'helpers' => array(
     'factories'  => array(
+      'VuFind\View\Helper\Root\Auth' => 'Swissbib\View\Helper\Swissbib\Factory::getAuth',
       'record'                    => 'Swissbib\View\Helper\Swissbib\Factory::getRecordHelper',
       'citation'                  => 'Swissbib\View\Helper\Swissbib\Factory::getCitation',
       'recordlink'                => 'Swissbib\View\Helper\Swissbib\Factory::getRecordLink',
@@ -48,6 +49,9 @@ return array(
       'formatRelatedEntries'      => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
       'piwik'                     => 'Swissbib\View\Helper\Swissbib\Factory::getPiwik',
       'nationalLicences'          => 'Swissbib\View\Helper\Swissbib\Factory::getNationalLicences',
+    ),
+    'aliases' => array(
+        'auth' => 'VuFind\View\Helper\Root\Auth',
     ),
     'invokables' => array(
       //'translate' => 'Swissbib\VuFind\View\Helper\Root\Translate',
