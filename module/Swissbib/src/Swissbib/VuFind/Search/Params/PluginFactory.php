@@ -28,10 +28,8 @@
  */
 namespace Swissbib\VuFind\Search\Params;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-
+use Interop\Container\ContainerInterface;
 use VuFind\Search\Params\PluginFactory as VuFindParamsPluginFactory;
-
 use Swissbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
 
 /**
@@ -48,29 +46,27 @@ class PluginFactory extends VuFindParamsPluginFactory
     /**
      * CanCreateServiceWithName
      *
-     * @param ServiceLocatorInterface $serviceLocator ServiceLocatorInterface
-     * @param String                  $name           Name
-     * @param String                  $requestedName  RequestedName
+     * @param ContainerInterface $container     Service container
+     * @param String             $requestedName RequestedName
+     * @param array              $options       extra options
      *
      * @return mixed
      */
-    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator,
-        $name, $requestedName
+    public function canInvoke(ContainerInterface $container,
+        $requestedName, array $options = null
     ) {
         /**
          * ExtendedSolrFactoryHelper
          *
          * @var ExtendedSolrFactoryHelper $extendedTargetHelper
          */
-        $extendedTargetHelper = $serviceLocator
-            ->get('Swissbib\ExtendedSolrFactoryHelper');
+        $extendedTargetHelper =
+            $container->get('Swissbib\ExtendedSolrFactoryHelper');
 
         $this->defaultNamespace = $extendedTargetHelper
-            ->getNamespace($name, $requestedName);
+            ->getNamespace($requestedName);
 
-        return parent::canCreateServiceWithName(
-            $serviceLocator, $name, $requestedName
-        );
+        return parent($container, $requestedName, $options);
     }
 
     /**
@@ -85,33 +81,32 @@ class PluginFactory extends VuFindParamsPluginFactory
      *
      * @return object
      */
-    public function createServiceWithName(ServiceLocatorInterface $serviceLocator,
-        $name, $requestedName, array $extraParams = []
+    public function __invoke(ContainerInterface $container,
+        $requestedName, array $extraParams = null
     ) {
-        $options   = $serviceLocator
+        $options =$container
             ->get('VuFind\SearchOptionsPluginManager')->get($requestedName);
 
-        $extendedTargetHelper = $serviceLocator
+        $extendedTargetHelper = $container
             ->get('Swissbib\ExtendedSolrFactoryHelper');
 
         $this->defaultNamespace = $extendedTargetHelper
-            ->getNamespace($name, $requestedName);
+            ->getNamespace($requestedName);
 
-        $authManager = $serviceLocator->get(
-            'VuFind\Auth\Manager'
-        );
-        $labelMappingHelper = $serviceLocator->get(
-            'Swissbib\TypeLabelMappingHelper'
-        );
-        $favoriteInstitutionsManager = $serviceLocator->get(
-            'Swissbib\FavoriteInstitutions\Manager'
-        );
-        $class = $this->getClassName($name, $requestedName);
-        $configLoader = $serviceLocator->get('VuFind\Config');
+        $authManager = $container
+            ->get('VuFind\Auth\Manager');
+
+        $labelMappingHelper = $container
+            ->get('Swissbib\TypeLabelMappingHelper');
+
+        $favoriteInstitutionsManager = $container
+            ->get('Swissbib\FavoriteInstitutions\Manager');
+
+        $class = $this->getClassName($requestedName);
+        $configLoader = $container->get('VuFind\Config');
         // Clone the options instance in case caller modifies it:
         return new $class(clone($options), $configLoader, $authManager,
             $labelMappingHelper, $favoriteInstitutionsManager,
             ...$extraParams);
-
     }
 }

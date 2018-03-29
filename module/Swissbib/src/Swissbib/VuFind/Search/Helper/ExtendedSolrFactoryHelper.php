@@ -62,11 +62,10 @@ class ExtendedSolrFactoryHelper
      * Check whether name is in list of extended search targets
      *
      * @param String $name          Name
-     * @param String $requestedName RequestName
      *
      * @return Boolean
      */
-    public function isExtendedTarget($name, $requestedName)
+    public function isExtendedTarget($name)
     {
         $name = strtolower($name);
 
@@ -78,13 +77,12 @@ class ExtendedSolrFactoryHelper
      * swissbib namespace for extensible targets, else default namespace
      *
      * @param String $name          Name
-     * @param String $requestedName RequestName
      *
      * @return String
      */
-    public function getNamespace($name, $requestedName)
+    public function getNamespace($name)
     {
-        if ($this->isExtendedTarget($name, $requestedName)) {
+        if ($this->isExtendedTarget($name)) {
             return 'Swissbib\VuFind\Search';
         } else {
             return 'VuFind\Search';

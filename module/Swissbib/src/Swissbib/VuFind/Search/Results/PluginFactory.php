@@ -28,10 +28,8 @@
  */
 namespace Swissbib\VuFind\Search\Results;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-
+use Interop\Container\ContainerInterface;
 use VuFind\Search\Results\PluginFactory as VuFindResultsPluginFactory;
-
 use Swissbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
 
 /**
@@ -48,62 +46,63 @@ class PluginFactory extends VuFindResultsPluginFactory
     /**
      * CanCreateServiceWithName
      *
-     * @param ServiceLocatorInterface $serviceLocator ServiceLocatorInterface
-     * @param String                  $name           Name
-     * @param String                  $requestedName  RequestedName
+     * @param ContainerInterface $container     ServiceContainer
+     * @param String             $requestedName Name of service
+     * @param array              $options       Options (unused)
      *
-     * @return mixed
+     * @return object
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator,
-        $name, $requestedName
+    public function canInvoke(ContainerInterface $container,
+        $requestedName, array $options = null
     ) {
         /**
          * ExtendedSolrFactoryHelper
          *
          * @var ExtendedSolrFactoryHelper $extendedTargetHelper
          */
-        $extendedTargetHelper = $serviceLocator
-            ->get('Swissbib\ExtendedSolrFactoryHelper');
-        $this->defaultNamespace = $extendedTargetHelper
-            ->getNamespace($name, $requestedName);
+        $extendedTargetHelper =
+            $container->get('Swissbib\ExtendedSolrFactoryHelper');
 
-        return parent::canCreateServiceWithName(
-            $serviceLocator, $name, $requestedName
-        );
+        $this->defaultNamespace = $extendedTargetHelper
+            ->getNamespace($requestedName);
+
+        return parent($container, $requestedName, $options);
     }
 
     /**
      * Create a service for the specified name.
      *
-     * @param ServiceLocatorInterface $serviceLocator Service locator
-     * @param string                  $name           Name of service
-     * @param string                  $requestedName  Unfiltered name of service
-     * @param Array                   $extraParams    Extra Params
+     * @param ContainerInterface $container     Container service
+     * @param string             $requestedName Unfiltered name of service
+     * @param array              $extraParams   Extra Params
      *
      * @return object
      */
-    public function createServiceWithName(ServiceLocatorInterface $serviceLocator,
-        $name, $requestedName,  array $extraParams = []
+    public function __invoke(ContainerInterface $container,
+        $requestedName,  array $extraParams = null
     ) {
         /**
          * ExtendedSolrFactoryHelper
          * 
          * @var ExtendedSolrFactoryHelper $extendedTargetHelper
          */
-        $extendedTargetHelper = $serviceLocator
-            ->get('Swissbib\ExtendedSolrFactoryHelper');
-        $this->defaultNamespace = $extendedTargetHelper
-            ->getNamespace($name, $requestedName);
+        $extendedTargetHelper =
+            $container->get('Swissbib\ExtendedSolrFactoryHelper');
+
+        $this->defaultNamespace =
+            $extendedTargetHelper->getNamespace($requestedName);
 
         /**
          * Swissbib specific Results type for Solr
          *
          * @var \Swissbib\VuFind\Search\Solr\Results $sbSolrResults
          */
-        $sbSolrResults =  parent::createServiceWithName(
-            $serviceLocator, $name, $requestedName, $extraParams
+        $sbSolrResults =  parent(
+            $container, $requestedName, $extraParams
         );
-        $facetConfigs = $serviceLocator->get('VuFind\Config\PluginManager')
+        $facetConfigs = $container->get('VuFind\Config\PluginManager')
             ->get($sbSolrResults->getOptions()->getFacetsIni());
         
         //todo
