@@ -2079,6 +2079,16 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
+     * Get information for the record (field 348, gnd_music)
+     *
+     * @return array
+     */
+    public function getMusicFormat()
+    {
+        return $this->getFieldArray('348', ['a']);
+    }
+
+    /**
      * HAN  - Beschreibung - Description-Tab für HAN
      * Get information for the record (HAN: field 351 $a, $c)
      *
