@@ -2,6 +2,8 @@
 
 $subjectHeadings = $this->driver->getAllSubjectVocabularies(false);
 $gndHeadings = isset($subjectHeadings['gnd']) ? $subjectHeadings['gnd'] : [];
+$gndContent = isset($subjectHeadings['gndcontent']) ? $subjectHeadings['gndcontent'] : [];
+$gndHeadings = array_merge($gndHeadings, $gndContent);
 
 if (!$gndHeadings) {
     return '';
