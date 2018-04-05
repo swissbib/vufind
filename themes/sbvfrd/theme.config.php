@@ -37,7 +37,7 @@ return array(
   'helpers' => array(
     'factories'  => array(
       'VuFind\View\Helper\Root\Auth' => 'Swissbib\View\Helper\Swissbib\Factory::getAuth',
-      'record'                    => 'Swissbib\View\Helper\Swissbib\Factory::getRecordHelper',
+      'VuFind\View\Helper\Root\Record' => 'Swissbib\View\Helper\Swissbib\Factory::getRecordHelper',
       'citation'                  => 'Swissbib\View\Helper\Swissbib\Factory::getCitation',
       'recordlink'                => 'Swissbib\View\Helper\Swissbib\Factory::getRecordLink',
       'getextendedlastsearchlink' => 'Swissbib\View\Helper\Swissbib\Factory::getExtendedLastSearchLink',
@@ -51,7 +51,8 @@ return array(
       'nationalLicences'          => 'Swissbib\View\Helper\Swissbib\Factory::getNationalLicences',
     ),
     'aliases' => array(
-        'auth' => 'VuFind\View\Helper\Root\Auth',
+        'auth'   => 'VuFind\View\Helper\Root\Auth',
+        'record' => 'VuFind\View\Helper\Root\Record',
     ),
     'invokables' => array(
       //'translate' => 'Swissbib\VuFind\View\Helper\Root\Translate',

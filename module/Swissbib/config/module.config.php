@@ -252,7 +252,7 @@ return [
         ],
         'factories'  => [
             AjaxController::class => 'Swissbib\Controller\Factory::getAjaxController',
-            'search' => 'Swissbib\Controller\SearchController',
+            'Swissbib\Controller\SearchController' => 'VuFind\Controller\AbstractBaseFactory',
             'record' => 'Swissbib\Controller\Factory::getRecordController',
             NationalLicencesController::class => AbstractBaseFactory::class,
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
@@ -277,6 +277,8 @@ return [
             'helppage' => 'Swissbib\Controller\HelpPageController',
             'my-research' => 'Swissbib\Controller\MyResearchController',
             'national-licences' => 'Swissbib\Controller\NationalLicencesController',
+            'Search' => 'Swissbib\Controller\SearchController',
+            'search' => 'Swissbib\Controller\SearchController',
         ],
     ],
     'service_manager' => [
@@ -434,11 +436,17 @@ return [
             ],
             'recorddriver' => [
                 'factories' => [
-                    'solrmarc' => 'Swissbib\RecordDriver\Factory::getSolrMarcRecordDriver',
-                    'summon'   => 'Swissbib\RecordDriver\Factory::getSummonRecordDriver',
-                    'worldcat' => 'Swissbib\RecordDriver\Factory::getWorldCatRecordDriver',
-                    'missing'  => 'Swissbib\RecordDriver\Factory::getRecordDriverMissing',
-                ]
+                    'VuFind\RecordDriver\SolrMarc' => 'Swissbib\RecordDriver\Factory::getSolrMarcRecordDriver',
+                    'VuFind\RecordDriver\Summon'   => 'Swissbib\RecordDriver\Factory::getSummonRecordDriver',
+                    'VuFind\RecordDriver\WorldCat' => 'Swissbib\RecordDriver\Factory::getWorldCatRecordDriver',
+                    'VuFind\RecordDriver\Missing'  => 'Swissbib\RecordDriver\Factory::getRecordDriverMissing',
+                ],
+                'aliases' => [
+                    'solrmarc' => 'VuFind\RecordDriver\SolrMarc',
+                    'summon' => 'VuFind\RecordDriver\Summon',
+                    'worldcat' => 'VuFind\RecordDriver\WorldCat',
+                    'missing' => 'VuFind\RecordDriver\Missing',
+                ],
             ],
             'ils_driver' => [
                 'factories' => [
