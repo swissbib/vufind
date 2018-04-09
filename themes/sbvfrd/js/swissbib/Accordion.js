@@ -123,7 +123,11 @@ $(document).ready(function () {
         $.each((expandedGroupIds[swissbib.Accordion.idRecord]), function (index, value){
             $("#" + value).collapse('show');
         });
-        window.sessionStorage.removeItem('expandlib');
+        if (expandlib != null) {
+            // open institution within opened group (and remove sessionStorage):
+            accordionContainer.find("[data-expandlibgroup='" + expandlib + "']")[0].click();
+            window.sessionStorage.removeItem('expandlib');
+        }
     } else {
         accordionContainer.find("#collapse-favorite").collapse('show');
         $.cookie(swissbib.Accordion.cookieName, null);
