@@ -328,7 +328,10 @@ return [
             'Swissbib\NationalLicenceService'               =>  'Swissbib\Services\Factory::getNationalLicenceService',
             'Swissbib\SwitchApiService'                     =>  'Swissbib\Services\Factory::getSwitchApiService',
             'Swissbib\EmailService'                         =>  'Swissbib\Services\Factory::getEmailService',
-        ]
+        ],
+        'aliases' => [
+            'MvcTranslator' => 'Zend\Mvc\I18n\Translator',
+        ],
     ],
     'view_helpers'    => [
         'invokables' => [
@@ -346,7 +349,7 @@ return [
             'subjectHeadingFormatter'        => 'Swissbib\View\Helper\SubjectHeadings',
             'SortAndPrepareFacetList'        => 'Swissbib\View\Helper\SortAndPrepareFacetList',
             'tabTemplate'                    => 'Swissbib\View\Helper\TabTemplate',
-            //'zendTranslate'                  => 'Zend\I18n\View\Helper\Translate',
+            'zendTranslate'                  => 'Zend\I18n\View\Helper\Translate',
             'getVersion'                     => 'Swissbib\View\Helper\GetVersion',
             'holdingActions'                 => 'Swissbib\View\Helper\HoldingActions',
             'availabilityInfo'               => 'Swissbib\View\Helper\AvailabilityInfo',
@@ -357,14 +360,19 @@ return [
             'layoutClass'                    => 'Swissbib\View\Helper\LayoutClass'
         ],
         'factories'  => [
-            'zendTranslate'                             =>  'Swissbib\View\Helper\Factory::getTranslator',
+            //'zendTranslate'                             => 'Zend\I18n\View\Helper\Translate',
+            //'zendTranslate'                             =>  'Swissbib\View\Helper\Factory::getTranslator',
             'configAccess'                              =>  'Swissbib\View\Helper\Factory::getConfig',
             'institutionSorter'                         =>  'Swissbib\View\Helper\Factory::getInstitutionSorter',
             'extractFavoriteInstitutionsForHoldings'    =>  'Swissbib\View\Helper\Factory::getFavoriteInstitutionsExtractor',
             'institutionDefinedAsFavorite'              =>  'Swissbib\View\Helper\Factory::getInstitutionsAsDefinedFavorites',
             'isFavoriteInstitution'                     =>  'Swissbib\View\Helper\Factory::isFavoriteInstitutionHelper',
             'domainURL'                                 =>  'Swissbib\View\Helper\Factory::getDomainURLHelper',
-        ]
+        ],
+        'aliases' => [
+            //'MvcTranslator' => 'Zend\Mvc\I18n\Translator',
+            //'translator'    => 'Zend\Mvc\I18n\Translator',
+        ],
     ],
     'vufind' => [
         'recorddriver_tabs' => [
