@@ -182,7 +182,7 @@ class Email
     public function sendAccountExtensionEmail($toUser)
     {
         $sl = $this->getServiceLocator();
-        $vhm = $sl->get('viewhelpermanager');
+        $vhm = $sl->get('ViewHelperManager');
         $url = $vhm->get('url');
         $baseDomainPath = $this->config->get('config')['Site']['url'];
         $link =  $baseDomainPath .
