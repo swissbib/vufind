@@ -56,7 +56,7 @@ class Factory
         $ilsConnection = $sm->get('VuFind\ILSConnection');
         $hmac = $sm->get('VuFind\HMAC');
         $authManager = $sm->get('VuFind\Auth\Manager');
-        $ilsAuth = $sm->get('Vufind\ILSAuthenticator');
+        $ilsAuth = $sm->get('VuFind\ILSAuthenticator');
         $config = $sm->get('VuFind\Config\PluginManager');
         $translator = $sm->get('Zend\Mvc\I18n\Translator');
         $locationMap = $sm->get('Swissbib\LocationMap');

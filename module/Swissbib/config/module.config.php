@@ -438,8 +438,11 @@ return [
             'recommend' => [
                 'factories' => [
                     'favoritefacets' => 'Swissbib\Services\Factory::getFavoriteFacets',
-                    'sidefacets' => 'Swissbib\Recommend\Factory::getSideFacets',
+                    'VuFind\Recommend\SideFacets' => 'Swissbib\Recommend\Factory::getSideFacets',
                     'topiprange' => 'Swissbib\Recommend\Factory::getTopIpRange'
+                ],
+                'aliases' => [
+                    'sidefacets' => 'VuFind\Recommend\SideFacets',
                 ],
             ],
             'recorddriver' => [
