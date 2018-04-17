@@ -81,7 +81,7 @@ class Factory
          *
          * @var $solr \Swissbib\VuFind\Search\Solr\Results
          */
-        $mixedlist = $factory->createServiceWithName($sm, 'mixedlist', 'MixedList');
+        $mixedlist = $factory($sm, 'mixedlist');
 
         return $mixedlist;
     }
@@ -117,8 +117,8 @@ class Factory
     {
         $factory = new PluginFactory();
         $tm = $sm->get('VuFind\DbTablePluginManager');
-        $obj = $factory->createServiceWithName(
-            $sm, 'favorites', 'Favorites',
+        $obj = $factory(
+            $sm, 'favorites',
             [$tm->get('Resource'), $tm->get('UserList')]
         );
 
