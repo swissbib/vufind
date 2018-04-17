@@ -29,6 +29,7 @@
 namespace Swissbib\Controller;
 
 use Swissbib\Services\NationalLicence;
+use Swissbib\Services\Pura;
 
 /**
  * Class ConsoleController.
@@ -93,5 +94,41 @@ class ConsoleController extends BaseController
         $nationalLicenceService = $this->serviceLocator
             ->get('Swissbib\NationalLicenceService');
         $nationalLicenceService->checkAndUpdateNationalLicenceUserInfo();
+    }
+
+    /**
+     * Script command for update the national licence users with their
+     * new attributes.
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function updatePuraUserAction()
+    {
+        echo "\r\n\r\n-------------------------------\r\n";
+        echo "Update Pura Users cron job started.\r\n";
+        $date = date("Y-m-d H:i:s");
+        echo $date . "\r\n";
+        echo "Process all users...\r\n";
+
+        //These lines allow to retrieve the route urls from the controller command
+        //http://stackoverflow.com/questions/27295895/how-can-i-
+        //create-a-url-in-a-console-controller-in-zf2
+        $event = $this->getEvent();
+        $http = $this->getServiceLocator()->get('HttpRouter');
+        $router = $event->setRouter($http);
+        $request = new \Zend\Http\Request();
+        $request->setUri('');
+        $router = $event->getRouter();
+        $routeMatch = $router->match($request);
+
+        /**
+         * Pura service.
+         *
+         * @var Pura $puraService
+         */
+        $puraService = $this->getServiceLocator()
+            ->get('Swissbib\PuraService');
+        $puraService->checkValidityPuraUsers();
     }
 }

@@ -1,0 +1,37 @@
+<?
+// Set up page title:
+$this->headTitle($this->translate('pura.remoteAccessForPrivateUsers'));
+
+// Set up breadcrumbs:
+$this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li> <li class="active">' . $this->transEsc('pura.remoteAccessForPrivateUsers') . '</li>';
+?>
+
+<div class="<?= $this->layoutClass('mainbody') ?>">
+
+    <?= $this->flashmessages(); ?>
+
+    <h2><?= $this->translate('pura.remoteAccessForPrivateUsers') ?></h2>
+
+    <p><?= $this->transEsc('pura.intro1') ?></p>
+
+    <p><?= $this->transEsc('pura.intro2') ?></p>
+
+    <ul>
+    <?php foreach ($this->institutions as $institution) : ?>
+
+    <li><a href="<?= $this->url('pura/library', ['libraryCode' => $institution['bib_code']]) ?>"><?= $institution['name'][$this->layout()->userLang] ?></a></li>
+
+    <?php endforeach; ?>
+    </ul>
+
+
+    
+
+
+
+
+</div>
+
+<div class="<?= $this->layoutClass('sidebar') ?>">
+    <?= $this->context($this)->renderInContext("myresearch/menu.phtml", ['active' => 'pura']) ?>
+</div>
