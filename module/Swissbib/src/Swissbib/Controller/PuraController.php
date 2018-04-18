@@ -115,7 +115,7 @@ class PuraController extends BaseController
             ->getPublishersForALibrary($libraryCode);
         $institution = $this->puraService->getInstitutionInfo($libraryCode);
 
-        if (strstr($uniqueId, "eduid.ch") == false) {
+        if (strpos($uniqueId, "eduid.ch") == false) {
             $view = new ViewModel(
                 [
                     'nonEduId' => true,
