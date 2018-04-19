@@ -54,8 +54,20 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
         <ul>
             <?php foreach ($this->publishers as $publisher) : ?>
+                <li>
+                    <a href="<?= $publisher->getUrl() ?>">
+                        <strong><?= $publisher->getName() ?></strong>
+                    </a>
+                    <? if ($publisher->getDescription()): ?>
+                        - <?= $publisher->getDescription() ?>
+                    <? endif; ?>
 
-                <li><a href="<?= $publisher->getUrl() ?>"><?= $publisher->getName() ?></a></li>
+                    <? if ($publisher->getInfoUrl()): ?>
+                        - <a href="<?= $publisher->getInfoUrl() ?>">
+                            <?= $this->transEsc('information') ?>
+                        </a>
+                    <? endif; ?>
+                </li>
 
             <?php endforeach; ?>
         </ul>
