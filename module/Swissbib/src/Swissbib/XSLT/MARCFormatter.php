@@ -56,7 +56,7 @@ class MARCFormatter
         "CCSA" => "http://permalink.snl.ch/bib/chccsa%s",
         "CHARCH" => "http://www.helveticarchives.ch/detail.aspx?ID=%s",
         "DDB" => "http://d-nb.info/%s",
-        "ECOD" => "http://www.e-codices.unifr.ch/oai/oai.php?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:e-codices.unifr.ch:http://www.e-codices.unifr.ch/en/list/one/%s",
+        "ECOD" => "http://www.e-codices.unifr.ch/oai/oai.php?verb=GetRecord&metadataPrefix=oai_dc&identifier=https://www.e-codices.unifr.ch/en/list/one/%s",
         "EDOC" => "http://edoc.unibas.ch/cgi/oai2?verb=GetRecord&identifier=%s&metadataPrefix=oai_dc",
         "HAN" => "http://aleph.unibas.ch/F/?local_base=DSV05&con_lng=GER&func=find-b&find_code=SYS&request=%s",
         "HEMU" => "http://opacbiblio.hemu-cl.ch/cgi-bin/koha/opac-detail.pl?biblionumber=%s",
