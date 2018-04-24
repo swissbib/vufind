@@ -36,6 +36,8 @@ use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 
 /**
  * Swissbib MyResearchNationalLicensesController
+ * This ensures the redirection of registered users to the document at
+ * publisher after login
  *
  * @category Swissbib_VuFind2
  * @package  Controller
@@ -101,7 +103,15 @@ class MyResearchNationalLicensesController extends MyResearchController
             $hasAccessToNationalLicenceContent = $this->nationalLicenceService
                 ->hasAccessToNationalLicenceContent($user);
 
-            if (!$hasAccessToNationalLicenceContent) {
+            $hasCommonLibTerms = false; //for Pura Users
+            $commonLibTerms = 'urn:mace:dir:entitlement:common-lib-terms';
+            if (isset($_SERVER['entitlement'])
+                && $_SERVER['entitlement'] == $commonLibTerms
+            ) {
+                $hasCommonLibTerms = true;
+            }
+
+            if (!$hasAccessToNationalLicenceContent && !$hasCommonLibTerms) {
                 return $this->forwardTo('national-licences', 'index');
 
             } else {
