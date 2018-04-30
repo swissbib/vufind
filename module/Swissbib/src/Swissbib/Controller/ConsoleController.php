@@ -61,6 +61,24 @@ class ConsoleController extends BaseController
     }
 
     /**
+     * Send the Pura monthly report
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function sendPuraReportAction()
+    {
+        /**
+         * Pura service.
+         *
+         * @var Pura $puraService Pura Service
+         */
+        $puraService = $this->serviceLocator
+            ->get('Swissbib\PuraService');
+        $puraService->sendPuraReport('Z01');
+    }
+
+    /**
      * Script command for update the national licence users with their
      * new attributes.
      *

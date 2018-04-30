@@ -272,12 +272,14 @@ class Factory
         $groups = $sm->get('VuFind\Config')->get('libadmin-groups')
             ->groups;
 
+        $puraConfig = $sm->get('VuFind\Config')->get('Pura');
+
         return new Pura(
-            $sm->get('VuFind\Config')->get('NationalLicences'),
             $publishersList,
             $groupMapping,
             $groups,
             $sm->get('Swissbib\EmailService'),
+            $puraConfig,
             $sm
         );
     }

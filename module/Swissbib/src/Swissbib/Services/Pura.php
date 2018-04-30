@@ -50,13 +50,6 @@ class Pura
     protected $serviceLocator;
 
     /**
-     * Config.
-     *
-     * @var array $config
-     */
-    protected $config;
-
-    /**
      * List of all publishers whith their
      * contracts with libraries as well as
      * url and name and similar information
@@ -87,9 +80,17 @@ class Pura
     protected $emailService;
 
     /**
+     * PuraConfig
+     *
+     * @var Config
+     */
+    protected $puraConfig;
+
+
+
+    /**
      * Pura constructor.
      *
-     * @param object                  $config         Config
      * @param PublishersList          $publishers     List of Publishers
      * @param Config                  $groupMapping   Map the institution code
      *                                                to a group (network)
@@ -99,18 +100,18 @@ class Pura
      * @param ServiceLocatorInterface $serviceLocator Service locator.
      */
     public function __construct(
-        $config,
         PublishersList $publishers,
         Config $groupMapping,
         Config $groups,
         Email $emailService,
+        Config $puraConfig,
         ServiceLocatorInterface $serviceLocator
     ) {
-        $this->config = $config;
         $this->publishers = $publishers;
         $this->groupMapping = $groupMapping;
         $this->groups = $groups;
         $this->emailService = $emailService;
+        $this->puraConfig = $puraConfig;
         $this->serviceLocator = $serviceLocator;
     }
 
@@ -394,5 +395,74 @@ class Pura
             return false;
         }
         return true;
+    }
+
+    /**
+     * Send Pura Report for a specific library
+     *
+     * @param string $libraryCode the library code
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function sendPuraReport($libraryCode)
+    {
+        if (isset($this->puraConfig['EmailsForReports'][$libraryCode])) {
+            $to = $this->puraConfig['EmailsForReports'][$libraryCode];
+        } else {
+            $to = 'lionel.walter@unibas.ch';
+        }
+
+        $this->emailService->sendMail(
+            $to,
+            'Pura Monthly Report',
+            $this->getReportTextEmail($libraryCode),
+            "",
+            true
+        );
+    }
+
+    /**
+     * Get the text of the report e-mail.
+     *
+     * @param string $libraryCode the library code, for example Z01
+     *
+     * @return string
+     * @throws \Exception
+     */
+    protected function getReportTextEmail($libraryCode)
+    {
+        /**
+         * Pura user table.
+         *
+         * @var \Swissbib\VuFind\Db\Table\PuraUser $puraUserTable
+         */
+        $puraUserTable = $this->getTable(
+            'pura'
+        );
+
+        $countTotalActiveUsers = $puraUserTable->getTotalActiveUsers($libraryCode);
+        $countNewUsersFromLastMonth
+            = $puraUserTable->getNewUsersFromLastMonth($libraryCode);
+
+        $text = "This is the monthly report for Pura for your library. " .
+            "<br><br>In the last month" .
+            " there were <b>$countNewUsersFromLastMonth</b>" .
+            " new users. There is currently a total of " .
+            " <b>$countTotalActiveUsers</b> active users for your library.<br>";
+
+        if (isset($this->puraConfig['UserManagement']['url'])) {
+            $puraUrl = $this->puraConfig['UserManagement']['url'];
+            $text .= 'Check it on ';
+            $text .= '<a href="' . $puraUrl . '">' . $puraUrl .'</a>';
+        }
+        
+        
+        
+        $text .="<br><br>---<br>Your swissbib team<br>";
+        $text .='<a href="https://www.swissbib.ch">https://www.swissbib.ch</a>';
+        $text .='<br>swissbib-ub@unibas.ch';
+
+        return $text;
     }
 }

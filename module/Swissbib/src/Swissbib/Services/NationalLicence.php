@@ -644,6 +644,7 @@ class NationalLicence
         $attachmentFilePath = $this->createCsvFileFromListUsers($path, $users);
         $this->emailService->sendMail(
             $to,
+            'National licence user export',
             $this->getExportTextEmail(),
             $attachmentFilePath,
             true

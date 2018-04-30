@@ -189,4 +189,69 @@ class PuraUser extends Gateway
 
         return $puraUsers;
     }
+
+    /**
+     * Get number of pura active accounts for a library
+     *
+     * @param string $libraryCode Library code
+     *
+     * @return int
+     */
+    public function getTotalActiveUsers($libraryCode)
+    {
+        $puraUsers = $this->select(
+            function (Select $select) use ($libraryCode) {
+                $select->where->equalTo('has_access', 1)
+                    ->and->equalTo('library_code', $libraryCode);
+            }
+        );
+        return count($puraUsers);
+    }
+
+    /**
+     * Get number of new pura accounts for a library for the last month
+     *
+     * @param string $libraryCode Library code
+     *
+     * @return int
+     */
+    public function getNewUsersFromLastMonth($libraryCode)
+    {
+        $firstDayLastMonth = new \DateTime();
+        $firstDayLastMonth->setTime(0, 0);
+        $firstDayLastMonth->modify("-1 month");
+        $firstDayLastMonth->setDate(
+            $firstDayLastMonth->format('Y'),
+            $firstDayLastMonth->format('m'),
+            1
+        );
+
+        $firstDayCurrentMonth = new \DateTime();
+        $firstDayCurrentMonth->setTime(0, 0);
+        $firstDayCurrentMonth->setDate(
+            $firstDayCurrentMonth->format('Y'),
+            $firstDayCurrentMonth->format('m'),
+            1
+        );
+
+        $puraUsers = $this->select(
+            function (Select $select) use (
+                $libraryCode,
+                $firstDayLastMonth,
+                $firstDayCurrentMonth
+            ) {
+                $select->where->equalTo('has_access', 1)
+                    ->and->where->equalTo('library_code', $libraryCode)
+                    ->and->where->greaterThanOrEqualTo(
+                        'access_created',
+                        $firstDayLastMonth->format('Y-m-d H:i:s')
+                    )
+                    ->and->where->lessThan(
+                        'access_created',
+                        $firstDayCurrentMonth->format('Y-m-d H:i:s')
+                    );
+            }
+        );
+        return count($puraUsers);
+    }
 }

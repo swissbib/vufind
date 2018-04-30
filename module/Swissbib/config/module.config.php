@@ -332,7 +332,16 @@ return [
                             'action'     => 'updatePuraUser'
                         ]
                     ]
-                ]
+                ],
+                'send-pura-report' => [
+                    'options' => [
+                        'route'    => 'send-pura-report',
+                        'defaults' => [
+                            'controller' => 'console',
+                            'action'     => 'sendPuraReport'
+                        ]
+                    ]
+                ],
             ]
         ]
     ],

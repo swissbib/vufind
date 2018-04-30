@@ -71,6 +71,7 @@ class Email
      * Send e-mail with attachment.
      *
      * @param string $to                 The recipient of the e-mail
+     * @param string $subject            Subject of the e-mail
      * @param string $textMail           Text of the e-mail
      * @param string $attachmentFilePath File path of the file to attach
      * @param bool   $tls                tls
@@ -78,13 +79,18 @@ class Email
      * @return void
      * @throws \Exception
      */
-    public function sendMail($to, $textMail, $attachmentFilePath, $tls = false)
-    {
+    public function sendMail(
+        $to,
+        $subject,
+        $textMail,
+        $attachmentFilePath = "",
+        $tls = false
+    ) {
         $mimeMessage = $this->createMimeMessage($textMail, $attachmentFilePath);
         $this->sendMailWithAttachment(
             $to,
             $mimeMessage,
-            'National licence user export',
+            $subject,
             $tls
         );
     }
