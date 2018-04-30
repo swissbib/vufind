@@ -86,8 +86,6 @@ class Pura
      */
     protected $puraConfig;
 
-
-
     /**
      * Pura constructor.
      *
@@ -97,6 +95,7 @@ class Pura
      * @param Config                  $groups         The indices of the groups
      *                                                in the libadmin array
      * @param Email                   $emailService   The email service
+     * @param Config                  $puraConfig     Pura Config
      * @param ServiceLocatorInterface $serviceLocator Service locator.
      */
     public function __construct(
@@ -454,14 +453,14 @@ class Pura
         if (isset($this->puraConfig['UserManagement']['url'])) {
             $puraUrl = $this->puraConfig['UserManagement']['url'];
             $text .= 'Check it on ';
-            $text .= '<a href="' . $puraUrl . '">' . $puraUrl .'</a>';
+            $text .= '<a href="' . $puraUrl . '">' . $puraUrl . '</a>';
         }
         
         
         
-        $text .="<br><br>---<br>Your swissbib team<br>";
-        $text .='<a href="https://www.swissbib.ch">https://www.swissbib.ch</a>';
-        $text .='<br>swissbib-ub@unibas.ch';
+        $text .= "<br><br>---<br>Your swissbib team<br>";
+        $text .= '<a href="https://www.swissbib.ch">https://www.swissbib.ch</a>';
+        $text .= '<br>swissbib-ub@unibas.ch';
 
         return $text;
     }
