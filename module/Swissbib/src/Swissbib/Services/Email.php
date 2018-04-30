@@ -266,8 +266,10 @@ class Email
         $link =  $baseDomainPath .
             $url(
                 'pura/library',
-                ['libraryCode' => 'Z01'],
-                ['page' => 'registration'],
+                [
+                    'libraryCode' => 'Z01',
+                    'page' => 'registration',
+                ],
                 ['force_canonical' => true]
             );
         $username = $toUser->firstname . ' ' . $toUser->lastname;
