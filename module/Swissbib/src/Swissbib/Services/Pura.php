@@ -407,10 +407,12 @@ class Pura
     public function sendPuraReport($libraryCode)
     {
         if (isset($this->puraConfig['EmailsForReports'][$libraryCode])) {
-            $to = $this->puraConfig['EmailsForReports'][$libraryCode];
+            $to = explode(',',$this->puraConfig['EmailsForReports'][$libraryCode]);
         } else {
             $to = 'lionel.walter@unibas.ch';
         }
+
+
 
         $this->emailService->sendMail(
             $to,
