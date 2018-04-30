@@ -69,9 +69,11 @@ class TargetsProxyTestCase extends VuFindTestCase
             $_SERVER['REMOTE_ADDR'] = '1.1.1.1';
             $iniReader = new \Zend\Config\Reader\Ini();
             $serviceLocator = new ServiceManager();
-            $config = new Config($iniReader->fromFile($configFile));
-            $serviceLocator->setService('VuFind\Config', $config);
-            $targetsProxyConfig = new Config();
+            $targetsProxyConfig = new Config($iniReader->fromFile($configFile));
+            $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/TargetsProxy';
+            $config = new Config($iniReader->fromFile($path . '/config.ini')
+            );
+
             $this->targetsProxy = new TargetsProxy(
                 $config,
                 $targetsProxyConfig,

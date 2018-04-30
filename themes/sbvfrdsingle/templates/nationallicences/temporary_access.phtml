@@ -10,7 +10,7 @@ $swissEduIDVerifyBaseUrl = "https://eduid.ch/web/verify-attribute/?attribute=";
     <? if ($this->temporaryAccessValid): ?>
         <p>
             <?= $this->transEsc('snl.youHaveAlreadyRequestedTemporary') ?>
-            <?= $this->transEsc('snl.itExpiresOn') ." ". $this->user->getExpirationDate()->format('d-m-Y') ?>.
+            <?= $this->transEsc('snl.itExpiresOn') ." ". $this->user->getExpirationDate()->format('j.n.Y') ?>.
         </p>
     <? else: ?>
         <p>

@@ -302,6 +302,7 @@ class NationalLicences extends AbstractHelper
 
         $message = "";
         $userIsAuthorized = false;
+        $hasCommonLibTerms = false;
         $userInIpRange = $this->isUserInIpRange();
         if ($userInIpRange) {
             $userIsAuthorized = true;
@@ -315,7 +316,17 @@ class NationalLicences extends AbstractHelper
                 $userIsAuthorized = false;
             }
 
-            if (!$userIsAuthorized) {
+            // We want to detect Pura Users here, based on
+            // eduPersonEntitlement value
+            $commonLibTerms = 'urn:mace:dir:entitlement:common-lib-terms';
+            if (isset($_SERVER['entitlement'])
+                && $_SERVER['entitlement'] == $commonLibTerms
+            ) {
+                $hasCommonLibTerms = true;
+            }
+
+            //not registered for NL and not a pura user -> send to NL registration
+            if (!$userIsAuthorized && !$hasCommonLibTerms) {
                 $urlhelper = $this->getView()->plugin("url");
                 $url = $urlhelper('national-licences');
                 return ['url' => $url , 'message' => ""];
@@ -331,6 +342,7 @@ class NationalLicences extends AbstractHelper
             $userInIpRange, $doi, $journalCode
         );
         if (!$userIsAuthorized
+            && !$hasCommonLibTerms
             && !empty($this->config['NationaLicensesWorkflow'])
         ) {
             $loginUrl = $this->config->NationaLicensesWorkflow->swissEduIdLoginLink;
