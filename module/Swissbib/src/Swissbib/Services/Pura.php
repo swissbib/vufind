@@ -412,8 +412,6 @@ class Pura
             $to = 'lionel.walter@unibas.ch';
         }
 
-
-
         $this->emailService->sendMail(
             $to,
             'Pura Monthly Report',

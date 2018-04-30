@@ -69,7 +69,7 @@ class PuraController extends BaseController
      */
     public function indexAction()
     {
-        $institutionCodes = ["Z01", "RE01001", "A100", "E02"];
+        $institutionCodes = ["Z01"];
         $institutions = [];
 
         foreach ($institutionCodes as $institutionCode) {
