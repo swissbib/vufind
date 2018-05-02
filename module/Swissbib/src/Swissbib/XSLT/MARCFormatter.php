@@ -52,6 +52,7 @@ class MARCFormatter
         "ALEX" => "http://www.alexandria.ch/primo_library/libweb/action/dlSearch.do?institution=BIG&vid=ALEX&scope=default_scope&query=any,contains,%s",
         "ALEXREPO" => "http://alexandria.unisg.ch/cgi/oai2?verb=GetRecord&identifier=%s&metadataPrefix=oai_dc",
         "BGR" => "http://aleph.gr.ch/F/?local_base=BGR01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
+        "BISCH" => "https://webopac.bibliotheken-schaffhausen.ch/TouchPoint_touchpoint/perma.do?q=0%3D%22%s%22+IN+%5B2%5D&v=extern&l=de",
         "BORIS" => "http://boris.unibe.ch/cgi/oai2?verb=GetRecord&identifier=%s&metadataPrefix=oai_dc",
         "CCSA" => "http://permalink.snl.ch/bib/chccsa%s",
         "CHARCH" => "http://www.helveticarchives.ch/detail.aspx?ID=%s",
