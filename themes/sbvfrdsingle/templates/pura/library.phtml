@@ -16,7 +16,12 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
     <? elseif (!($this->showListResources)): ?>
         <p><?= $this->transEsc('pura.registration1.1') ?> <?= $this->institution["name"][$this->layout()->userLang] ?><?= $this->transEsc('pura.registration1.2') ?></p>
         <p><?= $this->transEsc('pura.registration2.1') ?> <?= $this->institution["name"][$this->layout()->userLang] ?> <?= $this->transEsc('pura.registration2.2') ?></p>
-        <p><?= $this->transEsc('pura.registration3') ?></p>
+        <p>
+            <?= $this->transEsc('pura.registration3.1') ?>
+            <a href="https://www.zb.uzh.ch/Medien/20180503_allgemeine_geschaftsbedingungen_fur_pura_de.pdf">
+                <?= $this->transEsc('pura.termsAndConditions'). "</a>." ?>
+            <?= $this->transEsc('pura.registration3.2') ?>
+        </p>
 
 
 
