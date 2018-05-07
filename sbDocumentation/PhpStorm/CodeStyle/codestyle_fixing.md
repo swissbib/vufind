@@ -1,5 +1,5 @@
 #this is the phpcs-call for the whole vf-project, excluding necessary stuff:
-phpcs --standard=PEAR --ignore=*/config/*,*/tests/*,src/autoload_classmap.php --extensions=php ./module
+/usr/local/vufind/httpd/vendor/bin/phpcs --standard=PEAR --ignore=*/config/*,*/tests/*,src/autoload_classmap.php --extensions=php ./module
 
 #this is the phpcbf-call for swissbib:
 phpcbf --standard=PEAR ./module/Swissbib/src/Swissbib/

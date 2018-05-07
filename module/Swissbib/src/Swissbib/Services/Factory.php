@@ -28,8 +28,13 @@
  */
 namespace Swissbib\Services;
 
+use Swissbib\Export;
+use Swissbib\Highlight\SolrConfigurator;
+use Swissbib\Log\Logger;
+use SwitchSharedAttributesAPIClient\PublishersList;
 use Zend\ServiceManager\ServiceManager;
 use Swissbib\VuFind\Recommend\FavoriteFacets;
+use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient;
 /**
  * Factory for Services.
  *
@@ -86,8 +91,7 @@ class Factory
         $config = $sm->get('Vufind\Config')->get('config')->Highlight;
         $eventsManager = $sm->get('SharedEventManager');
         $memory = $sm->get('VuFind\Search\Memory');
-
-        return new \Swissbib\Highlight\SolrConfigurator(
+        return new SolrConfigurator(
             $eventsManager, $config, $memory
         );
     }
@@ -101,7 +105,7 @@ class Factory
      */
     public static function getSwissbibLogger(ServiceManager $sm)
     {
-        $logger = new  \Swissbib\Log\Logger();
+        $logger = new Logger();
         $logger->addWriter(
             'stream', 1, [
                 'stream' => 'log/swissbib.log'
@@ -117,6 +121,8 @@ class Factory
      * @param ServiceManager $sm Service manager.
      *
      * @return FavoriteFacets
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public static function getFavoriteFacets(ServiceManager $sm)
     {
@@ -146,7 +152,7 @@ class Factory
      */
     public static function getExport(ServiceManager $sm)
     {
-        return new \Swissbib\Export(
+        return new Export(
             $sm->get('VuFind\Config')->get('config'),
             $sm->get('VuFind\Config')->get('export')
         );
@@ -219,8 +225,61 @@ class Factory
     {
         return new NationalLicence(
             $sm->get('Swissbib\SwitchApiService'),
+            $sm->get('Swissbib\SwitchBackChannelService'),
             $sm->get('Swissbib\EmailService'),
             $sm->get('VuFind\Config')->get('NationalLicences'),
+            $sm
+        );
+    }
+
+    /**
+     * Construct the Service\Pura service.
+     *
+     * @param ServiceManager $sm Service manager
+     *
+     * @return Pura
+     * @throws \Exception
+     */
+    public static function getPuraService(ServiceManager $sm)
+    {
+        //$dataDir = realpath(APPLICATION_PATH . '/data');
+        //$filePath = $dataDir . '/pura/publishers-libraries.json';
+
+        $filePath = $sm->get('VuFind\Config')->get('Pura')['Publishers']['url'];
+
+        //$filePath = 'http://pura.swissbib.ch/publishers-libraries.json';
+
+        $publishersJsonData = file_get_contents($filePath);
+
+        if ($publishersJsonData === false) {
+            throw new \Exception(
+                'Error when reading ' . $filePath . '.'
+            );
+        }
+
+        /**
+         * Publishers List
+         *
+         * @var PublishersList $publishersList
+         */
+        $publishersList = new PublishersList();
+
+        $publishersList->loadPublishersFromJsonFile($publishersJsonData);
+
+        $groupMapping = $sm->get('VuFind\Config')->get('libadmin-groups')
+            ->institutions;
+
+        $groups = $sm->get('VuFind\Config')->get('libadmin-groups')
+            ->groups;
+
+        $puraConfig = $sm->get('VuFind\Config')->get('Pura');
+
+        return new Pura(
+            $publishersList,
+            $groupMapping,
+            $groups,
+            $sm->get('Swissbib\EmailService'),
+            $puraConfig,
             $sm
         );
     }
@@ -230,11 +289,37 @@ class Factory
      *
      * @param ServiceManager $sm Service manager
      *
-     * @return SwitchApi
+     * @return SwitchSharedAttributesAPIClient
      */
     public static function getSwitchApiService(ServiceManager $sm)
     {
-        return new SwitchApi($sm->get('VuFind\Config'), $sm);
+        $credentials
+            = $sm->get('VuFind\Config')
+                ->get('config')['SwitchApiCredentials'];
+
+        $configSwitchApi
+            = $sm->get('VuFind\Config')
+                ->get('SwitchApi')['SwitchApi'];
+
+        $config = array_merge($credentials->toArray(), $configSwitchApi->toArray());
+
+        return new SwitchSharedAttributesAPIClient($config);
+    }
+
+    /**
+     * Get SwitchBackChannel service.
+     *
+     * @param ServiceManager $sm Service manager
+     *
+     * @return SwitchBackChannel
+     */
+    public static function getSwitchBackChannelService(ServiceManager $sm)
+    {
+        return new SwitchBackChannel(
+            $sm->get('VuFind\Config')
+                ->get('NationalLicences')['SwitchBackChannel'],
+            $sm
+        );
     }
 
     /**
