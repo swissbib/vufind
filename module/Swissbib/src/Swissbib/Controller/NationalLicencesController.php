@@ -108,7 +108,9 @@ class NationalLicencesController extends BaseController
          */
         $user = null;
 
-        if ($homeOrganization == "eduid.ch") {
+        if ($homeOrganization == "eduid.ch"
+            or $homeOrganization == "test.eduid.ch"
+        ) {
             try {
                 // Create a national licence user liked the the current logged user
                 $user = $this->nationalLicenceService

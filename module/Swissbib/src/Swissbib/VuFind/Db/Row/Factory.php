@@ -95,4 +95,20 @@ class Factory
         );
         return static::getGenericRow('NationalLicenceUser', $sm, [$session]);
     }
+
+    /**
+     * Construct the PuraUser row prototype.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return NationalLicenceUser
+     */
+    public static function getPuraUser(ServiceManager $sm)
+    {
+        $sessionManager = $sm->getServiceLocator()->get('VuFind\SessionManager');
+        $session = new \Zend\Session\Container(
+            'PuraUser', $sessionManager
+        );
+        return static::getGenericRow('PuraUser', $sm, [$session]);
+    }
 }

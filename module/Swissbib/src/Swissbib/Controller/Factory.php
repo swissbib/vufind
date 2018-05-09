@@ -28,9 +28,11 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\AbstractBaseFactory;
-use VuFind\Controller\GenericFactory;
 use Zend\ServiceManager\ServiceManager;
+use VuFind\Controller\AbstractBaseFactory;
+//todo: diesen Typ gibt es gar nicht, warum als dependeny definiert??
+//use VuFind\Controller\GenericFactory;
+
 
 /**
  * Factory for controllers.
@@ -43,6 +45,7 @@ use Zend\ServiceManager\ServiceManager;
  */
 class Factory extends AbstractBaseFactory
 {
+
     /**
      * Construct the RecordController.
      *
@@ -56,7 +59,9 @@ class Factory extends AbstractBaseFactory
             $sm,
             $sm->get('VuFind\Config\PluginManager')->get('config')
         );
+
     }
+
 
     /**
      * Construct the ConsoleController
@@ -71,6 +76,36 @@ class Factory extends AbstractBaseFactory
     }
 
     /**
+     * Construct the NationalLicenceController by injecting the
+     * NationalLicence service.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return NationalLicencesController
+     */
+    public function getNationalLicenceController(ServiceManager $sm)
+    {
+        return new NationalLicencesController(
+            $sm->getServiceLocator()
+        );
+    }
+
+    /**
+     * Construct the PuraController by injecting the
+     * Pura service.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return PuraController
+     */
+    public function getPuraController(ServiceManager $sm)
+    {
+        return new PuraController(
+            $sm->getServiceLocator()
+        );
+    }
+
+    /**
      * Construct the MyResearchNationalLicensesController by injecting the
      * NationalLicence service.
      *
@@ -82,13 +117,6 @@ class Factory extends AbstractBaseFactory
     {
         return new MyResearchNationalLicensesController(
             $sm->get('Swissbib\NationalLicenceService')
-        );
-    }
-
-    public function getLibadminSyncController(ServiceManager $sm)
-    {
-        return new LibadminSyncController(
-          $sm
         );
     }
 
@@ -154,4 +182,18 @@ class Factory extends AbstractBaseFactory
         $serviceLocator = $sm->getServiceLocator();
         return new SubjectDetailPageController($serviceLocator);
     }
+
+    /**
+     * todo @matthias is this still necessary?
+     * method annotation wasn't available
+     * @param ServiceManager $sm
+     * @return LibadminSyncController
+     */
+    public function getLibadminSyncController(ServiceManager $sm)
+    {
+        return new LibadminSyncController(
+            $sm
+        );
+    }
+
 }

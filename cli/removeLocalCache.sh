@@ -17,6 +17,7 @@ if [ "$UID"  -eq 0 ]; then
                      "local/baselbern/test/cache"
                      "local/jus/justest/cache"
                      "local/classic/develop/cache"
+                     "local/classic/shibdev/cache"
                      "local/baselbern/devbabe/cache"
                      "local/jus/jusdev/cache"
                      "local/classic/productive/cache"

@@ -122,4 +122,20 @@ class Factory
             'NationalLicenceUser', $sm, 'nationallicence', [$session]
         );
     }
+
+    /**
+     * Construct the PuraUser table.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return PuraUser
+     */
+    public static function getPuraUser(ServiceManager $sm)
+    {
+        $sessionManager = $sm->getServiceLocator()->get('VuFind\SessionManager');
+        $session = new \Zend\Session\Container('List', $sessionManager);
+        return static::getGenericTable(
+            'PuraUser', $sm, 'pura', [$session]
+        );
+    }
 }

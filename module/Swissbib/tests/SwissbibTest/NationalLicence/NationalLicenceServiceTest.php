@@ -27,7 +27,7 @@
 namespace SwissbibTest\NationalLicence;
 
 use Swissbib\Services\NationalLicence;
-use Swissbib\Services\SwitchApi;
+use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
 use Zend\ServiceManager\ServiceManager;
@@ -92,24 +92,46 @@ class NationalLicenceServiceTest extends VuFindTestCase
         parent::setUp();
         $this->sm = Bootstrap::getServiceManager();
 
-        /* create a Mock of VuFind\Config\PluginManager to read dedicated
-         * configuration files for testing
-         */
-        $configPM = $this->getMockBuilder('VuFind\Config\PluginManager')
-            ->disableOriginalConstructor()->getMock();
-        $configPM
-            ->expects($this->any())
-            ->method('get')
-            ->will($this->returnCallback([$this, 'myCallback']));
+        $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/NationalLicence/fixtures/';
+        $iniReader = new IniReader();
 
-        $this->switchApiService = new SwitchApi($configPM, $this->sm);
-        $this->externalIdTest = $configPM->get('NationalLicences')
-            ['SwitchApi']['external_id_test'];
+        $configFull = new Config(
+            $iniReader->fromFile($path . 'SwitchApi.ini')
+        );
+        $configSwitchAPI = $configFull['SwitchApi'];
+
+        //on Travis the credentials for switch api are stored as an
+        //environment variable, defined in travis repository settings
+        if (getenv('TRAVIS_SWITCH_API_AUTH_USER')) {
+            $credentials = new Config(
+                [
+                  'auth_user' => getenv('TRAVIS_SWITCH_API_AUTH_USER'),
+                  'auth_password' => getenv('TRAVIS_SWITCH_API_AUTH_PASSWORD'),
+                ]
+            );
+        } else {
+            $configIni = new Config(
+                $iniReader->fromFile($path . 'config.ini')
+            );
+            $credentials = $configIni['SwitchApiCredentials'];
+        }
+
+        $config = array_merge($credentials->toArray(), $configSwitchAPI->toArray());
+
+        $this->switchApiService = new SwitchApi($config);
+
+        $this->externalIdTest = $configSwitchAPI['external_id_test'];
+
+        $configNL = new Config(
+            $iniReader->fromFile($path . 'NationalLicencesTest.ini')
+        );
+
         $this->nationalLicenceService
             = new NationalLicence(
                 $this->switchApiService,
                 null,
-                $configPM->get('NationalLicences'),
+                null,
+                $configNL,
                 $this->sm
             );
     }

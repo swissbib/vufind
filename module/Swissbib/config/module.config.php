@@ -78,6 +78,48 @@ return [
                     ],
                 ]
             ],
+            // Pura
+            'pura' => [
+                'type'    => 'segment',
+                'options' => [
+                    'route'    => '/MyResearch/Pura',
+                    'defaults' => [
+                        'controller' => 'pura',
+                        'action'     => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes'  => [
+                    'library' => [
+                        'type'    => 'segment',
+                        'options' => [
+                            'route'       => '/library/:libraryCode[/:page]',
+                            'defaults'    => [
+                                'controller' => 'pura',
+                                'action' => 'library',
+                            ],
+                            'constraints' => [
+                                'libraryCode' => 'Z01|RE01001|E02|A100',
+                                'page' => 'registration|listResources'
+                            ],
+                        ],
+                    ],
+                    'barcode' => [
+                        'type'    => 'segment',
+                        'options' => [
+                            'route'       => '/barcode/:token[/:size]',
+                            'defaults'    => [
+                                'controller' => 'pura',
+                                'action' => 'barcode',
+                            ],
+                            'constraints' => [
+                                'token' => '[A-Z0-9]*',
+                                'size' => 'big',
+                            ],
+                        ],
+                    ]
+                ]
+            ],
             'help-page' => [
                 'type'    => 'segment',
                 'options' => [
@@ -129,14 +171,14 @@ return [
                 ]
             ],
             'myresearch-photocopies' => [ // Override vufind favorites route. Rename to Lists
-              'type'    => 'literal',
-              'options' => [
-                'route'    => '/MyResearch/Photocopies',
-                'defaults' => [
-                  'controller' => 'my-research',
-                  'action'     => 'photocopies'
+                'type'    => 'literal',
+                'options' => [
+                    'route'    => '/MyResearch/Photocopies',
+                    'defaults' => [
+                        'controller' => 'my-research',
+                        'action'     => 'photocopies'
+                    ]
                 ]
-              ]
             ],
             'myresearch-bookings' => [ // Override vufind favorites route. Rename to Lists
                 'type' => 'literal', 'options' => [
@@ -288,7 +330,25 @@ return [
                             'action'     => 'updateNationalLicenceUserInfo'
                         ]
                     ]
-                ]
+                ],
+                'update-pura-user' => [
+                    'options' => [
+                        'route'    => 'update-pura-user',
+                        'defaults' => [
+                            'controller' => 'console',
+                            'action'     => 'updatePuraUser'
+                        ]
+                    ]
+                ],
+                'send-pura-report' => [
+                    'options' => [
+                        'route'    => 'send-pura-report',
+                        'defaults' => [
+                            'controller' => 'console',
+                            'action'     => 'sendPuraReport'
+                        ]
+                    ]
+                ],
             ]
         ]
     ],
@@ -312,10 +372,16 @@ return [
             //'cover'                => 'Swissbib\Controller\CoverController',
         ],
         'factories'  => [
+            //'ajax' => 'Swissbib\Controller\Factory::getAjaxController',
             AjaxController::class => 'Swissbib\Controller\Factory::getAjaxController',
+            //'search' => 'Swissbib\Controller\Factory::getSearchController',
+            //todo: kann das sein? unsere eigene Controllerklasse soll über eine VuFind Abstract class
+            //instantiert werden?
             'Swissbib\Controller\SearchController' => 'VuFind\Controller\AbstractBaseFactory',
             'record' => 'Swissbib\Controller\Factory::getRecordController',
+            //'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
             NationalLicencesController::class => AbstractBaseFactory::class,
+            'pura' => 'Swissbib\Controller\Factory::getPuraController',
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
             'summon' => 'Swissbib\Controller\Factory::getSummonController',
             'holdings' => 'Swissbib\Controller\Factory::getHoldingsController',
@@ -325,11 +391,20 @@ return [
             'install'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             //nicht getestet
             'tab40import'   => 'Swissbib\Controller\Factory::getTab40ImportController',
+            //'institutionFavorites' => 'Swissbib\Controller\Factory::getFavoritesController',
+            //todo: kann das sein?
             'Swissbib\Controller\FavoritesController' => 'VuFind\Controller\AbstractBaseFactory',
             'hierarchycache'       => 'Swissbib\Controller\Factory::getHierarchyCacheController',
             //nicht getestet
+            //'helppage'    => 'Swissbib\Controller\Factory::getHelpPageController',
+            //todo: kann das sein?
             HelpPageController::class => AbstractBaseFactory::class,
+            //'libadminsync' => 'Swissbib\Controller\Factory::getLibadminSyncController',
             LibadminSyncController::class => 'Swissbib\Controller\Factory::getLibadminSyncController',
+            //todo: kann das sein?
+            MyResearchController::class => AbstractBaseFactory::class,
+            //'my-research' => 'Swissbib\Controller\Factory::getMyResearchController',
+            //todo: kann das sein?
             MyResearchController::class => AbstractBaseFactory::class,
             'console' => 'Swissbib\Controller\Factory::getConsoleController',
             'person-knowledge-card' => 'Swissbib\Controller\Factory::getPersonKnowledgeCardController',
@@ -399,7 +474,9 @@ return [
             'Swissbib\Feedback\Form\FeedbackForm'           =>  'Swissbib\Feedback\Factory::getFeedbackForm',
             'Swissbib\NationalLicenceService'               =>  'Swissbib\Services\Factory::getNationalLicenceService',
             'Swissbib\SwitchApiService'                     =>  'Swissbib\Services\Factory::getSwitchApiService',
+            'Swissbib\SwitchBackChannelService'             =>  'Swissbib\Services\Factory::getSwitchBackChannelService',
             'Swissbib\EmailService'                         =>  'Swissbib\Services\Factory::getEmailService',
+            'Swissbib\PuraService'                          =>  'Swissbib\Services\Factory::getPuraService',
         ],
         'aliases' => [
             'MvcTranslator' => 'Zend\Mvc\I18n\Translator',
@@ -430,17 +507,18 @@ return [
             'holdingItemsPaging'             => 'Swissbib\View\Helper\HoldingItemsPaging',
             'filterUntranslatedInstitutions' => 'Swissbib\View\Helper\FilterUntranslatedInstitutions',
             'layoutClass'                    => 'Swissbib\View\Helper\LayoutClass',
-            'ajax'                           => 'Swissbib\View\Helper\Ajax'
+            //todo: nicht mehr benoetigt??
+            //'ajax'                           => 'Swissbib\View\Helper\Ajax'
         ],
         'factories'  => [
-            //'zendTranslate'                             => 'Zend\I18n\View\Helper\Translate',
-            //'zendTranslate'                             =>  'Swissbib\View\Helper\Factory::getTranslator',
             'configAccess'                              =>  'Swissbib\View\Helper\Factory::getConfig',
             'institutionSorter'                         =>  'Swissbib\View\Helper\Factory::getInstitutionSorter',
             'extractFavoriteInstitutionsForHoldings'    =>  'Swissbib\View\Helper\Factory::getFavoriteInstitutionsExtractor',
             'institutionDefinedAsFavorite'              =>  'Swissbib\View\Helper\Factory::getInstitutionsAsDefinedFavorites',
+            //'qrCode'                                    =>  'Swissbib\View\Helper\Factory::getQRCodeHelper',
             'isFavoriteInstitution'                     =>  'Swissbib\View\Helper\Factory::isFavoriteInstitutionHelper',
             'domainURL'                                 =>  'Swissbib\View\Helper\Factory::getDomainURLHelper',
+            //'redirectProtocolWrapper'                   =>  'Swissbib\View\Helper\Factory::getRedirectProtocolWrapperHelper'
         ],
         'aliases' => [
             //'MvcTranslator' => 'Zend\Mvc\I18n\Translator',
@@ -501,25 +579,29 @@ return [
             'db_table' => [
                 'factories' => [
                     'nationallicence' => 'Swissbib\VuFind\Db\Table\Factory::getNationalLicenceUser',
+                    'pura' => 'Swissbib\VuFind\Db\Table\Factory::getPuraUser',
                 ]
             ],
             'db_row' => [
                 'factories' => [
                     'nationallicence' => 'Swissbib\VuFind\Db\Row\Factory::getNationalLicenceUser',
+                    'pura' => 'Swissbib\VuFind\Db\Row\Factory::getPuraUser',
                 ]
             ],
             'recommend' => [
                 'factories' => [
                     'favoritefacets' => 'Swissbib\Services\Factory::getFavoriteFacets',
+                    //'sidefacets' => 'Swissbib\Recommend\Factory::getSideFacets',
                     'VuFind\Recommend\SideFacets' => 'Swissbib\Recommend\Factory::getSideFacets',
                     'topiprange' => 'Swissbib\Recommend\Factory::getTopIpRange'
-                ],
-                'aliases' => [
-                    'sidefacets' => 'VuFind\Recommend\SideFacets',
                 ],
             ],
             'recorddriver' => [
                 'factories' => [
+                    //'solrmarc' => 'Swissbib\RecordDriver\Factory::getSolrMarcRecordDriver',
+                    //'summon'   => 'Swissbib\RecordDriver\Factory::getSummonRecordDriver',
+                    //'worldcat' => 'Swissbib\RecordDriver\Factory::getWorldCatRecordDriver',
+                    //'missing'  => 'Swissbib\RecordDriver\Factory::getRecordDriverMissing',
                     'VuFind\RecordDriver\SolrMarc' => 'Swissbib\RecordDriver\Factory::getSolrMarcRecordDriver',
                     'VuFind\RecordDriver\Summon'   => 'Swissbib\RecordDriver\Factory::getSummonRecordDriver',
                     'VuFind\RecordDriver\WorldCat' => 'Swissbib\RecordDriver\Factory::getWorldCatRecordDriver',
@@ -578,11 +660,11 @@ return [
             //'|^jquery\.form\.js|',
         ],
         'asset_manager' => [
-          'resolver_configs' => [
-              'paths' => [
+            'resolver_configs' => [
+                'paths' => [
                     'Swissbib'
-              ]
-          ]
+                ]
+            ]
         ],
         // This section contains service manager configurations for all Swissbib
         // pluggable components:

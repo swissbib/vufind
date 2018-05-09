@@ -231,6 +231,7 @@ $prevTitles      = $record->getPreviousTitles();
 
 
   $musicalPresentation    = $record->getMusicPresentation();
+  $musicalFormat    = $record->getMusicFormat();
   $orderClassification    = $record->getOrderClassification();
   $securityclassification    = $record->getSecurityClassification();
   $reproduction    = $record->getReproduction();
@@ -647,6 +648,18 @@ $prevTitles      = $record->getPreviousTitles();
             <th><?= $this->transEsc('MusicPresentation') ?>: </th>
             <td>
                 <? foreach ($musicalPresentation as $field): ?>
+                    <?= $this->escapeHtml($field) ?><br/>
+                <? endforeach; ?>
+            </td>
+        </tr>
+    <? endif; ?>
+
+    <? /* Display "Musikalische Ausgabeform" gnd_music (field 348) */ ?>
+    <? if (!empty($musicalFormat)): ?>
+        <tr>
+            <th><?= $this->transEsc('MusicFormat') ?>: </th>
+            <td>
+                <? foreach ($musicalFormat as $field): ?>
                     <?= $this->escapeHtml($field) ?><br/>
                 <? endforeach; ?>
             </td>
