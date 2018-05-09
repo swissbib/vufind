@@ -313,7 +313,7 @@ return [
         ],
         'factories'  => [
             AjaxController::class => 'Swissbib\Controller\Factory::getAjaxController',
-            'search' => 'Swissbib\Controller\SearchController',
+            'Swissbib\Controller\SearchController' => 'VuFind\Controller\AbstractBaseFactory',
             'record' => 'Swissbib\Controller\Factory::getRecordController',
             NationalLicencesController::class => AbstractBaseFactory::class,
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
@@ -343,6 +343,8 @@ return [
             'helppage' => 'Swissbib\Controller\HelpPageController',
             'my-research' => 'Swissbib\Controller\MyResearchController',
             'national-licences' => 'Swissbib\Controller\NationalLicencesController',
+            'Search' => 'Swissbib\Controller\SearchController',
+            'search' => 'Swissbib\Controller\SearchController',
         ],
     ],
     'controller_plugins' => [
@@ -398,7 +400,10 @@ return [
             'Swissbib\NationalLicenceService'               =>  'Swissbib\Services\Factory::getNationalLicenceService',
             'Swissbib\SwitchApiService'                     =>  'Swissbib\Services\Factory::getSwitchApiService',
             'Swissbib\EmailService'                         =>  'Swissbib\Services\Factory::getEmailService',
-        ]
+        ],
+        'aliases' => [
+            'MvcTranslator' => 'Zend\Mvc\I18n\Translator',
+        ],
     ],
     'view_helpers'    => [
         'invokables' => [
@@ -416,7 +421,7 @@ return [
             'subjectHeadingFormatter'        => 'Swissbib\View\Helper\SubjectHeadings',
             'SortAndPrepareFacetList'        => 'Swissbib\View\Helper\SortAndPrepareFacetList',
             'tabTemplate'                    => 'Swissbib\View\Helper\TabTemplate',
-            //'zendTranslate'                  => 'Zend\I18n\View\Helper\Translate',
+            'zendTranslate'                  => 'Zend\I18n\View\Helper\Translate',
             'getVersion'                     => 'Swissbib\View\Helper\GetVersion',
             'holdingActions'                 => 'Swissbib\View\Helper\HoldingActions',
             'availabilityInfo'               => 'Swissbib\View\Helper\AvailabilityInfo',
@@ -428,14 +433,19 @@ return [
             'ajax'                           => 'Swissbib\View\Helper\Ajax'
         ],
         'factories'  => [
-            'zendTranslate'                             =>  'Swissbib\View\Helper\Factory::getTranslator',
+            //'zendTranslate'                             => 'Zend\I18n\View\Helper\Translate',
+            //'zendTranslate'                             =>  'Swissbib\View\Helper\Factory::getTranslator',
             'configAccess'                              =>  'Swissbib\View\Helper\Factory::getConfig',
             'institutionSorter'                         =>  'Swissbib\View\Helper\Factory::getInstitutionSorter',
             'extractFavoriteInstitutionsForHoldings'    =>  'Swissbib\View\Helper\Factory::getFavoriteInstitutionsExtractor',
             'institutionDefinedAsFavorite'              =>  'Swissbib\View\Helper\Factory::getInstitutionsAsDefinedFavorites',
             'isFavoriteInstitution'                     =>  'Swissbib\View\Helper\Factory::isFavoriteInstitutionHelper',
             'domainURL'                                 =>  'Swissbib\View\Helper\Factory::getDomainURLHelper',
-        ]
+        ],
+        'aliases' => [
+            //'MvcTranslator' => 'Zend\Mvc\I18n\Translator',
+            //'translator'    => 'Zend\Mvc\I18n\Translator',
+        ],
     ],
     'vufind' => [
         'recorddriver_tabs' => [
@@ -501,17 +511,26 @@ return [
             'recommend' => [
                 'factories' => [
                     'favoritefacets' => 'Swissbib\Services\Factory::getFavoriteFacets',
-                    'sidefacets' => 'Swissbib\Recommend\Factory::getSideFacets',
+                    'VuFind\Recommend\SideFacets' => 'Swissbib\Recommend\Factory::getSideFacets',
                     'topiprange' => 'Swissbib\Recommend\Factory::getTopIpRange'
+                ],
+                'aliases' => [
+                    'sidefacets' => 'VuFind\Recommend\SideFacets',
                 ],
             ],
             'recorddriver' => [
                 'factories' => [
-                    'solrmarc' => 'Swissbib\RecordDriver\Factory::getSolrMarcRecordDriver',
-                    'summon'   => 'Swissbib\RecordDriver\Factory::getSummonRecordDriver',
-                    'worldcat' => 'Swissbib\RecordDriver\Factory::getWorldCatRecordDriver',
-                    'missing'  => 'Swissbib\RecordDriver\Factory::getRecordDriverMissing',
-                ]
+                    'VuFind\RecordDriver\SolrMarc' => 'Swissbib\RecordDriver\Factory::getSolrMarcRecordDriver',
+                    'VuFind\RecordDriver\Summon'   => 'Swissbib\RecordDriver\Factory::getSummonRecordDriver',
+                    'VuFind\RecordDriver\WorldCat' => 'Swissbib\RecordDriver\Factory::getWorldCatRecordDriver',
+                    'VuFind\RecordDriver\Missing'  => 'Swissbib\RecordDriver\Factory::getRecordDriverMissing',
+                ],
+                'aliases' => [
+                    'solrmarc' => 'VuFind\RecordDriver\SolrMarc',
+                    'summon' => 'VuFind\RecordDriver\Summon',
+                    'worldcat' => 'VuFind\RecordDriver\WorldCat',
+                    'missing' => 'VuFind\RecordDriver\Missing',
+                ],
             ],
             'ils_driver' => [
                 'factories' => [

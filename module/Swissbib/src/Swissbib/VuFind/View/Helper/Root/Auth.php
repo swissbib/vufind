@@ -56,9 +56,11 @@ class Auth extends VFAuthHelper
      * @param \VuFind\Auth\Manager $manager      Manager
      * @param array                $noAjaxConfig NoAjaxConfig
      */
-    public function __construct(\VuFind\Auth\Manager $manager, array $noAjaxConfig)
-    {
-        parent::__construct($manager);
+    public function __construct(\VuFind\Auth\Manager $manager,
+                                \VuFind\Auth\ILSAuthenticator $ilsAuthenticator,
+                                array $noAjaxConfig
+    ) {
+        parent::__construct($manager, $ilsAuthenticator);
         $this->noAjaxConfig = $noAjaxConfig;
 
     }

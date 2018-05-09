@@ -40,7 +40,8 @@ return array(
   'favicon' => 'favicon.ico',
   'helpers' => array(
     'factories'  => array(
-      'record'                    => 'Swissbib\View\Helper\Swissbib\Factory::getRecordHelper',
+      'VuFind\View\Helper\Root\Auth' => 'Swissbib\View\Helper\Swissbib\Factory::getAuth',
+      'VuFind\View\Helper\Root\Record' => 'Swissbib\View\Helper\Swissbib\Factory::getRecordHelper',
       'citation'                  => 'Swissbib\View\Helper\Swissbib\Factory::getCitation',
       'recordlink'                => 'Swissbib\View\Helper\Swissbib\Factory::getRecordLink',
       'getextendedlastsearchlink' => 'Swissbib\View\Helper\Swissbib\Factory::getExtendedLastSearchLink',
@@ -53,6 +54,10 @@ return array(
       'piwik'                     => 'Swissbib\View\Helper\Swissbib\Factory::getPiwik',
       'nationalLicences'          => 'Swissbib\View\Helper\Swissbib\Factory::getNationalLicences',
       'autoSuggestConfig'         => 'Swissbib\View\Helper\Swissbib\Factory::getAutoSuggestConfig',
+    ),
+    'aliases' => array(
+        'auth'   => 'VuFind\View\Helper\Root\Auth',
+        'record' => 'VuFind\View\Helper\Root\Record',
     ),
     'invokables' => array(
       //'translate' => 'Swissbib\VuFind\View\Helper\Root\Translate',

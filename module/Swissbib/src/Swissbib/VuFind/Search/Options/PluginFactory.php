@@ -28,10 +28,8 @@
  */
 namespace Swissbib\VuFind\Search\Options;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-
+use Interop\Container\ContainerInterface;
 use VuFind\Search\Options\PluginFactory as VuFindOptionsPluginFactory;
-
 use Swissbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
 
 /**

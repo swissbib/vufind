@@ -52,6 +52,6 @@ class Factory
     {
         $factory = new PluginFactory();
         $helper = $sm->get('VuFind\HierarchicalFacetHelper');
-        return $factory->createServiceWithName($sm, 'solr', 'Solr', [$helper]);
+        return $factory($sm, 'Solr', [$helper]);
     }
 }

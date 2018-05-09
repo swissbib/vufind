@@ -146,11 +146,4 @@ class Factory
     {
         return new  Config($sm);
     }
-
-    public static function getTranslator(ServiceManager $sm)
-    {
-        $translator = new Translate();
-        $translator->setTranslator(new Translator());
-        return $translator;
-    }
 }
