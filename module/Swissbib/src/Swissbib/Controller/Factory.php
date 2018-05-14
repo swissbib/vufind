@@ -30,8 +30,6 @@ namespace Swissbib\Controller;
 
 use Zend\ServiceManager\ServiceManager;
 use VuFind\Controller\AbstractBaseFactory;
-//todo: diesen Typ gibt es gar nicht, warum als dependeny definiert??
-//use VuFind\Controller\GenericFactory;
 
 
 /**
@@ -86,7 +84,7 @@ class Factory extends AbstractBaseFactory
     public function getNationalLicenceController(ServiceManager $sm)
     {
         return new NationalLicencesController(
-            $sm->getServiceLocator()
+            $sm
         );
     }
 
