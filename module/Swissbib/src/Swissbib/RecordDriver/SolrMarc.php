@@ -2217,12 +2217,29 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         $publisher = explode("-", $publisher)[0];
         $publisher = str_replace("(NATIONALLICENCE)", "NL-", $publisher);
 
+        $pii = "";
+        /* publisher identifier (needed for linking to cambridge)
+        stored in 024, with $2 pii */
+
+        $identifiers = $this->getFieldArray('024', ['a','2'], true, "$$$");
+        // example
+        // [0] => 10.1017/S1014233900003497$$$doi
+        // [1] => S1014233900003497$$$pii
+
+        foreach ($identifiers as $identifier) {
+            $result = explode("$$$", $identifier);
+            if (count($result) > 1 && $result[1] == "pii") {
+                $pii = $result[0];
+            }
+        }
+
         $journalCode = $this->getFieldArray('773', ['o']);
         $nl = !empty($ref) && in_array("NATIONALLICENCE", $ref) ?
             $nl = "NATIONALLICENCE" : "";
         $nlData = [ $nl,
                     $publisher,
-                    !empty($journalCode) ? $journalCode[0] : ""
+                    !empty($journalCode) ? $journalCode[0] : "",
+                    $pii,
         ];
 
         return $nlData;

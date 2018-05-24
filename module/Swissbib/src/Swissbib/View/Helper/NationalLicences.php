@@ -299,6 +299,7 @@ class NationalLicences extends AbstractHelper
 
         $doi = $record->getDOIs()[0];
         $journalCode = $this->marcFields[2];
+        $pii = $this->marcFields[3];
 
         $message = "";
         $userIsAuthorized = false;
@@ -339,7 +340,7 @@ class NationalLicences extends AbstractHelper
         }
 
         $url = $this->buildUrl(
-            $userInIpRange, $doi, $journalCode
+            $userInIpRange, $doi, $journalCode, $pii
         );
         if (!$userIsAuthorized
             && !$hasCommonLibTerms
@@ -364,10 +365,11 @@ class NationalLicences extends AbstractHelper
      * @param String $userAuthorized user authorized?
      * @param String $doi            doi
      * @param String $journalCode    publisher journal code
+     * @param String $pii            publisher identifier
      *
      * @return null
      */
-    protected function buildUrl($userAuthorized, $doi, $journalCode
+    protected function buildUrl($userAuthorized, $doi, $journalCode, $pii
     ) {
 
         $url = $this->getPublisherBlueprintUrl($userAuthorized);
@@ -376,6 +378,7 @@ class NationalLicences extends AbstractHelper
             '{JOURNAL-URL-CODE}',
             $this->getOxfordUrlCode($journalCode), $url
         );
+        $url = str_replace('{PII}', $pii, $url);
         return $url;
     }
 
