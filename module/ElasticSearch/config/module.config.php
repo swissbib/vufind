@@ -20,7 +20,7 @@ $config = [
 
 //      'search_options' => 'ElasticSearch\VuFind\Search\ElasticSearch\Options',
 //      'search_params' => 'ElasticSearch\VuFind\Search\ElasticSearch\Params',
-      'search_results' => 'ElasticSearch\VuFind\Search\Results\Factory::getElasticSearch',
+      'search_results' => ['ElasticSearch\VuFind\Search\Results\Factory::getElasticSearch'],
       'recorddriver' => [
 //        'abstract_factories' => ['ElasticSearch\VuFind\RecordDriver\PluginFactory'],
         'factories' => [
