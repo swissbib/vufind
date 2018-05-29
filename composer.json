@@ -129,7 +129,8 @@
     "elasticsearch/elasticsearch": "5.2.*",
     "linked-swissbib/adapterESdev": "dev-updateOngr2Version5",
     "ongr/elasticsearch-dsl": "5.0.*",
-    "swissbib/switchSharedAttributesAPIClient": "dev-master"
+    "swissbib/switchSharedAttributesAPIClient": "dev-master",
+    "zendframework/zend-i18n-resources": "^2.5"
   },
   "require-dev": {
     "behat/mink": "1.7.1",
