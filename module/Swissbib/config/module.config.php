@@ -6,6 +6,7 @@ use Swissbib\Controller\HelpPageController;
 use Swissbib\Controller\LibadminSyncController;
 use Swissbib\Controller\MyResearchController;
 use Swissbib\Controller\NationalLicencesController;
+use Swissbib\Controller\Tab40ImportController;
 use VuFind\Controller\AbstractBaseFactory;
 use VuFind\Controller\AjaxController;
 
@@ -391,6 +392,7 @@ return [
             'install'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             //nicht getestet
             'tab40import'   => 'Swissbib\Controller\Factory::getTab40ImportController',
+            Tab40ImportController::class   => 'Swissbib\Controller\Factory::getTab40ImportController',
             //'institutionFavorites' => 'Swissbib\Controller\Factory::getFavoritesController',
             //todo: kann das sein?
             'Swissbib\Controller\FavoritesController' => 'VuFind\Controller\AbstractBaseFactory',
@@ -465,7 +467,7 @@ return [
 
             'VuFind\SearchOptionsPluginManager'             => 'Swissbib\Services\Factory::getSearchOptionsPluginManager',
             'VuFind\SearchParamsPluginManager'              => 'Swissbib\Services\Factory::getSearchParamsPluginManager',
-            'VuFind\SearchResultsPluginManager'             => 'Swissbib\Services\Factory::getSearchResultsPluginManager',
+            'VuFind\Search\Results\PluginManager'           => 'Swissbib\Services\Factory::getSearchResultsPluginManager',
 
             'Swissbib\SearchTabsHelper'                     =>  'Swissbib\View\Helper\Swissbib\Factory::getSearchTabsHelper',
             //'VuFind\SearchTabsHelper'                       =>  'Swissbib\View\Helper\Root\Factory::getSearchTabsHelper',
