@@ -1384,6 +1384,28 @@ class Holdings
     }
 
     /**
+     * Get backlink for Bibliotheken Schaffhausen network (Touchpoint)
+     * links only to result list as we have no usable identifier
+     *
+     * @param String $networkCode     Code of network
+     * @param String $institutionCode Code of Institution
+     * @param Array  $item            Item
+     * @param Array  $data            Data
+     *
+     * @return String
+     */
+    protected function getBackLinkBISCH(
+        $networkCode, $institutionCode,
+        array $item,
+        array $data
+    ) {
+        $values = [
+            'bib-system-number' => $item['bibsysnumber']
+        ];
+        return $this->compileString($data['pattern'], $values);
+    }
+
+    /**
      * Compile string
      * Replace {varName} pattern with names and data from array
      * creates an URL string for backlinks according to data delivered
