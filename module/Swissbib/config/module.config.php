@@ -7,6 +7,7 @@ use Swissbib\Controller\LibadminSyncController;
 use Swissbib\Controller\MyResearchController;
 use Swissbib\Controller\NationalLicencesController;
 use Swissbib\Controller\Tab40ImportController;
+use Swissbib\VuFind\Search\SearchRunnerFactory;
 use VuFind\Controller\AbstractBaseFactory;
 use VuFind\Controller\AjaxController;
 
@@ -479,6 +480,7 @@ return [
             'Swissbib\SwitchBackChannelService'             =>  'Swissbib\Services\Factory::getSwitchBackChannelService',
             'Swissbib\EmailService'                         =>  'Swissbib\Services\Factory::getEmailService',
             'Swissbib\PuraService'                          =>  'Swissbib\Services\Factory::getPuraService',
+            'VuFind\Search\SearchRunner'                    =>  SearchRunnerFactory::class
         ],
         'aliases' => [
             'MvcTranslator' => 'Zend\Mvc\I18n\Translator',
