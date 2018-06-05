@@ -1119,15 +1119,14 @@ class Holdings
      *
      * @return String
      */
-      protected function getBackLinkNEBIS($networkCode, $institutionCode, $item,
-         array $data
-      )
-      {
-         $values = [
-             'bib-system-number' => $item['bibsysnumber'],
-         ];
-         return $this->compileString($data['pattern'], $values);
-      }
+    protected function getBackLinkNEBIS($networkCode, $institutionCode, $item,
+        array $data
+    ) {
+        $values = [
+            'bib-system-number' => $item['bibsysnumber'],
+        ];
+        return $this->compileString($data['pattern'], $values);
+    }
 
     /**
      * Get backlink for IDSLU
