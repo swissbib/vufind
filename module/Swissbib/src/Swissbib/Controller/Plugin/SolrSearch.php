@@ -152,6 +152,6 @@ class SolrSearch extends AbstractPlugin
      */
     protected function getResultsManager(): PluginManager
     {
-        return $this->_serviceLocator->get('VuFind\SearchResultsPluginManager');
+        return $this->_serviceLocator->get('VuFind\Search\Results\PluginManager');
     }
 }

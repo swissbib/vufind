@@ -36,9 +36,6 @@ use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use VuFind\Search\SearchRunner as VFSearchRunner;
 
-
-
-
 /**
  * SearchRunnerFactory
  *
@@ -81,14 +78,10 @@ use VuFind\Search\SearchRunner as VFSearchRunner;
  */
 class SearchRunnerFactory implements FactoryInterface
 {
-
     protected $extendedTargets;
-
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-
-
         //if (!isset($this->extendedTargets)) {
         //    $mainConfig = $container->get('VuFind\Config\PluginManager')
         //        ->get('config');
@@ -108,9 +101,6 @@ class SearchRunnerFactory implements FactoryInterface
                 //->get('VuFind\SearchResultsPluginManager');
         //}
 
-
-
-
         //@Matthias: hier wie besprochen einen "whitelist" Mechanismus über module-config?
 
         //return new VFSearchRunner($container->get('VuFind\Search\Results\PluginManager'),
@@ -126,7 +116,5 @@ class SearchRunnerFactory implements FactoryInterface
         //ich überblicke das im Moment noch nicht alles...
         return new $requestedName($container->get('VuFind\Search\Results\PluginManager'),
             new EventManager($container->get('SharedEventManager')));
-
-
     }
 }

@@ -148,7 +148,7 @@ class SearchController extends VuFindSearchController
 
         if (in_array($this->searchClassId, $this->extendedTargets)) {
             return $this->serviceLocator
-                ->get('VuFind\SearchResultsPluginManager');
+                ->get('VuFind\Search\Results\PluginManager');
         }
 
         return parent::getResultsManager();

@@ -280,7 +280,7 @@ class ElasticSearchSearch extends AbstractPlugin
      */
     protected function getResultsManager()
     {
-        return $this->_serviceLocator->get('VuFind\SearchResultsPluginManager');
+        return $this->_serviceLocator->get('VuFind\Search\Results\PluginManager');
     }
 
     /**

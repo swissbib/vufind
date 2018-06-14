@@ -68,7 +68,7 @@ class Factory
     public static function getSolr(ServiceManager $sm)
     {
         return new \Swissbib\VuFind\Autocomplete\Solr(
-            $sm->get('VuFind\SearchResultsPluginManager')
+            $sm->get('VuFind\Search\Results\PluginManager')
         );
     }
 }

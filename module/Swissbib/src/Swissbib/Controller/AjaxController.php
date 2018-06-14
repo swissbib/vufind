@@ -285,7 +285,7 @@ class AjaxController extends VFAjaxController
     protected function search(array $searchOptions = []): array
     {
         $manager = $this->serviceLocator->get(
-            'VuFind\SearchResultsPluginManager'
+            'VuFind\Search\Results\PluginManager'
         );
         $searcher = $this->getRequest()->getQuery()['searcher'];
         /*

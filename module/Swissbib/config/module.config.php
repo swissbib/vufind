@@ -688,12 +688,19 @@ return [
             ],
             'vufind_search_results' => [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Results\PluginFactory'],
+                'aliases' => [
+                    'solr'              => 'Swissbib\VuFind\Search\Solr\Results\Solr',
+                    'solrauthorfacets'  => 'Swissbib\VuFind\Search\Solr\Results\SolrAuthorFacets',
+                    'mixedlist'         => 'Swissbib\VuFind\Search\Solr\Results\MixedList',
+                    'favorites'         => 'Swissbib\VuFind\Search\Solr\Results\Favorites',
+                    'elasticsearch'     => 'ElasticSearch\VuFind\Search\Results\ElasticSearch',
+                ],
                 'factories' => [
-                    'favorites' => 'Swissbib\VuFind\Search\Results\Factory::getFavorites',
-                    'solr' => 'Swissbib\VuFind\Search\Results\Factory::getSolr',
-                    'solrauthorfacets' => 'Swissbib\VuFind\Search\Results\Factory::getSolrAuthorFacets',
-                    'elasticsearch' => '\ElasticSearch\VuFind\Search\Results\Factory::getElasticSearch',
-                    'mixedlist' => 'Swissbib\VuFind\Search\Results\Factory::getMixdList',
+                    'Swissbib\VuFind\Search\Solr\Results\Solr'              => 'Swissbib\VuFind\Search\Results\Factory::getSolr',
+                    'Swissbib\VuFind\Search\Solr\Results\SolrAuthorFacets'  => 'Swissbib\VuFind\Search\Results\Factory::getSolrAuthorFacets',
+                    'Swissbib\VuFind\Search\Solr\Results\MixedList'         => 'Swissbib\VuFind\Search\Results\Factory::getMixdList',
+                    'Swissbib\VuFind\Search\Solr\Results\Favorites'         => 'Swissbib\VuFind\Search\Results\Factory::getFavorites',
+                    'ElasticSearch\VuFind\Search\Results\ElasticSearch'     => '\ElasticSearch\VuFind\Search\Results\Factory::getElasticSearch',
                 ],
             ]
         ]

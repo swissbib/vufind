@@ -202,7 +202,7 @@ class Factory
         $filterConfig = isset($config->SearchTabsFilters)
             ? $config->SearchTabsFilters->toArray() : [];
         return new SearchTabsHelper(
-            $sm->get('VuFind\SearchResultsPluginManager'),
+            $sm->get('VuFind\Search\Results\PluginManager'),
             $tabConfig, $filterConfig,
             $sm->get('Application')->getRequest()
         );
