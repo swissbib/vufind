@@ -34,7 +34,6 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Console\Request as ConsoleRequest;
 
 use Swissbib\Tab40Import\Importer as Tab40Importer;
-use Zend\ServiceManager\ServiceManager;
 
 /**
  * Import tab40.xxx files and convert them to label files
@@ -48,14 +47,6 @@ use Zend\ServiceManager\ServiceManager;
  */
 class Tab40ImportController extends AbstractActionController
 {
-    /** @var ServiceManager $sm */
-    private $serviceManager;
-
-    public function __construct(ServiceManager $sm)
-    {
-        $this->serviceManager = $sm;
-    }
-
     /**
      * Import file as label data
      *
@@ -97,6 +88,6 @@ class Tab40ImportController extends AbstractActionController
      */
     protected function getImporter()
     {
-        return $this->serviceManager->get('Swissbib\Tab40Importer');
+        return $this->serviceLocator->get('Swissbib\Tab40Importer');
     }
 }
