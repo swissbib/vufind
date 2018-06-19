@@ -288,6 +288,12 @@ class AvailabilityInfo extends AbstractHelper
                 $infotext = $escapedTranslation($statusfield);
                 $info = "<div class='availability fa-question'><div>" .
                     "$infotext" . "</div></div>";
+                switch ($institution) {
+                    case 'Z998':
+                        $infotext = $escapedTranslation('holdings_noitems');
+                        $info = "<div>" . "$infotext" . "</div>";
+                        break;
+                }
                 break;
             case self::EXHIBITION:
 
