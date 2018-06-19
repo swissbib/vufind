@@ -99,9 +99,8 @@ class PluginFactory extends VuFindResultsPluginFactory
          *
          * @var \Swissbib\VuFind\Search\Solr\Results $sbSolrResults
          */
-        $sbSolrResults =  parent(
-            $container, $requestedName, $extraParams
-        );
+        $sbSolrResults =
+            parent::__invoke($container, $requestedName, $extraParams);
         $facetConfigs = $container->get('VuFind\Config\PluginManager')
             ->get($sbSolrResults->getOptions()->getFacetsIni());
         

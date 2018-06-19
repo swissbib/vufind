@@ -57,7 +57,7 @@ class Factory
          *
          * @var $solr \Swissbib\VuFind\Search\Solr\Results
          */
-        $solr = $factory($sm, 'solr');
+        $solr = $factory($sm, 'Solr');
 
         $solr->setSpellingProcessor(
             $sm->get("sbSpellingProcessor")

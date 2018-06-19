@@ -68,7 +68,7 @@ class TemplateFilenameFilter extends AbstractFilter
      */
     public function filter($content)
     {
-        $sm = $this->getServiceLocator();
+        $sm = $this->serviceLocator;
         /**
          * PhpRenderer
          *
