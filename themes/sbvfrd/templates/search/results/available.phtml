@@ -12,7 +12,12 @@ $freeURL                = (is_array($urldisplay['urls']) && count($urldisplay['u
 $borisURL               = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/boris.unibe/', $urldisplay['urls'][0]) : false;
 $edocURL                = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/edoc.unibas/', $urldisplay['urls'][0]) : false;
 $alexURL                = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/alexandria.unisg/', $urldisplay['urls'][0]) : false;
-$nationallizenzen       = $this->nationalLicences()->getUrl($driver);
+try {
+    $nationallizenzen = $this->nationalLicences()->getUrl($driver);
+} catch (\Exception $e) {
+    //this is the case for swissbib orange and jusbib
+    $nationallizenzen = null;
+}
 ?>
 
 <? if ($amountHoldings === 1): ?>
