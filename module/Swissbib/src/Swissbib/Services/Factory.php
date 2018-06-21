@@ -300,7 +300,7 @@ class Factory
         $configSwitchApi
             = $sm->get('VuFind\Config')
                 ->get('SwitchApi')['SwitchApi'];
-        if(is_null($credentials) or is_null($configSwitchApi)) {
+        if (is_null($credentials) or is_null($configSwitchApi)) {
             throw new \Exception('SwitchApi configuration is missing');
         }
 
