@@ -466,8 +466,8 @@ return [
             'Swissbib\Hierarchy\SimpleTreeGenerator'        =>  'Swissbib\Hierarchy\Factory::getSimpleTreeGenerator',
             'Swissbib\Hierarchy\MultiTreeGenerator'         =>  'Swissbib\Hierarchy\Factory::getMultiTreeGenerator',
 
-            'VuFind\SearchOptionsPluginManager'             => 'Swissbib\Services\Factory::getSearchOptionsPluginManager',
-            'VuFind\SearchParamsPluginManager'              => 'Swissbib\Services\Factory::getSearchParamsPluginManager',
+            'VuFind\Search\Options\PluginManager'           => 'Swissbib\Services\Factory::getSearchOptionsPluginManager',
+            'VuFind\Search\Params\PluginManager'            => 'Swissbib\Services\Factory::getSearchParamsPluginManager',
             'VuFind\Search\Results\PluginManager'           => 'Swissbib\Services\Factory::getSearchResultsPluginManager',
 
             'Swissbib\SearchTabsHelper'                     =>  'Swissbib\View\Helper\Swissbib\Factory::getSearchTabsHelper',
@@ -680,9 +680,13 @@ return [
                 ],
             ], 'vufind_search_params' => [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Params\PluginFactory'],
+                'aliases' => [
+                    'solr'          => 'Swissbib\VuFind\Search\Solr\Params\Solr',
+                    'elasticsearch' => 'ElasticSearch\VuFind\Search\Params\ElasticSearch'
+                ],
                 'factories' => [
-                    'solr' => 'Swissbib\VuFind\Search\Params\Factory::getSolr',
-                    'elasticsearch' => '\ElasticSearch\VuFind\Search\Params\Factory::getElasticSearch'
+                    'Swissbib\VuFind\Search\Solr\Params\Solr'          => 'Swissbib\VuFind\Search\Params\Factory::getSolr',
+                    'ElasticSearch\VuFind\Search\Params\ElasticSearch' => '\ElasticSearch\VuFind\Search\Params\Factory::getElasticSearch'
                 ],
 
             ],

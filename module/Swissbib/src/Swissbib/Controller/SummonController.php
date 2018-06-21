@@ -177,7 +177,7 @@ class SummonController extends VuFindSummonController
         //GH: We need this initialization only to handle personal limit
         // an sort settings for logged in users
         $viewModel->options = $this->serviceLocator
-            ->get('VuFind\SearchOptionsPluginManager')->get($this->searchClassId);
+            ->get('VuFind\Search\Options\PluginManager')->get($this->searchClassId);
         $results = $this->getResultsManager()->get($this->searchClassId);
         $params = $results->getParams();
         $requestParams = new Parameters(

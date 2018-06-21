@@ -439,7 +439,7 @@ class MyResearchController extends VuFindMyResearchController
         $sortOptions = [];
         $searchTabs = $this->getConfig()->get('SearchTabs');
         $searchOptionsPluginManager = $serviceManager
-            ->get('VuFind\SearchOptionsPluginManager');
+            ->get('VuFind\Search\Options\PluginManager');
 
         if (!$searchTabs->count()) {
             $config = $this->getConfig()->get('Index');

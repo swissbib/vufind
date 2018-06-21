@@ -85,7 +85,7 @@ class PluginFactory extends VuFindParamsPluginFactory
         $requestedName, array $extraParams = null
     ) {
         $options =$container
-            ->get('VuFind\SearchOptionsPluginManager')->get($requestedName);
+            ->get('VuFind\Search\Options\PluginManager')->get($requestedName);
 
         $extendedTargetHelper = $container
             ->get('Swissbib\ExtendedSolrFactoryHelper');
