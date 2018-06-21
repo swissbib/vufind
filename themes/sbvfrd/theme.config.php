@@ -40,13 +40,13 @@ return array(
   'favicon' => 'favicon.ico',
   'helpers' => array(
     'factories'  => array(
-      'VuFind\View\Helper\Root\Auth' => 'Swissbib\View\Helper\Swissbib\Factory::getAuth',
-      'VuFind\View\Helper\Root\Record' => 'Swissbib\View\Helper\Swissbib\Factory::getRecordHelper',
-      'citation'                  => 'Swissbib\View\Helper\Swissbib\Factory::getCitation',
-      'recordlink'                => 'Swissbib\View\Helper\Swissbib\Factory::getRecordLink',
+      'VuFind\View\Helper\Root\Auth'    => 'Swissbib\View\Helper\Swissbib\Factory::getAuth',
+      'VuFind\View\Helper\Root\Record'  => 'Swissbib\View\Helper\Swissbib\Factory::getRecordHelper',
+      'Swissbib\VuFind\View\Helper\Root\Citation' => 'VuFind/View/Helper/Root/CitationFactory',
+      'Swissbib\View\Helper\RecordLink'           => 'VuFind/View/Helper/Root/RecordLinkFactory',
       'getextendedlastsearchlink' => 'Swissbib\View\Helper\Swissbib\Factory::getExtendedLastSearchLink',
       'auth'                      => 'Swissbib\View\Helper\Swissbib\Factory::getAuth',
-      'layoutClass'               => 'Swissbib\View\Helper\Swissbib\Factory::getLayoutClass',
+      'Swissbib\View\Helper\LayoutClass' => 'VuFind\View\Helper\Bootstrap3\LayoutClassFactory',
       'searchtabs'                => 'Swissbib\View\Helper\Swissbib\Factory::getSearchTabs',
       'includeTemplate'           => 'Swissbib\View\Helper\Swissbib\Factory::getIncludeTemplate',
       'translateFacets'           => 'Swissbib\View\Helper\Swissbib\Factory::getFacetTranslator',
@@ -56,8 +56,11 @@ return array(
       'autoSuggestConfig'         => 'Swissbib\View\Helper\Swissbib\Factory::getAutoSuggestConfig',
     ),
     'aliases' => array(
-        'auth'   => 'VuFind\View\Helper\Root\Auth',
-        'record' => 'VuFind\View\Helper\Root\Record',
+        'auth'          => 'VuFind\View\Helper\Root\Auth',
+        'record'        => 'VuFind\View\Helper\Root\Record',
+        'layoutClass'   => 'Swissbib\View\Helper\LayoutClass',
+        'citation'      => 'Swissbib\VuFind\View\Helper\Root\Citation',
+        'recordlink'    => 'Swissbib\View\Helper\RecordLink',
     ),
     'invokables' => array(
       //'translate' => 'Swissbib\VuFind\View\Helper\Root\Translate',

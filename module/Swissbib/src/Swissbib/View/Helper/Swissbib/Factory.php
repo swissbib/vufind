@@ -71,34 +71,6 @@ class Factory
     }
 
     /**
-     * GetCitation
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return \Swissbib\VuFind\View\Helper\Root\Citation
-     */
-    public static function getCitation(ServiceManager $sm)
-    {
-        return new \Swissbib\VuFind\View\Helper\Root\Citation(
-            $sm->get('VuFind\DateConverter')
-        );
-    }
-
-    /**
-     * GetRecordLink
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return \Swissbib\View\Helper\RecordLink
-     */
-    public static function getRecordLink(ServiceManager $sm)
-    {
-        return new \Swissbib\View\Helper\RecordLink(
-            $sm->get('VuFind\RecordRouter')
-        );
-    }
-
-    /**
      * GetExtendedLastSearchLink
      *
      * @param ServiceManager $sm ServiceManager
@@ -146,22 +118,6 @@ class Factory
         $config =  $sm->get('VuFind\Config\PluginManager')->get('facets')
             ->Advanced_Settings->translated_facets->toArray();
         return new TranslateFacets($config);
-    }
-
-    /**
-     * GetLayoutClass
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return LayoutClass
-     */
-    public static function getLayoutClass(ServiceManager $sm)
-    {
-        $config = $sm->get('VuFind\Config\PluginManager')->get('config');
-        $left = !isset($config->Site->sidebarOnLeft)
-            ? false : $config->Site->sidebarOnLeft;
-
-        return new LayoutClass($left);
     }
 
     /**
