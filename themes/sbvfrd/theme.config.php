@@ -41,12 +41,12 @@ return array(
   'helpers' => array(
     'factories'  => array(
       'VuFind\View\Helper\Root\Auth'                => 'Swissbib\View\Helper\Swissbib\Factory::getAuth',
-      'Swissbib\VuFind\View\Helper\Root\Record'     => 'VuFind\View\Helper\Root\RecordFactory',
+      'Swissbib\View\Helper\Record'     => 'VuFind\View\Helper\Root\RecordFactory',
       'Swissbib\VuFind\View\Helper\Root\Citation'   => 'VuFind\View\Helper\Root\CitationFactory',
       'Swissbib\View\Helper\RecordLink'             => 'VuFind\View\Helper\Root\RecordLinkFactory',
       'Swissbib\View\Helper\LayoutClass'            => 'VuFind\View\Helper\Bootstrap3\LayoutClassFactory',
-      'Swissbib\View\Helper\Root\SearchTabs'        => 'VuFind\View\Helper\Root\SearchTabsFactory',
-      'Swissbib\View\Helper\Root\Piwik'             => 'VuFind\View\Helper\Root\PiwikFactory',
+      'Swissbib\VuFind\View\Helper\Root\SearchTabs' => 'VuFind\View\Helper\Root\SearchTabsFactory',
+      'Swissbib\VuFind\View\Helper\Root\Piwik'      => 'VuFind\View\Helper\Root\PiwikFactory',
       'nationalLicences'          => 'Swissbib\View\Helper\Swissbib\Factory::getNationalLicences',
       'autoSuggestConfig'         => 'Swissbib\View\Helper\Swissbib\Factory::getAutoSuggestConfig',
       'getextendedlastsearchlink' => 'Swissbib\View\Helper\Swissbib\Factory::getExtendedLastSearchLink',
@@ -56,12 +56,12 @@ return array(
     ),
     'aliases' => array(
         'auth'          => 'VuFind\View\Helper\Root\Auth',
-        'record'        => 'Swissbib\VuFind\View\Helper\Root\Record',
+        'record'        => 'Swissbib\View\Helper\Record',
         'layoutClass'   => 'Swissbib\View\Helper\LayoutClass',
         'citation'      => 'Swissbib\VuFind\View\Helper\Root\Citation',
         'recordlink'    => 'Swissbib\View\Helper\RecordLink',
-        'searchtabs'    => 'Swissbib\View\Helper\Root\SearchTabs',
-        'piwik'         => 'Swissbib\View\Helper\Root\Piwik',
+        'searchtabs'    => 'Swissbib\VuFind\View\Helper\Root\SearchTabs',
+        'piwik'         => 'Swissbib\VuFind\View\Helper\Root\Piwik',
     ),
     'invokables' => array(
       //'translate' => 'Swissbib\VuFind\View\Helper\Root\Translate',

@@ -133,7 +133,7 @@ class Factory
         return new SearchTabs(
             $sm->get('VuFind\Search\Results\PluginManager'),
             $helpers->get('url'),
-            $sm->get('Swissbib\SearchTabsHelper')
+            $sm->get('Swissbib\Search\SearchTabsHelper')
         );
     }
 

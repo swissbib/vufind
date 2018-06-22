@@ -470,8 +470,8 @@ return [
             'VuFind\Search\Params\PluginManager'            => 'Swissbib\Services\Factory::getSearchParamsPluginManager',
             'VuFind\Search\Results\PluginManager'           => 'Swissbib\Services\Factory::getSearchResultsPluginManager',
 
-            'Swissbib\SearchTabsHelper'                     =>  'Swissbib\View\Helper\Swissbib\Factory::getSearchTabsHelper',
-            //'VuFind\SearchTabsHelper'                       =>  'Swissbib\View\Helper\Root\Factory::getSearchTabsHelper',
+            'Swissbib\Search\SearchTabsHelper'              =>  'Swissbib\View\Helper\Swissbib\Factory::getSearchTabsHelper',
+            'VuFind\Search\SearchTabsHelper'                =>  'Swissbib\View\Helper\Swissbib\Factory::getSearchTabsHelper',
             'Swissbib\Record\Form\CopyForm'                 =>  'Swissbib\Record\Factory::getCopyForm',
             'Swissbib\MyResearch\Form\AddressForm'          =>  'Swissbib\MyResearch\Factory::getAddressForm',
             'Swissbib\Feedback\Form\FeedbackForm'           =>  'Swissbib\Feedback\Factory::getFeedbackForm',
@@ -483,7 +483,7 @@ return [
             'VuFind\Search\SearchRunner'                    =>  SearchRunnerFactory::class
         ],
         'aliases' => [
-            'MvcTranslator' => 'Zend\Mvc\I18n\Translator',
+            'MvcTranslator'           => 'Zend\Mvc\I18n\Translator',
         ],
     ],
     'view_helpers'    => [
