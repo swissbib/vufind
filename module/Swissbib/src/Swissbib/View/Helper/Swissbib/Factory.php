@@ -191,26 +191,6 @@ class Factory
     }
 
     /**
-     * Construct the Piwik helper.
-     *
-     * @param ServiceManager $sm Service manager.
-     *
-     * @return Piwik
-     */
-    public static function getPiwik(ServiceManager $sm)
-    {
-        $config = $sm->get('VuFind\Config\PluginManager')->get('config');
-        $url = isset($config->Piwik->url) ? $config->Piwik->url : false;
-        $siteId = isset($config->Piwik->site_id) ? $config->Piwik->site_id : 1;
-        $customVars = isset($config->Piwik->custom_variables)
-            ? $config->Piwik->custom_variables
-            : false;
-        $request = $sm->get('Request');
-        $router = $sm->get('Router');
-        return new Piwik($url, $siteId, $customVars, $router, $request);
-    }
-
-    /**
      * Construct NationalLicence Helper
      *
      * @param ServiceManager $sm Service manager.
