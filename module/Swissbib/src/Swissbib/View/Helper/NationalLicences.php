@@ -304,8 +304,6 @@ class NationalLicences extends AbstractHelper
         $message = "";
         $userIsAuthorized = false;
         $hasCommonLibTerms = false;
-
-
         $userInIpRange = $this->isUserInIpRange();
         if ($userInIpRange) {
             $userIsAuthorized = true;
