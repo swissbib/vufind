@@ -304,6 +304,8 @@ class NationalLicences extends AbstractHelper
         $message = "";
         $userIsAuthorized = false;
         $hasCommonLibTerms = false;
+
+
         $userInIpRange = $this->isUserInIpRange();
         if ($userInIpRange) {
             $userIsAuthorized = true;
@@ -321,7 +323,7 @@ class NationalLicences extends AbstractHelper
             // eduPersonEntitlement value
             $commonLibTerms = 'urn:mace:dir:entitlement:common-lib-terms';
             if (isset($_SERVER['entitlement'])
-                && $_SERVER['entitlement'] == $commonLibTerms
+                && strstr($_SERVER['entitlement'], $commonLibTerms)
             ) {
                 $hasCommonLibTerms = true;
             }
