@@ -88,6 +88,6 @@ class Tab40ImportController extends AbstractActionController
      */
     protected function getImporter()
     {
-        return $this->getServiceLocator()->get('Swissbib\Tab40Importer');
+        return $this->serviceLocator->get('Swissbib\Tab40Importer');
     }
 }

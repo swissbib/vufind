@@ -78,7 +78,7 @@ class LibadminSyncController extends AbstractActionController
          * @var Importer $importer
          */
         try {
-            $importer = $this->getServiceLocator()
+            $importer = $this->serviceLocator
                 ->get('Swissbib\Libadmin\Importer');
             $result   = $importer->import($dryRun);
             $hasErrors = $result->hasErrors();
