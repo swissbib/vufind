@@ -356,58 +356,28 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            //'helppage'             => 'Swissbib\Controller\HelpPageController',
-            //'libadminsync'         => 'Swissbib\Controller\LibadminSyncController',
-            //'my-research'          => 'Swissbib\Controller\MyResearchController',
-            //first move from invokable to factory
-            //haven't looked into the real implementation so far (GH)
-            //'summon'               => 'Swissbib\Controller\SummonController',
-            //'holdings'             => 'Swissbib\Controller\HoldingsController',
-            //'tab40import'          => 'Swissbib\Controller\Tab40ImportController',
-            //'institutionFavorites' => 'Swissbib\Controller\FavoritesController',
-            //'hierarchycache'       => 'Swissbib\Controller\HierarchyCacheController',
             'shibtest'             => 'Swissbib\Controller\ShibtestController',
-            //'ajax'                 => 'Swissbib\Controller\AjaxController',
-            //'upgrade'              => 'Swissbib\Controller\NoProductiveSupportController',
-            //'install'              => 'Swissbib\Controller\NoProductiveSupportController',
-            //'feedback'             => 'Swissbib\Controller\FeedbackController',
-            //'cover'                => 'Swissbib\Controller\CoverController',
         ],
         'factories'  => [
-            //'ajax' => 'Swissbib\Controller\Factory::getAjaxController',
             AjaxController::class => 'Swissbib\Controller\Factory::getAjaxController',
-            //'search' => 'Swissbib\Controller\Factory::getSearchController',
-            //todo: kann das sein? unsere eigene Controllerklasse soll über eine VuFind Abstract class
-            //instantiert werden?
             'Swissbib\Controller\SearchController' => 'VuFind\Controller\AbstractBaseFactory',
             'record' => 'Swissbib\Controller\Factory::getRecordController',
-            //'national-licences' => 'Swissbib\Controller\Factory::getNationalLicenceController',
             NationalLicencesController::class => AbstractBaseFactory::class,
             'pura' => 'Swissbib\Controller\Factory::getPuraController',
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
             'summon' => 'Swissbib\Controller\Factory::getSummonController',
-            'holdings' => 'Swissbib\Controller\Factory::getHoldingsController',
+            'Swissbib\Controller\HoldingsController' => 'VuFind\Controller\AbstractBaseFactory',
             'feedback'  => 'Swissbib\Controller\Factory::getFeedbackController',
             'cover'     => 'Swissbib\Controller\Factory::getCoverController',
             'upgrade'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             'install'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
-            //nicht getestet
             'tab40import'   => 'Swissbib\Controller\Factory::getTab40ImportController',
             Tab40ImportController::class   => 'Swissbib\Controller\Factory::getTab40ImportController',
-            //'institutionFavorites' => 'Swissbib\Controller\Factory::getFavoritesController',
-            //todo: kann das sein?
             'Swissbib\Controller\FavoritesController' => 'VuFind\Controller\AbstractBaseFactory',
             'hierarchycache'       => 'Swissbib\Controller\Factory::getHierarchyCacheController',
-            //nicht getestet
-            //'helppage'    => 'Swissbib\Controller\Factory::getHelpPageController',
-            //todo: kann das sein?
             HelpPageController::class => AbstractBaseFactory::class,
-            //'libadminsync' => 'Swissbib\Controller\Factory::getLibadminSyncController',
             LibadminSyncController::class => 'Swissbib\Controller\Factory::getLibadminSyncController',
-            //todo: kann das sein?
             MyResearchController::class => AbstractBaseFactory::class,
-            //'my-research' => 'Swissbib\Controller\Factory::getMyResearchController',
-            //todo: kann das sein?
             MyResearchController::class => AbstractBaseFactory::class,
             'console' => 'Swissbib\Controller\Factory::getConsoleController',
             'person-knowledge-card' => 'Swissbib\Controller\Factory::getPersonKnowledgeCardController',
@@ -423,6 +393,7 @@ return [
             'national-licences' => 'Swissbib\Controller\NationalLicencesController',
             'Search' => 'Swissbib\Controller\SearchController',
             'search' => 'Swissbib\Controller\SearchController',
+            'holdings'  => 'Swissbib\Controller\HoldingsController',
         ],
     ],
     'controller_plugins' => [
