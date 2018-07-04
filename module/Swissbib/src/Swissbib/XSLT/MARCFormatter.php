@@ -77,6 +77,7 @@ class MARCFormatter
         "SGBN" => "http://aleph.sg.ch/F/?local_base=SGB01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
         "SNL" => "http://permalink.snl.ch/bib/sz%s",
         "VAUD" => "http://renouvaud.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?&institution=41BCULIB&vid=41BCULIB_VU1&search_scope=41BCULIB_ALMA_ALL&query=any,contains,%s",
+        "VAUDS" => "http://renouvaud.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?&institution=41BCULIB&vid=41BCULIB_VU1&search_scope=41BCULIB_ALMA_ALL&query=any,contains,%s",
         "ZORA" => "http://www.zora.uzh.ch/cgi/oai2?verb=GetRecord&metadataPrefix=oai_dc&identifier=%s",
     ];
     // @codingStandardsIgnoreEnd
