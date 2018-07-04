@@ -1293,7 +1293,7 @@ class Holdings
      * @return String
      */
     protected function getBackLinkVauds($networkCode, $institutionCode, array $item,
-                                       array $data
+        array $data
     ) {
         $values = [
             'bib-system-number' => $item['bibsysnumber']
