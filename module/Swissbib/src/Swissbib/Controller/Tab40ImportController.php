@@ -48,6 +48,23 @@ use Swissbib\Tab40Import\Importer as Tab40Importer;
 class Tab40ImportController extends AbstractActionController
 {
     /**
+     * Service manager
+     *
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
+
+    /**
+     * Constructor
+     *
+     * @param ServiceLocatorInterface $sm Service locator
+     */
+    public function __construct(ServiceLocatorInterface $sm)
+    {
+        $this->serviceLocator = $sm;
+    }
+
+    /**
      * Import file as label data
      *
      * @throws \RuntimeException

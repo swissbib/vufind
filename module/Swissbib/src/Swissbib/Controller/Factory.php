@@ -83,9 +83,7 @@ class Factory extends AbstractBaseFactory
      */
     public function getNationalLicenceController(ServiceManager $sm)
     {
-        return new NationalLicencesController(
-            $sm
-        );
+        return new NationalLicencesController($sm);
     }
 
     /**
@@ -98,9 +96,7 @@ class Factory extends AbstractBaseFactory
      */
     public function getPuraController(ServiceManager $sm)
     {
-        return new PuraController(
-            $sm->getServiceLocator()
-        );
+        return new PuraController($sm);
     }
 
     /**
@@ -127,7 +123,7 @@ class Factory extends AbstractBaseFactory
      */
     public static function getPersonKnowledgeCardController(ServiceManager $sm)
     {
-        return new PersonKnowledgeCardController($sm->getServiceLocator());
+        return new PersonKnowledgeCardController($sm);
     }
 
     /**
@@ -139,7 +135,7 @@ class Factory extends AbstractBaseFactory
      */
     public static function getSubjectKnowledgeCardController(ServiceManager $sm)
     {
-        return new SubjectKnowledgeCardController($sm->getServiceLocator());
+        return new SubjectKnowledgeCardController($sm);
     }
 
     /**
@@ -151,8 +147,7 @@ class Factory extends AbstractBaseFactory
      */
     public static function getPersonDetailPageController(ServiceManager $sm)
     {
-        $serviceLocator = $sm->getServiceLocator();
-        return new PersonDetailPageController($serviceLocator);
+        return new PersonDetailPageController($sm);
     }
 
     /**
@@ -164,8 +159,7 @@ class Factory extends AbstractBaseFactory
      */
     public static function getPersonSearchController(ServiceManager $sm)
     {
-        $serviceLocator = $sm->getServiceLocator();
-        return new PersonSearchController($serviceLocator);
+        return new PersonSearchController($sm);
     }
 
     /**
@@ -177,8 +171,7 @@ class Factory extends AbstractBaseFactory
      */
     public static function getSubjectDetailPageController(ServiceManager $sm)
     {
-        $serviceLocator = $sm->getServiceLocator();
-        return new SubjectDetailPageController($serviceLocator);
+        return new SubjectDetailPageController($sm);
     }
 
     /**
@@ -189,9 +182,7 @@ class Factory extends AbstractBaseFactory
      */
     public function getLibadminSyncController(ServiceManager $sm)
     {
-        return new LibadminSyncController(
-            $sm
-        );
+        return new LibadminSyncController($sm);
     }
 
     /**
@@ -201,9 +192,7 @@ class Factory extends AbstractBaseFactory
      */
     public function getTab40ImportController(ServiceManager $sm)
     {
-        return new Tab40ImportController(
-            $sm
-        );
+        return new Tab40ImportController($sm);
     }
 
 }

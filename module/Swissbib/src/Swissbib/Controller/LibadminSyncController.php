@@ -49,6 +49,23 @@ use Swissbib\Libadmin\Importer;
 class LibadminSyncController extends AbstractActionController
 {
     /**
+     * Service manager
+     *
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
+
+    /**
+     * Constructor
+     *
+     * @param ServiceLocatorInterface $sm Service locator
+     */
+    public function __construct(ServiceLocatorInterface $sm)
+    {
+        $this->serviceLocator = $sm;
+    }
+
+    /**
      * Synchronize with libadmin system
      *
      * @throws \RuntimeException
