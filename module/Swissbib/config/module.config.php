@@ -597,9 +597,13 @@ return [
             ],
             'hierarchy_driver' => [
                 'factories' => [
-                    'series' => 'Swissbib\VuFind\Hierarchy\Factory::getHierarchyDriverSeries',
-                    'archival' => 'Swissbib\VuFind\Hierarchy\Factory::getHierarchyDriverArchival',
-                ]
+                    'Swissbib\VuFind\Hierarchy\HierarchySeries'     => 'VuFind\Hierarchy\Driver\ConfigurationBasedFactory',
+                    'Swissbib\VuFind\Hierarchy\HierarchyArchival'   => 'VuFind\Hierarchy\Driver\ConfigurationBasedFactory',
+                ],
+                'aliases' => [
+                    'series'    => 'Swissbib\VuFind\Hierarchy\HierarchySeries',
+                    'archival'  => 'Swissbib\VuFind\Hierarchy\HierarchyArchival',
+                ],
             ],
             'hierarchy_treedataformatter' => [
                 'invokables' => [
