@@ -30,10 +30,9 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\AbstractBase;
-use Zend\View\Model\ViewModel;
 use Swissbib\Favorites\DataSource as FavoriteDataSource;
 use Swissbib\Favorites\Manager as FavoriteManager;
+use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib FavoritesController
@@ -55,7 +54,7 @@ class FavoritesController extends BaseController
     {
         $favoriteManager = $this->getFavoriteManager();
 
-            // Are institutions already in browser cache?
+        // Are institutions already in browser cache?
         if ($favoriteManager->hasInstitutionsDownloaded()) {
             $autocompleterData    = false;
         } else {

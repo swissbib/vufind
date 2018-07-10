@@ -29,18 +29,18 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
-use Zend\Config\Config;
-use Zend\I18n\Translator\TranslatorInterface as Translator;
-
-use VuFind\Crypt\HMAC;
-use VuFind\ILS\Connection as IlsConnection;
-use VuFind\Auth\Manager as AuthManager;
-use VuFind\Auth\ILSAuthenticator as IlsAuth;
-use VuFind\Config\PluginManager as ConfigManager;
+use Swissbib\Log\Logger;
+use Swissbib\RecordDriver\SolrMarc;
 
 use Swissbib\VuFind\ILS\Driver\Aleph;
-use Swissbib\RecordDriver\SolrMarc;
-use Swissbib\Log\Logger;
+use VuFind\Auth\ILSAuthenticator as IlsAuth;
+use VuFind\Auth\Manager as AuthManager;
+use VuFind\Config\PluginManager as ConfigManager;
+use VuFind\Crypt\HMAC;
+
+use VuFind\ILS\Connection as IlsConnection;
+use Zend\Config\Config;
+use Zend\I18n\Translator\TranslatorInterface as Translator;
 
 /**
  * Probably Holdings should be a subtype of ZF2 AbstractHelper at first I need a
@@ -70,7 +70,7 @@ class Holdings
 
     /**
      * IlsAuth
-     * 
+     *
      * @var IlsAuth
      */
     protected $ilsAuth;
@@ -548,7 +548,7 @@ class Holdings
             $allBarcodes = [];
             foreach ($institutionItems as $index => $item) {
                 $institutionItems[$index] = $this->extendItem($item, $recordDriver);
-                $networkCode = isset($item['network']) ? $item['network'] : '';
+                $networkCode = $item['network'] ?? '';
                 if ($this->isAlephNetwork($networkCode)) {
                     if (!isset($extendingOptions['availability'])
                         || $extendingOptions['availability']
@@ -565,7 +565,6 @@ class Holdings
                         $allBarcodes
                     );
             }
-
         }
 
         return $institutionItems;
@@ -701,7 +700,7 @@ class Holdings
     protected function extendItemIlsActions(array $item,
         SolrMarc $recordDriver = null, array $extendingOptions = []
     ) {
-        $networkCode = isset($item['network']) ? $item['network'] : '';
+        $networkCode = $item['network'] ?? '';
 
         // Only add links for supported networks
         if ($this->isAlephNetwork($networkCode)) {
@@ -1033,7 +1032,7 @@ class Holdings
             $data = [
                 'pattern' => $this->configHoldings->Backlink->{$networkCode}
             ];
-            // no custom type for network
+        // no custom type for network
         } else {
             // check if network is even configured
             if (isset($this->networks[$networkCode])) {
@@ -1185,7 +1184,7 @@ class Holdings
         // differ between FH and PH:
         if ($institutionCode === 'HFHS') {
             $data['pattern'] = $this->configHoldings->Backlink->{'IDSSGFH'};
-        } else if ($institutionCode === 'HPHS'
+        } elseif ($institutionCode === 'HPHS'
             || 'HPHS' == $institutionCode
             || 'HPHG' == $institutionCode
             || 'HPHRS' == $institutionCode
@@ -1214,8 +1213,7 @@ class Holdings
     protected function getBackLinkRERO($networkCode, $institutionCode, $item,
         array $data
     ) {
-        {
-            $reronetwork =  (int)substr($institutionCode, 2, 2);
+        $reronetwork =  (int)substr($institutionCode, 2, 2);
         if ($reronetwork === 01) {
             $reronetwork = 'FR';
         } elseif ($reronetwork === 11) {
@@ -1229,16 +1227,13 @@ class Holdings
         } else {
             $reronetwork = '';
         }
-        }
 
-        {
-            $values = [
+        $values = [
                 // third and fourth character
                 'RERO-network' => $reronetwork,
                 'bib-system-number' => $item['bibsysnumber'],
             ];
-            return $this->compileString($data['pattern'], $values);
-            }
+        return $this->compileString($data['pattern'], $values);
     }
 
     /**
@@ -1731,7 +1726,7 @@ class Holdings
         }
 
         foreach ($fieldMapping as $code => $name) {
-            $data[$name] = isset($rawData[$code]) ? $rawData[$code] : '';
+            $data[$name] = $rawData[$code] ?? '';
         }
 
         return $data;

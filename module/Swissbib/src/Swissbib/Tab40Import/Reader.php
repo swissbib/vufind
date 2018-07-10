@@ -97,7 +97,7 @@ class Reader
     protected function filterLines(array $rawLines)
     {
         foreach ($rawLines as $index => $line) {
-                // Commented line
+            // Commented line
             if ('!' === substr($line, 0, 1)) {
                 unset($rawLines[$index]);
             }

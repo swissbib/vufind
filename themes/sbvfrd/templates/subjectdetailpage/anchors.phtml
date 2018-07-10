@@ -1,22 +1,22 @@
-<? $template = '/detailpage/common/anchor.phtml' ?>
+<?php $template = '/detailpage/common/anchor.phtml' ?>
 <div class="page-anchors">
     <h1 class="title"><?= $this->translate('page.detail.anchors.title') ?></h1>
     <button class="accordion-collapse icon-arrow-accordion hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-section-anchors"></button>
     <div class="list">
         <ul id="detailpage-section-anchors">
             <li><?= $this->render($template, ['name' => 'common', 'label' => $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.common')]) ?></li>
-            <? if ($this->medias->getResultTotal() > 0): ?>
+            <?php if ($this->medias->getResultTotal() > 0): ?>
             <li><?= $this->render($template, ['name' => 'medias', 'label' => $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.media.list.title')]) ?></li>
-            <? endif; ?>
-            <? if ($this->subjectAuthorsTotal > 0): ?>
+            <?php endif; ?>
+            <?php if ($this->subjectAuthorsTotal > 0): ?>
             <li><?= $this->render($template, ['name' => 'authors', 'label' => $this->essubject()->resolveLabelWithDisplayName('page.detail.subject.authors')]) ?></li>
-            <? endif; ?>
-            <? if (isset($this->parentMedias) && $this->parentMedias->getResultTotal() > 0): ?>
+            <?php endif; ?>
+            <?php if (isset($this->parentMedias) && $this->parentMedias->getResultTotal() > 0): ?>
             <li><?= $this->render($template, ['name' => 'medias-parents', 'label' => $this->translate('page.detail.subject.media.parents')]) ?></li>
-            <? endif; ?>
-            <? if (isset($this->childrenMedias) && $this->childrenMedias->getResultTotal() > 0): ?>
+            <?php endif; ?>
+            <?php if (isset($this->childrenMedias) && $this->childrenMedias->getResultTotal() > 0): ?>
             <li><?= $this->render($template, ['name' => 'medias-children', 'label' => $this->translate('page.detail.subject.media.children')]) ?></li>
-            <? endif; ?>
+            <?php endif; ?>
         </ul>
     </div>
 </div>

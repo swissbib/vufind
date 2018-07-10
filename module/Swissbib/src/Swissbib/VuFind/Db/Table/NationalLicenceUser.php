@@ -23,10 +23,10 @@
 namespace Swissbib\VuFind\Db\Table;
 
 use VuFind\Db\Table\Gateway;
+use VuFind\Db\Table\PluginManager;
 use VuFind\Db\Table\User;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Select;
-use VuFind\Db\Table\PluginManager;
 
 /**
  * Class NationalLicenceUser.
@@ -88,7 +88,7 @@ class NationalLicenceUser extends Gateway
         }
 
         $eduIdNumber
-            = isset($fieldsValue['edu_id']) ? $fieldsValue['edu_id'] : null;
+            = $fieldsValue['edu_id'] ?? null;
 
         if (empty($eduIdNumber)) {
             throw new \Exception(

@@ -16,7 +16,7 @@
   <tbody>
   <?php foreach ($photoCopies as $index => $photoCopy): ?>
     <?php
-    $addTitleItems = array();
+    $addTitleItems = [];
 
     if (!empty($photoCopy['author'])) {
       $addTitleItems[] = $photoCopy['author'];

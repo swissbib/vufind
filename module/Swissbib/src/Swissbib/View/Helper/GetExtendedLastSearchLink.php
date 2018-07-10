@@ -28,7 +28,8 @@
   */
 namespace Swissbib\View\Helper;
 
-use VuFind\Search\Memory, Zend\View\Helper\AbstractHelper;
+use VuFind\Search\Memory;
+use Zend\View\Helper\AbstractHelper;
 
 /**
  * GetExtendedLastSearchLink

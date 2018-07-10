@@ -29,9 +29,9 @@
  */
 namespace Jusbib\VuFind\Search\Options;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-use VuFind\Search\Options\PluginFactory as VuFindOptionsPluginFactory;
 use Swissbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
+use VuFind\Search\Options\PluginFactory as VuFindOptionsPluginFactory;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Jusbib PluginFactory

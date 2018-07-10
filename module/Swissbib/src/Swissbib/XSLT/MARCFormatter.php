@@ -150,5 +150,4 @@ class MARCFormatter
 
         return '';
     }
-
 }

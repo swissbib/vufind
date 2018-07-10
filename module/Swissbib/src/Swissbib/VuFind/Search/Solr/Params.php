@@ -27,12 +27,12 @@
  */
 namespace Swissbib\VuFind\Search\Solr;
 
+use Swissbib\Favorites\Manager as SwissbibFavoritesManager;
+use Swissbib\VuFind\Search\Helper\TypeLabelMappingHelper;
+use VuFind\Auth\Manager as VuFindAuthManager;
+use VuFind\Search\Solr\HierarchicalFacetHelper;
 use VuFind\Search\Solr\Params as VuFindSolrParams;
 use VuFindSearch\ParamBag;
-use VuFind\Search\Solr\HierarchicalFacetHelper;
-use VuFind\Auth\Manager as VuFindAuthManager;
-use Swissbib\VuFind\Search\Helper\TypeLabelMappingHelper;
-use Swissbib\Favorites\Manager as SwissbibFavoritesManager;
 
 /**
  * Class to extend the core VF2 SOLR functionality related to Parameters
@@ -119,7 +119,7 @@ class Params extends VuFindSolrParams
      * @param \Zend\StdLib\Parameters $request Parameter object representing user
      *                                         request.
      *
-     * @return void 
+     * @return void
      */
     protected function initLimit($request)
     {
@@ -227,8 +227,8 @@ class Params extends VuFindSolrParams
      */
     protected function buildDateRangeFilter($field, $from, $to)
     {
-        $this->dateRange['from']        = (int) $from;
-        $this->dateRange['to']          = (int) $to;
+        $this->dateRange['from']        = (int)$from;
+        $this->dateRange['to']          = (int)$to;
         $this->dateRange['isActive']    = true;
 
         return parent::buildDateRangeFilter($field, $from, $to);
@@ -251,7 +251,7 @@ class Params extends VuFindSolrParams
          */
         $favoriteInstitutions = $this->favoritesManager->getUserInstitutions();
 
-        if (sizeof($favoriteInstitutions) >  0) {
+        if (sizeof($favoriteInstitutions) > 0) {
             //facet parameter has to be true in case it's false
             $backendParams->set("facet", "true");
 
@@ -276,7 +276,7 @@ class Params extends VuFindSolrParams
      */
     public function getFacetLabel($field, $value = null)
     {
-        switch($field) {
+        switch ($field) {
         case 'publishDate':
             return 'adv_search_year';
         default:

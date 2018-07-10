@@ -26,6 +26,7 @@
  * @link     http://www.vufind.org  Main Page
  */
 namespace ElasticSearch\VuFind\Search\Results;
+
 use Zend\ServiceManager\ServiceManager;
 
 /**

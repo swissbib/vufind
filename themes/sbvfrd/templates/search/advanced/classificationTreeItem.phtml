@@ -1,4 +1,4 @@
-<?
+<?php
 $entry = $classification['entry'];
 $hasChildren = count($classification['children']) > 0;
 ?>
@@ -8,12 +8,12 @@ $hasChildren = count($classification['children']) > 0;
       <ins>&nbsp;</ins>
       <input type="hidden" value="<?= $facetKey ?>:&quot;<?= $entry['queryValue'] ?>&quot;">
       <?= $entry['value'] ?> <?= $this->zendTranslate($entry['value'], 'drsys') ?>
-      <? if ($entry['nestingLevel'] !== 0 || !$hasChildren): ?>
+      <?php if ($entry['nestingLevel'] !== 0 || !$hasChildren): ?>
         (<?= $entry['count'] ?> <?= $this->transEsc('Showing') ?>)
-      <? endif; ?>
+      <?php endif; ?>
     </a>
-    <? if ($hasChildren): ?>
-      <? if ($entry['nestingLevel'] === 0): ?>
+    <?php if ($hasChildren): ?>
+      <?php if ($entry['nestingLevel'] === 0): ?>
         <ul>
             <li data-jstree='{"icon":"fa fa-file"}' data-openChildren='no'>
                 <a>
@@ -24,16 +24,16 @@ $hasChildren = count($classification['children']) > 0;
                 </a>
             </li>
         </ul>
-      <? endif; ?>
-      <? foreach ($classification['children'] as $child): ?>
+      <?php endif; ?>
+      <?php foreach ($classification['children'] as $child): ?>
             <?= $this->render(
                 'search/advanced/classificationTreeItem',
-                array(
+                [
                     'classification' => $child,
-                    'facetKey'       => $facetKey
-                ));
+                    'facetKey' => $facetKey
+                ]);
             ?>
-      <? endforeach; ?>
-    <? endif; ?>
+      <?php endforeach; ?>
+    <?php endif; ?>
   </li>
 </ul>

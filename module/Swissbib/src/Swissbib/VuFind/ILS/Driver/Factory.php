@@ -54,7 +54,6 @@ class Factory
             new \Swissbib\VuFind\Date\Converter(),
             $sm->get('VuFind\CacheManager')
         );
-
     }
 
     /**

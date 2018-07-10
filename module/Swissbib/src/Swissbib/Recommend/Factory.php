@@ -26,6 +26,7 @@
  * @link     http://vufind.org/wiki/vufind2:hierarchy_components Wiki
  */
 namespace Swissbib\Recommend;
+
 use Zend\ServiceManager\ServiceManager;
 
 /**

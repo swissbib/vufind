@@ -2,12 +2,11 @@
 /** @var String[] $pages List of pages/keys */
 /** @var Boolean $first Route directly matched to content */
 /** @var String $topic Active topic */
-
 $this->headTitle($this->translate('helppage') . ' - ' . $this->translate('helppage.' . $topic));
 
 // Set up breadcrumbs:
 $this->layout()->breadcrumbs = '<li><a href="' . $this->url('help-page') . '">' . $this->transEsc('helppage') . '</a></li>
-<li class="active"><a href="' . $this->url('help-page', array('topic' => ucfirst($topic))) . '">' . $this->translate('helppage.' . $topic) . '</a></li>';
+<li class="active"><a href="' . $this->url('help-page', ['topic' => ucfirst($topic)]) . '">' . $this->translate('helppage.' . $topic) . '</a></li>';
 ?>
 
 <!-- end: col1 (sidebar) -->
@@ -26,12 +25,12 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('help-page') . '">' 
   <h4><?=$this->transEsc('helppage.subtitle')?></h4>
   <ul class="list-group">
     <?php foreach ($pages as $page): ?>
-      <a href="<?=$this->url('help-page', array('topic' => ucfirst($page)))?>" title="" class="list-group-item<?=($page===$topic?' active':'')?>">
+      <a href="<?=$this->url('help-page', ['topic' => ucfirst($page)])?>" title="" class="list-group-item<?=($page === $topic?' active':'')?>">
         <?=$this->transEsc('helppage.' . $page)?>
       </a>
     <?php endforeach; ?>
-      <? if ($this->feedback()->tabEnabled()): ?>
+      <?php if ($this->feedback()->tabEnabled()): ?>
       <a class="list-group-item" href="<?= $this->url('feedback-home') ?>"><?= $this->transEsc("menu.contact") ?></a>
-      <? endif; ?>
+      <?php endif; ?>
   </ul>
 </div>

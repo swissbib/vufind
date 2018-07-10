@@ -132,8 +132,7 @@ class RecordLink extends VfRecordLink
     {
         if (is_array($item['holdLink'])) {
             // Assemble URL string from array parts:
-            $source = isset($item['holdLink']['source'])
-                ? $item['holdLink']['source'] : DEFAULT_SEARCH_BACKEND;
+            $source = $item['holdLink']['source'] ?? DEFAULT_SEARCH_BACKEND;
             $finalUrl
                 = $this->getActionUrl(
                     "{$source}|" . $item['holdLink']['record'],

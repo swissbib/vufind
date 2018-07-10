@@ -1,5 +1,5 @@
-<? // @var $m  Swissbib\RecordDriver\SolrMarc ?>
-<? $record = $this->record($item); ?>
+<?php // @var $m  Swissbib\RecordDriver\SolrMarc ?>
+<?php $record = $this->record($item); ?>
 <div class="row result-item">
     <div class="item-thumbnail hidden-xs col-sm-2 no-gutter hidden-print">
         <?= $this->render('/detailpage/medias/item/thumbnail.phtml') ?>
@@ -20,18 +20,18 @@
                     ?>:</div>
                 <div class="col-md-10"><?= $this->escapeHtml($record->getResponsible($item->getTitleStatement(true), $item)) ?></div>
             </div>
-            <? if ($item->getHumanReadablePublicationDates()): ?>
+            <?php if ($item->getHumanReadablePublicationDates()): ?>
             <div class="row">
                 <div class="col-md-2 hidden-xs"><?= $this->transEsc('Year') ?>:</div>
                 <div class="col-md-10"><?= $this->escapeHtml($item->getHumanReadablePublicationDates()[0]) ?></div>
             </div>
-            <? endif; ?>
-            <? if (!empty($record->getFormatList())): ?>
+            <?php endif; ?>
+            <?php if (!empty($record->getFormatList())): ?>
             <div class="row">
                 <div class="col-md-2 hidden-xs"><?= $this->transEsc('Format') ?>:</div>
                 <div class="col-md-10"><?= $record->getFormatList() ?></div>
             </div>
-            <? endif; ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>

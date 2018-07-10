@@ -115,7 +115,7 @@ $encodedprivateUserURL = $loginEduId . "/idp/profile/SAML2/Unsolicited/SSO?provi
             <script type="text/javascript"
                     src="<?= $embeddedWayfJsUrl ?>"></script>
         <noscript>
-            <? $sessionInitiator = empty($sessionInitiator) ? '' : $sessionInitiator; // initialize variable?>
+            <?php $sessionInitiator = empty($sessionInitiator) ? '' : $sessionInitiator; // initialize variable?>
             <a href="<?= $this->escapeHtml($sessionInitiator) ?>"><?= $this->transEsc("Institutional Login with external WAYF - non Java Script") ?></a>
         </noscript>
         </p>

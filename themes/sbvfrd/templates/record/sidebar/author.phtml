@@ -6,7 +6,7 @@ $viewRecord = $this->record($record);
 
 $authors = $record->getDeduplicatedAuthors();
 $hasAuthors = !empty($authors['primary']) || !empty($authors['secondary'])
-    || !is_null($authors['corporate']) && !empty($authors['corporate']);
+    || null !== $authors['corporate'] && !empty($authors['corporate']);
 
 if (!$hasAuthors) {
     return '';
@@ -18,17 +18,17 @@ if (!$hasAuthors) {
         <?php if (!empty($authors['primary'])): ?>
 
             <li class="list-group-item">
-                <? reset($authors['primary']); $authorMain = key($authors['primary']); ?>
-                <a href="<? $authorMain ?><?= $viewRecord->getLink('author', $authorMain) ?>"
-                   title="<? $authorMain ?><?= $this->escapeHtml($authorMain) ?>"><?= $this->escapeHtml($authorMain) ?></a>
+                <?php reset($authors['primary']); $authorMain = key($authors['primary']); ?>
+                <a href="<?php $authorMain ?><?= $viewRecord->getLink('author', $authorMain) ?>"
+                   title="<?php $authorMain ?><?= $this->escapeHtml($authorMain) ?>"><?= $this->escapeHtml($authorMain) ?></a>
             </li>
         <?php endif; ?>
 
         <?php if (!empty($authors['secondary'])): ?>
-            <? $tauthors = array(); //de-dublication in PHP style...?>
+            <?php $tauthors = []; //de-dublication in PHP style...?>
 
             <?php foreach ($authors['secondary'] as $secondaryAuthor => $secondaryAuthorRoles): ?>
-                <? $tauthors[$secondaryAuthor] = $secondaryAuthor ?>
+                <?php $tauthors[$secondaryAuthor] = $secondaryAuthor ?>
             <?php endforeach; ?>
 
             <?php foreach ($tauthors as $secondaryAuthor): ?>
@@ -40,10 +40,10 @@ if (!$hasAuthors) {
             <?php endforeach; ?>
         <?php endif; ?>
 
-        <?php if (!is_null($authors['corporate']) && !empty($authors['corporate'])): ?>
-            <? if (!is_array($authors['corporate'])): ?>
-                <? $authors['corporate'] = array($authors['corporate']);?>
-            <? endif; ?>
+        <?php if (null !== $authors['corporate'] && !empty($authors['corporate'])): ?>
+            <?php if (!is_array($authors['corporate'])): ?>
+                <?php $authors['corporate'] = [$authors['corporate']];?>
+            <?php endif; ?>
 
             <?php foreach ($authors['corporate'] as $corporateAuthor => $corporateAuthorRoles): ?>
                 <li class="list-group-item">

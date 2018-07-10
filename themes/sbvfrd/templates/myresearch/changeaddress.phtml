@@ -1,4 +1,4 @@
-<?
+<?php
 $this->headTitle($this->translate('changeaddress'));
 
 $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li>'
@@ -21,7 +21,7 @@ $loginlink = 'http://aleph.unibas.ch/F/?func=file&file_name=login-session';
     <h2><?=$this->transEsc('changeaddress') ?></h2>
     <?=$this->flashmessages() ?>
 
-    <? if (isset($form)): ?>
+    <?php if (isset($form)): ?>
         <?= $this->form()->openTag($form) ?>
 
             <?= $this->render('form/form-group.phtml', ['field' => $form->get('z304-address-1'), 'readonly' => true]) ?>
@@ -47,12 +47,12 @@ $loginlink = 'http://aleph.unibas.ch/F/?func=file&file_name=login-session';
             </div>
 
         <?= $this->form()->closeTag() ?>
-    <? else: ?>
+    <?php else: ?>
         <?= $this->transEsc('address_aleph') ?> <br>
         <a href="<?= $loginlink ?>" target="_blank"><?= $this->transEsc('Login') ?></a>
-    <? endif; ?>
+    <?php endif; ?>
 </div>
 
 <div class="<?=$this->layoutClass('sidebar')?>">
-  <?=$this->context($this)->renderInContext("myresearch/menu.phtml", array('active' => 'changeaddress'))?>
+  <?=$this->context($this)->renderInContext("myresearch/menu.phtml", ['active' => 'changeaddress'])?>
 </div>

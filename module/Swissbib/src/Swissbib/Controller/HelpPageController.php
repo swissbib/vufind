@@ -30,9 +30,9 @@
  */
 namespace Swissbib\Controller;
 
+use VuFind\Controller\AbstractBase as BaseController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Resolver\ResolverInterface;
-use VuFind\Controller\AbstractBase as BaseController;
 
 /**
  * Swissbib HelpPageController
@@ -81,7 +81,7 @@ class HelpPageController extends BaseController
         $helpLayout->setTemplate('HelpPage/layout');
         $helpLayout->addChild($helpContent, 'helpContent');
 
-            // Set Solr search for help pages
+        // Set Solr search for help pages
         $this->layout()->setVariable('searchClassId', 'Solr');
         $this->layout()->setVariable('pageClass', 'template_page');
 
@@ -145,7 +145,7 @@ class HelpPageController extends BaseController
     {
         $pages    = $this->getPages();
 
-        return isset($pages[0]) ? $pages[0] : 'about';
+        return $pages[0] ?? 'about';
     }
 
     /**

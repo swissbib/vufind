@@ -91,7 +91,6 @@ class Shibboleth extends VuFindShib
 
         // Check if required attributes match up (so far not used in swissbib:
         foreach ($this->getRequiredAttributes() as $key => $value) {
-
             $valueAlternatives = explode("##", $value);
             $found = false;
             foreach ($valueAlternatives as $valuetest) {
@@ -122,7 +121,6 @@ class Shibboleth extends VuFindShib
         ];
         foreach ($attribsToCheck as $attribute) {
             if (isset($shib->$attribute)) {
-
                 $tattrAlternatives = explode("##", $shib->$attribute);
                 $attvalue = "";
                 foreach ($tattrAlternatives as $aAlternative) {

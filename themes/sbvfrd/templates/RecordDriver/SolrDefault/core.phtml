@@ -1,27 +1,27 @@
-<?
+<?php
 /** @var VuFind\RecordDriver\SolrDefault $record */
-$record         = $this->driver;
+$record = $this->driver;
 /** @var Swissbib\View\Helper\Record $viewRecord */
-$viewRecord     = $this->record($record);
+$viewRecord = $this->record($record);
 
-$id                   = $record->getUniqueId();
-$shortTitle           = $record->getShortTitle();
-$titleStatement       = $record->getTitleStatement(true);
-$subtitle             = $viewRecord->getSubtitle($titleStatement);
-$responsible          = $viewRecord->getResponsible($titleStatement, $record);
-$publications         = $record->getPublicationDetails();
+$id = $record->getUniqueId();
+$shortTitle = $record->getShortTitle();
+$titleStatement = $record->getTitleStatement(true);
+$subtitle = $viewRecord->getSubtitle($titleStatement);
+$responsible = $viewRecord->getResponsible($titleStatement, $record);
+$publications = $record->getPublicationDetails();
 $physicalDescriptions = $record->getPhysicalDescriptions(false);
-$edition              = $record->getEdition();
-$cartMathData         = $record->getCartMathData();
-$formats              = $viewRecord->getFormatList();
-$hierarchicalLevel    = $record->getHierachicalLevel();
-$hostItems            = $record->getHostItemEntry();
-$journalTitle         = $record->getContainerTitle();
-$ref                  = $record->getContainerReference();
-$highlightedFulltext  = $record->getHighlightedFulltext();
+$edition = $record->getEdition();
+$cartMathData = $record->getCartMathData();
+$formats = $viewRecord->getFormatList();
+$hierarchicalLevel = $record->getHierachicalLevel();
+$hostItems = $record->getHostItemEntry();
+$journalTitle = $record->getContainerTitle();
+$ref = $record->getContainerReference();
+$highlightedFulltext = $record->getHighlightedFulltext();
 
 $showFRBR = $this->configAccess()->Site->displayFrbr;
-$groupID  = $this->driver->getGroup(true);
+$groupID = $this->driver->getGroup(true);
 
 $urls = $viewRecord->getExtendedLinkDetails();
 $nl = $this->nationalLicences()->getUrl($record);
@@ -38,20 +38,20 @@ $linkSFX = $viewRecord->getLinkSFX();
 
   <div class="col-sm-3 hidden-xs">
     <div class="thumbDetailView hidden-print">
-      <? /* Display thumbnail if appropriate: */ ?>
-      <? $mediumThumb = $viewRecord->getThumbnail('medium'); ?>
+      <?php /* Display thumbnail if appropriate: */ ?>
+      <?php $mediumThumb = $viewRecord->getThumbnail('medium'); ?>
           <img alt="<?=$this->transEsc('Cover Image')?>" class="recordcover" src="<?=$this->escapeHtmlAttr($mediumThumb);?>"/>
 
-      <? /* Display qrcode if appropriate: */ ?>
-      <? $QRCode = $viewRecord->getQRCode("core"); ?>
-      <? if($QRCode): ?>
+      <?php /* Display qrcode if appropriate: */ ?>
+      <?php $QRCode = $viewRecord->getQRCode("core"); ?>
+      <?php if($QRCode): ?>
         <span class="hidden-xs">
           <br/><img alt="<?=$this->transEsc('QR Code')?>" class="qrcode" src="<?=$this->escapeHtmlAttr($QRCode);?>"/>
         </span>
-      <? endif; ?>
+      <?php endif; ?>
     </div>
 
-    <? // if you have a preview tab but want to move or remove the preview link
+    <?php // if you have a preview tab but want to move or remove the preview link
     // from this area of the record view, this can be split into
     // getPreviewData() (should stay here) and
     // getPreviewLink() (can go in your desired tab) ?>
@@ -60,71 +60,71 @@ $linkSFX = $viewRecord->getLinkSFX();
 
   <div class="col-sm-9 col-xs-12">
     <h2 property="name"><?=$this->escapeHtml($shortTitle)?></h2>
-    <? if (isset($subtitle)): ?>
+    <?php if (isset($subtitle)): ?>
       <h4 class="resultViewSubTitle"><?= $this->escapeHtml($subtitle) ?></h4>
-    <? endif; ?>
+    <?php endif; ?>
 
-    <? if ($this->userlist()->getMode() !== 'disabled'): ?>
-      <? /* Display the lists that this record is saved to */ ?>
+    <?php if ($this->userlist()->getMode() !== 'disabled'): ?>
+      <?php /* Display the lists that this record is saved to */ ?>
       <div class="savedLists hidden alert alert-info" id="savedLists">
         <strong><?=$this->transEsc("Saved in")?>:</strong>
       </div>
-    <? endif; ?>
+    <?php endif; ?>
 
     <?/* Display Main Details */?>
     <div class="meta" summary="<?=$this->transEsc('Bibliographic Details')?>">
-    <? if (!empty($responsible)): ?>
+    <?php if (!empty($responsible)): ?>
         <div class="row">
         <!-- Verfasser / Beitragende -->
         <div class="col-sm-4"><?=$this->transEsc('Author')?>:</div>
         <div class="col-sm-8"><?=$this->escapeHtml($responsible)?></div>
         </div>
-    <? endif; ?>
+    <?php endif; ?>
 
     <!-- Impressum -->
-    <? if (!empty($publications)): ?>
+    <?php if (!empty($publications)): ?>
       <div class="row">
           <div class="col-sm-4"><?=$this->transEsc('Publication')?>: </div>
           <div class="col-sm-8">
-              <? foreach ($publications as $field): ?>
+              <?php foreach ($publications as $field): ?>
                   <span property="publisher" typeof="Organization">
-                      <? $pubPlace = $field->getPlace(); if (!empty($pubPlace)): ?>
+                      <?php $pubPlace = $field->getPlace(); if (!empty($pubPlace)): ?>
                           <span property="location"><?=$this->escapeHtml($pubPlace)?> :</span>
-                      <? endif; ?>
-                      <? $pubName = $field->getName(); if (!empty($pubName)): ?>
+                      <?php endif; ?>
+                      <?php $pubName = $field->getName(); if (!empty($pubName)): ?>
                           <span property="name"> <?=$this->escapeHtml($pubName)?>, </span>
-                      <? endif; ?>
+                      <?php endif; ?>
                   </span>
-                  <? $pubDate = $field->getDate(); if (!empty($pubDate)): ?>
+                  <?php $pubDate = $field->getDate(); if (!empty($pubDate)): ?>
                       <span property="publicationDate"><?=$this->escapeHtml($pubDate)?></span>
-                  <? endif; ?>
-                  <? if(!next($publications) === false){echo('<br />');} ?>
-              <? endforeach; ?>
+                  <?php endif; ?>
+                  <?php if(!next($publications) === false){echo '<br />';} ?>
+              <?php endforeach; ?>
           </div>
       </div>
-    <? endif; ?>
+    <?php endif; ?>
 
-    <? if (!empty($journalTitle)): ?>
+    <?php if (!empty($journalTitle)): ?>
       <div class="row">
       <div class="col-sm-4"><?=$this->transEsc('Journal Title')?>:</div>
           <div class="col-sm-8">
             <?=$this->escapeHtml($journalTitle) . ',' . ' '?>
-            <? if (!empty($ref)) { echo $this->escapeHtml($ref); } ?>
+            <?php if (!empty($ref)) { echo $this->escapeHtml($ref); } ?>
           </div>
       </div>
-      <? endif; ?>
+      <?php endif; ?>
 
-      <? if ($hostItems): ?>
+      <?php if ($hostItems): ?>
         <div class="row">
         <div class="col-sm-4"><?= $this->transEsc('note_773') ?>: </div>
         <div class="col-sm-8">
-          <? foreach ($hostItems as $hostItem): ?>
-              <? $text = isset($hostItem['title']) ? ( array_key_exists('related', $hostItem) ? $hostItem['title'] . ', ' . $hostItem['related'] : $hostItem['title'] ) : '' ?>
+          <?php foreach ($hostItems as $hostItem): ?>
+              <?php $text = isset($hostItem['title']) ? (array_key_exists('related', $hostItem) ? $hostItem['title'] . ', ' . $hostItem['related'] : $hostItem['title']) : '' ?>
               <?= $this->escapeHtml($text) ?><br />
-          <? endforeach; ?>
+          <?php endforeach; ?>
         </div>
         </div>
-      <? endif; ?>
+      <?php endif; ?>
 
       <?php if ($cartMathData): ?>
         <div class="row">
@@ -140,49 +140,49 @@ $linkSFX = $viewRecord->getLinkSFX();
         </div>
       <?php endif; ?>
 
-      <? if (!empty($formats)): ?>
+      <?php if (!empty($formats)): ?>
         <div class="row">
           <div class="col-sm-4"><?=$this->transEsc('Format')?>: </div>
           <div class="col-sm-8"><?= $formats ?></div>
         </div>
-      <? endif; ?>
+      <?php endif; ?>
 
-      <? if (!empty($hierarchicalLevel)): ?>
+      <?php if (!empty($hierarchicalLevel)): ?>
         <div class="row">
           <div class="col-sm-4"><?=$this->transEsc('hierarchical_level')?>: </div>
           <div class="col-sm-8"><?= $this->zendTranslate($hierarchicalLevel, 'formats') ?></div>
         </div>
-      <? endif; ?>
+      <?php endif; ?>
 
-      <? if (!empty($edition)): ?>
+      <?php if (!empty($edition)): ?>
         <div class="row">
           <div class="col-sm-4"><?=$this->transEsc('Edition')?>: </div>
           <div class="col-sm-8"><?=$this->escapeHtml($edition)?></div>
         </div>
-      <? endif; ?>
+      <?php endif; ?>
 
-      <? if (!empty($urls)): ?>
+      <?php if (!empty($urls)): ?>
         <div class="row">
           <div class="col-sm-4"><?=$this->transEsc('Online Access')?>: </div>
           <div class="col-sm-8">
-            <? foreach ($urls as $current): ?>
+            <?php foreach ($urls as $current): ?>
               <a href="<?=$this->escapeHtmlAttr($this->proxyUrl($current['url']))?>" target="_blank" title="<?=$this->escapeHtml($current['desc'])?>">
                   <?=$this->escapeHtml($current['desc'])?>
               </a><br/>
-            <? endforeach; ?>
-            <? if ($linkSFX): ?>
+            <?php endforeach; ?>
+            <?php if ($linkSFX): ?>
               <?= $linkSFX ?><br/>
-            <? endif; ?>
-            <? if(!empty($nl['message'])): ?>
+            <?php endif; ?>
+            <?php if(!empty($nl['message'])): ?>
             <div class="flash-message alert alert-info">
                 <strong><?= $nl['message'] ?></strong>
             </div>
-            <? endif; ?>
+            <?php endif; ?>
           </div>
         </div>
-      <? endif; ?>
+      <?php endif; ?>
 
-      <? if (!empty($link360) || $linkSFX): ?>
+      <?php if (!empty($link360) || $linkSFX): ?>
         <div class="row">
           <div class="col-sm-4"><?= $this->transEsc('Online Access') ?>: </div>
           <div class="col-sm-8">
@@ -191,7 +191,7 @@ $linkSFX = $viewRecord->getLinkSFX();
               <?=$linkSFX ?>
           </div>
         </div>
-      <? endif; ?>
+      <?php endif; ?>
 
       <?php if ($id): ?>
         <span class="label visible-print-inline"><?= $this->transEsc('Item_ID') ?>:</span>

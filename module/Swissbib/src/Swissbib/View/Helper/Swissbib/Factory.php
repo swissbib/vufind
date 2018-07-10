@@ -28,18 +28,16 @@
  */
 namespace Swissbib\View\Helper\Swissbib;
 
+use Swissbib\View\Helper\AutoSuggestConfig;
 use Swissbib\View\Helper\FormatRelatedEntries;
-use Swissbib\View\Helper\NationalLicences;
-use Swissbib\VuFind\View\Helper\Root\Piwik;
-use Zend\ServiceManager\ServiceManager;
+use Swissbib\View\Helper\IncludeTemplate;
 
+use Swissbib\View\Helper\NationalLicences;
+use Swissbib\View\Helper\TranslateFacets;
+use Swissbib\VuFind\Search\Helper\SearchTabsHelper;
 use Swissbib\VuFind\View\Helper\Root\Auth;
 use Swissbib\VuFind\View\Helper\Root\SearchTabs;
-use Swissbib\VuFind\Search\Helper\SearchTabsHelper;
-use Swissbib\View\Helper\LayoutClass;
-use Swissbib\View\Helper\IncludeTemplate;
-use Swissbib\View\Helper\TranslateFacets;
-use Swissbib\View\Helper\AutoSuggestConfig;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory for swissbib specific view helpers related to the Swissbib Theme.

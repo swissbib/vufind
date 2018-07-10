@@ -28,14 +28,13 @@
  */
 namespace Swissbib;
 
-use Swissbib\VuFind\Factory;
+use Zend\Console\Adapter\AdapterInterface as Console;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface as Autoloadable;
 use Zend\ModuleManager\Feature\ConfigProviderInterface as Configurable;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface as Consolable;
 use Zend\ModuleManager\Feature\InitProviderInterface as Initializable;
 use Zend\ModuleManager\ModuleManagerInterface;
 use Zend\Mvc\MvcEvent;
-use Zend\Console\Adapter\AdapterInterface as Console;
 
 /**
  * ZF2 module definition for the VuFind application

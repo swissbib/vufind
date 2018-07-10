@@ -83,7 +83,7 @@ class ESPerson extends ElasticSearch
                 sprintf('dbp%sAsLiteral', $fieldName), 'lsb'
             );
 
-            return !is_null($field) ? $this->getValueByLanguagePriority($field)
+            return null !== $field ? $this->getValueByLanguagePriority($field)
                 : null;
         }
 
@@ -314,7 +314,7 @@ class ESPerson extends ElasticSearch
         $results = null;
 
         if ($content !== null && is_array($content) && count($content) > 0) {
-            $userLocale = is_null($userLocale) ? $this->getTranslatorLocale()
+            $userLocale = null === $userLocale ? $this->getTranslatorLocale()
                 : $userLocale;
             $locales = $this->getPrioritizedLocaleList($userLocale);
 
@@ -323,9 +323,7 @@ class ESPerson extends ElasticSearch
 
                 foreach ($content as $valueArray) {
                     if (isset($valueArray[$locale])
-                        && !is_null(
-                            $valueArray[$locale]
-                        )
+                        && null !== $valueArray[$locale]
                     ) {
                         $results[] = $valueArray[$locale];
                     }

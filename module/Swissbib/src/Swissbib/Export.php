@@ -29,6 +29,7 @@
  * @link     http://www.swissbib.org
  */
 namespace Swissbib;
+
 use VuFind\Export as VFExport;
 
 /**
@@ -53,6 +54,6 @@ class Export extends VFExport
     {
         $visibilityClassName = $this->exportConfig->$format->visibilityClassName;
 
-        return isset($visibilityClassName) ? $visibilityClassName : '';
+        return $visibilityClassName ?? '';
     }
 }

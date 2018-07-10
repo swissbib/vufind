@@ -29,12 +29,9 @@
 namespace Swissbib\VuFind\Search;
 
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
-use Zend\EventManager\EventManager;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
-use Zend\ServiceManager\Factory\FactoryInterface;
 use VuFind\Search\SearchRunner as VFSearchRunner;
+use Zend\EventManager\EventManager;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * SearchRunnerFactory
@@ -97,8 +94,8 @@ class SearchRunnerFactory implements FactoryInterface
         //    return new SearchRunner($container->get('VuFind\SearchResultsPluginManager'),
         //        new EventManager($container->get('SharedEventManager')));
 
-                //$this->serviceLocator
-                //->get('VuFind\SearchResultsPluginManager');
+        //$this->serviceLocator
+        //->get('VuFind\SearchResultsPluginManager');
         //}
 
         //@Matthias: hier wie besprochen einen "whitelist" Mechanismus über module-config?
@@ -114,7 +111,9 @@ class SearchRunnerFactory implements FactoryInterface
         // - können wir das auch machen?
         // - brauchen wir unseren alten?
         //ich überblicke das im Moment noch nicht alles...
-        return new $requestedName($container->get('VuFind\Search\Results\PluginManager'),
-            new EventManager($container->get('SharedEventManager')));
+        return new $requestedName(
+            $container->get('VuFind\Search\Results\PluginManager'),
+            new EventManager($container->get('SharedEventManager'))
+        );
     }
 }

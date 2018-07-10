@@ -26,6 +26,7 @@
  * @link     http://www.vufind.org  Main Page
  */
 namespace Swissbib\Controller;
+
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**

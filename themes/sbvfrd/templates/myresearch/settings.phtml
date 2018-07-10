@@ -1,4 +1,4 @@
-<?
+<?php
 // Set up page title:
 $this->headTitle($this->translate('My_Search_Settings'));
 
@@ -16,11 +16,11 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
       <label class="col-sm-3 control-label" for="language"><?=$this->transEsc('Language') ?>:</label>
       <div class="col-sm-3">
         <select id="language" name="language" class="form-control">
-          <? foreach ($this->optsLanguage as $languageKey => $languageLabel): ?>
-            <option <? if ($languageKey == $this->language): ?>selected="selected"<? endif; ?> value="<?= $languageKey ?>">
+          <?php foreach ($this->optsLanguage as $languageKey => $languageLabel): ?>
+            <option <?php if ($languageKey == $this->language): ?>selected="selected"<?php endif; ?> value="<?= $languageKey ?>">
               <?= $languageLabel ?>
             </option>
-          <? endforeach; ?>
+          <?php endforeach; ?>
         </select>
       </div>
     </div>
@@ -28,33 +28,33 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
       <label class="col-sm-3 control-label" for="maxHits"><?=$this->transEsc('Max_Amount_Hits') ?>:</label>
       <div class="col-sm-3">
         <select id="maxHits" name="max_hits" class="form-control">
-          <? foreach ($this->optsMaxHits as $maxHits): ?>
-            <option <? if($maxHits == $this->max_hits): ?>selected="selected"<? endif; ?> value="<?= $maxHits ?>">
+          <?php foreach ($this->optsMaxHits as $maxHits): ?>
+            <option <?php if($maxHits == $this->max_hits): ?>selected="selected"<?php endif; ?> value="<?= $maxHits ?>">
               <?= $maxHits ?>
             </option>
-          <? endforeach; ?>
+          <?php endforeach; ?>
         </select>
       </div>
     </div>
-    <? foreach($this->defaultSort as $defaultSort): ?>
+    <?php foreach($this->defaultSort as $defaultSort): ?>
         <div class="form-group">
-          <label class="col-sm-3 control-label" for="defaultSort"><?=$this->transEsc('Sort') .  (isset($defaultSort['label']) ?  ' ' . $this->transEsc($defaultSort['label']) : '')?>:</label>
+          <label class="col-sm-3 control-label" for="defaultSort"><?=$this->transEsc('Sort') . (isset($defaultSort['label']) ?  ' ' . $this->transEsc($defaultSort['label']) : '')?>:</label>
           <div class="col-sm-3">
             <select id="defaultSort" name="default_sort[<?= $defaultSort['engine'] ?>]" class="form-control">
-              <? foreach ($defaultSort['options'] as $defaultSortValue => $defaultSortLabel): ?>
-                <option <? if($defaultSortValue == $defaultSort['selected']): ?>selected="selected"<? endif; ?> value="<?= $defaultSortValue ?>">
+              <?php foreach ($defaultSort['options'] as $defaultSortValue => $defaultSortLabel): ?>
+                <option <?php if($defaultSortValue == $defaultSort['selected']): ?>selected="selected"<?php endif; ?> value="<?= $defaultSortValue ?>">
                   <?= $this->transEsc($defaultSortLabel) ?>
                 </option>
-              <? endforeach; ?>
+              <?php endforeach; ?>
             </select>
           </div>
         </div>
-    <? endforeach; ?>
+    <?php endforeach; ?>
   </form>
 </div>
 
 <div class="<?= $this->layoutClass('sidebar') ?>">
-  <?= $this->context($this)->renderInContext("myresearch/menu.phtml", array('active' => 'settings')) ?>
+  <?= $this->context($this)->renderInContext("myresearch/menu.phtml", ['active' => 'settings']) ?>
 </div>
 
 <script type="text/javascript">

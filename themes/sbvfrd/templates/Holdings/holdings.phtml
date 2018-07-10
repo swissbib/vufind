@@ -3,7 +3,6 @@
 /** @var String $record */
 /** @var String $institution */
 /** @var String $recordTitle */
-
 $idTable = 'holdings-holding-' . $record . '-' . $institution;
 
 $headers = [
@@ -28,18 +27,18 @@ $headers = [
   <?php
   // Items
   foreach ($holdings as $hkey => $holding) {
-    echo $this->render('Holdings/holding-holding.phtml', array(
-        'holding'     => $holding,
-        'record'      => $record,
+    echo $this->render('Holdings/holding-holding.phtml', [
+        'holding' => $holding,
+        'record' => $record,
         'recordTitle' => $recordTitle
-    ));
-    $flippedContent .= $this->render('Holdings/holding-holding-flipped.phtml', array(
-        'holding'     => $holding,
-        'record'      => $record,
+    ]);
+    $flippedContent .= $this->render('Holdings/holding-holding-flipped.phtml', [
+        'holding' => $holding,
+        'record' => $record,
         'recordTitle' => $recordTitle,
-        'headers'     => $headers,
-        'even'        => (0 === $hkey % 2)
-    ));
+        'headers' => $headers,
+        'even' => (0 === $hkey % 2)
+    ]);
   }
   ?>
   </tbody>

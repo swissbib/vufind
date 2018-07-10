@@ -29,6 +29,7 @@
  * @link     http://www.swissbib.org
  */
 namespace Swissbib\Recommend;
+
 use VuFind\Recommend\RecommendInterface;
 
 /**
@@ -75,5 +76,4 @@ class TopIpRange implements RecommendInterface
     public function process($results)
     {
     }
-
 }

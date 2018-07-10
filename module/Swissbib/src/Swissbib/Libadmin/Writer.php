@@ -30,8 +30,8 @@
  */
 namespace Swissbib\Libadmin;
 
-use Zend\Config\Writer\Ini as IniWriter;
 use Zend\Config\Config;
+use Zend\Config\Writer\Ini as IniWriter;
 
 /**
  * Write imported data to local system
@@ -72,7 +72,7 @@ class Writer
      */
     protected function setBasePath($path)
     {
-        if (is_null($path) || $path === false) {
+        if (null === $path || $path === false) {
             $this->basePath = LOCAL_OVERRIDE_DIR . '/languages';
         } else {
             $this->basePath = $path;
@@ -100,7 +100,7 @@ class Writer
             throw new \Exception('Cannot create language folder ' . $type);
         }
 
-            // Replace double quotes, because they're invalid for ini format in zend
+        // Replace double quotes, because they're invalid for ini format in zend
         $data    = $this->cleanData($data);
         $config    = new Config($data, false);
         $writer    = new IniWriter();

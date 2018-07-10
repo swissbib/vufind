@@ -61,7 +61,7 @@ class ExtendedSolrFactoryHelper
     /**
      * Check whether name is in list of extended search targets
      *
-     * @param String $name          Name
+     * @param String $name Name
      *
      * @return Boolean
      */
@@ -76,7 +76,7 @@ class ExtendedSolrFactoryHelper
      * Get namespace
      * swissbib namespace for extensible targets, else default namespace
      *
-     * @param String $name          Name
+     * @param String $name Name
      *
      * @return String
      */

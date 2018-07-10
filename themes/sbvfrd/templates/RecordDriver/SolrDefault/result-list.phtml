@@ -11,7 +11,7 @@ $shortTitle = $record->getShortTitle();
 $subtitle = $viewRecord->getSubtitle($titleStatement);
 $responsible = $viewRecord->getResponsible($titleStatement, $record);
 $edition = $record->getEdition();
-$summDate= $record->getHumanReadablePublicationDates();
+$summDate = $record->getHumanReadablePublicationDates();
 $hostItems = $record->getHostItemEntry();
 $journalTitle = $record->getContainerTitle();
 $groupID = $record->getGroup(true);
@@ -52,61 +52,61 @@ $formats = $viewRecord->getFormatList();
 
         <!-- Untertitel und Verfasserangabe -->
         <div class="row">
-            <? if ($responsible): ?>
+            <?php if ($responsible): ?>
                 <div class="col-md-3 hidden-xs"><?= $this->transEsc('Author') ?>:</div>
                 <div class="col-md-9">
                    <?= $this->escapeHtml($responsible) ?>
                 </div>
-            <? endif; ?>
+            <?php endif; ?>
         </div>
 
         <!-- Zeitschriftentitel, Erscheinungsjahr HU-->
         <div class="row">
-            <? if ($hostItems): ?>
-                <? foreach ($hostItems as $hostItem): ?>
-                    <? if (array_key_exists('title', $hostItem)): ?>
+            <?php if ($hostItems): ?>
+                <?php foreach ($hostItems as $hostItem): ?>
+                    <?php if (array_key_exists('title', $hostItem)): ?>
                         <div class="col-md-3 hidden-xs"><?= $this->transEsc('note_773') ?>:</div>
                         <div class="col-md-9">
-                            <? $text = array_key_exists('related', $hostItem) ? $hostItem['title'] . ', ' . $hostItem['related'] : $hostItem['title'] ?>
+                            <?php $text = array_key_exists('related', $hostItem) ? $hostItem['title'] . ', ' . $hostItem['related'] : $hostItem['title'] ?>
                             <?= $this->escapeHtml($text) ?>
                         </div>
-                    <? endif; ?>
-                <? endforeach; ?>
-            <? endif; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
         <div class="row">
-            <? if ($journalTitle): ?>
+            <?php if ($journalTitle): ?>
                 <div class="col-md-3 hidden-xs"><?= $this->transEsc('Published in')?>:</div>
                 <div class="col-md-9"><a href="<?= $viewRecord->getLink('journaltitle', $journalTitle)?>"><?= $this->escapeHtml($journalTitle)?></a></div>
-            <? endif; ?>
+            <?php endif; ?>
         </div>
         <div class="row">
-            <? if ($summDate): ?>
+            <?php if ($summDate): ?>
                     <div class="col-md-3 hidden-xs"><?= $this->transEsc('Year') ?>:</div>
                     <div class="col-md-9"><?= $this->escapeHtml($summDate[0]) ?></div>
-            <? endif; ?>
+            <?php endif; ?>
         </div>
         <div class="row">
-            <? if ($edition): ?>
+            <?php if ($edition): ?>
                 <div class="col-md-3 hidden-xs"><?= $this->transEsc('Edition') ?>:</div>
                 <div class="col-md-9"><?= $this->escapeHtml($edition) ?></div>
-            <? endif; ?>
+            <?php endif; ?>
         </div>
 
         <!-- ID -->
         <div class="row visible-print-block">
-          <? if ($uniqueID): ?>
+          <?php if ($uniqueID): ?>
                 <div class="col-md-3 hidden-xs"><?= $this->transEsc('Item_ID') ?>:</div>
                 <div class="col-md-9"><?= $uniqueID ?></div>
-          <? endif; ?>
+          <?php endif; ?>
         </div>
 
         <!-- Medien-Typ -->
         <div class="row">
-          <? if (!empty($formats)): ?>
+          <?php if (!empty($formats)): ?>
                 <div class="col-md-3 hidden-xs"><?= $this->transEsc('Format') ?>:</div>
                 <div class="col-md-9"><?= $formats ?></div>
-          <? endif; ?>
+          <?php endif; ?>
         </div>
 
       </div>
@@ -114,14 +114,14 @@ $formats = $viewRecord->getFormatList();
 
   <div class="col-xs-1 col-md-3 actions">
     <div>
-        <? if ($this->driver->displayHoldings()): ?>
+        <?php if ($this->driver->displayHoldings()): ?>
             <?= $this->render('search/results/available.phtml') ?>
             <?= $this->render('search/results/libraries.phtml') ?>
-        <? elseif ($this->driver->displayLinks()): ?>
+        <?php elseif ($this->driver->displayLinks()): ?>
             <?= $this->render('search/results/links.phtml') ?>
-        <? endif; ?>
+        <?php endif; ?>
 
-      <? if (!empty($showFRBR) && $showFRBR && !empty($groupID) && !strcmp($results->getParams()->getSearchHandler(), 'FRBR') == 0) : ?>
+      <?php if (!empty($showFRBR) && $showFRBR && !empty($groupID) && !strcmp($results->getParams()->getSearchHandler(), 'FRBR') == 0) : ?>
         <a class="btn btn-primary btn-frbr hidden-print" href="<?= $this->url('search-results') .
             '?lookfor=' . $groupID .
             '&type=FRBR' .
@@ -132,18 +132,18 @@ $formats = $viewRecord->getFormatList();
           <span><i class="fa fa-eye"></i></span>
           <span class="hidden-xs hidden-sm"><?= $this->transEsc('Other Editions') ?></span>
         </a>
-      <? endif; ?>
+      <?php endif; ?>
 
-      <? if ($this->userlist()->getMode() !== 'disabled'): ?>
+      <?php if ($this->userlist()->getMode() !== 'disabled'): ?>
         <a class="btn btn-primary hidden-print" href="<?= $this->recordLink()->getActionUrl($this->driver, 'Save'); ?>" title="<?= $this->transEsc('Add to favorites') ?>">
           <span class="memorizelistadd"><i class="fa fa-list-ul"></i></span>
           <span class="hidden-xs hidden-sm"><?= $this->transEsc('List') ?></span>
         </a>
-            <? /* Saved lists */ ?>
+            <?php /* Saved lists */ ?>
             <div class="savedLists alert alert-info hidden hidden-xs hidden-sm hidden-print">
                 <strong><?=$this->transEsc('Saved in')?>:</strong>
             </div>
-      <? endif; ?>
+      <?php endif; ?>
 
     </div>
   </div>

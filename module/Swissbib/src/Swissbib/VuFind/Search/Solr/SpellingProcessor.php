@@ -27,10 +27,10 @@
  */
 namespace Swissbib\VuFind\Search\Solr;
 
+use VuFind\Search\Solr\SpellingProcessor as VFSpellingProcessor;
 use VuFindSearch\Backend\Solr\Response\Json\Spellcheck;
 use VuFindSearch\Query\AbstractQuery;
 use Zend\Config\Config as ZendConfig;
-use VuFind\Search\Solr\SpellingProcessor as VFSpellingProcessor;
 
 /**
  * Extended version of the VuFind Solr Spelling Processor (based on
@@ -156,7 +156,6 @@ class SpellingProcessor extends VFSpellingProcessor
      */
     public function getSuggestions(Spellcheck $spellcheck, AbstractQuery $query)
     {
-
         if (!$this->spellingResults->hasSuggestions()) {
             $this->spellingResults->setSpellingQuery($query);
             $i = 1;
@@ -165,7 +164,6 @@ class SpellingProcessor extends VFSpellingProcessor
                     if (is_array($info)) {
                         $this->spellingResults->addCollocationSOLRStructure($info);
                     }
-
                 } elseif (++$i && $i <= $this->getSpellingLimit()
                     && array_key_exists("suggestion", $info)
                 ) {
@@ -181,9 +179,7 @@ class SpellingProcessor extends VFSpellingProcessor
                             $term, $termSuggestion['word'], $termSuggestion['freq']
                         );
                     }
-
                 }
-
             }
         }
 
@@ -243,5 +239,4 @@ class SpellingProcessor extends VFSpellingProcessor
         // We should also skip terms already contained within the query:
         return $queryContains == $query->containsTerm($term);
     }
-
 }

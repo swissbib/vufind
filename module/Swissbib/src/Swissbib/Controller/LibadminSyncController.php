@@ -30,11 +30,11 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Console\Request as ConsoleRequest;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-
 use Swissbib\Libadmin\Importer;
+use Zend\Console\Request as ConsoleRequest;
+use Zend\Mvc\Controller\AbstractActionController;
+
+use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 
 /**
  * Synchronize VuFind with LibAdmin
@@ -100,7 +100,7 @@ class LibadminSyncController extends AbstractActionController
             $result   = $importer->import($dryRun);
             $hasErrors = $result->hasErrors();
         } catch (ServiceNotCreatedException $e) {
-                // handle service exception
+            // handle service exception
             echo "- Fatal error\n";
             echo "- Stopped with exception: " . get_class($e) . "\n";
             echo "===============================================================\n";
@@ -110,14 +110,14 @@ class LibadminSyncController extends AbstractActionController
             return false;
         }
 
-            // Show all messages?
+        // Show all messages?
         if ($verbose || $hasErrors) {
             foreach ($result->getFormattedMessages() as $message) {
                 echo '- ' . $message . "\n";
             }
         }
 
-            // No messages printed, but result required?
+        // No messages printed, but result required?
         if (!$verbose && $showResult) {
             echo $result->isSuccess() ? 1 : 0;
         }

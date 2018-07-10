@@ -63,7 +63,6 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
         $this->assertInternalType('array', $primaryAuthor);
         $this->assertEquals('Telemann', $primaryAuthor['name']);
         $this->assertEquals('Georg Philipp', $primaryAuthor['forename']);
-
     }
 
     /**

@@ -26,15 +26,15 @@
  */
 namespace SwissbibTest\NationalLicence;
 
-use Swissbib\Services\NationalLicence;
-use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
-use Swissbib\VuFind\Db\Row\NationalLicenceUser;
-use VuFindTest\Unit\TestCase as VuFindTestCase;
-use Zend\ServiceManager\ServiceManager;
-use SwissbibTest\Bootstrap;
 use ReflectionClass;
+use Swissbib\Services\NationalLicence;
+use Swissbib\VuFind\Db\Row\NationalLicenceUser;
+use SwissbibTest\Bootstrap;
+use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
+use VuFindTest\Unit\TestCase as VuFindTestCase;
 use Zend\Config\Config;
 use Zend\Config\Reader\Ini as IniReader;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Class NationalLicenceServiceTest.
@@ -393,7 +393,7 @@ class NationalLicenceServiceTest extends VuFindTestCase
 
         if ($arg == "NationalLicences") {
             return $configNL;
-        } else if ($arg == "config") {
+        } elseif ($arg == "config") {
             return $configUserSwitchAPI;
         } else {
             return null;

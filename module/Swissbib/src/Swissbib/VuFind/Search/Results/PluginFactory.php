@@ -29,8 +29,8 @@
 namespace Swissbib\VuFind\Search\Results;
 
 use Interop\Container\ContainerInterface;
-use VuFind\Search\Results\PluginFactory as VuFindResultsPluginFactory;
 use Swissbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
+use VuFind\Search\Results\PluginFactory as VuFindResultsPluginFactory;
 
 /**
  * Class PluginFactory
@@ -81,11 +81,11 @@ class PluginFactory extends VuFindResultsPluginFactory
      * @return object
      */
     public function __invoke(ContainerInterface $container,
-        $requestedName,  array $extraParams = null
+        $requestedName, array $extraParams = null
     ) {
         /**
          * ExtendedSolrFactoryHelper
-         * 
+         *
          * @var ExtendedSolrFactoryHelper $extendedTargetHelper
          */
         $extendedTargetHelper =
@@ -103,7 +103,7 @@ class PluginFactory extends VuFindResultsPluginFactory
             parent::__invoke($container, $requestedName, $extraParams);
         $facetConfigs = $container->get('VuFind\Config\PluginManager')
             ->get($sbSolrResults->getOptions()->getFacetsIni());
-        
+
         //todo
         //perhaps not a really nice way to provide the config dependency
         //via Setter methods analyze the complete complex Facets

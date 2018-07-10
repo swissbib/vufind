@@ -25,11 +25,11 @@
 namespace Swissbib\Services;
 
 use Exception;
-use SwitchSharedAttributesAPIClient\PublishersList;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Swissbib\VuFind\Db\Row\PuraUser;
-use Zend\Config\Config;
 use Libadmin\Institution\InstitutionLoader;
+use Swissbib\VuFind\Db\Row\PuraUser;
+use SwitchSharedAttributesAPIClient\PublishersList;
+use Zend\Config\Config;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class Pura.
@@ -455,9 +455,7 @@ class Pura
             $text .= 'Check it on ';
             $text .= '<a href="' . $puraUrl . '">' . $puraUrl . '</a>';
         }
-        
-        
-        
+
         $text .= "<br><br>---<br>Your swissbib team<br>";
         $text .= '<a href="https://www.swissbib.ch">https://www.swissbib.ch</a>';
         $text .= '<br>swissbib-ub@unibas.ch';

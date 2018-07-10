@@ -1,76 +1,76 @@
 <?php
 
 /** @var    \Swissbib\RecordDriver\SolrMarc $driver */
-$institutions           = $driver->getInstitutions();
-$institutions           = $this->filterUntranslatedInstitutions($institutions);
-$amountHoldings         = sizeof($institutions);
-$urldisplay             = $this->urlDisplay($driver);
-$digibernURL            = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/digibern/', $urldisplay['urls'][0]) : false;
-$eperiodicaURL              = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/e-periodica.ch\/digbib/', $urldisplay['urls'][0]) : false;
-if (empty($eperiodicaURL)): $eperiodicaURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 1) ? preg_grep('/e-periodica.ch\/digbib/', $urldisplay['urls'][1]) : false ; endif;
-$freeURL                = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/sfx./', $urldisplay['urls'][0],PREG_GREP_INVERT) : false;
-$borisURL               = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/boris.unibe/', $urldisplay['urls'][0]) : false;
-$edocURL                = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/edoc.unibas/', $urldisplay['urls'][0]) : false;
-$alexURL                = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/alexandria.unisg/', $urldisplay['urls'][0]) : false;
-$nationallizenzen       = $this->nationalLicences()->getUrl($driver);
+$institutions = $driver->getInstitutions();
+$institutions = $this->filterUntranslatedInstitutions($institutions);
+$amountHoldings = sizeof($institutions);
+$urldisplay = $this->urlDisplay($driver);
+$digibernURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/digibern/', $urldisplay['urls'][0]) : false;
+$eperiodicaURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/e-periodica.ch\/digbib/', $urldisplay['urls'][0]) : false;
+if (empty($eperiodicaURL)): $eperiodicaURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 1) ? preg_grep('/e-periodica.ch\/digbib/', $urldisplay['urls'][1]) : false; endif;
+$freeURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/sfx./', $urldisplay['urls'][0], PREG_GREP_INVERT) : false;
+$borisURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/boris.unibe/', $urldisplay['urls'][0]) : false;
+$edocURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/edoc.unibas/', $urldisplay['urls'][0]) : false;
+$alexURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/alexandria.unisg/', $urldisplay['urls'][0]) : false;
+$nationallizenzen = $this->nationalLicences()->getUrl($driver);
 ?>
 
-<? if ($amountHoldings === 1): ?>
+<?php if ($amountHoldings === 1): ?>
     <a class="btn btn-primary dropdown-toggle hidden-print" id="dropdownLibraries" data-toggle="dropdown">
-        <span><? if ($this->isFavoriteInstitution($institutions)): ?><i class="fa fa-heart"></i><? else: ?><i class="fa fa-institution"></i></span><? endif; ?>
+        <span><?php if ($this->isFavoriteInstitution($institutions)): ?><i class="fa fa-heart"></i><?php else: ?><i class="fa fa-institution"></i></span><?php endif; ?>
       <span class="hidden-xs hidden-sm">1 <?= $this->transEsc('result.library') ?></span>
     </a>
     <span class="visible-print-inline"><i class="fa fa-institution"></i></span>
-<? elseif ($amountHoldings > 1): ?>
+<?php elseif ($amountHoldings > 1): ?>
     <a class="btn btn-primary dropdown-toggle hidden-print" id="dropdownLibraries" data-toggle="dropdown">
-        <span><? if ($this->isFavoriteInstitution($institutions)): ?><i class="fa fa-heart"></i><? else: ?><i class="fa fa-institution"></i></span><? endif; ?>
+        <span><?php if ($this->isFavoriteInstitution($institutions)): ?><i class="fa fa-heart"></i><?php else: ?><i class="fa fa-institution"></i></span><?php endif; ?>
         <span class="hidden-xs hidden-sm"><?= $amountHoldings ?> <?= $this->transEsc('result.libraries') ?></span>
     </a>
     <span class="visible-print-inline"><i class="fa fa-institution"></i></span>
-<? endif ?>
+<?php endif ?>
 
-<? if($borisURL): ?>
+<?php if($borisURL): ?>
     <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $borisURL['url'] ?>" target="_blank">
       <span><i class="fa fa-external-link"></i></span>
       <span class="hidden-xs hidden-sm">BORIS</span>
     </a>
-<? elseif($eperiodicaURL): ?>
+<?php elseif($eperiodicaURL): ?>
     <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $eperiodicaURL['url'] ?>" target="_blank">
       <span><i class="fa fa-external-link"></i></span>
       <span class="hidden-xs hidden-sm">E-Periodica</span>
     </a>
-<? elseif($edocURL): ?>
+<?php elseif($edocURL): ?>
     <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $edocURL['url'] ?>" target="_blank">
         <span><i class="fa fa-external-link"></i></span>
         <span class="hidden-xs hidden-sm">edoc</span>
     </a>
-<? elseif($alexURL): ?>
+<?php elseif($alexURL): ?>
     <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $alexURL['url'] ?>" target="_blank">
         <span><i class="fa fa-external-link"></i></span>
         <span class="hidden-xs hidden-sm">Alexandria</span>
     </a>
-<? elseif($digibernURL): ?>
+<?php elseif($digibernURL): ?>
     <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $digibernURL['url'] ?>" target="_blank">
       <span><i class="fa fa-external-link"></i></span>
       <span class="hidden-xs hidden-sm">digibern</span>
     </a>
-<? elseif(in_array('FREE', $urldisplay['institutions']) && !empty($freeURL['url'])): ?>
+<?php elseif(in_array('FREE', $urldisplay['institutions']) && !empty($freeURL['url'])): ?>
     <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $freeURL['url'] ?>" target="_blank">
       <span><i class="fa fa-external-link"></i></span>
       <span class="hidden-xs hidden-sm"><?= $this->transEsc('Free access') ?></span>
     </a>
-<? elseif($nationallizenzen): ?>
+<?php elseif($nationallizenzen): ?>
     <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $nationallizenzen['url'] ?>" target="_blank">
         <span><i class="fa fa-external-link"></i></span>
         <span class="hidden-xs hidden-sm nlItem">Get it Online</span>
     </a>
     <div style="display: none"><?= $nationallizenzen['url'] ?></div>
-    <? if(!empty($nationallizenzen['message'])): ?>
+    <?php if(!empty($nationallizenzen['message'])): ?>
         <div class="flash-message alert alert-info">
             <strong><?= $nationallizenzen['message'] ?></strong>
         </div>
-    <? endif; ?>
+    <?php endif; ?>
 
-<? elseif($amountHoldings !== 1 && !($amountHoldings > 1) ): ?>
+<?php elseif($amountHoldings !== 1 && !($amountHoldings > 1)): ?>
         <p class="hidden-sm hidden-xs hidden-print"><?= $this->transEsc('No Holdings available in the system') ?></p>
-<? endif; ?>
+<?php endif; ?>

@@ -30,11 +30,11 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
+use Swissbib\RecordDriver\Helper\BibCode as BibCodeHelper;
 use Zend\Config\Config;
 use Zend\Http\Client as HttpClient;
-use Zend\Http\Response as HttpResponse;
 
-use Swissbib\RecordDriver\Helper\BibCode as BibCodeHelper;
+use Zend\Http\Response as HttpResponse;
 
 /**
  * Get availability for items

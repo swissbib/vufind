@@ -141,7 +141,7 @@ class MetadataHelper extends AbstractHelper
         foreach ($keys as $key) {
             $entry = $this->_getMetadataListEntry($key);
 
-            if (!is_null($entry)) {
+            if (null !== $entry) {
                 $metadataList[] = $entry;
             }
         }
@@ -164,7 +164,7 @@ class MetadataHelper extends AbstractHelper
             $method = $this->_metadataMethodMap[$key];
             $value = $this->getSource()->{$method}();
 
-            if (!is_null($value)) {
+            if (null !== $value) {
                 $translationKey = sprintf('%s.%s', $this->getPrefix(), $key);
                 $entry = [
                     'label'    => $this->getView()->translate($translationKey),
@@ -176,5 +176,4 @@ class MetadataHelper extends AbstractHelper
 
         return $entry;
     }
-
 }

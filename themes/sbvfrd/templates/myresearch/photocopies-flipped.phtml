@@ -1,4 +1,4 @@
-<?
+<?php
 /** @var array $headers */
 /** @var mixed $photoCopy */
 /** @var Boolean $even */
@@ -10,21 +10,21 @@
         <th><?=$headers['title']?></th>
         <td>
             <?= $this->escapeHtml($photoCopy['title']) ?>
-            <? if (!empty($photoCopy['description'])): ?>
+            <?php if (!empty($photoCopy['description'])): ?>
                 , <?= $this->escapeHtml($photoCopy['description']) ?>
-            <? endif; ?>
+            <?php endif; ?>
         </td>
     </tr>
     <tr>
         <th><?=$headers['library_callno']?></th>
         <td>
-            <? if (!empty($photoCopy['library'])): ?>
+            <?php if (!empty($photoCopy['library'])): ?>
                 <?=$this->escapeHtml($photoCopy['library'])?>,
-            <? endif; ?>
+            <?php endif; ?>
 
-            <? if (!empty($photoCopy['callNumber'])): ?>
+            <?php if (!empty($photoCopy['callNumber'])): ?>
                 <?=$this->escapeHtml($photoCopy['callNumber'])?>
-            <? endif; ?>
+            <?php endif; ?>
         </td>
     </tr>
     <tr>
@@ -48,21 +48,21 @@
     <tr>
         <th><?=$headers['note']?></th>
         <td>
-            <? if (!empty($photoCopy['title2'])): ?>
+            <?php if (!empty($photoCopy['title2'])): ?>
                 <?=$this->escapeHtml($photoCopy['title2'] . ' / ') ?>
-            <? endif; ?>
-            <? if (!empty($photoCopy['author'])): ?>
+            <?php endif; ?>
+            <?php if (!empty($photoCopy['author'])): ?>
                 <?=$this->escapeHtml($photoCopy['author'] . '. ') ?>
-            <? endif; ?>
-            <? if (!empty($photoCopy['note1'])): ?>
+            <?php endif; ?>
+            <?php if (!empty($photoCopy['note1'])): ?>
                 <?=$this->escapeHtml($photoCopy['note1'] . ', ') ?>
-            <? endif; ?>
-            <? if (!empty($photoCopy['pages'])): ?>
+            <?php endif; ?>
+            <?php if (!empty($photoCopy['pages'])): ?>
                 <?=$this->escapeHtml($photoCopy['pages']) . '. ' ?>
-            <? endif; ?>
-            <? if (!empty($photoCopy['note2'])): ?>
+            <?php endif; ?>
+            <?php if (!empty($photoCopy['note2'])): ?>
                 <?=$this->escapeHtml($photoCopy['note2']) ?>
-            <? endif; ?>
+            <?php endif; ?>
         </td>
     </tr>
     </tbody>

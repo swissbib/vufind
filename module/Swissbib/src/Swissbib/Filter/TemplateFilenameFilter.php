@@ -30,8 +30,8 @@
  */
 namespace Swissbib\Filter;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Filter\AbstractFilter;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class SbTemplateFilenameFilter

@@ -95,8 +95,7 @@ class Theme
         $moduleConfig = $this->getServiceLocator()->get('Config');
         $tabsConfig = $moduleConfig['swissbib']['resultTabs'];
         $allTabs = $tabsConfig['tabs'];
-        $themeTabs = isset($tabsConfig['themes'][$theme]) ?
-            $tabsConfig['themes'][$theme] : [];
+        $themeTabs = $tabsConfig['themes'][$theme] ?? [];
 
         foreach ($themeTabs as $themeTab) {
             if (isset($allTabs[$themeTab])) {

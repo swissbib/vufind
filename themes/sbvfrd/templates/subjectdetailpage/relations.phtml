@@ -3,7 +3,7 @@
         <?= $this->render('relations/authors.phtml') ?>
     </div>
 </div>
-<? if (isset($this->parentMedias) && $this->parentMedias->getResultTotal() > 0): ?>
+<?php if (isset($this->parentMedias) && $this->parentMedias->getResultTotal() > 0): ?>
 <div class="separator"></div>
 <div class="row">
     <div class="col-xs-12">
@@ -12,8 +12,8 @@
         </div>
     </div>
 </div>
-<? endif; ?>
-<? if (isset($this->childrenMedias) && $this->childrenMedias->getResultTotal() > 0): ?>
+<?php endif; ?>
+<?php if (isset($this->childrenMedias) && $this->childrenMedias->getResultTotal() > 0): ?>
 <div class="separator"></div>
 <div class="row">
     <div class="col-xs-12">
@@ -22,4 +22,4 @@
         </div>
     </div>
 </div>
-<? endif; ?>
+<?php endif; ?>

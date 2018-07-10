@@ -26,6 +26,7 @@
  * @link     https://vufind.org/wiki/development:plugins:hierarchy_components Wiki
  */
 namespace Swissbib\VuFind\Search\Params;
+
 use Zend\ServiceManager\ServiceManager;
 
 /**

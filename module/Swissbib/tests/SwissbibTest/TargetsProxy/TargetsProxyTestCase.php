@@ -30,13 +30,13 @@
  */
 namespace SwissbibTest\TargetsProxy;
 
-use VuFindTest\Unit\TestCase as VuFindTestCase;
-use Zend\ServiceManager\ServiceManager;
-use Zend\Log\Logger;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\Config\Config;
-
 use Swissbib\TargetsProxy\TargetsProxy;
+use VuFindTest\Unit\TestCase as VuFindTestCase;
+use Zend\Config\Config;
+use Zend\Http\PhpEnvironment\Request;
+use Zend\Log\Logger;
+
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * TargetsProxyTestCase

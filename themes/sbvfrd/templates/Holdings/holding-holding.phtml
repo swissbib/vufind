@@ -2,7 +2,6 @@
 /** @var Array $holding */
 /** @var \Swissbib\RecordDriver\SolrMarc $record */
 /** @var String $recordTitle */
-
 if (isset($holding['locationMap']) && $holding['locationMap']) {
   $mapLink = '<a href="' . $holding['locationMap'] . '" class="holdingMapLink">' . '"title="' . "$this->transEsc('Show_Location_Map')" . '<i class="fa fa-map-marker"></i></a>';
 } else {
@@ -10,11 +9,11 @@ if (isset($holding['locationMap']) && $holding['locationMap']) {
 }
 
 if (isset($holding['itemsLink']) && $holding['itemsLink']['count']) {
-  $popupDataUrl	= $this->url('holdings-holding-items', $holding['itemsLink']['url']);
-  $popupHref		= 'javascript:swissbib.Holdings.openHoldingItemsPopup(\'' . $popupDataUrl . '\', \'' . '-' . '\')';
+  $popupDataUrl = $this->url('holdings-holding-items', $holding['itemsLink']['url']);
+  $popupHref = 'javascript:swissbib.Holdings.openHoldingItemsPopup(\'' . $popupDataUrl . '\', \'' . '-' . '\')';
 //	$popupLinkLabel	= 'Enthält ' . $holding['itemsLink']['count'] . ' Items';
-  $popupLinkLabel	= $this->transEsc('holdings_items_found');
-  $moreDetailsLink= '<a href="' . $popupHref . '" title="Show Holdings">' . $popupLinkLabel . '</a>';
+  $popupLinkLabel = $this->transEsc('holdings_items_found');
+  $moreDetailsLink = '<a href="' . $popupHref . '" title="Show Holdings">' . $popupLinkLabel . '</a>';
 } else {
   if (preg_match('/C00[0-9]/', $holding['institution_chb'])) {
     $moreDetailsLink = $this->transEsc('holdings_noitems');
@@ -27,7 +26,7 @@ if (isset($holding['itemsLink']) && $holding['itemsLink']['count']) {
 }
 
 // description (last column)
-$description = isset($holding['holding_information']) ? $holding['holding_information'] : '';
+$description = $holding['holding_information'] ?? '';
 if (!empty($holding['public_note'])) {
   $description .= '. ' . $holding['public_note'];
 }

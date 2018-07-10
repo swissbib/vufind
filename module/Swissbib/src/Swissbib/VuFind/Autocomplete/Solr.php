@@ -150,7 +150,7 @@ class Solr extends VFAutocompleteSolr
         $results = [
             [
                 "total" => $total ?? 0,
-                "suggestions" => isset($results) ? $results : []
+                "suggestions" => $results ?? []
             ]
         ];
 

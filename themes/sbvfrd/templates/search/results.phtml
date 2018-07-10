@@ -1,4 +1,4 @@
-<?
+<?php
   // Set up page title:
   $this->lookfor = $this->results->getUrlQuery()->isQuerySuppressed() ? '' : $this->params->getDisplayQuery();
   if (isset($this->overrideTitle)) {
@@ -10,7 +10,7 @@
   // Set up search box:
   $this->layout()->searchbox = $this->context($this)->renderInContext(
       'search/searchbox.phtml',
-      array(
+      [
         'lookfor' => $this->lookfor,
         'searchIndex' => $this->params->getSearchHandler(),
         'searchType' => $this->params->getSearchType(),
@@ -20,12 +20,12 @@
         'filterList' => $this->params->getFilters(),
         'hasDefaultsApplied' => $this->params->hasDefaultsApplied(),
         'selectedShards' => $this->params->getSelectedShards()
-      )
+      ]
   );
 
   // Set up breadcrumbs:
-  $type = (isset($_GET['type']) ? $_GET['type'] : '');
-  $originalSort = (isset($_GET['originalSort']) ? $_GET['originalSort'] : '');
+  $type = ($_GET['type'] ?? '');
+  $originalSort = ($_GET['originalSort'] ?? '');
   if (isset($this->overrideTitle)) {
     $this->layout()->breadcrumbs .= '<li class="active">' . $this->escapeHtml($this->overrideTitle) . '</li>';
   }
@@ -52,13 +52,13 @@
 
   $recordTotal = $this->recordTotal = $this->results->getResultTotal();
 
-  $exportFormats = array('EndNote', 'BibTeX');
+  $exportFormats = ['EndNote', 'BibTeX'];
   // $exportFormats = $this->export()->getBulkOptions(); @todo: konfigurierbar machen, MARCXML aktivieren (funktioniert aktuell nicht)
   /* href="<?=$this->url('cart-doexport')?>?f=<?=$format?>"*/
 ?>
 
 <div class="<?=$this->layoutClass('mainbody')?>">
-  <? if ( $recordTotal > 0 ): ?>
+  <?php if ($recordTotal > 0): ?>
     <div class="results-top row">
       <div class="col-md-9">
         <h1><i class="fa fa-search"></i> <span><?=$this->transEsc('Search Results')?></span></h1>
@@ -70,75 +70,75 @@
             <a href="<?=$this->results->getUrlQuery()->setViewParam('rss')?>" title="<?=$this->transEsc('Get RSS Feed')?>"><i class="fa fa-rss"></i></a>
             <?php $mailClass = $this->auth()->isAjaxLoginAllowed() ? 'class="mailSearch modal-link"' : '' ?>
             <a href="<?=$this->url('search-email')?>" <?= $mailClass ?> id="mailSearch<?=$this->escapeHtmlAttr($this->results->getSearchId())?>" title="<?=$this->transEsc('Email this Search')?>"><i class="fa fa-envelope" ></i></a>
-            <? if (is_numeric($this->results->getSearchId())): ?>
-              <? if ($this->results->isSavedSearch()): ?>
+            <?php if (is_numeric($this->results->getSearchId())): ?>
+              <?php if ($this->results->isSavedSearch()): ?>
                 <a href="<?=$this->url('myresearch-savesearch')?>?delete=<?=urlencode($this->results->getSearchId())?>" title="<?=$this->transEsc('save_search_remove')?>"><i class="fa fa-minus-square"></i></a>
-              <? else: ?>
+              <?php else: ?>
                 <a href="<?=$this->url('myresearch-savesearch')?>?save=<?=urlencode($this->results->getSearchId())?>" title="<?=$this->transEsc('save_search')?>"><i class="fa fa-plus-square"></i></a>
-              <? endif; ?>
-            <? endif; ?>
+              <?php endif; ?>
+            <?php endif; ?>
             <!-- Styling & Funktionstests -->
               <a class="export-toggle dropdown-toggle hidden-xs hidden-sm" data-toggle="dropdown" href="<?=$this->recordLink()->getActionUrl($this->driver, 'Export')?>" title=" <?=$this->transEsc('Export Record') ?>"><i class="fa fa-share"></i></a>
               <ul class="dropdown-menu" role="export-menu">
-                <? foreach ($exportFormats as $format): ?>
+                <?php foreach ($exportFormats as $format): ?>
                   <li class="<?=$this->export()->getVisibilityClassName($format)?>">
-                    <a <? if ($this->export()->needsRedirect($format)): ?>target="<?=$this->escapeHtmlAttr($format)?>Main" <? endif; ?>href="<?=$this->export()->getBulkUrl($this, $format, array());?>"><?= $this->transEsc('Export to') ?> <?= $this->transEsc($this->export()->getLabelForFormat($format)) ?></a>
+                    <a <?php if ($this->export()->needsRedirect($format)): ?>target="<?=$this->escapeHtmlAttr($format)?>Main" <?php endif; ?>href="<?=$this->export()->getBulkUrl($this, $format, []);?>"><?= $this->transEsc('Export to') ?> <?= $this->transEsc($this->export()->getLabelForFormat($format)) ?></a>
                   </li>
-                <? endforeach; ?>
+                <?php endforeach; ?>
               </ul>
           </div>
         </div>
       </div>
     </div>
-  <? else: ?>
+  <?php else: ?>
 
-  <? endif; ?>
+  <?php endif; ?>
 
   <?=$this->render('search/spellingSuggestions.phtml')?>
 
-  <? if ( $recordTotal > 0 ): // only display these at very top if we have results ?>
-    <? foreach ($this->results->getRecommendations('top') as $current): ?>
-      <? if (!$current instanceof \VuFind\Recommend\AuthorFacets ):
+  <?php if ($recordTotal > 0): // only display these at very top if we have results ?>
+    <?php foreach ($this->results->getRecommendations('top') as $current): ?>
+      <?php if (!$current instanceof \VuFind\Recommend\AuthorFacets):
               //todo - its very necessary to get a better understanding how things are done in VuFind
               //this is really a hack
               //we are in the labyrinth of the various VuFind recommendation types which are no longer
               //compatible to the swissbib way of doing things
               ?>
         <?=$this->recommend($current)?>
-      <? endif; ?>
-    <? endforeach; ?>
-  <? endif; ?>
+      <?php endif; ?>
+    <?php endforeach; ?>
+  <?php endif; ?>
   <?=$this->flashmessages()?>
   <div class="hidden-print search-controls clearfix row">
     <div class="col-lg-6 col-md-7 col-sm-7">
-        <?= $this->paginationControl($this->results->getPaginator(), 'Sliding', 'search/pagination.phtml', array('results' => $this->results, 'recordTotal' => $recordTotal, 'params' => $this->params, 'lookfor' => $this->lookfor)) ?>
+        <?= $this->paginationControl($this->results->getPaginator(), 'Sliding', 'search/pagination.phtml', ['results' => $this->results, 'recordTotal' => $recordTotal, 'params' => $this->params, 'lookfor' => $this->lookfor]) ?>
     </div>
 
-    <? if ($recordTotal > 0): ?>
+    <?php if ($recordTotal > 0): ?>
       <div class="col-lg-6 col-md-5 col-sm-5 text-right">
         <?=$this->render('search/controls/sort.phtml')?>
         <?=$this->render('search/controls/limit.phtml')?>
         <?=$this->render('search/controls/view.phtml')?>
       </div>
-    <? endif; ?>
+    <?php endif; ?>
   </div>
-  <? /* End Listing Options */ ?>
+  <?php /* End Listing Options */ ?>
 
-  <? if ($recordTotal > 0): ?>
+  <?php if ($recordTotal > 0): ?>
     <form class="form-inline" method="post" name="bulkActionForm" action="<?=$this->url('cart-home')?>">
-      <?=$this->context($this)->renderInContext('search/bulk-action-buttons.phtml', array('idPrefix' => ''))?>
+      <?=$this->context($this)->renderInContext('search/bulk-action-buttons.phtml', ['idPrefix' => ''])?>
       <?=$this->render('search/list-' . $this->params->getView() . '.phtml')?>
-      <?=$this->context($this)->renderInContext('search/bulk-action-buttons.phtml', array('idPrefix' => 'bottom_'))?>
-      <?= $this->paginationControl($this->results->getPaginator(), 'Sliding', 'search/pagination.phtml', array('results' => $this->results, 'recordTotal' => $recordTotal, 'params' => $this->params, 'lookfor' => $this->lookfor, 'hideHits' => true)) ?>
+      <?=$this->context($this)->renderInContext('search/bulk-action-buttons.phtml', ['idPrefix' => 'bottom_'])?>
+      <?= $this->paginationControl($this->results->getPaginator(), 'Sliding', 'search/pagination.phtml', ['results' => $this->results, 'recordTotal' => $recordTotal, 'params' => $this->params, 'lookfor' => $this->lookfor, 'hideHits' => true]) ?>
     </form>
-  <? endif; ?>
+  <?php endif; ?>
 </div>
-<? /* End Main Listing */ ?>
+<?php /* End Main Listing */ ?>
 
-<? /* Narrow Search Options */ ?>
+<?php /* Narrow Search Options */ ?>
 <div class="<?=$this->layoutClass('sidebar')?>">
-  <? foreach ($this->results->getRecommendations('side') as $current): ?>
+  <?php foreach ($this->results->getRecommendations('side') as $current): ?>
     <?=$this->recommend($current)?>
-  <? endforeach; ?>
+  <?php endforeach; ?>
 </div>
-<? /* End Narrow Search Options */ ?>
+<?php /* End Narrow Search Options */ ?>

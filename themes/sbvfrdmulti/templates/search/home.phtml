@@ -1,4 +1,4 @@
-<?
+<?php
 // Set page title.
 $this->headTitle($this->translate('Search Home'));
 
@@ -20,7 +20,7 @@ if (!isset($this->layout()->searchbox)) {
   $this->layout()->searchbox = $this->render('search/searchbox.phtml');
 }
 ?>
-<? if ($this->ils()->getOfflineMode() == "ils-offline"): ?>
+<?php if ($this->ils()->getOfflineMode() == "ils-offline"): ?>
   <div class="searchHomeContent">
     <div class="alert alert-warning">
       <h2><?= $this->transEsc('ils_offline_title') ?></h2>
@@ -28,11 +28,11 @@ if (!isset($this->layout()->searchbox)) {
       <p><strong><?= $this->transEsc('ils_offline_status') ?></strong></p>
 
       <p><?= $this->transEsc('ils_offline_home_message') ?></p>
-      <? $supportEmail = $this->escapeHtmlAttr($this->systemEmail()); ?>
+      <?php $supportEmail = $this->escapeHtmlAttr($this->systemEmail()); ?>
       <p><a href="mailto:<?= $supportEmail ?>"><?= $supportEmail ?></a></p>
     </div>
   </div>
-<? endif; ?>
+<?php endif; ?>
 
 <div class="col-md-12">
 

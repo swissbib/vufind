@@ -103,7 +103,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
         $displayName = $this->getDisplayName();
         $label = null;
 
-        if (is_null($displayName)) {
+        if (null === $displayName) {
             $label = $this->getView()->translate(
                 sprintf(
                     '%s.no.name', $translationKeyBase
@@ -126,7 +126,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      */
     public function getMetadata(): MetadataHelper
     {
-        if (is_null($this->_metadataHelper)) {
+        if (null === $this->_metadataHelper) {
             $this->_metadataHelper = new MetadataHelper();
             $this->_metadataHelper->setSource($this);
             $this->_metadataHelper->setView($this->getView());
@@ -214,7 +214,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      */
     public function getDetailPageLink(string $template, string $label = null): string
     {
-        $label = is_null($label) ? $this->getDetailPageLinkLabel()
+        $label = null === $label ? $this->getDetailPageLinkLabel()
             : $this->getView()->translate($label);
 
         $route = sprintf('page-detail-%s', $this->getType());
@@ -288,7 +288,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
                 $result[$key] = $this->getView()->escapeUrl($url);
             }
         } else {
-            if (!is_null($value)) {
+            if (null !== $value) {
                 $result = $this->getView()->escapeUrl($value);
             }
         }
@@ -369,7 +369,7 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
         $recordHelper = $this->getView()->record($this->getDriver());
         $thumbnails = $recordHelper->getAvailableThumbnails();
 
-        if (!is_null($fallback)) {
+        if (null !== $fallback) {
             $thumbnails = is_array($thumbnails) ? $thumbnails : [];
             $thumbnails[] = $fallback;
         }
@@ -424,7 +424,6 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     protected function hasMatchingRecordReference(
         ZendConfig $references, string $link
     ): bool {
-
         foreach ($references as $id => $reference) {
             if (preg_match($reference->pattern, $link) === 1) {
                 return true;
@@ -503,5 +502,4 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
 
         return sprintf('%s?lookfor=%s', $this->getView()->url($route), $lookfor);
     }
-
 }

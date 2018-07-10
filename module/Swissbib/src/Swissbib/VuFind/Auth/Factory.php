@@ -55,5 +55,4 @@ class Factory
             $sm->get('VuFind\SessionManager')
         );
     }
-
 }

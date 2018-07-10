@@ -74,8 +74,7 @@ class Factory
         // Strip "get" from method name to get name of class; pass first argument
         // on assumption that it should be the ServiceManager object.
         return static::getGenericController(
-            substr($name, 3), isset($args[0]) ? $args[0] : null
+            substr($name, 3), $args[0] ?? null
         );
     }
-
 }

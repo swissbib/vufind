@@ -1,5 +1,4 @@
 <?php
-
 namespace Swissbib\Module\Config;
 
 use Swissbib\Controller\HelpPageController;

@@ -29,9 +29,9 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
-use Zend\ServiceManager\ServiceManager;
-use Swissbib\RecordDriver\Helper\Holdings as HoldingsHelper;
 use Swissbib\RecordDriver\Helper\Availability as AvailabilityHelper;
+use Swissbib\RecordDriver\Helper\Holdings as HoldingsHelper;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory for helpers.
@@ -107,7 +107,6 @@ class Factory
         $translator = $sm->get('Zend\Mvc\I18n\Translator');
 
         return new EbooksOnDemand($eBooksOnDemandConfig, $translator);
-
     }
 
     /**
@@ -119,12 +118,10 @@ class Factory
      */
     public static function getAvailabiltyHelper(ServiceManager $sm)
     {
-
         $bibCodeHelper = $sm->get('Swissbib\BibCodeHelper');
         $availabilityConfig = $sm->get('VuFind\Config\PluginManager')->get('config')->Availability;
 
         return new AvailabilityHelper($bibCodeHelper, $availabilityConfig);
-
     }
 
     /**

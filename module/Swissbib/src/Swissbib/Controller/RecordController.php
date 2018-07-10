@@ -30,12 +30,12 @@
  */
 namespace Swissbib\Controller;
 
+use VuFind\Controller\RecordController as VuFindRecordController;
 use VuFind\Exception\ILS;
+use VuFind\Exception\RecordMissing as RecordMissingException;
 use Zend\Form\Form;
-use Zend\View\Model\ViewModel,
-    VuFind\Controller\RecordController as VuFindRecordController,
-    VuFind\Exception\RecordMissing as RecordMissingException,
-    Zend\Session\Container as SessionContainer;
+use Zend\Session\Container as SessionContainer;
+use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib RecordController
@@ -73,7 +73,6 @@ class RecordController extends VuFindRecordController
 
             return parent::homeAction();
         } catch (RecordMissingException $e) {
-
             return $this->forwardTo('MissingRecord', 'Home');
         }
     }
@@ -113,7 +112,6 @@ class RecordController extends VuFindRecordController
             //(the user was successfully authenticated)
             $shibFollowup->getManager()->getStorage()
                 ->clear('ShibbolethSaveFollowup');
-
         } else {
             $referer = $this->getRequest()->getServer()->get('HTTP_REFERER');
         }
@@ -214,7 +212,7 @@ class RecordController extends VuFindRecordController
             ? explode(":", $checkHolds['extraHoldFields']) : [];
 
         // Process form submissions if necessary:
-        if (!is_null($this->params()->fromPost('placeHold'))) {
+        if (null !== $this->params()->fromPost('placeHold')) {
             // If the form contained a pickup location or request group, make sure
             // they are valid:
             $valid = $this->holds()->validateRequestGroupInput(
@@ -298,8 +296,7 @@ class RecordController extends VuFindRecordController
                 'requestGroups' => $requestGroups,
                 'defaultRequestGroup' => $defaultRequestGroup,
                 'requestGroupNeeded' => $requestGroupNeeded,
-                'helpText' => isset($checkHolds['helpText'])
-                    ? $checkHolds['helpText'] : null
+                'helpText' => $checkHolds['helpText'] ?? null
             ]
         );
     }
@@ -338,7 +335,6 @@ class RecordController extends VuFindRecordController
                 $copyForm->setData($this->request->getPost());
 
                 if ($copyForm->isValid()) {
-
                     $this->getILS()->putCopy(
                         $patron, $recordId, $itemId, $copyForm->getData()
                     );

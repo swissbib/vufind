@@ -44,7 +44,6 @@ class UrlMatcher
      */
     public function __construct()
     {
-
     }
 
     /**

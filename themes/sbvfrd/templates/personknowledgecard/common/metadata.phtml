@@ -6,13 +6,13 @@
 
     <?= $this->render('common/metadata/abstract.phtml') ?>
 
-    <? if ($this->essubjectcollection()->hasSubjectsInCollection()): ?>
+    <?php if ($this->essubjectcollection()->hasSubjectsInCollection()): ?>
         <li class="entry section-start">
             <span class="entry-label"><?= $this->esperson()->getRelatedSubjectsLabel(); ?></span>
             <span class="entry-value">
                 <?= $this->essubjectcollection()->getSubjectCollectionLinkList('<a class="ref" href="%s">%s</a>', 'card-knowledge'); ?>
             </span>
         </li>
-    <? endif; ?>
+    <?php endif; ?>
     <li class="entry section-start"><span class="work"><?= $this->esperson()->getMoreMediasLink('<a class="ref inline" data-lightbox-ignore href="%s">%s</a>') ?></span></li>
 </ul>

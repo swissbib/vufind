@@ -24,12 +24,11 @@
  */
 namespace Swissbib\Services;
 
-use Zend\Di\ServiceLocator;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Mime;
 use Zend\Mail\Message;
-use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Zend\Mail\Transport\Sendmail as SendmailTransport;
+use Zend\Mail\Transport\Smtp as SmtpTransport;
+use Zend\Mime;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class Email.
@@ -155,7 +154,6 @@ class Email
     public function sendMailWithAttachment(
         $to, $mimeMessage, $subject, $tlsActive = false
     ) {
-    
         if (empty($to)) {
             throw new \Exception(
                 'Impossible to send the e-mail: recipient not given'

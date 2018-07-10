@@ -28,11 +28,11 @@
  */
 namespace Swissbib\VuFind\ILS\Driver;
 
-use VuFind\ILS\Driver\Aleph as VuFindDriver;
-use SimpleXMLElement;
-use VuFind\ILS\Driver\AlephRestfulException;
-use VuFind\Exception\ILS as ILSException;
 use DateTime;
+use SimpleXMLElement;
+use VuFind\Exception\ILS as ILSException;
+use VuFind\ILS\Driver\Aleph as VuFindDriver;
+use VuFind\ILS\Driver\AlephRestfulException;
 use Zend\Http\Request;
 
 /**
@@ -585,26 +585,26 @@ class Aleph extends VuFindDriver
                 'verification' => $user['cat_password']
             ], true
         );
-        $id = (string) $xml->z303->{'z303-id'};
-        $delinq_1 = (string) $xml->z303->{'z303-delinq-1'};
-        $delinq_n_1 = (string) $xml->z303->{'z303-delinq-n-1'};
-        $delinq_2 = (string) $xml->z303->{'z303-delinq-2'};
-        $delinq_n_2 = (string) $xml->z303->{'z303-delinq-n-2'};
-        $delinq_3 = (string) $xml->z303->{'z303-delinq-3'};
-        $delinq_n_3 = (string) $xml->z303->{'z303-delinq-n-3'};
-        $address1 = (string) $xml->z304->{'z304-address-0'};
-        $address2 = (string) $xml->z304->{'z304-address-1'};
-        $address3 = (string) $xml->z304->{'z304-address-2'};
-        $address4 = (string) $xml->z304->{'z304-address-3'};
-        $address5 = (string) $xml->z304->{'z304-address-4'};
-        $zip = (string) $xml->z304->{'z304-zip'};
-        $phone = (string) $xml->z304->{'z304-telephone'};
+        $id = (string)$xml->z303->{'z303-id'};
+        $delinq_1 = (string)$xml->z303->{'z303-delinq-1'};
+        $delinq_n_1 = (string)$xml->z303->{'z303-delinq-n-1'};
+        $delinq_2 = (string)$xml->z303->{'z303-delinq-2'};
+        $delinq_n_2 = (string)$xml->z303->{'z303-delinq-n-2'};
+        $delinq_3 = (string)$xml->z303->{'z303-delinq-3'};
+        $delinq_n_3 = (string)$xml->z303->{'z303-delinq-n-3'};
+        $address1 = (string)$xml->z304->{'z304-address-0'};
+        $address2 = (string)$xml->z304->{'z304-address-1'};
+        $address3 = (string)$xml->z304->{'z304-address-2'};
+        $address4 = (string)$xml->z304->{'z304-address-3'};
+        $address5 = (string)$xml->z304->{'z304-address-4'};
+        $zip = (string)$xml->z304->{'z304-zip'};
+        $phone = (string)$xml->z304->{'z304-telephone'};
         //$barcode = (string) $xml->z304->{'z304-address-0'};
-        $group = (string) $xml->z305->{'z305-bor-status'};
-        $expiry = (string) $xml->z305->{'z305-expiry-date'};
-        $credit_sum = (string) $xml->z305->{'z305-sum'};
-        $credit_sign = (string) $xml->z305->{'z305-credit-debit'};
-        $name = (string) $xml->z303->{'z303-name'};
+        $group = (string)$xml->z305->{'z305-bor-status'};
+        $expiry = (string)$xml->z305->{'z305-expiry-date'};
+        $credit_sum = (string)$xml->z305->{'z305-sum'};
+        $credit_sign = (string)$xml->z305->{'z305-credit-debit'};
+        $name = (string)$xml->z303->{'z303-name'};
         if (strstr($name, ",")) {
             list($lastname, $firstname) = explode(",", $name);
         } else {
@@ -739,15 +739,15 @@ class Aleph extends VuFindDriver
                 $transactionsResponseItem, $dataMap
             );
             $group = $transactionsResponseItem->xpath('@href');
-            $itemURL = (string) $group[0];
+            $itemURL = (string)$group[0];
 
             // get renew-Information for every Item. ALEPH-logic forces to
             // iterate, info on resultlist is always true
             $response  = $this->doHTTPRequest($itemURL);
-            $renewable = (string) $response->loan->attributes()->renew;
+            $renewable = (string)$response->loan->attributes()->renew;
             $renewable = $renewable === 'Y' ? true : false;
 
-                // Add special data
+            // Add special data
             try {
                 $itemData['id'] = ($history) ? null : $this->barcodeToID(
                     $itemData['barcode']
@@ -784,7 +784,7 @@ class Aleph extends VuFindDriver
 
     /**
      * Get Required Date
-
+     *
      * @param array $patron   Patron
      * @param array $holdInfo HoldInfo
      *
@@ -839,7 +839,7 @@ class Aleph extends VuFindDriver
             $href         = $item->xpath('@href');
             $delete        = $item->xpath('@delete');
 
-                // Special fields which require calculation
+            // Special fields which require calculation
             $itemData['type'] = 'hold';
             $itemData['item_id'] = substr($href[0], strrpos($href[0], '/') + 1);
             //$itemData['isbn']        = array($itemData['isbn-raw']);
@@ -927,9 +927,9 @@ class Aleph extends VuFindDriver
         foreach ($fineResponseItems as $fineResponseItem) {
             $itemData    = $this->extractResponseData($fineResponseItem, $dataMap);
 
-            $itemData['title'] = (string) $fineResponseItem->{'z13'}->{'z13-title'};
+            $itemData['title'] = (string)$fineResponseItem->{'z13'}->{'z13-title'};
 
-            $itemData['amount'] = (float) preg_replace(
+            $itemData['amount'] = (float)preg_replace(
                 '/[\(\)]/', '', $itemData['sum']
             );
 
@@ -938,17 +938,17 @@ class Aleph extends VuFindDriver
             )->format('d.m.Y');
 
             $itemData['institution']
-                = (string) $fineResponseItem->{'z30-sub-library-code'};
+                = (string)$fineResponseItem->{'z30-sub-library-code'};
 
             $sortKey    = $itemData['sequence'];
 
             $fines[$sortKey] = $itemData;
         }
 
-            // Sort fines by sequence
+        // Sort fines by sequence
         ksort($fines);
 
-            // Sum up balance
+        // Sum up balance
         $balance    = 0;
 
         foreach ($fines as $index => $fine) {
@@ -957,7 +957,7 @@ class Aleph extends VuFindDriver
             $fines[$index]['balance'] = $balance;
         }
 
-            // Return list without sort keys
+        // Return list without sort keys
         return array_values($fines);
     }
 
@@ -986,8 +986,8 @@ class Aleph extends VuFindDriver
         if ($part) {
             foreach ($part[0]->children() as $node) {
                 $arr = $node->attributes();
-                $code = (string) $arr['code'];
-                $loc_name = (string) $node;
+                $code = (string)$arr['code'];
+                $loc_name = (string)$node;
                 $locations[$code] = $loc_name;
             }
         } else {
@@ -1068,19 +1068,19 @@ EOT;
         $addressInformation = $result->{'address-information'};
 
         return [
-            'z304-address-1' => (string) $addressInformation->{'z304-address-1'},
-            'z304-address-2' => (string) $addressInformation->{'z304-address-2'},
-            'z304-address-3' => (string) $addressInformation->{'z304-address-3'},
-            'z304-address-4' => (string) $addressInformation->{'z304-address-4'},
-            'z304-address-5' => (string) $addressInformation->{'z304-address-5'},
+            'z304-address-1' => (string)$addressInformation->{'z304-address-1'},
+            'z304-address-2' => (string)$addressInformation->{'z304-address-2'},
+            'z304-address-3' => (string)$addressInformation->{'z304-address-3'},
+            'z304-address-4' => (string)$addressInformation->{'z304-address-4'},
+            'z304-address-5' => (string)$addressInformation->{'z304-address-5'},
             'z304-email-address' =>
-                (string) $addressInformation->{'z304-email-address'},
-            'z304-telephone-1' => (string) $addressInformation->{'z304-telephone-1'},
-            'z304-telephone-2' => (string) $addressInformation->{'z304-telephone-2'},
-            'z304-telephone-3' => (string) $addressInformation->{'z304-telephone-3'},
-            'z304-telephone-4' => (string) $addressInformation->{'z304-telephone-4'},
-            'z304-date-from' => (string) $addressInformation->{'z304-date-from'},
-            'z304-date-to' => (string) $addressInformation->{'z304-date-to'},
+                (string)$addressInformation->{'z304-email-address'},
+            'z304-telephone-1' => (string)$addressInformation->{'z304-telephone-1'},
+            'z304-telephone-2' => (string)$addressInformation->{'z304-telephone-2'},
+            'z304-telephone-3' => (string)$addressInformation->{'z304-telephone-3'},
+            'z304-telephone-4' => (string)$addressInformation->{'z304-telephone-4'},
+            'z304-date-from' => (string)$addressInformation->{'z304-date-from'},
+            'z304-date-to' => (string)$addressInformation->{'z304-date-to'},
         ];
     }
 
@@ -1244,5 +1244,4 @@ EOT;
         }
         return $result;
     }
-
 }

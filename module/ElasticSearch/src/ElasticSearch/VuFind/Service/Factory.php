@@ -54,7 +54,7 @@ class Factory
         $configKey = strtolower(str_replace('\\', '_', $ns));
         $config = $sm->get('Config');
         return new $className(
-          $sm,
+            $sm,
             new \Zend\ServiceManager\Config(
                 $config['elasticsearch']['plugin_managers'][$configKey]
             )
@@ -96,6 +96,7 @@ class Factory
     {
         return static::getGenericPluginManager($sm, 'Search\Results');
     }
+
     /**
      * Construct the RecordDriver Plugin Manager.
      *

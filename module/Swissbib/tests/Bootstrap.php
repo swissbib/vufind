@@ -30,10 +30,10 @@
  */
 namespace SwissbibTest;
 
+use RuntimeException;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\ArrayUtils;
-use RuntimeException;
 
 define('APPLICATION_PATH', realpath(dirname(__DIR__) . '/../..'));
 define('SWISSBIB_TESTS_PATH', __DIR__);

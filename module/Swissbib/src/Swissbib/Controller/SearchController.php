@@ -30,16 +30,16 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\Config\Config;
-use Zend\Http\PhpEnvironment\Response;
-use Zend\View\Model\ViewModel;
-
+use Swissbib\VuFind\Search\Results\PluginManager
+    as SwissbibSearchResultsPluginManager;
 use VuFind\Controller\SearchController as VuFindSearchController;
 use VuFind\Search\Results\PluginManager as VuFindSearchResultsPluginManager;
 
-use Swissbib\VuFind\Search\Results\PluginManager
-    as SwissbibSearchResultsPluginManager;
+use Zend\Config\Config;
+use Zend\Http\PhpEnvironment\Response;
+
 use Zend\Stdlib\Parameters;
+use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib SearchController

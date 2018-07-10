@@ -31,11 +31,11 @@
 namespace Swissbib\View\Helper;
 
 use Swissbib\Services\NationalLicence;
-use Zend\View\Helper\AbstractHelper;
-use Zend\Http\PhpEnvironment\RemoteAddress;
 use Swissbib\TargetsProxy\IpMatcher;
 use VuFind\RecordDriver\SolrDefault;
+use Zend\Http\PhpEnvironment\RemoteAddress;
 use Zend\ServiceManager\ServiceManager;
+use Zend\View\Helper\AbstractHelper;
 
 /**
  * Return URL for NationalLicence online access if applicable. Otherwise 'false'.
@@ -59,7 +59,7 @@ class NationalLicences extends AbstractHelper
 
     /**
      * National Licence Service
-     * 
+     *
      * @var NationalLicence $nationalLicenceService National Licence Service
      */
     protected $nationalLicenceService;
@@ -305,7 +305,7 @@ class NationalLicences extends AbstractHelper
         $userInIpRange = $this->isUserInIpRange();
         if ($userInIpRange) {
             $userIsAuthorized = true;
-        } else if ($this->isAuthenticatedWithSwissEduId()) {
+        } elseif ($this->isAuthenticatedWithSwissEduId()) {
             try {
                 $user = $this->nationalLicenceService
                     ->getCurrentNationalLicenceUser($_SERVER['persistent-id']);
@@ -328,13 +328,13 @@ class NationalLicences extends AbstractHelper
             if (!$userIsAuthorized && !$hasCommonLibTerms) {
                 $urlhelper = $this->getView()->plugin("url");
                 $url = $urlhelper('national-licences');
-                return ['url' => $url , 'message' => ""];
+                return ['url' => $url, 'message' => ""];
             }
-        } else if ($this->getView()->auth()->getManager()->isLoggedIn()) {
+        } elseif ($this->getView()->auth()->getManager()->isLoggedIn()) {
             // we send them to info page asking them to use VPN
             $urlhelper = $this->getView()->plugin("url");
             $url = $urlhelper('national-licences');
-            return ['url' => $url , 'message' => ""];
+            return ['url' => $url, 'message' => ""];
         }
 
         $url = $this->buildUrl(
@@ -354,7 +354,7 @@ class NationalLicences extends AbstractHelper
             $url = $loginUrl;
         }
 
-        return ['url' => $url , 'message' => $message];
+        return ['url' => $url, 'message' => $message];
     }
 
     /**
@@ -369,7 +369,6 @@ class NationalLicences extends AbstractHelper
      */
     protected function buildUrl($userAuthorized, $doi, $journalCode, $pii
     ) {
-
         $url = $this->getPublisherBlueprintUrl($userAuthorized);
         $url = str_replace('{DOI}', $doi, $url);
         $url = str_replace(
@@ -431,7 +430,6 @@ class NationalLicences extends AbstractHelper
         } else {
             return $journalCode;
         }
-
     }
 
     /**
@@ -445,11 +443,9 @@ class NationalLicences extends AbstractHelper
             return false;
         }
         $idbName = $this->config->NationaLicensesWorkflow->swissEduIdIDP;
-        $persistentId = isset($_SERVER['persistent-id']) ?
-            $_SERVER['persistent-id'] : "";
+        $persistentId = $_SERVER['persistent-id'] ?? "";
         return (isset($idbName) && !empty($_SERVER['persistent-id'])) ?
             count(preg_grep("/$idbName/", [$persistentId]))
             > 0 : false;
     }
-
 }

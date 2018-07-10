@@ -5,7 +5,6 @@
 /** @var Array $headers */
 /** @var Boolean $even */
 /** @var Boolean $showInAllViewPorts */
-
 $mapLink = '';
 $showInAllViewPorts = isset($showInAllViewPorts) && $showInAllViewPorts;
 
@@ -25,11 +24,11 @@ if (isset($item['locationMap']) && $item['locationMap']) {
 ?>
 <table class="table table-flipped holdings-holding holdingTable <?= ($showInAllViewPorts ? '' : 'hidden-md hidden-lg ') . 'table-' . ($even ? 'even' : 'odd') ?>">
 <tbody>
-<?
+<?php
 $holdingActionsContent = $this->holdingActions($item, 'holdingActionsItem', $record);
 if (preg_match('/[\s\S]*<ul[\s\S]*<\/ul>[\s\S]*/', $holdingActionsContent)): ?>
   <tr>
-    <th><?= isset($headers['action']) ? $headers['action'] : '' ?></th>
+    <th><?= $headers['action'] ?? '' ?></th>
     <td>
     <?php if ($institution == 'NATIONALLICENCE'): ?>
       <?php $nlUrl = $this->nationalLicences()->getUrl($driver)['url']; ?>
@@ -39,14 +38,14 @@ if (preg_match('/[\s\S]*<ul[\s\S]*<\/ul>[\s\S]*/', $holdingActionsContent)): ?>
     <?php endif; ?>
     </td>
   </tr>
-<? endif; ?>
+<?php endif; ?>
 <tr>
   <th><?= $headers['availability'] ?></th>
   <td><?= $this->availabilityInfo($item['availability'], $institution) ?>
-    <? if (($item['network'] === 'IDSBB') && (isset($item['holding_status']) | isset($item['process_status'])) && (($item['holding_status'] === '55') | ($item['process_status'] === 'ES'))): ?>
-      <? $addressURL = 'http://aleph.unibas.ch/F/?func=item-loan&adm_library=DSV51&doc_number='. $item['localid'] . '&item_sequence='. $item['sequencenumber'] ?>
+    <?php if (($item['network'] === 'IDSBB') && (isset($item['holding_status']) | isset($item['process_status'])) && (($item['holding_status'] === '55') | ($item['process_status'] === 'ES'))): ?>
+      <?php $addressURL = 'http://aleph.unibas.ch/F/?func=item-loan&adm_library=DSV51&doc_number=' . $item['localid'] . '&item_sequence=' . $item['sequencenumber'] ?>
       <a href="<?= $this->escapeHtml($addressURL)?>" target="_blank" title="<?= $this->transEsc('Address') ?>" onclick="swissbib.trackLink('<?=$this->escapeHtml($addressURL)?>')"><?= $this->transEsc('Address') ?></a>
-    <? endif; ?>
+    <?php endif; ?>
   </td>
 </tr>
 <tr>

@@ -1,11 +1,11 @@
 <div id="jstree-<?= $facetKey ?>" class="jstree jstree-default classification-tree hierarchy-tree">
-  <? foreach ($classificationTree as $classification) {
+  <?php foreach ($classificationTree as $classification) {
     echo $this->render(
       'search/advanced/classificationTreeItem',
-      array(
+      [
         'classification' => $classification,
-        'facetKey'       => $facetKey
-      )
+        'facetKey' => $facetKey
+      ]
     );
   }
   ?>

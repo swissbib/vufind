@@ -29,12 +29,12 @@
 namespace Swissbib\Services;
 
 use Swissbib\Export;
-use Swissbib\Highlight\SolrConfigurator;
 use Swissbib\Log\Logger;
-use SwitchSharedAttributesAPIClient\PublishersList;
-use Zend\ServiceManager\ServiceManager;
 use Swissbib\VuFind\Recommend\FavoriteFacets;
+use SwitchSharedAttributesAPIClient\PublishersList;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient;
+use Zend\ServiceManager\ServiceManager;
+
 /**
  * Factory for Services.
  *
@@ -46,7 +46,6 @@ use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient;
  */
 class Factory
 {
-
     /**
      * Constructs Theme - a type used to load Theme specific configuration
      *
@@ -130,7 +129,6 @@ class Factory
         );
     }
 
-
     /**
      * Get Export
      *
@@ -173,7 +171,7 @@ class Factory
         $config = $sm->get('Config');
 
         return new $className(
-        //we need the swissbib specific configurations
+            //we need the swissbib specific configurations
             $sm, $config['swissbib']['plugin_managers'][$configKey]
         );
     }
@@ -283,11 +281,11 @@ class Factory
     {
         $credentials
             = $sm->get('VuFind\Config')
-            ->get('config')['SwitchApiCredentials'];
+                ->get('config')['SwitchApiCredentials'];
 
         $configSwitchApi
             = $sm->get('VuFind\Config')
-            ->get('SwitchApi')['SwitchApi'];
+                ->get('SwitchApi')['SwitchApi'];
 
         $config = array_merge($credentials->toArray(), $configSwitchApi->toArray());
 

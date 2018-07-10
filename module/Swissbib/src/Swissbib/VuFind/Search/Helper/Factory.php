@@ -27,6 +27,7 @@
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 namespace Swissbib\VuFind\Search\Helper;
+
 use Zend\ServiceManager\ServiceManager;
 
 /**

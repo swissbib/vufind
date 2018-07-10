@@ -30,17 +30,17 @@
  */
 namespace Swissbib;
 
+use Swissbib\Filter\TemplateFilenameFilter;
+use VuFind\Auth\Manager;
 use Zend\Config\Config;
 use Zend\Console\Console;
-use Zend\EventManager\Event;
-use Zend\Mvc\MvcEvent;
 use Zend\Console\Request as ConsoleRequest;
+use Zend\EventManager\Event;
 use Zend\I18n\Translator\Translator as TranslatorImpl;
+
+use Zend\Mvc\MvcEvent;
+
 use Zend\ServiceManager\ServiceManager;
-
-use VuFind\Auth\Manager;
-
-use Swissbib\Filter\TemplateFilenameFilter;
 
 /**
  * Bootstraper
@@ -265,7 +265,7 @@ class Bootstrapper
         }
         $config = & $this->config;
 
-        if (isset($config->Site->header_no_cache) &&  $config->Site->header_no_cache
+        if (isset($config->Site->header_no_cache) && $config->Site->header_no_cache
         ) {
             $callback = function ($event) {
                 $response = $event->getApplication()->getResponse();
@@ -277,7 +277,6 @@ class Bootstrapper
                     'Expires' => 'Thu, 1 Jan 2015 00:00:00 GMT'
                     ]
                 );
-
             };
 
             $this->events->attach('dispatch', $callback, -500);

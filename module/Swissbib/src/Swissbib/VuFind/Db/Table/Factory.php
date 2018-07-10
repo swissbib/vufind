@@ -27,6 +27,7 @@
  * @link     https://vufind.org Main Site
  */
 namespace Swissbib\VuFind\Db\Table;
+
 use Zend\ServiceManager\ServiceManager;
 
 /**

@@ -28,9 +28,8 @@
  */
 namespace Swissbib\VuFind\Search\Options;
 
-use Interop\Container\ContainerInterface;
-use VuFind\Search\Options\PluginFactory as VuFindOptionsPluginFactory;
 use Swissbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
+use VuFind\Search\Options\PluginFactory as VuFindOptionsPluginFactory;
 
 /**
  *  VuFind enhancements to extend the VuFind Options type for the Solr target

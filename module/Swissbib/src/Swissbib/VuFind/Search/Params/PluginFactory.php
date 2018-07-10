@@ -29,8 +29,8 @@
 namespace Swissbib\VuFind\Search\Params;
 
 use Interop\Container\ContainerInterface;
-use VuFind\Search\Params\PluginFactory as VuFindParamsPluginFactory;
 use Swissbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
+use VuFind\Search\Params\PluginFactory as VuFindParamsPluginFactory;
 
 /**
  * PluginFactory
@@ -105,8 +105,10 @@ class PluginFactory extends VuFindParamsPluginFactory
         $class = $this->getClassName($requestedName);
         $configLoader = $container->get('VuFind\Config');
         // Clone the options instance in case caller modifies it:
-        return new $class(clone($options), $configLoader, $authManager,
+        return new $class(
+            clone $options, $configLoader, $authManager,
             $labelMappingHelper, $favoriteInstitutionsManager,
-            ...$extraParams);
+            ...$extraParams
+        );
     }
 }

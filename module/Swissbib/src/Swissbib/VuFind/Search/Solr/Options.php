@@ -63,5 +63,4 @@ class Options extends VuFindSolrOptions
     {
         $this->defaultSort = $defaultSort;
     }
-
 }

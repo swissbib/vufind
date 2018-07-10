@@ -1,6 +1,6 @@
-<?
+<?php
 // Set page title.
-$this->headTitle("swissbib : " . $this->translate('Search Home') . " | ". $this->translate('home.titlepart'));
+$this->headTitle("swissbib : " . $this->translate('Search Home') . " | " . $this->translate('home.titlepart'));
 
 // Set default value if necessary:
 if (!isset($this->searchClassId)) {
@@ -18,7 +18,7 @@ if (!isset($this->layout()->searchbox)) {
   $this->layout()->searchbox = $this->render('search/searchbox.phtml');
 }
 ?>
-<? if ($this->ils()->getOfflineMode() == "ils-offline"): ?>
+<?php if ($this->ils()->getOfflineMode() == "ils-offline"): ?>
   <div class="searchHomeContent">
     <div class="alert alert-warning">
       <h2><?= $this->transEsc('ils_offline_title') ?></h2>
@@ -26,11 +26,11 @@ if (!isset($this->layout()->searchbox)) {
       <p><strong><?= $this->transEsc('ils_offline_status') ?></strong></p>
 
       <p><?= $this->transEsc('ils_offline_home_message') ?></p>
-      <? $supportEmail = $this->escapeHtmlAttr($this->systemEmail()); ?>
+      <?php $supportEmail = $this->escapeHtmlAttr($this->systemEmail()); ?>
       <p><a href="mailto:<?= $supportEmail ?>"><?= $supportEmail ?></a></p>
     </div>
   </div>
-<? endif; ?>
+<?php endif; ?>
 
 <div class="col-md-12">
 
@@ -47,62 +47,62 @@ if (!isset($this->layout()->searchbox)) {
       </div>
     </div>
 
-    <? if (isset($facetList) && is_array($facetList)): ?>
-    <? foreach ($facetList as $field => $details): ?>
-      <? $sortedList = $this->sortFacetList($this->results, $field, $details['list'], $basicSearch); ?>
+    <?php if (isset($facetList) && is_array($facetList)): ?>
+    <?php foreach ($facetList as $field => $details): ?>
+      <?php $sortedList = $this->sortFacetList($this->results, $field, $details['list'], $basicSearch); ?>
       <div class="<?= $field == 'callnumber-first' ? 'col-sm-6' : 'col-sm-6 col-md-4' ?>">
         <div class="row">
           <div class="home-content-box">
             <h2 class="lead"><?= $this->transEsc('home_browse') . ' ' . $this->transEsc($details['label']) ?></h2>
             <ul class="list-unstyled">
-              <? /* Special case: two columns for LC call numbers... */ ?>
-              <? if ($field == "callnumber-first"): ?>
-              <? $i = 0;
+              <?php /* Special case: two columns for LC call numbers... */ ?>
+              <?php if ($field == "callnumber-first"): ?>
+              <?php $i = 0;
               foreach ($sortedList as $url => $value): ?>
-              <? if (!empty($value)): ?>
+              <?php if (!empty($value)): ?>
                 <li><a href="<?= $url ?>"><?= $this->escapeHtml($value) ?></a></li>
-              <? else: $i--; ?>
-              <? endif; ?>
-              <? if (++$i == 10): ?>
+              <?php else: $i--; ?>
+              <?php endif; ?>
+              <?php if (++$i == 10): ?>
             </ul>
             <ul class="list-unstyled col-sm-6">
-              <? endif; ?>
-              <? endforeach; ?>
-              <? /* Special case: collections */ ?>
-              <? elseif ($field == 'hierarchy_top_title'): ?>
-                <? $i = 0;
+              <?php endif; ?>
+              <?php endforeach; ?>
+              <?php /* Special case: collections */ ?>
+              <?php elseif ($field == 'hierarchy_top_title'): ?>
+                <?php $i = 0;
                 foreach ($sortedList as $url => $value): ?>
-                  <? if (++$i > 10): ?>
+                  <?php if (++$i > 10): ?>
                     <li><a href="<?= $this->url('collections-home') ?>"><strong><?= $this->transEsc("More options") ?>
                           ...</strong></a></li>
-                    <? break; ?>
-                  <? else: ?>
+                    <?php break; ?>
+                  <?php else: ?>
                     <li><a
                           href="<?= $this->url('collections-bytitle') ?>?title=<?= urlencode($value) ?>"><?= $this->escapeHtml($value) ?></a>
                     </li>
-                  <? endif; ?>
-                <? endforeach; ?>
-              <?
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              <?php
               else: ?>
-                <? $i = 0;
+                <?php $i = 0;
                 foreach ($sortedList as $url => $value): ?>
-                  <? if (++$i > 10): ?>
+                  <?php if (++$i > 10): ?>
                     <li><a href="<?= $this->url($advSearch) ?>"
                            class="advancedSearchLink btn-link"><?= $this->transEsc("More options") ?>...</a></li>
-                    <? break; ?>
-                  <? elseif (!empty($value)): ?>
+                    <?php break; ?>
+                  <?php elseif (!empty($value)): ?>
                     <li><a href="<?= $url ?>"><?= $this->escapeHtml($value) ?></a></li>
-                  <?
+                  <?php
                   else: $i--; ?>
-                  <? endif; ?>
-                  <? endforeach; ?>
-                <? endif; ?>
+                  <?php endif; ?>
+                  <?php endforeach; ?>
+                <?php endif; ?>
               </ul>
             </div>
           </div>
         </div>
-      <? endforeach; ?>
-      <? endif; ?>
+      <?php endforeach; ?>
+      <?php endif; ?>
     </div>
   </div>
 </div>

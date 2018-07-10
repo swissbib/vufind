@@ -1,8 +1,8 @@
 <div>
-    <? if ($this->esperson()->hasThumbnail()): ?>
+    <?php if ($this->esperson()->hasThumbnail()): ?>
         <?= $this->render('/person/common/thumbnail.phtml', [
             'id' => $this->driver->getUniqueID(),
             'paths' => $this->esperson()->getAvailableThumbnails()
         ]); ?>
-    <? endif; ?>
+    <?php endif; ?>
 </div>

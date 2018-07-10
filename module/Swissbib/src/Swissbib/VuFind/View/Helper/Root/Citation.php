@@ -56,7 +56,7 @@ class Citation extends VuFindCitation
     {
         parent::__invoke($driver);
         $pubDates = $driver->tryMethod('getHumanReadablePublicationDates');
-        $this->details['pubDate'] = isset($pubDates[0]) ? $pubDates[0] : null;
+        $this->details['pubDate'] = $pubDates[0] ?? null;
 
         return $this;
     }

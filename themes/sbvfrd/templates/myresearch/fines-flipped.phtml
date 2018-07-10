@@ -1,4 +1,4 @@
-<?
+<?php
 /** @var array $headers */
 /** @var mixed $record */
 /** @var Boolean $even */
@@ -9,25 +9,25 @@
       <tr>
           <th><?=$headers['title']?></th>
           <td>
-            <? if (empty($record['title'])): ?>
+            <?php if (empty($record['title'])): ?>
                 <?=$this->transEsc('not_applicable')?>
-            <? elseif (!isset($record['id'])): ?>
+            <?php elseif (!isset($record['id'])): ?>
                 <?=$this->escapeHtml(trim($record['title'], '/:'))?>
-            <? else: ?>
-                <a href="<?=$this->url('record', array('id' => $record['id']))?>"><?=$this->escapeHtml(trim($record['title'], '/:'))?></a>
-            <? endif; ?>
+            <?php else: ?>
+                <a href="<?=$this->url('record', ['id' => $record['id']])?>"><?=$this->escapeHtml(trim($record['title'], '/:'))?></a>
+            <?php endif; ?>
           </td>
       </tr>
       <tr>
           <th><?=$headers['library_callno']?></th>
           <td>
-              <? if (!empty($record['institution'])): ?>
+              <?php if (!empty($record['institution'])): ?>
                   <?=$this->escapeHtml($this->zendTranslate($record['institution'], 'institution'))?>,
-              <? endif; ?>
+              <?php endif; ?>
 
-              <? if (!empty($record['signature'])): ?>
+              <?php if (!empty($record['signature'])): ?>
                   <?=$this->escapeHtml($record['signature'])?>
-              <? endif; ?>
+              <?php endif; ?>
           </td>
       </tr>
       <tr>

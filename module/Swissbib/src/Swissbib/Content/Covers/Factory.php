@@ -27,8 +27,8 @@
  */
 namespace Swissbib\Content\Covers;
 
-use Zend\ServiceManager\ServiceManager;
 use VuFind\Content\Covers\Factory as VFFactory;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory for instantiating content loaders

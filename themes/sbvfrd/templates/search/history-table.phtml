@@ -1,10 +1,10 @@
-<?
+<?php
 $headers = [
-  'history_time'    => $this->transEsc('history_time'),
-  'history_search'  => $this->transEsc('history_search'),
-  'history_limits'  => $this->transEsc('history_limits'),
+  'history_time' => $this->transEsc('history_time'),
+  'history_search' => $this->transEsc('history_search'),
+  'history_limits' => $this->transEsc('history_limits'),
   'history_results' => $this->transEsc('history_results'),
-  'action'          => $this->transEsc('history_' . ($this->showSaved ? 'delete' : 'save'))
+  'action' => $this->transEsc('history_' . ($this->showSaved ? 'delete' : 'save'))
 ];
 
 $flippedContent = '';
@@ -20,27 +20,27 @@ $flippedContent = '';
     </tr>
   </thead>
   <tbody>
-  <? foreach (($this->showSaved ? array_reverse($this->saved) : array_reverse($this->unsaved)) as $iteration => $info): ?>
+  <?php foreach (($this->showSaved ? array_reverse($this->saved) : array_reverse($this->unsaved)) as $iteration => $info): ?>
     <tr>
       <td><?=$this->escapeHtml($this->dateTime()->convertToDisplayDateAndTime("U", $info->getStartTime()))?></td>
       <td>
           <a href="<?=$this->url($info->getOptions()->getSearchAction()) . $info->getUrlQuery()->getParams()?>">
-            <?
+            <?php
           $desc = $info->getParams()->getDisplayQuery();
           echo empty($desc) ? $this->transEsc("history_empty_search") : $this->escapeHtml($desc);
 
-            $flippedContent .= $this->render('search/history-table-flipped.phtml', array(
-                'info'      => $info,
-                'headers'   => $headers,
+            $flippedContent .= $this->render('search/history-table-flipped.phtml', [
+                'info' => $info,
+                'headers' => $headers,
                 'showSaved' => $this->showSaved
-            ));
+            ]);
         ?></a>
-        <? if (method_exists($info,'getTarget')): ?>
+        <?php if (method_exists($info, 'getTarget')): ?>
            <br /><span class="meta"><?=$this->transEsc('tab.' . $info->getTarget())?></span>
-        <? endif; ?>
+        <?php endif; ?>
       </td>
       <td>
-        <?
+        <?php
         $info->getParams()->activateAllFacets();
         foreach ($info->getParams()->getFilterList() as $field => $filters):
           foreach ($filters as $i => $filter):
@@ -48,19 +48,19 @@ $flippedContent = '';
             if ($filter['operator'] == 'OR' && $i > 0) echo $this->transEsc('OR') . ' ';
             ?>
             <strong><?=$this->transEsc($field)?></strong>: <?=$this->escapeHtml($filter['displayText'])?><br/>
-          <? endforeach;
+          <?php endforeach;
         endforeach; ?>
       </td>
       <td><?=$this->localizedNumber($info->getResultTotal())?></td>
       <td class="hidden-print">
-        <? if ($this->showSaved): ?>
+        <?php if ($this->showSaved): ?>
           <a href="<?=$this->url('myresearch-savesearch')?>?delete=<?=urlencode($info->getSearchId())?>&amp;mode=history"><i class="fa fa-trash"></i> <?=$this->transEsc("history_delete_link")?></a>
-        <? else: ?>
+        <?php else: ?>
           <a href="<?=$this->url('myresearch-savesearch')?>?save=<?=urlencode($info->getSearchId())?>&amp;mode=history"><i class="fa fa-save"></i> <?=$this->transEsc("history_save_link")?></a>
-        <? endif; ?>
+        <?php endif; ?>
       </td>
     </tr>
-  <? endforeach; ?>
+  <?php endforeach; ?>
   </tbody>
 </table>
 <?=$flippedContent;?>

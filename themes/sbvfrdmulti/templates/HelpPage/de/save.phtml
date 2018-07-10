@@ -6,7 +6,7 @@
     <li>Wählen Sie unter Standorte & bestllen eine Bibliothek aus.</li>
     <li>Klicken Sie Anmelden unter dem Bibliotheksnamen (falls Sie noch nicht angemeldet sind).</li>
     <li>Wählen Sie Bestellen oder Kopie bestellen.</li>
-    <li>Je nach Bibliothek werden unterschiedliche Abhol- und Liefermöglichkeiten angeboten. Siehe Details unter <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"><?= $this->transEsc('helppage.delivery') ?></a></li>
+    <li>Je nach Bibliothek werden unterschiedliche Abhol- und Liefermöglichkeiten angeboten. Siehe Details unter <a href="<?= $this->url('help-page', ['topic' => 'delivery']); ?>"><?= $this->transEsc('helppage.delivery') ?></a></li>
     <li>Wenn keine dieser Optionen angezeigt wird, kann das Medium nicht online bestellt werden. Ein Klick auf das Icon <i class="fa fa-info-circle"></i> unterhalb Standort zeigt Öffnungszeiten und Adresse der Bibliothek.</li>
 </ul>
 <h2>Auf elektronische Ressourcen zugreifen</h2>
@@ -14,7 +14,7 @@
 <p>In Artikel & mehr gelangen Sie wie folgt zum elektronischen Volltext:</p>
 <p><i class="fa fa-external-link"></i> get-it: Führt aus der Trefferliste i.d.R. direkt zum elektronischen Volltext.</p>
 <p><i class="fa fa-external-link"></i> SFX-Services: Führt Sie via SFX-Menü zum Volltext oder zu Bestellmöglichkeiten.</p>
-<p>Als Nicht-Universitätsangehörige haben Sie von ausserhalb der Uni-Netzwerke nur eingeschränkten Zugang auf elektronische Volltexte. Via <i class="fa fa-external-link"></i> SFX-Services können Sie bei Ihrer Bibliothek eine Kopie des gewünschten Textes bestellen (kostenpflichtig, siehe <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"><?= $this->transEsc('helppage.delivery') ?></a>).</p>
+<p>Als Nicht-Universitätsangehörige haben Sie von ausserhalb der Uni-Netzwerke nur eingeschränkten Zugang auf elektronische Volltexte. Via <i class="fa fa-external-link"></i> SFX-Services können Sie bei Ihrer Bibliothek eine Kopie des gewünschten Textes bestellen (kostenpflichtig, siehe <a href="<?= $this->url('help-page', ['topic' => 'delivery']); ?>"><?= $this->transEsc('helppage.delivery') ?></a>).</p>
 <p>Als Studierende/Angehörige der Universität Basel oder Bern können Sie sich prinzipiell von überall her per VPN (<a href="http://mobile.unibas.ch" target="_blank">Basel</a>, <a href="http://unibe.ch/universitaet/campus__und__infrastruktur/rund_um_computer/internetzugang/zugang_auf_interne_ressourcen_mit_vpn/index_ger.html" target="_blank">Bern</a>) ins entsprechende Rechnernetz einwählen.</p>
 <h2>Titel und Listen speichern, weiterverarbeiten</h2>
 <p><i class="fa fa-list-ul"></i> Diesen Titel auf einer Merkliste speichern</p>

@@ -30,9 +30,9 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\Http\PhpEnvironment\Response;
-
 use VuFind\Controller\SummonController as VuFindSummonController;
+
+use Zend\Http\PhpEnvironment\Response;
 use Zend\Stdlib\Parameters;
 
 /**

@@ -144,7 +144,7 @@ interface SwissbibRecordDriver
 
     /**
      * Get Hierarchical level of record
-     * 
+     *
      * @return String
      */
     public function getHierachicalLevel();

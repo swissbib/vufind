@@ -71,35 +71,29 @@ class NationalLicencesController extends BaseController
     {
         // Get user information from the shibboleth attributes
         $uniqueId
-            = isset($_SERVER['uniqueID']) ? $_SERVER['uniqueID'] : null;
+            = $_SERVER['uniqueID'] ?? null;
         $givenName
-            = isset($_SERVER['givenName']) ? $_SERVER['givenName'] : null;
+            = $_SERVER['givenName'] ?? null;
         $surname
-            = isset($_SERVER['surname']) ? $_SERVER['surname'] : null;
+            = $_SERVER['surname'] ?? null;
         $persistentId
-            = isset($_SERVER['persistent-id']) ? $_SERVER['persistent-id'] : null;
+            = $_SERVER['persistent-id'] ?? null;
         $homePostalAddress
-            = isset($_SERVER['homePostalAddress']) ?
-            $_SERVER['homePostalAddress'] : null;
+            = $_SERVER['homePostalAddress'] ?? null;
         $mobile
-            = isset($_SERVER['mobile']) ? $_SERVER['mobile'] : null;
+            = $_SERVER['mobile'] ?? null;
         $homeOrganizationType
-            = isset($_SERVER['home_organization_type']) ?
-            $_SERVER['home_organization_type'] : null;
+            = $_SERVER['home_organization_type'] ?? null;
         $homeOrganization
-            = isset($_SERVER['homeOrganization']) ?
-            $_SERVER['homeOrganization'] : null;
+            = $_SERVER['homeOrganization'] ?? null;
         $affiliation
-            = isset($_SERVER['affiliation']) ? $_SERVER['affiliation'] : null;
+            = $_SERVER['affiliation'] ?? null;
         $swissLibraryPersonResidence
-            = isset($_SERVER['swissLibraryPersonResidence']) ?
-            $_SERVER['swissLibraryPersonResidence'] : null;
+            = $_SERVER['swissLibraryPersonResidence'] ?? null;
         $swissEduIDUsage1y
-            = isset($_SERVER['swissEduIDUsage1y']) ?
-            $_SERVER['swissEduIDUsage1y'] : null;
+            = $_SERVER['swissEduIDUsage1y'] ?? null;
         $swissEduIdAssuranceLevel
-            = isset($_SERVER['swissEduIdAssuranceLevel']) ?
-            $_SERVER['swissEduIdAssuranceLevel'] : null;
+            = $_SERVER['swissEduIdAssuranceLevel'] ?? null;
 
         /**
          * National licence user.
@@ -175,7 +169,7 @@ class NationalLicencesController extends BaseController
                         'html' => true
                     ]
                 );
-            } else if ($temporaryAccessValid) {
+            } elseif ($temporaryAccessValid) {
                 $message
                     =  $this->translate(
                         'snl.yourTemporaryAccessWasCreatedSuccessfully'

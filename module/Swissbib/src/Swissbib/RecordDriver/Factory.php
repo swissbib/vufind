@@ -75,7 +75,6 @@ class Factory
         );
 
         return $driver;
-
     }
 
     /**

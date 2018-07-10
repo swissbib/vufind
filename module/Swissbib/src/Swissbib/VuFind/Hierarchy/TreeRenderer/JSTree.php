@@ -30,8 +30,8 @@ namespace Swissbib\VuFind\Hierarchy\TreeRenderer;
 
 use VuFind\Hierarchy\TreeRenderer\JSTree as VfJsTree;
 use VuFindSearch\Query\Query;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use VuFindSearch\Service as VFSearchService;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Temporary override to fix problem with invalid solr data
@@ -70,7 +70,6 @@ class JSTree extends VfJsTree
     ) {
         parent::__construct($router);
         $this->searchService = $searchService;
-
     }
 
     /**
@@ -104,8 +103,7 @@ class JSTree extends VfJsTree
             $hierarchies = [];
             foreach ($inHierarchies as $hierarchyTopID) {
                 if ($this->getDataSource()->supports($hierarchyTopID)) {
-                    $hierarchies[$hierarchyTopID] = isset($inHierarchiesTitle[$i]) ?
-                        $inHierarchiesTitle[$i] : '';
+                    $hierarchies[$hierarchyTopID] = $inHierarchiesTitle[$i] ?? '';
                 }
                 $i++;
             }
@@ -114,7 +112,7 @@ class JSTree extends VfJsTree
             }
         }
 
-            // Return dummy tree list (for top most records)
+        // Return dummy tree list (for top most records)
         if ($id && $this->hasChildren($id)) {
             return [
                 $id => 'Unknown hierarchie title'

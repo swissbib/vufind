@@ -28,8 +28,8 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
 use Zend\Http\Request;
+use Zend\View\Helper\AbstractHelper;
 
 /**
  * Get the basic domain for view script
@@ -76,7 +76,6 @@ class DomainURL extends AbstractHelper
      */
     public function basePath()
     {
-
         return $this->request->getBasePath();
     }
 

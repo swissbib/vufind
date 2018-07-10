@@ -1,20 +1,20 @@
 <div class="pagination-container hidden-print">
-    <? if ($this->pageCount): ?>
+    <?php if ($this->pageCount): ?>
 
-        <? if (empty($hideHits) || !$hideHits): ?>
+        <?php if (empty($hideHits) || !$hideHits): ?>
             <?=$this->render('search/controls/count.phtml'); ?>
-        <? endif; ?>
+        <?php endif; ?>
 
 
       <ul class="pagination">
         <li class="hidden-sm hidden-xs page">
             <a href="#"><?= $this->transEsc('pagination.page') ?>:</a>
         </li>
-        <? if (isset($this->previous)): ?>
+        <?php if (isset($this->previous)): ?>
             <li><a href="<?=$this->currentPath() . $this->results->getUrlQuery()->setPage($this->previous)?>"><i class="fa fa-caret-left"></i></a></li>
-        <? else: ?>
+        <?php else: ?>
             <li class="inactive"><a href="#"><i class="fa fa-caret-left"></i></a></li>
-        <? endif; ?>
+        <?php endif; ?>
 
         <li class="page-numbers">
             <a>
@@ -28,11 +28,11 @@
             </a>
         </li>
 
-        <? if (isset($this->next)): ?>
+        <?php if (isset($this->next)): ?>
             <li><a href="<?=$this->currentPath() . $this->results->getUrlQuery()->setPage($this->next)?>"><i class="fa fa-caret-right"></i></a></li>
-        <? else: ?>
+        <?php else: ?>
             <li class="inactive"><a href="#"><i class="fa fa-caret-right"></i></a></li>
-        <? endif; ?>
+        <?php endif; ?>
       </ul>
-    <? endif; ?>
+    <?php endif; ?>
 </div>

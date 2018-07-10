@@ -89,8 +89,7 @@ class EbooksOnDemand extends EbooksOnDemandBase
                     $item['institution_chb'] . $item['signature']
                 ),
                 'LANGUAGE' => $this->getConvertedLanguage()
-                ];
-            else:
+                ]; else:
                 $data = [
                     'SID' => 'chb',
                 'SYSID' => $item['bibsysnumber'],
@@ -99,8 +98,8 @@ class EbooksOnDemand extends EbooksOnDemandBase
                 ),
                 'LANGUAGE' => $this->getConvertedLanguage()
                 ];
-            endif;
-            return $this->templateString($linkPattern, $data);
+        endif;
+        return $this->templateString($linkPattern, $data);
     }
 
     /**
@@ -296,9 +295,9 @@ class EbooksOnDemand extends EbooksOnDemandBase
         return $this->isYearInRange($institutionCode, $publishYear)
                && $this->isSupportedInstitution($institutionCode)
                && $this->isSupportedFormat($institutionCode, $itemFormats)
-               && $this->hasStopWords(
-                   $institutionCode, $recordDriver->getLocalCodes()
-               ) === false; // no stop words
+            && $this->hasStopWords(
+                $institutionCode, $recordDriver->getLocalCodes()
+            ) === false; // no stop words
     }
 
     /**
@@ -348,6 +347,7 @@ class EbooksOnDemand extends EbooksOnDemandBase
         }
         return false;
     }
+
     /**
      * Build order link for A125 item
      *

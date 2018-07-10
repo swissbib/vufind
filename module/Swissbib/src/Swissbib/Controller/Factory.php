@@ -28,9 +28,8 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\ServiceManager\ServiceManager;
 use VuFind\Controller\AbstractBaseFactory;
-
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory for controllers.
@@ -43,7 +42,6 @@ use VuFind\Controller\AbstractBaseFactory;
  */
 class Factory extends AbstractBaseFactory
 {
-
     /**
      * Construct the RecordController.
      *
@@ -57,9 +55,7 @@ class Factory extends AbstractBaseFactory
             $sm,
             $sm->get('VuFind\Config\PluginManager')->get('config')
         );
-
     }
-
 
     /**
      * Construct the ConsoleController
@@ -177,7 +173,8 @@ class Factory extends AbstractBaseFactory
     /**
      * todo @matthias is this still necessary?
      * method annotation wasn't available
-     * @param ServiceManager $sm
+     *
+     * @param  ServiceManager $sm
      * @return LibadminSyncController
      */
     public function getLibadminSyncController(ServiceManager $sm)
@@ -187,12 +184,12 @@ class Factory extends AbstractBaseFactory
 
     /**
      * Get Tab40Import Controller
-     * @param ServiceManager $sm
+     *
+     * @param  ServiceManager $sm
      * @return Tab40ImportController
      */
     public function getTab40ImportController(ServiceManager $sm)
     {
         return new Tab40ImportController($sm);
     }
-
 }

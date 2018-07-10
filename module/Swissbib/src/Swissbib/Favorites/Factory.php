@@ -30,9 +30,9 @@
  */
 namespace Swissbib\Favorites;
 
-use Zend\ServiceManager\ServiceManager;
 use Swissbib\Favorites\DataSource as FavoritesDataSource;
 use Swissbib\Favorites\Manager as FavoritesManager;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory for Favorites types.

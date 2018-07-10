@@ -216,7 +216,6 @@ class ElasticSearchSearch extends AbstractPlugin
     public function searchCoContributorsFrom(
         array $bibliographicResources, string $id, int $resultSize, int $page = 1
     ): Results {
-
         $contributorIds = $this->getCoContributorIds($bibliographicResources, $id);
 
         $start = $resultSize * ($page - 1);

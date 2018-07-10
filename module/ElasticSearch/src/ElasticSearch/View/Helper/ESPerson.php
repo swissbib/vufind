@@ -151,11 +151,11 @@ class ESPerson extends AbstractHelper
         $death = $this->getPerson()->getDeathYear();
         $lifetime = null;
 
-        if (!is_null($birth) && !is_null($death)) {
+        if (null !== $birth && null !== $death) {
             $lifetime = sprintf('(%s - %s)', $birth, $death);
-        } else if (!is_null($birth)) {
+        } elseif (null !== $birth) {
             $lifetime = sprintf('(%s - ?)', $birth);
-        } else if (!is_null($death)) {
+        } elseif (null !== $death) {
             $lifetime = sprintf('(? - %s)', $death);
         }
 
@@ -204,14 +204,14 @@ class ESPerson extends AbstractHelper
     protected function getDateAndPlaceInfo(
         string $separator, string $date = null, array $place = null
     ) {
-        $place = is_null($place) ? null : implode($separator, $place);
+        $place = null === $place ? null : implode($separator, $place);
         $result = null;
 
-        if (!is_null($date) && !is_null($place)) {
+        if (null !== $date && null !== $place) {
             $result = sprintf('%s' . $separator . '%s', $date, $place);
-        } else if (!is_null($date)) {
+        } elseif (null !== $date) {
             $result = sprintf('%s', $date);
-        } else if (!is_null($place)) {
+        } elseif (null !== $place) {
             $result = sprintf('%s', $place);
         }
 
@@ -249,7 +249,7 @@ class ESPerson extends AbstractHelper
      */
     public function hasAbstract()
     {
-        return !is_null($this->getPerson()->getAbstract());
+        return null !== $this->getPerson()->getAbstract();
     }
 
     /**
@@ -313,7 +313,7 @@ class ESPerson extends AbstractHelper
     public function hasNotableWork()
     {
         $notableWork = $this->getPerson()->getNotableWork();
-        return !is_null($notableWork) && count($notableWork) > 0;
+        return null !== $notableWork && count($notableWork) > 0;
     }
 
     /**

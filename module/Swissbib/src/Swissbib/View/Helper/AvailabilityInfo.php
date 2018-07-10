@@ -180,7 +180,7 @@ class AvailabilityInfo extends AbstractHelper
                         $info .= $escapedTranslation('On Reserve') . " (" .
                             $borrowinginformation['no_requests'] . ")";
 
-                        // @codingStandardsIgnoreStart
+                    // @codingStandardsIgnoreStart
                     } elseif ($borrowinginformation['due_date'] ===
                         'claimed returned') {
                         // @codingStandardsIgnoreEnd
@@ -219,7 +219,7 @@ class AvailabilityInfo extends AbstractHelper
                         $info .= $escapedTranslation('On Reserve') . " (" .
                             $borrowinginformation['no_requests'] . ")";
 
-                        // @codingStandardsIgnoreStart
+                    // @codingStandardsIgnoreStart
                     } elseif ($borrowinginformation['due_date'] ===
                         'claimed returned') {
                         // @codingStandardsIgnoreEnd
@@ -257,7 +257,7 @@ class AvailabilityInfo extends AbstractHelper
                         $info .= $escapedTranslation('On Reserve') . " (" .
                             $borrowinginformation['no_requests'] . ")";
 
-                        // @codingStandardsIgnoreStart
+                    // @codingStandardsIgnoreStart
                     } elseif ($borrowinginformation['due_date'] ===
                         'claimed returned') {
                         // @codingStandardsIgnoreEnd
@@ -361,7 +361,6 @@ class AvailabilityInfo extends AbstractHelper
                  */
                 $info = $escapedTranslation($statusfield);
             }
-
         } else {
             switch ($institution) {
             case 'NATIONALLICENCE':

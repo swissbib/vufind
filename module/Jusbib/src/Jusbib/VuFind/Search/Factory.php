@@ -29,9 +29,9 @@
  */
 namespace Jusbib\VuFind\Search;
 
-use Zend\ServiceManager\ServiceManager;
-use VuFind\View\Helper\Root\SearchOptions;
 use Jusbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
+use VuFind\View\Helper\Root\SearchOptions;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Jusbib Factory
