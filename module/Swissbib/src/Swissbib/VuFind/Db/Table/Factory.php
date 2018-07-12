@@ -85,8 +85,9 @@ class Factory
         }
         $adapter = $sm->get('VuFind\DbAdapter');
         $config = $sm->get('config');
+        $tm = $sm->get('VuFind\DbTablePluginManager');
         return new $class(
-            $adapter, $sm, $config, static::getRowPrototype($sm, $rowName)
+            $adapter, $tm, $config, static::getRowPrototype($sm, $rowName)
         );
     }
 
