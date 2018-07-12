@@ -100,11 +100,12 @@ class Bootstrapper
             $serviceConfig    = $config['jusbib']['plugin_managers'][$configKey];
             $className        = 'Jusbib\\' . $namespace . '\PluginManager';
 
-            $pluginManagerFactoryService = function ($sm) use ($className, $serviceConfig) {
-                return new $className(
-                    new \Zend\ServiceManager\Config($serviceConfig)
-                );
-            };
+            $pluginManagerFactoryService
+                = function ($sm) use ($className, $serviceConfig) {
+                    return new $className(
+                        new \Zend\ServiceManager\Config($serviceConfig)
+                    );
+                };
 
             $serviceManager->setFactory($serviceName, $pluginManagerFactoryService);
         }

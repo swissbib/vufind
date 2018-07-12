@@ -50,7 +50,8 @@ class Factory
      */
     public static function getExtendedSolrFactoryHelper(ServiceManager $sm)
     {
-        $config = $sm->get('VuFind\Config\PluginManager')->get('config')->SwissbibSearchExtensions;
+        $config = $sm->get('VuFind\Config\PluginManager')
+            ->get('config')->SwissbibSearchExtensions;
         $extendedTargets = explode(',', $config->extendedTargets);
 
         return new ExtendedSolrFactoryHelper($extendedTargets);

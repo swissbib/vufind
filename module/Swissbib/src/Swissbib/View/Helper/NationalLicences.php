@@ -79,7 +79,8 @@ class NationalLicences extends AbstractHelper
         $this->ipMatcher = new IpMatcher();
 
         $sectionPresent = !empty(
-            $sm->get('VuFind\Config\PluginManager')->get('config')->SwissAcademicLibraries
+            $sm->get('VuFind\Config\PluginManager')
+                ->get('config')->SwissAcademicLibraries
         );
         if ($sectionPresent) {
             $this->validIps = explode(
@@ -94,7 +95,8 @@ class NationalLicences extends AbstractHelper
                 ->get('TargetsProxy')->get('TrustedProxy')->get('loadbalancer')
         );
         $this->remoteAddress->setTrustedProxies($trustedProxies);
-        $this->nationalLicenceService = $this->sm->get('Swissbib\NationalLicenceService');
+        $this->nationalLicenceService
+            = $this->sm->get('Swissbib\NationalLicenceService');
 
         /*
         Based on Oxford mapping:

@@ -123,8 +123,8 @@ class SearchController extends VuFindSearchController
      */
     protected function getFacetConfig()
     {
-        return $this->serviceLocator->get('VuFind\Config\PluginManager')->get('facets')
-            ->get('Results_Settings');
+        return $this->serviceLocator->get('VuFind\Config\PluginManager')
+            ->get('facets')->get('Results_Settings');
     }
 
     /**

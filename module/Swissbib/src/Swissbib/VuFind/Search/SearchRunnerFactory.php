@@ -67,7 +67,7 @@ use Zend\ServiceManager\Factory\FactoryInterface;
  * SearchRunnerFactory
  *
  * @category Swissbib_VuFind2
- * @package  ${PACKAGE}
+ * @package  Swissbib_VuFind_Search
  * @author   Günter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org
@@ -77,8 +77,22 @@ class SearchRunnerFactory implements FactoryInterface
 {
     protected $extendedTargets;
 
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
+    /**
+     * Invoke it
+     *
+     * @param ContainerInterface $container     container
+     * @param string             $requestedName requestedName
+     * @param array|null         $options       options
+     *
+     * @return mixed|object
+     *
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function __invoke(
+        ContainerInterface $container, $requestedName, array $options = null
+    ) {
+
         //if (!isset($this->extendedTargets)) {
         //    $mainConfig = $container->get('VuFind\Config\PluginManager')
         //        ->get('config');
@@ -91,19 +105,23 @@ class SearchRunnerFactory implements FactoryInterface
         //}
 
         //if (in_array($this->searchClassId, $this->extendedTargets)) {
-        //    return new SearchRunner($container->get('VuFind\SearchResultsPluginManager'),
+        //    return new
+        // SearchRunner($container->get('VuFind\SearchResultsPluginManager'),
         //        new EventManager($container->get('SharedEventManager')));
 
         //$this->serviceLocator
         //->get('VuFind\SearchResultsPluginManager');
         //}
 
-        //@Matthias: hier wie besprochen einen "whitelist" Mechanismus über module-config?
+        //@Matthias: hier wie besprochen einen "whitelist" Mechanismus
+        //über module-config?
 
-        //return new VFSearchRunner($container->get('VuFind\Search\Results\PluginManager'),
+        //return new
+        // VFSearchRunner($container->get('VuFind\Search\Results\PluginManager'),
         //    new EventManager($container->get('SharedEventManager')));
 
-        //@matthias: hat VuFind jetzt unterschiedliche SearchRunner, so dass sie die Instanz
+        //@matthias: hat VuFind jetzt unterschiedliche SearchRunner,
+        //so dass sie die Instanz
         //über $requestedName erstellen??
 
         //@Matthias: Die Factory von VuFind benutzt jetzt diesen namespace

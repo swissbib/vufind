@@ -535,7 +535,6 @@ class MyResearchController extends VuFindMyResearchController
     protected function checkInLightbox()
     {
         return $this->getRequest()->getQuery('layout', 'no') === 'lightbox'
-            || 'layout/lightbox' == $this->layout()->getTemplate()
-        ;
+            || 'layout/lightbox' == $this->layout()->getTemplate();
     }
 }

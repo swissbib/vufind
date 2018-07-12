@@ -552,15 +552,23 @@ return [
             ],
             'db_table' => [
                 'factories' => [
-                    'nationallicence' => 'Swissbib\VuFind\Db\Table\Factory::getNationalLicenceUser',
-                    'pura' => 'Swissbib\VuFind\Db\Table\Factory::getPuraUser',
-                ]
+                    'Swissbib\VuFind\Db\Table\NationalLicenceUser'  => 'VuFind\Db\Table\GatewayFactory',
+                    'Swissbib\VuFind\Db\Table\PuraUser'             => 'VuFind\Db\Table\GatewayFactory',
+                ],
+                'aliases' => [
+                    'nationallicence'   => 'Swissbib\VuFind\Db\Table\NationalLicenceUser',
+                    'pura'              => 'Swissbib\VuFind\Db\Table\PuraUser',
+                ],
             ],
             'db_row' => [
                 'factories' => [
-                    'nationallicence' => 'Swissbib\VuFind\Db\Row\Factory::getNationalLicenceUser',
-                    'pura' => 'Swissbib\VuFind\Db\Row\Factory::getPuraUser',
-                ]
+                    'Swissbib\VuFind\Db\Row\NationalLicenceUser'    => 'VuFind\Db\Row\RowGatewayFactory',
+                    'Swissbib\VuFind\Db\Row\PuraUser'               => 'VuFind\Db\Row\RowGatewayFactory',
+                ],
+                'alias' => [
+                    'nationallicence'   => 'Swissbib\VuFind\Db\Row\NationalLicenceUser',
+                    'pura'              => 'Swissbib\VuFind\Db\Row\PuraUser',
+                ],
             ],
             'recommend' => [
                 'factories' => [

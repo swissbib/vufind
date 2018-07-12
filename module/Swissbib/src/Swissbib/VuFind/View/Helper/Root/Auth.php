@@ -53,8 +53,9 @@ class Auth extends VFAuthHelper
     /**
      * Constructor
      *
-     * @param \VuFind\Auth\Manager $manager      Manager
-     * @param array                $noAjaxConfig NoAjaxConfig
+     * @param \VuFind\Auth\Manager          $manager          Manager
+     * @param \VuFind\Auth\ILSAuthenticator $ilsAuthenticator IlsAuthenticator
+     * @param array                         $noAjaxConfig     NoAjaxConfig
      */
     public function __construct(\VuFind\Auth\Manager $manager,
         \VuFind\Auth\ILSAuthenticator $ilsAuthenticator,

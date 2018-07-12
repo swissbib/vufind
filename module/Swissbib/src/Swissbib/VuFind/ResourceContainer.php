@@ -71,7 +71,6 @@ class ResourceContainer extends VfResourceContainer
      *
      * @param ServiceLocatorInterface $sm Service manager
      */
-    //public function __construct(ServiceLocatorInterface $sm)
     public function __construct($sm)
     {
         $config                = new Config($sm->get('Config'));

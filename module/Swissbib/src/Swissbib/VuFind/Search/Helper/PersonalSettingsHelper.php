@@ -37,7 +37,7 @@ use Zend\Stdlib\Parameters;
  * a) length of result list
  * b) sorting of result list
  *
- * @category swissbib / VuFind2
+ * @category Swissbib_VuFind2
  * @package  VuFind/Search
  * @author   Demian Katz <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License

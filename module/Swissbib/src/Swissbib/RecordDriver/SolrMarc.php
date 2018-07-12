@@ -769,11 +769,11 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 $thumbnailURL = 'https://externalservices.swissbib.ch/services/' .
                     'ImageTransformer?imagePath=' . $field['URL'] .
                     '&scale=1&reqServicename=ImageTransformer';
-            //thumbnail of CHARCH is already https-service, therefore no wrapper
             } elseif (isset($field['union'])
                 && $field['union'] === 'CHARCH'
                 && $field['usage'] === 'THUMBNAIL'
             ) {
+                //thumbnail of CHARCH is already https-service, therefore no wrapper
                 $thumbnailURL = $field['URL'];
             }
         }
@@ -819,8 +819,8 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 );
                 return 'https://externalservices.swissbib.ch/services/' .
                 'ImageTransformer?imagePath=' . $URL_thumb . '&scale=1';
-            // @todo : Kann entfernt werden nach Neuladen Januar 2016, neu #766ff
             } elseif ($field['union'] === 'CHARCH' && $field['tag'] === '856') {
+                //todo : Kann entfernt werden nach Neuladen Januar 2016, neu #766ff
                 $thumb_URL = preg_replace('/SIZE=10/', 'SIZE=30', $field['sf_u']);
                 $URL_thumb = preg_replace('/http/', 'https', $thumb_URL);
                 return $URL_thumb;

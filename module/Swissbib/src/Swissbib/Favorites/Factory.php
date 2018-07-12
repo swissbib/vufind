@@ -70,8 +70,8 @@ class Factory
     public static function getFavoritesManager(ServiceManager $sm)
     {
         $sessionStorage = $sm->get('VuFind\SessionManager')->getStorage();
-        $groupMapping = $sm->get('VuFind\Config\PluginManager')->get('libadmin-groups')
-            ->institutions;
+        $groupMapping = $sm->get('VuFind\Config\PluginManager')
+            ->get('libadmin-groups')->institutions;
         $authManager = $sm->get('VuFind\Auth\Manager');
 
         return new FavoritesManager($sessionStorage, $groupMapping, $authManager);

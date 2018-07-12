@@ -60,8 +60,8 @@ class PluginFactory extends VuFindParamsPluginFactory
          *
          * @var ExtendedSolrFactoryHelper $extendedTargetHelper
          */
-        $extendedTargetHelper =
-            $container->get('Swissbib\ExtendedSolrFactoryHelper');
+        $extendedTargetHelper
+            = $container->get('Swissbib\ExtendedSolrFactoryHelper');
 
         $this->defaultNamespace = $extendedTargetHelper
             ->getNamespace($requestedName);
@@ -72,12 +72,11 @@ class PluginFactory extends VuFindParamsPluginFactory
     /**
      * Create a service for the specified name.
      *
-     * @param ServiceLocatorInterface $serviceLocator Service locator
-     * @param string                  $name           Name of service
-     * @param string                  $requestedName  Unfiltered name of service
-     * @param array                   $extraParams    Extra constructor parameters
-     *                                                (to follow the Options object
-     *                                                and config loader)
+     * @param string $container     Servuice container
+     * @param string $requestedName Unfiltered name of service
+     * @param array  $extraParams   Extra constructor parameters
+     *                              (to follow the Options
+     *                              object and config loader)
      *
      * @return object
      */

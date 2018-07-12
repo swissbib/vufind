@@ -1032,8 +1032,8 @@ class Holdings
             $data = [
                 'pattern' => $this->configHoldings->Backlink->{$networkCode}
             ];
-        // no custom type for network
         } else {
+            // no custom type for network
             // check if network is even configured
             if (isset($this->networks[$networkCode])) {
                 $networkType = strtoupper($this->networks[$networkCode]['type']);

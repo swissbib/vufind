@@ -105,7 +105,8 @@ class HelpPageController extends BaseController
          */
         $resolver    = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer')
             ->resolver();
-        $language    = $this->serviceLocator->get('Zend\Mvc\I18n\Translator')->getLocale();
+        $language    = $this->serviceLocator
+            ->get('Zend\Mvc\I18n\Translator')->getLocale();
         $template    = null;
         $activeTopic = null;
         $firstMatch  = true;
@@ -165,7 +166,8 @@ class HelpPageController extends BaseController
      */
     protected function getPages()
     {
-        $config = $this->serviceLocator->get('VuFind\Config\PluginManager')->get('config');
+        $config = $this->serviceLocator
+            ->get('VuFind\Config\PluginManager')->get('config');
         $pages    = [];
 
         if ($config) {

@@ -171,10 +171,10 @@ class Factory extends AbstractBaseFactory
     }
 
     /**
-     * todo @matthias is this still necessary?
-     * method annotation wasn't available
+     * Method annotation wasn't available
      *
-     * @param  ServiceManager $sm
+     * @param ServiceManager $sm ServiceManaegr
+     *
      * @return LibadminSyncController
      */
     public function getLibadminSyncController(ServiceManager $sm)
@@ -185,7 +185,8 @@ class Factory extends AbstractBaseFactory
     /**
      * Get Tab40Import Controller
      *
-     * @param  ServiceManager $sm
+     * @param ServiceManager $sm ServiceManager
+     *
      * @return Tab40ImportController
      */
     public function getTab40ImportController(ServiceManager $sm)
