@@ -49,7 +49,7 @@ class MARCFormatter
     // @codingStandardsIgnoreStart
     protected static $institutionURLs = [
         "ABN" => "http://aleph.ag.ch/F/?local_base=ABN01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
-        "ALEX" => "http://www.alexandria.ch/primo_library/libweb/action/dlSearch.do?institution=BIG&vid=ALEX&scope=default_scope&query=any,contains,%s",
+        "ALEX" => "https://www.alexandria.ch/primo-explore/search?query=any,contains,%s&sortby=rank&vid=ALEX",
         "ALEXREPO" => "http://alexandria.unisg.ch/cgi/oai2?verb=GetRecord&identifier=%s&metadataPrefix=oai_dc",
         "BGR" => "http://aleph.gr.ch/F/?local_base=BGR01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
         "BISCH" => "https://webopac.bibliotheken-schaffhausen.ch/TouchPoint_touchpoint/perma.do?q=0%3D%22%s%22+IN+%5B2%5D&v=extern&l=de",
@@ -76,8 +76,8 @@ class MARCFormatter
         "SERVAL" => "http://serval.unil.ch/oaiprovider?verb=GetRecord&metadataPrefix=mods&identifier=oai:serval.unil.ch:%s",
         "SGBN" => "http://aleph.sg.ch/F/?local_base=SGB01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
         "SNL" => "http://permalink.snl.ch/bib/sz%s",
-        "VAUD" => "http://renouvaud.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?&institution=41BCULIB&vid=41BCULIB_VU1&search_scope=41BCULIB_ALMA_ALL&query=any,contains,%s",
-        "VAUDS" => "http://renouvaud.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?&institution=41BCULIB&vid=41BCULIB_VU1&search_scope=41BCULIB_ALMA_ALL&query=any,contains,%s",
+        "VAUD" => "https://renouvaud.hosted.exlibrisgroup.com/primo-explore/search?vid=41BCULIB_VU2&search_scope=41BCULIB_ALMA_ALL&query=any,contains,%s",
+        "VAUDS" => "https://renouvaud.hosted.exlibrisgroup.com/primo-explore/search?vid=41BCULIB_VU2&search_scope=41BCULIB_ALMA_ALL&query=any,contains,%s",
         "ZORA" => "http://www.zora.uzh.ch/cgi/oai2?verb=GetRecord&metadataPrefix=oai_dc&identifier=%s",
     ];
     // @codingStandardsIgnoreEnd
