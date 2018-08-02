@@ -1282,6 +1282,26 @@ class Holdings
     }
 
     /**
+     * Get backlink for Renouvaud network, School (Primo on Alma)
+     * links only to result list as we have no usable identifier
+     *
+     * @param String $networkCode     Code of network
+     * @param String $institutionCode Code of Institution
+     * @param Array  $item            Item
+     * @param Array  $data            Data
+     *
+     * @return String
+     */
+    protected function getBackLinkVauds($networkCode, $institutionCode, array $item,
+        array $data
+    ) {
+        $values = [
+            'bib-system-number' => $item['bibsysnumber']
+        ];
+        return $this->compileString($data['pattern'], $values);
+    }
+
+    /**
      * Get backlink for SNL (helveticat)
      *
      * @param String $networkCode     Code of network

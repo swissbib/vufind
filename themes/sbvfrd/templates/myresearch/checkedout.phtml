@@ -11,6 +11,9 @@
 <?=$this->flashmessages()?>
 
 <? if (!empty($this->transactions)): ?>
+    <div>
+        <p><?= '<a href="' . $this->url('help-page', array('topic' => 'delivery')) . '">' . $this->transEsc('info returns') . '</a>'; ?></p>
+    </div>
   <? if ($this->renewForm): ?>
   <form name="renewals" action="" method="post" id="renewals">
     <div class="toolbar">
