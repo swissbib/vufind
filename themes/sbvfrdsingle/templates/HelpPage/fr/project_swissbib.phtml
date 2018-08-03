@@ -30,12 +30,15 @@
     <li>St. Galler Bibliotheksnetz</li>
     <li>Liechtensteiner Bibliotheken</li>
     <li>Bibliothèque de la Haute École de Musique de Lausanne</li>
+    <li>Kantonsbibliothek Thurgau und kantonale Ämter</li>
+    <li>Bibliotheken Schaffhausen</li>
     <li>E-Periodica</li>
     <li>e-codices – Bibliothèque virtuelle des manuscrits en Suisse</li>
     <li>ZORA - Zurich Open Repository and Archive</li>
     <li>BORIS -  Bern Open Repository and Information System</li>
     <li>SERVAL - Serveur Académique Lausannois</li>
     <li>edoc - Institutional Repository University of Basel</li>
+    <li>ETH Research Collection</li>
     <li>Forschungsplattform Alexandria</li>
     <li>Licences Nationales</li>
     <li>Collections d'archives de la Bibliothèque nationale</li>
@@ -57,7 +60,7 @@
     Swissbib utilise diverses composantes de logiciel afin de garantir la qualité élevée et la disponibilité du service :
 </p>
 <ul class="list">
-    <li>traitement des données :<a href="http://www.oclc.org/de/de/cbs/default.htm" target="_blank">CBS - Metadata management solution</a> d'OCLC.</li>
+    <li>traitement des données : <a href="http://www.oclc.org/de/de/cbs/default.htm" target="_blank">CBS - Metadata management solution</a> d'OCLC.</li>
     <li>moteur de recherche : <a href="http://lucene.apache.org/solr/" target="_blank">Apache Solr/Lucene</a> (Open Source)</li>
     <li>interface utilisateur : <a href="http://vufind-org.github.io/vufind/" target="_blank">vufind</a> (Open Source)</li>
     <li>autres composantes du service : <a href="https://github.com/swissbib" target="_blank">swissbib</a> (Open Source)</li>
@@ -70,10 +73,20 @@
     de projets individuels. À des degrés différents, swissbib sert de base aux projets suivants :
 </p>
 <ul class="list">
-    <li>swissbib Basel Bern – Catalogue régional du réseau IDS Basel Bern</li>
-    <li>jusbib – Métacatalogue pour la littérature juridique spécialisée</li>
-    <li>Kartenportal.ch – Portail d’accès aux cartes géographiques des bibliothèques et archives suisses</li>
+    <li><a href="https://baselbern.swissbib.ch/">swissbib Basel Bern</a> - Catalogue régional du réseau IDS Basel Bern</li>
+    <li><a href="https://jus.swissbib.ch/">jusbib</a> - Métacatalogue pour la littérature juridique spécialisée</li>
+    <li><a href="http://www.kartenportal.ch/">Kartenportal.ch</a> - Portail d’accès aux cartes géographiques des bibliothèques et archives suisses</li>
     <li>linked.swissbib.ch – Mise à disposition des données des bibliothèques suisses sous forme de "linked open data"</li>
+    <li><a href="<?= $this->transEsc('snl.url') ?>"><?= $this->transEsc('snl.nationalLicences') ?></a> -
+        <?= $this->transEsc('snl.intro1') ?>
+        <?= $this->transEsc('snl.nationalLicences') ?>
+        <?= $this->transEsc('snl.intro2') ?>
+    </li>
+</ul>
+
+<h2>Documentation, Organisation du Projet, Stratégie</h2>
+<ul class="list">
+    <li><a href="http://www.swissbib.org" target="_blank">Wiki du projet</a></li>
 </ul>
 
 <h2>Autres informations</h2>
@@ -85,5 +98,4 @@
     <li><a title="<?= $this->transEsc('menu.feedback') ?>" href="" id="feedback"><?= $this->transEsc('menu.feedback') ?></a></li>
     <li><a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#115;&#x77;&#105;&#x73;&#115;&#98;&#x69;&#98;&#45;&#117;&#x62;&#64;&#x75;&#x6e;&#x69;&#x62;&#97;&#x73;&#x2e;&#99;&#x68;"><?= $this->transEsc('Email') ?></a></li>
     <li><a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/ub-hauptbibliothek/wir-ueber-uns/adresse-kontakte')?>" target="_blank">Adresse (Projet swissbib, Bibliothèque universitaire de Bâle)</a></li>
-    <li><a href="https://www.swissbib.org" target="_blank">Wiki du projet</a></li>
 </ul>

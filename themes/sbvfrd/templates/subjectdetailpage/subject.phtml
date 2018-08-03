@@ -1,0 +1,19 @@
+<? $this->essubject()->setSubject($this->driver) ?>
+<? $this->headTitle(
+        $this->translate("page.detail.subjects.title",
+            ['%%subject%%' => $this->escapeHtml($this->driver->getName())]
+        )
+) ?>
+
+<div id="detailpage" class="subject">
+    <div class="row">
+        <div class="col-md-3 col-md-push-9">
+            <?= $this->render('navigation.phtml') ?>
+        </div>
+        <div class="col-md-9 col-md-pull-3">
+            <?= $this->render('common.phtml') ?>
+        </div>
+    </div>
+
+    <?= $this->render('relations.phtml') ?>
+</div>

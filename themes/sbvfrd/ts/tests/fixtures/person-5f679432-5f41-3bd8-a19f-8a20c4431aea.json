@@ -1,0 +1,9 @@
+{
+  "@context": "http://data.swissbib.ch/contexts/Person",
+  "@id": "http://data.swissbib.ch/person/5f679432-5f41-3bd8-a19f-8a20c4431aea",
+  "@type": "http://xmlns.com/foaf/0.1/Person",
+  "id": "5f679432-5f41-3bd8-a19f-8a20c4431aea",
+  "firstName": "David",
+  "lastName": "Bamber",
+  "label": "Bamber, David"
+}

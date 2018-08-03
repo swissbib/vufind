@@ -124,6 +124,7 @@ swissbib.Holdings = {
     height = height || 760;
 
     window.open(url, 'mappopup', 'height=' + height + ',width=' + width).focus();
+    swissbib.trackLink(url);
   },
 
 

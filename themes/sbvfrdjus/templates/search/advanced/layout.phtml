@@ -52,7 +52,7 @@
   <? $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, 'advanced', [], 'advanced'); ?>
   <? if (count($searchTabs) > 0): ?>
     <ul class="nav nav-tabs jus">
-      <? foreach ($searchTabs as $tab): ?>
+      <? foreach ($searchTabs['tabs'] as $tab): ?>
         <? if ($tab['selected']) $activeTab = $tab['class']; ?>
         <li<?=$tab['selected'] ? ' class="active"' : ''?>>
           <a href="<?=$tab['selected'] ? '' : $this->escapeHtmlAttr($tab['url'])?>"><?=$this->transEsc($tab['label']); ?></a>

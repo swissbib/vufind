@@ -1,0 +1,21 @@
+<div class="detailpage-common">
+    <a id="detailpage-common"></a>
+    <? if ($this->esperson()->hasThumbnail()): ?>
+        <?= $this->render('common/with-thumbnail.phtml') ?>
+    <? else: ?>
+        <?= $this->render('common/without-thumbnail.phtml') ?>
+    <? endif; ?>
+    <div class="row below">
+        <div class="col-xs-12">
+            <?= $this->context($this)->renderInContext('references.phtml', ['visibility' => ' hidden-sm hidden-md hidden-lg', 'index' => 2]) ?>
+        </div>
+    </div>
+    <div class="separator"></div>
+    
+    <?= $this->context($this)->renderInContext(
+        '/detailpage/medias.phtml', [
+            'type' => 'person',
+            'headline' => 'page.detail.person.media.list.title'
+        ]
+    ) ?>
+</div>

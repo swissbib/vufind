@@ -1,0 +1,9 @@
+{
+  "@context": "http://data.swissbib.ch/contexts/Person",
+  "@id": "http://data.swissbib.ch/person/ba2caead-4d66-344e-80d5-ddc6c1b87523",
+  "@type": "http://xmlns.com/foaf/0.1/Person",
+  "id": "ba2caead-4d66-344e-80d5-ddc6c1b87523",
+  "firstName": "Jennifer",
+  "lastName": "Ehle",
+  "label": "Ehle, Jennifer"
+}

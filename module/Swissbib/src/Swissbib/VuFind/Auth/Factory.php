@@ -43,17 +43,17 @@ use Zend\ServiceManager\ServiceManager;
 class Factory
 {
     /**
-     * Construct Shibboleth mock object - hand in environments
-     * without specific shib service provider installation (e.g. Snowflake)
+     * Construct the Shibboleth plugin.
      *
-     * @param ServiceManager $sm ServiceManager
+     * @param ServiceManager $sm Service manager.
      *
-     * @return ShibbolethMock
+     * @return Shibboleth
      */
-    public static function getShibMock(ServiceManager $sm)
+    public static function getShibboleth(ServiceManager $sm)
     {
-        return new ShibbolethMock(
-            $sm->getServiceLocator()->get('VuFind\ILSConnection')
+        return new Shibboleth(
+            $sm->getServiceLocator()->get('VuFind\SessionManager')
         );
     }
+
 }

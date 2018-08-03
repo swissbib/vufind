@@ -91,7 +91,6 @@ class Record extends VuFindRecord
                     // only the special url's with authentication
                     'B|^NATIONALLICENCE$',
                     'P|^856$ && u|stub.unibe.ch',
-                    'P|^856$ && u|aleph.unibas.ch && z|^Vorschau zum Bild'
                 ]
             ],
             'mergeLinksByDescription' => [
@@ -135,7 +134,6 @@ class Record extends VuFindRecord
             'exclude' => [
                 '950' => [
                     'P|^856$ && u|stub.unibe.ch',
-                    'P|^856$ && u|aleph.unibas.ch && z|^Vorschau zum Bild'
                 ],
                 '956' => [
                     'x|^VIEW && y|^Porträt',
@@ -168,7 +166,6 @@ class Record extends VuFindRecord
             'exclude' => [
                 '950' => [
                     'P|^856$ && u|stub.unibe.ch',
-                    'P|^856$ && u|aleph.unibas.ch && z|^Vorschau zum Bild'
                 ],
                 '956' => [
                     'x|^VIEW && y|^Porträt',
@@ -508,12 +505,15 @@ class Record extends VuFindRecord
     /**
      * Generate a thumbnail URL (return false if unsupported).
      *
-     * @param string $size Size of thumbnail (small, medium or large -- small is
-     *                     default).
+     * @param string $size                Size of thumbnail (small, medium or large
+     *                                    -- small is default).
+     * @param bool   $fallbackToCoverShow Indicates whether to use /Cover/Show as
+     *                                    fallback when no thumbnail could be
+     *                                    resolved from an external resource server.
      *
      * @return string|bool
      */
-    public function getThumbnail($size = 'small')
+    public function getThumbnail($size = 'small', $fallbackToCoverShow = true)
     {
         // Try to build thumbnail:
         $thumb = $this->driver->tryMethod('getThumbnail', [$size]);
@@ -529,7 +529,7 @@ class Record extends VuFindRecord
 
                 return  $this->config->Content->externalResourcesServer .
                     substr($urlSrc, $position) . '?' . http_build_query($thumb);
-            } else {
+            } else if ($fallbackToCoverShow) {
                 $urlHelper = $this->getView()->plugin('url');
 
                 return $urlHelper('cover-show') . '?' . http_build_query($thumb);
@@ -612,5 +612,105 @@ class Record extends VuFindRecord
         );
 
         return $renderedLink;
+    }
+
+    /**
+     * Checks whether the underlying record driver has sufficient data to display.
+     * If no 'hasSufficientData' method is defined on the driver, the method assumes
+     * that the record has sufficient data.
+     *
+     * @return boolean
+     */
+    public function hasSufficientData()
+    {
+        return $this->driver->tryMethod('hasSufficientData', [], true);
+    }
+
+    /**
+     * Tries to extract a thumbnail URL from the underlying record driver. This is a
+     * variant of the getThumbnail() method which handles the data from the record in
+     * a different way. If no thumbnail is available it tries the getThumbnail()
+     * method as a last option.
+     *
+     * @param bool $fallbackToCoverShow Indicates whether to use /Cover/Show as
+     *                                  fallback when no thumbnail could be
+     *                                  resolved from an external resource server.
+     *
+     * @return string|null
+     */
+    public function getThumbnailFromRecord($fallbackToCoverShow = true)
+    {
+        $thumbnails = $this->driver->tryMethod('getThumbnail');
+        $result = null;
+
+        if (is_array($thumbnails) && count($thumbnails) > 0) {
+            $result = $thumbnails[0];
+        } else if (is_string($thumbnails)) {
+            $result = $thumbnails;
+        }
+
+        if (is_null($result)) {
+            $result = $this->getThumbnail('small', $fallbackToCoverShow);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Combines all available thumbnails from the underlying record driver and the
+     * one returned by getThumbnail().
+     *
+     * @param string $size Size of thumbnail (small, medium or large -- small is
+     *                     default) passed through to getThumbnail() method.
+     *
+     * @return array|null
+     */
+    public function getAvailableThumbnails($size = 'small')
+    {
+        $thumbnails = $this->driver->tryMethod('getThumbnail');
+        $defaultThumbnail = $this->getThumbnail($size);
+
+        if (is_string($thumbnails)) {
+            $thumbnails = [$thumbnails];
+        } else if (!is_array($thumbnails)) {
+            $thumbnails = [];
+        }
+
+        if (is_string($defaultThumbnail)) {
+            $thumbnails[] = $defaultThumbnail;
+        }
+
+        return count($thumbnails) > 0 ? $thumbnails : null;
+    }
+
+    /**
+     * Attempts to resolve a display name from the underlying record driver. The
+     * method takes the first name, last name and name fields into account if
+     * available. If non is available null is returned.
+     *
+     * @return null|string
+     */
+    public function getDisplayName()
+    {
+        $first = $this->driver->tryMethod('getFirstName');
+        $last = $this->driver->tryMethod('getLastName');
+        $name = $this->driver->tryMethod('getName');
+        $displayName = null;
+
+        $first = is_array($first) ? implode(' ', $first) : $first;
+        $last = is_array($last) ? implode(' ', $last) : $last;
+        $name = is_array($name) ? implode(' ', $name) : $name;
+
+        if (!is_null($first) && !is_null($last)) {
+            $displayName = sprintf('%s %s', $first, $last);
+        } else if (!is_null($first)) {
+            $displayName = sprintf('%s', $first);
+        } else if (!is_null($last)) {
+            $displayName = sprintf('%s', $last);
+        } else if (!is_null($name)) {
+            $displayName = sprintf('%s', $name);
+        }
+
+        return $displayName;
     }
 }

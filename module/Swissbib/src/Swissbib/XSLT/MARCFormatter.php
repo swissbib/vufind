@@ -30,9 +30,6 @@
  */
 namespace Swissbib\XSLT;
 
-use Zend\ServiceManager\ServiceManager;
-use Zend\ServiceManager\ServiceManagerAwareInterface;
-
 /**
  * MARCFormatter
  *
@@ -42,15 +39,8 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org  Main Page
  */
-class MARCFormatter implements ServiceManagerAwareInterface
+class MARCFormatter
 {
-    /**
-     * Service Manager
-     *
-     * @var array
-     */
-    private static $_sM;
-
     /**
      * InstitutionUrls
      *
@@ -59,21 +49,24 @@ class MARCFormatter implements ServiceManagerAwareInterface
     // @codingStandardsIgnoreStart
     protected static $institutionURLs = [
         "ABN" => "http://aleph.ag.ch/F/?local_base=ABN01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
-        "ALEX" => "http://www.alexandria.ch/primo_library/libweb/action/dlSearch.do?institution=BIG&vid=ALEX&scope=default_scope&query=any,contains,%s",
+        "ALEX" => "https://www.alexandria.ch/primo-explore/search?query=any,contains,%s&sortby=rank&vid=ALEX",
         "ALEXREPO" => "http://alexandria.unisg.ch/cgi/oai2?verb=GetRecord&identifier=%s&metadataPrefix=oai_dc",
         "BGR" => "http://aleph.gr.ch/F/?local_base=BGR01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
+        "BISCH" => "https://webopac.bibliotheken-schaffhausen.ch/TouchPoint_touchpoint/perma.do?q=0%3D%22%s%22+IN+%5B2%5D&v=extern&l=de",
         "BORIS" => "http://boris.unibe.ch/cgi/oai2?verb=GetRecord&identifier=%s&metadataPrefix=oai_dc",
         "CCSA" => "http://permalink.snl.ch/bib/chccsa%s",
         "CHARCH" => "http://www.helveticarchives.ch/detail.aspx?ID=%s",
         "DDB" => "http://d-nb.info/%s",
-        "ECOD" => "http://www.e-codices.unifr.ch/oai/oai.php?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:e-codices.unifr.ch:http://www.e-codices.unifr.ch/en/list/one/%s",
+        "ECOD" => "http://www.e-codices.unifr.ch/oai/oai.php?verb=GetRecord&metadataPrefix=oai_dc&identifier=https://www.e-codices.unifr.ch/en/list/one/%s",
         "EDOC" => "http://edoc.unibas.ch/cgi/oai2?verb=GetRecord&identifier=%s&metadataPrefix=oai_dc",
+        "ETHRESEARCH" => "http://research-collection.ethz.ch/oai/request?verb=GetRecord&identifier=%s&metadataPrefix=qdc",
         "HAN" => "http://aleph.unibas.ch/F/?local_base=DSV05&con_lng=GER&func=find-b&find_code=SYS&request=%s",
         "HEMU" => "http://opacbiblio.hemu-cl.ch/cgi-bin/koha/opac-detail.pl?biblionumber=%s",
         "IDSBB" => "http://aleph.unibas.ch/F/?local_base=DSV01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
         "IDSSG2" => "http://aleph.unisg.ch/F?local_base=HSB02&con_lng=GER&func=direct&doc_number=%s",
         "IDSSG" => "http://aleph.unisg.ch/F?local_base=HSB01&con_lng=GER&func=direct&doc_number=%s",
         "IDSLU" => "http://ilu.zhbluzern.ch/F/?local_base=ILU01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
+        "KBTG" => "http://netbiblio.tg.ch/kbtg/search/notice?noticeID=%s",
         "LIBIB" => "http://aleph.lbfl.li/F/?local_base=LLB01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
         "NEBIS" => "http://opac.nebis.ch/F/?local_base=EBI01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
         "OCoLC" => "http://www.worldcat.org/oclc/%s",
@@ -83,7 +76,8 @@ class MARCFormatter implements ServiceManagerAwareInterface
         "SERVAL" => "http://serval.unil.ch/oaiprovider?verb=GetRecord&metadataPrefix=mods&identifier=oai:serval.unil.ch:%s",
         "SGBN" => "http://aleph.sg.ch/F/?local_base=SGB01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
         "SNL" => "http://permalink.snl.ch/bib/sz%s",
-        "VAUD" => "http://renouvaud.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?&institution=41BCULIB&vid=41BCULIB_VU1&search_scope=41BCULIB_ALMA_ALL&query=any,contains,%s",
+        "VAUD" => "https://renouvaud.hosted.exlibrisgroup.com/primo-explore/search?vid=41BCULIB_VU2&search_scope=41BCULIB_ALMA_ALL&query=any,contains,%s",
+        "VAUDS" => "https://renouvaud.hosted.exlibrisgroup.com/primo-explore/search?vid=41BCULIB_VU2&search_scope=41BCULIB_ALMA_ALL&query=any,contains,%s",
         "ZORA" => "http://www.zora.uzh.ch/cgi/oai2?verb=GetRecord&metadataPrefix=oai_dc&identifier=%s",
     ];
     // @codingStandardsIgnoreEnd
@@ -127,9 +121,7 @@ class MARCFormatter implements ServiceManagerAwareInterface
             $request = str_replace(self::$trimPrefixes, '', $request);
             $url = str_replace('%s', $request, self::$institutionURLs[$institution]);
 
-            $pW =  static::$_sM->get("Swissbib\Services\RedirectProtocolWrapper");
-
-            return '<a href="' . $pW->getWrappedURL($url) . '" target="_blank">' .
+            return '<a href="' . $url . '" target="_blank">' .
                 htmlentities('(' . $institution . ')' . $request) . '</a>';
         }
     }
@@ -160,15 +152,4 @@ class MARCFormatter implements ServiceManagerAwareInterface
         return '';
     }
 
-    /**
-     * Set service manager
-     *
-     * @param ServiceManager $serviceManager ServiceManager
-     *
-     * @return void
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        static::$_sM = $serviceManager;
-    }
 }

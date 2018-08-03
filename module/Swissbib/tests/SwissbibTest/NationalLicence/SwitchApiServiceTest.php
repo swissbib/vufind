@@ -27,10 +27,12 @@
 namespace SwissbibTest\NationalLicence;
 
 use ReflectionClass;
-use Swissbib\Services\SwitchApi;
+use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
 use SwissbibTest\Bootstrap;
 use Zend\ServiceManager\ServiceManager;
+use Zend\Config\Config;
+use Zend\Config\Reader\Ini as IniReader;
 
 /**
  * Class SwitchApiServiceTest.
@@ -60,7 +62,7 @@ class SwitchApiServiceTest extends VuFindTestCase
      *
      * @var array $config
      */
-    protected $config;
+    protected $externalIdTest;
     /**
      * Service manager.
      *
@@ -77,13 +79,43 @@ class SwitchApiServiceTest extends VuFindTestCase
     {
         parent::setUp();
         $this->sm = Bootstrap::getServiceManager();
-        $this->switchApiServiceOriginal = $this->sm
-            ->get('Swissbib\SwitchApiService');
+
+        /* create a Mock of VuFind\Config\PluginManager to read dedicated
+         * configuration files for testing
+         */
+
+        $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/NationalLicence/fixtures/';
+        $iniReader = new IniReader();
+
+        $configFull = new Config(
+            $iniReader->fromFile($path . 'SwitchApi.ini')
+        );
+        $configSwitchAPI = $configFull['SwitchApi'];
+
+        //on Travis the credentials for switch api are stored as an
+        //environment variable, defined in travis repository settings
+        if (getenv('TRAVIS_SWITCH_API_AUTH_USER')) {
+            $credentials = new Config(
+                [
+                    'auth_user' => getenv('TRAVIS_SWITCH_API_AUTH_USER'),
+                    'auth_password' => getenv('TRAVIS_SWITCH_API_AUTH_PASSWORD'),
+                ]
+            );
+        } else {
+            $configIni = new Config(
+                $iniReader->fromFile($path . 'config.ini')
+            );
+            $credentials = $configIni['SwitchApiCredentials'];
+        }
+
+        $config = array_merge($credentials->toArray(), $configSwitchAPI->toArray());
+
+        $this->switchApiServiceOriginal = new SwitchApi($config);
         $this->switchApiServiceReflected = new ReflectionClass(
             $this->switchApiServiceOriginal
         );
-        $this->config
-            = ($this->sm->get('Config'))['swissbib']['tests']['switch_api'];
+
+        $this->externalIdTest = $configSwitchAPI['external_id_test'];
     }
 
     /**
@@ -94,7 +126,7 @@ class SwitchApiServiceTest extends VuFindTestCase
      */
     public function testUnsetNationalCompliantFlag()
     {
-        $externalId = $this->config['external_id_test'];
+        $externalId = $this->externalIdTest;
         $isOnGroup = $this->switchApiServiceOriginal
             ->userIsOnNationalCompliantSwitchGroup($externalId);
         if (!$isOnGroup) {
@@ -120,7 +152,7 @@ class SwitchApiServiceTest extends VuFindTestCase
      */
     public function testSetNationalCompliantFlag()
     {
-        $externalId = $this->config['external_id_test'];
+        $externalId = $this->externalIdTest;
         $isOnGroup = $this->switchApiServiceOriginal
             ->userIsOnNationalCompliantSwitchGroup($externalId);
         if ($isOnGroup) {
@@ -133,7 +165,7 @@ class SwitchApiServiceTest extends VuFindTestCase
             );
 
             $method = $this->switchApiServiceReflected
-                ->getMethod('removeUserToNationalCompliantGroup');
+                ->getMethod('removeUserFromNationalCompliantGroup');
             $method->setAccessible(true);
             $method->invoke($this->switchApiServiceOriginal, $internalId);
         }
@@ -151,38 +183,13 @@ class SwitchApiServiceTest extends VuFindTestCase
     }
 
     /**
-     * This just test if a call to the back channel endpoint did not fail.
-     *
-     * @return void
-     */
-    public function testGetUserUpdatedInformation()
-    {
-        //$res = $this->switchApiServiceOriginal
-        //->getUserUpdatedInformation('L34Mbh0HJUmUM6h2Rql/DNF9oRk=',
-        // 'https://eduid.ch/idp/shibboleth!https://test.swissbib.ch/
-        //shibboleth!L34Mbh0HJUmUM6h2Rql/DNF9oRk=');
-        //$this->unitPrint($res);
-    }
-
-    /**
-     * Workaround to print in the unit test console.
-     *
-     * @param mixed $variable Variable
-     *
-     * @return void
-     */
-    public function unitPrint($variable)
-    {
-        fwrite(STDERR, print_r($variable, true));
-    }
-
-    /**
      * Get a reflection class for the SwitchApi service. This is used for call
      * several private or protected methods.
      *
      * @param SwitchApi $originalClass Original class
      *
      * @return ReflectionClass
+     * @throws \ReflectionException
      */
     protected function getReflectedClass($originalClass)
     {

@@ -52,8 +52,8 @@ class Authors extends AbstractHelper
     {
         $recordPlugin = $this->getView()->plugin('record');
 
-        $mainAuthor = isset($authors['main']) && !empty($authors['main']) ?
-            $authors['main'] : false;
+        $mainAuthor = isset($authors['primary']) && !empty($authors['primary']) ?
+            $authors['primary'] : false;
 
         $corporateAuthor = isset($authors['corporate'])
             && !empty($authors['corporate']) ? $authors['corporate'] : false;

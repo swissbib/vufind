@@ -1072,7 +1072,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     {
         $primaryAuthors = $this->getPrimaryAuthor();
         if (empty($primaryAuthors)) {
-            return null;
+            return [];
         }
         if (!is_array($primaryAuthors)) {
             $primaryAuthors = [$primaryAuthors];
@@ -1147,7 +1147,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     {
         $tempAuthor = $this->getCorporateAuthor();
         return empty($tempAuthor) ?
-            null : [$this->getCorporateAuthor()];
+            [] : [$this->getCorporateAuthor()];
     }
 
     /**
@@ -2079,6 +2079,16 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
+     * Get information for the record (field 348, gnd_music)
+     *
+     * @return array
+     */
+    public function getMusicFormat()
+    {
+        return $this->getFieldArray('348', ['a']);
+    }
+
+    /**
      * HAN  - Beschreibung - Description-Tab für HAN
      * Get information for the record (HAN: field 351 $a, $c)
      *
@@ -2207,9 +2217,6 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         $publisher = explode("-", $publisher)[0];
         $publisher = str_replace("(NATIONALLICENCE)", "NL-", $publisher);
 
-        $enum = $this->getFieldArray('773', ['q']);
-        $issn = $this->getFieldArray('773', ['x']);
-
         $pii = "";
         /* publisher identifier (needed for linking to cambridge)
         stored in 024, with $2 pii */
@@ -2231,10 +2238,8 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             $nl = "NATIONALLICENCE" : "";
         $nlData = [ $nl,
                     $publisher,
-                    !empty($enum) ? $enum[0] : "",
-                    !empty($issn) ? $issn[0] : "",
                     !empty($journalCode) ? $journalCode[0] : "",
-                    $pii
+                    $pii,
         ];
 
         return $nlData;

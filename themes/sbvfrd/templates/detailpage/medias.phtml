@@ -1,0 +1,29 @@
+<? $this->accessor = $this->accessor ?? 'medias' ?>
+<? $results = $this->{$this->accessor} ?>
+
+<? if (isset($results) && $results->getResultTotal() > 0): ?>
+<div class="media-search-results">
+    <? if (isset($this->name)): ?>
+        <a id="detailpage-medias-<?= $this->name ?>"></a>
+    <? else: ?>
+        <a id="detailpage-medias"></a>
+    <? endif; ?>
+
+    <? $helper = sprintf('es%s', $this->type) ?>
+
+    <h2><?= $this->{$helper}()->resolveLabelWithDisplayName($this->headline) ?></h2>
+    <h3><?= $this->{$helper}()->getResultsCountingInfoLabel($results) ?></h3>
+
+    <?= $this->context($this)->renderInContext(
+        '/detailpage/medias/results.phtml', ['accessor' => $this->accessor]
+    ) ?>
+    <? if ($results->getResultTotal() > count($results->getResults())): ?>
+        <div class="all-results-box">
+        <?= $this->{$helper}()->getMediaSearchLink(
+            '<a class="btn btn-primary" href="%s">%s</a>',
+            'common.show.results.all.long', true, $data ?? []
+        ) ?>
+        </div>
+    <? endif; ?>
+</div>
+<? endif; ?>

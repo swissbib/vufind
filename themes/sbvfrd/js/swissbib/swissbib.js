@@ -3,12 +3,11 @@
 /**
  * swissbib VuFind Javascript
  */
-var swissbib = {
-
+(function closure(s) {
   /**
    * Initialize on ready.
    */
-  initOnReady: function () {
+  s.initOnReady = function() {
     this.initBackgrounds();
     this.initFocus();
     this.initRemoveSearchText();
@@ -17,7 +16,7 @@ var swissbib = {
     this.AdvancedSearch.init();
     //this.initHierarchyTree();
     //this.initNationaLicensesFlow();
-  },
+  };
 
   /**
    * Initialize focus either
@@ -25,7 +24,7 @@ var swissbib = {
    * - or on login-field, if present
    * - or on favorites-library-field, if present
    */
-  initFocus: function() {
+  s.initFocus = function() {
     var favoritesLibraryField = window.location.pathname.match(/Favorites$/) !== null ? document.getElementById('query') : null;
     var loginField = document.getElementById('login_username');
     var searchField = document.getElementById('searchForm_lookfor');
@@ -55,12 +54,12 @@ var swissbib = {
         searchField.focus();
       }
     }
-  },
+  };
 
   /**
    * Initializes remove search text icon on main search field
    */
-  initRemoveSearchText: function() {
+  s.initRemoveSearchText = function() {
     var $searchInputField = $('#searchForm_lookfor');
     var $removeSearchTextIcon = $('#remove-search-text');
 
@@ -81,24 +80,24 @@ var swissbib = {
         $removeSearchTextIcon.show();
       }
     });
-  },
+  };
 
   /**
    *
    */
-  initBulkExport: function () {
+  s.initBulkExport = function() {
     var hasResults = $('form[name="bulkActionForm"]').find('a.singleLinkForBulk').length > 0;
 
     if (hasResults) {
       $('.dropdown-menu[role="export-menu"] li').click($.proxy(this.onBulkExportFormatClick, this));
     }
-  },
+  };
 
   /**
    * Enables scroll to selected node, mostly copied from VuFind bootstrap3 hierarchyTree.js
    */
   /*
-  initHierarchyTree: function() {
+  s.initHierarchyTree = function() {
     var htmlID = swissbib.getParameterByName('htmlID');
 
     if (htmlID !== '') {
@@ -120,14 +119,16 @@ var swissbib = {
    *
    * @param    {Object}    event
    */
-  onBulkExportFormatClick: function (event) {
-    var driver = $('div.search-tabs-box:has(ul)').length ? $('div.search-tabs-box li.active').attr('data-searchClass') : 'VuFind';
+  s.onBulkExportFormatClick = function(event) {
+    var searchClass = $('div.search-tabs-box li.active').attr('data-searchClass');
+    if (typeof searchClass == 'undefined') searchClass = 'Solr';
+    var driver = $('div.search-tabs-box:has(ul)').length ? searchClass : 'VuFind';
     var baseUrl = event.target.href,
-    idArgs = [],
-    fullUrl,
-    ids = $('a.singleLinkForBulk').map(function () {
-      return driver + '|' + this.href.split('/').pop()
-    }).get();
+        idArgs = [],
+        fullUrl,
+        ids = $('a.singleLinkForBulk').map(function () {
+          return driver + '|' + this.href.split('/').pop()
+        }).get();
 
     event.preventDefault();
 
@@ -138,12 +139,12 @@ var swissbib = {
     fullUrl = baseUrl + '&' + idArgs.join('&');
 
     window.open(fullUrl);
-  },
+  };
 
   /**
    * function for the UserVoice feedback widget in swissbib green
    */
-  initUserVoiceFeedback: function() {
+  s.initUserVoiceFeedback = function() {
     window.UserVoice = window.UserVoice || [];
     (function () {
       var uv = document.createElement('script');
@@ -164,17 +165,17 @@ var swissbib = {
       }]);
     }
     UserVoice.push(['autoprompt', {}]);
-  },
+  };
 
   /**
    * Placeholder function for VuFind hook
    */
-  updatePageForLoginParent: function() {},
+  s.updatePageForLoginParent = function() {};
 
   /**
    *
    */
-  initBackgrounds: function () {
+  s.initBackgrounds = function() {
     var sidebarHeight = 0,
         elementHeight = 0,
         parentElement = $('.dirty-hack-column > .row').first(),
@@ -205,12 +206,12 @@ var swissbib = {
         parentElement.children('div.sidebar').addClass('invisible');
       }
     }
-  },
+  };
 
   /**
    * init backgrounds during transition to prevent flickering
    */
-  initBackgroundsRecursive: function(count) {
+  s.initBackgroundsRecursive = function(count) {
     swissbib.initBackgrounds();
     swissbib.currentTimeout = setTimeout(
         function() {
@@ -218,24 +219,24 @@ var swissbib = {
         },
         1
     );
-  },
+  };
 
   /**
    * clear the init background initiation
    */
-  destructBackgroundsRecursive: function() {
+  s.destructBackgroundsRecursive = function() {
     swissbib.initBackgrounds();
     clearTimeout(swissbib.currentTimeout);
-  },
+  };
 
-  getParameterByName: function(name) {
+  s.getParameterByName = function(name) {
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
 
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-  },
+  };
 
-  initNationaLicensesFlow: (function() {
+  s.initNationaLicensesFlow = function() {
 
     $('.nlItem').on("click", function(event) {
       event.preventDefault();
@@ -250,17 +251,99 @@ var swissbib = {
       }
        */
       $.ajax({
-            "url": '/NationalLicences/signPost?publisher=' + encodeURIComponent(publisherURL)
-          }
-      )
+        "url": '/NationalLicences/signPost?publisher=' + encodeURIComponent(publisherURL)
+      });
     });
 
     //delete it when we have implemented a correct response
     return false;
 
-  })
+  };
 
-};
+  s.trackLink = function(url) {
+    $.ajax({
+      type: "HEAD",
+      async: true,
+      data: "trackUrl=" + url,
+      url: window.location
+    });
+  };
+
+
+  var Carousel = function() {
+    var infos = {};
+
+    /**
+     * Adds information for a Bootstrap carousel component rendered on the current page.
+     *
+     * @param id
+     * The unique identifier of the carousel. Each carousel component's root element has an id-attribute value of the
+     * format results-carousel-<id> where <id> is the value passed in for this parameter.
+     *
+     * @param templates
+     * An object that provides URL templates as strings:
+     * ajax: The AJAX URL template to use for fetching new data for the carousel.
+     * page: The page URL template is used by the carousel's column label to link to the detail page if the rendered
+     *       data entry.
+     * info: The info URL template is used to refer to an inline info box (e.g. knowledge-card) that renders most
+     *       relevant information that belongs to the rendered data entry.
+     *
+     * @param pagination
+     * A generic object that contains responsive pagination page size values. It uses the Bootstrap layout size prefixes
+     * 'xs', 'sm', 'md' and 'lg'.
+     *
+     * @param thumbnail
+     * The path to an image to be used as fallback image when a data entry in the carousel does not provide one.
+     *
+     * @param {number} total
+     * The total amount of data entries to show in the carousel.
+     *
+     * @return {Object}
+     * A configuration object with the given data as it is stored internally.
+     */
+    this.add = function (id, templates, pagination, thumbnail, total) {
+      infos[id] = { id: id, templates: templates, pagination: pagination, thumbnail: thumbnail, total: total };
+      return this.get(id);
+    };
+
+    /**
+     * Accessor for previously registered carousel configuration.
+     *
+     * @param id
+     * The unique identifier of the carousel to retrieve the configuration for.
+     *
+     * @returns {Object|null}
+     * The configuration item entry in case the identifier exists or null otherwise.
+     * The entry has the properties 'id', 'template' and 'pagination' which map 1 on 1 on the parameters passed
+     * in to the addResultsCarouselInfo() method.
+     */
+    this.get = function(id) {
+      var info = infos[id] || null;
+      return info ? JSON.parse(JSON.stringify(info)) : null;
+    };
+
+    /**
+     * Provides all available results carousel info identifiers.
+     *
+     * @return {Array}
+     */
+    this.identifiers = function () {
+      return Object.keys(infos);
+    };
+
+    /**
+     * Indicates whether there are carousel infos are registered.
+     *
+     * @returns {boolean}
+     */
+    this.available = function () {
+      return this.getIdentifiers().length > 0;
+    };
+  };
+
+  s.carousel = new Carousel();
+
+})(window.swissbib = window.swissbib || {});
 
 
 /**

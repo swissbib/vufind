@@ -25,7 +25,6 @@
 namespace Swissbib\Services;
 
 use Zend\Di\ServiceLocator;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Mime;
 use Zend\Mail\Message;
@@ -41,7 +40,7 @@ use Zend\Mail\Transport\Sendmail as SendmailTransport;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class Email implements ServiceLocatorAwareInterface
+class Email
 {
     /**
      * Service locator.
@@ -59,17 +58,20 @@ class Email implements ServiceLocatorAwareInterface
     /**
      * Email constructor.
      *
-     * @param array $config Config.
+     * @param array                   $config         Config.
+     * @param ServiceLocatorInterface $serviceLocator Service locator
      */
-    public function __construct($config)
+    public function __construct($config, $serviceLocator)
     {
         $this->config = $config;
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**
      * Send e-mail with attachment.
      *
      * @param string $to                 The recipient of the e-mail
+     * @param string $subject            Subject of the e-mail
      * @param string $textMail           Text of the e-mail
      * @param string $attachmentFilePath File path of the file to attach
      * @param bool   $tls                tls
@@ -77,13 +79,18 @@ class Email implements ServiceLocatorAwareInterface
      * @return void
      * @throws \Exception
      */
-    public function sendMail($to, $textMail, $attachmentFilePath, $tls = false)
-    {
+    public function sendMail(
+        $to,
+        $subject,
+        $textMail,
+        $attachmentFilePath = "",
+        $tls = false
+    ) {
         $mimeMessage = $this->createMimeMessage($textMail, $attachmentFilePath);
         $this->sendMailWithAttachment(
             $to,
             $mimeMessage,
-            'National licence user export',
+            $subject,
             $tls
         );
     }
@@ -171,7 +178,7 @@ class Email implements ServiceLocatorAwareInterface
     }
 
     /**
-     * Send the account extension e-mail to a specific user.
+     * Send the National Licence account extension e-mail to a specific user.
      *
      * @param string $toUser User e-mail that the e-mail will be sent to.
      *
@@ -187,27 +194,137 @@ class Email implements ServiceLocatorAwareInterface
         $link =  $baseDomainPath .
             $url(
                 'national-licences',
-                ['action' => 'extend-account'],
+                ['action' => 'index'],
                 ['force_canonical' => true]
             );
         $username = $toUser->firstname . ' ' . $toUser->lastname;
-        $textMail = '<p>Dear ' . $username .
+
+        $textMailDe = '<p>Liebe(r) ' . $username .
+            ',<br /> <br /> Seit einem Jahr, haben Sie ' .
+            'Schweizer Nationallizenzen nicht mehr benutzt. ' .
+            'Wir haben Ihr Konto deshalb deaktiviert. ' .
+            'Wenn Sie wollen, können Sie Ihres Konto ' .
+            '<a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">reaktivieren</a>' .
+            '.</p> ' .
+            '<p>Schweizer Nationallizenzen<br />' .
+            '<a href="http://nationallizenzen.ch">' .
+            'http://nationallizenzen.ch</a></p>';
+
+        $textMailFr = '<p>Cher/Chère ' . $username .
+            ',<br /> <br /> Vous n\'avez pas utilisé les ' .
+            'Licences Nationales Suisses dans les 12 derniers mois. ' .
+            'Nous avons donc désactivé votre compte. ' .
+            'Néanmoins, vous pouvez le réactiver' .
+            ' en visitant <a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">ce lien</a>' .
+            '.</p> ' .
+            '<p>Licences Nationales Suisses<br />' .
+            '<a href="http://licencesnationales.ch">' .
+            'http://licencesnationales.ch</a></p>';
+
+        $textMailEn = '<p>Dear ' . $username .
             ',<br /> <br /> We noticed that you didn\'t use ' .
-            'Swiss National Licences as a private user in the last 12 months. ' .
+            'Swiss National Licences as a private user ' .
+            'in the last 12 months. ' .
+            'Therefore we deactivated your account. ' .
             'Please visit <a href="' . $link . '" ' .
             'target="_blank" rel="noreferrer">this link</a> ' .
-            'in the next 30 days to keep your account active. ' .
-            'Take this occasion to update ' .
-            'your personal information if needed. ' .
-            'Otherwise your account will be made inactive' .
-            ' and you will need to register again.</p>';
+            'if you wish to reactivate your account.</p> ' .
+            '<p>Swiss National Licences<br />' .
+            '<a href="http://nationallicences.ch">' .
+            'http://nationallicences.ch</a></p>';
+
+        $textMail = $toUser->email . "<br />" .
+            $textMailDe . '<p>---</p>' .
+            $textMailFr . '<p>---</p>' .
+            $textMailEn;
+
         $mimeMessage = $this->createMimeMessage(
             $textMail,
             null,
             Mime\Mime::TYPE_HTML
         );
         $this->sendMailWithAttachment(
-            $toUser->email, $mimeMessage, 'Account extension'
+            //$toUser->email,
+            'lionel.walter@unibas.ch',
+            $mimeMessage,
+            'Nationallizenzen / Licences Nationales / National licences',
+            //use 'true' to test locally if sendmail not installed
+            'true'
+        );
+    }
+
+    /**
+     * Send the Pura account extension e-mail to a specific user.
+     *
+     * @param string $toUser User
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function sendPuraAccountExtensionEmail($toUser)
+    {
+        $sl = $this->getServiceLocator();
+        $vhm = $sl->get('viewhelpermanager');
+        $url = $vhm->get('url');
+        $baseDomainPath = $this->config->get('config')['Site']['url'];
+        $link =  $baseDomainPath .
+            $url(
+                'pura/library',
+                [
+                    'libraryCode' => 'Z01',
+                    'page' => 'registration',
+                ],
+                ['force_canonical' => true]
+            );
+        $username = $toUser->firstname . ' ' . $toUser->lastname;
+
+        $textMailDe = '<p>Liebe(r) ' . $username .
+            ',<br /> <br /> Seit einem Jahr, haben Sie ' .
+            'Pura nicht mehr benutzt. ' .
+            'Wir haben Ihr Konto deshalb deaktiviert. ' .
+            'Wenn Sie wollen, können Sie Ihres Konto ' .
+            '<a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">reaktivieren</a>' .
+            '.</p> ';
+
+        $textMailFr = '<p>Cher/Chère ' . $username .
+            ',<br /> <br /> Vous n\'avez pas utilisé ' .
+            'Pura dans les 12 derniers mois. ' .
+            'Nous avons donc désactivé votre compte. ' .
+            'Néanmoins, vous pouvez le réactiver' .
+            ' en visitant <a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">ce lien</a>' .
+            '.</p> ';
+
+        $textMailEn = '<p>Dear ' . $username .
+            ',<br /> <br /> We noticed that you didn\'t use ' .
+            'Pura as a private user ' .
+            'in the last 12 months. ' .
+            'Therefore we deactivated your account. ' .
+            'Please print <a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">this page</a> ' .
+            'and bring it to the desk of your library' .
+            'if you wish to reactivate your account.</p> ';
+
+        $textMail = $toUser->email . "<br />" .
+            $textMailDe . '<p>---</p>' .
+            $textMailFr . '<p>---</p>' .
+            $textMailEn;
+
+        $mimeMessage = $this->createMimeMessage(
+            $textMail,
+            null,
+            Mime\Mime::TYPE_HTML
+        );
+        $this->sendMailWithAttachment(
+            //$toUser->email,
+            'lionel.walter@unibas.ch',
+            $mimeMessage,
+            'Pura Extension',
+            //use 'true' to test locally if sendmail not installed
+            'true'
         );
     }
 

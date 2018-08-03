@@ -1,0 +1,110 @@
+<?
+// Set up page title:
+$this->headTitle($this->translate('pura.remoteAccessForPrivateUsers') . ' - ' . $this->institution["label"][$this->layout()->userLang]);
+
+// Set up breadcrumbs:
+$this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li> <li><a href="' . $this->url('pura') . '">' . $this->transEsc('pura.remoteAccessForPrivateUsers') . '</a></li> <li class="active">' .    $this->institution["label"][$this->layout()->userLang] .     '</li>';
+?>
+
+<div class="<?= $this->layoutClass('mainbody') ?>">
+    <?= $this->flashmessages(); ?>
+
+    <h2><?= $this->institution["name"][$this->layout()->userLang] ?></h2>
+
+    <? if ($this->nonEduId): ?>
+        <div class="alert alert-danger"><?= $this->transEsc('pura.nonEduId') ?></div>
+    <? elseif (!($this->showListResources)): ?>
+        <p><?= $this->transEsc('pura.registration1.1') ?> <?= $this->institution["name"][$this->layout()->userLang] ?><?= $this->transEsc('pura.registration1.2') ?></p>
+        <p><?= $this->transEsc('pura.registration2.1') ?> <?= $this->institution["name"][$this->layout()->userLang] ?> <?= $this->transEsc('pura.registration2.2') ?></p>
+        <p>
+            <?= $this->transEsc('pura.registration3.1') ?>
+            <a href="https://www.zb.uzh.ch/Medien/20180503_allgemeine_geschaftsbedingungen_fur_pura_de.pdf">
+                <?= $this->transEsc('pura.termsAndConditions'). "</a>." ?>
+            <?= $this->transEsc('pura.registration3.2') ?>
+
+            <a href="https://www.zb.uzh.ch/recherche/e-ressourcen/remoteaccess/index.html.de">
+            <?= $this->transEsc('pura.learnMore'). "</a>." ?>
+        </p>
+
+
+
+        <table>
+            <tr>
+                <td><?= $this->transEsc('pura.name') ?>:&nbsp;</td>
+                <td><?= $this->firstname ? $this->escapeHtml($this->firstname . ' ' . $this->lastname) : ''; ?></td>
+            </tr>
+            <tr>
+                <td><?= $this->transEsc('Email') ?>:&nbsp;</td>
+                <td><?= $this->email ? $this->escapeHtml($this->email) : ''; ?></td>
+            </tr>
+            <tr>
+                <td><?= $this->transEsc('pura.barcode') ?>:&nbsp;</td>
+                <td><?= $this->token ? $this->escapeHtml($this->token) : ''; ?></td>
+            </tr>
+        </table>
+
+
+        <p>&nbsp;</p>
+
+        <p>
+            <a href="<?= $this->url('pura/barcode', ['token' => $this->token, 'size' => 'big']) ?>">
+                <img src="<?= $this->url('pura/barcode', ['token' => $this->token]) ?>">
+            </a>
+        </p>
+
+        <button class="btn btn-primary" onClick="window.print()">
+            <?= $this->transEsc('Print') ?>
+        </button>
+
+    <? else: ?>
+        <p><?= $this->transEsc('pura.registered1.1') ?> <?= $this->institution["name"][$this->layout()->userLang] ?>. <?= $this->transEsc('pura.registered1.2') ?></p>
+        <p><?= $this->transEsc('pura.registered2.1') ?></p>
+
+        <ul>
+            <?php foreach ($this->publishers as $publisher) : ?>
+                <li>
+                    <a href="<?= $publisher->getUrl() ?>">
+                        <strong><?= $publisher->getName() ?></strong>
+                    </a>
+                    <? if ($publisher->getDescription()): ?>
+                        - <?= $publisher->getDescription() ?>
+                    <? endif; ?>
+
+                    <? if ($publisher->getInfoUrl()): ?>
+                        - <a href="<?= $publisher->getInfoUrl() ?>">
+                            <?= $this->transEsc('information') ?>
+                        </a>
+                    <? endif; ?>
+                </li>
+
+            <?php endforeach; ?>
+        </ul>
+
+        <p><?= $this->transEsc('pura.accountValidity1') ?> <?= $this->user->getExpirationDate()->format('j.n.Y') ?>.</p>
+        <p></p><?= $this->transEsc('pura.accountValidity2') ?></p>
+        <a href="<?= $this->url('pura/library', ['libraryCode' => $this->institution["bib_code"],'page' => 'registration']) ?>">
+        <button class="btn btn-primary"><?= $this->transEsc('pura.renew') ?></button>
+        </a>
+
+
+    <? endif; ?>
+
+
+
+    <div class="home-content-box">
+    <h4>Help</h4>
+        <?= $this->context($this)->renderInContext("pura/library_info.phtml", []) ?>
+    </div>
+
+
+
+
+
+
+
+
+</div>
+
+<div class="<?= $this->layoutClass('sidebar') ?>">
+    <?= $this->context($this)->renderInContext("myresearch/menu.phtml", ['active' => 'pura']) ?>
+</div>

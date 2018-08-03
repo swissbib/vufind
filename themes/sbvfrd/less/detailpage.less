@@ -1,0 +1,224 @@
+@detailpage-navigation-link-inset: .71rem;
+
+.page-anchors, .record-references, .record-related-searches {
+  .title {
+    font-size: 1.14rem;
+    display: inline-block;
+    padding-left: 0.36rem;
+
+    &:first-child,
+    &:first-child + button.accordion-collapse {
+      margin-top: 0;
+    }
+  }
+
+  .list {
+    border-top: 3px solid @separator-border-color;
+  }
+
+  ul {
+    padding: 0;
+    list-style: none;
+
+    & > li {
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom: 1px solid @separator-border-color;
+
+      & > a:before {
+        content: "\00a0 ";
+      }
+
+      & > a {
+        display: inline-flex;
+        padding: .71rem 0 .5714rem;
+        font-size: 1rem;
+
+        & > span {
+          flex: auto;
+        }
+      }
+    }
+  }
+}
+
+.below {
+  margin-bottom: 3.57rem;
+
+  & .record-references {
+    margin-top: 2.35rem;
+  }
+
+  & + .separator {
+    display: none;
+  }
+}
+
+.row .below .collapse.in + .separator {
+  border-color: red;
+}
+
+.page-anchors, .record-related-searches {
+  margin-top: 4rem;
+  margin-bottom: 2.35rem;
+
+  ul > li > a {
+    color: @font-color;
+
+    &:hover {
+      color: @link-color;
+    }
+
+    &.icon-jump-label-content:before {
+      flex-shrink: 0;
+      margin-top: -0.1429rem;
+    }
+  }
+}
+
+.record-references {
+  margin-bottom: 2.35rem;
+  
+  ul > li > a {
+
+    &.icon-arrow-external-link:before {
+      flex-shrink: 0;
+      margin-top: -0.1429rem;
+    }
+  }
+}
+
+button.accordion-collapse {
+  float: right;
+  margin: 20px 0 10px;
+  border: 0 none;
+  background: transparent;
+  width: 2rem;
+
+  &:focus {
+    outline: 0 none;
+  }
+}
+
+.detailpage-common {
+  padding-right: 1.5rem;
+  margin-top: 4rem;
+
+  h2.name {
+    margin-top: 0;
+  }
+
+  .record-thumbnail {
+    width: 100%;
+  }
+
+  .row.metadata:not(:last-child) {
+    margin-bottom: 0.79rem;
+  }
+
+  .row.metadata:first-of-type {
+    margin-top: 1.79rem;
+  }
+}
+
+
+
+.detailpage-media-list-wrapper {
+  padding-right: 1.5rem;
+}
+
+@media (max-width: @screen-sm-max) {
+  .detailpage-common,
+  .detailpage-media-list-wrapper {
+    padding-right: 0;
+  }
+}
+
+.tagcloud {
+
+  & > span {
+    display: inline-block;
+    &:not(:last-child) {
+      margin-right: 0.25rem;
+    }
+  }
+}
+
+.separator {
+  margin: 3.57rem 0;
+  border-top: 1px solid @separator-border-color;
+}
+
+.separator + .row h2,
+.separator + .tagcloud h2 {
+  margin-top: 0;
+}
+
+
+@media (max-width: @screen-sm-max) {
+  .page-anchors, .record-related-searches {
+    margin-top: 1.43rem;
+    margin-bottom: 1rem;
+  }
+
+  .record-references {
+    margin-bottom: 2.11rem;
+  }
+
+  .detailpage-common {
+    margin-top: 0;
+    padding-right: 0;    
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+
+  #detailpage h2.name {
+    margin-top: 1.11rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.abstract-overflow, .abstract-overflow-more {
+  &.hidden {
+    display: none;
+  }
+}
+
+.abstract-text, .abstract-overflow {
+  /* show ellipsis character */
+  &.indicator:after {
+    content: '\2026';
+    display: inline;
+    padding: 0 0.1429rem;
+  }
+}
+
+#detailpage {
+
+  h2 {
+    font-size: 1.57143rem;
+
+    &.subject {
+      margin-top: 0;
+    }
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  #detailpage {
+
+    h2 {
+      font-size: 1.35714rem;
+    }
+  }
+}
+
+@media (max-width: @screen-sm-max) {
+  #detailpage.subject {
+    & .page-anchors {
+      margin-bottom: 2.35rem;
+    }
+  }
+}

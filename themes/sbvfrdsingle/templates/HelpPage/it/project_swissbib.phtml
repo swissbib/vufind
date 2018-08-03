@@ -31,12 +31,15 @@
     <li>St. Galler Bibliotheksnetz</li>
     <li>Liechtensteiner Bibliotheken</li>
     <li>Bibliothèque de la Haute École de Musique de Lausanne</li>
+    <li>Kantonsbibliothek Thurgau und kantonale Ämter</li>
+    <li>Bibliotheken Schaffhausen</li>
     <li>E-Periodica</li>
     <li>e-codices - Biblioteca virtuale dei manoscritti conservati in Svizzera</li>
     <li>ZORA - Zurich Open Repository and Archive</li>
     <li>BORIS -  Bern Open Repository and Information System</li>
     <li>SERVAL - Serveur Académique Lausannois</li>
     <li>edoc - Institutional Repository University of Basel</li>
+    <li>ETH Research Collection</li>
     <li>Forschungsplattform Alexandria</li>
     <li>National Licences</li>
     <li>Collezioni della Biblioteca nazionale</li>
@@ -71,11 +74,23 @@
     di singoli progetti. A vari livelli, swissbib è la base per i seguenti progetti:
 </p>
 <ul class="list">
-    <li>swissbib Basel Bern – catalogo regionale del sistema IDS Basel Bern</li>
-    <li>jusbib – metacatalogo per la letteratura giuridica specializzata</li>
-    <li>Kartenportal.ch – portale di accesso alle carte geografiche possedute da biblioteche e archivi svizzeri</li>
+    <li><a href="https://baselbern.swissbib.ch/">swissbib Basel Bern</a> - catalogo regionale del sistema IDS Basel Bern</li>
+    <li><a href="https://jus.swissbib.ch/">jusbib</a> - metacatalogo per la letteratura giuridica specializzata</li>
+    <li><a href="http://www.kartenportal.ch/">Kartenportal.ch</a> - Portail d’accès aux cartes géographiques des bibliothèques et archives suisses</li>
+    portale di accesso alle carte geografiche possedute da biblioteche e archivi svizzeri</li>
     <li>linked.swissbib.ch – conferimento dei dati delle biblioteche svizzere sotto forma di "linked open data"</li>
+    <li><a href="<?= $this->transEsc('snl.url') ?>"><?= $this->transEsc('snl.nationalLicences') ?></a> -
+        <?= $this->transEsc('snl.intro1') ?>
+        <?= $this->transEsc('snl.nationalLicences') ?>
+        <?= $this->transEsc('snl.intro2') ?>
+    </li>
 </ul>
+
+<h2>Documentazione</h2>
+<ul class="list">
+    <li><a href="http://www.swissbib.org" target="_blank">Wiki del Progetto</a></li>
+</ul>
+
 
 <h2>Altre informazioni</h2>
 <p>
@@ -86,5 +101,4 @@
     <li><a title="<?= $this->transEsc('menu.feedback') ?>" href="" id="feedback"><?= $this->transEsc('menu.feedback') ?></a></li>
     <li><a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#115;&#x77;&#105;&#x73;&#115;&#98;&#x69;&#98;&#45;&#117;&#x62;&#64;&#x75;&#x6e;&#x69;&#x62;&#97;&#x73;&#x2e;&#99;&#x68;"><?= $this->transEsc('Email') ?></a></li>
     <li><a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://www.ub.unibas.ch/ub-hauptbibliothek/wir-ueber-uns/adresse-kontakte')?>" target="_blank">Indirizzo (Projekt swissbib, Universitätsbibliothek Basel)</a></li>
-    <li><a href="https://www.swissbib.org" target="_blank">Wiki</a></li>
 </ul>

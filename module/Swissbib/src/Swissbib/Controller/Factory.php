@@ -42,6 +42,44 @@ use Zend\ServiceManager\ServiceManager;
 class Factory
 {
     /**
+     * Construct a generic controller.
+     *
+     * @param string         $name Name of table to construct (fully qualified
+     *                             class name, or else a class name within the
+     *                             current namespace)
+     * @param ServiceManager $sm   Service manager
+     *
+     * @return object
+     */
+    public static function getGenericController($name, ServiceManager $sm)
+    {
+        // Prepend the current namespace unless we receive a FQCN:
+        $class = (strpos($name, '\\') === false) ? __NAMESPACE__ . '\\' . $name
+            : $name;
+        if (!class_exists($class)) {
+            throw new \Exception('Cannot construct ' . $class);
+        }
+        return new $class($sm->getServiceLocator());
+    }
+
+    /**
+     * Construct a generic controller.
+     *
+     * @param string $name Method name being called
+     * @param array  $args Method arguments
+     *
+     * @return object
+     */
+    public static function __callStatic($name, $args)
+    {
+        // Strip "get" from method name to get name of class; pass first argument
+        // on assumption that it should be the ServiceManager object.
+        return static::getGenericController(
+            substr($name, 3), isset($args[0]) ? $args[0] : null
+        );
+    }
+
+    /**
      * Construct the RecordController.
      *
      * @param ServiceManager $sm Service manager.
@@ -51,8 +89,21 @@ class Factory
     public static function getRecordController(ServiceManager $sm)
     {
         return new RecordController(
+            $sm->getServiceLocator(),
             $sm->getServiceLocator()->get('VuFind\Config')->get('config')
         );
+    }
+
+    /**
+     * Construct the ConsoleController
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return ConsoleController
+     */
+    public function getConsoleController(ServiceManager $sm)
+    {
+        return new ConsoleController($sm);
     }
 
     /**
@@ -60,15 +111,28 @@ class Factory
      * NationalLicence service.
      *
      * @param ServiceManager $sm Service manager.
-     *                            
+     *
      * @return NationalLicencesController
      */
     public function getNationalLicenceController(ServiceManager $sm)
     {
-        $sl = $sm->getServiceLocator();
-
         return new NationalLicencesController(
-            $sl->get('Swissbib\NationalLicenceService')
+            $sm->getServiceLocator()
+        );
+    }
+
+    /**
+     * Construct the PuraController by injecting the
+     * Pura service.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return PuraController
+     */
+    public function getPuraController(ServiceManager $sm)
+    {
+        return new PuraController(
+            $sm->getServiceLocator()
         );
     }
 
@@ -89,4 +153,66 @@ class Factory
         );
     }
 
+    /**
+     * Get Person Knowledge Card Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\PersonKnowledgeCardController
+     */
+    public static function getPersonKnowledgeCardController(ServiceManager $sm)
+    {
+        return new PersonKnowledgeCardController($sm->getServiceLocator());
+    }
+
+    /**
+     * Get Subject Knowledge Card Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\SubjectKnowledgeCardController
+     */
+    public static function getSubjectKnowledgeCardController(ServiceManager $sm)
+    {
+        return new SubjectKnowledgeCardController($sm->getServiceLocator());
+    }
+
+    /**
+     * Get Person Detail Page Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\PersonDetailPageController
+     */
+    public static function getPersonDetailPageController(ServiceManager $sm)
+    {
+        $serviceLocator = $sm->getServiceLocator();
+        return new PersonDetailPageController($serviceLocator);
+    }
+
+    /**
+     * Get Person Search Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\PersonSearchController
+     */
+    public static function getPersonSearchController(ServiceManager $sm)
+    {
+        $serviceLocator = $sm->getServiceLocator();
+        return new PersonSearchController($serviceLocator);
+    }
+
+    /**
+     * Get Subject Detail Page Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\PersonDetailPageController
+     */
+    public static function getSubjectDetailPageController(ServiceManager $sm)
+    {
+        $serviceLocator = $sm->getServiceLocator();
+        return new SubjectDetailPageController($serviceLocator);
+    }
 }

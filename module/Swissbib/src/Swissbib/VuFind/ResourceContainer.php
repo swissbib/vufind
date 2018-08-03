@@ -31,7 +31,6 @@
 namespace Swissbib\VuFind;
 
 use VuFindTheme\ResourceContainer as VfResourceContainer;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Config\Config;
 
@@ -45,7 +44,6 @@ use Zend\Config\Config;
  * @link     http://www.swissbib.org  Main Page
  */
 class ResourceContainer extends VfResourceContainer
-    implements ServiceLocatorAwareInterface
 {
     /**
      * ServiceLocator
@@ -69,29 +67,29 @@ class ResourceContainer extends VfResourceContainer
     protected $ignoredJsFiles;
 
     /**
+     *  Constructor
+     *
+     * @param ServiceLocatorInterface $sm Service manager
+     */
+    public function __construct(ServiceLocatorInterface $sm)
+    {
+        $this->serviceLocator = $sm;
+        $config               = new Config($this->serviceLocator);
+        $this->ignoredCssFiles = $config->swissbib->ignore_css_assets->toArray();
+        $this->ignoredJsFiles  = $config->swissbib->ignore_js_assets->toArray();
+    }
+
+    /**
      * Inject service locator
      *
      * @param ServiceLocatorInterface $serviceLocator ServiceLocator
      *
      * @return void
      */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
+    public function setServiceLocator(
+        ServiceLocatorInterface $serviceLocator
+    ) {
         $this->serviceLocator = $serviceLocator;
-        $config               = new Config($serviceLocator->get('Config'));
-
-        $this->ignoredCssFiles = $config->swissbib->ignore_css_assets->toArray();
-        $this->ignoredJsFiles  = $config->swissbib->ignore_js_assets->toArray();
-    }
-
-    /**
-     * Get service locator
-     *
-     * @return ServiceLocatorInterface
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
     }
 
     /**

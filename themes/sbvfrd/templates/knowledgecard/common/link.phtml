@@ -1,0 +1,7 @@
+<?
+$route = sprintf('card-knowledge-%s', $this->type);
+$card = $this->url($route, ['id' => $this->record->getUniqueId()]);
+?>
+<a href="<?= $card ?>" class="card-link" data-lightbox>
+    <span class="card-link-info fa icon-info fa-lg"></span>
+</a>

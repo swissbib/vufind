@@ -31,7 +31,6 @@
 namespace Swissbib\Filter;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\Filter\AbstractFilter;
 
 /**
@@ -52,7 +51,6 @@ use Zend\Filter\AbstractFilter;
  * @link     http://vufind.org
  */
 class TemplateFilenameFilter extends AbstractFilter
-    implements ServiceLocatorAwareInterface
 {
     /**
      * ServiceLocator

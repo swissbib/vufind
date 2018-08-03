@@ -21,7 +21,7 @@
     <? endif; ?>
 </ul>
 
-<ul class="list-group">
+<ul class="list-group myresearch">
   <? if ($this->auth()->isLoggedIn()): ?>
     <? foreach ($this->auth()->getLoginTargets() as $target): ?>
       <? $class = in_array($this->active, array('changepassword', 'changeaddress', 'checkedout', 'holds', 'storageRetrievalRequests', 'ILLRequests', 'fines', 'photocopies', 'bookings', 'profile')) ?

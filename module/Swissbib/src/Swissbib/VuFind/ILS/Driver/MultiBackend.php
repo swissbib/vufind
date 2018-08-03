@@ -30,7 +30,6 @@ namespace Swissbib\VuFind\ILS\Driver;
 
 use VuFind\ILS\Driver\MultiBackend as VFMultiBackend,
     VuFind\Exception\ILS as ILSException,
-    Zend\ServiceManager\ServiceLocatorAwareInterface,
     Zend\ServiceManager\ServiceLocatorInterface,
     Zend\Log\LoggerInterface;
 
@@ -274,7 +273,7 @@ class MultiBackend extends VFMultiBackend
      * otherwise we will return an empty array.
      *
      * @param string $source The source id to use for determining the
-     * configuration file
+     *                       configuration file
      *
      * @return array   The configuration of the driver
      *

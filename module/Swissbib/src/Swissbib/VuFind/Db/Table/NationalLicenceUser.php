@@ -24,7 +24,9 @@ namespace Swissbib\VuFind\Db\Table;
 
 use VuFind\Db\Table\Gateway;
 use VuFind\Db\Table\User;
+use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Select;
+use VuFind\Db\Table\PluginManager;
 
 /**
  * Class NationalLicenceUser.
@@ -39,12 +41,17 @@ class NationalLicenceUser extends Gateway
 {
     /**
      * Constructor.
+     *
+     * @param Adapter       $adapter Database adapter
+     * @param PluginManager $tm      Table manager
+     * @param array         $cfg     Zend Framework configuration
+     * @param Row           $row     row object
      */
-    public function __construct()
+    public function __construct(Adapter $adapter, PluginManager $tm, $cfg, $row)
     {
         parent::__construct(
-            'national_licence_user',
-            'Swissbib\VuFind\Db\Row\NationalLicenceUser'
+            $adapter, $tm, $cfg,
+            $row, "national_licence_user"
         );
     }
 
@@ -76,7 +83,17 @@ class NationalLicenceUser extends Gateway
     ) {
         if (empty($persistentId)) {
             throw new \Exception(
-                'The persistent-id is mandatory for creating a National Licence User'
+                'The persistent-id is mandatory to create a National Licence User.'
+            );
+        }
+
+        $eduIdNumber
+            = isset($fieldsValue['edu_id']) ? $fieldsValue['edu_id'] : null;
+
+        if (empty($eduIdNumber)) {
+            throw new \Exception(
+                'The edu-id number is mandatory to create a National Licence User. '
+                . 'Persistent-id : ' . $persistentId
             );
         }
 

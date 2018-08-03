@@ -1004,9 +1004,9 @@ class Aleph extends VuFindDriver
      *
      * @param array $details An array of patron id and old and new password:
      *
-     * 'patron'      The patron array from patronLogin
-     * 'oldPassword' Old password
-     * 'newPassword' New password
+     *                       'patron'      The patron array from patronLogin
+     *                       'oldPassword' Old password
+     *                       'newPassword' New password
      *
      * @return array An array of data on the request including
      * whether or not it was successful and a system message (if available)

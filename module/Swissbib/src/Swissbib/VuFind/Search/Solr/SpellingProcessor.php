@@ -29,7 +29,8 @@ namespace Swissbib\VuFind\Search\Solr;
 
 use VuFindSearch\Backend\Solr\Response\Json\Spellcheck;
 use VuFindSearch\Query\AbstractQuery;
-use Zend\Config\Config;
+use Zend\Config\Config as ZendConfig;
+use VuFind\Search\Solr\SpellingProcessor as VFSpellingProcessor;
 
 /**
  * Extended version of the VuFind Solr Spelling Processor (based on
@@ -41,7 +42,7 @@ use Zend\Config\Config;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class SpellingProcessor
+class SpellingProcessor extends VFSpellingProcessor
 {
     /**
      * SpellingResults
@@ -90,9 +91,17 @@ class SpellingProcessor
      * Constructor
      *
      * @param SpellingResults $spellingResults Spelling configuration (optional)
+     * @param ZendConfig      $config          configuration
+     *
+     *                                         todo: so far no unit tests - by now
+     *                                         todo: I simply extended the class
+     *                                         todo: because I had a problem with
+     *                                         todo: the setSpellingProcessor
+     *                                         method in VuFind\Search\Solr\Results
      */
-    public function __construct(SpellingResults $spellingResults)
+    public function __construct(SpellingResults $spellingResults, ZendConfig $config)
     {
+        parent::__construct($config);
         $this->spellingResults = $spellingResults;
     }
 
@@ -219,8 +228,9 @@ class SpellingProcessor
      * @param AbstractQuery $query         Query for which info should be retrieved
      * @param string        $term          Term to check
      * @param bool          $queryContains Should we skip the term if it is found
-     * in the query (true), or should we skip the term if it is NOT found in the
-     * query (false)?
+     *                                     in the query (true), or should we skip the
+     *                                     term if it is NOT found in the
+     *                                     query (false)?
      *
      * @return bool
      */
@@ -234,99 +244,4 @@ class SpellingProcessor
         return $queryContains == $query->containsTerm($term);
     }
 
-    /**
-     * Process spelling suggestions.
-     *
-     * @param array  $suggestions Raw suggestions from getSuggestions()
-     * @param string $query       Spelling query
-     * @param Params $params      Params helper object
-     *
-     * @return array
-     */
-    public function processSuggestions($suggestions, $query, Params $params)
-    {
-        $returnArray = [];
-        foreach ($suggestions as $term => $details) {
-            // Find out if our suggestion is part of a token
-            $inToken = false;
-            $targetTerm = "";
-            foreach ($this->tokenize($query) as $token) {
-                // TODO - Do we need stricter matching here, similar to that in
-                // \VuFindSearch\Query\Query::replaceTerm()?
-                if (stripos($token, $term) !== false) {
-                    $inToken = true;
-                    // We need to replace the whole token
-                    $targetTerm = $token;
-                    // Go and replace this token
-                    $returnArray = $this->doSingleReplace(
-                        $term, $targetTerm, $inToken, $details, $returnArray, $params
-                    );
-                }
-            }
-            // If no tokens were found, just look for the suggestion 'as is'
-            if ($targetTerm == "") {
-                $targetTerm = $term;
-                $returnArray = $this->doSingleReplace(
-                    $term, $targetTerm, $inToken, $details, $returnArray, $params
-                );
-            }
-        }
-
-        return $returnArray;
-    }
-
-    /**
-     * Process one instance of a spelling replacement and modify the return
-     *   data structure with the details of what was done.
-     *
-     * @param string $term        The actually term we're replacing
-     * @param string $targetTerm  The term above, or the token it is inside
-     * @param bool   $inToken     Flag for whether the token or term is used
-     * @param array  $details     The spelling suggestions
-     * @param array  $returnArray Return data structure so far
-     * @param Params $params      Params helper object
-     *
-     * @return array              $returnArray modified
-     */
-    protected function doSingleReplace($term, $targetTerm, $inToken, $details,
-        $returnArray, Params $params
-    ) {
-        $returnArray[$targetTerm]['freq'] = $details['freq'];
-        foreach ($details['suggestions'] as $word => $freq) {
-            // If the suggested word is part of a token
-            if ($inToken) {
-                // We need to make sure we replace the whole token
-                $replacement = str_replace($term, $word, $targetTerm);
-            } else {
-                $replacement = $word;
-            }
-            //  Do we need to show the whole, modified query?
-            if ($this->phrase) {
-                $label = $params->getDisplayQueryWithReplacedTerm(
-                    $targetTerm, $replacement
-                );
-            } else {
-                $label = $replacement;
-            }
-            // Basic spelling suggestion data
-            $returnArray[$targetTerm]['suggestions'][$label] = [
-                'freq' => $freq,
-                'new_term' => $replacement
-            ];
-
-            // Only generate expansions if enabled in config
-            if ($this->expand) {
-                // Parentheses differ for shingles
-                if (strstr($targetTerm, " ") !== false) {
-                    $replacement = "(($targetTerm) OR ($replacement))";
-                } else {
-                    $replacement = "($targetTerm OR $replacement)";
-                }
-                $returnArray[$targetTerm]['suggestions'][$label]['expand_term']
-                    = $replacement;
-            }
-        }
-
-        return $returnArray;
-    }
 }

@@ -12,7 +12,9 @@ $favoriteLanguages = array('ger', 'eng', 'fre', 'ita');
     <div class="row">
       <div class="col-sm-6">
         <? foreach ($this->facetList as $field => $list): ?>
+            <br/>
             <label for="limit_<?=$this->escapeHtmlAttr(str_replace(' ', '', $field))?>"><?=$this->transEsc($list['label'])?></label>
+            <br/>
             <select class="form-control chosen-select" data-placeholder="<?=$this->transEsc('Select' . $list['label'] . 'Placeholder')?>" id="limit_<?=$this->escapeHtmlAttr(str_replace(' ', '', $field))?>" name="filter[]" multiple="multiple" size="10">
               <?
                 // Sort the current facet list alphabetically; we'll use this data
