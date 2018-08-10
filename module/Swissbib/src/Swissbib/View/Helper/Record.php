@@ -199,6 +199,7 @@ class Record extends VuFindRecord
         $select = $this->urlFilter[$this->config->Site->theme]['select'];
         $exclude = $this->urlFilter[$this->config->Site->theme]['exclude'];
         $filteredLinks = [];
+        $description = [];
 
         foreach ($select as $field => $selectFieldConfig) {
             $driverFields = $this->driver->getMarcRecord()->getFields($field);
@@ -236,13 +237,26 @@ class Record extends VuFindRecord
                     };
 
                     $filteredLinks[] = ['url' => $url, 'desc' => $desc];
+                    $description[] = $desc;
                 }
             }
         }
 
-        return $this->mergeLinksByDescription(
-            $this->createUniqueLinks($filteredLinks)
-        );
+        if (in_array("Uni Basel: Volltext", $description)
+            && in_array(
+                "Uni Bern: Volltext" || "EHB IFFP IUFFP: Volltext", $description
+            )
+        ) {
+            return $this->mergeLinksByDescription($filteredLinks);
+        } elseif (in_array("Uni Bern: Volltext", $description)
+            && in_array("EHB IFFP IUFFP: Volltext", $description)
+        ) {
+            return $this->mergeLinksByDescription($filteredLinks);
+        } else {
+            return $this->mergeLinksByDescription(
+                $this->createUniqueLinks($filteredLinks)
+            );
+        }
     }
 
     /**
