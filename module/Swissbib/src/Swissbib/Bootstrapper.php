@@ -220,7 +220,7 @@ class Bootstrapper
                  * @var TranslatorImpl $translator
                  */
                 $translator = $this->serviceManager->get('Zend\Mvc\I18n\Translator');
-                $viewModel = $serviceLocator->get('viewmanager')->getViewModel();
+                $viewModel = $serviceLocator->get('ViewManager')->getViewModel();
 
                 $callback = function ($event) use ($locale, $translator,
                     $viewModel, $config
