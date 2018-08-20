@@ -28,15 +28,17 @@ function buildFacetNodes(data, currentPath, allowExclude, excludeTitle, counts)
     }
 
     $item.append(this.displayText);
+    //$item.append('<div style="clear: both; display: inline-block;">' + this.displayText + '</div>');
     $item.appendTo($html);
 
+    var $a1;
     if (!this.isApplied && counts) {
-      $('<span/>')
+      $a1 = $('<span/>')
         .addClass('badge')
-        .text(
+        .html(
           this.count.toString().replace(/\B(?=(\d{3})+\b)/g, VuFind.translate('number_thousands_separator'))
-        )
-        .appendTo($html);
+        );
+      //.appendTo($html);
 
       if (allowExclude) {
         var excludeUrl = currentPath + this.exclude;
@@ -45,8 +47,9 @@ function buildFacetNodes(data, currentPath, allowExclude, excludeTitle, counts)
           .attr('href', excludeUrl)
           .attr('title', excludeTitle);
         $('<i/>').addClass('fa fa-times').appendTo($a);
-        $a.appendTo($html);
+        $a.appendTo($a1);
       }
+      $a1.appendTo($html);
     }
 
     $html = $('<div/>').append($html);
