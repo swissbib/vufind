@@ -24,7 +24,12 @@ $showFRBR = $this->configAccess()->Site->displayFrbr;
 $groupID = $this->driver->getGroup(true);
 
 $urls = $viewRecord->getExtendedLinkDetails();
-$nl = $this->nationalLicences()->getUrl($record);
+try {
+    $nl = $this->nationalLicences()->getUrl($record);
+} catch (\Exception $e) {
+    //this is the case for swissbib orange and jusbib
+    $nl = null;
+}
 if ($nl) {
     $linkNL = ['url' => $nl['url'], 'desc' => "Get it Online (National Licence)"];
     array_push($urls, $linkNL);
