@@ -69,9 +69,9 @@ class Factory
             $sm->get('VuFind\Config\PluginManager')->get('searches')
         );
         $driver->attachILS(
-            $sm->get('VuFind\ILSConnection'),
-            $sm->get('VuFind\ILSHoldLogic'),
-            $sm->get('VuFind\ILSTitleHoldLogic')
+            $sm->get('VuFind\ILS\Connection'),
+            $sm->get('VuFind\ILS\Logic\Holds'),
+            $sm->get('VuFind\ILS\Logic\TitleHolds')
         );
 
         return $driver;

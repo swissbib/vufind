@@ -56,7 +56,7 @@ class Factory
      */
     public static function getAddressForm(ServiceManager $sm)
     {
-        AbstractValidator::setDefaultTranslator($sm->get('\\VuFind\\Translator'));
+        AbstractValidator::setDefaultTranslator($sm->get('VuFind\Translator'));
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm('\\Swissbib\\MyResearch\\Form\\AddressForm');

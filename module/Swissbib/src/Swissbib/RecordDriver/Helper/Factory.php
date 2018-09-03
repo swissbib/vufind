@@ -53,7 +53,7 @@ class Factory
      */
     public static function getHoldingsHelper(ServiceManager $sm)
     {
-        $ilsConnection = $sm->get('VuFind\ILSConnection');
+        $ilsConnection = $sm->get('VuFind\ILS\Connection');
         $hmac = $sm->get('VuFind\HMAC');
         $authManager = $sm->get('VuFind\Auth\Manager');
         $ilsAuth = $sm->get('VuFind\ILSAuthenticator');
