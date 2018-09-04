@@ -3383,10 +3383,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getCitationFormats()
     {
-        $solrDefaultAdapter = $this->getServiceLocator()
-            ->get('Swissbib\RecordDriver\SolrDefaultAdapter');
-
-        return $solrDefaultAdapter->getCitationFormats();
+        return $this->solrDefaultAdapter->getCitationFormats();
     }
 
     /**
