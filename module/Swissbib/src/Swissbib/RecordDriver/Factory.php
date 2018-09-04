@@ -66,7 +66,9 @@ class Factory
         $driver = new \Swissbib\RecordDriver\SolrMarc(
             $sm->get('VuFind\Config\PluginManager')->get('config'),
             null,
-            $sm->get('VuFind\Config\PluginManager')->get('searches')
+            $sm->get('VuFind\Config\PluginManager')->get('searches'),
+            $sm->get('Swissbib\HoldingsHelper'),
+            $sm->get('Swissbib\RecordDriver\SolrDefaultAdapter')
         );
         $driver->attachILS(
             $sm->get('VuFind\ILS\Connection'),

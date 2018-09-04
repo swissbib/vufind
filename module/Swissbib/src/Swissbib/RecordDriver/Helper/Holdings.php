@@ -323,6 +323,18 @@ class Holdings
     }
 
     /**
+     * Returns initialisation for item
+     *
+     * @param String $idItem      ItemId
+     *
+     * @return void
+     */
+    public function getItemId()
+    {
+        return $this->idItem;
+    }
+
+    /**
      * Get holdings data
      *
      * @param SolrMarc $recordDriver    RecordDriver

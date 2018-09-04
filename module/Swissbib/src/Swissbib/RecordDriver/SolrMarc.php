@@ -35,7 +35,6 @@ namespace Swissbib\RecordDriver;
 use Swissbib\RecordDriver\Helper\Holdings as HoldingsHelper;
 use VuFind\RecordDriver\SolrMarc as VuFindSolrMarc;
 use Zend\I18n\Translator\TranslatorInterface as Translator;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * SolrDefaultAdapter
@@ -54,6 +53,13 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      * @var HoldingsHelper
      */
     protected $holdingsHelper;
+
+    /**
+     * HoldingsHelper
+     *
+     * @var HoldingsHelper
+     */
+    protected $solrDefaultAdapter;
 
     /**
      * Change behaviour if getFormats() to return openUrl compatible formats
@@ -194,13 +200,17 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      * @param \Zend\Config\Config $searchSettings Search-specific configuration file
      */
     public function __construct($mainConfig = null, $recordConfig = null,
-        $searchSettings = null
+        $searchSettings = null, $holdingsHelper = null, $solrDefaultAdapter = null
     ) {
         parent::__construct($mainConfig, $recordConfig, $searchSettings);
 
         $this->multiValuedFRBRField
             = isset($searchSettings->General->multiValuedFRBRField) ?
             $searchSettings->General->multiValuedFRBRField : true;
+
+        $this->solrDefaultAdapter = $solrDefaultAdapter;
+
+        $this->holdingsHelper = $holdingsHelper;
     }
 
     /**
@@ -2967,45 +2977,12 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     protected function getHoldingsHelper()
     {
-        if (!$this->holdingsHelper) {
-
-            //core record driver in itself doesn't support implementation of
-            // ServiceLocaterAwareInterface with latest merge
-            //alternative to the current solution:
-            //we implement this Interface by ourselve
-            //at the moment I don't know what's the role of the hierachyDriverManager
-            // and if it's always initialized
-            //ToDo: more analysis necessary!
-            //$holdingsHelper = $this->getServiceLocator()->getServiceLocator()
-            //->get('Swissbib\HoldingsHelper');
-
-            /**
-             * HoldingsHelper
-             *
-             * @var HoldingsHelper $holdingsHelper
-             */
-            $holdingsHelper = $this->getServiceLocator()
-                ->get('Swissbib\HoldingsHelper');
-
+        if ($this->holdingsHelper->getItemId() == null) {
             $holdingsData = isset($this->fields['holdings']) ?
                 $this->fields['holdings'] : '';
-
-            $holdingsHelper->setData($this->getUniqueID(), $holdingsData);
-
-            $this->holdingsHelper = $holdingsHelper;
+            $this->holdingsHelper->setData($this->getUniqueID(), $holdingsData);
         }
-
         return $this->holdingsHelper;
-    }
-
-    /**
-     * Helper to get service locator
-     *
-     * @return ServiceLocatorInterface
-     */
-    public function getServiceLocator()
-    {
-        return $this->hierarchyDriverManager->getServiceLocator();
     }
 
     /**
