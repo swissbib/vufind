@@ -369,8 +369,8 @@ return [
             'cover'     => 'Swissbib\Controller\Factory::getCoverController',
             'upgrade'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             'install'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
-            'tab40import'   => 'Swissbib\Controller\Factory::getTab40ImportController',
             Tab40ImportController::class   => 'Swissbib\Controller\Factory::getTab40ImportController',
+            'tab40import'   => 'Swissbib\Controller\Factory::getTab40ImportController',
             'Swissbib\Controller\FavoritesController' => 'VuFind\Controller\AbstractBaseFactory',
             'hierarchycache'       => 'Swissbib\Controller\Factory::getHierarchyCacheController',
             HelpPageController::class => AbstractBaseFactory::class,
@@ -401,7 +401,8 @@ return [
             'solrsearch' => 'Swissbib\Controller\Plugin\Factory::getSolrSearch',
             'elasticsearchsearch' => 'Swissbib\Controller\Plugin\Factory::getElasticSearchSearch',
         ],
-    ], 'service_manager' => [
+    ],
+    'service_manager' => [
         'invokables' => [
             'MarcFormatter'                                 => 'Swissbib\XSLT\MARCFormatter',
         ],
@@ -450,10 +451,12 @@ return [
             'Swissbib\SwitchBackChannelService'             =>  'Swissbib\Services\Factory::getSwitchBackChannelService',
             'Swissbib\EmailService'                         =>  'Swissbib\Services\Factory::getEmailService',
             'Swissbib\PuraService'                          =>  'Swissbib\Services\Factory::getPuraService',
-            'VuFind\Search\SearchRunner'                    =>  SearchRunnerFactory::class
+            'VuFind\Search\SearchRunner'                    =>  SearchRunnerFactory::class,
+
+            //'VuFind\ILS\Connection' => 'VuFind\ILS\Driver\Aleph',
         ],
         'aliases' => [
-            'MvcTranslator'           => 'Zend\Mvc\I18n\Translator',
+            'MvcTranslator'         => 'Zend\Mvc\I18n\Translator',
         ],
     ],
     'view_helpers'    => [
@@ -598,8 +601,12 @@ return [
             ],
             'ils_driver' => [
                 'factories' => [
-                    'aleph' => 'Swissbib\VuFind\ILS\Driver\Factory::getAlephDriver',
-                    'multibackend' => 'Swissbib\VuFind\ILS\Driver\Factory::getMultiBackend',
+                    'Swissbib\VuFind\ILS\Driver\Aleph' => 'Swissbib\VuFind\ILS\Driver\Factory::getAlephDriver',
+                    'Swissbib\VuFind\ILS\Driver\MultiBackend' => 'Swissbib\VuFind\ILS\Driver\Factory::getMultiBackend',
+                ],
+                'aliases' => [
+                    'aleph'                 => 'Swissbib\VuFind\ILS\Driver\Aleph',
+                    'multibackend'          => 'Swissbib\VuFind\ILS\Driver\MultiBackend',
                 ]
             ],
             'hierarchy_driver' => [

@@ -32,7 +32,7 @@ namespace Swissbib\Controller;
 
 use Swissbib\Tab40Import\Importer as Tab40Importer;
 use Zend\Console\Request as ConsoleRequest;
-
+use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Controller\AbstractActionController;
 
 /**
@@ -59,7 +59,7 @@ class Tab40ImportController extends AbstractActionController
      *
      * @param ServiceLocatorInterface $sm Service locator
      */
-    public function __construct(ServiceLocatorInterface $sm)
+    public function __construct(ServiceManager $sm)
     {
         $this->serviceLocator = $sm;
     }

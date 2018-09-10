@@ -33,8 +33,8 @@ namespace Swissbib\Controller;
 use Swissbib\Libadmin\Importer;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Mvc\Controller\AbstractActionController;
-
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Synchronize VuFind with LibAdmin
@@ -60,7 +60,7 @@ class LibadminSyncController extends AbstractActionController
      *
      * @param ServiceLocatorInterface $sm Service locator
      */
-    public function __construct(ServiceLocatorInterface $sm)
+    public function __construct(ServiceManager $sm)
     {
         $this->serviceLocator = $sm;
     }
