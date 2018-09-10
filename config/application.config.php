@@ -2,6 +2,7 @@
 
 // Set up modules:
 $modules = [
+    'Zend\Form',
     'Zend\Router', 'ZfcRbac',
     'VuFindTheme', 'VuFindSearch', 'VuFind', 'VuFindAdmin', 'VuFindApi'
 ];
