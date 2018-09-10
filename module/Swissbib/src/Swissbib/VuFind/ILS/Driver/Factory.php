@@ -68,7 +68,7 @@ class Factory
         return new MultiBackend(
             $sm->get('VuFind\Config\PluginManager'),
             $sm->get('VuFind\ILSAuthenticator'),
-            $sm
+            $sm->get('VuFind\ILS\Driver\PluginManager')
         );
     }
 }
