@@ -117,6 +117,7 @@ class SolrDefaultBackendFactory extends VuFindSolrDefaultBackendFactory
 
         $backend = new Backend($connector);
         $backend->setQueryBuilder($this->createQueryBuilder());
+        $backend->setSimilarBuilder($this->createSimilarBuilder());
 
         if ($this->logger) {
             $backend->setLogger($this->logger);
