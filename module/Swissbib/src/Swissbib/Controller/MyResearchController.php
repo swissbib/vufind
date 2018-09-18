@@ -268,7 +268,7 @@ class MyResearchController extends VuFindMyResearchController
         // Referer before the IDP request is executed in the next step by the user
         //at the moment it is used in Swissbib/Controller/RecordController
         $clazz = $this->getAuthManager()->getAuthClassForTemplateRendering();
-        if ($clazz == "Swissbib\\VuFind\\Auth\\Shibboleth") {
+        if ($clazz == "Swissbib\VuFind\Auth\Shibboleth") {
             //store the current referrer into a special Session
             $followup = new SessionContainer('ShibbolethSaveFollowup');
             //$tURL = $this->getRequest()->getServer()->get('HTTP_REFERER');

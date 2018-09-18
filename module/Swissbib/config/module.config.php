@@ -540,7 +540,7 @@ return [
 
             'auth' => [
                 'factories' => [
-                    'shibboleth' => 'Swissbib\VuFind\Auth\Factory::getShibboleth',
+                    'VuFind\Auth\Shibboleth' => 'Swissbib\VuFind\Auth\Factory::getShibboleth',
                 ],
             ],
             'autocomplete' => [
