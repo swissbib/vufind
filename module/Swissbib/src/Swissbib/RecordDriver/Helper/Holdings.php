@@ -326,7 +326,6 @@ class Holdings
      * Returns initialisation for item
      *
      * @return String $idItem ItemId
-     *
      */
     public function getItemId()
     {
