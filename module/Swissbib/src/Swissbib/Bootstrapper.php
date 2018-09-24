@@ -247,13 +247,11 @@ class Bootstrapper
 
                 $this->events->attach('dispatch', $callback, 8000);
             }
-        }
-        elseif (!array_key_exists('language', $_COOKIE)
-            && array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER)){
+        } elseif (!array_key_exists('language', $_COOKIE)
+            && array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER)) {
             setcookie('language',
-                substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2), 0, '/');
+                substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2), 0, '/');
         }
-
     }
 
     /**
