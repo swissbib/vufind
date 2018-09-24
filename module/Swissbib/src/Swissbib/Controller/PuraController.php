@@ -59,6 +59,7 @@ class PuraController extends BaseController
     {
         $this->puraService = $sm->get('Swissbib\PuraService');
         $this->puraService->setServiceLocator($sm);
+        parent::__construct($sm);
     }
 
     /**
