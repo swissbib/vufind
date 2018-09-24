@@ -33,6 +33,7 @@ namespace Swissbib\Controller;
 use Swissbib\Services\NationalLicence;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use VuFind\Exception\Auth as AuthException;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Swissbib MyResearchNationalLicensesController
@@ -58,11 +59,13 @@ class MyResearchNationalLicensesController extends MyResearchController
      * Constructor.
      * MyResearchNationalLicensesController constructor.
      *
-     * @param NationalLicence $nationalLicenceService NationalLicence.
+     * @param ServiceLocatorInterface $sm Service locator
      */
-    public function __construct(NationalLicence $nationalLicenceService)
+    public function __construct(ServiceLocatorInterface $sm)
     {
-        $this->nationalLicenceService = $nationalLicenceService;
+        $this->nationalLicenceService
+            = $sm->get('Swissbib\NationalLicenceService');
+        parent::__construct($sm);
     }
 
     /**

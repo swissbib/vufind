@@ -105,9 +105,7 @@ class Factory extends AbstractBaseFactory
      */
     public function getMyResearchNationalLicenceController(ServiceManager $sm)
     {
-        return new MyResearchNationalLicensesController(
-            $sm->get('Swissbib\NationalLicenceService')
-        );
+        return new MyResearchNationalLicensesController($sm);
     }
 
     /**
