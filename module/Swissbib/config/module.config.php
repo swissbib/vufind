@@ -560,7 +560,10 @@ return [
             ],
             'content_covers' => [
                 'factories' => [
-                    'amazon' => 'Swissbib\Content\Covers\Factory::getAmazon',
+                    'VuFind\Content\Covers\Amazon' => 'Swissbib\Content\Covers\Factory::getAmazon',
+                ],
+                'aliases' => [
+                    'amazon'   => 'VuFind\Content\Covers\Amazon',
                 ],
             ],
             'db_table' => [
