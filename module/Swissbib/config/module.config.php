@@ -1,14 +1,18 @@
 <?php
 namespace Swissbib\Module\Config;
 
+use Swissbib\Controller\CoverController;
+use Swissbib\Controller\FeedbackController;
 use Swissbib\Controller\HelpPageController;
 use Swissbib\Controller\LibadminSyncController;
 use Swissbib\Controller\MyResearchController;
 use Swissbib\Controller\NationalLicencesController;
+use Swissbib\Controller\SummonController;
 use Swissbib\Controller\Tab40ImportController;
 use Swissbib\VuFind\Search\SearchRunnerFactory;
 use VuFind\Controller\AbstractBaseFactory;
 use VuFind\Controller\AjaxController;
+use VuFind\Feed\Writer\Extension\OpenSearch\Feed;
 
 return [
     'router' => [
@@ -365,7 +369,7 @@ return [
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
             'summon' => 'Swissbib\Controller\Factory::getSummonController',
             'Swissbib\Controller\HoldingsController' => 'VuFind\Controller\AbstractBaseFactory',
-            'feedback'  => 'Swissbib\Controller\Factory::getFeedbackController',
+            FeedbackController::class  => 'VuFind\Controller\AbstractBaseFactory',
             'cover'     => 'Swissbib\Controller\Factory::getCoverController',
             'upgrade'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             'install'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
@@ -393,6 +397,8 @@ return [
             'Search' => 'Swissbib\Controller\SearchController',
             'search' => 'Swissbib\Controller\SearchController',
             'holdings'  => 'Swissbib\Controller\HoldingsController',
+            'Feedback' => FeedbackController::class,
+            'feedback' => FeedbackController::class,
         ],
     ],
     'controller_plugins' => [
