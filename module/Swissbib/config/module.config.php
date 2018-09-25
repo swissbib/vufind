@@ -370,7 +370,7 @@ return [
             'summon' => 'Swissbib\Controller\Factory::getSummonController',
             'Swissbib\Controller\HoldingsController' => 'VuFind\Controller\AbstractBaseFactory',
             FeedbackController::class  => 'VuFind\Controller\AbstractBaseFactory',
-            'cover'     => 'Swissbib\Controller\Factory::getCoverController',
+            CoverController::class => 'Swissbib\Controller\Factory::getCoverController',
             'upgrade'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             'install'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             Tab40ImportController::class   => 'Swissbib\Controller\Factory::getTab40ImportController',
@@ -399,6 +399,8 @@ return [
             'holdings'  => 'Swissbib\Controller\HoldingsController',
             'Feedback' => FeedbackController::class,
             'feedback' => FeedbackController::class,
+            'cover' => CoverController::class,
+            'Cover' => CoverController::class,
         ],
     ],
     'controller_plugins' => [
@@ -458,6 +460,8 @@ return [
             'Swissbib\EmailService'                         =>  'Swissbib\Services\Factory::getEmailService',
             'Swissbib\PuraService'                          =>  'Swissbib\Services\Factory::getPuraService',
             'VuFind\Search\SearchRunner'                    =>  SearchRunnerFactory::class,
+            'Swissbib\Cover\Loader'                         =>  'VuFind\Cover\LoaderFactory',
+
 
             //'VuFind\ILS\Connection' => 'VuFind\ILS\Driver\Aleph',
         ],

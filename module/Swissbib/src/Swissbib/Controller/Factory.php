@@ -191,4 +191,20 @@ class Factory extends AbstractBaseFactory
     {
         return new Tab40ImportController($sm);
     }
+
+    /**
+     * Cover Controller Factory
+     *
+     * @param ServiceManager $sm ServiceManaegr
+     *
+     * @return CoverController
+     */
+    public function getCoverController(ServiceManager $sm)
+    {
+        return new CoverController(
+            $sm->get('Swissbib\Cover\Loader'),
+            $sm->get('VuFind\Cover\CachingProxy'),
+            $sm->get('VuFind\Session\Settings')
+        );
+    }
 }
