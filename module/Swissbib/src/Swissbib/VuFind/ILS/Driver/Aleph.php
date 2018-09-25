@@ -69,7 +69,9 @@ class Aleph extends VuFindDriver
                 'Call to doXRequest without X-Server configuration in Aleph.ini'
             );
         }
-        $url = "https://$this->host:$this->xport/X?op=$op";
+        $url = "https://$this->host/X?op=$op";
+        //for testing outside unibas network : 
+        //$url = "http://$this->host:$this->xport/X?op=$op";
         if (isset($params['verification'])) {
             $params['verification']
                 = mb_strtoupper($params['verification'], 'UTF-8');
