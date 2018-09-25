@@ -192,12 +192,14 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     /**
      * Constructor
      *
-     * @param \Zend\Config\Config $mainConfig         VuFind main configuration (omit
-     *                                                for built-in defaults)
-     * @param \Zend\Config\Config $recordConfig       Record-specific configuration file
+     * @param \Zend\Config\Config $mainConfig         VuFind main configuration
+     *                                                (omit for built-in defaults)
+     * @param \Zend\Config\Config $recordConfig       Record-specific configu-
+     *                                                ration file
      *                                                (omit to use $mainConfig as
      *                                                $recordConfig)
-     * @param \Zend\Config\Config $searchSettings     Search-specific configuration file
+     * @param \Zend\Config\Config $searchSettings     Search-specific configu-
+     *                                                ration file
      * @param HoldingsHelper      $holdingsHelper     Holdings helper
      * @param HoldingsHelper      $solrDefaultAdapter SOLR adapter
      */
