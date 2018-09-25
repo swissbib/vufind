@@ -367,7 +367,7 @@ return [
             NationalLicencesController::class => AbstractBaseFactory::class,
             'pura' => 'Swissbib\Controller\Factory::getPuraController',
             'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
-            'summon' => 'Swissbib\Controller\Factory::getSummonController',
+            SummonController::class => 'VuFind\Controller\AbstractBaseFactory',
             'Swissbib\Controller\HoldingsController' => 'VuFind\Controller\AbstractBaseFactory',
             FeedbackController::class  => 'VuFind\Controller\AbstractBaseFactory',
             CoverController::class => 'Swissbib\Controller\Factory::getCoverController',
@@ -401,6 +401,8 @@ return [
             'feedback' => FeedbackController::class,
             'cover' => CoverController::class,
             'Cover' => CoverController::class,
+            'summon' => SummonController::class,
+            'Summon' => SummonController::class,
         ],
     ],
     'controller_plugins' => [
@@ -608,6 +610,7 @@ return [
                 'aliases' => [
                     'solrmarc' => 'VuFind\RecordDriver\SolrMarc',
                     'summon' => 'VuFind\RecordDriver\Summon',
+                    'Summon' => 'VuFind\RecordDriver\Summon',
                     'worldcat' => 'VuFind\RecordDriver\WorldCat',
                     'missing' => 'VuFind\RecordDriver\Missing',
                 ],
@@ -700,6 +703,7 @@ return [
                     'mixedlist'         => 'Swissbib\VuFind\Search\Solr\Results\MixedList',
                     'favorites'         => 'Swissbib\VuFind\Search\Solr\Results\Favorites',
                     'elasticsearch'     => 'ElasticSearch\VuFind\Search\Results\ElasticSearch',
+                    'summon'            => 'Swissbib\VuFind\Search\Summon\Results',
                 ],
                 'factories' => [
                     'Swissbib\VuFind\Search\Solr\Results\Solr'              => 'Swissbib\VuFind\Search\Results\Factory::getSolr',
@@ -707,6 +711,7 @@ return [
                     'Swissbib\VuFind\Search\Solr\Results\MixedList'         => 'Swissbib\VuFind\Search\Results\Factory::getMixdList',
                     'Swissbib\VuFind\Search\Solr\Results\Favorites'         => 'Swissbib\VuFind\Search\Results\Factory::getFavorites',
                     'ElasticSearch\VuFind\Search\Results\ElasticSearch'     => '\ElasticSearch\VuFind\Search\Results\Factory::getElasticSearch',
+                    'Swissbib\VuFind\Search\Summon\Results'                 => 'Swissbib\VuFind\Search\Results\Factory::getSummon',
                 ],
             ]
         ]

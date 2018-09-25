@@ -126,4 +126,25 @@ class Factory
         $init->initialize($obj, $sm);
         return $obj;
     }
+
+    /**
+     * Returns \Swissbib\VuFind\Search\Summon\Results
+     *
+     * @param ServiceManager $sm servicemanager
+     *
+     * @return object
+     */
+    public static function getSummon(ServiceManager $sm)
+    {
+        $factory = new PluginFactory();
+
+        /**
+         * Create Service With Name Summon
+         *
+         * @var $summon \Swissbib\VuFind\Search\Summon\Results
+         */
+        $summon = $factory($sm, 'summon');
+
+        return $summon;
+    }
 }
