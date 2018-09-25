@@ -199,7 +199,7 @@ class Factory extends AbstractBaseFactory
      *
      * @return CoverController
      */
-    public function getCoverController(ServiceManager $sm)
+    public static function getCoverController(ServiceManager $sm)
     {
         return new CoverController(
             $sm->get('Swissbib\Cover\Loader'),
