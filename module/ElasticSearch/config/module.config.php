@@ -6,7 +6,7 @@ $config = [
 //    'abstract_factories' => ['ElasticSearch\VuFind\RecordDriver\PluginFactory'],
     'factories' => [
 //      'ElasticSearchRecord' => 'ElasticSearch\VuFind\RecordDriver\Factory::getElasticSearchRecord',
-      'ElasticSearch\RecordDriverPluginManager' => 'ElasticSearch\VuFind\Service\Factory::getRecordDriverPluginManager',
+        'ElasticSearch\VuFind\RecordDriver\PluginManager' => 'ElasticSearch\VuFind\Service\Factory::getRecordDriverPluginManager',
     ],
   ],
   'vufind' => [

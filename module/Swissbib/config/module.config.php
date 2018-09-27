@@ -655,6 +655,15 @@ return [
                     'hierarchytreearchival' => 'Swissbib\RecordTab\Factory::getHierarchyTreeArchival'
                 ]
             ],
+            'ajaxhandler'           => [
+                'factories' => [
+                    'Swissbib\AjaxHandler\GetSubjects' => 'Swissbib\AjaxHandler\GetSubjectsFactory',
+                    //'VuFind\AjaxHandler\GetItemStatuses' =>
+                ],
+                'aliases' =>  [
+                    'getSubjects' => 'Swissbib\AjaxHandler\GetSubjects',
+                ]
+            ],
         ]
     ],
     'swissbib' => [

@@ -52,9 +52,8 @@ class Factory
     public static function getElasticSearch(ServiceManager $sm)
     {
         $factory = new PluginFactory();
-        $es = $factory->createServiceWithName($sm, 'elasticsearch', 'ElasticSearch');
-        $config = $sm->getServiceLocator()
-            ->get('VuFind\Config')->get('config');
+        $es = $factory($sm, 'ElasticSearch');
+        $config = $sm->get('VuFind\Config')->get('config');
         return $es;
     }
 }

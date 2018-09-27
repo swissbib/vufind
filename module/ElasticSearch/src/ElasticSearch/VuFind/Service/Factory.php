@@ -27,6 +27,7 @@
  */
 namespace ElasticSearch\VuFind\Service;
 
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -48,16 +49,14 @@ class Factory
      *
      * @return object
      */
-    public static function getGenericPluginManager(ServiceManager $sm, $ns)
+    public static function getGenericPluginManager(ContainerInterface $sm, $ns)
     {
         $className = 'ElasticSearch\VuFind\\' . $ns . '\PluginManager';
         $configKey = strtolower(str_replace('\\', '_', $ns));
         $config = $sm->get('Config');
         return new $className(
             $sm,
-            new \Zend\ServiceManager\Config(
-                $config['elasticsearch']['plugin_managers'][$configKey]
-            )
+            $config['elasticsearch']['plugin_managers'][$configKey]
         );
     }
 
@@ -104,7 +103,7 @@ class Factory
      *
      * @return \ElasticSearch\VuFind\RecordDriver\PluginManager
      */
-    public static function getRecordDriverPluginManager(ServiceManager $sm)
+    public static function getRecordDriverPluginManager(ContainerInterface $sm)
     {
         return static::getGenericPluginManager($sm, 'RecordDriver');
     }
