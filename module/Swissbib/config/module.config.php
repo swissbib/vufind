@@ -1,17 +1,24 @@
 <?php
 namespace Swissbib\Module\Config;
 
+use Elasticsearch\Endpoints\Cat\Help;
 use Swissbib\Controller\CoverController;
+use Swissbib\Controller\FavoritesController;
 use Swissbib\Controller\FeedbackController;
 use Swissbib\Controller\HelpPageController;
+use Swissbib\Controller\HierarchyCacheController;
+use Swissbib\Controller\HoldingsController;
 use Swissbib\Controller\LibadminSyncController;
 use Swissbib\Controller\MyResearchController;
+use Swissbib\Controller\MyResearchNationalLicensesController;
 use Swissbib\Controller\NationalLicencesController;
+use Swissbib\Controller\PuraController;
+use Swissbib\Controller\RecordController;
+use Swissbib\Controller\SearchController;
 use Swissbib\Controller\SummonController;
 use Swissbib\Controller\Tab40ImportController;
 use Swissbib\VuFind\Search\SearchRunnerFactory;
 use VuFind\Controller\AbstractBaseFactory;
-use VuFind\Controller\AjaxController;
 use VuFind\Feed\Writer\Extension\OpenSearch\Feed;
 
 return [
@@ -23,7 +30,7 @@ return [
                 'options' => [
                     'route'       => '/MyResearch/:action/:location',
                     'defaults'    => [
-                        'controller' => 'my-research',
+                        'controller' => MyResearchController::class,
                         'action'     => 'Profile',
                         'location'   => 'baselbern'
                     ],
@@ -50,7 +57,7 @@ return [
                 'options' => [
                     'route'    => '/MyResearch/Settings',
                     'defaults' => [
-                        'controller' => 'my-research',
+                        'controller' => MyResearchController::class,
                         'action'     => 'settings'
                     ]
                 ]
@@ -61,7 +68,7 @@ return [
                 'options' => [
                     'route'    => '/NationalLicences[/:action]',
                     'defaults' => [
-                        'controller' => 'national-licences',
+                        'controller' => NationalLicencesController::class,
                         'action'     => 'index'
                     ],
                     'constraints' => [
@@ -75,7 +82,7 @@ return [
                 'options' => [
                     'route'    => '/MyResearchNationalLicenses[/:action]',
                     'defaults' => [
-                        'controller' => 'national-licenses-signpost',
+                        'controller' => MyResearchNationalLicensesController::class,
                         'action'     => 'nlsignpost'
                     ],
                     'constraints' => [
@@ -89,7 +96,7 @@ return [
                 'options' => [
                     'route'    => '/MyResearch/Pura',
                     'defaults' => [
-                        'controller' => 'pura',
+                        'controller' => PuraController::class,
                         'action'     => 'index'
                     ]
                 ],
@@ -130,7 +137,7 @@ return [
                 'options' => [
                     'route'    => '/HelpPage[/:topic]',
                     'defaults' => [
-                        'controller' => 'helppage',
+                        'controller' => HelpPageController::class,
                         'action'     => 'index'
                     ]
                 ]
@@ -140,7 +147,7 @@ return [
                 'options' => [
                     'route'    => '/Holdings/:record/:institution',
                     'defaults' => [
-                        'controller' => 'holdings',
+                        'controller' => HoldingsController::class,
                         'action'     => 'list'
                     ]
                 ]
@@ -150,7 +157,7 @@ return [
                 'options' => [
                     'route'    => '/Holdings/:record/:institution/items/:resource',
                     'defaults' => [
-                        'controller' => 'holdings',
+                        'controller' => HoldingsController::class,
                         'action'     => 'holdingItems'
                     ]
                 ]
@@ -160,7 +167,7 @@ return [
                 'options' => [
                     'route'    => '/MyResearch/Favorites[/:action]',
                     'defaults' => [
-                        'controller' => 'institutionFavorites',
+                        'controller' => FavoritesController::class,
                         'action'     => 'display'
                     ]
                 ]
@@ -170,7 +177,7 @@ return [
                 'options' => [
                     'route'    => '/MyResearch/Lists',
                     'defaults' => [
-                        'controller' => 'my-research',
+                        'controller' => MyResearchController::class,
                         'action'     => 'favorites'
                     ]
                 ]
@@ -180,7 +187,7 @@ return [
                 'options' => [
                     'route'    => '/MyResearch/Photocopies',
                     'defaults' => [
-                        'controller' => 'my-research',
+                        'controller' => MyResearchController::class,
                         'action'     => 'photocopies'
                     ]
                 ]
@@ -188,13 +195,13 @@ return [
             'myresearch-bookings' => [ // Override vufind favorites route. Rename to Lists
                 'type' => 'literal', 'options' => [
                     'route' => '/MyResearch/Bookings', 'defaults' => [
-                        'controller' => 'my-research', 'action' => 'bookings'
+                        'controller' => MyResearchController::class, 'action' => 'bookings'
                     ]
                 ]
             ], 'myresearch-changeaddress' => [
                 'type' => 'literal', 'options' => [
                     'route' => '/MyResearch/Address', 'defaults' => [
-                        'controller' => 'my-research', 'action' => 'changeAddress'
+                        'controller' => MyResearchController::class, 'action' => 'changeAddress'
                     ]
                 ]
             ], 'record-copy' => [
@@ -304,7 +311,7 @@ return [
                     'options' => [
                         'route'    => 'tab40import <network> <locale> <source>',
                         'defaults' => [
-                            'controller' => 'tab40import',
+                            'controller' => Tab40ImportController::class,
                             'action'     => 'import'
                         ]
                     ]
@@ -313,7 +320,7 @@ return [
                     'options' => [
                         'route'    => 'hierarchy [<limit>] [--verbose|-v]',
                         'defaults' => [
-                            'controller' => 'hierarchycache',
+                            'controller' => HierarchyCacheController::class,
                             'action'     => 'buildCache'
                         ]
                     ]
@@ -362,24 +369,25 @@ return [
             'shibtest'             => 'Swissbib\Controller\ShibtestController',
         ],
         'factories'  => [
-            'Swissbib\Controller\SearchController' => 'VuFind\Controller\AbstractBaseFactory',
-            'record' => 'Swissbib\Controller\Factory::getRecordController',
-            NationalLicencesController::class => AbstractBaseFactory::class,
-            'pura' => 'Swissbib\Controller\Factory::getPuraController',
-            'national-licenses-signpost' => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
-            SummonController::class => 'VuFind\Controller\AbstractBaseFactory',
-            'Swissbib\Controller\HoldingsController' => 'VuFind\Controller\AbstractBaseFactory',
-            FeedbackController::class  => 'VuFind\Controller\AbstractBaseFactory',
             CoverController::class => 'Swissbib\Controller\Factory::getCoverController',
-            'upgrade'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
-            'install'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
-            Tab40ImportController::class   => 'Swissbib\Controller\Factory::getTab40ImportController',
-            'tab40import'   => 'Swissbib\Controller\Factory::getTab40ImportController',
-            'Swissbib\Controller\FavoritesController' => 'VuFind\Controller\AbstractBaseFactory',
-            'hierarchycache'       => 'Swissbib\Controller\Factory::getHierarchyCacheController',
+            FavoritesController::class => AbstractBaseFactory::class,
+            FeedbackController::class  => AbstractBaseFactory::class,
             HelpPageController::class => AbstractBaseFactory::class,
+            HierarchyCacheController::class => 'Swissbib\Controller\Factory::getHierarchyCacheController',
+            HoldingsController::class => AbstractBaseFactory::class,
             LibadminSyncController::class => 'Swissbib\Controller\Factory::getLibadminSyncController',
             MyResearchController::class => AbstractBaseFactory::class,
+            MyResearchNationalLicensesController::class => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
+            NationalLicencesController::class => AbstractBaseFactory::class,
+            PuraController::class => 'Swissbib\Controller\Factory::getPuraController',
+            RecordController::class => 'Swissbib\Controller\Factory::getRecordController',
+            SearchController::class => AbstractBaseFactory::class,
+            SummonController::class => AbstractBaseFactory::class,
+            Tab40ImportController::class   => 'Swissbib\Controller\Factory::getTab40ImportController',
+
+            //TODO : update these keys to ZF3 style keys (with ::class)
+            'upgrade'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
+            'install'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             'console' => 'Swissbib\Controller\Factory::getConsoleController',
             'person-knowledge-card' => 'Swissbib\Controller\Factory::getPersonKnowledgeCardController',
             'subject-knowledge-card' => 'Swissbib\Controller\Factory::getSubjectKnowledgeCardController',
@@ -388,21 +396,12 @@ return [
             'person-search' => 'Swissbib\Controller\Factory::getPersonSearchController',
         ],
         'aliases' => [
-            'institutionFavorites' => 'Swissbib\Controller\FavoritesController',
-            'helppage' => 'Swissbib\Controller\HelpPageController',
-            'my-research' => 'Swissbib\Controller\MyResearchController',
-            'MyResearch'  => 'Swissbib\Controller\MyResearchController',
-            'myresearch'  => 'Swissbib\Controller\MyResearchController',
-            'national-licences' => 'Swissbib\Controller\NationalLicencesController',
-            'Search' => 'Swissbib\Controller\SearchController',
-            'search' => 'Swissbib\Controller\SearchController',
-            'holdings'  => 'Swissbib\Controller\HoldingsController',
-            'Feedback' => FeedbackController::class,
-            'feedback' => FeedbackController::class,
-            'cover' => CoverController::class,
-            'Cover' => CoverController::class,
-            'summon' => SummonController::class,
-            'Summon' => SummonController::class,
+            //Overrides
+            \VuFind\Controller\CoverController::class => CoverController::class,
+            \VuFind\Controller\FeedbackController::class => FeedbackController::class,
+            \VuFind\Controller\MyResearchController::class => MyResearchController::class,
+            \VuFind\Controller\SearchController::class => SearchController::class,
+            \VuFind\Controller\SummonController::class => SummonController::class,
         ],
     ],
     'controller_plugins' => [
