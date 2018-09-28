@@ -21,7 +21,7 @@
  *
  * @category VuFind
  * @package  AJAX
- * @author   Matthias Edel <matthias.edel@villanova.edu>
+ * @author   Matthias Edel <matthias.edel@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
@@ -34,7 +34,7 @@ use Interop\Container\ContainerInterface;
  *
  * @category Swissbib
  * @package  AJAX
- * @author   Matthias Edel <matthias.edel@villanova.edu>
+ * @author   Matthias Edel <matthias.edel@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */

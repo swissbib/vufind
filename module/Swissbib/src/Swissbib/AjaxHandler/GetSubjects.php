@@ -27,10 +27,11 @@
  */
 namespace Swissbib\AjaxHandler;
 
-use VuFind\AjaxHandler\AbstractBase;
+use Interop\Container\ContainerInterface;
+use VuFind\AjaxHandler\AjaxHandlerInterface;
 use Zend\Http\Request;
+use Zend\Http\Response;
 use Zend\Mvc\Controller\Plugin\Params;
-use Zend\ServiceManager\ServiceManager;
 use VuFind\View\Helper\Root\RecordDataFormatter;
 
 /**
@@ -44,28 +45,33 @@ use VuFind\View\Helper\Root\RecordDataFormatter;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class GetSubjects extends AbstractBase
+class GetSubjects extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandlerInterface
 {
-
-    /**
-     * ServiceManager
-     *
-     * @var ServiceManager
-     */
-    protected $serviceManager;
-
     /**
      * @var Request
      */
     protected $request;
 
     /**
+     * @var Response
+     */
+    protected $response;
+
+    /**
+     * View renderer
+     *
+     * @var RendererInterface
+     */
+    protected $renderer;
+
+    /**
      * Constructor
      */
-    public function __construct(ServiceManager $sm, \Zend\Http\PhpEnvironment\Request $request)
+    public function __construct(ContainerInterface $sm, \Zend\Http\PhpEnvironment\Request $request)
     {
-        $this->serviceManager = $sm;
+        $this->serviceLocator = $sm;
         $this->request = $request;
+        $this->renderer = $sm->get('ViewRenderer');
     }
 
     /**
@@ -97,7 +103,7 @@ class GetSubjects extends AbstractBase
         $spec = $specBuilder->getArray();
 
         $response = $this->buildResponse($content, $spec);
-        return $response;
+        return $this->formatResponse($response);
     }
 
     /**
@@ -109,7 +115,7 @@ class GetSubjects extends AbstractBase
      */
     protected function search(array $searchOptions = []): array
     {
-        $manager = $this->serviceManager->get(
+        $manager = $this->serviceLocator->get(
             'VuFind\Search\Results\PluginManager'
         );
         $searcher = $this->request->getQuery()['searcher'];
@@ -136,6 +142,69 @@ class GetSubjects extends AbstractBase
         // @var $content array
         $content = $results->getResults();
         return $content;
+    }
+
+    /**
+     * Builds the Response
+     *
+     * @param array $content Content
+     * @param array $spec    Specification
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    protected function buildResponse($content, $spec): \Zend\Stdlib\ResponseInterface
+    {
+        $data = [];
+        // @var RecordDataFormatter $recordFormatter
+        $recordFormatter = $this->renderer->plugin(
+            'recordDataFormatter'
+        );
+        // @var AbstractBase $record
+        foreach ($content as $record) {
+            $formattedRecord = $recordFormatter->getData($record, $spec);
+            $this->_format($formattedRecord);
+            array_push($data, $formattedRecord);
+        }
+        $response = $this->getResponse();
+        $response->getHeaders()->addHeaderLine(
+            'Content-Type', 'application/json'
+        );
+        $response->getHeaders()->addHeaderLine(
+            'Access-Control-Allow-Origin', '*'
+        );
+        $response->setContent(json_encode($data));
+        return $response;
+    }
+
+    /**
+     * Formats the record
+     *
+     * @param array $formattedRecord Formatted Record
+     *
+     * @return void
+     */
+    private function _format(&$formattedRecord)
+    {
+        array_walk(
+            $formattedRecord,
+            function (&$value, $key) {
+                $value = $value['value'];
+            }
+        );
+    }
+
+    /**
+     * Get response object
+     *
+     * @return Response
+     */
+    public function getResponse()
+    {
+        if (!$this->response) {
+            $this->response = new Response();
+        }
+
+        return $this->response;
     }
 
 }
