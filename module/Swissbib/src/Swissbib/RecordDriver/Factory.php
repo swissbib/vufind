@@ -80,25 +80,6 @@ class Factory
     }
 
     /**
-     * SummonRecordDriver
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return Summon
-     */
-    public static function getSummonRecordDriver(ServiceManager $sm)
-    {
-        $baseConfig = $sm->get('VuFind\Config\PluginManager')->get('config');
-        $summonConfig = $sm->get('VuFind\Config\PluginManager')
-            ->get('Summon');
-
-        return new Summon(
-            $baseConfig, // main config
-            $summonConfig // record config
-        );
-    }
-
-    /**
      * Get WorldCatRecordDriver
      *
      * @param ServiceManager $sm ServiceManager

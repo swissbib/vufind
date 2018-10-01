@@ -17,9 +17,9 @@ use Swissbib\Controller\RecordController;
 use Swissbib\Controller\SearchController;
 use Swissbib\Controller\SummonController;
 use Swissbib\Controller\Tab40ImportController;
+use Swissbib\RecordDriver\Summon;
 use Swissbib\VuFind\Search\SearchRunnerFactory;
 use VuFind\Controller\AbstractBaseFactory;
-use VuFind\Feed\Writer\Extension\OpenSearch\Feed;
 
 return [
     'router' => [
@@ -602,14 +602,15 @@ return [
                     //'worldcat' => 'Swissbib\RecordDriver\Factory::getWorldCatRecordDriver',
                     //'missing'  => 'Swissbib\RecordDriver\Factory::getRecordDriverMissing',
                     'VuFind\RecordDriver\SolrMarc' => 'Swissbib\RecordDriver\Factory::getSolrMarcRecordDriver',
-                    'VuFind\RecordDriver\Summon'   => 'Swissbib\RecordDriver\Factory::getSummonRecordDriver',
                     'VuFind\RecordDriver\WorldCat' => 'Swissbib\RecordDriver\Factory::getWorldCatRecordDriver',
                     'VuFind\RecordDriver\Missing'  => 'Swissbib\RecordDriver\Factory::getRecordDriverMissing',
                 ],
                 'aliases' => [
+                    //Overrides
+                    \VuFind\RecordDriver\Summon::class => Summon::class,
+
+                    //aliases
                     'solrmarc' => 'VuFind\RecordDriver\SolrMarc',
-                    'summon' => 'VuFind\RecordDriver\Summon',
-                    'Summon' => 'VuFind\RecordDriver\Summon',
                     'worldcat' => 'VuFind\RecordDriver\WorldCat',
                     'missing' => 'VuFind\RecordDriver\Missing',
                 ],
