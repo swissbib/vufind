@@ -61,7 +61,7 @@ class Factory
      *
      * @param ServiceManager $sm Service manager.
      *
-     * @return HierarchyTreeArchival
+     * @return HierarchyTree
      */
     public static function getHierarchyTree(ServiceManager $sm)
     {
