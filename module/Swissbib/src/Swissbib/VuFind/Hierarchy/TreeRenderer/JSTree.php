@@ -64,11 +64,14 @@ class JSTree extends VfJsTree
      *
      * @param \Zend\Mvc\Controller\Plugin\Url $router        Router plugin for urls
      * @param VFSearchService                 $searchService search service
+     * @param bool                            $collectionsEnabled Whether the
+     * collections functionality is enabled
      */
     public function __construct(\Zend\Mvc\Controller\Plugin\Url $router,
-        VFSearchService $searchService
+        VFSearchService $searchService,
+        $collectionsEnabled
     ) {
-        parent::__construct($router);
+        parent::__construct($router, $collectionsEnabled);
         $this->searchService = $searchService;
     }
 

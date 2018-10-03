@@ -642,8 +642,11 @@ return [
             ],
             'hierarchy_treerenderer'   => [
                 'factories' => [
-                    'jstree' => 'Swissbib\VuFind\Hierarchy\Factory::getJSTree'
-                ]
+                    \Swissbib\VuFind\Hierarchy\TreeRenderer\JSTree::class => 'Swissbib\VuFind\Hierarchy\Factory::getJSTree'
+                ],
+                'aliases' => [
+                    'jstree' => \Swissbib\VuFind\Hierarchy\TreeRenderer\JSTree::class
+                ],
             ],
             'recordtab'                => [
                 'invokables' => [
