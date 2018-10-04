@@ -274,13 +274,4 @@ class ESSubject extends ElasticSearch
         return array_key_exists($key, $fields) ? $fields[$key] : null;
     }
 
-    /**
-     * Get All Fields
-     *
-     * @return array
-     */
-    public function getAllFields()
-    {
-        return $this->fields;
-    }
 }

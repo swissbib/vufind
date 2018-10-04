@@ -57,7 +57,7 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
     ) {
         // Record drivers are not meant to be shared -- every time we retrieve one,
         // we are building a brand new object.
-        $this->shareByDefault = false;
+        $this->sharedByDefault = false;
         parent::__construct($serviceLocator, $v3config);
     }
 

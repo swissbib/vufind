@@ -103,7 +103,7 @@ class GetSubjects extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandle
         $spec = $specBuilder->getArray();
 
         $response = $this->buildResponse($content, $spec);
-        return $this->formatResponse($response);
+        return $this->formatResponse($response->getContent());
     }
 
     /**
@@ -172,7 +172,7 @@ class GetSubjects extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandle
         $response->getHeaders()->addHeaderLine(
             'Access-Control-Allow-Origin', '*'
         );
-        $response->setContent(json_encode($data));
+        $response->setContent($data);
         return $response;
     }
 
@@ -185,12 +185,12 @@ class GetSubjects extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandle
      */
     private function _format(&$formattedRecord)
     {
-        array_walk(
-            $formattedRecord,
-            function (&$value, $key) {
-                $value = $value['value'];
-            }
-        );
+        $returnArray = [];
+        foreach ($formattedRecord as $arrayElement)
+        {
+            $returnArray[$arrayElement['label']] = $arrayElement['value'];
+        }
+        $formattedRecord = $returnArray;
     }
 
     /**
