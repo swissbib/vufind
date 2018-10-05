@@ -29,6 +29,7 @@ namespace Swissbib\AjaxHandler;
 
 use Interop\Container\ContainerInterface;
 use VuFind\AjaxHandler\AjaxHandlerInterface;
+use Zend\Http\Response;
 use Zend\Mvc\Controller\Plugin\Params;
 use VuFind\View\Helper\Root\RecordDataFormatter;
 
@@ -43,7 +44,7 @@ use VuFind\View\Helper\Root\RecordDataFormatter;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class GetSubjects extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandlerInterface
+class GetBibliographicResource extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandlerInterface
 {
     use \Swissbib\AjaxHandler\AjaxTrait;
 
@@ -71,17 +72,12 @@ class GetSubjects extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandle
         // TODO externalize spec
         $specBuilder = new RecordDataFormatter\SpecBuilder();
         $specBuilder->setLine(
-            "id", "getUniqueID", "Simple", ['allowZero' => false]
+            "persons", "getContributingPersons", "Simple",
+            ['allowZero' => true, 'separator' => ',']
         );
         $specBuilder->setLine(
-            "type", "getType", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "name", "getName", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "hasSufficientData", "hasSufficientData", "Simple",
-            ['allowZero' => false]
+            "organisations", "getContributingOrganisations", "Simple",
+            ['allowZero' => true, 'separator' => ',']
         );
         $spec = $specBuilder->getArray();
 
@@ -125,6 +121,69 @@ class GetSubjects extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandle
         // @var $content array
         $content = $results->getResults();
         return $content;
+    }
+
+    /**
+     * Builds the Response
+     *
+     * @param array $content Content
+     * @param array $spec    Specification
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    protected function buildResponse($content, $spec): \Zend\Stdlib\ResponseInterface
+    {
+        $data = [];
+        // @var RecordDataFormatter $recordFormatter
+        $recordFormatter = $this->renderer->plugin(
+            'recordDataFormatter'
+        );
+        // @var AbstractBase $record
+        foreach ($content as $record) {
+            $formattedRecord = $recordFormatter->getData($record, $spec);
+            $this->_format($formattedRecord);
+            array_push($data, $formattedRecord);
+        }
+        $response = $this->getResponse();
+        $response->getHeaders()->addHeaderLine(
+            'Content-Type', 'application/json'
+        );
+        $response->getHeaders()->addHeaderLine(
+            'Access-Control-Allow-Origin', '*'
+        );
+        $response->setContent($data);
+        return $response;
+    }
+
+    /**
+     * Formats the record
+     *
+     * @param array $formattedRecord Formatted Record
+     *
+     * @return void
+     */
+    private function _format(&$formattedRecord)
+    {
+        $returnArray = [];
+        foreach ($formattedRecord as $arrayElement)
+        {
+            $returnArray[$arrayElement['label']] = $arrayElement['value'];
+        }
+        $formattedRecord = $returnArray;
+    }
+
+    /**
+     * Get response object
+     *
+     * @return Response
+     */
+    public function getResponse()
+    {
+        if (!$this->response) {
+            $this->response = new Response();
+        }
+
+        return $this->response;
     }
 
 }

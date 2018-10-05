@@ -660,11 +660,14 @@ return [
             ],
             'ajaxhandler'           => [
                 'factories' => [
-                    'Swissbib\AjaxHandler\GetSubjects' => 'Swissbib\AjaxHandler\GetSubjectsFactory',
-                    //'VuFind\AjaxHandler\GetItemStatuses' =>
+                    'Swissbib\AjaxHandler\GetSubjects'              => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetAuthors'               => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetBibliographicResource' => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
                 ],
                 'aliases' =>  [
-                    'getSubjects' => 'Swissbib\AjaxHandler\GetSubjects',
+                  'getSubjects'              => 'Swissbib\AjaxHandler\GetSubjects',
+                  'getAuthors'               => 'Swissbib\AjaxHandler\GetAuthors',
+                  'getBibliographicResource' => 'Swissbib\AjaxHandler\GetBibliographicResource',
                 ]
             ],
         ]

@@ -35,7 +35,7 @@ use VuFind\View\Helper\Root\RecordDataFormatter;
 /**
  * "Get Subjects" AJAX handler
  *
- * This will return the gnd subjects form ElasticSearch
+ * This will return the authors form ElasticSearch
  *
  * @category VuFind
  * @package  AJAX
@@ -43,7 +43,7 @@ use VuFind\View\Helper\Root\RecordDataFormatter;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class GetSubjects extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandlerInterface
+class GetAuthors extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandlerInterface
 {
     use \Swissbib\AjaxHandler\AjaxTrait;
 
@@ -78,6 +78,12 @@ class GetSubjects extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandle
         );
         $specBuilder->setLine(
             "name", "getName", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "firstName", "getFirstName", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "lastName", "getlastName", "Simple", ['allowZero' => false]
         );
         $specBuilder->setLine(
             "hasSufficientData", "hasSufficientData", "Simple",
