@@ -366,9 +366,6 @@ return [
         ]
     ],
     'controllers' => [
-        'invokables' => [
-            'shibtest'             => 'Swissbib\Controller\ShibtestController',
-        ],
         'factories'  => [
             CoverController::class => 'Swissbib\Controller\Factory::getCoverController',
             FavoritesController::class => AbstractBaseFactory::class,
@@ -387,14 +384,16 @@ return [
             Tab40ImportController::class   => 'Swissbib\Controller\Factory::getTab40ImportController',
 
             //TODO : update these keys to ZF3 style keys (with ::class)
-            'upgrade'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
-            'install'   => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
-            'console' => 'Swissbib\Controller\Factory::getConsoleController',
-            'person-knowledge-card' => 'Swissbib\Controller\Factory::getPersonKnowledgeCardController',
-            'subject-knowledge-card' => 'Swissbib\Controller\Factory::getSubjectKnowledgeCardController',
-            'person-detail-page' => 'Swissbib\Controller\Factory::getPersonDetailPageController',
-            'subject-detail-page' => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
-            'person-search' => 'Swissbib\Controller\Factory::getPersonSearchController',
+            'upgrade'                                => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
+            'install'                                => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
+            'console'                                => 'Swissbib\Controller\Factory::getConsoleController',
+            'person-knowledge-card'                  => 'Swissbib\Controller\Factory::getPersonKnowledgeCardController',
+            'subject-knowledge-card'                 => 'Swissbib\Controller\Factory::getSubjectKnowledgeCardController',
+            'person-detail-page'                     => 'Swissbib\Controller\Factory::getPersonDetailPageController',
+            'subject-detail-page'                    => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
+            'person-search'                          => 'Swissbib\Controller\Factory::getPersonSearchController',
+
+            'Swissbib\Controller\ShibtestController' => 'Zend\ServiceManager\Factory\InvokableFactory',
         ],
         'aliases' => [
             //Overrides
@@ -403,7 +402,8 @@ return [
             \VuFind\Controller\MyResearchController::class => MyResearchController::class,
             \VuFind\Controller\SearchController::class => SearchController::class,
             \VuFind\Controller\SummonController::class => SummonController::class,
-            'ajax' => AjaxController::class,
+            'ajax'                 => AjaxController::class,
+            'shibtest'             => 'Swissbib\Controller\ShibtestController',
         ],
     ],
     'controller_plugins' => [
@@ -414,9 +414,6 @@ return [
         ],
     ],
     'service_manager' => [
-        'invokables' => [
-            'MarcFormatter'                                 => 'Swissbib\XSLT\MARCFormatter',
-        ],
         'factories' => [
             'VuFindTheme\ResourceContainer'                 =>  'Swissbib\VuFind\Factory::getResourceContainer',
             'Swissbib\HoldingsHelper'                       =>  'Swissbib\RecordDriver\Helper\Factory::getHoldingsHelper',
@@ -464,16 +461,53 @@ return [
             'Swissbib\PuraService'                          =>  'Swissbib\Services\Factory::getPuraService',
             'VuFind\Search\SearchRunner'                    =>  SearchRunnerFactory::class,
             'Swissbib\Cover\Loader'                         =>  'VuFind\Cover\LoaderFactory',
-
-
             //'VuFind\ILS\Connection' => 'VuFind\ILS\Driver\Aleph',
+            'Swissbib\XSLT\MARCFormatter'                   => 'Zend\ServiceManager\Factory\InvokableFactory',
         ],
         'aliases' => [
             'MvcTranslator'         => 'Zend\Mvc\I18n\Translator',
+            'MarcFormatter'         => 'Swissbib\XSLT\MARCFormatter',
         ],
     ],
     'view_helpers'    => [
-        'invokables' => [
+        'factories'  => [
+            'configAccess'                              =>  'Swissbib\View\Helper\Factory::getConfig',
+            'institutionSorter'                         =>  'Swissbib\View\Helper\Factory::getInstitutionSorter',
+            'extractFavoriteInstitutionsForHoldings'    =>  'Swissbib\View\Helper\Factory::getFavoriteInstitutionsExtractor',
+            'institutionDefinedAsFavorite'              =>  'Swissbib\View\Helper\Factory::getInstitutionsAsDefinedFavorites',
+            //'qrCode'                                    =>  'Swissbib\View\Helper\Factory::getQRCodeHelper',
+            'isFavoriteInstitution'                     =>  'Swissbib\View\Helper\Factory::isFavoriteInstitutionHelper',
+            'domainURL'                                 =>  'Swissbib\View\Helper\Factory::getDomainURLHelper',
+            //'redirectProtocolWrapper'                   =>  'Swissbib\View\Helper\Factory::getRedirectProtocolWrapperHelper'
+            'Swissbib\View\Helper\Ajax'                     => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\Authors'                          => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\FacetItem'                        => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\FacetItemLabel'                   => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\LastSearchWord'                   => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\LastTabbedSearchUri'              => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\MainTitle'                        => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\MyResearchSideBar'                => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\URLDisplay'                       => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\Number'                           => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\PhysicalDescriptions'             => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\RemoveHighlight'                  => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\SubjectHeadings'                  => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\SortAndPrepareFacetList'          => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\TabTemplate'                      => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Zend\I18n\View\Helper\Translate'                       => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\GetVersion'                       => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\HoldingActions'                   => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\AvailabilityInfo'                 => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\TranslateLocation'                => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\QrCodeHolding'                    => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\HoldingItemsPaging'               => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\FilterUntranslatedInstitutions'   => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\View\Helper\LayoutClass'                      => 'Zend\ServiceManager\Factory\InvokableFactory',
+        ],
+        'aliases' => [
+            'ajax'                           => 'Swissbib\View\Helper\Ajax',
+            //'MvcTranslator' => 'Zend\Mvc\I18n\Translator',
+            //'translator'    => 'Zend\Mvc\I18n\Translator',
             'Authors'                        => 'Swissbib\View\Helper\Authors',
             'facetItem'                      => 'Swissbib\View\Helper\FacetItem',
             'facetItemLabel'                 => 'Swissbib\View\Helper\FacetItemLabel',
@@ -497,23 +531,6 @@ return [
             'holdingItemsPaging'             => 'Swissbib\View\Helper\HoldingItemsPaging',
             'filterUntranslatedInstitutions' => 'Swissbib\View\Helper\FilterUntranslatedInstitutions',
             'layoutClass'                    => 'Swissbib\View\Helper\LayoutClass',
-
-        ],
-        'factories'  => [
-            'configAccess'                              =>  'Swissbib\View\Helper\Factory::getConfig',
-            'institutionSorter'                         =>  'Swissbib\View\Helper\Factory::getInstitutionSorter',
-            'extractFavoriteInstitutionsForHoldings'    =>  'Swissbib\View\Helper\Factory::getFavoriteInstitutionsExtractor',
-            'institutionDefinedAsFavorite'              =>  'Swissbib\View\Helper\Factory::getInstitutionsAsDefinedFavorites',
-            //'qrCode'                                    =>  'Swissbib\View\Helper\Factory::getQRCodeHelper',
-            'isFavoriteInstitution'                     =>  'Swissbib\View\Helper\Factory::isFavoriteInstitutionHelper',
-            'domainURL'                                 =>  'Swissbib\View\Helper\Factory::getDomainURLHelper',
-            //'redirectProtocolWrapper'                   =>  'Swissbib\View\Helper\Factory::getRedirectProtocolWrapperHelper'
-            'Swissbib\View\Helper\Ajax'                 => 'Zend\ServiceManager\Factory\InvokableFactory',
-            ],
-        'aliases' => [
-            'ajax'                           => 'Swissbib\View\Helper\Ajax',
-            //'MvcTranslator' => 'Zend\Mvc\I18n\Translator',
-            //'translator'    => 'Zend\Mvc\I18n\Translator',
         ],
     ],
     'vufind' => [
@@ -639,11 +656,14 @@ return [
                 ],
             ],
             'hierarchy_treedataformatter' => [
-                'invokables' => [
+                'factories' => [
+                    'Swissbib\VuFind\Hierarchy\TreeDataFormatter\Json' => 'Zend\ServiceManager\Factory\InvokableFactory',
+                ],
+                'aliases' => [
                     'json' => 'Swissbib\VuFind\Hierarchy\TreeDataFormatter\Json',
                 ],
             ],
-            'hierarchy_treerenderer'   => [
+            'hierarchy_treerenderer' => [
                 'factories' => [
                     \Swissbib\VuFind\Hierarchy\TreeRenderer\JSTree::class => 'Swissbib\VuFind\Hierarchy\Factory::getJSTree'
                 ],
@@ -651,15 +671,19 @@ return [
                     'jstree' => \Swissbib\VuFind\Hierarchy\TreeRenderer\JSTree::class
                 ],
             ],
-            'recordtab'                => [
-                'invokables' => [
-                    'articledetails' => 'Swissbib\RecordTab\ArticleDetails',
-                    'description'    => 'Swissbib\RecordTab\Description'
-                ],
+            'recordtab' => [
                 'factories' => [
                     'hierarchytree' => 'Swissbib\RecordTab\Factory::getHierarchyTree',
                     'hierarchytreearchival' => 'Swissbib\RecordTab\Factory::getHierarchyTreeArchival'
-                ]
+                ],
+                'factories' => [
+                    'Swissbib\RecordTab\ArticleDetails' => 'Zend\ServiceManager\Factory\InvokableFactory',
+                    'Swissbib\RecordTab\Description'    => 'Zend\ServiceManager\Factory\InvokableFactory',
+                ],
+                'aliases' => [
+                    'articledetails' => 'Swissbib\RecordTab\ArticleDetails',
+                    'description'    => 'Swissbib\RecordTab\Description'
+                ],
             ],
             'ajaxhandler'           => [
                 'factories' => [
