@@ -60,7 +60,7 @@ return [
         'record'        => 'Swissbib\View\Helper\Record',
         'layoutClass'   => 'Swissbib\View\Helper\LayoutClass',
         'citation'      => 'Swissbib\VuFind\View\Helper\Root\Citation',
-        'recordlink'    => 'Swissbib\View\Helper\RecordLink',
+        'recordLink'    => 'Swissbib\View\Helper\RecordLink',
         'searchtabs'    => 'Swissbib\VuFind\View\Helper\Root\SearchTabs',
         'piwik'         => 'Swissbib\VuFind\View\Helper\Root\Piwik',
         //'translate'     => 'Swissbib\VuFind\View\Helper\Root\Translate',
