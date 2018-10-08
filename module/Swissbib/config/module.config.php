@@ -2,6 +2,7 @@
 namespace Swissbib\Module\Config;
 
 use Elasticsearch\Endpoints\Cat\Help;
+use Swissbib\Controller\AjaxController;
 use Swissbib\Controller\CoverController;
 use Swissbib\Controller\FavoritesController;
 use Swissbib\Controller\FeedbackController;
@@ -402,6 +403,7 @@ return [
             \VuFind\Controller\MyResearchController::class => MyResearchController::class,
             \VuFind\Controller\SearchController::class => SearchController::class,
             \VuFind\Controller\SummonController::class => SummonController::class,
+            'ajax' => AjaxController::class,
         ],
     ],
     'controller_plugins' => [
@@ -495,8 +497,7 @@ return [
             'holdingItemsPaging'             => 'Swissbib\View\Helper\HoldingItemsPaging',
             'filterUntranslatedInstitutions' => 'Swissbib\View\Helper\FilterUntranslatedInstitutions',
             'layoutClass'                    => 'Swissbib\View\Helper\LayoutClass',
-            //todo: nicht mehr benoetigt??
-            //'ajax'                           => 'Swissbib\View\Helper\Ajax'
+
         ],
         'factories'  => [
             'configAccess'                              =>  'Swissbib\View\Helper\Factory::getConfig',
@@ -507,8 +508,10 @@ return [
             'isFavoriteInstitution'                     =>  'Swissbib\View\Helper\Factory::isFavoriteInstitutionHelper',
             'domainURL'                                 =>  'Swissbib\View\Helper\Factory::getDomainURLHelper',
             //'redirectProtocolWrapper'                   =>  'Swissbib\View\Helper\Factory::getRedirectProtocolWrapperHelper'
-        ],
+            'Swissbib\View\Helper\Ajax'                 => 'Zend\ServiceManager\Factory\InvokableFactory',
+            ],
         'aliases' => [
+            'ajax'                           => 'Swissbib\View\Helper\Ajax',
             //'MvcTranslator' => 'Zend\Mvc\I18n\Translator',
             //'translator'    => 'Zend\Mvc\I18n\Translator',
         ],
