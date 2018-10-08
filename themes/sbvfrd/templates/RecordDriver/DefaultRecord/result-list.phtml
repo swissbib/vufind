@@ -4,7 +4,7 @@
 $record = $this->driver;
 $viewRecord = $this->record($this->driver);
 
-$thumbnail = $viewRecord->getThumbnail('small');
+$thumbnail = $viewRecord->getThumbnail('medium');
 $detailLink = $this->recordLink()->getUrl($record);
 $titleStatement = $record->getTitleStatement(true);
 $shortTitle = $record->getShortTitle();
