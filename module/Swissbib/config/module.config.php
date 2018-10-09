@@ -208,7 +208,7 @@ return [
             ], 'record-copy' => [
                 'type' => 'segment', 'options' => [
                     'route' => '/Record/:id/Copy', 'defaults' => [
-                        'controller' => 'record', 'action' => 'copy'
+                        'controller' => RecordController::class, 'action' => 'copy'
                     ]
                 ]
             ], 'card-knowledge-person' => [
