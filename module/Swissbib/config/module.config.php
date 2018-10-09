@@ -687,14 +687,24 @@ return [
             ],
             'ajaxhandler'           => [
                 'factories' => [
-                    'Swissbib\AjaxHandler\GetSubjects'              => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
-                    'Swissbib\AjaxHandler\GetAuthors'               => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
-                    'Swissbib\AjaxHandler\GetBibliographicResource' => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetSubjects'                => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetAuthors'                 => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetBibliographicResource'   => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetCoAuthors'               => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetSameGenreAuthorsAjax'    => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetSameMovementAuthorsAjax' => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetSubjectAuthorsAjax'      => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetOrganisationsAjax'       => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
                 ],
                 'aliases' =>  [
-                  'getSubjects'              => 'Swissbib\AjaxHandler\GetSubjects',
-                  'getAuthors'               => 'Swissbib\AjaxHandler\GetAuthors',
-                  'getBibliographicResource' => 'Swissbib\AjaxHandler\GetBibliographicResource',
+                    'getSubjects'                 => 'Swissbib\AjaxHandler\GetSubjects',
+                    'getAuthors'                  => 'Swissbib\AjaxHandler\GetAuthors',
+                    'getBibliographicResource'    => 'Swissbib\AjaxHandler\GetBibliographicResource',
+                    'getCoAuthors'                => 'Swissbib\AjaxHandler\GetCoAuthors',
+                    'getSameGenreAuthorsAjax'     => 'Swissbib\AjaxHandler\GetSameGenreAuthorsAjax',
+                    'getSameMovementAuthorsAjax'  => 'Swissbib\AjaxHandler\GetSameMovementAuthorsAjax',
+                    'getSubjectAuthorsAjax'       => 'Swissbib\AjaxHandler\GetSubjectAuthorsAjax',
+                    'getOrganisationsAjax'        => 'Swissbib\AjaxHandler\GetOrganisationsAjax',
                 ]
             ],
         ]

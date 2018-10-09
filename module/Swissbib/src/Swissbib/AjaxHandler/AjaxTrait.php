@@ -87,4 +87,42 @@ trait AjaxTrait
         return $this->response;
     }
 
+    /**
+     * Search
+     *
+     * @param array $searchOptions Search Options
+     *
+     * @return array
+     */
+    protected function search(array $searchOptions = []): array
+    {
+        $manager = $this->serviceLocator->get(
+            'VuFind\Search\Results\PluginManager'
+        );
+        $searcher = $this->request->getQuery()['searcher'];
+        /*
+         * @var Results
+         */
+        $results = $manager->get($searcher);
+
+        /*
+         * @var Params $params
+         */
+        $params = $results->getParams();
+
+        // Send both GET and POST variables to search class:
+        $params->initFromRequest(
+            new \Zend\Stdlib\Parameters(
+                $this->request->getQuery()->toArray() + $this->request
+                    ->getPost()->toArray()
+            )
+        );
+
+        $results->performAndProcessSearch();
+
+        // @var $content array
+        $content = $results->getResults();
+        return $content;
+    }
+
 }

@@ -43,7 +43,7 @@ use VuFind\View\Helper\Root\RecordDataFormatter;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class GetAuthors extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandlerInterface
+class GetSameGenreAuthors extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandlerInterface
 {
     use \Swissbib\AjaxHandler\AjaxTrait;
 
@@ -66,32 +66,17 @@ class GetAuthors extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandler
      */
     public function handleRequest(Params $params)
     {
-        $content = $this->search();
+        $genre = $this->getRequest()->getQuery()['genre'] ?? "";
+        $genre =  "[" . urldecode($genre) . "]";
+        $page = $this->getRequest()->getQuery()['page'] ?? 1;
+        $pageSize = $this->getRequest()->getQuery()['size'] ??
+            $this->getConfig()->DetailPage->sameGenreAuthorsSize;
 
-        // TODO externalize spec
-        $specBuilder = new RecordDataFormatter\SpecBuilder();
-        $specBuilder->setLine(
-            "id", "getUniqueID", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "type", "getType", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "name", "getName", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "firstName", "getFirstName", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "lastName", "getlastName", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "hasSufficientData", "hasSufficientData", "Simple",
-            ['allowZero' => false]
-        );
-        $spec = $specBuilder->getArray();
+        $authors = $this->elasticsearchsearch()->searchElasticSearch(
+            $genre, "person_by_genre", null, null, $pageSize, $page ?? 1
+        )->getResults();
 
-        $response = $this->buildResponse($content, $spec);
+        $response = $this->buildResponse($authors, $this->getAuthorPaginationSpec());
         return $this->formatResponse($response->getContent());
     }
 
