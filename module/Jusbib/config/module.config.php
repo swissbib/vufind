@@ -17,8 +17,6 @@ return [
         ]
     ],
     'controllers' => [
-        'invokables' => [
-        ],
         'factories' => [
             'search' => 'Jusbib\Controller\Factory::getSearchController',
         ]

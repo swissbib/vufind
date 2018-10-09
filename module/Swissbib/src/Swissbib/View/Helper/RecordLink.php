@@ -50,7 +50,7 @@ class RecordLink extends VfRecordLink
      *
      * @return string
      */
-    public function related($link, $escape = true)
+    public function related($link, $escape = true, $source = DEFAULT_SEARCH_BACKEND)
     {
         if ($link['type'] === 'ctrlnum') {
             return $this->buildCtrlNumRelatedLink($link, $escape);
