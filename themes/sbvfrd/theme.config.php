@@ -4,8 +4,6 @@ return [
 
   'less' => [
     'active' => true,
-     //not sure this line brings something :
-    'components/js-tree.less',
     'compiled.less'
   ],
 
