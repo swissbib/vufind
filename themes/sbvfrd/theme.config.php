@@ -3,7 +3,8 @@ return [
   'extends' => 'bootstrap3',
 
   'less' => [
-    'active' => false,
+    'active' => true,
+     //not sure this line brings something :
     'components/js-tree.less',
     'compiled.less'
   ],

@@ -28,28 +28,30 @@ function buildFacetNodes(data, currentPath, allowExclude, excludeTitle, counts)
     }
 
     $item.append(this.displayText);
-    //$item.append('<div style="clear: both; display: inline-block;">' + this.displayText + '</div>');
     $item.appendTo($html);
 
-    var $a1;
     if (!this.isApplied && counts) {
-      $a1 = $('<span/>')
+      var $badge = $('<span/>')
+        .css('float', 'right')
+        //.css('width', '10')
         .addClass('badge')
-        .html(
+        .text(
           this.count.toString().replace(/\B(?=(\d{3})+\b)/g, VuFind.translate('number_thousands_separator'))
         );
-      //.appendTo($html);
 
-      if (allowExclude) {
-        var excludeUrl = currentPath + this.exclude;
-        var $a = $('<a/>')
-          .addClass('exclude')
-          .attr('href', excludeUrl)
-          .attr('title', excludeTitle);
-        $('<i/>').addClass('fa fa-times').appendTo($a);
-        $a.appendTo($a1);
-      }
-      $a1.appendTo($html);
+        if (allowExclude) {
+            var excludeUrl = currentPath + this.exclude;
+            var $a = $('<a/>')
+                .addClass('exclude')
+                .attr('href', excludeUrl)
+                .attr('title', excludeTitle);
+            $('<i/>').addClass('fa fa-times').appendTo($a);
+            $badge.append($a);
+        }
+
+        $badge.appendTo($html);
+
+
     }
 
     $html = $('<div/>').append($html);
