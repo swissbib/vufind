@@ -35,7 +35,7 @@ function buildFacetNodes(data, currentPath, allowExclude, excludeTitle, counts)
         .css('float', 'right')
         //.css('width', '10')
         .addClass('badge')
-        .text(
+        .html(
           this.count.toString().replace(/\B(?=(\d{3})+\b)/g, VuFind.translate('number_thousands_separator'))
         );
 
