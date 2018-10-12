@@ -68,15 +68,4 @@ class Factory
         return new SolrSearch($sm);
     }
 
-    /**
-     * Constructs the ElasticSearchSearch plugin
-     *
-     * @param ServiceLocatorInterface $sm The service locator
-     *
-     * @return \Swissbib\Controller\Plugin\ElasticSearchSearch
-     */
-    public static function getElasticSearchSearch(ServiceLocatorInterface $sm)
-    {
-        return new ElasticSearchSearch($sm);
-    }
 }

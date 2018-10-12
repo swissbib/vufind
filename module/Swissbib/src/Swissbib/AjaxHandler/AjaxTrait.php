@@ -4,6 +4,7 @@ namespace Swissbib\AjaxHandler;
 
 use Zend\Http\Request;
 use Zend\Http\Response;
+use VuFind\View\Helper\Root\RecordDataFormatter;
 
 trait AjaxTrait
 {
@@ -23,6 +24,11 @@ trait AjaxTrait
      * @var RendererInterface
      */
     protected $renderer;
+
+    protected function getConfig()
+    {
+        return $this->serviceLocator->get('VuFind\Config')->get('config');
+    }
 
     /**
      * Builds the Response
@@ -88,6 +94,16 @@ trait AjaxTrait
     }
 
     /**
+     * Get request object
+     *
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
      * Search
      *
      * @param array $searchOptions Search Options
@@ -123,6 +139,35 @@ trait AjaxTrait
         // @var $content array
         $content = $results->getResults();
         return $content;
+    }
+
+    /**
+     * Get the spec for author pagination
+     *
+     * @return array
+     */
+    protected function getAuthorPaginationSpec(): array
+    {
+        $specBuilder = new RecordDataFormatter\SpecBuilder();
+        $specBuilder->setLine(
+            "id", "getUniqueID", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "name", "getName", "Simple", ['allowZero' => false]
+        );
+        $specBuilder->setLine(
+            "displayName", "getName", "RecordHelper",
+            ['allowZero' => false, 'helperMethod' => 'getDisplayName']
+        );
+        $specBuilder->setLine(
+            "thumbnail", "getThumbnail", "RecordHelper",
+            ['allowZero' => false, 'helperMethod' => 'getThumbnailFromRecord']
+        );
+        $specBuilder->setLine(
+            "sufficientData", "hasSufficientData", "RecordHelper",
+            ['allowZero' => false, 'helperMethod' => 'hasSufficientData']
+        );
+        return $specBuilder->getArray();
     }
 
 }

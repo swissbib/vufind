@@ -71,12 +71,11 @@ class GetCoAuthors extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandl
         $pageSize = $this->getRequest()->getQuery()['size'] ??
             $this->getConfig()->DetailPage->coAuthorsSize;
 
-        $authors = $this->elasticsearchsearch()->searchCoContributorsOfPerson(
+        $authors = $this->serviceLocator->get('elasticsearchsearch')->searchCoContributorsOfPerson(
             $id, $pageSize, $this->getConfig()->DetailPage->searchSize, $page
         )->getResults();
 
         $response = $this->buildResponse($authors, $this->getAuthorPaginationSpec());
         return $this->formatResponse($response->getContent());
     }
-
 }

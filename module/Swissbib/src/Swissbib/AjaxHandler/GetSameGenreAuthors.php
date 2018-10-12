@@ -72,7 +72,7 @@ class GetSameGenreAuthors extends \VuFind\AjaxHandler\AbstractBase implements Aj
         $pageSize = $this->getRequest()->getQuery()['size'] ??
             $this->getConfig()->DetailPage->sameGenreAuthorsSize;
 
-        $authors = $this->elasticsearchsearch()->searchElasticSearch(
+        $authors = $this->serviceLocator->get('elasticsearchsearch')->searchElasticSearch(
             $genre, "person_by_genre", null, null, $pageSize, $page ?? 1
         )->getResults();
 
