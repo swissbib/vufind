@@ -90,7 +90,8 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getRecordDriver($id, $index, $type): ElasticSearch
     {
-        $content = $this->elasticsearchsearch()->searchElasticSearch(
+        $content = $this->serviceLocator->get('elasticsearchsearch')
+            ->searchElasticSearch(
             $id, "id", $index, $type, 1
         )->getResults();
 
@@ -116,10 +117,11 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getSubjectsOf(): array
     {
-        return $this->elasticsearchsearch()->searchElasticSearch(
-            $this->arrayToSearchString(array_unique($this->subjectIds)), "id", "gnd",
-            "DEFAULT", $this->config->subjectsSize
-        )->getResults();
+        return $this->serviceLocator->get('elasticsearchsearch')
+            ->searchElasticSearch(
+                $this->arrayToSearchString(array_unique($this->subjectIds)), "id", "gnd",
+                "DEFAULT", $this->config->subjectsSize
+            )->getResults();
     }
 
     /**

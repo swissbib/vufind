@@ -142,7 +142,7 @@ abstract class AbstractPersonController extends AbstractDetailsController
     protected function getBibliographicResourcesOf(string $id): array
     {
         $searchSize = $this->config->searchSize;
-        return $this->elasticsearchsearch()
+        return $this->serviceLocator->get('elasticsearchsearch')
             ->searchBibliographiResourcesOfPerson($id, $searchSize);
     }
 }

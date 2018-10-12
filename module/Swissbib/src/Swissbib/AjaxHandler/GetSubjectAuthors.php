@@ -66,32 +66,16 @@ class GetSubjectAuthors extends \VuFind\AjaxHandler\AbstractBase implements Ajax
      */
     public function handleRequest(Params $params)
     {
-        $content = $this->search();
+        $id = $this->getRequest()->getQuery()['subject'] ?? "";
+        $page = $this->getRequest()->getQuery()['page'] ?? 1;
+        $pageSize = $this->getRequest()->getQuery()['size'] ??
+            $this->getConfig()->DetailPage->coAuthorsSize;
 
-        // TODO externalize spec
-        $specBuilder = new RecordDataFormatter\SpecBuilder();
-        $specBuilder->setLine(
-            "id", "getUniqueID", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "type", "getType", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "name", "getName", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "firstName", "getFirstName", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "lastName", "getlastName", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "hasSufficientData", "hasSufficientData", "Simple",
-            ['allowZero' => false]
-        );
-        $spec = $specBuilder->getArray();
+        $authors = $this->serviceLocator->get('elasticsearchsearch')->searchContributorsOfSubject(
+            $id, $pageSize, $this->getConfig()->DetailPage->searchSize, $page
+        )->getResults();
 
-        $response = $this->buildResponse($content, $spec);
+        $response = $this->buildResponse($authors, $this->getAuthorPaginationSpec());
         return $this->formatResponse($response->getContent());
     }
 

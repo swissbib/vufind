@@ -112,7 +112,7 @@ abstract class AbstractSubjectController extends AbstractDetailsController
      */
     protected function getSubSubjects(string $id)
     {
-        return $this->elasticsearchsearch()->searchElasticSearch(
+        return $this->serviceLocator->get('elasticsearchsearch')->searchElasticSearch(
             $id, "sub_subjects", $this->config->subjectsSize
         )->getResults();
     }
@@ -126,7 +126,7 @@ abstract class AbstractSubjectController extends AbstractDetailsController
      */
     protected function getParentSubjects(array $ids)
     {
-        return $this->elasticsearchsearch()->searchElasticSearch(
+        return $this->serviceLocator->get('elasticsearchsearch')->searchElasticSearch(
             $this->arrayToSearchString($ids), "id", "gnd", "DEFAULT",
             $this->config->subjectsSize
         )->getResults();
@@ -142,7 +142,7 @@ abstract class AbstractSubjectController extends AbstractDetailsController
     protected function getBibliographicResourcesOf(string $id): array
     {
         $searchSize = $this->config->searchSize;
-        return $this->elasticsearchsearch()
+        return $this->serviceLocator->get('elasticsearchsearch')
             ->searchBibliographiResourcesOfSubject($id, $searchSize);
     }
 }
