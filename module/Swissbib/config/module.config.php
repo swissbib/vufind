@@ -675,14 +675,14 @@ return [
             ],
             'recordtab' => [
                 'factories' => [
-                    'hierarchytree' => 'Swissbib\RecordTab\Factory::getHierarchyTree',
-                    'hierarchytreearchival' => 'Swissbib\RecordTab\Factory::getHierarchyTreeArchival'
-                ],
-                'factories' => [
+                    'Swissbib\RecordTab\HierarchyTree' => 'Swissbib\RecordTab\Factory::getHierarchyTree',
+                    'Swissbib\RecordTab\HierarchyTreeArchival' => 'Swissbib\RecordTab\Factory::getHierarchyTreeArchival',
                     'Swissbib\RecordTab\ArticleDetails' => 'Zend\ServiceManager\Factory\InvokableFactory',
                     'Swissbib\RecordTab\Description'    => 'Zend\ServiceManager\Factory\InvokableFactory',
                 ],
                 'aliases' => [
+                    'VuFind\RecordTab\HierarchyTree' => 'Swissbib\RecordTab\HierarchyTree',
+                    'hierarchytreearchival' => 'Swissbib\RecordTab\HierarchyTreeArchival',
                     'articledetails' => 'Swissbib\RecordTab\ArticleDetails',
                     'description'    => 'Swissbib\RecordTab\Description'
                 ],
