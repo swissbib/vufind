@@ -734,6 +734,9 @@ return [
         'plugin_managers' => [
             'vufind_search_options' => [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Options\PluginFactory'],
+                'aliases' => [
+                    'SolrClassification' => 'Swissbib\VuFind\Search\SolrClassification\Options',
+                ],
                 'factories' => [
                     'elasticsearch' => '\ElasticSearch\VuFind\Search\Options\Factory::getElasticSearch'
                 ],
@@ -741,10 +744,12 @@ return [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Params\PluginFactory'],
                 'aliases' => [
                     'solr'          => 'Swissbib\VuFind\Search\Solr\Params\Solr',
+                    'SolrClassification' => 'Swissbib\VuFind\Search\SolrClassification\Params',
                     'elasticsearch' => 'ElasticSearch\VuFind\Search\Params\ElasticSearch'
                 ],
                 'factories' => [
                     'Swissbib\VuFind\Search\Solr\Params\Solr'          => 'Swissbib\VuFind\Search\Params\Factory::getSolr',
+                    'Swissbib\VuFind\Search\SolrClassification\Params' => 'Swissbib\VuFind\Search\Params\Factory::getSolrClassification',
                     'ElasticSearch\VuFind\Search\Params\ElasticSearch' => '\ElasticSearch\VuFind\Search\Params\Factory::getElasticSearch'
                 ],
 
@@ -758,8 +763,10 @@ return [
                     'favorites'         => 'Swissbib\VuFind\Search\Solr\Results\Favorites',
                     'elasticsearch'     => 'ElasticSearch\VuFind\Search\Results\ElasticSearch',
                     'summon'            => 'Swissbib\VuFind\Search\Summon\Results',
+                    'SolrClassification' => 'Swissbib\VuFind\Search\SolrClassification\Results',
                 ],
                 'factories' => [
+                    'Swissbib\VuFind\Search\SolrClassification\Results' => 'Swissbib\VuFind\Search\Results\Factory::getSolrClassification',
                     'Swissbib\VuFind\Search\Solr\Results\Solr'              => 'Swissbib\VuFind\Search\Results\Factory::getSolr',
                     'Swissbib\VuFind\Search\Solr\Results\SolrAuthorFacets'  => 'Swissbib\VuFind\Search\Results\Factory::getSolrAuthorFacets',
                     'Swissbib\VuFind\Search\Solr\Results\MixedList'         => 'Swissbib\VuFind\Search\Results\Factory::getMixdList',

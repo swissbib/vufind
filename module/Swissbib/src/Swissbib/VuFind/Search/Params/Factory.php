@@ -55,4 +55,18 @@ class Factory
         $helper = $sm->get('VuFind\HierarchicalFacetHelper');
         return $factory($sm, 'Solr', [$helper]);
     }
+
+    /**
+     * Factory for SolrClassification params object.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return \VuFind\Search\SolrClassification\Params
+     */
+    public static function getSolrClassification(ServiceManager $sm)
+    {
+        $factory = new PluginFactory();
+        $helper = $sm->get('VuFind\HierarchicalFacetHelper');
+        return $factory($sm, 'SolrClassification', [$helper]);
+    }
 }

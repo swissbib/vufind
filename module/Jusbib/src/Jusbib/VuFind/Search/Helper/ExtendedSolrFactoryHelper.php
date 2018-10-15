@@ -52,9 +52,9 @@ class ExtendedSolrFactoryHelper extends SwissbibExtendedSolrFactoryHelper
      *
      * @return String
      */
-    public function getNamespace($name, $requestedName)
+    public function getNamespace($name)
     {
-        if ($this->isExtendedTarget($name, $requestedName)) {
+        if ($this->isExtendedTarget($name)) {
             return 'Jusbib\VuFind\Search';
         } else {
             return 'VuFind\Search';

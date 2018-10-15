@@ -55,7 +55,7 @@ class SearchController extends SwissbibSearchController
 
         $viewModel->setVariable(
             'classificationTrees',
-            $this->getServiceLocator()->get('Swissbib\Hierarchy\MultiTreeGenerator')
+            $this->serviceLocator->get('Swissbib\Hierarchy\MultiTreeGenerator')
                 ->getTrees($viewModel->facetList)
         );
         $viewModel->setTemplate('search/advanced');
