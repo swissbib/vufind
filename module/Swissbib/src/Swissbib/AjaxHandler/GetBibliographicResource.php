@@ -34,7 +34,7 @@ use Zend\Mvc\Controller\Plugin\Params;
 use VuFind\View\Helper\Root\RecordDataFormatter;
 
 /**
- * "Get Subjects" AJAX handler
+ * "GetBibliographicResource" AJAX handler
  *
  * This will return the gnd subjects form ElasticSearch
  *
