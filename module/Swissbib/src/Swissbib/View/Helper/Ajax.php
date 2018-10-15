@@ -55,7 +55,7 @@ class Ajax extends AbstractHelper
     public function url(array $params, string $exclusions = null): string
     {
         $exclusions = null === $exclusions ? '' : $exclusions;
-        $pattern = $this->getView()->serverUrl('/AJAX/JSON?%s');
+        $pattern = $this->getView()->serverUrl($_SERVER['CONTEXT_PREFIX'] . '/AJAX/JSON?%s');
         $url = sprintf($pattern, http_build_query($params));
 
         for ($index = 0; $index < strlen($exclusions); ++$index) {
