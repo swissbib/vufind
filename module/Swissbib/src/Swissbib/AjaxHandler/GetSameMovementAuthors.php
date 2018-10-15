@@ -33,7 +33,7 @@ use Zend\Mvc\Controller\Plugin\Params;
 use VuFind\View\Helper\Root\RecordDataFormatter;
 
 /**
- * "Get Subjects" AJAX handler
+ * "GetSameMovementAuthors" AJAX handler
  *
  * This will return the authors form ElasticSearch
  *
