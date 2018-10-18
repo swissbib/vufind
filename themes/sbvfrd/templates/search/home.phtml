@@ -7,10 +7,12 @@ if (!isset($this->searchClassId)) {
   $this->searchClassId = 'Solr';
 }
 
+/*
 // Load search actions and settings (if any):
 $options = $this->searchOptions($this->searchClassId);
 $basicSearch = $options->getSearchAction();
 $advSearch = $options->getAdvancedSearchAction();
+*/
 
 $this->layout()->breadcrumbs = false;
 
@@ -47,62 +49,12 @@ if (!isset($this->layout()->searchbox)) {
       </div>
     </div>
 
-    <?php if (isset($facetList) && is_array($facetList)): ?>
-    <?php foreach ($facetList as $field => $details): ?>
-      <?php $sortedList = $this->sortFacetList($this->results, $field, $details['list'], $basicSearch); ?>
-      <div class="<?= $field == 'callnumber-first' ? 'col-sm-6' : 'col-sm-6 col-md-4' ?>">
+    <div class="col-sm-6 col-md-4 swissbibCustom">
         <div class="row">
-          <div class="home-content-box">
-            <h2 class="lead"><?= $this->transEsc('home_browse') . ' ' . $this->transEsc($details['label']) ?></h2>
-            <ul class="list-unstyled">
-              <?php /* Special case: two columns for LC call numbers... */ ?>
-              <?php if ($field == "callnumber-first"): ?>
-              <?php $i = 0;
-              foreach ($sortedList as $url => $value): ?>
-              <?php if (!empty($value)): ?>
-                <li><a href="<?= $url ?>"><?= $this->escapeHtml($value) ?></a></li>
-              <?php else: $i--; ?>
-              <?php endif; ?>
-              <?php if (++$i == 10): ?>
-            </ul>
-            <ul class="list-unstyled col-sm-6">
-              <?php endif; ?>
-              <?php endforeach; ?>
-              <?php /* Special case: collections */ ?>
-              <?php elseif ($field == 'hierarchy_top_title'): ?>
-                <?php $i = 0;
-                foreach ($sortedList as $url => $value): ?>
-                  <?php if (++$i > 10): ?>
-                    <li><a href="<?= $this->url('collections-home') ?>"><strong><?= $this->transEsc("More options") ?>
-                          ...</strong></a></li>
-                    <?php break; ?>
-                  <?php else: ?>
-                    <li><a
-                          href="<?= $this->url('collections-bytitle') ?>?title=<?= urlencode($value) ?>"><?= $this->escapeHtml($value) ?></a>
-                    </li>
-                  <?php endif; ?>
-                <?php endforeach; ?>
-              <?php
-              else: ?>
-                <?php $i = 0;
-                foreach ($sortedList as $url => $value): ?>
-                  <?php if (++$i > 10): ?>
-                    <li><a href="<?= $this->url($advSearch) ?>"
-                           class="advancedSearchLink btn-link"><?= $this->transEsc("More options") ?>...</a></li>
-                    <?php break; ?>
-                  <?php elseif (!empty($value)): ?>
-                    <li><a href="<?= $url ?>"><?= $this->escapeHtml($value) ?></a></li>
-                  <?php
-                  else: $i--; ?>
-                  <?php endif; ?>
-                  <?php endforeach; ?>
-                <?php endif; ?>
-              </ul>
-            </div>
-          </div>
+            <?=implode('', array_map([$this, 'contentBlock'], $blocks ?? []))?>
         </div>
-      <?php endforeach; ?>
-      <?php endif; ?>
+    </div>
+
     </div>
   </div>
 </div>
