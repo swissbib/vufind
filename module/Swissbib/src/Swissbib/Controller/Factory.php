@@ -90,7 +90,7 @@ class Factory extends AbstractBaseFactory
      *
      * @return PuraController
      */
-    public function getPuraController(ServiceManager $sm)
+    public static function getPuraController(ServiceManager $sm)
     {
         return new PuraController($sm);
     }

@@ -97,7 +97,7 @@ return [
                 'options' => [
                     'route'    => '/MyResearch/Pura',
                     'defaults' => [
-                        'controller' => PuraController::class,
+                        'controller' => \Swissbib\Controller\PuraController::class,
                         'action'     => 'index'
                     ]
                 ],
@@ -108,7 +108,7 @@ return [
                         'options' => [
                             'route'       => '/library/:libraryCode[/:page]',
                             'defaults'    => [
-                                'controller' => 'pura',
+                                'controller' => \Swissbib\Controller\PuraController::class,
                                 'action' => 'library',
                             ],
                             'constraints' => [
@@ -122,7 +122,7 @@ return [
                         'options' => [
                             'route'       => '/barcode/:token[/:size]',
                             'defaults'    => [
-                                'controller' => 'pura',
+                                'controller' => \Swissbib\Controller\PuraController::class,
                                 'action' => 'barcode',
                             ],
                             'constraints' => [
@@ -392,7 +392,6 @@ return [
             'person-detail-page'                     => 'Swissbib\Controller\Factory::getPersonDetailPageController',
             'subject-detail-page'                    => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
             'person-search'                          => 'Swissbib\Controller\Factory::getPersonSearchController',
-
             'Swissbib\Controller\ShibtestController' => 'Zend\ServiceManager\Factory\InvokableFactory',
         ],
         'aliases' => [
