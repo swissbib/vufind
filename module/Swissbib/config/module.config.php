@@ -97,7 +97,7 @@ return [
                 'options' => [
                     'route'    => '/MyResearch/Pura',
                     'defaults' => [
-                        'controller' => PuraController::class,
+                        'controller' => \Swissbib\Controller\PuraController::class,
                         'action'     => 'index'
                     ]
                 ],
@@ -108,7 +108,7 @@ return [
                         'options' => [
                             'route'       => '/library/:libraryCode[/:page]',
                             'defaults'    => [
-                                'controller' => 'pura',
+                                'controller' => \Swissbib\Controller\PuraController::class,
                                 'action' => 'library',
                             ],
                             'constraints' => [
@@ -122,7 +122,7 @@ return [
                         'options' => [
                             'route'       => '/barcode/:token[/:size]',
                             'defaults'    => [
-                                'controller' => 'pura',
+                                'controller' => \Swissbib\Controller\PuraController::class,
                                 'action' => 'barcode',
                             ],
                             'constraints' => [
@@ -208,7 +208,7 @@ return [
             ], 'record-copy' => [
                 'type' => 'segment', 'options' => [
                     'route' => '/Record/:id/Copy', 'defaults' => [
-                        'controller' => 'record', 'action' => 'copy'
+                        'controller' => RecordController::class, 'action' => 'copy'
                     ]
                 ]
             ], 'card-knowledge-person' => [
@@ -392,8 +392,8 @@ return [
             'person-detail-page'                     => 'Swissbib\Controller\Factory::getPersonDetailPageController',
             'subject-detail-page'                    => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
             'person-search'                          => 'Swissbib\Controller\Factory::getPersonSearchController',
-
             'Swissbib\Controller\ShibtestController' => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\Controller\UtilController'     => 'Swissbib\Controller\Factory::getSwissbibUtilController'
         ],
         'aliases' => [
             //Overrides
@@ -404,6 +404,8 @@ return [
             \VuFind\Controller\SummonController::class => SummonController::class,
             'ajax'                 => AjaxController::class,
             'shibtest'             => 'Swissbib\Controller\ShibtestController',
+            'util'                 => 'Swissbib\Controller\UtilController'
+
         ],
     ],
     'controller_plugins' => [
@@ -463,10 +465,12 @@ return [
             'Swissbib\Cover\Loader'                         =>  'VuFind\Cover\LoaderFactory',
             //'VuFind\ILS\Connection' => 'VuFind\ILS\Driver\Aleph',
             'Swissbib\XSLT\MARCFormatter'                   => 'Zend\ServiceManager\Factory\InvokableFactory',
+            'Swissbib\Services\ElasticSearchSearch'=> 'Swissbib\Services\Factory::getElasticSearchSearch',
         ],
         'aliases' => [
             'MvcTranslator'         => 'Zend\Mvc\I18n\Translator',
             'MarcFormatter'         => 'Swissbib\XSLT\MARCFormatter',
+            'elasticsearchsearch'   => 'Swissbib\Services\ElasticSearchSearch',
         ],
     ],
     'view_helpers'    => [
@@ -673,28 +677,38 @@ return [
             ],
             'recordtab' => [
                 'factories' => [
-                    'hierarchytree' => 'Swissbib\RecordTab\Factory::getHierarchyTree',
-                    'hierarchytreearchival' => 'Swissbib\RecordTab\Factory::getHierarchyTreeArchival'
-                ],
-                'factories' => [
+                    'Swissbib\RecordTab\HierarchyTree' => 'Swissbib\RecordTab\Factory::getHierarchyTree',
+                    'Swissbib\RecordTab\HierarchyTreeArchival' => 'Swissbib\RecordTab\Factory::getHierarchyTreeArchival',
                     'Swissbib\RecordTab\ArticleDetails' => 'Zend\ServiceManager\Factory\InvokableFactory',
                     'Swissbib\RecordTab\Description'    => 'Zend\ServiceManager\Factory\InvokableFactory',
                 ],
                 'aliases' => [
+                    'VuFind\RecordTab\HierarchyTree' => 'Swissbib\RecordTab\HierarchyTree',
+                    'hierarchytreearchival' => 'Swissbib\RecordTab\HierarchyTreeArchival',
                     'articledetails' => 'Swissbib\RecordTab\ArticleDetails',
                     'description'    => 'Swissbib\RecordTab\Description'
                 ],
             ],
             'ajaxhandler'           => [
                 'factories' => [
-                    'Swissbib\AjaxHandler\GetSubjects'              => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
-                    'Swissbib\AjaxHandler\GetAuthors'               => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
-                    'Swissbib\AjaxHandler\GetBibliographicResource' => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetSubjects'                => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetAuthors'                 => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetBibliographicResource'   => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetCoAuthors'               => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetSameGenreAuthors'        => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetSameMovementAuthors'     => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetSubjectAuthors'          => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    'Swissbib\AjaxHandler\GetOrganisations'           => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
                 ],
                 'aliases' =>  [
-                  'getSubjects'              => 'Swissbib\AjaxHandler\GetSubjects',
-                  'getAuthors'               => 'Swissbib\AjaxHandler\GetAuthors',
-                  'getBibliographicResource' => 'Swissbib\AjaxHandler\GetBibliographicResource',
+                    'getSubjects'                 => 'Swissbib\AjaxHandler\GetSubjects',
+                    'getAuthors'                  => 'Swissbib\AjaxHandler\GetAuthors',
+                    'getBibliographicResource'    => 'Swissbib\AjaxHandler\GetBibliographicResource',
+                    'getCoAuthors'                => 'Swissbib\AjaxHandler\GetCoAuthors',
+                    'getSameGenreAuthors'         => 'Swissbib\AjaxHandler\GetSameGenreAuthors',
+                    'getSameMovementAuthors'      => 'Swissbib\AjaxHandler\GetSameMovementAuthors',
+                    'getSubjectAuthors'           => 'Swissbib\AjaxHandler\GetSubjectAuthors',
+                    'getOrganisations'            => 'Swissbib\AjaxHandler\GetOrganisations',
                 ]
             ],
         ]
@@ -722,6 +736,9 @@ return [
         'plugin_managers' => [
             'vufind_search_options' => [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Options\PluginFactory'],
+                'aliases' => [
+                    'SolrClassification' => 'Swissbib\VuFind\Search\SolrClassification\Options',
+                ],
                 'factories' => [
                     'elasticsearch' => '\ElasticSearch\VuFind\Search\Options\Factory::getElasticSearch'
                 ],
@@ -729,10 +746,12 @@ return [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Params\PluginFactory'],
                 'aliases' => [
                     'solr'          => 'Swissbib\VuFind\Search\Solr\Params\Solr',
+                    'SolrClassification' => 'Swissbib\VuFind\Search\SolrClassification\Params',
                     'elasticsearch' => 'ElasticSearch\VuFind\Search\Params\ElasticSearch'
                 ],
                 'factories' => [
                     'Swissbib\VuFind\Search\Solr\Params\Solr'          => 'Swissbib\VuFind\Search\Params\Factory::getSolr',
+                    'Swissbib\VuFind\Search\SolrClassification\Params' => 'Swissbib\VuFind\Search\Params\Factory::getSolrClassification',
                     'ElasticSearch\VuFind\Search\Params\ElasticSearch' => '\ElasticSearch\VuFind\Search\Params\Factory::getElasticSearch'
                 ],
 
@@ -746,8 +765,10 @@ return [
                     'favorites'         => 'Swissbib\VuFind\Search\Solr\Results\Favorites',
                     'elasticsearch'     => 'ElasticSearch\VuFind\Search\Results\ElasticSearch',
                     'summon'            => 'Swissbib\VuFind\Search\Summon\Results',
+                    'SolrClassification' => 'Swissbib\VuFind\Search\SolrClassification\Results',
                 ],
                 'factories' => [
+                    'Swissbib\VuFind\Search\SolrClassification\Results' => 'Swissbib\VuFind\Search\Results\Factory::getSolrClassification',
                     'Swissbib\VuFind\Search\Solr\Results\Solr'              => 'Swissbib\VuFind\Search\Results\Factory::getSolr',
                     'Swissbib\VuFind\Search\Solr\Results\SolrAuthorFacets'  => 'Swissbib\VuFind\Search\Results\Factory::getSolrAuthorFacets',
                     'Swissbib\VuFind\Search\Solr\Results\MixedList'         => 'Swissbib\VuFind\Search\Results\Factory::getMixdList',

@@ -322,4 +322,17 @@ class Factory
     {
         return new Email($sm->get('VuFind\Config'), $sm);
     }
+
+
+    /**
+     * Constructs the ElasticSearchSearch plugin
+     *
+     * @param ServiceManager $sm The service manager
+     *
+     * @return \Swissbib\Services\ElasticSearchSearch
+     */
+    public static function getElasticSearchSearch(ServiceManager $sm)
+    {
+        return new ElasticSearchSearch($sm);
+    }
 }

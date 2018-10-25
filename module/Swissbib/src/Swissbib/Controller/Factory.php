@@ -90,7 +90,7 @@ class Factory extends AbstractBaseFactory
      *
      * @return PuraController
      */
-    public function getPuraController(ServiceManager $sm)
+    public static function getPuraController(ServiceManager $sm)
     {
         return new PuraController($sm);
     }
@@ -155,6 +155,22 @@ class Factory extends AbstractBaseFactory
     {
         return new PersonSearchController($sm);
     }
+
+
+    /**
+     * Get Swissbib Util Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @throws \Exception
+     *
+     * @return \Swissbib\Controller\UtilController
+     */
+    public static function getSwissbibUtilController(ServiceManager $sm)
+    {
+        return new UtilController($sm);
+    }
+
 
     /**
      * Get Subject Detail Page Controller

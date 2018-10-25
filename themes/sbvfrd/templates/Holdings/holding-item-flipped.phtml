@@ -21,6 +21,8 @@ if (isset($item['locationMap']) && $item['locationMap']) {
   $mapLink = '<a href="' . $item['locationMap'] . '" title="' . $this->transEsc('Show_Location_Map') . '" class="holdingMapLink">' . '<i class="fa fa-map-marker"></i></a>';
 }
 
+if (!isset($institution)) $institution = '';
+
 ?>
 <table class="table table-flipped holdings-holding holdingTable <?= ($showInAllViewPorts ? '' : 'hidden-md hidden-lg ') . 'table-' . ($even ? 'even' : 'odd') ?>">
 <tbody>

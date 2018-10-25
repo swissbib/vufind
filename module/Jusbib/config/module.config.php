@@ -1,6 +1,7 @@
 <?php
 namespace Jusbib\Module\Config;
 
+
 return [
     'router' => [
         'routes' => [
@@ -9,7 +10,7 @@ return [
                 'options' => [
                     'route'    => '/Search/AdvancedClassification',
                     'defaults' => [
-                        'controller' => 'search',
+                        'controller' => \Jusbib\Controller\SearchController::class,
                         'action'     => 'advancedClassification'
                     ]
                 ]
@@ -18,7 +19,7 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            'search' => 'Jusbib\Controller\Factory::getSearchController',
+            \Jusbib\Controller\SearchController::class => 'Jusbib\Controller\Factory::getSearchController',
         ]
     ],
     'service_manager' => [

@@ -66,6 +66,27 @@ class Factory
     }
 
     /**
+     * Factory for Solr results object.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return \Swissbib\VuFind\Search\SolrClassification\Results
+     */
+    public static function getSolrClassification(ServiceManager $sm)
+    {
+        $factory = new PluginFactory();
+
+        /**
+         * Create Service With Name SolrClassification
+         *
+         * @var $solr \Swissbib\VuFind\Search\SolrClassification\Results
+         */
+        $solr = $factory($sm, 'SolrClassification');
+
+        return $solr;
+    }
+
+    /**
      * Returns MixedList
      *
      * @param ServiceManager $sm servicemanager

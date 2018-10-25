@@ -33,7 +33,7 @@ use Zend\Mvc\Controller\Plugin\Params;
 use VuFind\View\Helper\Root\RecordDataFormatter;
 
 /**
- * "Get Subjects" AJAX handler
+ * "GetSameMovementAuthors" AJAX handler
  *
  * This will return the authors form ElasticSearch
  *
@@ -43,7 +43,7 @@ use VuFind\View\Helper\Root\RecordDataFormatter;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class GetAuthors extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandlerInterface
+class GetSameMovementAuthors extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandlerInterface
 {
     use \Swissbib\AjaxHandler\AjaxTrait;
 

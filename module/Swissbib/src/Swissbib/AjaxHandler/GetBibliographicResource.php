@@ -34,7 +34,7 @@ use Zend\Mvc\Controller\Plugin\Params;
 use VuFind\View\Helper\Root\RecordDataFormatter;
 
 /**
- * "Get Subjects" AJAX handler
+ * "GetBibliographicResource" AJAX handler
  *
  * This will return the gnd subjects form ElasticSearch
  *
@@ -83,44 +83,6 @@ class GetBibliographicResource extends \VuFind\AjaxHandler\AbstractBase implemen
 
         $response = $this->buildResponse($content, $spec);
         return $this->formatResponse($response->getContent());
-    }
-
-    /**
-     * Search
-     *
-     * @param array $searchOptions Search Options
-     *
-     * @return array
-     */
-    protected function search(array $searchOptions = []): array
-    {
-        $manager = $this->serviceLocator->get(
-            'VuFind\Search\Results\PluginManager'
-        );
-        $searcher = $this->request->getQuery()['searcher'];
-        /*
-         * @var Results
-         */
-        $results = $manager->get($searcher);
-
-        /*
-         * @var Params $params
-         */
-        $params = $results->getParams();
-
-        // Send both GET and POST variables to search class:
-        $params->initFromRequest(
-            new \Zend\Stdlib\Parameters(
-                $this->request->getQuery()->toArray() + $this->request
-                    ->getPost()->toArray()
-            )
-        );
-
-        $results->performAndProcessSearch();
-
-        // @var $content array
-        $content = $results->getResults();
-        return $content;
     }
 
     /**
