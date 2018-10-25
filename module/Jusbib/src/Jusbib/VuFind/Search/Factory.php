@@ -29,9 +29,9 @@
  */
 namespace Jusbib\VuFind\Search;
 
-use Zend\ServiceManager\ServiceManager;
-use VuFind\View\Helper\Root\SearchOptions;
 use Jusbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
+use VuFind\View\Helper\Root\SearchOptions;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Jusbib Factory
@@ -53,7 +53,9 @@ class Factory
      */
     public static function getJusbibSOLRFactoryHelper(ServiceManager $sm)
     {
-        $config = $sm->get('Vufind\Config')->get('config')->SwissbibSearchExtensions;
+        $config
+            = $sm->get('VuFind\Config\PluginManager')
+                ->get('config')->SwissbibSearchExtensions;
         $extendedTargets = explode(',', $config->extendedTargets);
 
         return new ExtendedSolrFactoryHelper($extendedTargets);
@@ -69,7 +71,7 @@ class Factory
     public static function getJusbibSearchOptionsForHelperOptions(ServiceManager $sm)
     {
         return new SearchOptions(
-            $sm->getServiceLocator()->get('Jusbib\SearchOptionsPluginManager')
+            $sm->get('Jusbib\Search\Options\PluginManager')
         );
     }
 }

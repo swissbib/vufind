@@ -1,4 +1,4 @@
-<? $template = '/detailpage/common/anchor.phtml' ?>
+<?php $template = '/detailpage/common/anchor.phtml' ?>
 <div class="page-anchors">
     <h1 class="title"><?= $this->translate('page.detail.anchors.title') ?></h1>
     <button class="accordion-collapse icon-arrow-accordion hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-section-anchors"></button>
@@ -6,18 +6,18 @@
         <ul id="detailpage-section-anchors">
             <li><?= $this->render($template, ['name' => 'common', 'label' => $this->esperson()->resolveLabelWithDisplayName('page.detail.person.common')]) ?></li>
             <li><?= $this->render($template, ['name' => 'medias', 'label' => $this->esperson()->resolveLabelWithDisplayName('page.detail.person.media.list.title')]) ?></li>
-            <? if ($this->coContributorsTotal > 0): ?>
+            <?php if ($this->coContributorsTotal > 0): ?>
             <li><?= $this->render($template, ['name' => 'coauthors', 'label' => $this->esperson()->resolveLabelWithDisplayName('page.detail.authors.coauthors')]) ?></li>
-            <? endif; ?>
-            <? if ($this->authorsOfSameGenreTotal > 0): ?>
+            <?php endif; ?>
+            <?php if ($this->authorsOfSameGenreTotal > 0): ?>
             <li><?= $this->render($template, ['name' => 'genres', 'label' => $this->translate('page.detail.authors.genres')]) ?></li>
-            <? endif; ?>
-            <? if ($this->personsOfSameMovementTotal > 0): ?>
+            <?php endif; ?>
+            <?php if ($this->personsOfSameMovementTotal > 0): ?>
             <li><?= $this->render($template, ['name' => 'movements', 'label' => $this->translate('page.detail.authors.movements')]) ?></li>
-            <? endif; ?>
-            <? if (isset($subjects) && count($subjects) > 0): ?>
+            <?php endif; ?>
+            <?php if (isset($subjects) && count($subjects) > 0): ?>
             <li><?= $this->render($template, ['name' => 'subjects', 'label' => $this->esperson()->resolveLabelWithDisplayName('page.detail.person.subjects.related')]) ?></li>
-            <? endif; ?>
+            <?php endif; ?>
         </ul>
     </div>
 </div>

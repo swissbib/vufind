@@ -2,13 +2,12 @@
 /** @var Array[] $items */
 /** @var String $record */
 /** @var String $recordTitle */
-
 $headers = [
-  'actions'      => '&nbsp;',
+  'actions' => '&nbsp;',
   'availability' => $this->transEsc('Availability'),
-  'location'     => $this->transEsc('Location'),
-  'callnr'       => $this->transEsc('Call Number'),
-  'description'  => $this->transEsc('Description')
+  'location' => $this->transEsc('Location'),
+  'callnr' => $this->transEsc('Call Number'),
+  'description' => $this->transEsc('Description')
 ];
 
 ?>
@@ -23,23 +22,23 @@ $headers = [
     </tr>
     </thead>
     <tbody>
-<?
+<?php
 $flippedContent = '';
 // Items
 foreach ($items as $ikey => $item) {
-  echo $this->render('Holdings/holding-item.phtml', array(
-      'item'               => $item,
-      'record'             => $record,
-      'recordTitle'        => $recordTitle
-  ));
-  $flippedContent .= $this->render('Holdings/holding-item-flipped.phtml', array(
-      'item'               => $item,
-      'record'             => $record,
-      'recordTitle'        => $recordTitle,
-      'headers'            => $headers,
-      'even'               => (0 === $ikey % 2),
+  echo $this->render('Holdings/holding-item.phtml', [
+      'item' => $item,
+      'record' => $record,
+      'recordTitle' => $recordTitle
+  ]);
+  $flippedContent .= $this->render('Holdings/holding-item-flipped.phtml', [
+      'item' => $item,
+      'record' => $record,
+      'recordTitle' => $recordTitle,
+      'headers' => $headers,
+      'even' => (0 === $ikey % 2),
       'showInAllViewPorts' => false
-  ));
+  ]);
 }
 ?>
     </tbody>

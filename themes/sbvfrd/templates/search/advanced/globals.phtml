@@ -1,8 +1,8 @@
 <?php
 
-$searchFieldLabels = array();
+$searchFieldLabels = [];
 foreach($this->options->getAdvancedHandlers() as $name => $label) {
-	$searchFieldLabels[$name] = $this->translate($label);
+    $searchFieldLabels[$name] = $this->translate($label);
 }
 
 ?>

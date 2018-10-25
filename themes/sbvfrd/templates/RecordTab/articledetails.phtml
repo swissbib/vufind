@@ -1,11 +1,10 @@
 <?php
 /** @var  Swissbib\RecordDriver\Summon $resultItem */
 /** @var  Swissbib\View\Helper\Record $viewRecord */
-
 $record = $this->driver;
 $viewRecord = $this->record($record);
 
-$journalTitle         = $record->getContainerTitle();
+$journalTitle = $record->getContainerTitle();
 
 $ABSTRACT = trim(implode($record->getSummary()));
 $SUBJECTS = $record->getAllSubjectHeadingsAsString();

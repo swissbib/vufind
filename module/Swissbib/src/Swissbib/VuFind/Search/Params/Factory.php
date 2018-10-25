@@ -26,6 +26,7 @@
  * @link     https://vufind.org/wiki/development:plugins:hierarchy_components Wiki
  */
 namespace Swissbib\VuFind\Search\Params;
+
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -51,7 +52,21 @@ class Factory
     public static function getSolr(ServiceManager $sm)
     {
         $factory = new PluginFactory();
-        $helper = $sm->getServiceLocator()->get('VuFind\HierarchicalFacetHelper');
-        return $factory->createServiceWithName($sm, 'solr', 'Solr', [$helper]);
+        $helper = $sm->get('VuFind\HierarchicalFacetHelper');
+        return $factory($sm, 'Solr', [$helper]);
+    }
+
+    /**
+     * Factory for SolrClassification params object.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return \VuFind\Search\SolrClassification\Params
+     */
+    public static function getSolrClassification(ServiceManager $sm)
+    {
+        $factory = new PluginFactory();
+        $helper = $sm->get('VuFind\HierarchicalFacetHelper');
+        return $factory($sm, 'SolrClassification', [$helper]);
     }
 }

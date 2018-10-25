@@ -31,9 +31,9 @@
 namespace Swissbib\VuFindSearch\Backend\Solr;
 
 use VuFindSearch\Backend\Solr\Backend as VuFindSearchBackend;
-use VuFindSearch\Query\AbstractQuery;
-use VuFindSearch\ParamBag;
 use VuFindSearch\Backend\Solr\Connector;
+use VuFindSearch\ParamBag;
+use VuFindSearch\Query\AbstractQuery;
 use VuFindSearch\Response\RecordCollectionInterface;
 
 /**

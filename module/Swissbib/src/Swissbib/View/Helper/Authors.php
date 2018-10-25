@@ -58,8 +58,7 @@ class Authors extends AbstractHelper
         $corporateAuthor = isset($authors['corporate'])
             && !empty($authors['corporate']) ? $authors['corporate'] : false;
 
-        $secondaryAuthors = isset($authors['secondary']) ?
-            $authors['secondary'] : false;
+        $secondaryAuthors = $authors['secondary'] ?? false;
 
         $authorsData = [];
 

@@ -141,7 +141,7 @@ abstract class ElasticSearch extends AbstractBase
         $results = null;
 
         if ($content !== null && is_array($content) && count($content) > 0) {
-            $userLocale = is_null($userLocale) ? $this->getTranslatorLocale()
+            $userLocale = null === $userLocale ? $this->getTranslatorLocale()
                 : $userLocale;
             $locales = $this->getPrioritizedLocaleList($userLocale);
 
@@ -150,9 +150,7 @@ abstract class ElasticSearch extends AbstractBase
 
                 foreach ($content as $valueArray) {
                     if (isset($valueArray[$locale])
-                        && !is_null(
-                            $valueArray[$locale]
-                        )
+                        && null !== $valueArray[$locale]
                     ) {
                         $results[] = $valueArray[$locale];
                     } else {

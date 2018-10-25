@@ -28,11 +28,8 @@
  */
 namespace Swissbib\VuFind\Search\Options;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-
-use VuFind\Search\Options\PluginFactory as VuFindOptionsPluginFactory;
-
 use Swissbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
+use VuFind\Search\Options\PluginFactory as VuFindOptionsPluginFactory;
 
 /**
  *  VuFind enhancements to extend the VuFind Options type for the Solr target
@@ -62,7 +59,7 @@ class PluginFactory extends VuFindOptionsPluginFactory
          *
          * @var ExtendedSolrFactoryHelper $extendedTargetHelper
          */
-        $extendedTargetHelper = $serviceLocator->getServiceLocator()
+        $extendedTargetHelper = $serviceLocator
             ->get('Swissbib\ExtendedSolrFactoryHelper');
         $this->defaultNamespace = $extendedTargetHelper
             ->getNamespace($name, $requestedName);

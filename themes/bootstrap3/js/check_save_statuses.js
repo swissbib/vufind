@@ -3,23 +3,27 @@
 
 function displaySaveStatus(itemLists, $item) {
   if (itemLists.length > 0) {
+    // If we got lists back, display them!
     var html = '<ul>' + itemLists.map(function convertToLi(l) {
       return '<li><a href="' + l.list_url + '">' + htmlEncode(l.list_title) + '</a></li>';
     }).join('') + '</ul>';
-    $item.find('.savedLists')
-      .removeClass('ajax-pending').addClass('loaded')
-      .find('.js-load').replaceWith(html);
+    $item.find('.savedLists').addClass('loaded');
+    $item.find('.js-load').replaceWith(html);
+  } else {
+    // If we got nothing back, remove the pending status:
+    $item.find('.js-load').remove();
   }
+  // No matter what, clear the flag that we have a pending save:
+  $item.removeClass('js-save-pending');
 }
 
 function saveStatusFail(response, textStatus) {
-  $('.ajax-pending').empty();
   if (textStatus === 'abort' || typeof response.responseJSON === 'undefined') {
-    $('.ajax-pending .savedLists').addClass('hidden');
+    $('.js-save-pending .savedLists').addClass('hidden');
     return;
   }
   // display the error message on each of the ajax status place holder
-  $('.ajax-pending .savedLists').addClass('alert-danger').append(response.responseJSON.data);
+  $('.js-save-pending .savedLists').addClass('alert-danger').append(response.responseJSON.data);
 }
 
 var saveStatusObjs = [];
@@ -50,34 +54,38 @@ function runSaveAjaxForQueue() {
       'source': sources
     }
   })
-  .done(function checkSaveStatusDone(response) {
-    for (var id in response.data) {
-      if (response.data.hasOwnProperty(id)) {
-        displaySaveStatus(response.data[id], saveStatusEls[id]);
-      }
-      // Remove populated ids from the queue
-      for (var j = 0; j < saveStatusObjs; j++) {
-        if (saveStatusObjs[j].id === id) {
-          saveStatusObjs.splice(j, 1);
+    .done(function checkSaveStatusDone(response) {
+      for (var id in response.data.statuses) {
+        if (Object.prototype.hasOwnProperty.call(response.data.statuses, id)) {
+          displaySaveStatus(response.data.statuses[id], saveStatusEls[id]);
+
+          // Remove populated ids from the queue
+          for (var j = 0; j < saveStatusObjs; j++) {
+            if (saveStatusObjs[j].id === id) {
+              saveStatusObjs.splice(j, 1);
+            }
+          }
         }
       }
-    }
-    saveStatusObjs = [];
-    saveStatusRunning = false;
-  })
-  .fail(function checkItemStatusFail(response, textStatus) {
-    saveStatusFail(response, textStatus);
-    saveStatusRunning = false;
-  });
+      saveStatusRunning = false;
+    })
+    .fail(function checkItemStatusFail(response, textStatus) {
+      saveStatusFail(response, textStatus);
+      saveStatusRunning = false;
+    });
 }
 function saveQueueAjax(obj, el) {
+  if (el.hasClass('js-save-pending')) {
+    return;
+  }
   clearTimeout(saveStatusTimer);
   saveStatusObjs.push(obj);
   saveStatusEls[obj.source + '|' + obj.id] = el;
   saveStatusTimer = setTimeout(runSaveAjaxForQueue, saveStatusDelay);
+  el.addClass('js-save-pending');
   el.find('.savedLists')
-    .append('<span class="js-load">' + VuFind.translate('loading') + '...</span>')
-    .addClass('ajax-pending').removeClass('loaded hidden');
+    .removeClass('loaded hidden')
+    .append('<span class="js-load">' + VuFind.translate('loading') + '...</span>');
   el.find('.savedLists ul').remove();
 }
 
@@ -98,6 +106,7 @@ function checkSaveStatus(el) {
   }, $item);
 }
 
+var saveStatusObserver = null;
 function checkSaveStatuses(_container) {
   if (!userIsLoggedIn) {
     return;
@@ -127,7 +136,6 @@ function checkSaveStatusesCallback() {
   checkSaveStatuses();
 }
 
-var saveStatusObserver = null;
 $(document).ready(function checkSaveStatusFail() {
   if (typeof Hunt === 'undefined') {
     checkSaveStatuses();

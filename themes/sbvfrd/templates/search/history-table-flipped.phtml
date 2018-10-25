@@ -1,4 +1,4 @@
-<?
+<?php
 /** @var array $headers */
 /** @var mixed $info */
 ?>
@@ -11,18 +11,18 @@
       <th><?=$headers['history_search']?></th>
       <td>
           <a href="<?=$this->url($info->getOptions()->getSearchAction()) . $info->getUrlQuery()->getParams()?>">
-            <?
+            <?php
           $desc = $info->getParams()->getDisplayQuery();
           echo empty($desc) ? $this->transEsc("history_empty_search") : $this->escapeHtml($desc);
         ?></a>
-        <? if (method_exists($info,'getTarget')): ?>
+        <?php if (method_exists($info, 'getTarget')): ?>
            <br /><span class="meta"><?=$this->transEsc('tab.' . $info->getTarget())?></span>
-        <? endif; ?>
+        <?php endif; ?>
       </td>
     </tr><tr>
       <th><?=$headers['history_limits']?></th>
       <td>
-        <?
+        <?php
         $info->getParams()->activateAllFacets();
         foreach ($info->getParams()->getFilterList() as $field => $filters):
           foreach ($filters as $i => $filter):
@@ -30,7 +30,7 @@
             if ($filter['operator'] == 'OR' && $i > 0) echo $this->transEsc('OR') . ' ';
             ?>
             <strong><?=$this->transEsc($field)?></strong>: <?=$this->escapeHtml($filter['displayText'])?><br/>
-          <? endforeach;
+          <?php endforeach;
         endforeach; ?>
       </td>
     </tr><tr>
@@ -39,11 +39,11 @@
     </tr><tr>
       <th><?=$headers['action']?></th>
       <td>
-        <? if ($this->showSaved): ?>
+        <?php if ($this->showSaved): ?>
           <a href="<?=$this->url('myresearch-savesearch')?>?delete=<?=urlencode($info->getSearchId())?>&amp;mode=history"><i class="fa fa-trash"></i> <?=$this->transEsc("history_delete_link")?></a>
-        <? else: ?>
+        <?php else: ?>
           <a href="<?=$this->url('myresearch-savesearch')?>?save=<?=urlencode($info->getSearchId())?>&amp;mode=history"><i class="fa fa-save"></i> <?=$this->transEsc("history_save_link")?></a>
-        <? endif; ?>
+        <?php endif; ?>
       </td>
     </tr>
   </tbody>

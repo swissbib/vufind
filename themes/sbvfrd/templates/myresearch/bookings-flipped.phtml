@@ -1,4 +1,4 @@
-<?
+<?php
 /** @var array $headers */
 /** @var mixed $booking */
 /** @var Boolean $even */
@@ -15,12 +15,12 @@
     <tr>
         <th><?=$headers['library_callno']?></th>
         <td>
-            <? if (!empty($booking['library'])): ?>
+            <?php if (!empty($booking['library'])): ?>
                <?=$this->escapeHtml($booking['library'])?>,
-            <? endif; ?>
-            <? if (!empty($booking['callNumber'])): ?>
+            <?php endif; ?>
+            <?php if (!empty($booking['callNumber'])): ?>
                <?=$this->escapeHtml($booking['callNumber'])?>
-            <? endif; ?>
+            <?php endif; ?>
         </td>
     </tr>
     <tr>

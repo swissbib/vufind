@@ -36,7 +36,7 @@ namespace ElasticSearch\VuFind\RecordDriver;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class ESPersonTest extends \PHPUnit_Framework_TestCase
+class ESPersonTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests getBirthPlaceDisplayField

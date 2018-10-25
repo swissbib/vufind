@@ -26,8 +26,8 @@ namespace Swissbib\Services;
 
 use Swissbib\Libadmin\Exception\Exception;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class NationalLicence.
@@ -134,7 +134,7 @@ class NationalLicence
          * @var string $mobile
          */
         $mobile
-            = isset($_SERVER['mobile']) ? $_SERVER['mobile'] : null;
+            = $_SERVER['mobile'] ?? null;
 
         if (!$mobile) {
             throw new \Exception('snl.youDontHaveMobilePhoneNumeber');
@@ -154,7 +154,7 @@ class NationalLicence
         }
         throw new \Exception("Was not possible to activate temporary access");
     }
-    
+
     /**
      * Create permanent access for the user. If the user id is
      * not provided the current user in the $_SERVER variable will be used.
@@ -392,17 +392,14 @@ class NationalLicence
          * @var NationalLicenceUser $user
          */
         if (!$user->hasAcceptedTermsAndConditions()) {
-
             return false;
         }
         // Is not blocked by the administrators
         if ($user->isBlocked()) {
-
             return false;
         }
         // Last activity at least in the last 12 months
         if (!$user->hasBeenActiveInLast12Month()) {
-
             return false;
         }
         // Has requested a temporary access || Has a verified home postal address
@@ -637,7 +634,7 @@ class NationalLicence
             $to = $this->config['user_export_default_email_address_to'];
         }
         $users = $this->getListNationalLicenceUserWithVuFindUsers();
-        
+
         $path = getcwd() . $this->config['user_export_path'] .
             '/' .
             $this->config['user_export_filename'];
@@ -871,7 +868,7 @@ class NationalLicence
                 continue;
             }
             //Update attributes from the edu-Id account
-            try{
+            try {
                 $user = $this->switchBackChannelService->getUserUpdatedInformation(
                     $user->getNameId(), $user->getPersistentId()
                 );
@@ -961,8 +958,7 @@ class NationalLicence
                     $user->setRequestPermanentAccess(false);
                     $user->save();
                 }
-
-            } catch (\Exception $e){
+            } catch (\Exception $e) {
                 echo $e->getMessage();
             }
         }

@@ -30,12 +30,12 @@
  */
 namespace Swissbib\Highlight;
 
+use VuFind\Search\Memory as VFMemory;
+use VuFindSearch\Backend\Solr\Backend;
 use Zend\Config\Config;
+
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\SharedEventManagerInterface;
-
-use VuFindSearch\Backend\Solr\Backend;
-use VuFind\Search\Memory as VFMemory;
 
 /**
  * Allow configuration of solr highlighting mechanism
@@ -146,7 +146,7 @@ class SolrConfigurator
                         }
                     }
 
-                        // All all highlight config fields
+                    // All all highlight config fields
                     foreach ($this->config as $key => $value) {
                         $params->set('hl.' . $key, $value);
                     }

@@ -30,8 +30,8 @@
  */
 namespace Swissbib\Filter;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Filter\AbstractFilter;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class SbTemplateFilenameFilter
@@ -68,7 +68,7 @@ class TemplateFilenameFilter extends AbstractFilter
      */
     public function filter($content)
     {
-        $sm = $this->getServiceLocator();
+        $sm = $this->serviceLocator;
         /**
          * PhpRenderer
          *

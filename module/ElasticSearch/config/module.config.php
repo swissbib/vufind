@@ -1,5 +1,4 @@
 <?php
-
 namespace ElasticSearch\Module\Configuration;
 
 $config = [
@@ -7,7 +6,7 @@ $config = [
 //    'abstract_factories' => ['ElasticSearch\VuFind\RecordDriver\PluginFactory'],
     'factories' => [
 //      'ElasticSearchRecord' => 'ElasticSearch\VuFind\RecordDriver\Factory::getElasticSearchRecord',
-      'ElasticSearch\RecordDriverPluginManager' => 'ElasticSearch\VuFind\Service\Factory::getRecordDriverPluginManager',
+        'ElasticSearch\VuFind\RecordDriver\PluginManager' => 'ElasticSearch\VuFind\Service\Factory::getRecordDriverPluginManager',
     ],
   ],
   'vufind' => [
@@ -20,7 +19,7 @@ $config = [
 
 //      'search_options' => 'ElasticSearch\VuFind\Search\ElasticSearch\Options',
 //      'search_params' => 'ElasticSearch\VuFind\Search\ElasticSearch\Params',
-      'search_results' => 'ElasticSearch\VuFind\Search\Results\Factory::getElasticSearch',
+      'search_results' => ['ElasticSearch\VuFind\Search\Results\Factory::getElasticSearch'],
       'recorddriver' => [
 //        'abstract_factories' => ['ElasticSearch\VuFind\RecordDriver\PluginFactory'],
         'factories' => [

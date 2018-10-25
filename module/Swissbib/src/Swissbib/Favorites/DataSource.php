@@ -30,10 +30,10 @@
  */
 namespace Swissbib\Favorites;
 
-use Zend\Cache\Storage\StorageInterface;
-use Zend\Config\Config;
-
 use VuFind\Config\PluginManager as ConfigManager;
+use Zend\Cache\Storage\StorageInterface;
+
+use Zend\Config\Config;
 
 /**
  * Helper for favorite institutions

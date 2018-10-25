@@ -81,7 +81,7 @@ class AjaxController extends VFAjaxController
      *
      * @return \Zend\Stdlib\ResponseInterface
      */
-    protected function getCoAuthorsAjax()
+    protected function XgetCoAuthorsAjax()
     {
         $id = $this->getRequest()->getQuery()['person'] ?? "";
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
@@ -100,7 +100,7 @@ class AjaxController extends VFAjaxController
      *
      * @return \Zend\Stdlib\ResponseInterface
      */
-    protected function getSameGenreAuthorsAjax()
+    protected function XgetSameGenreAuthorsAjax()
     {
         $genre = $this->getRequest()->getQuery()['genre'] ?? "";
         $genre =  "[" . urldecode($genre) . "]";
@@ -120,7 +120,7 @@ class AjaxController extends VFAjaxController
      *
      * @return \Zend\Stdlib\ResponseInterface
      */
-    protected function getSameMovementAuthorsAjax()
+    protected function XgetSameMovementAuthorsAjax()
     {
         $movement = $this->getRequest()->getQuery()['movement'] ?? "";
         $movement = "[" . urldecode($movement) . "]";
@@ -140,7 +140,7 @@ class AjaxController extends VFAjaxController
      *
      * @return \Zend\Stdlib\ResponseInterface
      */
-    protected function getSubjectAuthorsAjax()
+    protected function XgetSubjectAuthorsAjax()
     {
         $id = $this->getRequest()->getQuery()['subject'] ?? "";
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
@@ -155,41 +155,11 @@ class AjaxController extends VFAjaxController
     }
 
     /**
-     * Get Subjects
-     *
-     * @return \Zend\Stdlib\ResponseInterface
-     */
-    protected function getSubjectsAjax(): ResponseInterface
-    {
-        $content = $this->search();
-
-        // TODO externalize spec
-        $specBuilder = new RecordDataFormatter\SpecBuilder();
-        $specBuilder->setLine(
-            "id", "getUniqueID", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "type", "getType", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "name", "getName", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "hasSufficientData", "hasSufficientData", "Simple",
-            ['allowZero' => false]
-        );
-        $spec = $specBuilder->getArray();
-
-        $response = $this->buildResponse($content, $spec);
-        return $response;
-    }
-
-    /**
      * Gets organisations
      *
      * @return \Zend\Stdlib\ResponseInterface
      */
-    protected function getOrganisationsAjax(): ResponseInterface
+    protected function XgetOrganisationsAjax(): ResponseInterface
     {
         $content = $this->search();
 
@@ -207,67 +177,6 @@ class AjaxController extends VFAjaxController
         $specBuilder->setLine(
             "hasSufficientData", "hasSufficientData", "Simple",
             ['allowZero' => false]
-        );
-        $spec = $specBuilder->getArray();
-
-        $response = $this->buildResponse($content, $spec);
-        return $response;
-    }
-
-    /**
-     * Get Authors
-     *
-     * @return \Zend\Stdlib\ResponseInterface
-     */
-    protected function getAuthorsAjax(): ResponseInterface
-    {
-        $content = $this->search();
-
-        // TODO externalize spec
-        $specBuilder = new RecordDataFormatter\SpecBuilder();
-        $specBuilder->setLine(
-            "id", "getUniqueID", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "type", "getType", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "name", "getName", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "firstName", "getFirstName", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "lastName", "getlastName", "Simple", ['allowZero' => false]
-        );
-        $specBuilder->setLine(
-            "hasSufficientData", "hasSufficientData", "Simple",
-            ['allowZero' => false]
-        );
-        $spec = $specBuilder->getArray();
-
-        $response = $this->buildResponse($content, $spec);
-        return $response;
-    }
-
-    /**
-     * Get Bibliographic Resource Ajax
-     *
-     * @return \Zend\Stdlib\ResponseInterface
-     */
-    protected function getBibliographicResourceAjax(): ResponseInterface
-    {
-        $content = $this->search();
-
-        // TODO externalize spec
-        $specBuilder = new RecordDataFormatter\SpecBuilder();
-        $specBuilder->setLine(
-            "persons", "getContributingPersons", "Simple",
-            ['allowZero' => true, 'separator' => ',']
-        );
-        $specBuilder->setLine(
-            "organisations", "getContributingOrganisations", "Simple",
-            ['allowZero' => true, 'separator' => ',']
         );
         $spec = $specBuilder->getArray();
 
@@ -285,7 +194,7 @@ class AjaxController extends VFAjaxController
     protected function search(array $searchOptions = []): array
     {
         $manager = $this->serviceLocator->get(
-            'VuFind\SearchResultsPluginManager'
+            'VuFind\Search\Results\PluginManager'
         );
         $searcher = $this->getRequest()->getQuery()['searcher'];
         /*

@@ -1,9 +1,9 @@
-<?
+<?php
 // Set up page title:
 $this->headTitle($this->translate('pura.remoteAccessForPrivateUsers') . ' - ' . $this->institution["label"][$this->layout()->userLang]);
 
 // Set up breadcrumbs:
-$this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li> <li><a href="' . $this->url('pura') . '">' . $this->transEsc('pura.remoteAccessForPrivateUsers') . '</a></li> <li class="active">' .    $this->institution["label"][$this->layout()->userLang] .     '</li>';
+$this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li> <li><a href="' . $this->url('pura') . '">' . $this->transEsc('pura.remoteAccessForPrivateUsers') . '</a></li> <li class="active">' . $this->institution["label"][$this->layout()->userLang] . '</li>';
 ?>
 
 <div class="<?= $this->layoutClass('mainbody') ?>">
@@ -11,19 +11,19 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
     <h2><?= $this->institution["name"][$this->layout()->userLang] ?></h2>
 
-    <? if ($this->nonEduId): ?>
+    <?php if ($this->nonEduId): ?>
         <div class="alert alert-danger"><?= $this->transEsc('pura.nonEduId') ?></div>
-    <? elseif (!($this->showListResources)): ?>
+    <?php elseif (!($this->showListResources)): ?>
         <p><?= $this->transEsc('pura.registration1.1') ?> <?= $this->institution["name"][$this->layout()->userLang] ?><?= $this->transEsc('pura.registration1.2') ?></p>
         <p><?= $this->transEsc('pura.registration2.1') ?> <?= $this->institution["name"][$this->layout()->userLang] ?> <?= $this->transEsc('pura.registration2.2') ?></p>
         <p>
             <?= $this->transEsc('pura.registration3.1') ?>
             <a href="https://www.zb.uzh.ch/Medien/20180503_allgemeine_geschaftsbedingungen_fur_pura_de.pdf">
-                <?= $this->transEsc('pura.termsAndConditions'). "</a>." ?>
+                <?= $this->transEsc('pura.termsAndConditions') . "</a>." ?>
             <?= $this->transEsc('pura.registration3.2') ?>
 
             <a href="https://www.zb.uzh.ch/recherche/e-ressourcen/remoteaccess/index.html.de">
-            <?= $this->transEsc('pura.learnMore'). "</a>." ?>
+            <?= $this->transEsc('pura.learnMore') . "</a>." ?>
         </p>
 
 
@@ -56,7 +56,7 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
             <?= $this->transEsc('Print') ?>
         </button>
 
-    <? else: ?>
+    <?php else: ?>
         <p><?= $this->transEsc('pura.registered1.1') ?> <?= $this->institution["name"][$this->layout()->userLang] ?>. <?= $this->transEsc('pura.registered1.2') ?></p>
         <p><?= $this->transEsc('pura.registered2.1') ?></p>
 
@@ -66,15 +66,15 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
                     <a href="<?= $publisher->getUrl() ?>">
                         <strong><?= $publisher->getName() ?></strong>
                     </a>
-                    <? if ($publisher->getDescription()): ?>
+                    <?php if ($publisher->getDescription()): ?>
                         - <?= $publisher->getDescription() ?>
-                    <? endif; ?>
+                    <?php endif; ?>
 
-                    <? if ($publisher->getInfoUrl()): ?>
+                    <?php if ($publisher->getInfoUrl()): ?>
                         - <a href="<?= $publisher->getInfoUrl() ?>">
                             <?= $this->transEsc('information') ?>
                         </a>
-                    <? endif; ?>
+                    <?php endif; ?>
                 </li>
 
             <?php endforeach; ?>
@@ -87,7 +87,7 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
         </a>
 
 
-    <? endif; ?>
+    <?php endif; ?>
 
 
 

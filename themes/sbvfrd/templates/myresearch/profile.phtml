@@ -1,4 +1,4 @@
-<?
+<?php
     // Set up page title:
     $this->headTitle($this->translate('My Profile'));
 
@@ -12,11 +12,11 @@
     $arrTemplate = '<tr><th>%%LABEL%%</th><td> %%VALUE%%</td></tr>';
 
     $delinquency = $profile['delinq-1'] . $profile['delinq-2'] . $profile['delinq-3'];
-    $delinq_notes = array(
+    $delinq_notes = [
         'n1' => $profile['delinq-n-1'],
         'n2' => $profile['delinq-n-2'],
         'n3' => $profile['delinq-n-3']
-);
+];
 
 ?>
 
@@ -25,33 +25,33 @@
     <h2><?=$this->transEsc('Your Profile')?></h2>
     <?=$this->flashmessages();?>
     <table class="table table-striped">
-      <?
+      <?php
         echo $this->renderArray(
           $arrTemplate, $this->profile,
-          array(
+          [
             /*$this->transEsc('First Name') => 'firstname',
             $this->transEsc('Last Name') => 'lastname'*/
             $this->transEsc('User Account') => 'lastname'
-          )
+          ]
         );
        ?>
-      <? if ($showHomeLibForm): ?>
+      <?php if ($showHomeLibForm): ?>
         <tr><th><?=$this->transEsc('Preferred Library')?>:</th>
-        <?
+        <?php
           $selected = (isset($this->profile['home_library']) && $this->profile['home_library'] != "")
               ? $this->profile['home_library'] : $this->defaultPickupLocation
         ?>
         <td>
           <form id="profile_form" class="form-inline" action="" method="post">
             <select id="home_library" name="home_library" class="form-control">
-              <? foreach ($this->pickup as $lib): ?>
+              <?php foreach ($this->pickup as $lib): ?>
                 <option value="<?=$this->escapeHtmlAttr($lib['locationID'])?>"<?=($selected == $lib['locationID'])?' selected="selected"':''?>><?=$this->escapeHtml($lib['locationDisplay'])?></option>
-              <? endforeach; ?>
+              <?php endforeach; ?>
             </select>
             <input class="btn btn-default" type="submit" value="<?=$this->transEsc('Save')?>" />
           </form>
         </td>
-      <? endif; ?>
+      <?php endif; ?>
       <?/*
         echo $this->renderArray(
           $arrTemplate, $this->profile,
@@ -98,28 +98,28 @@
             <th><?=$this->escapeHtml($this->transEsc('Phone Number'));?></th>
             <td><?=$this->escapeHtml($this->profile['phone'])?></td>
         </tr>
-        <? if (preg_match('/[1-9]/', $delinquency)): ?>
+        <?php if (preg_match('/[1-9]/', $delinquency)): ?>
         <tr>
             <th><?=$this->escapeHtml($this->transEsc('Account blocked'))?></th>
             <td>
-                <? foreach ($delinq_notes as $field): ?>
-                 <? if (!empty($field)): ?>
+                <?php foreach ($delinq_notes as $field): ?>
+                 <?php if (!empty($field)): ?>
                  <?= $this->transEsc($field) ?><br/>
-                 <? endif; ?>
-                <? endforeach; ?>
+                 <?php endif; ?>
+                <?php endforeach; ?>
             </td>
         </tr>
-        <? endif; ?>
-        <? if (strtotime(str_replace('-', '/', $this->profile['expire'])) < strtotime('now')): ?>
+        <?php endif; ?>
+        <?php if (strtotime(str_replace('-', '/', $this->profile['expire'])) < strtotime('now')): ?>
         <tr>
             <th><?=$this->escapeHtml($this->transEsc('Account blocked'))?></th>
             <td><?=$this->transEsc('Account expired') ?></td>
         </tr>
-        <? endif; ?>
+        <?php endif; ?>
     </table>
   </div>
 
   <div class="<?=$this->layoutClass('sidebar')?>">
-    <?=$this->context($this)->renderInContext("myresearch/menu.phtml", array('active' => 'profile'))?>
+    <?=$this->context($this)->renderInContext("myresearch/menu.phtml", ['active' => 'profile'])?>
   </div>
 </div>

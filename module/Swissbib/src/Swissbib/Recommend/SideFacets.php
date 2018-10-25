@@ -80,7 +80,7 @@ class SideFacets extends VFSideFacets
         parent::setConfig($settings);
 
         $settings = explode(':', $settings);
-        $iniName = isset($settings[2]) ? $settings[2] : 'facets';
+        $iniName = $settings[2] ?? 'facets';
 
         // Load the desired facet information...
         $config = $this->configLoader->get($iniName);
@@ -132,7 +132,5 @@ class SideFacets extends VFSideFacets
                 $this->queryFacets[$facetKey] = $facetValue;
             }
         }
-
     }
-
 }

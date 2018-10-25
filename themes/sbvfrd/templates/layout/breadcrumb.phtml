@@ -1,24 +1,24 @@
-<? if((!isset($this->layout()->showBreadcrumbs) || $this->layout()->showBreadcrumbs == true)
+<?php if((!isset($this->layout()->showBreadcrumbs) || $this->layout()->showBreadcrumbs == true)
    && !empty($this->layout()->breadcrumbs)
    && $this->layout()->breadcrumbs !== false
  ): ?>
    <ul class="breadcrumb hidden-print">
-   <? if(is_array($this->layout()->breadcrumbs)): ?>
-     <? if(count($this->layout()->breadcrumbs) > 1): ?>
-       <?=$this->render('breadcrumbs/multi.phtml', array(
+   <?php if(is_array($this->layout()->breadcrumbs)): ?>
+     <?php if(count($this->layout()->breadcrumbs) > 1): ?>
+       <?=$this->render('breadcrumbs/multi.phtml', [
            'parents' => $this->layout()->breadcrumbs,
-           'title'   => $this->layout()->title,
-           'end'     => $this->layout()->breadcrumbEnd,
-           'from'    => $this->layout()->from
-         )) ?>
-     <? else: ?>
-       <?=$this->render('breadcrumbs/default.phtml', array(
+           'title' => $this->layout()->title,
+           'end' => $this->layout()->breadcrumbEnd,
+           'from' => $this->layout()->from
+         ]) ?>
+     <?php else: ?>
+       <?=$this->render('breadcrumbs/default.phtml', [
            'parents' => $this->layout()->breadcrumbs,
-           'title'   => $this->layout()->title
-         )) ?>
-     <? endif; ?>
-   <? else: ?>
+           'title' => $this->layout()->title
+         ]) ?>
+     <?php endif; ?>
+   <?php else: ?>
      <?=$this->layout()->breadcrumbs ?>
-   <? endif; ?>
+   <?php endif; ?>
    </ul>
- <? endif; ?>
+ <?php endif; ?>

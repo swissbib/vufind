@@ -30,8 +30,8 @@
  */
 namespace SwissbibTest\RecordDriver;
 
-use VuFindTest\Unit\TestCase as VuFindTestCase;
 use Swissbib\RecordDriver\SolrMarc as SolrMarcDriver;
+use VuFindTest\Unit\TestCase as VuFindTestCase;
 
 /**
  * SolrMarcTestCase
@@ -82,5 +82,4 @@ class SolrMarcTestCase extends VuFindTestCase
             true
         );
     }
-
 }

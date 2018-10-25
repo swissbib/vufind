@@ -122,7 +122,7 @@ class ESSubject extends ElasticSearch
             $name = $this->getPreferredName($field);
         }
 
-        return isset($name) ? $name : "";
+        return $name ?? "";
     }
 
     /**
@@ -208,7 +208,7 @@ class ESSubject extends ElasticSearch
         $field = $this->getRawField($fieldName, $prefix, $delimiter);
         $value = null;
 
-        if (!is_null($field) && is_array($field)) {
+        if (null !== $field && is_array($field)) {
             $value = $this->getValueByLanguagePriority($field);
         }
 
@@ -274,13 +274,4 @@ class ESSubject extends ElasticSearch
         return array_key_exists($key, $fields) ? $fields[$key] : null;
     }
 
-    /**
-     * Get All Fields
-     *
-     * @return array
-     */
-    public function getAllFields()
-    {
-        return $this->fields;
-    }
 }

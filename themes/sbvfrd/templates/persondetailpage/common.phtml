@@ -1,10 +1,10 @@
 <div class="detailpage-common">
     <a id="detailpage-common"></a>
-    <? if ($this->esperson()->hasThumbnail()): ?>
+    <?php if ($this->esperson()->hasThumbnail()): ?>
         <?= $this->render('common/with-thumbnail.phtml') ?>
-    <? else: ?>
+    <?php else: ?>
         <?= $this->render('common/without-thumbnail.phtml') ?>
-    <? endif; ?>
+    <?php endif; ?>
     <div class="row below">
         <div class="col-xs-12">
             <?= $this->context($this)->renderInContext('references.phtml', ['visibility' => ' hidden-sm hidden-md hidden-lg', 'index' => 2]) ?>

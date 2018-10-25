@@ -8,7 +8,7 @@
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
  *
  * Date: 23.04.2015
-
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
  * as published by the Free Software Foundation.
@@ -199,6 +199,7 @@ class Record extends VuFindRecord
         $select = $this->urlFilter[$this->config->Site->theme]['select'];
         $exclude = $this->urlFilter[$this->config->Site->theme]['exclude'];
         $filteredLinks = [];
+        $description = [];
 
         foreach ($select as $field => $selectFieldConfig) {
             $driverFields = $this->driver->getMarcRecord()->getFields($field);
@@ -233,16 +234,29 @@ class Record extends VuFindRecord
 
                     if ($desc === null) {
                         $desc = $url;
-                    };
+                    }
 
                     $filteredLinks[] = ['url' => $url, 'desc' => $desc];
+                    $description[] = $desc;
                 }
             }
         }
 
-        return $this->mergeLinksByDescription(
-            $this->createUniqueLinks($filteredLinks)
-        );
+        if (in_array("Uni Basel: Volltext", $description)
+            && in_array(
+                "Uni Bern: Volltext" || "EHB IFFP IUFFP: Volltext", $description
+            )
+        ) {
+            return $this->mergeLinksByDescription($filteredLinks);
+        } elseif (in_array("Uni Bern: Volltext", $description)
+            && in_array("EHB IFFP IUFFP: Volltext", $description)
+        ) {
+            return $this->mergeLinksByDescription($filteredLinks);
+        } else {
+            return $this->mergeLinksByDescription(
+                $this->createUniqueLinks($filteredLinks)
+            );
+        }
     }
 
     /**
@@ -261,7 +275,6 @@ class Record extends VuFindRecord
 
         $config = $this->config->get('Record')->get('display_identical_urls');
         if ($config) {
-
             return $urlArray;
         } else {
             $uniqueURLs = [];
@@ -473,12 +486,10 @@ class Record extends VuFindRecord
     {
         if ($record instanceof \VuFind\RecordDriver\Summon) {
             if ($record->getAuthor()) {
-
                 return $record->getAuthor();
             }
         } else {
             if (isset($titleStatement['statement_responsibility'])) {
-
                 return $titleStatement['statement_responsibility'];
             } elseif (($record->getPrimaryAuthor(true))
                 && ($record->getSecondaryAuthors(true))
@@ -487,16 +498,12 @@ class Record extends VuFindRecord
                 $secondaryAuthors = implode('; ', $record->getSecondaryAuthors());
                 return $primaryAuthor . '; ' . $secondaryAuthors;
             } elseif ($record->getPrimaryAuthor(true)) {
-
                 return $record->getPrimaryAuthor();
             } elseif ($record->getSecondaryAuthors(true)) {
-
                 return implode('; ', $record->getSecondaryAuthors());
             } elseif ($record->getCorporationNames(true)) {
-
                 return implode('; ', $record->getCorporationNames());
             } else {
-
                 return '';
             }
         }
@@ -520,7 +527,6 @@ class Record extends VuFindRecord
 
         // Array?  It's parameters to send to the cover generator:
         if (is_array($thumb)) {
-
             if (!empty($this->config->Content->externalResourcesServer)) {
                 $urlHelper = $this->getView()->plugin('url');
                 $urlSrc = $urlHelper('cover-show');
@@ -529,12 +535,11 @@ class Record extends VuFindRecord
 
                 return  $this->config->Content->externalResourcesServer .
                     substr($urlSrc, $position) . '?' . http_build_query($thumb);
-            } else if ($fallbackToCoverShow) {
+            } elseif ($fallbackToCoverShow) {
                 $urlHelper = $this->getView()->plugin('url');
 
                 return $urlHelper('cover-show') . '?' . http_build_query($thumb);
             }
-
         }
 
         // Default case -- return fixed string:
@@ -552,7 +557,7 @@ class Record extends VuFindRecord
     {
         if (isset($this->config->RecordTabVisiblity->$tab)) {
             return $this->config->RecordTabVisiblity->$tab;
-        };
+        }
 
         return '';
     }
@@ -645,11 +650,11 @@ class Record extends VuFindRecord
 
         if (is_array($thumbnails) && count($thumbnails) > 0) {
             $result = $thumbnails[0];
-        } else if (is_string($thumbnails)) {
+        } elseif (is_string($thumbnails)) {
             $result = $thumbnails;
         }
 
-        if (is_null($result)) {
+        if (null === $result) {
             $result = $this->getThumbnail('small', $fallbackToCoverShow);
         }
 
@@ -672,7 +677,7 @@ class Record extends VuFindRecord
 
         if (is_string($thumbnails)) {
             $thumbnails = [$thumbnails];
-        } else if (!is_array($thumbnails)) {
+        } elseif (!is_array($thumbnails)) {
             $thumbnails = [];
         }
 
@@ -701,13 +706,13 @@ class Record extends VuFindRecord
         $last = is_array($last) ? implode(' ', $last) : $last;
         $name = is_array($name) ? implode(' ', $name) : $name;
 
-        if (!is_null($first) && !is_null($last)) {
+        if (null !== $first && null !== $last) {
             $displayName = sprintf('%s %s', $first, $last);
-        } else if (!is_null($first)) {
+        } elseif (null !== $first) {
             $displayName = sprintf('%s', $first);
-        } else if (!is_null($last)) {
+        } elseif (null !== $last) {
             $displayName = sprintf('%s', $last);
-        } else if (!is_null($name)) {
+        } elseif (null !== $name) {
             $displayName = sprintf('%s', $name);
         }
 

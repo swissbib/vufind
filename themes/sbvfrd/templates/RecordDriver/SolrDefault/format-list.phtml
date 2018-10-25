@@ -1,8 +1,0 @@
-<? if (method_exists($this->driver, 'setUseMostSpecificFormat')) {
-  $this->driver->setUseMostSpecificFormat(true);
-} ?>
-<? foreach ($this->driver->getFormats() as $format): ?>
-  <span class="iconlabel <?= $this->record($this->driver)->getFormatClass($format) ?>">
-    <?= $this->zendTranslate($format, 'formats') ?>
-  </span>
-<? endforeach; ?>

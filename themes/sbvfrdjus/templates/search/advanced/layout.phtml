@@ -1,4 +1,4 @@
-<?
+<?php
   // Set page title.
   $this->headTitle($this->translate('Advanced Search'));
 
@@ -37,7 +37,7 @@
   $this->headScript()->appendScript(
     $this->partial(
       isset($this->buildPageOverride) ? $this->buildPageOverride : 'search/advanced/build_page.phtml',
-      array('searchDetails' => $searchDetails)
+      ['searchDetails' => $searchDetails]
     )
   );
 
@@ -49,40 +49,40 @@
 
 <?=$this->flashmessages()?>
 <div class="<?=$this->layoutClass('mainbody') ?>">
-  <? $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, 'advanced', [], 'advanced'); ?>
-  <? if (count($searchTabs) > 0): ?>
+  <?php $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, 'advanced', [], 'advanced'); ?>
+  <?php if (count($searchTabs) > 0): ?>
     <ul class="nav nav-tabs jus">
-      <? foreach ($searchTabs['tabs'] as $tab): ?>
-        <? if ($tab['selected']) $activeTab = $tab['class']; ?>
+      <?php foreach ($searchTabs['tabs'] as $tab): ?>
+        <?php if ($tab['selected']) $activeTab = $tab['class']; ?>
         <li<?=$tab['selected'] ? ' class="active"' : ''?>>
           <a href="<?=$tab['selected'] ? '' : $this->escapeHtmlAttr($tab['url'])?>"><?=$this->transEsc($tab['label']); ?></a>
         </li>
-      <? endforeach; ?>
+      <?php endforeach; ?>
     </ul>
-  <? endif; ?>
+  <?php endif; ?>
 
   <form role="search" name="searchForm" id="advSearchForm" method="get" action="<?=$this->url($this->options->getSearchAction())?>">
     <?= $this->render('search/advanced/' . lcfirst($activeTab)) ?>
   </form>
 </div>
 <div class="<?=$this->layoutClass('sidebar')?>">
-  <? if ($hasDefaultsApplied): ?>
+  <?php if ($hasDefaultsApplied): ?>
     <input type="hidden" name="dfApplied" value="1" />
-  <? endif ?>
-  <? if (!empty($searchFilters)): ?>
+  <?php endif ?>
+  <?php if (!empty($searchFilters)): ?>
     <h4><?=$this->transEsc("adv_search_filters")?></h4>
     <ul class="list-group">
       <label class="list-group-item checkbox"><input type="checkbox" checked="checked" class="checkbox-select-all"/><?=$this->transEsc("adv_search_select_all")?></label>
     </ul>
-    <? foreach ($searchFilters as $field => $data): ?>
+    <?php foreach ($searchFilters as $field => $data): ?>
       <ul class="list-group">
         <li class="list-group-item title"><?=$this->transEsc($field)?></li>
-        <? foreach ($data as $value): ?>
+        <?php foreach ($data as $value): ?>
           <label class="list-group-item checkbox"><input class="checkbox-select-item" type="checkbox" checked="checked" name="filter[]" value='<?=$this->escapeHtmlAttr($value['field'])?>:"<?=$this->escapeHtmlAttr($value['value'])?>"' /> <?=$this->escapeHtml($value['displayText'])?></label>
-        <? endforeach; ?>
+        <?php endforeach; ?>
       </ul>
-    <? endforeach; ?>
-  <? endif; ?>
+    <?php endforeach; ?>
+  <?php endif; ?>
   <div class="sidegroup">
     <h4><?=$this->transEsc("Search Tips")?></h4>
     <ul class="list-group">

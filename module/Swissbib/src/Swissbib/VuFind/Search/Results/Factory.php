@@ -57,12 +57,32 @@ class Factory
          *
          * @var $solr \Swissbib\VuFind\Search\Solr\Results
          */
-        $solr = $factory->createServiceWithName($sm, 'solr', 'Solr');
+        $solr = $factory($sm, 'Solr');
 
         $solr->setSpellingProcessor(
-            $sm->getServiceLocator()
-                ->get("sbSpellingProcessor")
+            $sm->get("sbSpellingProcessor")
         );
+        return $solr;
+    }
+
+    /**
+     * Factory for Solr results object.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return \Swissbib\VuFind\Search\SolrClassification\Results
+     */
+    public static function getSolrClassification(ServiceManager $sm)
+    {
+        $factory = new PluginFactory();
+
+        /**
+         * Create Service With Name SolrClassification
+         *
+         * @var $solr \Swissbib\VuFind\Search\SolrClassification\Results
+         */
+        $solr = $factory($sm, 'SolrClassification');
+
         return $solr;
     }
 
@@ -82,7 +102,7 @@ class Factory
          *
          * @var $solr \Swissbib\VuFind\Search\Solr\Results
          */
-        $mixedlist = $factory->createServiceWithName($sm, 'mixedlist', 'MixedList');
+        $mixedlist = $factory($sm, 'mixedlist');
 
         return $mixedlist;
     }
@@ -117,14 +137,35 @@ class Factory
     public static function getFavorites(ServiceManager $sm)
     {
         $factory = new PluginFactory();
-        $tm = $sm->getServiceLocator()->get('VuFind\DbTablePluginManager');
-        $obj = $factory->createServiceWithName(
-            $sm, 'favorites', 'Favorites',
+        $tm = $sm->get('VuFind\DbTablePluginManager');
+        $obj = $factory(
+            $sm, 'favorites',
             [$tm->get('Resource'), $tm->get('UserList')]
         );
 
         $init = new \ZfcRbac\Initializer\AuthorizationServiceInitializer();
         $init->initialize($obj, $sm);
         return $obj;
+    }
+
+    /**
+     * Returns \Swissbib\VuFind\Search\Summon\Results
+     *
+     * @param ServiceManager $sm servicemanager
+     *
+     * @return object
+     */
+    public static function getSummon(ServiceManager $sm)
+    {
+        $factory = new PluginFactory();
+
+        /**
+         * Create Service With Name Summon
+         *
+         * @var $summon \Swissbib\VuFind\Search\Summon\Results
+         */
+        $summon = $factory($sm, 'summon');
+
+        return $summon;
     }
 }

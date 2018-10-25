@@ -30,9 +30,9 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\Http\PhpEnvironment\Response;
-
 use VuFind\Controller\SummonController as VuFindSummonController;
+
+use Zend\Http\PhpEnvironment\Response;
 use Zend\Stdlib\Parameters;
 
 /**
@@ -112,7 +112,7 @@ class SummonController extends VuFindSummonController
     protected function getFacetResults($initMethod, $cacheName)
     {
         // Check if we have facet results cached, and build them if we don't.
-        $cache = $this->getServiceLocator()->get('VuFind\CacheManager')
+        $cache = $this->serviceLocator->get('VuFind\CacheManager')
             ->getCache('object');
 
         /**
@@ -143,7 +143,7 @@ class SummonController extends VuFindSummonController
 
         // Restore the real service locator to the object (it was lost during
         // serialization):
-        $results->restoreServiceLocator($this->getServiceLocator());
+        $results->restoreServiceLocator($this->serviceLocator);
 
         return $results;
     }
@@ -176,8 +176,8 @@ class SummonController extends VuFindSummonController
 
         //GH: We need this initialization only to handle personal limit
         // an sort settings for logged in users
-        $viewModel->options = $this->getServiceLocator()
-            ->get('VuFind\SearchOptionsPluginManager')->get($this->searchClassId);
+        $viewModel->options = $this->serviceLocator
+            ->get('VuFind\Search\Options\PluginManager')->get($this->searchClassId);
         $results = $this->getResultsManager()->get($this->searchClassId);
         $params = $results->getParams();
         $requestParams = new Parameters(
@@ -207,8 +207,10 @@ class SummonController extends VuFindSummonController
             return $viewModel;
         }
 
-        $defaultTopRecommend = $this->getServiceLocator()->get('VuFind\Config')
-            ->get('Summon')->get('General')->get('default_top_recommend')->toArray();
+        $defaultTopRecommend
+            = $this->serviceLocator->get('VuFind\Config\PluginManager')
+                ->get('Summon')->get('General')->get('default_top_recommend')
+                ->toArray();
 
         $viewModel->setVariable('htmlLayoutClass', 'resultView');
 

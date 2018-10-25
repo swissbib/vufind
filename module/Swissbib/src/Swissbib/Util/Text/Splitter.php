@@ -113,11 +113,11 @@ class Splitter
      * Performs multiple splits on the given text. The result of this method will be
      * an object with the same structure as returned by the split() method except
      * that 'overflow' is expected to contain more then one result.
-     * 
+     *
      * @param string $text      The text to split.
      * @param array  ...$limits A sequence of positions where ideally to split the
      *                          text.
-     * 
+     *
      * @return \stdClass
      */
     public function splitMultiple(string $text, ...$limits)
@@ -137,7 +137,7 @@ class Splitter
 
             $result->truncated = true;
             $result->text = substr($text, 0, $splitPoints[0]);
-            
+
             for ($index = 1; $index < $numSplitPoints; ++$index) {
                 $start = $splitPoints[$index - 1];
                 $length = $splitPoints[$index] - $start;
@@ -184,11 +184,11 @@ class Splitter
     /**
      * Batch processing variant of {@link #calculateSplitPoint}. Invalid split
      * positions are filtered.
-     * 
+     *
      * @param string $text      The text to split.
      * @param array  ...$limits A sequence of words resp. characters after which to
      *                          apply the split.
-     * 
+     *
      * @return array
      * An array of integers representing the calculated split positions.
      */
@@ -208,7 +208,7 @@ class Splitter
 
     /**
      * Creates a new object pre-filled with default values for split information.
-     * 
+     *
      * @return \stdClass
      */
     protected function createEmptySplitResult(): \stdClass

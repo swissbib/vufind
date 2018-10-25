@@ -30,13 +30,13 @@
  */
 namespace SwissbibTest\TargetsProxy;
 
-use VuFindTest\Unit\TestCase as VuFindTestCase;
-use Zend\ServiceManager\ServiceManager;
-use Zend\Log\Logger;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\Config\Config;
-
 use Swissbib\TargetsProxy\TargetsProxy;
+use VuFindTest\Unit\TestCase as VuFindTestCase;
+use Zend\Config\Config;
+use Zend\Http\PhpEnvironment\Request;
+use Zend\Log\Logger;
+
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * TargetsProxyTestCase
@@ -73,6 +73,7 @@ class TargetsProxyTestCase extends VuFindTestCase
             $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/TargetsProxy';
             $config = new Config($iniReader->fromFile($path . '/config.ini')
             );
+            $serviceLocator->setService('VuFind\Config\PluginManager', $config);
 
             $this->targetsProxy = new TargetsProxy(
                 $config,

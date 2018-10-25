@@ -6,7 +6,7 @@
     <li>A partir de l'exemplaire, sélectionnez la bibliothèque de votre choix.</li>
     <li>Cliquez sur "s'identifier" à partir du nom de la bibliothèque (au cas où vous n'êtes pas encore connecté).</li>
     <li>Choisissez "Réserver" ou bien "Commander une copie".</li>
-    <li>Selon la bibliothèque, plusieurs lieux de retrait et de livraison vous seront proposés. Voir les détails sous <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"><?= $this->transEsc('helppage.delivery') ?></a></li>
+    <li>Selon la bibliothèque, plusieurs lieux de retrait et de livraison vous seront proposés. Voir les détails sous <a href="<?= $this->url('help-page', ['topic' => 'delivery']); ?>"><?= $this->transEsc('helppage.delivery') ?></a></li>
     <li>Si aucune de ces options n'est possible, le document ne peut donc pas être réservé en ligne. Un clic sur l'icône <i class="fa fa-info-circle"></i> en dessous de la localisation, vous montre les horaires d'ouverture et l'adresse de la bibliothèque.</li>
 </ul>
 <h2>Accès aux ressources électroniques</h2>
@@ -14,8 +14,8 @@
 <p>Dans "Articles et plus" vous accédez au texte intégral de la façon suivante:</p>
 <p><i class="fa fa-external-link"></i> get-it: vous mène en général directement au texte intégral, à partir de la liste des résultats.</p>
 <p><i class="fa fa-external-link"></i> SFX-Services: vous mène via le menu de SFX au texte intégral ou à la possibilité de commander.</p>
-<p>Si vous n'êtes pas membre de l'université, vous avez en dehors du réseau universitaire un accès limité à la version électronique. Via <i class="fa fa-external-link"></i> SFX-Services, vous avez la possibilité de commander dans votre bibliothèque une copie du texte de votre choix. (Service payant, voir sous <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"><?= $this->transEsc('helppage.delivery') ?></a>).</p>
-<p>En tant qu'étudiant ou membre de l'université de Bâle ou de Berne, vous pouvez vous connecter de partout par le VPN (<a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://mobile.unibas.ch') ?>" target="_blank">Bâle</a>, <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://unibe.ch/universitaet/campus__und__infrastruktur/rund_um_computer/internetzugang/zugang_auf_interne_ressourcen_mit_vpn/index_ger.html') ?>" target="_blank">Berne</a>) en choisissant le réseau correspondant.</p>
+<p>Si vous n'êtes pas membre de l'université, vous avez en dehors du réseau universitaire un accès limité à la version électronique. Via <i class="fa fa-external-link"></i> SFX-Services, vous avez la possibilité de commander dans votre bibliothèque une copie du texte de votre choix. (Service payant, voir sous <a href="<?= $this->url('help-page', ['topic' => 'delivery']); ?>"><?= $this->transEsc('helppage.delivery') ?></a>).</p>
+<p>En tant qu'étudiant ou membre de l'université de Bâle ou de Berne, vous pouvez vous connecter de partout par le VPN (<a href="http://mobile.unibas.ch" target="_blank">Bâle</a>, <a href="http://unibe.ch/universitaet/campus__und__infrastruktur/rund_um_computer/internetzugang/zugang_auf_interne_ressourcen_mit_vpn/index_ger.html" target="_blank">Berne</a>) en choisissant le réseau correspondant.</p>
 <h2>Sauvegarder des titres et des listes, les traiter et les modifier</h2>
 <p><i class="fa fa-list-ul"></i> Sauvegarder un titre dans une liste de sélection</p>
 <p><i class="fa fa-plus-square"></i> Sauvegarder une recherche</p>

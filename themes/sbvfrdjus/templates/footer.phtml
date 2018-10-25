@@ -39,8 +39,8 @@
             <h2><?= $this->transEsc('information') ?></h2>
             <ul>
                 <?= $this->render('HelpPage/menulinks') ?>
-                <!--  <li><a href="--><? //=$this->url('help-home')?><!--?topic=search" class="help-link" title="-->
-                <? //=$this->transEsc('Search Tips')?><!--">--><? //=$this->transEsc('Search Tips')?><!--</a></li>-->
+                <!--  <li><a href="--><?php //=$this->url('help-home')?><!--?topic=search" class="help-link" title="-->
+                <?php //=$this->transEsc('Search Tips')?><!--">--><?php //=$this->transEsc('Search Tips')?><!--</a></li>-->
                 <!--
               <li><a href="#"><//?= $this->transEsc('Ask a Librarian') ?></a></li>
               <li><a href="#"><//?= $this->transEsc('FAQs') ?></a></li>
@@ -57,14 +57,14 @@
     </div>
     <div class="col-sm-2">
         <div class="row">
-            <a target="_blank" href="<?= $this->redirectProtocolwrapper()->getWrappedURL('http://lawlibraries.ch')?>" title="VJBS">
+            <a target="_blank" href="http://lawlibraries.ch')" title="VJBS">
                 <img src="<?= $this->basePath('themes/sbvfrdjus/images/logo_vjbs-abjs-abgs_solo_medium.png') ?>">
             </a>
         </div>
     </div>
     <div class="col-sm-2">
         <div class="row">
-            <a target="_blank" href="<?= $this->redirectProtocolwrapper()->getWrappedURL('http://www.ejustice.ch')?>" title="eJustice.CH">
+            <a target="_blank" href="http://www.ejustice.ch" title="eJustice.CH">
                 <img src="<?= $this->basePath('themes/sbvfrdjus/images/Logo_eJustice_medium.png') ?>">
             </a>
         </div>

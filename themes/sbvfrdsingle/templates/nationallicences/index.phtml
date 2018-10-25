@@ -1,4 +1,4 @@
-<?
+<?php
 // Set up page title:
 $this->headTitle($this->translate('snl.nationalLicences'));
 
@@ -9,15 +9,15 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 <div class="<?= $this->layoutClass('mainbody') ?>">
 
     <h1><?= $this->transEsc('snl.accessNationalLicences') ?></h1>
-    <? if ($this->error): ?>
+    <?php if ($this->error): ?>
         <?= $this->flashmessages(); ?>
-    <? elseif ($this->nonEduId): ?>
+    <?php elseif ($this->nonEduId): ?>
         <p><?= $this->transEsc('snl.nonSwissEduLogin1') ?></p>
         <p><?= $this->transEsc('snl.nonSwissEduLogin2') ?></p>
         <p><?= $this->transEsc('snl.nonSwissEduLogin3')?> <a href="<?= $this->transEsc('snl.url') ?>"><?= $this->transEsc('snl.nonSwissEduLogin4')?></a>.</p>
-    <? elseif ($this->user->isBlocked()): ?>
+    <?php elseif ($this->user->isBlocked()): ?>
     <div class="alert alert-danger"><?= $this->transEsc('snl.yourAccountHasBeenBlocked') ?></div>
-    <? else: ?>
+    <?php else: ?>
         <?= $this->flashmessages(); ?>
 
         <?= $this->context($this)->renderInContext("nationallicences/intro_text.phtml", []) ?>
@@ -25,18 +25,18 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
         <?= $this->context($this)->renderInContext("nationallicences/terms_conditions.phtml", []) ?>
 
 
-        <? if (!$this->hasPermanentAccess): ?>
+        <?php if (!$this->hasPermanentAccess): ?>
             <hr>
             <h3><?= $this->transEsc('snl.temporaryAccess') ?></h3>
             <?= $this->context($this)->renderInContext("nationallicences/temporary_access.phtml", []) ?>
             <hr>
             <h3><?= $this->transEsc('snl.permanentAccess') ?></h3>
             <?= $this->context($this)->renderInContext("nationallicences/permanent_access.phtml", []) ?>
-        <? endif; ?>
-    <? endif; ?>
+        <?php endif; ?>
+    <?php endif; ?>
 
 </div>
 
 <div class="<?= $this->layoutClass('sidebar') ?>">
-    <?= $this->context($this)->renderInContext("myresearch/menu.phtml", array('active' => 'national-licences')) ?>
+    <?= $this->context($this)->renderInContext("myresearch/menu.phtml", ['active' => 'national-licences']) ?>
 </div>

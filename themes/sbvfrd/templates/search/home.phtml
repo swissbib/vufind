@@ -1,16 +1,18 @@
-<?
+<?php
 // Set page title.
-$this->headTitle("swissbib : " . $this->translate('Search Home') . " | ". $this->translate('home.titlepart'));
+$this->headTitle("swissbib : " . $this->translate('Search Home') . " | " . $this->translate('home.titlepart'));
 
 // Set default value if necessary:
 if (!isset($this->searchClassId)) {
   $this->searchClassId = 'Solr';
 }
 
+/*
 // Load search actions and settings (if any):
 $options = $this->searchOptions($this->searchClassId);
 $basicSearch = $options->getSearchAction();
 $advSearch = $options->getAdvancedSearchAction();
+*/
 
 $this->layout()->breadcrumbs = false;
 
@@ -18,7 +20,7 @@ if (!isset($this->layout()->searchbox)) {
   $this->layout()->searchbox = $this->render('search/searchbox.phtml');
 }
 ?>
-<? if ($this->ils()->getOfflineMode() == "ils-offline"): ?>
+<?php if ($this->ils()->getOfflineMode() == "ils-offline"): ?>
   <div class="searchHomeContent">
     <div class="alert alert-warning">
       <h2><?= $this->transEsc('ils_offline_title') ?></h2>
@@ -26,11 +28,11 @@ if (!isset($this->layout()->searchbox)) {
       <p><strong><?= $this->transEsc('ils_offline_status') ?></strong></p>
 
       <p><?= $this->transEsc('ils_offline_home_message') ?></p>
-      <? $supportEmail = $this->escapeHtmlAttr($this->systemEmail()); ?>
+      <?php $supportEmail = $this->escapeHtmlAttr($this->systemEmail()); ?>
       <p><a href="mailto:<?= $supportEmail ?>"><?= $supportEmail ?></a></p>
     </div>
   </div>
-<? endif; ?>
+<?php endif; ?>
 
 <div class="col-md-12">
 
@@ -47,62 +49,12 @@ if (!isset($this->layout()->searchbox)) {
       </div>
     </div>
 
-    <? if (isset($facetList) && is_array($facetList)): ?>
-    <? foreach ($facetList as $field => $details): ?>
-      <? $sortedList = $this->sortFacetList($this->results, $field, $details['list'], $basicSearch); ?>
-      <div class="<?= $field == 'callnumber-first' ? 'col-sm-6' : 'col-sm-6 col-md-4' ?>">
+    <div class="col-sm-6 col-md-4 swissbibCustom">
         <div class="row">
-          <div class="home-content-box">
-            <h2 class="lead"><?= $this->transEsc('home_browse') . ' ' . $this->transEsc($details['label']) ?></h2>
-            <ul class="list-unstyled">
-              <? /* Special case: two columns for LC call numbers... */ ?>
-              <? if ($field == "callnumber-first"): ?>
-              <? $i = 0;
-              foreach ($sortedList as $url => $value): ?>
-              <? if (!empty($value)): ?>
-                <li><a href="<?= $url ?>"><?= $this->escapeHtml($value) ?></a></li>
-              <? else: $i--; ?>
-              <? endif; ?>
-              <? if (++$i == 10): ?>
-            </ul>
-            <ul class="list-unstyled col-sm-6">
-              <? endif; ?>
-              <? endforeach; ?>
-              <? /* Special case: collections */ ?>
-              <? elseif ($field == 'hierarchy_top_title'): ?>
-                <? $i = 0;
-                foreach ($sortedList as $url => $value): ?>
-                  <? if (++$i > 10): ?>
-                    <li><a href="<?= $this->url('collections-home') ?>"><strong><?= $this->transEsc("More options") ?>
-                          ...</strong></a></li>
-                    <? break; ?>
-                  <? else: ?>
-                    <li><a
-                          href="<?= $this->url('collections-bytitle') ?>?title=<?= urlencode($value) ?>"><?= $this->escapeHtml($value) ?></a>
-                    </li>
-                  <? endif; ?>
-                <? endforeach; ?>
-              <?
-              else: ?>
-                <? $i = 0;
-                foreach ($sortedList as $url => $value): ?>
-                  <? if (++$i > 10): ?>
-                    <li><a href="<?= $this->url($advSearch) ?>"
-                           class="advancedSearchLink btn-link"><?= $this->transEsc("More options") ?>...</a></li>
-                    <? break; ?>
-                  <? elseif (!empty($value)): ?>
-                    <li><a href="<?= $url ?>"><?= $this->escapeHtml($value) ?></a></li>
-                  <?
-                  else: $i--; ?>
-                  <? endif; ?>
-                  <? endforeach; ?>
-                <? endif; ?>
-              </ul>
-            </div>
-          </div>
+            <?=implode('', array_map([$this, 'contentBlock'], $blocks ?? []))?>
         </div>
-      <? endforeach; ?>
-      <? endif; ?>
+    </div>
+
     </div>
   </div>
 </div>

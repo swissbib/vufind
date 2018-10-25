@@ -28,8 +28,8 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
 use VuFind\Search\Memory;
+use Zend\View\Helper\AbstractHelper;
 
 /**
  * Get last search word from search memory

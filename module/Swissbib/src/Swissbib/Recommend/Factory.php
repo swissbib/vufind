@@ -26,6 +26,7 @@
  * @link     http://vufind.org/wiki/vufind2:hierarchy_components Wiki
  */
 namespace Swissbib\Recommend;
+
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -51,8 +52,8 @@ class Factory
     public static function getSideFacets(ServiceManager $sm)
     {
         return new SideFacets(
-            $sm->getServiceLocator()->get('VuFind\Config'),
-            $sm->getServiceLocator()->get('VuFind\HierarchicalFacetHelper')
+            $sm->get('VuFind\Config\PluginManager'),
+            $sm->get('VuFind\HierarchicalFacetHelper')
         );
     }
 

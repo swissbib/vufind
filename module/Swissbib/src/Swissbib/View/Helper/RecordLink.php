@@ -50,7 +50,7 @@ class RecordLink extends VfRecordLink
      *
      * @return string
      */
-    public function related($link, $escape = true)
+    public function related($link, $escape = true, $source = DEFAULT_SEARCH_BACKEND)
     {
         if ($link['type'] === 'ctrlnum') {
             return $this->buildCtrlNumRelatedLink($link, $escape);
@@ -132,8 +132,7 @@ class RecordLink extends VfRecordLink
     {
         if (is_array($item['holdLink'])) {
             // Assemble URL string from array parts:
-            $source = isset($item['holdLink']['source'])
-                ? $item['holdLink']['source'] : DEFAULT_SEARCH_BACKEND;
+            $source = $item['holdLink']['source'] ?? DEFAULT_SEARCH_BACKEND;
             $finalUrl
                 = $this->getActionUrl(
                     "{$source}|" . $item['holdLink']['record'],

@@ -2,7 +2,7 @@
 #
 # Removal of local caches (except hierarchy cache)
 
-VUFIND_BASE=/usr/local/vufind/httpd
+VUFIND_BASE=/usr/local/vufind/httpd2
 #VUFIND_CACHE=$VUFIND_BASE/local/cache
 VUFIND_DEPLOY_LOG=$VUFIND_BASE/log
 TIMESTAMP=`date +%Y%m%d%H%M%S`  # seconds
@@ -23,6 +23,7 @@ if [ "$UID"  -eq 0 ]; then
                      "local/classic/productive/cache"
                      "local/baselbern/productive/cache"
                      "local/jus/productive/cache"
+                     "local/classic/c2sbmanually/cache"
                      )
 
     for cacheDir in "${hosts[@]}"
@@ -30,6 +31,7 @@ if [ "$UID"  -eq 0 ]; then
         VUFIND_CACHE=$VUFIND_BASE/${cacheDir}
         echo "Trying to remove local cache: ${VUFIND_CACHE}"
         # no removal of hierarchy cache
+        rm -rf $VUFIND_CACHE/configs/*
         rm -rf $VUFIND_CACHE/searchspecs/*
         rm -rf $VUFIND_CACHE/objects/*
         rm -rf $VUFIND_CACHE/languages/*

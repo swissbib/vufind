@@ -30,8 +30,8 @@
  */
 namespace Swissbib\XSLT;
 
-use VuFind\XSLT\Processor as VFProcessor;
 use DOMDocument;
+use VuFind\XSLT\Processor as VFProcessor;
 use XSLTProcessor;
 
 /**

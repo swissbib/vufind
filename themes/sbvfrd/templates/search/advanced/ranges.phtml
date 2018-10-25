@@ -1,20 +1,20 @@
-<? if (isset($this->ranges) && !empty($this->ranges)): ?>
+<?php if (isset($this->ranges) && !empty($this->ranges)): ?>
   <div class="row">
-  <? $params = $this->searchParams($this->searchClassId); $params->activateAllFacets(); ?>
-  <? foreach ($this->ranges as $current): $escField = $this->escapeHtmlAttr($current['field']); ?>
-    <? $extraInputAttribs = ($current['type'] == 'date') ? 'maxlength="4" ' : ''; ?>
+  <?php $params = $this->searchParams($this->searchClassId); $params->activateAllFacets(); ?>
+  <?php foreach ($this->ranges as $current): $escField = $this->escapeHtmlAttr($current['field']); ?>
+    <?php $extraInputAttribs = ($current['type'] == 'date') ? 'maxlength="4" ' : ''; ?>
     <div class="col-sm-12"><fieldset>
       <label class="ranges" for="<?=$escField?>from"><?=$this->transEsc($params->getFacetLabel($current['field']))?></label>
       <input type="hidden" name="<?=$this->escapeHtmlAttr($current['type'])?>range[]" value="<?=$escField?>"/>
       <div class="row">
-        <? if ($current['type'] == 'date'): ?>
-          <?
+        <?php if ($current['type'] == 'date'): ?>
+          <?php
           $this->headScript()->appendFile('vendor/bootstrap-slider.min.js');
           $this->headLink()->appendStylesheet('vendor/bootstrap-slider.min.css');
           $min = !empty($current['values'][0]) ? min($current['values'][0], 300) : 300;
-          $future = date('Y', time()+31536000);
+          $future = date('Y', time() + 31536000);
           $max = !empty($current['values'][1]) ? max($future, $current['values'][1]) : $future;
-          $low  = !empty($current['values'][0]) ? $current['values'][0] : $min;
+          $low = !empty($current['values'][0]) ? $current['values'][0] : $min;
           $high = !empty($current['values'][1]) ? $current['values'][1] : $max;
           $min = intval($min);
           $max = intval($max);
@@ -43,7 +43,7 @@ $(document).ready(function() {
 JS;
           ?>
           <?=$this->inlineScript(\Zend\View\Helper\HeadScript::SCRIPT, $script, 'SET'); ?>
-        <? endif; ?>
+        <?php endif; ?>
         <div class="col-xs-6">
           <label class="rangeSub" for="<?=$escField?>from"><?=$this->transEsc('date_from')?>:</label>
           <input type="text" name="<?=$escField?>from" id="<?=$escField?>from" value="<?=isset($current['values'][0])?$this->escapeHtmlAttr($current['values'][0]):''?>" class="form-control" <?=$extraInputAttribs?> placeholder="<?= $current['type'] == 'date' ? $min : '' ?>" />
@@ -53,12 +53,12 @@ JS;
           <input type="text" name="<?=$escField?>to" id="<?=$escField?>to" value="<?=isset($current['values'][1])?$this->escapeHtmlAttr($current['values'][1]):''?>" class="form-control" <?=$extraInputAttribs?> placeholder="<?= $current['type'] == 'date' ? $max : '' ?>" />
         </div>
       </div>
-      <? if ($current['type'] == 'date'): ?>
+      <?php if ($current['type'] == 'date'): ?>
         <div class="slider-container">
           <input type="text" id="<?=$escField?><?=$this->escapeHtmlAttr($current['type'])?>Slider">
         </div>
       </fieldset></div>
-    <? endif; ?>
-  <? endforeach; ?>
+    <?php endif; ?>
+  <?php endforeach; ?>
   </div>
-<? endif; ?>
+<?php endif; ?>

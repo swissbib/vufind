@@ -41,7 +41,7 @@ use Swissbib\View\Helper\PhysicalDescriptions;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org
  */
-class PhysicalDescriptionsTest extends \PHPUnit_Framework_TestCase
+class PhysicalDescriptionsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * TestEmpty

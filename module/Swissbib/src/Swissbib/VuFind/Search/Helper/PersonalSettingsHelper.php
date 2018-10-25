@@ -37,7 +37,7 @@ use Zend\Stdlib\Parameters;
  * a) length of result list
  * b) sorting of result list
  *
- * @category swissbib / VuFind2
+ * @category Swissbib_VuFind2
  * @package  VuFind/Search
  * @author   Demian Katz <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -72,7 +72,7 @@ trait PersonalSettingsHelper
                 || array_key_exists('advancedSearchFormRequest', $requestParams)
             ) {
                 if (array_key_exists('limit', $requestParams)) {
-                    $user->max_hits = (int) $requestParams['limit'];
+                    $user->max_hits = (int)$requestParams['limit'];
                     $user->save();
                     $limit =  $requestParams['limit'];
                 } else {
@@ -107,7 +107,6 @@ trait PersonalSettingsHelper
 
         // If we got this far, setting was missing or invalid; load the default
         $this->limit = $defaultLimit;
-
     }
 
     /**

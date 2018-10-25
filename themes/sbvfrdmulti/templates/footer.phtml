@@ -29,7 +29,7 @@
                     <a href="<?= $this->url('search-history') ?>"><?= $this->transEsc('History') ?></a>
                 </li>
                 <li>
-                    <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('https://www.swissbib.ch') ?>" target="_blank" title="swissbib">swissbib.ch</a>
+                    <a href="https://www.swissbib.ch" target="_blank" title="swissbib">swissbib.ch</a>
                 </li>
                 <!--
               <li><a href="<//?= $this->url('browse-home') ?>"><//?= $this->transEsc('Browse the Catalog') ?></a></li>
@@ -45,8 +45,8 @@
             <h2><?= $this->transEsc('information') ?></h2>
             <ul>
                 <?= $this->render('HelpPage/menulinks') ?>
-                <!--  <li><a href="--><? //=$this->url('help-home')?><!--?topic=search" class="help-link" title="-->
-                <? //=$this->transEsc('Search Tips')?><!--">--><? //=$this->transEsc('Search Tips')?><!--</a></li>-->
+                <!--  <li><a href="--><?php //=$this->url('help-home')?><!--?topic=search" class="help-link" title="-->
+                <?php //=$this->transEsc('Search Tips')?><!--">--><?php //=$this->transEsc('Search Tips')?><!--</a></li>-->
                 <!--
               <li><a href="#"><//?= $this->transEsc('Ask a Librarian') ?></a></li>
               <li><a href="#"><//?= $this->transEsc('FAQs') ?></a></li>

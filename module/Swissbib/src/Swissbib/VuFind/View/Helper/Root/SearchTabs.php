@@ -30,12 +30,12 @@
  */
 namespace Swissbib\VuFind\View\Helper\Root;
 
-use VuFind\Search\Base\Results,
-    VuFind\Search\Results\PluginManager,
-    Swissbib\VuFind\Search\Helper\SearchTabsHelper,
-    Zend\View\Helper\Url,
-    Zend\Http\Request;
+use Swissbib\VuFind\Search\Helper\SearchTabsHelper;
+use VuFind\Search\Base\Results;
+use VuFind\Search\Results\PluginManager;
 use VuFind\View\Helper\Root\SearchTabs as VuFindSearchTabs;
+use Zend\View\Helper\Url;
+
 //use Swissbib\VuFind\Search\SearchTabsHelper;
 //use Swissbib\VuFind\Search\Results\PluginManager as PluginManager;
 

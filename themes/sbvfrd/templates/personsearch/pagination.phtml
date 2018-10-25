@@ -1,4 +1,4 @@
-<? $hideHits = $this->hideHits ?? false ?>
+<?php $hideHits = $this->hideHits ?? false ?>
 <?= $this->paginationControl($this->results->getPaginator(), 'Sliding', 'search/pagination.phtml', [
     'results' => $this->results, 'recordTotal' => $this->results->getResultTotal(),
     'params' => $this->params, 'lookfor' => $this->lookfor, 'hideHits' => $hideHits]) ?>

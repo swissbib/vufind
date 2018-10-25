@@ -30,9 +30,9 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\View\Model\ViewModel;
 use Swissbib\Favorites\DataSource as FavoriteDataSource;
 use Swissbib\Favorites\Manager as FavoriteManager;
+use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib FavoritesController
@@ -54,7 +54,7 @@ class FavoritesController extends BaseController
     {
         $favoriteManager = $this->getFavoriteManager();
 
-            // Are institutions already in browser cache?
+        // Are institutions already in browser cache?
         if ($favoriteManager->hasInstitutionsDownloaded()) {
             $autocompleterData    = false;
         } else {
@@ -189,7 +189,7 @@ class FavoritesController extends BaseController
     {
         $availableInstitutions = $this->getAvailableInstitutions();
         $data = [];
-        $translator = $this->getServiceLocator()->get('VuFind\Translator');
+        $translator = $this->serviceLocator->get('Zend\Mvc\I18n\Translator');
 
         $i = 0;
         foreach ($availableInstitutions as $institutionCode => $additionalInfo) {
@@ -231,7 +231,7 @@ class FavoritesController extends BaseController
      */
     protected function getFavoriteManager()
     {
-        return $this->getServiceLocator()
+        return $this->serviceLocator
             ->get('Swissbib\FavoriteInstitutions\Manager');
     }
 
@@ -242,7 +242,7 @@ class FavoritesController extends BaseController
      */
     protected function getFavoriteDataSource()
     {
-        return $this->getServiceLocator()
+        return $this->serviceLocator
             ->get('Swissbib\FavoriteInstitutions\DataSource');
     }
 }

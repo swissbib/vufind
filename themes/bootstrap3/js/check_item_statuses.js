@@ -12,10 +12,20 @@ function linkCallnumbers(callnumber, callnumber_handler) {
   return callnumber;
 }
 function displayItemStatus(result, $item) {
-  $item.removeClass('.ajax-pending');
+  $item.removeClass('js-item-pending');
   $item.find('.status').empty().append(result.availability_message);
   $item.find('.ajax-availability').removeClass('ajax-availability hidden');
-  if (typeof(result.full_status) != 'undefined'
+  if (typeof(result.error) != 'undefined'
+    && result.error.length > 0
+  ) {
+    // Only show error message if we also have a status indicator active:
+    if ($item.find('.status').length > 0) {
+      $item.find('.callnumAndLocation').empty().addClass('text-danger').append(result.error);
+    } else {
+      $item.find('.callnumAndLocation').addClass('hidden');
+    }
+    $item.find('.callnumber,.hideIfDetailed,.location').addClass('hidden');
+  } else if (typeof(result.full_status) != 'undefined'
     && result.full_status.length > 0
     && $item.find('.callnumAndLocation').length > 0
   ) {
@@ -50,7 +60,7 @@ function displayItemStatus(result, $item) {
       locationListHTML += '</div>';
       locationListHTML += '<div class="groupCallnumber">';
       locationListHTML += (result.locationList[x].callnumbers)
-           ? linkCallnumbers(result.locationList[x].callnumbers, result.locationList[x].callnumber_handler) : '';
+        ? linkCallnumbers(result.locationList[x].callnumbers, result.locationList[x].callnumber_handler) : '';
       locationListHTML += '</div>';
     }
     $item.find('.locationDetails').removeClass('hidden');
@@ -66,12 +76,12 @@ function displayItemStatus(result, $item) {
   }
 }
 function itemStatusFail(response, textStatus) {
-  $('.ajax-pending').empty();
   if (textStatus === 'abort' || typeof response.responseJSON === 'undefined') {
     return;
   }
   // display the error message on each of the ajax status place holder
-  $('.ajax-pending').addClass('text-danger').append(response.responseJSON.data);
+  $('.js-item-pending .callnumAndLocation').addClass('text-danger').empty().removeClass('hidden')
+    .append(typeof response.responseJSON.data === 'string' ? response.responseJSON.data : VuFind.translate('error_occurred'));
 }
 
 var itemStatusIds = [];
@@ -93,26 +103,32 @@ function runItemAjaxForQueue() {
     url: VuFind.path + '/AJAX/JSON?method=getItemStatuses',
     data: { 'id': itemStatusIds }
   })
-  .done(function checkItemStatusDone(response) {
-    for (var j = 0; j < response.data.length; j++) {
-      displayItemStatus(response.data[j], itemStatusEls[response.data[j].id]);
-      itemStatusIds.splice(itemStatusIds.indexOf(response.data[j].id), 1);
-    }
-    itemStatusRunning = false;
-  })
-  .fail(function checkItemStatusFail(response, textStatus) {
-    itemStatusFail(response, textStatus);
-    itemStatusRunning = false;
-  });
+    .done(function checkItemStatusDone(response) {
+      for (var j = 0; j < response.data.statuses.length; j++) {
+        var status = response.data.statuses[j];
+        displayItemStatus(status, itemStatusEls[status.id]);
+        itemStatusIds.splice(itemStatusIds.indexOf(status.id), 1);
+      }
+      itemStatusRunning = false;
+    })
+    .fail(function checkItemStatusFail(response, textStatus) {
+      itemStatusFail(response, textStatus);
+      itemStatusRunning = false;
+    });
 }
 
 function itemQueueAjax(id, el) {
+  if (el.hasClass('js-item-pending')) {
+    return;
+  }
   clearTimeout(itemStatusTimer);
   itemStatusIds.push(id);
   itemStatusEls[id] = el;
   itemStatusTimer = setTimeout(runItemAjaxForQueue, itemStatusDelay);
-  el.addClass('ajax-pending').removeClass('hidden')
-    .find('.status').removeClass('hidden');
+  el.addClass('js-item-pending').removeClass('hidden');
+  el.find('.callnumAndLocation').removeClass('hidden');
+  el.find('.callnumAndLocation .ajax-availability').removeClass('hidden');
+  el.find('.status').removeClass('hidden');
 }
 
 function checkItemStatus(el) {
@@ -124,10 +140,11 @@ function checkItemStatus(el) {
   itemQueueAjax(id + '', $item);
 }
 
+var itemStatusObserver = null;
 function checkItemStatuses(_container) {
-  var container = _container instanceof Element
-    ? _container
-    : document.body;
+  var container = typeof _container === 'undefined'
+    ? document.body
+    : _container;
 
   var ajaxItems = $(container).find('.ajaxItem');
   for (var i = 0; i < ajaxItems.length; i++) {
@@ -139,7 +156,6 @@ function checkItemStatuses(_container) {
     itemStatusObserver.disconnect();
   }
 }
-var itemStatusObserver = null;
 $(document).ready(function checkItemStatusReady() {
   if (typeof Hunt === 'undefined') {
     checkItemStatuses();

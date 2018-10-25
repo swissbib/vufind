@@ -1,10 +1,10 @@
-<? if (count($this->records) > 0) : ?>
+<?php if (count($this->records) > 0) : ?>
 <div class="separator"></div>
 <div class="tagcloud">
     <a id="detailpage-<?= $this->name ?>"></a>
     <h2><?= $this->headline ?></h2>
-    <? foreach ($this->records as $recordName => $recordValue): ?>
-        <? $record = $recordValue[strtolower($this->type)] ?>
+    <?php foreach ($this->records as $recordName => $recordValue): ?>
+        <?php $record = $recordValue[strtolower($this->type)] ?>
         <span>
         <?= $this->render('/detailpage/common/tagcloud/link.phtml', [
                 'name' => $recordName,
@@ -13,14 +13,14 @@
                 'type' => $this->type
             ]);
         ?>
-        <? if ($record->hasSufficientData()): ?>
+        <?php if ($record->hasSufficientData()): ?>
             <?= $this->render('/knowledgecard/common/link.phtml', [
                     'type' => strtolower($this->type),
                     'record' => $record
                 ]);
             ?>
-        <? endif; ?>
+        <?php endif; ?>
         </span>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 </div>
-<? endif; ?>
+<?php endif; ?>

@@ -1,14 +1,14 @@
-<? $configuredReferences = $this->references->record->references ?>
-<? $template = '/detailpage/common/reference.phtml' ?>
-<? if ($this->essubject()->hasMatchingRecordReferences($configuredReferences)): ?>
+<?php $configuredReferences = $this->references->record->references ?>
+<?php $template = '/detailpage/common/reference.phtml' ?>
+<?php if ($this->essubject()->hasMatchingRecordReferences($configuredReferences)): ?>
 <div class="record-references hidden-xs hidden-sm">
     <h1 class="title"><?= $this->translate('page.detail.subject.more') ?></h1>
     <div class="list">
         <ul id="detailpage-subject-references">
-            <? foreach ($this->essubject()->getSameAs() as $link): ?>
+            <?php foreach ($this->essubject()->getSameAs() as $link): ?>
                 <li><?= $this->render($template, $this->essubject()->getRecordReference($link, $configuredReferences)) ?></li>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </ul>
     </div>
 </div>
-<? endif; ?>
+<?php endif; ?>

@@ -1,15 +1,15 @@
 $(document).ready(function() {
-  <? if (isset($this->searchDetails) && is_object($this->searchDetails)): ?>
-    <? foreach ($this->searchDetails->getQueries() as $searchGroup): ?>
-      <? $i = 0; foreach ($searchGroup->getQueries() as $search): ?>
-        <? if (++$i == 1): ?>
+  <?php if (isset($this->searchDetails) && is_object($this->searchDetails)): ?>
+    <?php foreach ($this->searchDetails->getQueries() as $searchGroup): ?>
+      <?php $i = 0; foreach ($searchGroup->getQueries() as $search): ?>
+        <?php if (++$i == 1): ?>
           var new_group = swissbib.AdvancedSearch.addGroup('<?=addslashes($search->getString())?>', '<?=addslashes($search->getHandler())?>', '<?=$searchGroup->isNegated() ? 'NOT' : $searchGroup->getOperator()?>');
-        <? else: ?>
+        <?php else: ?>
           swissbib.AdvancedSearch.addField(new_group, '<?=addslashes($search->getString())?>', '<?=addslashes($search->getHandler())?>');
-        <? endif; ?>
-      <? endforeach; ?>
-    <? endforeach; ?>
-  <? else: ?>
+        <?php endif; ?>
+      <?php endforeach; ?>
+    <?php endforeach; ?>
+  <?php else: ?>
     swissbib.AdvancedSearch.addNewGroup();
-  <? endif; ?>
+  <?php endif; ?>
 });

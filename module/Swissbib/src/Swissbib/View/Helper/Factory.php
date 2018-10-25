@@ -29,7 +29,6 @@
 namespace Swissbib\View\Helper;
 
 use Zend\ServiceManager\ServiceManager;
-use Swissbib\View\Helper\RedirectProtocolWrapper as RedirectProtocolWrapperHelper;
 
 /**
  * Factory for swissbib specific view helpers.
@@ -56,7 +55,7 @@ class Factory
          *
          * @var Config $relationConfig
          */
-        $relationConfig = $sm->getServiceLocator()->get('VuFind\Config')
+        $relationConfig = $sm->get('VuFind\Config\PluginManager')
             ->get('libadmin-groups');
         $institutionList = [];
 
@@ -81,8 +80,7 @@ class Factory
          *
          * @var \Swissbib\Favorites\Manager $favoriteManager
          */
-        $favoriteManager = $sm->getServiceLocator()
-            ->get('Swissbib\FavoriteInstitutions\Manager');
+        $favoriteManager = $sm->get('Swissbib\FavoriteInstitutions\Manager');
         $userInstitutionCodes = $favoriteManager->getUserInstitutions();
 
         return new ExtractFavoriteInstitutionsForHoldings($userInstitutionCodes);
@@ -97,25 +95,10 @@ class Factory
      */
     public static function getInstitutionsAsDefinedFavorites(ServiceManager $sm)
     {
-        $dataSource = $sm->getServiceLocator()
-            ->get('Swissbib\FavoriteInstitutions\DataSource');
+        $dataSource = $sm->get('Swissbib\FavoriteInstitutions\DataSource');
         $tInstitutions = $dataSource->getFavoriteInstitutions();
 
         return new InstitutionDefinedAsFavorite($tInstitutions);
-    }
-
-    /**
-     * GetQRCodeHelper
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return QrCode
-     */
-    public static function getQRCodeHelper(ServiceManager $sm)
-    {
-        $qrCodeService = $sm->getServiceLocator()->get('Swissbib\QRCode');
-
-        return new QrCode($qrCodeService);
     }
 
     /**
@@ -132,8 +115,7 @@ class Factory
          *
          * @var \Swissbib\Favorites\Manager $favoriteManager
          */
-        $favoriteManager = $sm->getServiceLocator()
-            ->get('Swissbib\FavoriteInstitutions\Manager');
+        $favoriteManager = $sm->get('Swissbib\FavoriteInstitutions\Manager');
         $userInstitutionCodes = $favoriteManager->getUserInstitutions();
 
         return new IsFavoriteInstitution($userInstitutionCodes);
@@ -148,25 +130,7 @@ class Factory
      */
     public static function getDomainURLHelper(ServiceManager $sm)
     {
-        $locator = $sm->getServiceLocator();
-
-        return new DomainURL($locator->get('Request'));
-    }
-
-    /**
-     * GetRedirectProtocolWrapperHelper
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return RedirectProtocolWrapper
-     */
-    public static function getRedirectProtocolWrapperHelper(ServiceManager $sm)
-    {
-        $locator = $sm->getServiceLocator();
-
-        return new  RedirectProtocolWrapperHelper(
-            $locator->get('Swissbib\Services\RedirectProtocolWrapper')
-        );
+        return new DomainURL($sm->get('Request'));
     }
 
     /**
@@ -178,8 +142,6 @@ class Factory
      */
     public static function getConfig(ServiceManager $sm)
     {
-        $locator = $sm->getServiceLocator();
-
-        return new  Config($locator);
+        return new  Config($sm);
     }
 }

@@ -7,20 +7,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
   <?=$this->headMeta()?>
   <?=$this->headTitle()?>
-  <?
+  <?php
   // Set up OpenSearch link:
   $this->headLink(
-      array(
+      [
           'href' => $this->url('search-opensearch') . '?method=describe',
           'type' => 'application/opensearchdescription+xml',
           'title' => $this->transEsc('Library Catalog Search'),
           'rel' => 'search'
-      )
+      ]
   );
   ?>
   <?=$this->headLink()?>
   <?=$this->headStyle()?>
-  <?
+  <?php
   // Set global path for Javascript code:
   $this->headScript()->prependScript("path = '" . rtrim($this->url('home'), '/') . "';");
 
@@ -28,7 +28,7 @@
   if (!isset($this->renderingError)) {
     $cart = $this->cart();
     $this->jsTranslations()->addStrings(
-        array(
+        [
             'add_tag_success' => 'add_tag_success',
             'bulk_email_success' => 'bulk_email_success',
             'bulk_noitems_advice' => 'bulk_noitems_advice',
@@ -52,18 +52,18 @@
             'autosuggest.section.label.titles' => 'autosuggest.section.label.titles',
             'autosuggest.section.label.authors' => 'autosuggest.section.label.authors',
             'autosuggest.section.label.topics' => 'autosuggest.section.label.topics'
-        )
+        ]
     );
     if ($cart->isActive()) {
       $this->headScript()->appendFile("vendor/cookies.js");
       $this->headScript()->appendFile("cart.js");
-      $this->headScript()->appendFile($this->basePath()."/themes/sbvfrd/js/swissbib/swissbibAppend.js");
+      $this->headScript()->appendFile($this->basePath() . "/themes/sbvfrd/js/swissbib/swissbibAppend.js");
       $domain = $cart->getCookieDomain();
       $this->headScript()->appendScript(
           'var cartCookieDomain = ' . (!empty($domain) ? "'$domain'" : 'false') . ';'
       );
       $this->jsTranslations()->addStrings(
-          array(
+          [
               'bulk_noitems_advice' => 'bulk_noitems_advice',
               'confirmEmpty' => 'bookbag_confirm_empty',
               'viewBookBag' => 'View Book Bag',
@@ -74,7 +74,7 @@
               'bookbagMax' => $cart->getMaxSize(),
               'bookbagFull' => 'bookbag_full_msg',
               'bookbagStatusFull' => 'bookbag_full',
-          )
+          ]
       );
     }
     $this->headScript()->appendScript(
@@ -84,13 +84,13 @@
   }
 
   // Session keep-alive
-  if ($this->KeepAlive()) {
+  if ($this->keepAlive()) {
     $this->headScript()->appendScript('var keepAliveInterval = '
-        . $this->KeepAlive());
+        . $this->keepAlive());
     $this->headScript()->appendFile("keep_alive.js");
   }
   ?>
-  <?
+  <?php
   $root = rtrim($this->url('home'), '/');
   $translations = $this->jsTranslations()->getJSON();
   $dsb = DEFAULT_SEARCH_BACKEND;
@@ -119,7 +119,7 @@ JS;
   ?>  <?=$this->headScript()?>
 </head>
 <body>
-<? // Set up the search box -- there are three possible cases:
+<?php // Set up the search box -- there are three possible cases:
 // 1. No search box was set; we should default to the normal box
 // 2. It was set to false; we should display nothing
 // 3. It is set to a custom string; we should display the provided version

@@ -28,7 +28,7 @@
 namespace Swissbib\Cover;
 
 use VuFind\Cover\Loader as VFLoader;
-use VuFindCode\ISBN, VuFind\Content\Covers\PluginManager as ApiManager;
+use VuFindCode\ISBN;
 
 /**
  * Base class for loading images (shared by Cover\Loader and QRCode\Loader)
@@ -63,5 +63,4 @@ class Loader extends VFLoader
         $this->type = $settings['type'];
         $this->size = $settings['size'];
     }
-
 }

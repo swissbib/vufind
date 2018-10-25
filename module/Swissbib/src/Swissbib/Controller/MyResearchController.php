@@ -30,22 +30,21 @@
  */
 namespace Swissbib\Controller;
 
+use Swissbib\VuFind\ILS\Driver\Aleph;
+use VuFind\Controller\MyResearchController as VuFindMyResearchController;
+use VuFind\Db\Row\User;
 use VuFind\Exception\ILS;
 use VuFind\ILS\Driver\AlephRestfulException;
 use VuFindSearch\Service;
 use Zend\Form\Form;
+use Zend\Http\Response as HttpResponse;
 use Zend\ServiceManager\ServiceManager;
-use Zend\View\Model\ViewModel,
-    Zend\Http\Response as HttpResponse,
-    VuFind\Controller\MyResearchController as VuFindMyResearchController,
-    VuFind\Db\Row\User,
-    Swissbib\VuFind\ILS\Driver\Aleph,
-    Zend\Session\Container as SessionContainer;
-
-use VuFind\Exception\ListPermission as ListPermissionException,
-    Zend\Stdlib\Parameters;
+use Zend\Session\Container as SessionContainer;
+use Zend\Stdlib\Parameters;
 
 use Zend\Uri\UriFactory;
+
+use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib MyResearchController
@@ -269,7 +268,7 @@ class MyResearchController extends VuFindMyResearchController
         // Referer before the IDP request is executed in the next step by the user
         //at the moment it is used in Swissbib/Controller/RecordController
         $clazz = $this->getAuthManager()->getAuthClassForTemplateRendering();
-        if ($clazz == "Swissbib\\VuFind\\Auth\\Shibboleth") {
+        if ($clazz == "Swissbib\VuFind\Auth\Shibboleth") {
             //store the current referrer into a special Session
             $followup = new SessionContainer('ShibbolethSaveFollowup');
             //$tURL = $this->getRequest()->getServer()->get('HTTP_REFERER');
@@ -351,13 +350,12 @@ class MyResearchController extends VuFindMyResearchController
             //But we have to be careful: we should append additional default
             // parameters only for Solr or Summon
             // search Routes
-            $solrResultsManager = $this->getServiceLocator()
-                ->get('VuFind\SearchResultsPluginManager')->get('Solr');
+            $solrResultsManager = $this->serviceLocator
+                ->get('VuFind\Search\Results\PluginManager')->get('Solr');
             $options = $solrResultsManager->getParams()->getOptions();
             $defaultSort = $options->getDefaultSortByHandler();
             $defaultLimit = $options->getDefaultLimit();
             $logoutTarget .= '&limit=' . $defaultLimit . '&sort=' . $defaultSort;
-
         }
 
         return $this->redirect()
@@ -439,7 +437,7 @@ class MyResearchController extends VuFindMyResearchController
         $sortOptions = [];
         $searchTabs = $this->getConfig()->get('SearchTabs');
         $searchOptionsPluginManager = $serviceManager
-            ->get('VuFind\SearchOptionsPluginManager');
+            ->get('VuFind\Search\Options\PluginManager');
 
         if (!$searchTabs->count()) {
             $config = $this->getConfig()->get('Index');
@@ -447,7 +445,7 @@ class MyResearchController extends VuFindMyResearchController
                 'options' => $searchOptionsPluginManager
                     ->get('solr')->getSortOptions(),
                 'engine' => 'solr',
-                'selected' => isset($defaultSort['solr']) ? $defaultSort['solr'] : ''
+                'selected' => $defaultSort['solr'] ?? ''
             ];
 
             return $sortOptions;
@@ -531,13 +529,12 @@ class MyResearchController extends VuFindMyResearchController
     /**
      * Check if we are in lightbox mode such a method was removed by the core
      * we want to exclude Lightbox with Shibboleth authentication
-     * 
+     *
      * @return boolean
      */
     protected function checkInLightbox()
     {
-        return ($this->getRequest()->getQuery('layout', 'no') === 'lightbox'
-            || 'layout/lightbox' == $this->layout()->getTemplate()
-        );
+        return $this->getRequest()->getQuery('layout', 'no') === 'lightbox'
+            || 'layout/lightbox' == $this->layout()->getTemplate();
     }
 }

@@ -83,7 +83,7 @@ class Results extends VuFindSolrResults
         $facets        = [];
 
         foreach ($queryFacets as $facetName => $queryCount) {
-            list($fieldName,$filterValue) = explode(':', $facetName, 2);
+            list($fieldName, $filterValue) = explode(':', $facetName, 2);
 
             if (!$onlyNonZero || $queryCount > 0) {
                 $facets[$fieldName][$filterValue] = [
@@ -139,11 +139,10 @@ class Results extends VuFindSolrResults
         }
 
         if (count($queryFacets) > 0 && isset($configQueryFacets)) {
-
             $translatedFacets = $this->getOptions()->getTranslatedFacets();
 
             foreach (array_keys($configQueryFacets) as $field) {
-                $data = isset($queryFacets[$field]) ? $queryFacets[$field] : [];
+                $data = $queryFacets[$field] ?? [];
                 // Skip empty arrays:
                 if (count($data) < 1) {
                     continue;
@@ -177,7 +176,6 @@ class Results extends VuFindSolrResults
                     // Store the collected values:
                     $list[$field]['list'][] = $currentSettings;
                 }
-
             }
         }
 
@@ -243,7 +241,6 @@ class Results extends VuFindSolrResults
             } catch (\VuFindSearch\Backend\Exception\BackendException $e) {
                 //todo: some kind of logging?
                 throw $e;
-
             }
 
             // Processing of spelling suggestions

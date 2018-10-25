@@ -5,7 +5,6 @@
 /** @var Array $headers */
 /** @var Boolean $even */
 /** @var Boolean $showInAllViewPorts */
-
 $mapLink = '';
 $showInAllViewPorts = isset($showInAllViewPorts) && $showInAllViewPorts;
 
@@ -22,32 +21,33 @@ if (isset($item['locationMap']) && $item['locationMap']) {
   $mapLink = '<a href="' . $item['locationMap'] . '" title="' . $this->transEsc('Show_Location_Map') . '" class="holdingMapLink">' . '<i class="fa fa-map-marker"></i></a>';
 }
 
+if (!isset($institution)) $institution = '';
+
 ?>
 <table class="table table-flipped holdings-holding holdingTable <?= ($showInAllViewPorts ? '' : 'hidden-md hidden-lg ') . 'table-' . ($even ? 'even' : 'odd') ?>">
 <tbody>
-<?
+<?php
 $holdingActionsContent = $this->holdingActions($item, 'holdingActionsItem', $record);
 if (preg_match('/[\s\S]*<ul[\s\S]*<\/ul>[\s\S]*/', $holdingActionsContent)): ?>
   <tr>
-    <th><?= isset($headers['action']) ? $headers['action'] : '' ?></th>
+    <th><?= $headers['action'] ?? '' ?></th>
     <td>
     <?php if ($institution == 'NATIONALLICENCE'): ?>
       <?php $nlUrl = $this->nationalLicences()->getUrl($driver)['url']; ?>
-      <?php $wrappedURL = $this->redirectProtocolWrapper()->getWrappedURL($nlUrl) ?>
-      <a href="<?= $this->escapeHtml($wrappedURL) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>" onclick="swissbib.trackLink('<?=$this->escapeHtml($wrappedURL)?>')">Get it Online</a>
+      <a href="<?= $this->escapeHtml($nlUrl) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>" onclick="swissbib.trackLink('<?=$this->escapeHtml($nlUrl)?>')">Get it Online</a>
     <?php else: ?>
       <?= $holdingActionsContent ?>
     <?php endif; ?>
     </td>
   </tr>
-<? endif; ?>
+<?php endif; ?>
 <tr>
   <th><?= $headers['availability'] ?></th>
   <td><?= $this->availabilityInfo($item['availability'], $institution) ?>
-    <? if (($item['network'] === 'IDSBB') && (isset($item['holding_status']) | isset($item['process_status'])) && (($item['holding_status'] === '55') | ($item['process_status'] === 'ES'))): ?>
-      <? $addressURL = $this->redirectProtocolWrapper()->getWrappedURL('http://aleph.unibas.ch/F/?func=item-loan&adm_library=DSV51&doc_number='. $item['localid'] . '&item_sequence='. $item['sequencenumber']); ?>
+    <?php if (($item['network'] === 'IDSBB') && (isset($item['holding_status']) | isset($item['process_status'])) && (($item['holding_status'] === '55') | ($item['process_status'] === 'ES'))): ?>
+      <?php $addressURL = 'http://aleph.unibas.ch/F/?func=item-loan&adm_library=DSV51&doc_number=' . $item['localid'] . '&item_sequence=' . $item['sequencenumber'] ?>
       <a href="<?= $this->escapeHtml($addressURL)?>" target="_blank" title="<?= $this->transEsc('Address') ?>" onclick="swissbib.trackLink('<?=$this->escapeHtml($addressURL)?>')"><?= $this->transEsc('Address') ?></a>
-    <? endif; ?>
+    <?php endif; ?>
   </td>
 </tr>
 <tr>
@@ -56,8 +56,7 @@ if (preg_match('/[\s\S]*<ul[\s\S]*<\/ul>[\s\S]*/', $holdingActionsContent)): ?>
     <?= $this->escapeHtml($item['locationLabel']) ?>
     <?= $mapLink ?>
     <?php if (isset($item['institutionUrl'])): ?>
-      <?php $wrappedURL = $this->redirectProtocolWrapper()->getWrappedURL($item['institutionUrl']) ?>
-      <a href="<?= $this->escapeHtml($wrappedURL) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>" data-lightbox-ignore onclick="swissbib.trackLink('<?=$this->escapeHtml($wrappedURL)?>')"> <i class="fa fa-info-circle"></i></a>
+      <a href="<?= $this->escapeHtml($item['institutionUrl']) ?>" target="_blank" title="<?=$this->transEsc('Library_Information')?>" data-lightbox-ignore onclick="swissbib.trackLink('<?=$this->escapeHtml($item['institutionUrl'])?>')"> <i class="fa fa-info-circle"></i></a>
     <?php endif; ?>
   </td>
 </tr>

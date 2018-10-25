@@ -19,7 +19,7 @@ fi
 export VUFIND_CACHE=$VUFIND_LOCAL_DIR/cache
 export VUFIND_LOCAL_MODULES=Swissbib
 
-su -c "php $INDEX libadmin sync $@" vfsb
+su -c "php $INDEX libadmin sync $@" matthias
 
 #please do not delete a directory with options -rf as root based on a relative directory! GH
 echo "Trying to remove local cache"

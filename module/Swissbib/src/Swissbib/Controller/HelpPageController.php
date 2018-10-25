@@ -30,9 +30,9 @@
  */
 namespace Swissbib\Controller;
 
+use VuFind\Controller\AbstractBase as BaseController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Resolver\ResolverInterface;
-use VuFind\Controller\AbstractBase as BaseController;
 
 /**
  * Swissbib HelpPageController
@@ -81,7 +81,7 @@ class HelpPageController extends BaseController
         $helpLayout->setTemplate('HelpPage/layout');
         $helpLayout->addChild($helpContent, 'helpContent');
 
-            // Set Solr search for help pages
+        // Set Solr search for help pages
         $this->layout()->setVariable('searchClassId', 'Solr');
         $this->layout()->setVariable('pageClass', 'template_page');
 
@@ -105,7 +105,8 @@ class HelpPageController extends BaseController
          */
         $resolver    = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer')
             ->resolver();
-        $language    = $this->serviceLocator->get('VuFind\Translator')->getLocale();
+        $language    = $this->serviceLocator
+            ->get('Zend\Mvc\I18n\Translator')->getLocale();
         $template    = null;
         $activeTopic = null;
         $firstMatch  = true;
@@ -145,7 +146,7 @@ class HelpPageController extends BaseController
     {
         $pages    = $this->getPages();
 
-        return isset($pages[0]) ? $pages[0] : 'about';
+        return $pages[0] ?? 'about';
     }
 
     /**
@@ -155,7 +156,7 @@ class HelpPageController extends BaseController
      */
     protected function getLanguage()
     {
-        return $this->serviceLocator->get('VuFind\Translator')->getLocale();
+        return $this->serviceLocator->get('Zend\Mvc\I18n\Translator')->getLocale();
     }
 
     /**
@@ -165,7 +166,8 @@ class HelpPageController extends BaseController
      */
     protected function getPages()
     {
-        $config = $this->serviceLocator->get('VuFind/Config')->get('config');
+        $config = $this->serviceLocator
+            ->get('VuFind\Config\PluginManager')->get('config');
         $pages    = [];
 
         if ($config) {

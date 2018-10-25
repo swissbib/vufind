@@ -30,10 +30,10 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Console\Request as ConsoleRequest;
-
 use Swissbib\Tab40Import\Importer as Tab40Importer;
+use Zend\Console\Request as ConsoleRequest;
+use Zend\ServiceManager\ServiceManager;
+use Zend\Mvc\Controller\AbstractActionController;
 
 /**
  * Import tab40.xxx files and convert them to label files
@@ -47,6 +47,23 @@ use Swissbib\Tab40Import\Importer as Tab40Importer;
  */
 class Tab40ImportController extends AbstractActionController
 {
+    /**
+     * Service manager
+     *
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
+
+    /**
+     * Constructor
+     *
+     * @param ServiceLocatorInterface $sm Service locator
+     */
+    public function __construct(ServiceManager $sm)
+    {
+        $this->serviceLocator = $sm;
+    }
+
     /**
      * Import file as label data
      *

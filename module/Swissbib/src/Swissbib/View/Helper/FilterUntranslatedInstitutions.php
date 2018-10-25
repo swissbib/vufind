@@ -53,7 +53,7 @@ class FilterUntranslatedInstitutions extends AbstractTranslatorHelper
     {
         $filtered = [];
 
-            // Filter not translated institutions
+        // Filter not translated institutions
         foreach ($institutionCodes as $institutionCode) {
             $institutionLabel = $extended ?
                 $institutionCode['institution'] : $institutionCode;

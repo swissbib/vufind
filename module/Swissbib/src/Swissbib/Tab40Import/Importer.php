@@ -69,9 +69,9 @@ class Importer
      */
     public function import($network, $locale, $sourceFile)
     {
-            // Read data
+        // Read data
         $importedData    = $this->read($sourceFile);
-            // Write data
+        // Write data
         $languageFile    = $this->write($network, $locale, $importedData);
 
         return new Result(

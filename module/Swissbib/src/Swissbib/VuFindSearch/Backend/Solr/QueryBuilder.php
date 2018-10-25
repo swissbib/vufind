@@ -61,7 +61,7 @@ class QueryBuilder extends VFBuilder
 
         if (array_key_exists("allfields", $this->specs)
             && array_key_exists(
-                "DismaxFields",  $this->specs["allfields"]->toArray()
+                "DismaxFields", $this->specs["allfields"]->toArray()
             )
         ) {
             $tempArray = $this->specs["allfields"]->toArray();
@@ -70,14 +70,11 @@ class QueryBuilder extends VFBuilder
 
         $this->disMaxSearchFields = array_map(
             function ($item) {
-
                 if (strpos($item, "^") > 0) {
                     return substr($item, 0, strpos($item, "^"));
-
                 } else {
                     return $item;
                 }
-
             }, $this->disMaxSearchFields
         );
 
@@ -95,15 +92,12 @@ class QueryBuilder extends VFBuilder
      */
     protected function prepareForLuceneSyntax($input)
     {
-
         $alreadyPrepared = parent::prepareForLuceneSyntax($input);
 
         preg_match_all("/(?P<name>\w+?:|[ ]:)/", $input, $matches);
 
         if (count($matches["name"] > 0)) {
-
             foreach ($matches["name"] as $fieldNameWithColon) {
-
                 $fieldNameNoColon = substr(
                     $fieldNameWithColon, 0, strpos($fieldNameWithColon, ":")
                 );
@@ -115,7 +109,7 @@ class QueryBuilder extends VFBuilder
                         $alreadyPrepared
                     );
                 }
-            };
+            }
         }
 
         //$alreadyPrepared = str_replace('-', ' ', $alreadyPrepared);

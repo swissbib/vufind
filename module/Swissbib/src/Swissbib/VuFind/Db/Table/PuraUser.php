@@ -23,10 +23,10 @@
 namespace Swissbib\VuFind\Db\Table;
 
 use VuFind\Db\Table\Gateway;
-use VuFind\Db\Table\User;
-use Zend\Db\Sql\Select;
-use Zend\Db\Adapter\Adapter;
 use VuFind\Db\Table\PluginManager;
+use VuFind\Db\Table\User;
+use Zend\Db\Adapter\Adapter;
+use Zend\Db\Sql\Select;
 
 /**
  * Class NationalLicenceUser.
@@ -163,7 +163,7 @@ class PuraUser extends Gateway
         // we link it to the pura_user table.
         if ($user) {
             // Link table User to PuraUser
-                $puraUser->setUserId($user->id);
+            $puraUser->setUserId($user->id);
         }
         $savedUser = $puraUser->save();
         if (empty($savedUser)) {

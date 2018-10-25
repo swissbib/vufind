@@ -95,7 +95,6 @@ class ESBibliographicResource extends ElasticSearch
      */
     public function getSubjects(): array
     {
-
         return $this->returnAsArray($this->getField("subject"));
     }
 

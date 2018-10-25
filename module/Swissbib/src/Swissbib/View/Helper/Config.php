@@ -28,9 +28,9 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Config\Config as ZendConfig;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\Helper\AbstractHelper;
 
 /**
  * Config
@@ -76,7 +76,7 @@ class Config extends AbstractHelper
     {
         if (!$this->config) {
             $this->config = $this->serviceLocator
-                ->get('VuFind\Config')->get('config');
+                ->get('VuFind\Config\PluginManager')->get('config');
         }
 
         return $this->config;

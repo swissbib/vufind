@@ -27,9 +27,6 @@
  */
 namespace Swissbib\VuFind\Search\Favorites;
 
-use VuFind\Exception\ListPermission as ListPermissionException,
-    VuFind\Search\Base\Results as BaseResults;
-
 use VuFind\Search\Favorites\Results as VFFavoriteResults;
 
 /**
@@ -62,12 +59,12 @@ class Results extends VFFavoriteResults
     public function getFacetList($filter = null)
     {
         // Make sure we have processed the search before proceeding:
-        if (is_null($this->user)) {
+        if (null === $this->user) {
             $this->performAndProcessSearch();
         }
 
         // If there is no filter, we'll use all facets as the filter:
-        if (is_null($filter)) {
+        if (null === $filter) {
             $filter = $this->getParams()->getFacetConfig();
         }
 
@@ -133,5 +130,4 @@ class Results extends VFFavoriteResults
     {
         $this->facetsConfig = $facetsConfig;
     }
-
 }

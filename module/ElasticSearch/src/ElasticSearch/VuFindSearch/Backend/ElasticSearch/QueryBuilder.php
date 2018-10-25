@@ -56,7 +56,6 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function __construct(array $templates)
     {
-
         $this->_templates = $templates;
     }
 

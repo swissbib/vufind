@@ -100,7 +100,6 @@ class Missing extends VFMissing implements SwissbibRecordDriver
     public function getCorporationNames($asString = true)
     {
         return "";
-
     }
 
     /**
@@ -113,7 +112,6 @@ class Missing extends VFMissing implements SwissbibRecordDriver
     public function getSecondaryAuthors($asString = true)
     {
         return "";
-
     }
 
     /**
@@ -126,7 +124,6 @@ class Missing extends VFMissing implements SwissbibRecordDriver
     public function getPrimaryAuthor($asString = true)
     {
         return "";
-
     }
 
     /**
@@ -271,7 +268,7 @@ class Missing extends VFMissing implements SwissbibRecordDriver
 
     /**
      * Get Hierarchical level of record
-     * 
+     *
      * @return String
      */
     public function getHierachicalLevel()

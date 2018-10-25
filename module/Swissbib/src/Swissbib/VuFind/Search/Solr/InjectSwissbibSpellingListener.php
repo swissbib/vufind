@@ -31,10 +31,10 @@
 namespace Swissbib\VuFind\Search\Solr;
 
 use VuFind\Search\Solr\InjectSpellingListener as VFSpellingListener;
-use Zend\EventManager\EventInterface;
-use VuFindSearch\ParamBag;
 use VuFindSearch\Backend\Solr\Response\Json\Spellcheck;
+use VuFindSearch\ParamBag;
 use VuFindSearch\Query\Query;
+use Zend\EventManager\EventInterface;
 
 /**
  * InjectSwissbibSpellingListener

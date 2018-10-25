@@ -1,21 +1,21 @@
 <div class="<?=$this->layoutClass('sidebar')?>">
-    <? if (isset($hasDefaultsApplied) && $hasDefaultsApplied): ?>
+    <?php if (isset($hasDefaultsApplied) && $hasDefaultsApplied): ?>
         <input type="hidden" name="dfApplied" value="1" />
-    <? endif ?>
-    <? if (!empty($searchFilters)): ?>
+    <?php endif ?>
+    <?php if (!empty($searchFilters)): ?>
         <h4><?=$this->transEsc("adv_search_filters")?></h4>
         <div class="list-group">
             <label class="list-group-item checkbox"><input type="checkbox" checked="checked" class="checkbox-select-all"/><?=$this->transEsc("adv_search_select_all")?></label>
         </div>
-        <? foreach ($searchFilters as $field => $data): ?>
+        <?php foreach ($searchFilters as $field => $data): ?>
             <div class="list-group">
                 <div class="list-group-item title"><?=$this->transEsc($field)?></div>
-                <? foreach ($data as $value): ?>
+                <?php foreach ($data as $value): ?>
                     <label class="list-group-item checkbox"><input class="checkbox-select-item" type="checkbox" checked="checked" name="filter[]" value='<?=$this->escapeHtmlAttr($value['field'])?>:"<?=$this->escapeHtmlAttr($value['value'])?>"' /> <?=$this->escapeHtml($value['displayText'])?></label>
-                <? endforeach; ?>
+                <?php endforeach; ?>
             </div>
-        <? endforeach; ?>
-    <? endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
     <div class="sidegroup">
         <h4><?=$this->transEsc('Search Tips')?></h4>
         <div class="list-group">

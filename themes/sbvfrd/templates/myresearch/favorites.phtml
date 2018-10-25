@@ -1,4 +1,4 @@
-<?
+<?php
 /** @var Array $autocompleterData */
 
 // Set up page title:
@@ -46,7 +46,7 @@ $isLoggedIn = !!$this->auth()->isLoggedIn();
 </div>
 
 <div class="<?= $this->layoutClass('sidebar') ?>">
-  <?= $this->context($this)->renderInContext("myresearch/menu.phtml", array('active' => 'favorite-institutions')) ?>
+  <?= $this->context($this)->renderInContext("myresearch/menu.phtml", ['active' => 'favorite-institutions']) ?>
 </div>
 
 <script type="text/javascript">

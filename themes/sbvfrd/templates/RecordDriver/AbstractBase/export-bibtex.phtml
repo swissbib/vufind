@@ -1,4 +1,4 @@
-<?
+<?php
 // TODO: fold this logic into record driver methods at some point:
 $marc = $this->driver->tryMethod('getMarcRecord');
 if (is_object($marc)) {
@@ -9,15 +9,15 @@ if (is_object($marc)) {
 }
 $journalTitle = $this->driver->tryMethod('getContainerTitle');
 $formats = $this->driver->tryMethod('getFormats');
-$journalMatches = array_filter($formats, function($var) { return preg_match("/Zeitschrift/", $var); });
+$journalMatches = array_filter($formats, function ($var) { return preg_match("/Zeitschrift/", $var); });
 $isJournal = !empty($journalMatches);
 if ($marcProceedingsField) {
     $format = 'proceedings';
-} else if ($marcPhdField) {
+} elseif ($marcPhdField) {
     $format = 'phdthesis';
-} else if (!empty($journalTitle) || (is_array($formats) && (in_array('Article', $formats) || in_array('Artikel', $formats)))) {
+} elseif (!empty($journalTitle) || (is_array($formats) && (in_array('Article', $formats) || in_array('Artikel', $formats)))) {
     $format = 'article';
-} else if (is_array($formats) && in_array('Journal', $formats) || $isJournal) {
+} elseif (is_array($formats) && in_array('Journal', $formats) || $isJournal) {
     $format = 'misc';
 } else {
     $format = 'book';
@@ -27,7 +27,7 @@ if ($marcProceedingsField) {
 echo '@' . $format . "{\n";
 
 // Citation key:
-echo $this->driver->getResourceSource() . '-' .  $this->driver->getUniqueId() . ",\n";
+echo $this->driver->getResourceSource() . '-' . $this->driver->getUniqueId() . ",\n";
 
 $title = rtrim($this->driver->getTitle(), " /");
 echo "title = {{$title}},\n";
@@ -103,13 +103,13 @@ if (is_array($pubPlaces) && is_array($pubDates) && is_array($pubNames)) {
     }
     for ($i = 0; $i < $total; $i++) {
         if (isset($pubPlaces[$i])) {
-            echo "address = {" . rtrim(str_replace(array('[', ']'), '', $pubPlaces[$i]), ': ') . "},\n";
+            echo "address = {" . rtrim(str_replace(['[', ']'], '', $pubPlaces[$i]), ': ') . "},\n";
         }
         if (isset($pubNames[$i])) {
             echo "publisher = {" . rtrim($pubNames[$i], ", ") . "},\n";
         }
         $date = $this->driver->getHumanReadablePublicationDates($pubDates);
-        
+
         if ($date) {
             echo "year = {{$date[0]}},\n";
         }
@@ -155,7 +155,7 @@ if (is_array($isbns)) {
         echo 'isbn = ' . '{' . $isbn . '}' . ",\n";
     }
 }
-$issns =$this->driver->tryMethod('getISSNs');
+$issns = $this->driver->tryMethod('getISSNs');
 if (is_array($issns)) {
     foreach ($issns as $issn) {
         echo 'issn = ' . '{' . $issn . '}' . ",\n";

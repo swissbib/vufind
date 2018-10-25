@@ -71,7 +71,7 @@ class InstitutionSorter extends AbstractHelper
         $sorted         = [];
         $missingCounter = 2000;
 
-            // No sorting for single institution
+        // No sorting for single institution
         if (sizeof($institutions) === 1) {
             return $institutions;
         }

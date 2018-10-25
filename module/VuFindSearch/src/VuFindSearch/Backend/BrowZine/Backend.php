@@ -2,7 +2,7 @@
 /**
  * BrowZine backend.
  *
- * PHP version 5
+ * PHP version 7
  *
  * Copyright (C) Villanova University 2017.
  *
@@ -27,15 +27,15 @@
  */
 namespace VuFindSearch\Backend\BrowZine;
 
-use VuFindSearch\Query\AbstractQuery;
+use VuFindSearch\Backend\AbstractBackend;
+
+use VuFindSearch\Backend\Exception\BackendException;
 
 use VuFindSearch\ParamBag;
+use VuFindSearch\Query\AbstractQuery;
 
-use VuFindSearch\Response\RecordCollectionInterface;
 use VuFindSearch\Response\RecordCollectionFactoryInterface;
-
-use VuFindSearch\Backend\AbstractBackend;
-use VuFindSearch\Backend\Exception\BackendException;
+use VuFindSearch\Response\RecordCollectionInterface;
 
 /**
  * BrowZine backend.
@@ -107,11 +107,15 @@ class Backend extends AbstractBackend
                 $e
             );
         }
+        // Use array_values and array_filter to strip any nulls out of the
+        // response (these are present sometimes due to an apparent API bug)
+        $results = isset($response['data']) && is_array($response['data'])
+            ? array_values(array_filter($response['data'])) : [];
         $collection = $this->createRecordCollection(
             [
                 'offset' => $offset,
-                'recordCount' => count($response['data']),
-                'data' => array_slice($response['data'], $offset, $limit)
+                'recordCount' => count($results),
+                'data' => array_slice($results, $offset, $limit)
             ]
         );
         $this->injectSourceIdentifier($collection);

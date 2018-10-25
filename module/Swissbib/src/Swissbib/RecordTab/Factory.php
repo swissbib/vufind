@@ -52,7 +52,7 @@ class Factory
     public static function getHierarchyTreeArchival(ServiceManager $sm)
     {
         return new HierarchyTreeArchival(
-            $sm->getServiceLocator()->get('VuFind\Config')->get('config')
+            $sm->get('VuFind\Config\PluginManager')->get('config')
         );
     }
 
@@ -61,12 +61,12 @@ class Factory
      *
      * @param ServiceManager $sm Service manager.
      *
-     * @return HierarchyTreeArchival
+     * @return HierarchyTree
      */
     public static function getHierarchyTree(ServiceManager $sm)
     {
         return new HierarchyTree(
-            $sm->getServiceLocator()->get('VuFind\Config')->get('config')
+            $sm->get('VuFind\Config\PluginManager')->get('config')
         );
     }
 }

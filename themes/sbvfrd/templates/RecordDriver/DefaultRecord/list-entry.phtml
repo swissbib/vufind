@@ -1,0 +1,200 @@
+<?php
+  /** @var    Swissbib\RecordDriver\SolrMarc $record */
+  /** @var    VuFind\View\Helper\Root\Record $viewRecord */
+  $record = $this->driver;
+  $viewRecord = $this->record($this->driver);
+  $thumbnail = $viewRecord->getThumbnail('small');
+  $thumbnailSrc = $thumbnail ? $thumbnail : $this->url('cover-unavailable');
+  $detailLink = $this->recordLink()->getUrl($record);
+  $titleStatement = $record->getTitleStatement(true);
+  $shortTitle = $record->getShortTitle();
+    if (!empty($shortTitle)) {
+        $shortTitle = $this->escapeHtml($shortTitle);
+    }
+    else {
+        $shortTitle = $this->transEsc('Title not available');
+    }
+  $subtitle = $viewRecord->getSubtitle($titleStatement);
+  $responsible = $viewRecord->getResponsible($titleStatement, $record);
+  $edition = $record->getEdition();
+  $summDate = $record->getHumanReadablePublicationDates();
+  $hostItems = $record->getHostItemEntry();
+  $groupID = $record->getGroup(true);
+  $uniqueID = $record->getUniqueID();
+  $showFRBR = $this->configAccess()->Site->displayFrbr;
+  $memorizeLink = $this->recordLink()->getActionUrl($this->driver, 'Save');
+  $formats = $viewRecord->getFormatList();
+
+  // Set up some convenience variables:
+  $id = $this->driver->getUniqueId();
+  $source = $this->driver->getResourceSource();
+  if (isset($this->list) && is_object($this->list)) {
+    $list_id = $this->list->id;
+    $user_id = $this->list->user_id;
+  } else {
+    $list_id = null;
+    $user_id = $this->user ? $this->user->id : null;
+  }
+?>
+
+<div class="row result result-item">
+    <div class="col-sm-1 hidden-print">
+        <label class="pull-left"><?=$viewRecord->getCheckbox() ?></label>
+        <input type="hidden" value="<?=$id ?>" class="hiddenId"/>
+    </div>
+    <div class="col-sm-2 hidden-xs left no-gutter hidden-print">
+        <a href="<?=$this->recordLink()->getUrl($record)?>" class="title img-responsive">
+            <img class="recordcover" src="<?= $thumbnail ?>" />
+        </a>
+    </div>
+    <div class="col-sm-6 col-xs-10 middle">
+        <h4>
+            <a class="title" title="<?= $shortTitle ?>" href="<?=$this->recordLink()->getUrl($record)?>"><?= $shortTitle ?></a>
+        </h4>
+        <!--? if (isset($subtitle)): ?-->
+            <span class="subtitle"><?= $this->escapeHtml($subtitle) ?></span>
+        <!--? endif; ?-->
+
+        <div class="row">
+            <?php if ($responsible): ?>
+                <div class="col-sm-4"><?= $this->transEsc('Author') ?>:</div>
+                <div class="col-sm-8">
+                    <?= $this->escapeHtml($responsible) ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+    <!-- Zeitschriftentitel, Erscheinungsjahr -->
+    <div class="row">
+        <?php if (!empty($hostItems)): ?>
+            <?php foreach ($hostItems as $hostItem): ?>
+                <div class="col-sm-4"><?= $this->transEsc('note_773') ?>:</div>
+                <div class="col-sm-8">
+                    <?php $text = array_key_exists('related', $hostItem) ? $hostItem['title'] . ', ' . $hostItem['related'] : $hostItem['title'] ?>
+                    <span><?= $this->escapeHtml($text) ?></span><br />
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        <?php if (!empty($journalTitle)): ?>
+            <div class="col-sm-4"><?= $this->transEsc('Published in')?>:</div>
+            <div class="col-sm-8"><a href="<?= $viewRecord->getLink('journaltitle', $journalTitle)?>"><?= $this->escapeHtml($journalTitle)?></a></div>
+        <?php endif; ?>
+        <?php if (!empty($summDate)): ?>
+            <div class="col-sm-4"><?= $this->transEsc('Year') ?>:</div>
+            <div class="col-sm-8"><?= $this->escapeHtml($summDate[0]) ?></div>
+        <?php endif; ?>
+        <?php if (!empty($edition)): ?>
+            <div class="col-sm-4"><?= $this->transEsc('Edition') ?>:</div>
+            <div class="col-sm-8"><?= $this->escapeHtml($edition) ?></div>
+        <?php endif; ?>
+        <!-- ID -->
+        <?php if (!empty($uniqueID)): ?>
+          <span class="visible-print-inline">
+            <div class="col-sm-4"><?= $this->transEsc('Item_ID') ?>:</div>
+            <div class="col-sm-8"><?= $uniqueID ?></div>
+          </span>
+          <br class="visible-print-inline"/>
+        <?php endif; ?>
+        <!-- Medien-Typ -->
+        <?php if (!empty($formats)): ?>
+            <div class="col-sm-4"><?= $this->transEsc('Format') ?>:</div>
+            <div class="col-sm-8"><?= $formats ?></div>
+        <?php endif; ?>
+    </div>
+
+    <div class="last">
+      <div class="row">
+        <?php $listTags = ($this->usertags()->getMode() !== 'disabled') ? $this->driver->getTags(
+            $list_id, // get tags for all lists if no single list is selected
+            $user_id, 'tag'
+           ) : [];
+        ?>
+        <?php if (count($listTags) > 0): ?>
+          <div class="col-sm-4"><?=$this->transEsc('Your Tags')?>:</div>
+          <div class="col-sm-8">
+            <?php $i = 0; foreach ($listTags as $tag): ?><?php ($i++ == 0)?><a href="<?=$this->currentPath() . $results->getUrlQuery()->addFacet('tags', $tag->tag)?>"><?=$this->escapeHtml($tag->tag)?></a><?php endforeach; ?>
+          </div>
+        <?php endif; ?>
+        <?php $listNotes = $this->driver->getListNotes($list_id, $user_id); ?>
+        <?php if (count($listNotes) > 0): ?>
+          <div class="col-sm-4"><?=$this->transEsc('Notes')?>:</div>
+          <div class="col-sm-8">
+              <?php foreach ($listNotes as $note): ?>
+                <?=$this->escapeHtml($note)?><br/>
+              <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
+
+        <?php if (count($this->lists) > 0): ?>
+            <div class="col-sm-4"><?=$this->transEsc('Saved in')?>:</div>
+            <div class="col-sm-8">
+                <?php $i = 0;foreach($this->lists as $current): ?>
+                    <a href="<?=$this->url('userList', ['id' => $current->id])?>"><?=$current->title?></a><?php if($i++ < count($this->lists) - 1): ?><?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
+            <?php
+            $openUrl = method_exists($this->driver, 'openURLActive') && $this->driver->openURLActive('record') ? $this->driver->getOpenURL() : false;
+            // Account for replace_other_urls setting
+            $urls = ($openUrl && $this->driver->replaceURLsWithOpenURL()) ? [] : $this->record($this->driver)->getLinkDetails();
+            ?>
+        <?php /* We need to find out if we're supposed to display an OpenURL link ($openUrlActive),
+                but even if we don't plan to display the link, we still want to get the $openUrl
+                value for use in generating a COinS (Z3988) tag -- see bottom of file.
+
+            $openUrl = $this->driver->getOpenURL();
+            $openUrlActive = $this->driver->openURLActive('results');
+            $urls = $this->record($this->driver)->getLinkDetails();
+            if ($openUrlActive || !empty($urls)):
+          ?>
+            <? if ($openUrlActive): ?>
+              <br/>
+              <?=$this->openUrl($openUrl)?>
+              <?
+                if ($this->driver->replaceURLsWithOpenURL()) {
+                  // clear URL list if replace setting is active
+                  $urls = array();
+                }
+              ?>
+            <? endif;?>
+
+            <? if (!is_array($urls)) { $urls = array(); }
+              if(!$this->driver->isCollection()):
+                foreach ($urls as $current): ?>
+                  <a href="<?=$this->escapeHtmlAttr($this->proxyUrl($current['url']))?>" class="fulltext" target="new"><i class="fa fa-external-link"></i> <?=($current['url'] == $current['desc']) ? $this->transEsc('Get full text') : $this->escapeHtml($current['desc'])?></a>
+                <? endforeach; ?>
+              <? endif; ?>
+            <? endif; */?>
+          <br/>
+
+
+          <?php if (/*!$openUrlActive && */ empty($urls) && $this->driver->supportsAjaxStatus()): ?>
+            <span class="status ajax-availability hidden"><?=$this->transEsc('Loading')?>...</span>
+            <br/><br/>
+          <?php endif; ?>
+          <?=$this->record($this->driver)->getPreviews()?>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-2 right hidden-print">
+    <a href="<?=$this->url('myresearch-edit')?>?id=<?=urlencode($id)?>&amp;source=<?=urlencode($source)?><?php if (null !== $list_id):?>&amp;list_id=<?=urlencode($list_id)?><?php endif; ?>" class="edit tool"><i class="fa fa-edit"></i><?=$this->transEsc('Edit')?></a><br/>
+    <?php /* Use a different delete URL if we're removing from a specific list or the overall favorites: */
+      $deleteUrl = null === $list_id
+          ? $this->url('myresearch-favorites')
+          : $this->url('userList', ['id' => $list_id]);
+      $deleteUrlGet = $deleteUrl . '?delete=' . urlencode($id) . '&amp;source=' . urlencode($source);
+    ?>
+    <div class="dropdown">
+      <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="<?=$deleteUrlGet ?>"><i class="fa fa-trash-o"></i>
+        <?=$this->transEsc('Delete') ?>
+      </a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li><a onClick="$.post('<?=$deleteUrl?>', {'delete':'<?=$this->escapeHtmlAttr($id) ?>','source':'<?=$this->escapeHtmlAttr($source) ?>','confirm':true},function(){location.reload(true)})" title="<?=$this->transEsc('confirm_delete_brief')?>"><?=$this->transEsc('confirm_dialog_yes')?></a></li>
+        <li><a><?=$this->transEsc('confirm_dialog_no')?></a></li>
+      </ul>
+    </div>
+  </div>
+    <span class="Z3988" title="<?= $this->escapeHtml($record->getOpenURL()) ?>"></span>
+</div>

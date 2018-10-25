@@ -2,16 +2,16 @@
   <h3><?= $group['label'][$this->layout()->userLang] ?></h3>
 
   <div class="institutions">
-    <? foreach ($institutions as $institution): ?>
-      <? if ($institution['is_favorite']): ?>
+    <?php foreach ($institutions as $institution): ?>
+      <?php if ($institution['is_favorite']): ?>
         <?=
         $this->render(
             'libraries/institution',
-            array(
+            [
                 'institution' => $institution
-            )
+            ]
         ) ?>
-      <? endif; ?>
-    <? endforeach; ?>
+      <?php endif; ?>
+    <?php endforeach; ?>
   </div>
 </div>

@@ -30,9 +30,8 @@
  */
 namespace Swissbib\VuFind\View\Helper\Root;
 
-use Zend\I18n\Exception\RuntimeException,
-    Zend\I18n\View\Helper\AbstractTranslatorHelper;
 use VuFind\View\Helper\Root\Translate as VFTranslate;
+use Zend\I18n\Exception\RuntimeException;
 
 /**
  * Translate view helper
@@ -152,7 +151,7 @@ class Translate extends VFTranslate
         }
 
         // Did the translation fail to change anything?  If so, use default:
-        if (!is_null($default) && $msg == $str) {
+        if (null !== $default && $msg == $str) {
             $msg = $default;
         }
 
