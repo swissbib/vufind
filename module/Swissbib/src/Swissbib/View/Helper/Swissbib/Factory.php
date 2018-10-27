@@ -34,6 +34,7 @@ use Swissbib\View\Helper\IncludeTemplate;
 
 use Swissbib\View\Helper\NationalLicences;
 use Swissbib\View\Helper\TranslateFacets;
+use Swissbib\View\Helper\WikidataTranslator;
 use Swissbib\VuFind\Search\Helper\SearchTabsHelper;
 use Swissbib\VuFind\View\Helper\Root\Auth;
 use Swissbib\VuFind\View\Helper\Root\SearchTabs;
@@ -116,6 +117,18 @@ class Factory
         $config =  $sm->get('VuFind\Config\PluginManager')->get('facets')
             ->Advanced_Settings->translated_facets->toArray();
         return new TranslateFacets($config);
+    }
+
+    /**
+     * GetWikidataTranslator
+     *
+     * @param ServiceManager $sm ServiceManager
+     *
+     * @return \Swissbib\View\Helper\WikidataTranslator
+     */
+    public static function getWikidataTranslator(ServiceManager $sm)
+    {
+        return new WikidataTranslator();
     }
 
     /**

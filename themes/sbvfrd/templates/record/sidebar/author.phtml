@@ -1,5 +1,5 @@
 <?php
-///** @var \Swissbib\RecordDriver\SolrMarc		$record  */
+/** @var \Swissbib\RecordDriver\SolrMarc		$record  */
 $record = $this->driver;
 /** @var \VuFind\View\Helper\Root\Record $viewRecord */
 $viewRecord = $this->record($record);
@@ -11,10 +11,13 @@ $hasAuthors = !empty($authors['primary']) || !empty($authors['secondary'])
 if (!$hasAuthors) {
     return '';
 }
+
+$labels = $this->wikidataTranslator($record);
 ?>
 <div class="record-related-searches hidden">
     <h1 class="title"><?= $this->transEsc('Author') ?></h1>
     <ul class="list-group author list">
+
         <?php if (!empty($authors['primary'])): ?>
 
             <li class="list-group-item">
@@ -22,6 +25,7 @@ if (!$hasAuthors) {
                 <a href="<?php $authorMain ?><?= $viewRecord->getLink('author', $authorMain) ?>"
                    title="<?php $authorMain ?><?= $this->escapeHtml($authorMain) ?>"><?= $this->escapeHtml($authorMain) ?></a>
             </li>
+
         <?php endif; ?>
 
         <?php if (!empty($authors['secondary'])): ?>
@@ -54,4 +58,16 @@ if (!$hasAuthors) {
             <?php endforeach; ?>
         <?php endif; ?>
     </ul>
+
+
+
+    <h1 class="title">Wikidata Translations</h1>
+    <ul class="list-group author list">
+        <?php foreach ($labels as $label): ?>
+            <li class="list-group-item">
+                <a href="http://wikidata.org">
+                    <?= $label ?>
+                </a>
+            </li>
+        <?php endforeach; ?>
 </div>

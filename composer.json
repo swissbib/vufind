@@ -134,7 +134,8 @@
     "doctrine/common": "^2.7",
     "zendframework/zend-form": "^2.12",
     "zendframework/zend-hydrator": "^2.4",
-    "zendframework/zend-barcode": "^2.7"
+    "zendframework/zend-barcode": "^2.7",
+    "freearhey/wikidata": "^2.1"
   },
   "require-dev": {
     "behat/mink": "1.7.1",

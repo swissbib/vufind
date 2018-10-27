@@ -52,6 +52,7 @@ return [
       'includeTemplate'                             => 'Swissbib\View\Helper\Swissbib\Factory::getIncludeTemplate',
       'translateFacets'                             => 'Swissbib\View\Helper\Swissbib\Factory::getFacetTranslator',
       'formatRelatedEntries'                        => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
+        \Swissbib\View\Helper\WikidataTranslator::class => 'Swissbib\View\Helper\Swissbib\Factory::getWikidataTranslator',
       //'Swissbib\VuFind\View\Helper\Root\Translate', => '',
     ],
     'aliases' => [
@@ -62,6 +63,7 @@ return [
         'recordLink'    => 'Swissbib\View\Helper\RecordLink',
         'searchtabs'    => 'Swissbib\VuFind\View\Helper\Root\SearchTabs',
         'piwik'         => 'Swissbib\VuFind\View\Helper\Root\Piwik',
+        'wikidataTranslator'         => \Swissbib\View\Helper\WikidataTranslator::class,
         //'translate'     => 'Swissbib\VuFind\View\Helper\Root\Translate',
     ],
     'invokables' => [

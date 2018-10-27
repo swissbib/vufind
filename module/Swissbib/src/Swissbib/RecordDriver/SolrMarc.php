@@ -2192,6 +2192,22 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
+     * Get Author GND Numbers
+     *
+     * @return array
+     */
+    public function getAuthorsGndNumbers()
+    {
+        return array_merge(
+            $this->getFieldArray('100', ['0']),
+            $this->getFieldArray('110', ['0']),
+            $this->getFieldArray('700', ['0']),
+            $this->getFieldArray('710', ['0'])
+        );
+
+    }
+
+    /**
      * Get data used for NationalLicences
      *
      * @return array
