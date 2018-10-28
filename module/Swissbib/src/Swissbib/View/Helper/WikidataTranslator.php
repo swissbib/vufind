@@ -30,6 +30,7 @@
  */
 namespace Swissbib\View\Helper;
 
+use Scriptotek\Marc\Collection;
 use Swissbib\Services\NationalLicence;
 use Swissbib\TargetsProxy\IpMatcher;
 use VuFind\RecordDriver\SolrDefault;
@@ -78,10 +79,15 @@ class WikidataTranslator extends AbstractHelper
         //$wikidataId = $this->getWikidataId($gndId);
         $gndNumbers = $record->getAuthorsGndNumbers();
         $labels = [];
+        $bnfLabels = [];
         foreach($gndNumbers as $gndNumber){
             //removes (DE-588)
             $gndNumber = substr($gndNumber, 8);
-            array_push($labels, $this->getWikidataTranslation($gndNumber));
+            $wikidataId = $this->getWikidataId($gndNumber);
+            array_push($labels, $this->getWikidataTranslation($wikidataId));
+            //$bnfId = $this->getBnfId($wikidataId);
+            //array_push($bnfLabels, $this->getBnfDescription($bnfId));
+
 
 
         }
@@ -89,12 +95,11 @@ class WikidataTranslator extends AbstractHelper
         return $labels;
     }
 
-    protected function getWikidataTranslation($gndId){
-        $wikidataId = $this->getWikidataId($gndId);
+    protected function getWikidataTranslation($wikidataId){
+
         if(empty($wikidataId)){
             return "no match in wikidata";
         }
-        //$bnfId = $this->getBnfId($gndId);
 
         //return $wikidataId;
         //$descriptionBNF = $this->getBnfDescription($bnfId);
@@ -130,17 +135,31 @@ class WikidataTranslator extends AbstractHelper
 
     protected function getBnfId($wikidataId)
     {
-        return "118806093";
+        $wikidata = new Wikidata();
+        $bnfId = $wikidata->get($wikidataId)->get('bnf_id')[0];
+
+
+        return $bnfId;
     }
 
     protected function getBnfDescription($bnfId)
     {
+        $client = new Client("http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=aut.ark%20all%20%22ark:/12148/cb118806093%22&recordSchema=unimarcxchange&maximumRecords=20&startRecord=1");
+        $response = $client->send();
+        $response = file_get_contents("http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=aut.ark%20all%20%22ark:/12148/cb118806093%22&recordSchema=unimarcxchange&maximumRecords=20&startRecord=1");
+        $record = \Scriptotek\Marc\Record::fromString($response);
+        foreach ($records as $record) {
+            $name = $record->getField('210')->getSubfield('b')->getData() . "\n";
+        }
+
+
+
         return "Suisse. Conseil Fédéral";
     }
 
     protected function getWikidataDescription($wikidataId)
     {
-        $wikidata = new Wikidata();
+        $wikidata = new Wikidata('fr');
         $entity = $wikidata->get($wikidataId);
         return $entity->label;
     }
