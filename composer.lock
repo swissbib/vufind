@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf77281cc0198bf5adbc146a93f49a7a",
+    "content-hash": "6561d67e2664da0584728005cc836427",
     "packages": [
         {
             "name": "ahand/mobileesp",
@@ -140,6 +140,99 @@
             "description": "PHP class library to facilitate communication with Integrated Library System (ILS) servers via 3M's SIP2.",
             "homepage": "https://github.com/cap60552/php-sip2",
             "time": "2015-11-03T04:42:39+00:00"
+        },
+        {
+            "name": "ck/file_marc_reference",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MARCspec/File_MARC_Reference.git",
+                "reference": "29abbff5bec5e3bcfeeb07ba7bee94cc0a0a7f5e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MARCspec/File_MARC_Reference/zipball/29abbff5bec5e3bcfeeb07ba7bee94cc0a0a7f5e",
+                "reference": "29abbff5bec5e3bcfeeb07ba7bee94cc0a0a7f5e",
+                "shasum": ""
+            },
+            "require": {
+                "ck/php-marcspec": "^2.0",
+                "pear/file_marc": "@dev",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7 | ^6"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carsten Klee",
+                    "homepage": "http://collidoscope.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "MARCspec adapter for File_MARC",
+            "keywords": [
+                "File_MARC",
+                "MARC 21",
+                "MARCspec"
+            ],
+            "time": "2017-12-01T09:16:45+00:00"
+        },
+        {
+            "name": "ck/php-marcspec",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MARCspec/php-marc-spec.git",
+                "reference": "853d77ad3d510ce05c33535bfa3f1068dccdeef6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MARCspec/php-marc-spec/zipball/853d77ad3d510ce05c33535bfa3f1068dccdeef6",
+                "reference": "853d77ad3d510ce05c33535bfa3f1068dccdeef6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "ck/marcspec-test-suite": "@dev",
+                "phpunit/phpunit": "^5.7 | ^6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CK\\MARCspec\\": "src/",
+                    "CK\\MARCspec\\Exception\\": "src/Exception/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carsten Klee",
+                    "homepage": "http://collidoscope.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP based MARCspec parser and validator",
+            "keywords": [
+                "MARC 21",
+                "MARCspec"
+            ],
+            "time": "2017-12-12T08:18:18+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -2610,6 +2703,52 @@
                 "promises"
             ],
             "time": "2018-06-13T15:59:06+00:00"
+        },
+        {
+            "name": "scriptotek/marc",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scriptotek/php-marc.git",
+                "reference": "9b0f0e83c394040b3faac60773550c4c53b97768"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scriptotek/php-marc/zipball/9b0f0e83c394040b3faac60773550c4c53b97768",
+                "reference": "9b0f0e83c394040b3faac60773550c4c53b97768",
+                "shasum": ""
+            },
+            "require": {
+                "ck/file_marc_reference": "^1.2",
+                "pear/file_marc": "^1.1",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7 | ^6.0 | ^7.0",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Scriptotek\\Marc\\": "src/",
+                    "Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Michael O. Heggø",
+                    "email": "d.m.heggo@ub.uio.no"
+                }
+            ],
+            "description": "Simple interface to parsing MARC records using File_MARC",
+            "keywords": [
+                "marc"
+            ],
+            "time": "2018-10-23T10:16:07+00:00"
         },
         {
             "name": "serialssolutions/summon",
