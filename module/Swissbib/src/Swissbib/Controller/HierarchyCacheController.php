@@ -30,12 +30,12 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Console\Request as ConsoleRequest;
-
+use Swissbib\VuFind\Hierarchy\TreeDataSource\Solr as TreeDataSourceSolr;
 use VuFind\Search\Solr\Results as SolrResults;
 
-use Swissbib\VuFind\Hierarchy\TreeDataSource\Solr as TreeDataSourceSolr;
+use Zend\Console\Request as ConsoleRequest;
+
+use Zend\Mvc\Controller\AbstractActionController;
 
 /**
  * Swissbib HierarchyCacheController
@@ -91,7 +91,7 @@ class HierarchyCacheController extends AbstractActionController
             }
 
             $driver = $recordLoader->load($hierarchy['value']);
-                // Only do this if the record is actually a hierarchy type record
+            // Only do this if the record is actually a hierarchy type record
             if ($driver->getHierarchyType()) {
                 /**
                  * TreeDataSourceSolr

@@ -3,7 +3,6 @@
 /** @var String $record */
 /** @var String $recordTitle */
 /** @var String $institution */
-
 $idTable = 'holdings-holding-' . $record . '-' . $institution;
 $flippedContent = '';
 
@@ -33,21 +32,21 @@ $headers = [
         foreach ($holdings as $holding) {
             echo $this->render(
                 'Holdings/holding-holding.phtml',
-                array(
-                    'holding'     => $holding,
-                    'record'      => $record,
+                [
+                    'holding' => $holding,
+                    'record' => $record,
                     'recordTitle' => $recordTitle
-                )
+                ]
             );
             $flippedContent .= $this->render(
                 'Holdings/holding-holding-flipped.phtml',
-                array(
-                    'holding'     => $holding,
-                    'record'      => $record,
+                [
+                    'holding' => $holding,
+                    'record' => $record,
                     'recordTitle' => $recordTitle,
-                    'headers'     => $headers,
-                    'even'        => (0 === $index++ % 2)
-                )
+                    'headers' => $headers,
+                    'even' => (0 === $index++ % 2)
+                ]
             );
         }
     }
@@ -55,26 +54,26 @@ $headers = [
         foreach ($items as $item) {
             echo $this->render(
                 'Holdings/holding-item.phtml',
-                array(
-                    'item'        => $item,
-                    'driver'      => $driver,
-                    'record'      => $record,
+                [
+                    'item' => $item,
+                    'driver' => $driver,
+                    'record' => $record,
                     'recordTitle' => $recordTitle,
                     'institution' => $institution
-                )
+                ]
             );
 
             $flippedContent .= $this->render(
                 'Holdings/holding-item-flipped.phtml',
-                array(
-                    'item'        => $item,
-                    'driver'      => $driver,
-                    'record'      => $record,
+                [
+                    'item' => $item,
+                    'driver' => $driver,
+                    'record' => $record,
                     'recordTitle' => $recordTitle,
                     'institution' => $institution,
-                    'headers'     => $headers,
-                    'even'        => (0 === $index++ % 2)
-                )
+                    'headers' => $headers,
+                    'even' => (0 === $index++ % 2)
+                ]
             );
         }
     }

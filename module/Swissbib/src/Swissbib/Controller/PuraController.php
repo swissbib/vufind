@@ -24,12 +24,12 @@
  */
 namespace Swissbib\Controller;
 
-use SwitchSharedAttributesAPIClient\PublishersList;
-use Zend\View\Model\ViewModel;
 use Swissbib\Services\Pura;
+use SwitchSharedAttributesAPIClient\PublishersList;
 use Zend\Barcode\Barcode;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceManager;
+use Zend\View\Model\ViewModel;
 
 /**
  * Class NationalLicencesController.
@@ -59,6 +59,7 @@ class PuraController extends BaseController
     {
         $this->puraService = $sm->get('Swissbib\PuraService');
         $this->puraService->setServiceLocator($sm);
+        parent::__construct($sm);
     }
 
     /**
@@ -96,9 +97,9 @@ class PuraController extends BaseController
     {
         // Get user information from the shibboleth attributes
         $uniqueId
-            = isset($_SERVER['uniqueID']) ? $_SERVER['uniqueID'] : null;
+            = $_SERVER['uniqueID'] ?? null;
         $persistentId
-            = isset($_SERVER['persistent-id']) ? $_SERVER['persistent-id'] : null;
+            = $_SERVER['persistent-id'] ?? null;
 
         $libraryCode = $this->params()->fromRoute('libraryCode');
 
@@ -160,7 +161,7 @@ class PuraController extends BaseController
 
             if ($page == 'registration') {
                 $showRegistration = true;
-            } else if ($page == 'listResources') {
+            } elseif ($page == 'listResources') {
                 $showListResources = true;
             } else {
                 $hasAccess = $puraUser->hasAccess();

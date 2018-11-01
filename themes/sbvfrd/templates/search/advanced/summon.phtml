@@ -1,35 +1,35 @@
-<? if (!empty($this->facetList) || !empty($this->checkboxFacets)): ?>
+<?php if (!empty($this->facetList) || !empty($this->checkboxFacets)): ?>
 <div class="row">
   <fieldset class="col-sm-12">
     <legend><?=$this->transEsc('Limit To')?></legend>
-    <? if (!empty($this->checkboxFacets)): ?>
+    <?php if (!empty($this->checkboxFacets)): ?>
       <?=$this->render('search/advanced/checkbox-filters.phtml')?>
-    <? endif; ?>
+    <?php endif; ?>
     <div class="row">
       <div class="col-sm-6">
-        <? foreach ($this->facetList as $field => $list): ?>
+        <?php foreach ($this->facetList as $field => $list): ?>
             <br/>
             <label for="limit_<?=$this->escapeHtmlAttr(str_replace(' ', '', $field))?>"><?=$this->transEsc($list['label'])?></label>
             <br/>
             <select class="form-control chosen-select" data-placeholder="<?=$this->transEsc('Select' . $list['label'] . 'Placeholder')?>" id="limit_<?=$this->escapeHtmlAttr(str_replace(' ', '', $field))?>" name="filter[]" multiple="multiple" size="10">
-              <?
+              <?php
                 // Sort the current facet list alphabetically; we'll use this data
                 // along with the foreach below to display facet options in the
                 // correct order.
-                $sorted = array();
+                $sorted = [];
                 foreach ($list['list'] as $i => $value) {
                   $sorted[$i] = $value['displayText'];
                 }
                 natcasesort($sorted);
               ?>
-              <? foreach ($sorted as $i => $display): ?>
-                <? $value = $list['list'][$i]; ?>
+              <?php foreach ($sorted as $i => $display): ?>
+                <?php $value = $list['list'][$i]; ?>
                 <option value="<?=$this->escapeHtmlAttr(($value['operator'] == 'OR' ? '~' : '') . $field . ':"' . $value['value'] . '"')?>"<?=(isset($value['selected']) && $value['selected'])?' selected="selected"':''?>><?=$this->escapeHtml($display)?></option>
-              <? endforeach; ?>
+              <?php endforeach; ?>
             </select>
-        <? endforeach; ?>
+        <?php endforeach; ?>
       </div>
-      <? endif; ?>
+      <?php endif; ?>
         <div class="col-sm-6">
             <?=$this->render('search/advanced/ranges.phtml')?>
             <?=$this->render('search/advanced/limit.phtml')?>

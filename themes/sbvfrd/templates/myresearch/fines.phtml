@@ -1,4 +1,4 @@
-<?
+<?php
     // Set up page title:
     $this->headTitle($this->translate('My Fines'));
 
@@ -7,23 +7,23 @@
 ?>
 <div class="<?=$this->layoutClass('mainbody')?>">
   <h2><?=$this->transEsc('Your Fines')?></h2>
-  <? if (empty($this->fines)): ?>
+  <?php if (empty($this->fines)): ?>
     <?=$this->transEsc('You do not have any fines')?>
-  <? else: ?>
-        <? $totalDue = 0; ?>
-        <? foreach ($this->fines as $record): ?>
-            <? if (!empty($record['balance'])): ?>
+  <?php else: ?>
+        <?php $totalDue = 0; ?>
+        <?php foreach ($this->fines as $record): ?>
+            <?php if (!empty($record['balance'])): ?>
                 <?$totalDue += $record['amount']; ?>
-            <? endif; ?>
-        <? endforeach; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
         <p><span><strong><?=$this->transEsc('Total Balance Due') ?>:</strong></span> CHF <?=isset($totalDue) ? number_format($totalDue, 2, '.', '\'') : ''?></p>
 
-    <?
+    <?php
     $headers = [
-        'title'         => $this->transEsc('Title'),
+        'title' => $this->transEsc('Title'),
         'library_callno' => $this->transEsc('Institution'),
-        'date'     => $this->transEsc('Date'),
-        'fee'      => $this->transEsc('Fee'),
+        'date' => $this->transEsc('Date'),
+        'fee' => $this->transEsc('Fee'),
     ];
 
     $flippedContent = '';
@@ -41,31 +41,31 @@
         </thead>
         <tbody>
 
-        <? foreach ($this->fines as $record): ?>
+        <?php foreach ($this->fines as $record): ?>
         <tr>
-            <?
-            $flippedContent .= $this->render('myresearch/fines-flipped.phtml', array(
-                'record'    => $record,
+            <?php
+            $flippedContent .= $this->render('myresearch/fines-flipped.phtml', [
+                'record' => $record,
                 'headers' => $headers
-            ));
+            ]);
             ?>
             <td>
-                <? if (empty($record['title'])): ?>
+                <?php if (empty($record['title'])): ?>
                     <?=$this->transEsc('not_applicable')?>
-                <? elseif (!isset($record['id'])): ?>
+                <?php elseif (!isset($record['id'])): ?>
                     <?=$this->escapeHtml(trim($record['title'], '/:'))?>
-                <? else: ?>
-                    <a href="<?=$this->url('record', array('id' => $record['id']))?>"><?=$this->escapeHtml(trim($record['title'], '/:'))?></a>
-                <? endif; ?>
+                <?php else: ?>
+                    <a href="<?=$this->url('record', ['id' => $record['id']])?>"><?=$this->escapeHtml(trim($record['title'], '/:'))?></a>
+                <?php endif; ?>
             </td>
             <td>
-                <? if (!empty($record['institution'])): ?>
+                <?php if (!empty($record['institution'])): ?>
                     <?=$this->escapeHtml($this->zendTranslate($record['institution'], 'institution'))?><br />
-                <? endif; ?>
+                <?php endif; ?>
 
-                <? if (!empty($record['signature'])): ?>
+                <?php if (!empty($record['signature'])): ?>
                     <?=$this->escapeHtml($record['signature'])?>
-                <? endif; ?>
+                <?php endif; ?>
             </td>
             <td>
                 <?=$this->escapeHtml($record['checkout']) ?>
@@ -74,14 +74,14 @@
                 CHF <?=isset($record['amount']) ? number_format($record['amount'], 2, '.', '\'') : ''?> (<?=isset($record['description']) ? $this->escapeHtml($record['description']) : ''?>)
             </td>
             </tr>
-        <? endforeach; ?>
+        <?php endforeach; ?>
         </tbody>
     </table>
     <?=$flippedContent;?>
-  <? endif; ?>
+  <?php endif; ?>
 </div>
 
 
 <div class="<?=$this->layoutClass('sidebar')?>">
-  <?=$this->context($this)->renderInContext("myresearch/menu.phtml", array('active' => 'fines'))?>
+  <?=$this->context($this)->renderInContext("myresearch/menu.phtml", ['active' => 'fines'])?>
 </div>

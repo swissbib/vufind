@@ -91,7 +91,7 @@ class TabTemplate extends AbstractHelper
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
-        $this->resolver = $this->serviceLocator->getServiceLocator()
+        $this->resolver = $this->serviceLocator
             ->get('Zend\View\Renderer\PhpRenderer')->resolver();
     }
 

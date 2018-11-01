@@ -667,10 +667,12 @@ ul[aria-labelledby=dropdownLibraries] {
   }
 }
 
+
 .js-facet-item {
   padding: 6px;
   border-bottom: 1px dotted @content-box-border-color;
 }
+
 
 .sidebar {
   background: @sidebar-background-color;
@@ -736,6 +738,9 @@ ul[aria-labelledby=dropdownLibraries] {
 //    &:first-child {
 //      margin-top: 20px;
 //    }
+  }
+  .facet .exclude {
+    padding-left: 0.2rem;
   }
   h4.list-group-item.title {
     padding-top: 9px;
@@ -1033,7 +1038,7 @@ div.memorize {
 
 
 /* home content */
-.home-content-box {
+.home-content-box, .search-home-facets {
   background-color: @content-box-background-color;
   border: 1px solid @content-box-border-color;
   min-height: 320px;
@@ -1052,6 +1057,7 @@ div.memorize {
     font-size: 20px;
     font-weight: 600;
     margin: 0 0 14px 0;
+    line-height: 1.4;
   }
 
   p {

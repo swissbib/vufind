@@ -27,8 +27,8 @@
  */
 namespace Swissbib\Content\Covers;
 
-use Zend\ServiceManager\ServiceManager;
 use VuFind\Content\Covers\Factory as VFFactory;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory for instantiating content loaders
@@ -52,7 +52,7 @@ class Factory extends VFFactory
      */
     public static function getAmazon(ServiceManager $sm)
     {
-        $config = $sm->getServiceLocator()->get('VuFind\Config')->get('config');
+        $config = $sm->get('VuFind\Config\PluginManager')->get('config');
         $associate = isset($config->Content->amazonassociate)
             ? $config->Content->amazonassociate : null;
         $secret = isset($config->Content->amazonsecret)

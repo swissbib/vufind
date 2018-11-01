@@ -1,14 +1,14 @@
 <!-- User have to fill the homePostalAddress in the SWITCH edu-ID account -->
 <?php
     $encodedProviderID = urlencode($this->serverUrl() . "/" . "shibboleth");
-    $encodedTarget = urlencode($this->serverUrl().$this->url('national-licences'));
+    $encodedTarget = urlencode($this->serverUrl() . $this->url('national-licences'));
     $swissEduIDVerifyBaseUrl = "https://eduid.ch/web/verify-attribute/?attribute=";
 ?>
 
 <p>
     <p><?= $this->transEsc('snl.introBullet2') ?></p>
     <p>
-        <a href="<?php echo($swissEduIDVerifyBaseUrl."homepostaladdress&providerId=".$encodedProviderID."&target=".$encodedTarget); ?>">
+        <a href="<?php echo $swissEduIDVerifyBaseUrl . "homepostaladdress&providerId=" . $encodedProviderID . "&target=" . $encodedTarget; ?>">
             <button class="btn btn-primary">
                 <?= $this->transEsc('snl.theAddressNotVerifiedYet.verify') ?>
             </button>

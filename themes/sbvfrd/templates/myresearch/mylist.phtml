@@ -1,4 +1,4 @@
-<?
+<?php
 // Grab list object from search results (if applicable):
 $list = $this->results->getListObject();
 
@@ -7,7 +7,7 @@ $this->headTitle(isset($list) ? $list->title : $this->translate('Your Favorites'
 
 // Set up breadcrumbs:
 $currPage = isset($list) ? 'List' : 'Your Favorites';
-$this->layout()->breadcrumbs = '<li><a href="' .  $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li> <li class="active">' . $this->transEsc($currPage) . '</li>';
+$this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li> <li class="active">' . $this->transEsc($currPage) . '</li>';
 
 // Load Javascript dependencies into header:
 $this->headScript()->appendFile("check_item_statuses.js");
@@ -30,19 +30,19 @@ $user = $this->auth()->isLoggedIn();
     </div>
     <?=$this->flashmessages()?>
     <div class="hidden-print search-controls clearfix row">
-        <? if ($recordTotal > 0): ?>
+        <?php if ($recordTotal > 0): ?>
             <div class="col-lg-6 col-md-7 col-sm-7">
-                <?=$this->paginationControl($this->results->getPaginator(), 'Sliding', 'search/pagination.phtml', array('results' => $this->results))?>
+                <?=$this->paginationControl($this->results->getPaginator(), 'Sliding', 'search/pagination.phtml', ['results' => $this->results])?>
             </div>
             <div class="col-lg-6 col-md-5 col-sm-5 text-right">
                 <?=$this->render('search/controls/sort.phtml')?>
             </div>
-        <? endif; ?>
+        <?php endif; ?>
 
-        <? if (isset($list)): ?>
-            <? if ($list->editAllowed($account->isLoggedIn())): ?>
+        <?php if (isset($list)): ?>
+            <?php if ($list->editAllowed($account->isLoggedIn())): ?>
             <div class="pull-right">
-                <a href="<?=$this->url('editList', array('id' => $list->id)) ?>" class="btn btn-link" title="<?=$this->transEsc("edit_list")?>"><i class="fa fa-edit"></i> <?=$this->transEsc("edit_list")?></a>
+                <a href="<?=$this->url('editList', ['id' => $list->id]) ?>" class="btn btn-link" title="<?=$this->transEsc("edit_list")?>"><i class="fa fa-edit"></i> <?=$this->transEsc("edit_list")?></a>
                 <div class="btn-group">
                     <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="<?=$this->url('myresearch-deletelist') ?>?listID=<?=urlencode($list->id)?>">
                         <i class="fa fa-trash-o"></i> <?=$this->transEsc("delete_list")?></a>
@@ -52,30 +52,30 @@ $user = $this->auth()->isLoggedIn();
                     </ul>
                 </div>
             </div>
-            <? endif; ?>
-        <? endif; ?>
+            <?php endif; ?>
+        <?php endif; ?>
     </div>
-    <? if ($list && !empty($list->description)): ?>
+    <?php if ($list && !empty($list->description)): ?>
     <p>
         <?=$this->escapeHtml($list->description)?>
     </p>
-    <? endif; ?>
-    <? if ($recordTotal > 0): ?>
+    <?php endif; ?>
+    <?php if ($recordTotal > 0): ?>
         <form data-lightbox class="form-inline" method="post" name="bulkActionForm" action="<?=$this->url('cart-myresearchbulk')?>">
-            <?=$this->context($this)->renderInContext('myresearch/bulk-action-buttons.phtml', array('idPrefix' => '', 'list' => isset($list) ? $list : null, 'account' => $this->account))?>
-            <? foreach ($this->results->getResults() as $i=>$current): ?>
+            <?=$this->context($this)->renderInContext('myresearch/bulk-action-buttons.phtml', ['idPrefix' => '', 'list' => $list ?? null, 'account' => $this->account])?>
+            <?php foreach ($this->results->getResults() as $i => $current): ?>
                 <?=$this->record($current)->getListEntry($list, $user)?>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </form>
-        <?=$this->paginationControl($this->results->getPaginator(), 'Sliding', 'search/pagination.phtml', array('results' => $this->results))?>
-    <? else: ?>
+        <?=$this->paginationControl($this->results->getPaginator(), 'Sliding', 'search/pagination.phtml', ['results' => $this->results])?>
+    <?php else: ?>
         <p><?=$this->transEsc('You do not have any saved resources')?></p>
-    <? endif; ?>
+    <?php endif; ?>
 </div>
 
 <div class="<?=$this->layoutClass('sidebar')?>">
-    <?=$this->context($this)->renderInContext("myresearch/menu.phtml", array('active' => isset($list) ? 'list' . $list['id'] : 'favorites'))?>
-    <? foreach ($this->results->getRecommendations('side') as $current): ?>
+    <?=$this->context($this)->renderInContext("myresearch/menu.phtml", ['active' => isset($list) ? 'list' . $list['id'] : 'favorites'])?>
+    <?php foreach ($this->results->getRecommendations('side') as $current): ?>
         <?=$this->recommend($current)?>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 </div>

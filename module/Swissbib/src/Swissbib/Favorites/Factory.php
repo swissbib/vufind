@@ -30,9 +30,9 @@
  */
 namespace Swissbib\Favorites;
 
-use Zend\ServiceManager\ServiceManager;
 use Swissbib\Favorites\DataSource as FavoritesDataSource;
 use Swissbib\Favorites\Manager as FavoritesManager;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory for Favorites types.
@@ -55,7 +55,7 @@ class Factory
     public static function getFavoritesDataSource(ServiceManager $sm)
     {
         $objectCache = $sm->get('VuFind\CacheManager')->getCache('object');
-        $configManager = $sm->get('VuFind\Config');
+        $configManager = $sm->get('VuFind\Config\PluginManager');
 
         return new FavoritesDataSource($objectCache, $configManager);
     }
@@ -70,9 +70,9 @@ class Factory
     public static function getFavoritesManager(ServiceManager $sm)
     {
         $sessionStorage = $sm->get('VuFind\SessionManager')->getStorage();
-        $groupMapping = $sm->get('VuFind\Config')->get('libadmin-groups')
-            ->institutions;
-        $authManager = $sm->get('VuFind\AuthManager');
+        $groupMapping = $sm->get('VuFind\Config\PluginManager')
+            ->get('libadmin-groups')->institutions;
+        $authManager = $sm->get('VuFind\Auth\Manager');
 
         return new FavoritesManager($sessionStorage, $groupMapping, $authManager);
     }

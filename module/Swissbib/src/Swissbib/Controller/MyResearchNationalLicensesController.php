@@ -31,8 +31,9 @@
 namespace Swissbib\Controller;
 
 use Swissbib\Services\NationalLicence;
-use VuFind\Exception\Auth as AuthException;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
+use VuFind\Exception\Auth as AuthException;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Swissbib MyResearchNationalLicensesController
@@ -58,11 +59,13 @@ class MyResearchNationalLicensesController extends MyResearchController
      * Constructor.
      * MyResearchNationalLicensesController constructor.
      *
-     * @param NationalLicence $nationalLicenceService NationalLicence.
+     * @param ServiceLocatorInterface $sm Service locator
      */
-    public function __construct(NationalLicence $nationalLicenceService)
+    public function __construct(ServiceLocatorInterface $sm)
     {
-        $this->nationalLicenceService = $nationalLicenceService;
+        $this->nationalLicenceService
+            = $sm->get('Swissbib\NationalLicenceService');
+        parent::__construct($sm);
     }
 
     /**
@@ -73,7 +76,6 @@ class MyResearchNationalLicensesController extends MyResearchController
     public function nlsignpostAction()
     {
         try {
-
             if (!$this->getAuthManager()->isLoggedIn()) {
                 $this->getAuthManager()->login($this->getRequest());
             }
@@ -113,21 +115,17 @@ class MyResearchNationalLicensesController extends MyResearchController
 
             if (!$hasAccessToNationalLicenceContent && !$hasCommonLibTerms) {
                 return $this->forwardTo('national-licences', 'index');
-
             } else {
                 $tURL = $this->getDocumentProviderURL();
                 return $this->redirect()->toUrl($tURL);
             }
-
         } else {
             //if the user is not logged in with swissEduId he/she is sent to the
             // document but we can't guarentee correct access - user should be
             // notified about this in advance on the surface
             $tURL = $this->getDocumentProviderURL();
             return $this->redirect()->toUrl($tURL);
-
         }
-
     }
 
     /**
@@ -139,34 +137,30 @@ class MyResearchNationalLicensesController extends MyResearchController
     {
         // Get user information from the shibboleth attributes
         $uniqueId
-            = isset($_SERVER['uniqueID']) ? $_SERVER['uniqueID'] : null;
+            = $_SERVER['uniqueID'] ?? null;
         $persistentId
-            = isset($_SERVER['persistent-id']) ? $_SERVER['persistent-id'] : null;
+            = $_SERVER['persistent-id'] ?? null;
         $givenName
-            = isset($_SERVER['givenName']) ? $_SERVER['givenName'] : null;
+            = $_SERVER['givenName'] ?? null;
         $surname
-            = isset($_SERVER['surname']) ? $_SERVER['surname'] : null;
+            = $_SERVER['surname'] ?? null;
         $persistentId
-            = isset($_SERVER['persistent-id']) ? $_SERVER['persistent-id'] : null;
+            = $_SERVER['persistent-id'] ?? null;
         $homePostalAddress
-            = isset($_SERVER['homePostalAddress']) ? $_SERVER['homePostalAddress'] :
+            = $_SERVER['homePostalAddress'] ??
             null;
         $mobile
-            = isset($_SERVER['mobile']) ? $_SERVER['mobile'] : null;
+            = $_SERVER['mobile'] ?? null;
         $homeOrganizationType
-            = isset($_SERVER['home_organization_type']) ?
-                $_SERVER['home_organization_type'] : null;
+            = $_SERVER['home_organization_type'] ?? null;
         $affiliation
-            = isset($_SERVER['affiliation']) ? $_SERVER['affiliation'] : null;
+            = $_SERVER['affiliation'] ?? null;
         $swissLibraryPersonResidence
-            = isset($_SERVER['swissLibraryPersonResidence']) ?
-            $_SERVER['swissLibraryPersonResidence'] : null;
+            = $_SERVER['swissLibraryPersonResidence'] ?? null;
         $swissEduIDUsage1y
-            = isset($_SERVER['swissEduIDUsage1y']) ?
-            $_SERVER['swissEduIDUsage1y'] : null;
+            = $_SERVER['swissEduIDUsage1y'] ?? null;
         $swissEduIdAssuranceLevel
-            = isset($_SERVER['swissEduIdAssuranceLevel']) ?
-            $_SERVER['swissEduIdAssuranceLevel'] : null;
+            = $_SERVER['swissEduIdAssuranceLevel'] ?? null;
 
         /**
          * National licence user.
@@ -200,7 +194,6 @@ class MyResearchNationalLicensesController extends MyResearchController
         }
 
         return $user;
-
     }
 
     /**
@@ -216,11 +209,9 @@ class MyResearchNationalLicensesController extends MyResearchController
 
         $idbName = "eduid\.ch\/idp";
 
-        $persistentId = isset($_SERVER['persistent-id']) ?
-            $_SERVER['persistent-id'] : "";
+        $persistentId = $_SERVER['persistent-id'] ?? "";
         return (isset($idbName) && !empty($_SERVER['persistent-id'])) ?
             count(preg_grep("/$idbName/", [$persistentId])) > 0 : false;
-
     }
 
     /**
@@ -233,5 +224,4 @@ class MyResearchNationalLicensesController extends MyResearchController
         $publisher = $this->getRequest()->getQuery()->get("publisher");
         return $publisher;
     }
-
 }

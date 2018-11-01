@@ -1,6 +1,6 @@
 <p><a href="<?= $this->url('help-page', array('topic' => 'faq')); ?>"><?= $this->transEsc('logininfo.multi.text.1') ?></a></p>
 <p><p><?= $this->transEsc('logininfo.multi.text.2') ?> <a href="<?= $this->url('feedback-home') ?>"><?= $this->transEsc('contact_form') ?></a></p>
-<p><?= $this->transEsc('logininfo.multi.text.3') ?> <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://aleph.unibas.ch/F/?func=bor-new-0') ?>" target="_blank"><?= $this->transEsc('Create New Account') ?></a></p>
+<p><?= $this->transEsc('logininfo.multi.text.3') ?> <a href="http://aleph.unibas.ch/F/?func=bor-new-0" target="_blank"><?= $this->transEsc('Create New Account') ?></a></p>
 <div class="form-group hidden">
   <label class="col-sm-3 control-label" for="login_target"><?=$this->transEsc('login_target')?>:</label>
     <?$currentTarget = $this->request->get('target'); if (!$currentTarget) $currentTarget = $this->auth()->getManager()->getDefaultLoginTarget();?>

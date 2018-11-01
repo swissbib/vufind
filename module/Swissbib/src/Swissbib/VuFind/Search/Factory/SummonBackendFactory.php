@@ -28,12 +28,12 @@
  */
 namespace Swissbib\VuFind\Search\Factory;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Config\Config;
-use Zend\Http\Client as HttpClient;
-
-use VuFind\Search\Factory\SummonBackendFactory as SummonBackendFactoryBase;
 use SerialsSolutions\Summon\Zend2 as Connector;
+use VuFind\Search\Factory\SummonBackendFactory as SummonBackendFactoryBase;
+use Zend\Config\Config;
+
+use Zend\Http\Client as HttpClient;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Factory for Summon backends.

@@ -20,62 +20,62 @@ try {
 }
 ?>
 
-<? if ($amountHoldings === 1): ?>
+<?php if ($amountHoldings === 1): ?>
     <a class="btn btn-primary dropdown-toggle hidden-print" id="dropdownLibraries" data-toggle="dropdown">
-        <span><? if ($this->isFavoriteInstitution($institutions)): ?><i class="fa fa-heart"></i><? else: ?><i class="fa fa-institution"></i></span><? endif; ?>
+        <span><?php if ($this->isFavoriteInstitution($institutions)): ?><i class="fa fa-heart"></i><?php else: ?><i class="fa fa-institution"></i></span><?php endif; ?>
       <span class="hidden-xs hidden-sm">1 <?= $this->transEsc('result.library') ?></span>
     </a>
     <span class="visible-print-inline"><i class="fa fa-institution"></i></span>
-<? elseif ($amountHoldings > 1): ?>
+<?php elseif ($amountHoldings > 1): ?>
     <a class="btn btn-primary dropdown-toggle hidden-print" id="dropdownLibraries" data-toggle="dropdown">
-        <span><? if ($this->isFavoriteInstitution($institutions)): ?><i class="fa fa-heart"></i><? else: ?><i class="fa fa-institution"></i></span><? endif; ?>
+        <span><?php if ($this->isFavoriteInstitution($institutions)): ?><i class="fa fa-heart"></i><?php else: ?><i class="fa fa-institution"></i></span><?php endif; ?>
         <span class="hidden-xs hidden-sm"><?= $amountHoldings ?> <?= $this->transEsc('result.libraries') ?></span>
     </a>
     <span class="visible-print-inline"><i class="fa fa-institution"></i></span>
-<? endif ?>
+<?php endif ?>
 
-<? if($borisURL): ?>
-    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($borisURL['url']) ?>" target="_blank">
+<?php if($borisURL): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $borisURL['url'] ?>" target="_blank">
       <span><i class="fa fa-external-link"></i></span>
       <span class="hidden-xs hidden-sm">BORIS</span>
     </a>
-<? elseif($eperiodicaURL): ?>
-    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($eperiodicaURL['url']) ?>" target="_blank">
+<?php elseif($eperiodicaURL): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $eperiodicaURL['url'] ?>" target="_blank">
       <span><i class="fa fa-external-link"></i></span>
       <span class="hidden-xs hidden-sm">E-Periodica</span>
     </a>
-<? elseif($edocURL): ?>
-    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($edocURL['url']) ?>" target="_blank">
+<?php elseif($edocURL): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $edocURL['url'] ?>" target="_blank">
         <span><i class="fa fa-external-link"></i></span>
         <span class="hidden-xs hidden-sm">edoc</span>
     </a>
-<? elseif($alexURL): ?>
-    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($alexURL['url']) ?>" target="_blank">
+<?php elseif($alexURL): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $alexURL['url'] ?>" target="_blank">
         <span><i class="fa fa-external-link"></i></span>
         <span class="hidden-xs hidden-sm">Alexandria</span>
     </a>
-<? elseif($digibernURL): ?>
-    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($digibernURL['url']) ?>" target="_blank">
+<?php elseif($digibernURL): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $digibernURL['url'] ?>" target="_blank">
       <span><i class="fa fa-external-link"></i></span>
       <span class="hidden-xs hidden-sm">digibern</span>
     </a>
-<? elseif(in_array('FREE', $urldisplay['institutions']) && !empty($freeURL['url'])): ?>
-    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($freeURL['url']) ?>" target="_blank">
+<?php elseif(in_array('FREE', $urldisplay['institutions']) && !empty($freeURL['url'])): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $freeURL['url'] ?>" target="_blank">
       <span><i class="fa fa-external-link"></i></span>
       <span class="hidden-xs hidden-sm"><?= $this->transEsc('Free access') ?></span>
     </a>
-<? elseif($nationallizenzen): ?>
-    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $this->redirectProtocolWrapper()->getWrappedURL($nationallizenzen['url']) ?>" target="_blank">
+<?php elseif($nationallizenzen): ?>
+    <a class="btn btn-primary linkbutton primary icon_link_primary hidden-print" href="<?= $nationallizenzen['url'] ?>" target="_blank">
         <span><i class="fa fa-external-link"></i></span>
         <span class="hidden-xs hidden-sm nlItem">Get it Online</span>
     </a>
-    <div style="display: none"><?= $this->redirectProtocolWrapper()->getWrappedURL($nationallizenzen['url']) ?></div>
-    <? if(!empty($nationallizenzen['message'])): ?>
+    <div style="display: none"><?= $nationallizenzen['url'] ?></div>
+    <?php if(!empty($nationallizenzen['message'])): ?>
         <div class="flash-message alert alert-info">
             <strong><?= $nationallizenzen['message'] ?></strong>
         </div>
-    <? endif; ?>
+    <?php endif; ?>
 
-<? elseif($amountHoldings !== 1 && !($amountHoldings > 1) ): ?>
+<?php elseif($amountHoldings !== 1 && !($amountHoldings > 1)): ?>
         <p class="hidden-sm hidden-xs hidden-print"><?= $this->transEsc('No Holdings available in the system') ?></p>
-<? endif; ?>
+<?php endif; ?>

@@ -4,6 +4,7 @@ import DataCache from "./DataCache";
 import DataEntry from "./DataEntry";
 import Paginator from "./Paginator";
 import SearchResult, {SearchResultProvider} from "./SearchResult";
+import DataEntryWrapper from "./DataEntryWrapper";
 
 /**
  * Loads data for a carousel.
@@ -68,8 +69,9 @@ export default class DataLoader implements SearchResultProvider {
         const loader: DataLoader = this;
         $.ajax({
             dataType: "json",
-            success: (result: Array<DataEntry>) => {
-                loader.processResult(result, page, size);
+            success: (result: DataEntryWrapper) => {
+                let r2 : Array<DataEntry> = result.data;
+                loader.processResult(r2, page, size);
                 callback(page, size);
             },
             url: this.getSearchUrl(page, size)

@@ -26,6 +26,7 @@
  * @link     http://www.vufind.org  Main Page
  */
 namespace Swissbib\Controller;
+
 use Swissbib\Cover\Loader;
 use VuFind\Controller\CoverController as VFCoverController;
 

@@ -1,17 +1,16 @@
 <?php
-return array(
+return [
   'extends' => 'bootstrap3',
 
-  'less' => array(
+  'less' => [
     'active' => false,
-    'components/js-tree.less',
     'compiled.less'
-  ),
+  ],
 
-  'css' => array(
-  ),
+  'css' => [
+  ],
 
-  'js'      => array(
+  'js' => [
     'vendor/jquery/plugin/jquery.cookie.js',
     'vendor/jquery/plugin/loadmask/jquery.loadmask.js',
     'vendor/chosen/chosen.jquery.min.js',
@@ -36,26 +35,37 @@ return array(
     'swissbib/OffCanvas.js',
 
     'lib/autocomplete.js',
-  ),
+  ],
   'favicon' => 'favicon.ico',
-  'helpers' => array(
-    'factories'  => array(
-      'record'                    => 'Swissbib\View\Helper\Swissbib\Factory::getRecordHelper',
-      'citation'                  => 'Swissbib\View\Helper\Swissbib\Factory::getCitation',
-      'recordlink'                => 'Swissbib\View\Helper\Swissbib\Factory::getRecordLink',
-      'getextendedlastsearchlink' => 'Swissbib\View\Helper\Swissbib\Factory::getExtendedLastSearchLink',
-      'auth'                      => 'Swissbib\View\Helper\Swissbib\Factory::getAuth',
-      'layoutClass'               => 'Swissbib\View\Helper\Swissbib\Factory::getLayoutClass',
-      'searchtabs'                => 'Swissbib\View\Helper\Swissbib\Factory::getSearchTabs',
-      'includeTemplate'           => 'Swissbib\View\Helper\Swissbib\Factory::getIncludeTemplate',
-      'translateFacets'           => 'Swissbib\View\Helper\Swissbib\Factory::getFacetTranslator',
-      'formatRelatedEntries'      => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
-      'piwik'                     => 'Swissbib\View\Helper\Swissbib\Factory::getPiwik',
-      'nationalLicences'          => 'Swissbib\View\Helper\Swissbib\Factory::getNationalLicences',
-      'autoSuggestConfig'         => 'Swissbib\View\Helper\Swissbib\Factory::getAutoSuggestConfig',
-    ),
-    'invokables' => array(
-      //'translate' => 'Swissbib\VuFind\View\Helper\Root\Translate',
-    )
-  )
-);
+  'helpers' => [
+    'factories' => [
+      'VuFind\View\Helper\Root\Auth'                => 'Swissbib\View\Helper\Swissbib\Factory::getAuth',
+      'Swissbib\View\Helper\Record'                 => 'VuFind\View\Helper\Root\RecordFactory',
+      'Swissbib\VuFind\View\Helper\Root\Citation'   => 'VuFind\View\Helper\Root\CitationFactory',
+      'Swissbib\View\Helper\RecordLink'             => 'VuFind\View\Helper\Root\RecordLinkFactory',
+      'Swissbib\View\Helper\LayoutClass'            => 'VuFind\View\Helper\Bootstrap3\LayoutClassFactory',
+      'Swissbib\VuFind\View\Helper\Root\SearchTabs' => 'VuFind\View\Helper\Root\SearchTabsFactory',
+      'Swissbib\VuFind\View\Helper\Root\Piwik'      => 'VuFind\View\Helper\Root\PiwikFactory',
+      'nationalLicences'                            => 'Swissbib\View\Helper\Swissbib\Factory::getNationalLicences',
+      'autoSuggestConfig'                           => 'Swissbib\View\Helper\Swissbib\Factory::getAutoSuggestConfig',
+      'getextendedlastsearchlink'                   => 'Swissbib\View\Helper\Swissbib\Factory::getExtendedLastSearchLink',
+      'includeTemplate'                             => 'Swissbib\View\Helper\Swissbib\Factory::getIncludeTemplate',
+      'translateFacets'                             => 'Swissbib\View\Helper\Swissbib\Factory::getFacetTranslator',
+      'formatRelatedEntries'                        => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
+      //'Swissbib\VuFind\View\Helper\Root\Translate', => '',
+    ],
+    'aliases' => [
+        'auth'          => 'VuFind\View\Helper\Root\Auth',
+        'record'        => 'Swissbib\View\Helper\Record',
+        'layoutClass'   => 'Swissbib\View\Helper\LayoutClass',
+        'citation'      => 'Swissbib\VuFind\View\Helper\Root\Citation',
+        'recordLink'    => 'Swissbib\View\Helper\RecordLink',
+        'searchtabs'    => 'Swissbib\VuFind\View\Helper\Root\SearchTabs',
+        'piwik'         => 'Swissbib\VuFind\View\Helper\Root\Piwik',
+        //'translate'     => 'Swissbib\VuFind\View\Helper\Root\Translate',
+    ],
+    'invokables' => [
+      'translate' => 'Swissbib\VuFind\View\Helper\Root\Translate',
+    ]
+  ]
+];

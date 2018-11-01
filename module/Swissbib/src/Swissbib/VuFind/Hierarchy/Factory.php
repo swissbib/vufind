@@ -44,38 +44,6 @@ use Swissbib\VuFind\Hierarchy\TreeRenderer\JSTree as SwissbibJsTree;
 class Factory
 {
     /**
-     * GetHierarchyDriverSeries
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return mixed
-     */
-    public static function getHierarchyDriverSeries(ServiceManager $sm)
-    {
-        //Todo: Question GH:
-        //Why this additional Factory method? Here we use another VuFind
-        // Factory method which could be called directly
-        // by the client in need for this type.
-        return \VuFind\Hierarchy\Driver\Factory::get(
-            $sm->getServiceLocator(), 'HierarchySeries'
-        );
-    }
-
-    /**
-     * Get HierarchyDriverArchival
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return object
-     */
-    public static function getHierarchyDriverArchival(ServiceManager $sm)
-    {
-        return \VuFind\Hierarchy\Driver\Factory::get(
-            $sm->getServiceLocator(), 'HierarchyArchival'
-        );
-    }
-
-    /**
      * GetJsTree
      *
      * @param ServiceManager $sm ServiceManager
@@ -84,11 +52,12 @@ class Factory
      */
     public static function getJSTree(ServiceManager $sm)
     {
-        $searchService = $sm->getServiceLocator()
-            ->get('VuFind\Search');
+        $searchService = $sm->get('VuFindSearch\Service');
+        $config = $sm->get('VuFind\Config\PluginManager')->get('config');
         $swissbibJSTree = new SwissbibJsTree(
-            $sm->getServiceLocator()->get('ControllerPluginManager')->get('Url'),
-            $searchService
+            $sm->get('ControllerPluginManager')->get('Url'),
+            $searchService,
+            !empty($config->Collections->collections)
         );
         return $swissbibJSTree;
     }

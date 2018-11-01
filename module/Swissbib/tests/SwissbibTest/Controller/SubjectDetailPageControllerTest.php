@@ -59,7 +59,6 @@ class SubjectDetailPageControllerTest extends VuFindTestCase
 
     public function testAddData()
     {
-
         $method = self::getMethod('addData');
         $actual = $method->invokeArgs($this->cut, []);
 

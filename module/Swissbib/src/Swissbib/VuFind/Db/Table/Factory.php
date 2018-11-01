@@ -27,6 +27,7 @@
  * @link     https://vufind.org Main Site
  */
 namespace Swissbib\VuFind\Db\Table;
+
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -53,7 +54,7 @@ class Factory
     public static function getRowPrototype(ServiceManager $sm, $name)
     {
         if ($name) {
-            $rowManager = $sm->getServiceLocator()->get('VuFind\DbRowPluginManager');
+            $rowManager = $sm->get('VuFind\DbRowPluginManager');
 
             return $rowManager->has($name) ? $rowManager->get($name) : null;
         }
@@ -82,10 +83,11 @@ class Factory
         if (!class_exists($class)) {
             throw new \Exception('Cannot construct ' . $class);
         }
-        $adapter = $sm->getServiceLocator()->get('VuFind\DbAdapter');
-        $config = $sm->getServiceLocator()->get('config');
+        $adapter = $sm->get('VuFind\DbAdapter');
+        $config = $sm->get('config');
+        $tm = $sm->get('VuFind\DbTablePluginManager');
         return new $class(
-            $adapter, $sm, $config, static::getRowPrototype($sm, $rowName)
+            $adapter, $tm, $config, static::getRowPrototype($sm, $rowName)
         );
     }
 
@@ -116,7 +118,7 @@ class Factory
      */
     public static function getNationalLicenceUser(ServiceManager $sm)
     {
-        $sessionManager = $sm->getServiceLocator()->get('VuFind\SessionManager');
+        $sessionManager = $sm->get('VuFind\SessionManager');
         $session = new \Zend\Session\Container('List', $sessionManager);
         return static::getGenericTable(
             'NationalLicenceUser', $sm, 'nationallicence', [$session]

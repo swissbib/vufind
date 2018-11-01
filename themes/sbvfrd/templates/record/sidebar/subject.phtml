@@ -1,8 +1,8 @@
 <?php
 
 $subjectHeadings = $this->driver->getAllSubjectVocabularies(false);
-$gndHeadings = isset($subjectHeadings['gnd']) ? $subjectHeadings['gnd'] : [];
-$gndContent = isset($subjectHeadings['gndcontent']) ? $subjectHeadings['gndcontent'] : [];
+$gndHeadings = $subjectHeadings['gnd'] ?? [];
+$gndContent = $subjectHeadings['gndcontent'] ?? [];
 $gndHeadings = array_merge($gndHeadings, $gndContent);
 
 if (!$gndHeadings) {
@@ -13,7 +13,7 @@ if (!$gndHeadings) {
 <div class="record-related-searches">
     <h1 class="title"><?= $this->transEsc('Related Subjects') ?></h1>
     <ul class="list-group subject list">
-        <? $subjects = []; ?>
+        <?php $subjects = []; ?>
         <?php foreach ($gndHeadings as $fieldIndex => $fieldData): ?>
             <?php foreach ($fieldData as $fieldValues): ?>
                 <?php
@@ -51,6 +51,6 @@ if (!$gndHeadings) {
                 ?>
             <?php endforeach; ?>
         <?php endforeach; ?>
-        <? $subjects ?>
+        <?php $subjects ?>
     </ul>
 </div>

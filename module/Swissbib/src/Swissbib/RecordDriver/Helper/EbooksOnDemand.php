@@ -81,26 +81,26 @@ class EbooksOnDemand extends EbooksOnDemandBase
         Holdings $holdingsHelper
     ) {
         $linkPattern = $this->getLinkPattern($item['institution_chb']);
-        if ($item['network'] === 'HAN') :
-                $data = [
+        if ($item['network'] === 'HAN') {
+            $data = [
                 'SID' => 'dsv05',
                 'SYSID' => str_replace('HAN', '', $item['bibsysnumber']),
                 'INSTITUTION' => urlencode(
                     $item['institution_chb'] . $item['signature']
                 ),
                 'LANGUAGE' => $this->getConvertedLanguage()
-                ];
-            else:
-                $data = [
-                    'SID' => 'chb',
+            ];
+        } else {
+            $data = [
+                'SID' => 'chb',
                 'SYSID' => $item['bibsysnumber'],
                 'INSTITUTION' => urlencode(
                     $item['institution_chb'] . $item['signature']
                 ),
                 'LANGUAGE' => $this->getConvertedLanguage()
-                ];
-            endif;
-            return $this->templateString($linkPattern, $data);
+            ];
+        }
+        return $this->templateString($linkPattern, $data);
     }
 
     /**
@@ -328,9 +328,9 @@ class EbooksOnDemand extends EbooksOnDemandBase
         return $this->isYearInRange($institutionCode, $publishYear)
                && $this->isSupportedInstitution($institutionCode)
                && $this->isSupportedFormat($institutionCode, $itemFormats)
-               && $this->hasStopWords(
-                   $institutionCode, $recordDriver->getLocalCodes()
-               ) === false; // no stop words
+            && $this->hasStopWords(
+                $institutionCode, $recordDriver->getLocalCodes()
+            ) === false; // no stop words
     }
 
     /**
@@ -380,6 +380,7 @@ class EbooksOnDemand extends EbooksOnDemandBase
         }
         return false;
     }
+
     /**
      * Build order link for A125 item
      *

@@ -1,27 +1,27 @@
 <?= $institution['name'][$this->layout()->userLang] ?><br/>
 
-<? if (!empty($institution['address'])): ?>
+<?php if (!empty($institution['address'])): ?>
     <?= $institution['address'] ?><br/>
-<? endif; ?>
-<? if (!empty($institution['city']) && !empty($institution['zip'])): ?>
-    <? $canton = !empty($institution['canton']) ? ' (' . strtoupper($institution['canton']) . ')' : ''; ?>
+<?php endif; ?>
+<?php if (!empty($institution['city']) && !empty($institution['zip'])): ?>
+    <?php $canton = !empty($institution['canton']) ? ' (' . strtoupper($institution['canton']) . ')' : ''; ?>
     <?= $institution['zip'] . ' ' . $institution['city'] . $canton ?><br/>
-<? endif; ?>
+<?php endif; ?>
     <br/>
-<? if (!empty($institution['email'])): ?>
+<?php if (!empty($institution['email'])): ?>
     <p><?= $this->transEsc('Email') ?>: <a href="mailto:<?= $institution['email'] ?>" ><?= $institution['email'] ?></a></p>
-<? endif; ?>
+<?php endif; ?>
 
-<? if (!empty($institution['website'])): ?>
+<?php if (!empty($institution['website'])): ?>
     <?= $this->transEsc('libraries.website') ?>: <a href="<?= $institution['website'] ?>" class="color"
                                                     target="_blank"><?= $institution['website'] ?></a>
-<? else: ?>
-    <p><? if (!empty($institution['url']) && is_array($institution['url'])): ?>
-        <? $url = $institution['url'][$this->layout()->userLang]; ?>
+<?php else: ?>
+    <p><?php if (!empty($institution['url']) && is_array($institution['url'])): ?>
+        <?php $url = $institution['url'][$this->layout()->userLang]; ?>
         <?= $this->transEsc('libraries.website') ?>: <a href="<?= $url ?>" class="color"
                                                         target="_blank"><?= $url ?></a></p>
-    <? endif; ?>
-<? endif; ?>
-<? if (!empty($institution['phone'])): ?>
+    <?php endif; ?>
+<?php endif; ?>
+<?php if (!empty($institution['phone'])): ?>
     <p><?= $this->transEsc('Phone Number') ?>: <?= $institution['phone'] ?></p>
-<? endif; ?>
+<?php endif; ?>

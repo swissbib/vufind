@@ -42,7 +42,7 @@ use Zend\Form\Annotation;
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  *
  * @Annotation\Name("copy")
- * @Annotation\Hydrator("Zend\Stdlib\Hydrator\ObjectProperty")
+ * @Annotation\Hydrator("Zend\Hydrator\ObjectProperty")
  */
 class CopyForm
 {

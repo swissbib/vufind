@@ -29,12 +29,12 @@
 namespace Swissbib\Services;
 
 use Swissbib\Export;
-use Swissbib\Highlight\SolrConfigurator;
 use Swissbib\Log\Logger;
-use SwitchSharedAttributesAPIClient\PublishersList;
-use Zend\ServiceManager\ServiceManager;
 use Swissbib\VuFind\Recommend\FavoriteFacets;
+use SwitchSharedAttributesAPIClient\PublishersList;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient;
+use Zend\ServiceManager\ServiceManager;
+
 /**
  * Factory for Services.
  *
@@ -46,21 +46,6 @@ use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient;
  */
 class Factory
 {
-    /**
-     * Constructs a type for redirecting resources using the appropriate protocol
-     * (most often used for http resources in https environments).
-     *
-     * @param ServiceManager $sm Service manager.
-     *
-     * @return RedirectProtocolWrapper
-     */
-    public static function getProtocolWrapper(ServiceManager $sm)
-    {
-        $config = $sm->get('VuFind\Config')->get('config');
-
-        return new RedirectProtocolWrapper($config);
-    }
-
     /**
      * Constructs Theme - a type used to load Theme specific configuration
      *
@@ -88,10 +73,11 @@ class Factory
      */
     public static function getSOLRHighlightingConfigurator(ServiceManager $sm)
     {
-        $config = $sm->get('Vufind\Config')->get('config')->Highlight;
+        $config = $sm->get('VuFind\Config\PluginManager')->get('config')->Highlight;
         $eventsManager = $sm->get('SharedEventManager');
         $memory = $sm->get('VuFind\Search\Memory');
-        return new SolrConfigurator(
+
+        return new \Swissbib\Highlight\SolrConfigurator(
             $eventsManager, $config, $memory
         );
     }
@@ -139,7 +125,7 @@ class Factory
         */
 
         return new FavoriteFacets(
-            $sm->getServiceLocator()->get('VuFind\Config')
+            $sm->get('VuFind\Config')
         );
     }
 
@@ -329,11 +315,24 @@ class Factory
      * Get Email service.
      *
      * @param ServiceManager $sm service manager
-     *                            
+     *
      * @return Email
      */
     public static function getEmailService(ServiceManager $sm)
     {
         return new Email($sm->get('VuFind\Config'), $sm);
+    }
+
+
+    /**
+     * Constructs the ElasticSearchSearch plugin
+     *
+     * @param ServiceManager $sm The service manager
+     *
+     * @return \Swissbib\Services\ElasticSearchSearch
+     */
+    public static function getElasticSearchSearch(ServiceManager $sm)
+    {
+        return new ElasticSearchSearch($sm);
     }
 }

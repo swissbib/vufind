@@ -265,16 +265,16 @@ final class ValueConverter
 
         if ($isTrue) {
             $value = true;
-        } else if ($isFalse) {
+        } elseif ($isFalse) {
             $value = false;
-        } else if ($this->isDecInteger($value)) {
+        } elseif ($this->isDecInteger($value)) {
             $value = intval($value);
-        } else if ($this->isHexInteger($value)) {
+        } elseif ($this->isHexInteger($value)) {
             $value = hexdec($value);
-        } else if ($this->isOctInteger($value)) {
+        } elseif ($this->isOctInteger($value)) {
             $value = octdec($value);
-        } else if ($this->isFloat($value)) {
-            $value = (double)$value;
+        } elseif ($this->isFloat($value)) {
+            $value = (float)$value;
         }
 
         return $value;

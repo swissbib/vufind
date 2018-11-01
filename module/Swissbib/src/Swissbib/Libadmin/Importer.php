@@ -30,17 +30,17 @@
  */
 namespace Swissbib\Libadmin;
 
+use Swissbib\Libadmin\Exception as Exceptions;
+use Swissbib\Libadmin\Writer as LibadminWriter;
+use Zend\Cache\Storage\Adapter\Filesystem as FileSystemCache;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\Config\Config;
 use Zend\Di\ServiceLocator;
+use Zend\Http\Client\Adapter\Exception\RuntimeException as HttpException;
 use Zend\Http\Client as HttpClient;
+
 use Zend\Http\Response;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Cache\Storage\Adapter\Filesystem as FileSystemCache;
-use Zend\Http\Client\Adapter\Exception\RuntimeException as HttpException;
-
-use Swissbib\Libadmin\Exception as Exceptions;
-use Swissbib\Libadmin\Writer as LibadminWriter;
 
 /**
  * Libadmin data importer
@@ -371,13 +371,13 @@ class Importer
         $status    = true;
 
         foreach ($data as $group) {
-                // Add group in order of appearance for sorting
+            // Add group in order of appearance for sorting
             $relations['groups'][] = $group['group']['code'];
 
-                // Add a mapping to a group for each institution
+            // Add a mapping to a group for each institution
             foreach ($group['institutions'] as $institution) {
-                    //Build a sort key but prevent duplications when
-                    // invalid position values are provided
+                //Build a sort key but prevent duplications when
+                // invalid position values are provided
                 $sortKey =  $institution['id'];
                 $institutionRaw[$sortKey] = [
                     'institution' => $institution['bib_code'],
@@ -386,14 +386,14 @@ class Importer
             }
         }
 
-            // Sort and extract institution-group relation
+        // Sort and extract institution-group relation
         uksort($institutionRaw, 'strnatcmp');
         foreach ($institutionRaw as $sortKey => $relation) {
             $relations['institutions'][$relation['institution']]
                 = $relation['group'];
         }
 
-            // Write config file
+        // Write config file
         try {
             $storageFile = $writer->saveConfigFile($relations, 'libadmin-groups');
             $numInstitutions = sizeof($relations['institutions']);
@@ -442,7 +442,7 @@ class Importer
             }
         }
 
-            // Write config file
+        // Write config file
         try {
             $storageFile = $writer->saveConfigFile(
                 $favorites, 'favorite-institutions'
@@ -589,7 +589,6 @@ class Importer
     protected function storeDownloadedData($responseBody)
     {
         if ($this->cacheDir && is_writable($this->cacheDir)) {
-
             $filenamePrefix = "libadmin";
             if (isset($this->configPath)) {
                 $partsOfConfigPath = explode('/', $this->configPath);
@@ -619,7 +618,7 @@ class Importer
         $jsonString = $this->download();
         $data       = json_decode($jsonString, true);
 
-        if (is_null($data) || !is_array($data)) {
+        if (null === $data || !is_array($data)) {
             throw new Exceptions\Fetch('Received data is invalid');
         }
 
@@ -642,7 +641,6 @@ class Importer
      */
     protected function getApiEndpointUrl()
     {
-
         $path = isset($this->configPath) ? $this->configPath : $this->config->path;
 
         $apiUrl = $this->config->host . '/' . $this->config->api . '/' . $path;

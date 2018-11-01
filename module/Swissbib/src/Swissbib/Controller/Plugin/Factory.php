@@ -50,7 +50,7 @@ class Factory
     public static function getTagCloud(ServiceLocatorInterface $sm)
     {
         return new TagCloud(
-            $sm->getServiceLocator()->get('VuFind\Config')->get(
+            $sm->get('VuFind\Config')->get(
                 'config'
             )->TagCloud
         );
@@ -65,18 +65,7 @@ class Factory
      */
     public static function getSolrSearch(ServiceLocatorInterface $sm)
     {
-        return new SolrSearch($sm->getServiceLocator());
+        return new SolrSearch($sm);
     }
 
-    /**
-     * Constructs the ElasticSearchSearch plugin
-     *
-     * @param ServiceLocatorInterface $sm The service locator
-     *
-     * @return \Swissbib\Controller\Plugin\ElasticSearchSearch
-     */
-    public static function getElasticSearchSearch(ServiceLocatorInterface $sm)
-    {
-        return new ElasticSearchSearch($sm->getServiceLocator());
-    }
 }

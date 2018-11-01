@@ -124,9 +124,10 @@ class PersonDetailPageController extends AbstractPersonController
      */
     protected function getCoContributors(string $id): Results
     {
-        return $this->elasticsearchsearch()->searchCoContributorsFrom(
-            $this->bibliographicResources, $id, $this->config->coAuthorsSize
-        );
+        return $this->serviceLocator->get('elasticsearchsearch')
+            ->searchCoContributorsFrom(
+                $this->bibliographicResources, $id, $this->config->coAuthorsSize
+            );
     }
 
     /**
@@ -144,10 +145,11 @@ class PersonDetailPageController extends AbstractPersonController
 
         $authors = null;
         if (isset($genres)) {
-            $authors = $this->elasticsearchsearch()->searchElasticSearch(
-                $genres, "person_by_genre", null, null,
-                $this->config->sameGenreAuthorsSize
-            );
+            $authors = $this->serviceLocator->get('elasticsearchsearch')
+                ->searchElasticSearch(
+                    $genres, "person_by_genre", null, null,
+                    $this->config->sameGenreAuthorsSize
+                );
         }
 
         return $authors;
@@ -168,10 +170,11 @@ class PersonDetailPageController extends AbstractPersonController
 
         $authors = null;
         if (isset($movements)) {
-            $authors = $this->elasticsearchsearch()->searchElasticSearch(
-                $movements, "person_by_movement", null, null,
-                $this->config->sameMovementAuthorsSize
-            );
+            $authors = $this->serviceLocator->get('elasticsearchsearch')
+                ->searchElasticSearch(
+                    $movements, "person_by_movement", null, null,
+                    $this->config->sameMovementAuthorsSize
+                );
         }
         return $authors;
     }

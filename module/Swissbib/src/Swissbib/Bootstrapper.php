@@ -30,17 +30,17 @@
  */
 namespace Swissbib;
 
+use Swissbib\Filter\TemplateFilenameFilter;
+use VuFind\Auth\Manager;
 use Zend\Config\Config;
 use Zend\Console\Console;
-use Zend\EventManager\Event;
-use Zend\Mvc\MvcEvent;
 use Zend\Console\Request as ConsoleRequest;
+use Zend\EventManager\Event;
 use Zend\I18n\Translator\Translator as TranslatorImpl;
+
+use Zend\Mvc\MvcEvent;
+
 use Zend\ServiceManager\ServiceManager;
-
-use VuFind\Auth\Manager;
-
-use Swissbib\Filter\TemplateFilenameFilter;
 
 /**
  * Bootstraper
@@ -97,7 +97,8 @@ class Bootstrapper
     {
         $this->application = $event->getApplication();
         $this->serviceManager = $this->application->getServiceManager();
-        $this->config = $this->serviceManager->get('VuFind\Config')->get('config');
+        $this->config = $this->serviceManager
+            ->get('VuFind\Config\PluginManager')->get('config');
         $this->event = $event;
         $this->events = $this->application->getEventManager();
     }
@@ -160,7 +161,7 @@ class Bootstrapper
          *
          * @var Manager $authManager
          */
-        $authManager = $serviceLocator->get('VuFind\AuthManager');
+        $authManager = $serviceLocator->get('VuFind\Auth\Manager');
 
         if ($authManager->isLoggedIn()) {
             $user = $authManager->isLoggedIn();
@@ -200,7 +201,7 @@ class Bootstrapper
          *
          * @var Manager $authManager
          */
-        $authManager    = $serviceLocator->get('VuFind\AuthManager');
+        $authManager    = $serviceLocator->get('VuFind\Auth\Manager');
 
         /**
          * Config
@@ -218,8 +219,8 @@ class Bootstrapper
                  *
                  * @var TranslatorImpl $translator
                  */
-                $translator = $this->serviceManager->get('VuFind\Translator');
-                $viewModel = $serviceLocator->get('viewmanager')->getViewModel();
+                $translator = $this->serviceManager->get('Zend\Mvc\I18n\Translator');
+                $viewModel = $serviceLocator->get('ViewManager')->getViewModel();
 
                 $callback = function ($event) use ($locale, $translator,
                     $viewModel, $config
@@ -246,6 +247,13 @@ class Bootstrapper
 
                 $this->events->attach('dispatch', $callback, 8000);
             }
+        } elseif (!array_key_exists('language', $_COOKIE)
+            && array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER)
+        ) {
+            setcookie(
+                'language',
+                substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2), 0, '/'
+            );        
         }
     }
 
@@ -265,7 +273,7 @@ class Bootstrapper
         }
         $config = & $this->config;
 
-        if (isset($config->Site->header_no_cache) &&  $config->Site->header_no_cache
+        if (isset($config->Site->header_no_cache) && $config->Site->header_no_cache
         ) {
             $callback = function ($event) {
                 $response = $event->getApplication()->getResponse();
@@ -277,7 +285,6 @@ class Bootstrapper
                     'Expires' => 'Thu, 1 Jan 2015 00:00:00 GMT'
                     ]
                 );
-
             };
 
             $this->events->attach('dispatch', $callback, -500);
@@ -314,7 +321,7 @@ class Bootstrapper
          *
          * @var TranslatorImpl $translator
          */
-        $translator = $serviceLocator->get('VuFind\Translator');
+        $translator = $serviceLocator->get('Zend\Mvc\I18n\Translator');
 
         /**
          * Logging untranslated institutions
@@ -342,7 +349,7 @@ class Bootstrapper
     {
         $callback = function ($event) {
             $translator = $event->getApplication()->getServiceManager()
-                ->get('VuFind\Translator');
+                ->get('Zend\Mvc\I18n\Translator');
 
             $translator->addTranslationFile(
                 'phparray',

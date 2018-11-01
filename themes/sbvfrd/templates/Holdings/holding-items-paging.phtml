@@ -4,7 +4,6 @@
 /** @var String $url */
 /** @var Integer $startPage */
 /** @var Integer $endPage */
-
 $fullUrl = $baseUrl;
 
 if ($year) {
@@ -26,20 +25,20 @@ $next = $active < $pages ? true : false;
         <a href="#"><?= $this->transEsc('pagination.page') ?>:</a>
       </li>
 
-      <? if ($previous): ?>
+      <?php if ($previous): ?>
         <li>
           <a href="<?= $fullUrl . "&page=" . ($active - 1) ?>"
              title="<?= $this->transEsc('Prev') ?>">
             <i class="fa fa-caret-left"></i>
           </a>
         </li>
-      <? else: ?>
+      <?php else: ?>
         <li class="inactive">
           <a>
             <i class="fa fa-caret-left"></i>
           </a>
         </li>
-      <? endif; ?>
+      <?php endif; ?>
 
       <li class="page-numbers">
         <a>
@@ -53,20 +52,20 @@ $next = $active < $pages ? true : false;
         </a>
       </li>
 
-      <? if ($next): ?>
+      <?php if ($next): ?>
         <li>
           <a href="<?= $fullUrl . "&page=" . ($active + 1) ?>"
              title="<?= $this->transEsc('Next'); ?>">
             <i class="fa fa-caret-right"></i>
           </a>
         </li>
-      <? else: ?>
+      <?php else: ?>
         <li class="inactive">
           <a>
             <i class="fa fa-caret-right"></i>
           </a>
         </li>
-      <? endif; ?>
+      <?php endif; ?>
     </ul>
 
   <?php endif; ?>

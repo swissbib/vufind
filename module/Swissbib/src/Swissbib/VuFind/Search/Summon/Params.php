@@ -29,14 +29,14 @@
  */
 namespace Swissbib\VuFind\Search\Summon;
 
-use VuFind\Search\Summon\Params as VFSummonParams;
-use SerialsSolutions_Summon_Query as SummonQuery,
-    VuFind\Solr\Utils as SolrUtils,
-    VuFindSearch\ParamBag;
-use VuFind\Search\Solr\HierarchicalFacetHelper;
-use VuFind\Auth\Manager as VuFindAuthManager;
-use Swissbib\VuFind\Search\Helper\TypeLabelMappingHelper;
+use SerialsSolutions_Summon_Query as SummonQuery;
 use Swissbib\Favorites\Manager as SwissbibFavoritesManager;
+use Swissbib\VuFind\Search\Helper\TypeLabelMappingHelper;
+use VuFind\Auth\Manager as VuFindAuthManager;
+use VuFind\Search\Solr\HierarchicalFacetHelper;
+use VuFind\Search\Summon\Params as VFSummonParams;
+use VuFind\Solr\Utils as SolrUtils;
+use VuFindSearch\ParamBag;
 
 /**
  * Summon Search Params
@@ -111,7 +111,7 @@ class Params extends VFSummonParams
      * @param \Zend\StdLib\Parameters $request Parameter object representing user
      *                                         request.
      *
-     * @return void 
+     * @return void
      */
     protected function initLimit($request)
     {
@@ -208,13 +208,13 @@ class Params extends VFSummonParams
                             'holdings',
                             strtolower(trim($safeValue)) == 'true'
                         );
-                    } else if ($filt['field'] == 'excludeNewspapers') {
+                    } elseif ($filt['field'] == 'excludeNewspapers') {
                         // support a checkbox for excluding newspapers:
                         // this is now the default behaviour.
-                    } else if ($filt['field'] == 'includeNewspapers') {
+                    } elseif ($filt['field'] == 'includeNewspapers') {
                         // explicitly include newspaper articles
                         $foundIncludeNewspapers = true;
-                    } else if ($range = SolrUtils::parseRange($filt['value'])) {
+                    } elseif ($range = SolrUtils::parseRange($filt['value'])) {
                         // Special case -- range query (translate [x TO y] syntax):
                         $from = SummonQuery::escapeParam($range['from']);
                         $to = SummonQuery::escapeParam($range['to']);
@@ -222,7 +222,7 @@ class Params extends VFSummonParams
                             'rangeFilters',
                             "PublicationDate,{$from}:{$to}"
                         );
-                    } else if ($filt['field'] == 'includeWithoutFulltext') {
+                    } elseif ($filt['field'] == 'includeWithoutFulltext') {
                         $foundIncludeWithoutFulltext = true;
                     } else {
                         // Standard case:
@@ -244,8 +244,7 @@ class Params extends VFSummonParams
         // combined facet "with holdings/with fulltext"
         if (!$foundIncludeWithoutFulltext) {
             $params->set('holdings', true);
-            $params->add('filters',  'IsFullText,true');
-
+            $params->add('filters', 'IsFullText,true');
         } else {
             $params->set('holdings', false);
         }
@@ -275,8 +274,8 @@ class Params extends VFSummonParams
      */
     protected function buildDateRangeFilter($field, $from, $to)
     {
-        $this->dateRange['from']        = (int) $from;
-        $this->dateRange['to']          = (int) $to;
+        $this->dateRange['from']        = (int)$from;
+        $this->dateRange['to']          = (int)$to;
         $this->dateRange['isActive']    = true;
 
         return parent::buildDateRangeFilter($field, $from, $to);

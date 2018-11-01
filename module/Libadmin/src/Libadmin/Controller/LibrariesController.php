@@ -28,9 +28,9 @@
  */
 namespace Libadmin\Controller;
 
+use Libadmin\Institution\InstitutionLoader;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Libadmin\Institution\InstitutionLoader;
 
 /**
  * LibrariesController

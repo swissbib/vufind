@@ -1,26 +1,26 @@
 <div id="tabbed-tree" class="tabs" role="tabpanel">
   <ul class="recordTabs nav nav-tabs" role="tablist">
-    <? $i = 0; ?>
-    <? foreach ($classificationTrees as $facetKey => $tree): ?>
+    <?php $i = 0; ?>
+    <?php foreach ($classificationTrees as $facetKey => $tree): ?>
       <li <?= $i++ === 0 ? 'class="active"' : '' ?> >
         <a href="#tab-tree-<?= $facetKey ?>"><?= $this->zendTranslate($facetKey, 'drsys') ?></a>
       </li>
-    <? endforeach ?>
+    <?php endforeach ?>
   </ul>
   <div class="tab-content">
-  <? $i = 0; ?>
-  <? foreach ($classificationTrees as $facetKey => $tree): ?>
+  <?php $i = 0; ?>
+  <?php foreach ($classificationTrees as $facetKey => $tree): ?>
     <div id="tab-tree-<?= $facetKey ?>" <?= $i++ === 0 ? 'class="active"' : '' ?> >
-      <? echo $this->render(
+      <?php echo $this->render(
         'search/advanced/classificationTree',
-        array(
+        [
           'classificationTree' => $tree,
-          'facetKey'           => $facetKey
-        )
+          'facetKey' => $facetKey
+        ]
       );
       ?>
       <div class="clearfix"></div>
     </div>
-  <? endforeach ?>
+  <?php endforeach ?>
   </div>
 </div>

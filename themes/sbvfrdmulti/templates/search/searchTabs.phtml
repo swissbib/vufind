@@ -1,4 +1,4 @@
-<?
+<?php
     /*
      * GH 12.3.2015:
      * we need this snippet because of the custom attribute data-searchClass
@@ -13,13 +13,13 @@
      */
 
 ?>
-<? $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType, $this->hiddenFilters); ?>
-<? if (count($searchTabs) > 0): ?>
+<?php $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType, $this->hiddenFilters); ?>
+<?php if (count($searchTabs) > 0): ?>
     <ul class="nav nav-tabs">
-        <? foreach ($searchTabs['tabs'] as $tab): ?>
+        <?php foreach ($searchTabs['tabs'] as $tab): ?>
             <li<?=$tab['selected'] ? ' class="active"' : ''?>  data-searchClass="<?=  $tab['class'] ?>"  >
-                <a <?=$tab['selected'] ? '' : 'href="' . $this->escapeHtmlAttr($tab['url']) . '"' ?> title="<?= $this->transEsc($tab['label'].'.title')?> "><?=$this->transEsc($tab['label']); ?></a>
+                <a <?=$tab['selected'] ? '' : 'href="' . $this->escapeHtmlAttr($tab['url']) . '"' ?> title="<?= $this->transEsc($tab['label'] . '.title')?> "><?=$this->transEsc($tab['label']); ?></a>
             </li>
-        <? endforeach; ?>
+        <?php endforeach; ?>
     </ul>
-<? endif; ?>
+<?php endif; ?>

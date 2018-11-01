@@ -30,16 +30,16 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\Config\Config;
-use Zend\Http\PhpEnvironment\Response;
-use Zend\View\Model\ViewModel;
-
+use Swissbib\VuFind\Search\Results\PluginManager
+    as SwissbibSearchResultsPluginManager;
 use VuFind\Controller\SearchController as VuFindSearchController;
 use VuFind\Search\Results\PluginManager as VuFindSearchResultsPluginManager;
 
-use Swissbib\VuFind\Search\Results\PluginManager
-    as SwissbibSearchResultsPluginManager;
+use Zend\Config\Config;
+use Zend\Http\PhpEnvironment\Response;
+
 use Zend\Stdlib\Parameters;
+use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib SearchController
@@ -99,7 +99,7 @@ class SearchController extends VuFindSearchController
     {
         $viewModel = parent::advancedAction();
         $viewModel->options = $this->serviceLocator
-            ->get('VuFind\SearchOptionsPluginManager')->get($this->searchClassId);
+            ->get('VuFind\Search\Options\PluginManager')->get($this->searchClassId);
         $results = $this->getResultsManager()->get($this->searchClassId);
 
         $params = $results->getParams();
@@ -123,8 +123,8 @@ class SearchController extends VuFindSearchController
      */
     protected function getFacetConfig()
     {
-        return $this->serviceLocator->get('VuFind\Config')->get('facets')
-            ->get('Results_Settings');
+        return $this->serviceLocator->get('VuFind\Config\PluginManager')
+            ->get('facets')->get('Results_Settings');
     }
 
     /**
@@ -136,7 +136,7 @@ class SearchController extends VuFindSearchController
     protected function getResultsManager()
     {
         if (!isset($this->extendedTargets)) {
-            $mainConfig = $this->serviceLocator->get('Vufind\Config')
+            $mainConfig = $this->serviceLocator->get('VuFind\Config\PluginManager')
                 ->get('config');
             $extendedTargetsSearchClassList
                 = $mainConfig->SwissbibSearchExtensions->extendedTargets;
@@ -148,7 +148,7 @@ class SearchController extends VuFindSearchController
 
         if (in_array($this->searchClassId, $this->extendedTargets)) {
             return $this->serviceLocator
-                ->get('VuFind\SearchResultsPluginManager');
+                ->get('VuFind\Search\Results\PluginManager');
         }
 
         return parent::getResultsManager();

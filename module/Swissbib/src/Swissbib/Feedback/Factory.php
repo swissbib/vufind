@@ -32,8 +32,8 @@ namespace Swissbib\Feedback;
 
 use Zend\Form\Annotation\AnnotationBuilder;
 use Zend\Form\Element\Csrf;
-use Zend\ServiceManager\ServiceManager;
 use Zend\Form\Form;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory

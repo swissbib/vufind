@@ -32,8 +32,9 @@ use ElasticSearch\VuFindSearch\Backend\ElasticSearch\Backend;
 use ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
 use ElasticsearchAdapter\Adapter;
 use ElasticsearchAdapter\Connector\ElasticsearchClientConnector;
+use Interop\Container\ContainerInterface;
 use Zend\Config\Config;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -77,9 +78,9 @@ class ElasticSearchBackendFactory implements FactoryInterface
      *
      * @return Backend
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $sm, $name, array $options = null)
     {
-        $this->_serviceLocator = $serviceLocator;
+        $this->_serviceLocator = $sm;
         $this->_config = $this->_serviceLocator->get('VuFind\Config');
         if ($this->_serviceLocator->has('VuFind\Logger')) {
             $this->logger = $this->_serviceLocator->get('VuFind\Logger');
@@ -104,7 +105,7 @@ class ElasticSearchBackendFactory implements FactoryInterface
         }
 
         $manager = $this->_serviceLocator->get(
-            'ElasticSearch\RecordDriverPluginManager'
+            'ElasticSearch\VuFind\RecordDriver\PluginManager'
         );
         $factory = new RecordCollectionFactory(
             [$manager, 'getElasticSearchRecord']

@@ -31,16 +31,16 @@
  */
 namespace Swissbib\VuFind\Search\Factory;
 
+use Swissbib\Highlight\SolrConfigurator as HighlightSolrConfigurator;
 use Swissbib\VuFind\Search\Backend\Solr\LuceneSyntaxHelper;
 use Swissbib\VuFind\Search\Solr\InjectSwissbibSpellingListener;
+use Swissbib\VuFindSearch\Backend\Solr\QueryBuilder;
+
 use VuFind\Search\Factory\SolrDefaultBackendFactory
     as VuFindSolrDefaultBackendFactory;
 use VuFindSearch\Backend\Solr\Backend;
-
-use Swissbib\Highlight\SolrConfigurator as HighlightSolrConfigurator;
 use VuFindSearch\Backend\Solr\Connector;
 use VuFindSearch\Backend\Solr\Response\Json\RecordCollectionFactory;
-use Swissbib\VuFindSearch\Backend\Solr\QueryBuilder;
 
 /**
  * SolrDefaultBackendFactory
@@ -117,6 +117,7 @@ class SolrDefaultBackendFactory extends VuFindSolrDefaultBackendFactory
 
         $backend = new Backend($connector);
         $backend->setQueryBuilder($this->createQueryBuilder());
+        $backend->setSimilarBuilder($this->createSimilarBuilder());
 
         if ($this->logger) {
             $backend->setLogger($this->logger);

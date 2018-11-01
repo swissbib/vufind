@@ -27,12 +27,12 @@
 namespace SwissbibTest\NationalLicence;
 
 use ReflectionClass;
+use SwissbibTest\Bootstrap;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
-use SwissbibTest\Bootstrap;
-use Zend\ServiceManager\ServiceManager;
 use Zend\Config\Config;
 use Zend\Config\Reader\Ini as IniReader;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Class SwitchApiServiceTest.

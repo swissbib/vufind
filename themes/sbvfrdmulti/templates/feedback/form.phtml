@@ -4,7 +4,7 @@
 
   <?=$this->flashmessages() ?>
 
-  <? if (isset($form)): ?>
+  <?php if (isset($form)): ?>
     <?= $this->form()->openTag($form) ?>
 
     <?= $this->render('form/form-group.phtml', ['field' => $form->get('questionType')]) ?>
@@ -36,5 +36,5 @@
     </div>
 
     <?= $this->form()->closeTag() ?>
-  <? endif; ?>
+  <?php endif; ?>
 </div>

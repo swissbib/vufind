@@ -104,7 +104,7 @@ class AutoSuggestConfig extends AbstractHelper
         $valueConverter = new ValueConverter();
 
         $searchesConfig
-            = $this->serviceLocator->getServiceLocator()->get('VuFind\Config')->get(
+            = $this->serviceLocator->get('VuFind\Config')->get(
                 'searches'
             );
         $autoSuggestEnabled

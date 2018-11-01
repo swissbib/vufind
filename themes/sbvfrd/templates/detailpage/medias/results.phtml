@@ -1,4 +1,4 @@
-<? foreach ($this->{$this->accessor}->getResults() as $media): ?>
+<?php foreach ($this->{$this->accessor}->getResults() as $media): ?>
     <?= $this->render('/detailpage/medias/item.phtml', ["item" => $media]) ?>
-<? endforeach; ?>
+<?php endforeach; ?>
 

@@ -91,7 +91,6 @@ class IpMatcher
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -166,7 +165,7 @@ class IpMatcher
      */
     private function _isIpMatchingSingle($allowedIp, $ip)
     {
-        return (ip2long($allowedIp) == ip2long($ip));
+        return ip2long($allowedIp) == ip2long($ip);
     }
 
     /**
@@ -207,11 +206,11 @@ class IpMatcher
     {
         list($allowedIpIp, $allowedIpMask) = explode('/', $allowedIp);
 
-        $begin = (ip2long($allowedIpIp) &   ip2long($allowedIpMask)) + 1;
+        $begin = (ip2long($allowedIpIp) & ip2long($allowedIpMask)) + 1;
         $end = (ip2long($allowedIpIp) | (~ip2long($allowedIpMask))) + 1;
         $ip = ip2long($ip);
 
-        return ($ip >= $begin && $ip <= $end);
+        return $ip >= $begin && $ip <= $end;
     }
 
     /**
@@ -230,6 +229,6 @@ class IpMatcher
         $end    = ip2long($end);
         $ip        = ip2long($ip);
 
-        return ($ip >= $begin && $ip <= $end);
+        return $ip >= $begin && $ip <= $end;
     }
 }

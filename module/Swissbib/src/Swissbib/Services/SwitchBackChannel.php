@@ -265,7 +265,6 @@ class SwitchBackChannel
                 "There was a problem retrieving data for user " .
                 "with name id: $nameId. Status code: $statusCode result: $body"
             );
-
         }
 
         return json_decode($body);

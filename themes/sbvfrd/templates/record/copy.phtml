@@ -1,12 +1,12 @@
-<?
+<?php
 /** @var \Swissbib\RecordDriver\SolrMarc $record */
 $record = $this->driver;
 /** @var Swissbib\View\Helper\Record $viewRecord */
 $viewRecord = $this->record($record);
 
-$shortTitle           = $record->getShortTitle();
-$titleStatement       = $record->getTitleStatement(true);
-$responsible          = $viewRecord->getResponsible($titleStatement, $record);
+$shortTitle = $record->getShortTitle();
+$titleStatement = $record->getTitleStatement(true);
+$responsible = $viewRecord->getResponsible($titleStatement, $record);
 
 // Set page title.
 $this->headTitle($this->translate('request_copy_text') . ': ' . $this->driver->getBreadcrumb());
@@ -29,14 +29,14 @@ if (isset($form)) {
 
 ?>
 <p class="lead"><?=$this->transEsc('request_copy_text')?></p>
-<p><?=$this->transEsc('copy_of') ?>: <a href="<?=$this->recordLink()->getUrl($this->driver) ?>" target="_blank" data-lightbox-ignore> <?= $this->escapeHtml($shortTitle) ?> <? if (!empty($responsible)): ?> <?=' / ' . $this->escapeHtml($responsible)?><? endif; ?></a><p>
+<p><?=$this->transEsc('copy_of') ?>: <a href="<?=$this->recordLink()->getUrl($this->driver) ?>" target="_blank" data-lightbox-ignore> <?= $this->escapeHtml($shortTitle) ?> <?php if (!empty($responsible)): ?> <?=' / ' . $this->escapeHtml($responsible)?><?php endif; ?></a><p>
 <p><?=$this->transEsc('copy_info') ?></p>
-<p><?=$this->transEsc('hold_text4') ?> <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>" target="_blank" data-lightbox-ignore><?=$this->transEsc('hold_text5')?></a>.</p><br/>
+<p><?=$this->transEsc('hold_text4') ?> <a href="<?= $this->url('help-page', ['topic' => 'delivery']); ?>" target="_blank" data-lightbox-ignore><?=$this->transEsc('hold_text5')?></a>.</p><br/>
 
 <?=$this->flashmessages()?>
 <div class="copy-form">
 
-    <? if (isset($form)): ?>
+    <?php if (isset($form)): ?>
         <?= $this->form()->openTag($form) ?>
 
         <?= $this->render('form/form-group.phtml', ['field' => $form->get('pickup-location'), 'noSelectedOptionLabel' => 'choose_shipping_method']) ?>
@@ -56,10 +56,10 @@ if (isset($form)) {
         </div>
 
         <?= $this->form()->closeTag() ?>
-    <? else: ?>
+    <?php else: ?>
         <?= $this->transEsc('copy_place_error') ?> <br>
         <?= $this->transEsc('copy_aleph') ?> <br>
         <a href="<?= $loginlink ?>" target="_blank"><?= $this->transEsc('Login') ?></a>
-    <? endif; ?>
+    <?php endif; ?>
 
 </div>

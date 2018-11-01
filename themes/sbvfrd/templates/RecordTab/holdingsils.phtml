@@ -4,11 +4,10 @@
 $record = $this->driver;
 $titleStatement = $record->getTitleStatement(true);
 
-
 /** @var Swissbib\View\Helper\Record $viewRecord */
-$viewRecord  = $this->record($record);
+$viewRecord = $this->record($record);
 $responsible = $viewRecord->getResponsible($titleStatement, $record);
-$formats     = $record->getFormats();
+$formats = $record->getFormats();
 
 //for the head title
 $extendedTitle = '';
@@ -16,7 +15,6 @@ $extendedTitle = '';
 if (!empty($responsible)) {
     $extendedTitle .= ' / ' . $responsible;
 }
-
 
 if (isset($formats) and isset($formats[0])) {
     $extendedTitle .= ' (' . $this->zendTranslate($formats[0], 'formats') . ')';
@@ -33,24 +31,25 @@ $holdings = $this->extractFavoriteInstitutionsForHoldings($holdings);
 $this->headTitle('swissbib : ' . $this->driver->getBreadcrumb() . $extendedTitle);
 
 ?>
-<? if ($holdings): ?>
+<?php if ($holdings): ?>
 
   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    <? foreach ($holdings as $groupCode => $group): ?>
+    <?php foreach ($holdings as $groupCode => $group): ?>
+    <?php $groupNetworkCode = $group['networkCode'] ?? 'dummy'; ?>
     <!-- begin: group <?= $groupCode ?> -->
     <div class="panel panel-default" id="holdings-<?= $groupCode ?>">
       <!-- begin: group heading -->
       <div class="panel-heading" role="tab" id="heading-<?= $groupCode ?>">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#collapse-<?= $groupCode ?>" aria-expanded="false" aria-controls="collapse-<?= $groupCode ?>">
-            <? if (is_array($group['label'])): ?>
-              <? $group['label'] = implode('', array_unique($group['label'])); ?>
-            <? endif; ?>
-            <? if ($group['label'] == 'mylibraries'): ?>
+            <?php if (is_array($group['label'])): ?>
+              <?php $group['label'] = implode('', array_unique($group['label'])); ?>
+            <?php endif; ?>
+            <?php if ($group['label'] == 'mylibraries'): ?>
               <span><?= $this->zendTranslate($group['label']) ?></span>
-            <? else: ?>
+            <?php else: ?>
               <span><?= $this->zendTranslate($group['label'], 'group') ?></span>
-            <? endif; ?>
+            <?php endif; ?>
           </a>
         </h3>
       </div>
@@ -60,7 +59,7 @@ $this->headTitle('swissbib : ' . $this->driver->getBreadcrumb() . $extendedTitle
         <div class="list-group">
 
           <div class="panel-group" id="institutions-<?= $groupCode ?>" role="tablist" aria-multiselectable="true">
-          <? foreach ($group['institutions'] as $institutionCode => $institution): ?>
+          <?php foreach ($group['institutions'] as $institutionCode => $institution): ?>
 
             <!-- begin: institution <?= $institutionCode ?>-->
             <div class="panel panel-default institutionBox institution-<?= $institutionCode ?>-box" id="holding-institution-<?= $groupCode ?>-<?= $institutionCode ?>-box">
@@ -69,11 +68,11 @@ $this->headTitle('swissbib : ' . $this->driver->getBreadcrumb() . $extendedTitle
                 <h4 class="panel-title clearfix">
                   <div class="miniactions miniactions-<?= $institutionCode ?> pull-right">
                     <div class="institutionFavorite">
-                      <a href="javascript:void(0)" title="<? if (isset($institution['favorite']) && $institution['favorite']): ?> <?= $this->transEsc('mylibraries.remove')?> <? else: ?> <?= $this->transEsc('mylibraries.add')?> <? endif; ?>"></a>
+                      <a href="javascript:void(0)" title="<?php if (isset($institution['favorite']) && $institution['favorite']): ?> <?= $this->transEsc('mylibraries.remove')?> <?php else: ?> <?= $this->transEsc('mylibraries.add')?> <?php endif; ?>"></a>
                     </div>
                   </div>
                   <a data-toggle="collapse" href="#collapse-<?= $groupCode ?>-<?= $institutionCode ?>" aria-expanded="false" aria-controls="collapse-<?= $groupCode ?>-<?= $institutionCode ?>"
-                     id="holding-institution-<?= $groupCode ?>-<?= $institutionCode ?>" data-expandlibGroup="<?= $group['networkCode'] . '-' . $institutionCode ?>" class="toggler institutionToggler">
+                     id="holding-institution-<?= $groupCode ?>-<?= $institutionCode ?>" data-expandlibGroup="<?= $groupNetworkCode . '-' . $institutionCode ?>" class="toggler institutionToggler">
                     <?= $this->escapeHtml($this->zendTranslate($institution['label'], 'institution')) ?>
                   </a>
                 </h4>
@@ -97,7 +96,7 @@ $this->headTitle('swissbib : ' . $this->driver->getBreadcrumb() . $extendedTitle
             </div>
             <!-- end: institution <?= $institutionCode ?> -->
 
-          <? endforeach; ?>
+          <?php endforeach; ?>
           </div>
 
         </div>
@@ -106,7 +105,7 @@ $this->headTitle('swissbib : ' . $this->driver->getBreadcrumb() . $extendedTitle
     </div>
     <!-- end: group <?= $groupCode ?> -->
 
-    <? endforeach; ?>
+    <?php endforeach; ?>
 
   </div>
 
@@ -121,8 +120,8 @@ $this->headTitle('swissbib : ' . $this->driver->getBreadcrumb() . $extendedTitle
     vufindString.favoriteReload = '<?=$this->transEsc('mylibraries.reload')?>';
   </script>
 
-<? else: ?>
+<?php else: ?>
 
   <?= $this->render('RecordTab/holdingils-noholdings') ?>
 
-<? endif; ?>
+<?php endif; ?>

@@ -139,22 +139,7 @@ class Summon extends VuFindSummon implements SwissbibRecordDriver
     {
         return '';
     }
-
-    /**
-     * Get CitationFormats
-     *
-     * @override
-     *
-     * @return array Strings representing citation formats.
-     */
-    public function getCitationFormats()
-    {
-        $solrDefaultAdapter = $this->hierarchyDriverManager->getServiceLocator()
-            ->get('Swissbib\RecordDriver\SolrDefaultAdapter');
-
-        return $solrDefaultAdapter->getCitationFormats();
-    }
-
+    
     /**
      * Get structured subject vocabularies from predefined fields
      * Extended version of getAllSubjectHeadings()
@@ -360,6 +345,5 @@ class Summon extends VuFindSummon implements SwissbibRecordDriver
      */
     public function getHierachicalLevel()
     {
-
     }
 }

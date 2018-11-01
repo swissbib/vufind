@@ -1,0 +1,152 @@
+<?php
+/** @var    Swissbib\RecordDriver\SolrMarc $record */
+/** @var    Swissbib\View\Helper\Record $viewRecord */
+$record = $this->driver;
+$viewRecord = $this->record($this->driver);
+
+$thumbnail = $viewRecord->getThumbnail('medium');
+$detailLink = $this->recordLink()->getUrl($record);
+$titleStatement = $record->getTitleStatement(true);
+$shortTitle = $record->getShortTitle();
+$subtitle = $viewRecord->getSubtitle($titleStatement);
+$responsible = $viewRecord->getResponsible($titleStatement, $record);
+$edition = $record->getEdition();
+$summDate = $record->getHumanReadablePublicationDates();
+$hostItems = $record->getHostItemEntry();
+$journalTitle = $record->getContainerTitle();
+$groupID = $record->getGroup(true);
+$uniqueID = $record->getUniqueID();
+$showFRBR = $this->configAccess()->Site->displayFrbr;
+$memorizeLink = $this->recordLink()->getActionUrl($this->driver, 'Save');
+$formats = $viewRecord->getFormatList();
+
+?>
+<div class="<?=$this->driver->supportsAjaxStatus()?'ajaxItem ':''?>col-xs-11 gutter-1">
+  <input type="hidden" value="<?=$this->escapeHtmlAttr($this->driver->getUniqueID())?>" class="hiddenId" />
+  <input type="hidden" value="<?=$this->escapeHtmlAttr($this->driver->getResourceSource())?>" class="hiddenSource" />
+
+  <div class="hidden-xs col-sm-2 col-md-2 no-gutter hidden-print">
+    <a href="<?=$this->recordLink()->getUrl($this->driver)?>" class="img-responsive">
+        <img alt="<?= $this->escapeHtml($shortTitle) ?>" class="recordcover" src="<?= $thumbnail ?>"/>
+    </a>
+  </div>
+
+  <div class="col-xs-10 col-sm-6 col-md-7">
+
+    <!-- Kurztitel -->
+    <div class="item-info">
+
+      <div class="row">
+        <div class="col-md-12">
+            <h4>
+                <a href="<?=$this->recordLink()->getUrl($this->driver)?>" class="title singleLinkForBulk" title="<?= $this->escapeHtml($shortTitle) ?>">
+                    <?= $this->escapeHtml($shortTitle) ?>
+                </a>
+            </h4>
+        </div>
+      </div>
+
+        <!--? if (isset($subtitle)): ?-->
+            <span class="subtitle"><?= $this->escapeHtml($subtitle) ?></span>
+        <!--? endif; ?-->
+
+        <!-- Untertitel und Verfasserangabe -->
+        <div class="row">
+            <?php if ($responsible): ?>
+                <div class="col-md-3 hidden-xs"><?= $this->transEsc('Author') ?>:</div>
+                <div class="col-md-9">
+                   <?= $this->escapeHtml($responsible) ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Zeitschriftentitel, Erscheinungsjahr HU-->
+        <div class="row">
+            <?php if ($hostItems): ?>
+                <?php foreach ($hostItems as $hostItem): ?>
+                    <?php if (array_key_exists('title', $hostItem)): ?>
+                        <div class="col-md-3 hidden-xs"><?= $this->transEsc('note_773') ?>:</div>
+                        <div class="col-md-9">
+                            <?php $text = array_key_exists('related', $hostItem) ? $hostItem['title'] . ', ' . $hostItem['related'] : $hostItem['title'] ?>
+                            <?= $this->escapeHtml($text) ?>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+        <div class="row">
+            <?php if ($journalTitle): ?>
+                <div class="col-md-3 hidden-xs"><?= $this->transEsc('Published in')?>:</div>
+                <div class="col-md-9"><a href="<?= $viewRecord->getLink('journaltitle', $journalTitle)?>"><?= $this->escapeHtml($journalTitle)?></a></div>
+            <?php endif; ?>
+        </div>
+        <div class="row">
+            <?php if ($summDate): ?>
+                    <div class="col-md-3 hidden-xs"><?= $this->transEsc('Year') ?>:</div>
+                    <div class="col-md-9"><?= $this->escapeHtml($summDate[0]) ?></div>
+            <?php endif; ?>
+        </div>
+        <div class="row">
+            <?php if ($edition): ?>
+                <div class="col-md-3 hidden-xs"><?= $this->transEsc('Edition') ?>:</div>
+                <div class="col-md-9"><?= $this->escapeHtml($edition) ?></div>
+            <?php endif; ?>
+        </div>
+
+        <!-- ID -->
+        <div class="row visible-print-block">
+          <?php if ($uniqueID): ?>
+                <div class="col-md-3 hidden-xs"><?= $this->transEsc('Item_ID') ?>:</div>
+                <div class="col-md-9"><?= $uniqueID ?></div>
+          <?php endif; ?>
+        </div>
+
+        <!-- Medien-Typ -->
+        <div class="row">
+          <?php if (!empty($formats)): ?>
+                <div class="col-md-3 hidden-xs"><?= $this->transEsc('Format') ?>:</div>
+                <div class="col-md-9"><?= $formats ?></div>
+          <?php endif; ?>
+        </div>
+
+      </div>
+    </div>
+
+  <div class="col-xs-1 col-md-3 actions">
+    <div>
+        <?php if ($this->driver->displayHoldings()): ?>
+            <?= $this->render('search/results/available.phtml') ?>
+            <?= $this->render('search/results/libraries.phtml') ?>
+        <?php elseif ($this->driver->displayLinks()): ?>
+            <?= $this->render('search/results/links.phtml') ?>
+        <?php endif; ?>
+
+      <?php if (!empty($showFRBR) && $showFRBR && !empty($groupID) && !strcmp($results->getParams()->getSearchHandler(), 'FRBR') == 0) : ?>
+        <a class="btn btn-primary btn-frbr hidden-print" href="<?= $this->url('search-results') .
+            '?lookfor=' . $groupID .
+            '&type=FRBR' .
+            '&originalSort=' . $results->getParams()->getSort() .
+            '&limit=' . $results->getParams()->getLimit() .
+            '&sort=publishDateSort+desc' ?>"
+           title="<?= $this->transEsc('Other Editions') ?>">
+          <span><i class="fa fa-eye"></i></span>
+          <span class="hidden-xs hidden-sm"><?= $this->transEsc('Other Editions') ?></span>
+        </a>
+      <?php endif; ?>
+
+      <?php if ($this->userlist()->getMode() !== 'disabled'): ?>
+        <a class="btn btn-primary hidden-print" href="<?= $this->recordLink()->getActionUrl($this->driver, 'Save'); ?>" title="<?= $this->transEsc('Add to favorites') ?>">
+          <span class="memorizelistadd"><i class="fa fa-list-ul"></i></span>
+          <span class="hidden-xs hidden-sm"><?= $this->transEsc('List') ?></span>
+        </a>
+            <?php /* Saved lists */ ?>
+            <div class="savedLists alert alert-info hidden hidden-xs hidden-sm hidden-print">
+                <strong><?=$this->transEsc('Saved in')?>:</strong>
+            </div>
+      <?php endif; ?>
+
+    </div>
+  </div>
+    <!-- COINS -->
+    <span class="Z3988 hidden-print" title="<?= $this->escapeHtml($record->getOpenURL()) ?>"></span>
+</div>

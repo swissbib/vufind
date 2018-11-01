@@ -39,8 +39,8 @@ export default class Hydra {
 
         return Axios.request<BibliographicDetails[]>(config)
             .then((response: AxiosResponse): BibliographicDetails => {
-                if (response.data.length > 0) {
-                    return response.data[0];
+                if (response.data.data.length > 0) {
+                    return response.data.data[0];
                 } else {
                     return new BibliographicDetails();
                 }
@@ -63,7 +63,7 @@ export default class Hydra {
 
         return Axios.request(config)
             .then((response: AxiosResponse) => {
-                return response.data as Person[];
+                return response.data.data as Person[];
             });
     }
 
@@ -83,7 +83,7 @@ export default class Hydra {
 
         return Axios.request(config)
             .then((response: AxiosResponse) => {
-                return response.data as Organisation[];
+                return response.data.data as Organisation[];
             });
     }
 
@@ -103,7 +103,7 @@ export default class Hydra {
 
         return Axios.request(config)
             .then((response: AxiosResponse) => {
-                return response.data as Subject[];
+                return response.data.data as Subject[];
             });
     }
 }

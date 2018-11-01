@@ -41,7 +41,7 @@ use Swissbib\View\Helper\Number;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org
  */
-class NumberTest extends \PHPUnit_Framework_TestCase
+class NumberTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * TestInvokeLarge

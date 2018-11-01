@@ -28,6 +28,7 @@
  */
 namespace Swissbib\Controller;
 
+use VuFind\Controller\AbstractBaseFactory;
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -39,46 +40,8 @@ use Zend\ServiceManager\ServiceManager;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class Factory
+class Factory extends AbstractBaseFactory
 {
-    /**
-     * Construct a generic controller.
-     *
-     * @param string         $name Name of table to construct (fully qualified
-     *                             class name, or else a class name within the
-     *                             current namespace)
-     * @param ServiceManager $sm   Service manager
-     *
-     * @return object
-     */
-    public static function getGenericController($name, ServiceManager $sm)
-    {
-        // Prepend the current namespace unless we receive a FQCN:
-        $class = (strpos($name, '\\') === false) ? __NAMESPACE__ . '\\' . $name
-            : $name;
-        if (!class_exists($class)) {
-            throw new \Exception('Cannot construct ' . $class);
-        }
-        return new $class($sm->getServiceLocator());
-    }
-
-    /**
-     * Construct a generic controller.
-     *
-     * @param string $name Method name being called
-     * @param array  $args Method arguments
-     *
-     * @return object
-     */
-    public static function __callStatic($name, $args)
-    {
-        // Strip "get" from method name to get name of class; pass first argument
-        // on assumption that it should be the ServiceManager object.
-        return static::getGenericController(
-            substr($name, 3), isset($args[0]) ? $args[0] : null
-        );
-    }
-
     /**
      * Construct the RecordController.
      *
@@ -89,8 +52,8 @@ class Factory
     public static function getRecordController(ServiceManager $sm)
     {
         return new RecordController(
-            $sm->getServiceLocator(),
-            $sm->getServiceLocator()->get('VuFind\Config')->get('config')
+            $sm,
+            $sm->get('VuFind\Config\PluginManager')->get('config')
         );
     }
 
@@ -116,9 +79,7 @@ class Factory
      */
     public function getNationalLicenceController(ServiceManager $sm)
     {
-        return new NationalLicencesController(
-            $sm->getServiceLocator()
-        );
+        return new NationalLicencesController($sm);
     }
 
     /**
@@ -129,11 +90,9 @@ class Factory
      *
      * @return PuraController
      */
-    public function getPuraController(ServiceManager $sm)
+    public static function getPuraController(ServiceManager $sm)
     {
-        return new PuraController(
-            $sm->getServiceLocator()
-        );
+        return new PuraController($sm);
     }
 
     /**
@@ -146,11 +105,7 @@ class Factory
      */
     public function getMyResearchNationalLicenceController(ServiceManager $sm)
     {
-        $sl = $sm->getServiceLocator();
-
-        return new MyResearchNationalLicensesController(
-            $sl->get('Swissbib\NationalLicenceService')
-        );
+        return new MyResearchNationalLicensesController($sm);
     }
 
     /**
@@ -162,7 +117,7 @@ class Factory
      */
     public static function getPersonKnowledgeCardController(ServiceManager $sm)
     {
-        return new PersonKnowledgeCardController($sm->getServiceLocator());
+        return new PersonKnowledgeCardController($sm);
     }
 
     /**
@@ -174,7 +129,7 @@ class Factory
      */
     public static function getSubjectKnowledgeCardController(ServiceManager $sm)
     {
-        return new SubjectKnowledgeCardController($sm->getServiceLocator());
+        return new SubjectKnowledgeCardController($sm);
     }
 
     /**
@@ -186,8 +141,7 @@ class Factory
      */
     public static function getPersonDetailPageController(ServiceManager $sm)
     {
-        $serviceLocator = $sm->getServiceLocator();
-        return new PersonDetailPageController($serviceLocator);
+        return new PersonDetailPageController($sm);
     }
 
     /**
@@ -199,9 +153,24 @@ class Factory
      */
     public static function getPersonSearchController(ServiceManager $sm)
     {
-        $serviceLocator = $sm->getServiceLocator();
-        return new PersonSearchController($serviceLocator);
+        return new PersonSearchController($sm);
     }
+
+
+    /**
+     * Get Swissbib Util Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @throws \Exception
+     *
+     * @return \Swissbib\Controller\UtilController
+     */
+    public static function getSwissbibUtilController(ServiceManager $sm)
+    {
+        return new UtilController($sm);
+    }
+
 
     /**
      * Get Subject Detail Page Controller
@@ -212,7 +181,46 @@ class Factory
      */
     public static function getSubjectDetailPageController(ServiceManager $sm)
     {
-        $serviceLocator = $sm->getServiceLocator();
-        return new SubjectDetailPageController($serviceLocator);
+        return new SubjectDetailPageController($sm);
+    }
+
+    /**
+     * Method annotation wasn't available
+     *
+     * @param ServiceManager $sm ServiceManaegr
+     *
+     * @return LibadminSyncController
+     */
+    public function getLibadminSyncController(ServiceManager $sm)
+    {
+        return new LibadminSyncController($sm);
+    }
+
+    /**
+     * Get Tab40Import Controller
+     *
+     * @param ServiceManager $sm ServiceManager
+     *
+     * @return Tab40ImportController
+     */
+    public function getTab40ImportController(ServiceManager $sm)
+    {
+        return new Tab40ImportController($sm);
+    }
+
+    /**
+     * Cover Controller Factory
+     *
+     * @param ServiceManager $sm ServiceManaegr
+     *
+     * @return CoverController
+     */
+    public static function getCoverController(ServiceManager $sm)
+    {
+        return new CoverController(
+            $sm->get('Swissbib\Cover\Loader'),
+            $sm->get('VuFind\Cover\CachingProxy'),
+            $sm->get('VuFind\Session\Settings')
+        );
     }
 }

@@ -50,7 +50,7 @@ class Factory
      */
     public static function getSolrDefaultAdapter(ServiceManager $sm)
     {
-        $config = $sm->get('Vufind\Config')->get('Config');
+        $config = $sm->get('VuFind\Config\PluginManager')->get('config');
         return new SolrDefaultAdapter($config);
     }
 
@@ -63,41 +63,20 @@ class Factory
      */
     public static function getSolrMarcRecordDriver(ServiceManager $sm)
     {
-        $serviceLocator = $sm->getServiceLocator();
-
         $driver = new \Swissbib\RecordDriver\SolrMarc(
-            $serviceLocator->get('VuFind\Config')->get('config'),
+            $sm->get('VuFind\Config\PluginManager')->get('config'),
             null,
-            $serviceLocator->get('VuFind\Config')->get('searches'),
-            $serviceLocator->get('Swissbib\Services\RedirectProtocolWrapper')
+            $sm->get('VuFind\Config\PluginManager')->get('searches'),
+            $sm->get('Swissbib\HoldingsHelper'),
+            $sm->get('Swissbib\RecordDriver\SolrDefaultAdapter')
         );
         $driver->attachILS(
-            $serviceLocator->get('VuFind\ILSConnection'),
-            $serviceLocator->get('VuFind\ILSHoldLogic'),
-            $serviceLocator->get('VuFind\ILSTitleHoldLogic')
+            $sm->get('VuFind\ILS\Connection'),
+            $sm->get('VuFind\ILS\Logic\Holds'),
+            $sm->get('VuFind\ILS\Logic\TitleHolds')
         );
 
         return $driver;
-
-    }
-
-    /**
-     * SummonRecordDriver
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return Summon
-     */
-    public static function getSummonRecordDriver(ServiceManager $sm)
-    {
-        $baseConfig = $sm->getServiceLocator()->get('VuFind\Config')->get('config');
-        $summonConfig = $sm->getServiceLocator()->get('VuFind\Config')
-            ->get('Summon');
-
-        return new Summon(
-            $baseConfig, // main config
-            $summonConfig // record config
-        );
     }
 
     /**
@@ -109,8 +88,8 @@ class Factory
      */
     public static function getWorldCatRecordDriver(ServiceManager $sm)
     {
-        $baseConfig = $sm->getServiceLocator()->get('VuFind\Config')->get('config');
-        $worldcatConfig = $sm->getServiceLocator()->get('VuFind\Config')
+        $baseConfig = $sm->get('VuFind\Config\PluginManager')->get('config');
+        $worldcatConfig = $sm->get('VuFind\Config\PluginManager')
             ->get('WorldCat');
 
         return new WorldCat(
@@ -128,7 +107,7 @@ class Factory
      */
     public static function getRecordDriverMissing(ServiceManager $sm)
     {
-        $baseConfig = $sm->getServiceLocator()->get('VuFind\Config')->get('config');
+        $baseConfig = $sm->get('VuFind\Config\PluginManager')->get('config');
 
         return new Missing($baseConfig);
     }

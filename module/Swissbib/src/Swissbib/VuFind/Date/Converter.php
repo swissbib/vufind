@@ -28,8 +28,9 @@
  */
 namespace Swissbib\VuFind\Date;
 
+use DateTime;
 use VuFind\Date\Converter as VFConverter;
-use DateTime, VuFind\Exception\Date as DateException;
+use VuFind\Exception\Date as DateException;
 
 /**
  * Converter
@@ -99,7 +100,6 @@ class Converter extends VFConverter
         if ($getErrors['warning_count'] == 0
             && $getErrors['error_count'] == 0 && $date
         ) {
-
             return $date->format($outputFormat);
         } else {
             //yymd

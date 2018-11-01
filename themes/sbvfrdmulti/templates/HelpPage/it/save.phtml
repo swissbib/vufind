@@ -6,7 +6,7 @@
     <li>Sotto Localizzazione & prestito scegli la biblioteca dalla quale vuoi fare il prestito.</li>
     <li>Effettua il login (se non l'hai già fatto).</li>
     <li>Scegli tra Ordinare e Ordinare una fotocopia.</li>
-    <li>A seconda della biblioteca, ti vengono presentati come opzione diversi punti di ritiro/invio. Vedi i dettagli sotto <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"><?= $this->transEsc('helppage.delivery') ?></a></li>
+    <li>A seconda della biblioteca, ti vengono presentati come opzione diversi punti di ritiro/invio. Vedi i dettagli sotto <a href="<?= $this->url('help-page', ['topic' => 'delivery']); ?>"><?= $this->transEsc('helppage.delivery') ?></a></li>
     <li>Se queste opzioni non sono visibili significa che il documento non può essere ordinato online. Cliccando sull'icona <i class="fa fa-info-circle"></i> sotto Localizzazione puoi verificare l'indirizzo e gli orari d'apertura della biblioteca.</li>
 </ul>
 <h2>Accesso alle risorse elettroniche</h2>
@@ -14,8 +14,8 @@
 <p>In Articoli & più devi procedere come segue per accedere al testo integrale in versione elettronica:</p>
 <p><i class="fa fa-external-link"></i> get it: di regola ti permette l'accesso diretto dall'elenco dei risultati al testo integrale.</p>
 <p><i class="fa fa-external-link"></i> SFX Services: attraverso il menù SFX puoi accedere direttamente al testo integrale oppure alle opzioni di ordine.</p>
-<p>Se non sei membro dell'università e ti trovi al di fuori della rete universitaria hai un accesso limitato ai testi integrali in formato elettronico. Tramite <i class="fa fa-external-link"></i> SFX Services puoi ordinare una fotocopia del testo desiderato presso la tua biblioteca (a pagamento, vedi <a href="<?= $this->url('help-page', array('topic' => 'delivery')); ?>"><?= $this->transEsc('helppage.delivery') ?></a>).</p>
-<p>Come studente/membro dell'università di Basilea o Berna puoi invece sempre accedere alla tua rete di ateneo mediante VPN (<a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://mobile.unibas.ch') ?>" target="_blank">Basilea</a>, <a href="<?= $this->redirectProtocolWrapper()->getWrappedURL('http://unibe.ch/universitaet/campus__und__infrastruktur/rund_um_computer/internetzugang/zugang_auf_interne_ressourcen_mit_vpn/index_ger.html') ?>" target="_blank">Berna</a>), da qualunque luogo ti trovi.</p>
+<p>Se non sei membro dell'università e ti trovi al di fuori della rete universitaria hai un accesso limitato ai testi integrali in formato elettronico. Tramite <i class="fa fa-external-link"></i> SFX Services puoi ordinare una fotocopia del testo desiderato presso la tua biblioteca (a pagamento, vedi <a href="<?= $this->url('help-page', ['topic' => 'delivery']); ?>"><?= $this->transEsc('helppage.delivery') ?></a>).</p>
+<p>Come studente/membro dell'università di Basilea o Berna puoi invece sempre accedere alla tua rete di ateneo mediante VPN (<a href="http://mobile.unibas.ch" target="_blank">Basilea</a>, <a href="http://unibe.ch/universitaet/campus__und__infrastruktur/rund_um_computer/internetzugang/zugang_auf_interne_ressourcen_mit_vpn/index_ger.html" target="_blank">Berna</a>), da qualunque luogo ti trovi.</p>
 <h2>Salvare, esportare o rielaborare titoli e liste</h2>
 <p><i class="fa fa-list-ul"></i> Aggiungi questo titolo a una lista</p>
 <p><i class="fa fa-plus-square"></i> Salva questa ricerca</p>

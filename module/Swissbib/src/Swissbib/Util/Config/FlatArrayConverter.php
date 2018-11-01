@@ -134,7 +134,7 @@ final class FlatArrayConverter
         foreach ($sectionNames as $sectionName) {
             $sectionData = $this->_fromSection($config, $sectionName);
 
-            if (!is_null($sectionData)) {
+            if (null !== $sectionData) {
                 $result[$sectionName] = $sectionData;
             }
         }
@@ -152,11 +152,11 @@ final class FlatArrayConverter
      */
     private function _fromSection(Config $config, $sectionName)
     {
-        $sectionData = isset($config->{$sectionName}) ? $config->{$sectionName}
-            : null;
+        $sectionData = $config->{$sectionName}
+            ?? null;
         $result = null;
 
-        if (!is_null($sectionName)) {
+        if (null !== $sectionName) {
             $result = $this->fromFlatArray($sectionData);
         }
 
@@ -187,7 +187,6 @@ final class FlatArrayConverter
      */
     private function _convertKeyPath(array &$target, array $path, string $value)
     {
-
         for ($index = 0; $index < count($path); ++$index) {
             $key = $this->_normalizeKey($path[$index]);
 

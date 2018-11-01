@@ -30,12 +30,12 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\View\Model\ViewModel;
-
-use Swissbib\RecordDriver\SolrMarc;
 use Swissbib\Helper\BibCode;
+
 use Swissbib\RecordDriver\Helper\Holdings;
+use Swissbib\RecordDriver\SolrMarc;
 use Swissbib\VuFind\ILS\Driver\Aleph;
+use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib HoldingsController
@@ -122,7 +122,7 @@ class HoldingsController extends BaseController
          *
          * @var Holdings $helper
          */
-        $helper = $this->getServiceLocator()->get('Swissbib\HoldingsHelper');
+        $helper = $this->serviceLocator->get('Swissbib\HoldingsHelper');
         $dummyHoldingItem = $this->getFirstHoldingItem($idRecord, $institution);
         $networkCode = $dummyHoldingItem['network'];
         $bibSysNumber = $dummyHoldingItem['bibsysnumber'];
@@ -220,7 +220,7 @@ class HoldingsController extends BaseController
      */
     protected function getBibCodeHelper()
     {
-        return $this->getServiceLocator()->get('Swissbib\BibCodeHelper');
+        return $this->serviceLocator->get('Swissbib\BibCodeHelper');
     }
 
     /**
@@ -238,7 +238,7 @@ class HoldingsController extends BaseController
          *
          * @var BibCode $bibHelper
          */
-        $bibHelper = $this->getServiceLocator()->get('Swissbib\BibCodeHelper');
+        $bibHelper = $this->serviceLocator->get('Swissbib\BibCodeHelper');
         $idls = $bibHelper->getBibCode($network);
 
         return strtoupper($idls) . $idRecord;
@@ -253,7 +253,7 @@ class HoldingsController extends BaseController
      */
     protected function getRecord($idRecord)
     {
-        return $this->getServiceLocator()->get('VuFind\RecordLoader')
+        return $this->serviceLocator->get('VuFind\RecordLoader')
             ->load($idRecord, 'Solr');
     }
 }

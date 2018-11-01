@@ -74,7 +74,6 @@ class SearchBuilder
     public function buildSearch(
         Query $query, int $offset, int $limit, ParamBag $params = null
     ): Search {
-
         if ($params === null) {
             $params = new ParamBag();
         }
@@ -110,7 +109,6 @@ class SearchBuilder
      */
     protected function getQueryString(Query $query)
     {
-
         $queryString = $query->getString();
         if (preg_match('/\[(.*)\]/', $queryString, $matches)) {
             return array_map("trim", explode(',', $matches[1]));

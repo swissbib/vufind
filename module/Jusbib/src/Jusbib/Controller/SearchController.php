@@ -28,8 +28,8 @@
  */
 namespace Jusbib\Controller;
 
-use Zend\View\Model\ViewModel;
 use Swissbib\Controller\SearchController as SwissbibSearchController;
+use Zend\View\Model\ViewModel;
 
 /**
  * ZF2 module definition for the VuFind application
@@ -55,7 +55,7 @@ class SearchController extends SwissbibSearchController
 
         $viewModel->setVariable(
             'classificationTrees',
-            $this->getServiceLocator()->get('Swissbib\Hierarchy\MultiTreeGenerator')
+            $this->serviceLocator->get('Swissbib\Hierarchy\MultiTreeGenerator')
                 ->getTrees($viewModel->facetList)
         );
         $viewModel->setTemplate('search/advanced');

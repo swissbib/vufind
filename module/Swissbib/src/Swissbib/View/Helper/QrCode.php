@@ -28,8 +28,8 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
 use Swissbib\CRCode\QrCodeService;
+use Zend\View\Helper\AbstractHelper;
 
 /**
  * Build a qr code link or image
@@ -58,7 +58,7 @@ class QrCode extends AbstractHelper
     {
         $this->qrCodeService = $qrCodeService;
 
-            // set defaults
+        // set defaults
         $this->qrCodeService->setDimensions(100, 100);
         $this->qrCodeService->isHttp();
     }
@@ -76,7 +76,7 @@ class QrCode extends AbstractHelper
         $qrCode = clone $this->qrCodeService;
 
         if (isset($options['data'])) {
-            $encode = isset($options['encodeData']) ? $options['encodeData'] : true;
+            $encode = $options['encodeData'] ?? true;
 
             $qrCode->setData($options['data'], $encode);
         }
@@ -88,9 +88,9 @@ class QrCode extends AbstractHelper
         }
         if (isset($options['dimensions'])) {
             if (is_array($options['dimensions'])) {
-                list($with,$height) = $options['dimensions'];
+                list($with, $height) = $options['dimensions'];
             } else {
-                list($with,$height) = explode(',', $options['dimensions']);
+                list($with, $height) = explode(',', $options['dimensions']);
             }
             $qrCode->setDimensions($with, $height);
         }
@@ -128,7 +128,7 @@ class QrCode extends AbstractHelper
         $title    = isset($options['title']) && $options['title'] ?
             ' title="' . $options['title'] . '"' : '';
 
-        list($w,$h)    = explode('x', $qrCode->getDimensions());
+        list($w, $h)    = explode('x', $qrCode->getDimensions());
 
         return '<img src="' . $qrCode->getResult() .
             '" width="' . $w . '" height="' . $h . '"' . $class . $title . '>';

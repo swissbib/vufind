@@ -27,8 +27,8 @@
 namespace SwissbibTest\Pura;
 
 use Swissbib\Services\Pura;
-use VuFindTest\Unit\TestCase as VuFindTestCase;
 use SwissbibTest\Bootstrap;
+use VuFindTest\Unit\TestCase as VuFindTestCase;
 
 /**
  * Class PuraServiceTest.

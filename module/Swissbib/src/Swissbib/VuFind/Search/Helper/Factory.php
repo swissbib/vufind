@@ -27,6 +27,7 @@
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 namespace Swissbib\VuFind\Search\Helper;
+
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -49,7 +50,8 @@ class Factory
      */
     public static function getExtendedSolrFactoryHelper(ServiceManager $sm)
     {
-        $config = $sm->get('Vufind\Config')->get('config')->SwissbibSearchExtensions;
+        $config = $sm->get('VuFind\Config\PluginManager')
+            ->get('config')->SwissbibSearchExtensions;
         $extendedTargets = explode(',', $config->extendedTargets);
 
         return new ExtendedSolrFactoryHelper($extendedTargets);

@@ -30,10 +30,10 @@ namespace Swissbib\TargetsProxy;
 
 use Zend\Config\Config;
 use Zend\Di\ServiceLocator;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Http\PhpEnvironment\RemoteAddress;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger as ZendLogger;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Targets proxy
@@ -263,8 +263,8 @@ class TargetsProxy
             $patternsIP = '';
             $patternsURL = '';
 
-                // Check match of IP address if any pattern configured.
-                // If match is found, set corresponding keys and continue matching
+            // Check match of IP address if any pattern configured.
+            // If match is found, set corresponding keys and continue matching
             if ($targetConfig->offsetExists('patterns_ip')) {
                 $patternsIP = $targetConfig->get('patterns_ip');
                 if (!empty($patternsIP)) {
@@ -296,7 +296,7 @@ class TargetsProxy
             }
         }
 
-        return ($this->targetKey != "" ? true : false);
+        return $this->targetKey != "" ? true : false;
     }
 
     /**

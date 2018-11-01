@@ -136,7 +136,8 @@ class FeedbackController extends VuFindFeedbackController
      */
     protected function sendMail(array $data)
     {
-        $config = $this->getServiceLocator()->get('VuFind\Config')->get('config');
+        $config = $this->serviceLocator
+            ->get('VuFind\Config\PluginManager')->get('config');
 
         // These settings are set in the feedback settion of your config.ini
         $feedback = isset($config->Feedback) ? $config->Feedback : null;
@@ -164,7 +165,7 @@ class FeedbackController extends VuFindFeedbackController
         $mail->addTo($recipientEmail, $recipientName);
         $mail->setSubject($this->translate($data['questionType']));
 
-        $this->getServiceLocator()->get('VuFind\Mailer')->getTransport()
+        $this->serviceLocator->get('VuFind\Mailer')->getTransport()
             ->send($mail);
     }
 }

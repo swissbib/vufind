@@ -1,38 +1,38 @@
 <div class="<?=$this->layoutClass('mainbody')?>" id="libraryList">
-    <? $i = 0; ?>
-    <? foreach ($this->groupedInstitutions as $institutionGroup): ?>
+    <?php $i = 0; ?>
+    <?php foreach ($this->groupedInstitutions as $institutionGroup): ?>
         <?=
         $this->render(
             'libraries/group',
-            array(
-                 'group'        => $institutionGroup['group'],
+            [
+                 'group' => $institutionGroup['group'],
                  'institutions' => $institutionGroup['institutions'],
-                 'nr'           => $i++
-            )
+                 'nr' => $i++
+            ]
         ) ?>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 </div>
 <div class="<?=$this->layoutClass('sidebar')?>">
   <div id="libraryListSidebar" data-spy="affix" role="complementary" data-offset-top="170" data-offset-bottom="235">
     <ul class="list-group nav sidenav">
-      <? $arrayLength = count($this->groupedInstitutions);
+      <?php $arrayLength = count($this->groupedInstitutions);
       for ($i = 0; $i < $arrayLength; $i++): ?>
         <li class="list-group-item">
           <a href="#nav_<?= $i ?>"><?= $this->groupedInstitutions[$i]['group']['label'][$this->layout()->userLang] ?></a>
-          <? if (is_array($this->groupedInstitutions[$i]['institutions']) && $isPreview === true) : ?>
+          <?php if (is_array($this->groupedInstitutions[$i]['institutions']) && $isPreview === true) : ?>
             <ul class="list-group nav">
-              <? $subArrayLength = count($this->groupedInstitutions[$i]['institutions']);
+              <?php $subArrayLength = count($this->groupedInstitutions[$i]['institutions']);
               for ($j = 0; $j < $subArrayLength; $j++): ?>
                 <li class="list-group-item">
                   <a href="#inst_<?=$this->groupedInstitutions[$i]['institutions'][$j]['id'] ?>">
                     <?= $this->groupedInstitutions[$i]['institutions'][$j]['label'][$this->layout()->userLang] ?>
                   </a>
                 </li>
-              <? endfor; ?>
+              <?php endfor; ?>
             </ul>
-          <? endif; ?>
+          <?php endif; ?>
         </li>
-      <? endfor; ?>
+      <?php endfor; ?>
     </ul>
   </div>
 </div>

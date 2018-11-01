@@ -29,12 +29,6 @@
  */
 namespace Swissbib\Vufind\Search\Summon;
 
-use SerialsSolutions_Summon_Query as SummonQuery,
-    VuFind\Exception\RecordMissing as RecordMissingException,
-    VuFind\Search\Base\Results as BaseResults,
-    VuFind\Solr\Utils as SolrUtils,
-    VuFindSearch\ParamBag;
-
 use VuFind\Search\Summon\Results as VFSummonResults;
 
 /**
@@ -61,7 +55,7 @@ class Results extends VFSummonResults
      * @var \Zend\Config\Config
      */
     protected $facetsConfig;
-    
+
     /**
      * Turn the list of spelling suggestions into an array of urls
      *   for on-screen use to implement the suggestions.
@@ -118,5 +112,4 @@ class Results extends VFSummonResults
     {
         return [];
     }
-
 }

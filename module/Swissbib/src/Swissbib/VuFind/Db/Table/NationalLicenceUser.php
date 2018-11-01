@@ -22,11 +22,12 @@
  */
 namespace Swissbib\VuFind\Db\Table;
 
+use VuFind\Db\Row\RowGateway;
 use VuFind\Db\Table\Gateway;
+use VuFind\Db\Table\PluginManager;
 use VuFind\Db\Table\User;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Select;
-use VuFind\Db\Table\PluginManager;
 
 /**
  * Class NationalLicenceUser.
@@ -40,19 +41,18 @@ use VuFind\Db\Table\PluginManager;
 class NationalLicenceUser extends Gateway
 {
     /**
-     * Constructor.
+     * Constructor
      *
      * @param Adapter       $adapter Database adapter
      * @param PluginManager $tm      Table manager
      * @param array         $cfg     Zend Framework configuration
-     * @param Row           $row     row object
+     * @param RowGateway    $rowObj  Row prototype object (null for default)
+     * @param string        $table   Name of database table to interface with
      */
-    public function __construct(Adapter $adapter, PluginManager $tm, $cfg, $row)
-    {
-        parent::__construct(
-            $adapter, $tm, $cfg,
-            $row, "national_licence_user"
-        );
+    public function __construct(Adapter $adapter, PluginManager $tm, $cfg,
+        RowGateway $rowObj = null, $table = 'national_licence_user'
+    ) {
+        parent::__construct($adapter, $tm, $cfg, $rowObj, $table);
     }
 
     /**
@@ -88,7 +88,7 @@ class NationalLicenceUser extends Gateway
         }
 
         $eduIdNumber
-            = isset($fieldsValue['edu_id']) ? $fieldsValue['edu_id'] : null;
+            = $fieldsValue['edu_id'] ?? null;
 
         if (empty($eduIdNumber)) {
             throw new \Exception(

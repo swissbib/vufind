@@ -1,49 +1,48 @@
-<?
+<?php
 /** @var \Zend\Form\Element $field */
-
 $readonly = isset($readonly) && $readonly;
-$noSelectedOptionLabel = isset($noSelectedOptionLabel) ? $noSelectedOptionLabel : '-';
+$noSelectedOptionLabel = $noSelectedOptionLabel ?? '-';
 ?>
 <div class="form-group">
     <label class="col-sm-3 control-label">
-        <? if ($field->getLabel() !== null): ?>
+        <?php if ($field->getLabel() !== null): ?>
             <?= $this->transEsc($field->getLabel()) ?>
-        <? endif; ?>
+        <?php endif; ?>
     </label>
     <div class="col-sm-9">
-        <? switch($field->getAttribute('type')):
+        <?php switch($field->getAttribute('type')):
            case 'text': case 'tel': case 'email':?>
             <input class="form-control"
                    type="<?= $this->escapeHtmlAttr($field->getAttribute('type')) ?>"
                    name="<?= $this->escapeHtmlAttr($field->getAttribute('name')) ?>"
                    value="<?= $this->escapeHtmlAttr($field->getValue()) ?>"
                 <?= $readonly ? ' readonly' : '' ?>>
-            <? break; ?>
-        <? case 'textarea': ?>
+            <?php break; ?>
+        <?php case 'textarea': ?>
             <textarea class="form-control" name="<?= $this->escapeHtmlAttr($field->getAttribute('name')) ?>"><?= $this->escapeHtml($field->getValue()) ?></textarea>
-            <? break; ?>
-        <? case 'select': ?>
+            <?php break; ?>
+        <?php case 'select': ?>
             <select class="form-control" name="<?= $this->escapeHtmlAttr($field->getAttribute('name')) ?>">
-                <? $fieldValue = $field->getValue(); ?>
-                <? if (empty($fieldValue)): ?>
+                <?php $fieldValue = $field->getValue(); ?>
+                <?php if (empty($fieldValue)): ?>
                     <option value="">
                         <?= $this->transEsc($noSelectedOptionLabel) ?>
                     </option>
-                <? endif; ?>
-                <? foreach ($field->getOptions()['value_options'] as $key => $value): ?>
+                <?php endif; ?>
+                <?php foreach ($field->getOptions()['value_options'] as $key => $value): ?>
                     <option value="<?=$this->escapeHtmlAttr($key)?>" <?= $key === $fieldValue ? ' selected' : '' ?>>
                         <?=$this->transEsc($value)?>
                     </option>
-                <? endforeach; ?>
+                <?php endforeach; ?>
             </select>
-            <? break; ?>
-        <? case 'radio': ?>
-            <? $idCount = 0 ?>
-            <? $fieldValue = $field->getValue(); ?>
-            <? if (empty($fieldValue)): ?>
-                <? $fieldValue = reset($field->getOptions()['value_options']) ?>
-            <? endif; ?>
-            <? foreach ($field->getOptions()['value_options'] as $key => $value): ?>
+            <?php break; ?>
+        <?php case 'radio': ?>
+            <?php $idCount = 0 ?>
+            <?php $fieldValue = $field->getValue(); ?>
+            <?php if (empty($fieldValue)): ?>
+                <?php $fieldValue = reset($field->getOptions()['value_options']) ?>
+            <?php endif; ?>
+            <?php foreach ($field->getOptions()['value_options'] as $key => $value): ?>
                 <input type="<?= $this->escapeHtmlAttr($field->getAttribute('type')) ?>"
                        name="<?= $this->escapeHtmlAttr($field->getAttribute('name')) ?>"
                        value="<?= $this->escapeHtmlAttr($value) ?>"
@@ -52,13 +51,13 @@ $noSelectedOptionLabel = isset($noSelectedOptionLabel) ? $noSelectedOptionLabel 
                 <label class="label-radio" for="feedbackform-radio-<?= $field->getName() . '-' . $idCount++ ?>">
                     <?= $this->transEsc($key) ?>
                 </label><br>
-            <? endforeach; ?>
-            <? break; ?>
-        <? endswitch; ?>
+            <?php endforeach; ?>
+            <?php break; ?>
+        <?php endswitch; ?>
         <div class="help-block with-errors">
-            <? foreach($field->getMessages() as $message): ?>
+            <?php foreach($field->getMessages() as $message): ?>
                 <?= $this->transEsc($message) ?><br>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>

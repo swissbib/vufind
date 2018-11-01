@@ -28,7 +28,7 @@
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
 namespace Swissbib\VuFind\Search\Helper;
-use VuFind\Search\Results\PluginManager, Zend\View\Helper\Url, Zend\Http\Request;
+
 use VuFind\Search\SearchTabsHelper as VFSearchTabsHelper;
 
 /**
@@ -67,5 +67,4 @@ class SearchTabsHelper extends VFSearchTabsHelper
         $this->filterConfig = $config;
         return $this;
     }
-
 }

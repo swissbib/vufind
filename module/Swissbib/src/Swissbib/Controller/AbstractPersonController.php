@@ -26,6 +26,7 @@
  * @link     http://www.vufind.org  Main Page
  */
 namespace Swissbib\Controller;
+
 use Swissbib\Util\Config\FlatArrayConverter;
 use Swissbib\Util\Config\ValueConverter;
 use Zend\Config\Config as ZendConfig;
@@ -141,7 +142,7 @@ abstract class AbstractPersonController extends AbstractDetailsController
     protected function getBibliographicResourcesOf(string $id): array
     {
         $searchSize = $this->config->searchSize;
-        return $this->elasticsearchsearch()
+        return $this->serviceLocator->get('elasticsearchsearch')
             ->searchBibliographiResourcesOfPerson($id, $searchSize);
     }
 }

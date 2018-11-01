@@ -225,7 +225,6 @@ class NationalLicenceUser extends RowGateway
             $this->request_permanent_access_created
                 = null;
         }
-
     }
 
     /**
@@ -349,7 +348,6 @@ class NationalLicenceUser extends RowGateway
      */
     public function hasBeenActiveInLast12Month()
     {
-
         return $this->active_last_12_month;
     }
 
@@ -362,7 +360,6 @@ class NationalLicenceUser extends RowGateway
      */
     public function setActiveLast12Month($active_last_12_month)
     {
-
         $this->active_last_12_month = $active_last_12_month === 'TRUE';
     }
 
