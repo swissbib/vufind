@@ -47,8 +47,7 @@ class ExtendedSolrFactoryHelper extends SwissbibExtendedSolrFactoryHelper
      * Get namespace
      * swissbib namespace for extensible targets, else default namespace
      *
-     * @param String $name          Name
-     * @param String $requestedName RequestName
+     * @param String $name Name
      *
      * @return String
      */

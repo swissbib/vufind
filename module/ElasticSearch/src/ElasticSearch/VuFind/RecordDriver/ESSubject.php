@@ -273,5 +273,4 @@ class ESSubject extends ElasticSearch
 
         return array_key_exists($key, $fields) ? $fields[$key] : null;
     }
-
 }

@@ -139,7 +139,7 @@ class Summon extends VuFindSummon implements SwissbibRecordDriver
     {
         return '';
     }
-    
+
     /**
      * Get structured subject vocabularies from predefined fields
      * Extended version of getAllSubjectHeadings()

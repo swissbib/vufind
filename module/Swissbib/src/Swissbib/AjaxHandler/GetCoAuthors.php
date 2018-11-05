@@ -28,9 +28,10 @@
 namespace Swissbib\AjaxHandler;
 
 use Interop\Container\ContainerInterface;
+use VuFind\AjaxHandler\AbstractBase as VFAjax;
 use VuFind\AjaxHandler\AjaxHandlerInterface;
+use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\Controller\Plugin\Params;
-use VuFind\View\Helper\Root\RecordDataFormatter;
 
 /**
  * "GetCoAuthors" AJAX handler
@@ -43,14 +44,17 @@ use VuFind\View\Helper\Root\RecordDataFormatter;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class GetCoAuthors extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandlerInterface
+class GetCoAuthors extends VFAjax implements AjaxHandlerInterface
 {
     use \Swissbib\AjaxHandler\AjaxTrait;
 
     /**
-     * Constructor
+     * GetCoAuthors constructor.
+     *
+     * @param ContainerInterface $sm      Service Manager
+     * @param Request            $request Request
      */
-    public function __construct(ContainerInterface $sm, \Zend\Http\PhpEnvironment\Request $request)
+    public function __construct(ContainerInterface $sm, Request $request)
     {
         $this->serviceLocator = $sm;
         $this->request = $request;
@@ -71,9 +75,13 @@ class GetCoAuthors extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandl
         $pageSize = $this->getRequest()->getQuery()['size'] ??
             $this->getConfig()->DetailPage->coAuthorsSize;
 
-        $authors = $this->serviceLocator->get('elasticsearchsearch')->searchCoContributorsOfPerson(
-            $id, $pageSize, $this->getConfig()->DetailPage->searchSize, $page
-        )->getResults();
+        $authors = $this->serviceLocator->get('elasticsearchsearch')
+            ->searchCoContributorsOfPerson(
+                $id,
+                $pageSize,
+                $this->getConfig()->DetailPage->searchSize,
+                $page
+            )->getResults();
 
         $response = $this->buildResponse($authors, $this->getAuthorPaginationSpec());
         return $this->formatResponse($response->getContent());

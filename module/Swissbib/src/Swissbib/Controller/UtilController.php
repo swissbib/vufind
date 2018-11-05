@@ -29,13 +29,11 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
-
 namespace Swissbib\Controller;
 
-use VuFindConsole\Controller\UtilController as VFUtilController;
 use Swissbib\VuFind\Sitemap\Generator as SitemapGenerator;
+use VuFindConsole\Controller\UtilController as VFUtilController;
 use Zend\Console\Console;
-
 
 /**
  * UtilController
@@ -49,7 +47,6 @@ use Zend\Console\Console;
  */
 class UtilController extends VFUtilController
 {
-
     /**
      * Generate a Sitemap based on distributed SolrCloud
      *
@@ -71,5 +68,4 @@ class UtilController extends VFUtilController
         }
         return $this->getSuccessResponse();
     }
-
 }

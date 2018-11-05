@@ -156,7 +156,6 @@ class Factory extends AbstractBaseFactory
         return new PersonSearchController($sm);
     }
 
-
     /**
      * Get Swissbib Util Controller
      *
@@ -170,7 +169,6 @@ class Factory extends AbstractBaseFactory
     {
         return new UtilController($sm);
     }
-
 
     /**
      * Get Subject Detail Page Controller

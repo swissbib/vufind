@@ -31,6 +31,7 @@ namespace Swissbib\VuFind\Hierarchy\TreeRenderer;
 use VuFind\Hierarchy\TreeRenderer\JSTree as VfJsTree;
 use VuFindSearch\Query\Query;
 use VuFindSearch\Service as VFSearchService;
+use Zend\Mvc\Controller\Plugin\Url;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -62,12 +63,12 @@ class JSTree extends VfJsTree
     /**
      * Constructor
      *
-     * @param \Zend\Mvc\Controller\Plugin\Url $router        Router plugin for urls
-     * @param VFSearchService                 $searchService search service
-     * @param bool                            $collectionsEnabled Whether the
-     * collections functionality is enabled
+     * @param Url             $router             Router plugin for urls
+     * @param VFSearchService $searchService      Search service
+     * @param bool            $collectionsEnabled Whether the collections
+     *                                            functionality is enabled
      */
-    public function __construct(\Zend\Mvc\Controller\Plugin\Url $router,
+    public function __construct(Url $router,
         VFSearchService $searchService,
         $collectionsEnabled
     ) {

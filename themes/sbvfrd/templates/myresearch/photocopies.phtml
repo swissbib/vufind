@@ -1,4 +1,4 @@
-<?
+<?php
 // Set up page title:
 $this->headTitle($this->translate('Photocopies'));
 
@@ -13,14 +13,14 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
     <?php if(sizeof($this->photoCopies)): ?>
 
-        <?
+        <?php
         $headers = [
-            'title'         => $this->transEsc('Title'),
+            'title' => $this->transEsc('Title'),
             'library_callno' => $this->transEsc('Institution'),
-            'pick_up_location'     => $this->transEsc('pick_up_location'),
-            'created'      => $this->transEsc('Created'),
-            'status'        => $this->transEsc('Status'),
-            'note'          => $this->transEsc('Note'),
+            'pick_up_location' => $this->transEsc('pick_up_location'),
+            'created' => $this->transEsc('Created'),
+            'status' => $this->transEsc('Status'),
+            'note' => $this->transEsc('Note'),
         ];
 
         $flippedContent = '';
@@ -43,27 +43,27 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
             <?php foreach ($photoCopies as $index => $photoCopy): ?>
 
             <tr>
-                <?
-                $flippedContent .= $this->render('myresearch/photocopies-flipped.phtml', array(
-                    'photoCopy'    => $photoCopy,
+                <?php
+                $flippedContent .= $this->render('myresearch/photocopies-flipped.phtml', [
+                    'photoCopy' => $photoCopy,
                     'headers' => $headers
-                ));
+                ]);
                 ?>
                 <td>
                     <?= $this->escapeHtml($photoCopy['title']) ?>
-                    <? if (!empty($photoCopy['description'])): ?>
+                    <?php if (!empty($photoCopy['description'])): ?>
                         , <?= $this->escapeHtml($photoCopy['description']) ?>
-                    <? endif; ?>
+                    <?php endif; ?>
                 </td>
                 <td>
-                    <? if (!empty($photoCopy['library'])): ?>
+                    <?php if (!empty($photoCopy['library'])): ?>
                         <?=$this->escapeHtml($photoCopy['library'])?>
                         <br />
-                    <? endif; ?>
+                    <?php endif; ?>
 
-                    <? if (!empty($photoCopy['callNumber'])): ?>
+                    <?php if (!empty($photoCopy['callNumber'])): ?>
                         <?=$this->escapeHtml($photoCopy['callNumber'])?>
-                    <? endif; ?>
+                    <?php endif; ?>
                 </td>
                 <td>
                     <?=$this->transEsc($photoCopy['pickup']) ?>
@@ -75,35 +75,35 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
                     <?=$this->transEsc($photoCopy['status']) ?>
                 </td>
                 <td>
-                    <? if (!empty($photoCopy['title2'])): ?>
+                    <?php if (!empty($photoCopy['title2'])): ?>
                         <?=$this->escapeHtml($photoCopy['title2'] . ' / ') ?>
-                    <? endif; ?>
-                    <? if (!empty($photoCopy['author'])): ?>
+                    <?php endif; ?>
+                    <?php if (!empty($photoCopy['author'])): ?>
                         <?=$this->escapeHtml($photoCopy['author'] . '. ') ?>
-                    <? endif; ?>
-                    <? if (!empty($photoCopy['note1'])): ?>
+                    <?php endif; ?>
+                    <?php if (!empty($photoCopy['note1'])): ?>
                         <?=$this->escapeHtml($photoCopy['note1'] . ', ') ?>
-                    <? endif; ?>
-                    <? if (!empty($photoCopy['pages'])): ?>
+                    <?php endif; ?>
+                    <?php if (!empty($photoCopy['pages'])): ?>
                         <?=$this->escapeHtml($photoCopy['pages']) . '. ' ?>
-                    <? endif; ?>
-                    <? if (!empty($photoCopy['note2'])): ?>
+                    <?php endif; ?>
+                    <?php if (!empty($photoCopy['note2'])): ?>
                         <?=$this->escapeHtml($photoCopy['note2']) ?>
-                    <? endif; ?>
+                    <?php endif; ?>
                 </td>
                 </tr>
-            <? endforeach; ?>
+            <?php endforeach; ?>
             </tbody>
         </table>
 
         <?=$flippedContent;?>
 
-    <? else: ?>
+    <?php else: ?>
        <?=$this->transEsc('No photocopies') ?>.
-    <? endif; ?>
+    <?php endif; ?>
 </div>
 
 
 <div class="<?= $this->layoutClass('sidebar') ?>">
-        <?= $this->context($this)->renderInContext("myresearch/menu.phtml", array('active' => 'photocopies')) ?>
+        <?= $this->context($this)->renderInContext("myresearch/menu.phtml", ['active' => 'photocopies']) ?>
 </div>

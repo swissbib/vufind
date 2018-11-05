@@ -30,7 +30,6 @@ namespace Swissbib\Services;
 use ElasticSearch\VuFind\Search\ElasticSearch\Params;
 use ElasticSearch\VuFind\Search\ElasticSearch\Results;
 use VuFindSearch\Query\Query;
-use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**

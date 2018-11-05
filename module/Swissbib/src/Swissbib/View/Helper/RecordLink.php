@@ -45,10 +45,12 @@ class RecordLink extends VfRecordLink
     /**
      * Related
      *
-     * @param String    $link   Link
-     * @param bool|true $escape Escape
+     * @param string $link   Link
+     * @param bool   $escape Escape
+     * @param string $source Source
      *
      * @return string
+     * @throws \Exception
      */
     public function related($link, $escape = true, $source = DEFAULT_SEARCH_BACKEND)
     {

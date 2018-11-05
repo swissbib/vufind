@@ -1,17 +1,17 @@
 <?php
 
 /** @var    \Swissbib\RecordDriver\SolrMarc $driver */
-$institutions           = $driver->getInstitutions();
-$institutions           = $this->filterUntranslatedInstitutions($institutions);
-$amountHoldings         = sizeof($institutions);
-$urldisplay             = $this->urlDisplay($driver);
-$digibernURL            = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/digibern/', $urldisplay['urls'][0]) : false;
-$eperiodicaURL              = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/e-periodica.ch\/digbib/', $urldisplay['urls'][0]) : false;
-if (empty($eperiodicaURL)): $eperiodicaURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 1) ? preg_grep('/e-periodica.ch\/digbib/', $urldisplay['urls'][1]) : false ; endif;
-$freeURL                = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/sfx./', $urldisplay['urls'][0],PREG_GREP_INVERT) : false;
-$borisURL               = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/boris.unibe/', $urldisplay['urls'][0]) : false;
-$edocURL                = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/edoc.unibas/', $urldisplay['urls'][0]) : false;
-$alexURL                = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/alexandria.unisg/', $urldisplay['urls'][0]) : false;
+$institutions = $driver->getInstitutions();
+$institutions = $this->filterUntranslatedInstitutions($institutions);
+$amountHoldings = sizeof($institutions);
+$urldisplay = $this->urlDisplay($driver);
+$digibernURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/digibern/', $urldisplay['urls'][0]) : false;
+$eperiodicaURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/e-periodica.ch\/digbib/', $urldisplay['urls'][0]) : false;
+if (empty($eperiodicaURL)): $eperiodicaURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 1) ? preg_grep('/e-periodica.ch\/digbib/', $urldisplay['urls'][1]) : false; endif;
+$freeURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/sfx./', $urldisplay['urls'][0], PREG_GREP_INVERT) : false;
+$borisURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/boris.unibe/', $urldisplay['urls'][0]) : false;
+$edocURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/edoc.unibas/', $urldisplay['urls'][0]) : false;
+$alexURL = (is_array($urldisplay['urls']) && count($urldisplay['urls']) > 0) ? preg_grep('/alexandria.unisg/', $urldisplay['urls'][0]) : false;
 try {
     $nationallizenzen = $this->nationalLicences()->getUrl($driver);
 } catch (\Exception $e) {

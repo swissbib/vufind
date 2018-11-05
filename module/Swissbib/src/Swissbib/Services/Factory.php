@@ -286,7 +286,7 @@ class Factory
         $configSwitchApi
             = $sm->get('VuFind\Config')
                 ->get('SwitchApi')['SwitchApi'];
-        if (is_null($credentials) or is_null($configSwitchApi)) {
+        if (null === $credentials or null === $configSwitchApi) {
             throw new \Exception('SwitchApi configuration is missing');
         }
 
@@ -322,7 +322,6 @@ class Factory
     {
         return new Email($sm->get('VuFind\Config'), $sm);
     }
-
 
     /**
      * Constructs the ElasticSearchSearch plugin

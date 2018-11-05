@@ -67,5 +67,4 @@ class Factory
     {
         return new SolrSearch($sm);
     }
-
 }

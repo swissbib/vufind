@@ -92,8 +92,8 @@ abstract class AbstractDetailsController extends AbstractBase
     {
         $content = $this->serviceLocator->get('elasticsearchsearch')
             ->searchElasticSearch(
-            $id, "id", $index, $type, 1
-        )->getResults();
+                $id, "id", $index, $type, 1
+            )->getResults();
 
         if ($content !== null && is_array($content) && count($content) === 1) {
             return array_pop($content);
@@ -119,7 +119,9 @@ abstract class AbstractDetailsController extends AbstractBase
     {
         return $this->serviceLocator->get('elasticsearchsearch')
             ->searchElasticSearch(
-                $this->arrayToSearchString(array_unique($this->subjectIds)), "id", "gnd",
+                $this->arrayToSearchString(array_unique($this->subjectIds)),
+                "id",
+                "gnd",
                 "DEFAULT", $this->config->subjectsSize
             )->getResults();
     }

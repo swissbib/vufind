@@ -28,20 +28,18 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
-
 namespace Swissbib\VuFind\Sitemap;
+
 use VuFind\Sitemap\Generator as VFGenerator;
 use VuFindSearch\Backend\Solr\Backend;
-use VuFindSearch\ParamBag;
 use VuFindSearch\Backend\Solr\Response\Json\NamedList;
-
-
+use VuFindSearch\ParamBag;
 
 /**
  * Generator
  *
  * @category Swissbib_VuFind2
- * @package  ${PACKAGE}
+ * @package  Sitemap
  * @author   Günter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org
@@ -49,7 +47,6 @@ use VuFindSearch\Backend\Solr\Response\Json\NamedList;
  */
 class Generator extends VFGenerator
 {
-
     /**
      * Retrieve a batch of IDs using the terms component.
      * We need an additional attribute distrib because of our distributed Solr mode
@@ -77,6 +74,4 @@ class Generator extends VFGenerator
             ->getFieldTerms($key);
         return null === $info ? [] : array_keys($info->toArray());
     }
-
-
 }

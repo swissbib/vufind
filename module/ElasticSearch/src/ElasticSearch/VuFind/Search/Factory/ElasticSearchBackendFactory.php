@@ -35,7 +35,6 @@ use ElasticsearchAdapter\Connector\ElasticsearchClientConnector;
 use Interop\Container\ContainerInterface;
 use Zend\Config\Config;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class ElasticSearchBackendFactory
@@ -74,9 +73,11 @@ class ElasticSearchBackendFactory implements FactoryInterface
     /**
      * Create service
      *
-     * @param ServiceLocatorInterface $serviceLocator The service locator
+     * @param ContainerInterface $sm      serviceManager
+     * @param string             $name    name of the service
+     * @param array|null         $options options
      *
-     * @return Backend
+     * @return Backend|object
      */
     public function __invoke(ContainerInterface $sm, $name, array $options = null)
     {

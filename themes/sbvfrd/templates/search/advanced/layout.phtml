@@ -1,4 +1,4 @@
-<?
+<?php
   // Set page title.
   $this->headTitle($this->translate('Advanced Search'));
 
@@ -39,7 +39,7 @@
   $this->headScript()->appendScript(
     $this->partial(
       isset($this->buildPageOverride) ? $this->buildPageOverride : 'search/advanced/build_page.phtml',
-      array('searchDetails' => $searchDetails)
+      ['searchDetails' => $searchDetails]
     )
   );
 
@@ -54,8 +54,8 @@
 <div class="<?=$this->layoutClass('mainbody')?>">
   <div class="row">
     <div class="advancedSearchTabsWrap">
-      <? $this->searchType = 'advanced' ?>
-      <? $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType, $this->hiddenFilters); ?>
+      <?php $this->searchType = 'advanced' ?>
+      <?php $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType, $this->hiddenFilters); ?>
       <?= $this->context($this)->renderInContext('search/searchTabs', ['searchTabs' => $searchTabs['tabs']]); ?>
     </div>
 
@@ -71,8 +71,8 @@
         <div id="groupJoin" class="form-inline pull-right">
           <label for="join"><?=$this->transEsc("search_match")?>:</label>
           <select id="search_bool0" name="join" class="form-control">
-            <option value="AND"<? if($searchDetails && $searchDetails->getOperator()=='ALL'):?> selected<?endif?>><?= $this->transEsc('group_AND') ?></option>
-            <option value="OR"<? if($searchDetails && $searchDetails->getOperator()=='OR'):?> selected<?endif?>><?= $this->transEsc('group_OR') ?></option>
+            <option value="AND"<?php if($searchDetails && $searchDetails->getOperator() == 'ALL'):?> selected<?php endif; ?>><?= $this->transEsc('group_AND') ?></option>
+            <option value="OR"<?php if($searchDetails && $searchDetails->getOperator() == 'OR'):?> selected<?php endif; ?>><?= $this->transEsc('group_OR') ?></option>
           </select>
         </div>
       </div>
@@ -91,14 +91,14 @@
       </div>
 
 
-      <? if (isset($this->extraAdvancedControls)): ?>
+      <?php if (isset($this->extraAdvancedControls)): ?>
         <?=$this->extraAdvancedControls ?>
         <div class="row">
           <div class="col-sm-12 pull-right">
             <input class="btn btn-primary pull-right" type="submit" value="<?= $this->transEsc('Find')?>"/>
           </div>
         </div>
-      <? endif; ?>
+      <?php endif; ?>
 
     </form>
   </div>

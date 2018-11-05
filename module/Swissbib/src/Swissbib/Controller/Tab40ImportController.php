@@ -32,8 +32,8 @@ namespace Swissbib\Controller;
 
 use Swissbib\Tab40Import\Importer as Tab40Importer;
 use Zend\Console\Request as ConsoleRequest;
-use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Import tab40.xxx files and convert them to label files

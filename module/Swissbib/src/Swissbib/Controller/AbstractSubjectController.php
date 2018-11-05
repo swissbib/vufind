@@ -112,9 +112,10 @@ abstract class AbstractSubjectController extends AbstractDetailsController
      */
     protected function getSubSubjects(string $id)
     {
-        return $this->serviceLocator->get('elasticsearchsearch')->searchElasticSearch(
-            $id, "sub_subjects", $this->config->subjectsSize
-        )->getResults();
+        return $this->serviceLocator->get('elasticsearchsearch')
+            ->searchElasticSearch(
+                $id, "sub_subjects", $this->config->subjectsSize
+            )->getResults();
     }
 
     /**
@@ -126,10 +127,14 @@ abstract class AbstractSubjectController extends AbstractDetailsController
      */
     protected function getParentSubjects(array $ids)
     {
-        return $this->serviceLocator->get('elasticsearchsearch')->searchElasticSearch(
-            $this->arrayToSearchString($ids), "id", "gnd", "DEFAULT",
-            $this->config->subjectsSize
-        )->getResults();
+        return $this->serviceLocator->get('elasticsearchsearch')
+            ->searchElasticSearch(
+                $this->arrayToSearchString($ids),
+                "id",
+                "gnd",
+                "DEFAULT",
+                $this->config->subjectsSize
+            )->getResults();
     }
 
     /**

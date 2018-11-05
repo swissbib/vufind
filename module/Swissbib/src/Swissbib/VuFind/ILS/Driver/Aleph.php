@@ -70,7 +70,7 @@ class Aleph extends VuFindDriver
             );
         }
         $url = "https://$this->host/X?op=$op";
-        //for testing outside unibas network : 
+        //for testing outside unibas network :
         //$url = "http://$this->host:$this->xport/X?op=$op";
         if (isset($params['verification'])) {
             $params['verification']

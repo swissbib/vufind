@@ -59,7 +59,10 @@ class CombinedMatcherTest extends TargetsProxyTestCase
      */
     public function testBothFail()
     {
-        $proxyDetected = $this->targetsProxy->detectTarget('1.2.3.4', 'swiishbiib.ch');
+        $proxyDetected = $this->targetsProxy->detectTarget(
+            '1.2.3.4',
+            'swiishbiib.ch'
+        );
 
         $this->assertInternalType('bool', $proxyDetected);
         $this->assertFalse($proxyDetected);
@@ -76,7 +79,13 @@ class CombinedMatcherTest extends TargetsProxyTestCase
 
         $this->assertInternalType('bool', $proxyDetected);
         $this->assertTrue($proxyDetected);
-        $this->assertEquals('Target_Both_Match', $this->targetsProxy->getTargetKey());
-        $this->assertEquals('apiKeyBothMatch', $this->targetsProxy->getTargetApiKey());
+        $this->assertEquals(
+            'Target_Both_Match',
+            $this->targetsProxy->getTargetKey()
+        );
+        $this->assertEquals(
+            'apiKeyBothMatch',
+            $this->targetsProxy->getTargetApiKey()
+        );
     }
 }

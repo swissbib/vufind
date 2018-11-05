@@ -29,7 +29,6 @@ namespace ElasticSearch\VuFind\RecordDriver;
 
 use Interop\Container\ContainerInterface;
 use VuFind\RecordDriver\AbstractBase;
-use Zend\ServiceManager\ConfigInterface;
 
 /**
  * Class PluginManager
@@ -45,11 +44,10 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
     const DEFAULT_RECORD = 'ElasticSearch';
 
     /**
-     * Constructor
+     * PluginManager constructor.
      *
-     * @param ContainerInterface $serviceLocator The Service Locator
-     * @param ConfigInterface    $configuration  Configuration settings
-     *                                           (optional)
+     * @param ContainerInterface $serviceLocator Service Locator
+     * @param array              $v3config       v3config
      */
     public function __construct(
         ContainerInterface $serviceLocator,

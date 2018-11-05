@@ -57,6 +57,7 @@ class PuraServiceTest extends VuFindTestCase
 
     /**
      * Pura Service
+     *
      * @var Pura $puraService Pura Service
      */
     protected $puraService;
