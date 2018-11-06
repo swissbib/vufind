@@ -26,12 +26,11 @@
  * @link     https://vufind.org Main Page
  */
 namespace VuFind\Sitemap;
-
 use VuFind\Search\BackendManager;
 use VuFindSearch\Backend\Solr\Backend;
 use VuFindSearch\ParamBag;
 use Zend\Config\Config;
-
+use Zend\Console\Console;
 /**
  * Class for generating sitemaps
  *
@@ -49,70 +48,60 @@ class Generator
      * @var BackendManager
      */
     protected $backendManager;
-
     /**
      * Base URL for site
      *
      * @var string
      */
     protected $baseUrl;
-
     /**
      * Settings specifying which backends to index.
      *
      * @var array
      */
     protected $backendSettings;
-
     /**
      * Sitemap configuration (sitemap.ini)
      *
      * @var Config
      */
     protected $config;
-
     /**
      * Frequency of URL updates (always, daily, weekly, monthly, yearly, never)
      *
      * @var string
      */
     protected $frequency;
-
     /**
      * URL entries per sitemap
      *
      * @var int
      */
     protected $countPerPage;
-
     /**
      * Base path to sitemap files, including base filename
      *
      * @var string
      */
     protected $fileStart;
-
     /**
      * Filename of sitemap index
      *
      * @var string
      */
     protected $indexFile = false;
-
     /**
      * Warnings thrown during sitemap generation
      *
      * @var array
      */
     protected $warnings = [];
-
     /**
-     * Mode of retrieving IDs from the index (may be 'terms' or 'search')
+     * Verbose mode
      *
-     * @var string
+     * @var bool
      */
-    protected $retrievalMode = 'terms';
-
+    protected $verbose = false;
     /**
      * Constructor
      *
@@ -126,7 +115,6 @@ class Generator
         $this->backendManager = $bm;
         $this->baseUrl = $baseUrl;
         $this->config = $config;
-
         // Process backend configuration:
         $backendConfig = isset($this->config->Sitemap->index)
             ? $this->config->Sitemap->index : ['Solr,/Record/'];
@@ -137,7 +125,6 @@ class Generator
             return ['id' => $parts[0], 'url' => $parts[1]];
         };
         $this->backendSettings = array_map($callback, $backendConfig);
-
         // Store other key config settings:
         $this->frequency = $this->config->Sitemap->frequency;
         $this->countPerPage = $this->config->Sitemap->countPerPage;
@@ -151,7 +138,30 @@ class Generator
                 $this->config->SitemapIndex->indexFileName . '.xml';
         }
     }
-
+    /**
+     * Get/set verbose mode
+     *
+     * @param bool $newMode New verbose mode
+     *
+     * @return bool Current or new verbose mode
+     */
+    public function setVerbose($newMode = null)
+    {
+        if (null !== $newMode) {
+            $this->verbose = $newMode;
+        }
+        return $this->verbose;
+    }
+    /**
+     * Get the current microtime, formatted to a number.
+     *
+     * @return float
+     */
+    protected function getTime()
+    {
+        $time = explode(" ", microtime());
+        return $time[1] + $time[0];
+    }
     /**
      * Generate the sitemaps based on settings established by the constructor.
      *
@@ -159,9 +169,10 @@ class Generator
      */
     public function generate()
     {
+        // Start timer:
+        $startTime = $this->getTime();
         // Initialize variable
         $currentPage = 1;
-
         // Loop through all backends
         foreach ($this->backendSettings as $current) {
             $backend = $this->backendManager->get($current['id']);
@@ -172,11 +183,15 @@ class Generator
             $currentPage = $this
                 ->generateForBackend($backend, $recordUrl, $currentPage);
         }
-
         // Set-up Sitemap Index
         $this->buildIndex($currentPage - 1);
+        // Display total elapsed time in verbose mode:
+        if ($this->verbose) {
+            Console::writeLine(
+                'Elapsed time (in seconds): ' . ($this->getTime() - $startTime)
+            );
+        }
     }
-
     /**
      * Get array of warning messages thrown during build.
      *
@@ -186,7 +201,6 @@ class Generator
     {
         return $this->warnings;
     }
-
     /**
      * Generate sitemap files for a single search backend.
      *
@@ -198,80 +212,49 @@ class Generator
      */
     protected function generateForBackend(Backend $backend, $recordUrl, $currentPage)
     {
-        $lastTerm = '';
-        $count = 0;
-
-        while (true) {
+        $cursorMark = '*';
+        $prevCursorMark = '';
+        $recordCount = 0;
+        while ($cursorMark !== $prevCursorMark) {
             // Get IDs and break out of the loop if we've run out:
-            $ids = $this->getIdsFromBackend($backend, $lastTerm, $count);
-            if (empty($ids)) {
+            $prevCursorMark = $cursorMark;
+            $result = $this->getIdsFromBackend($backend, $cursorMark);
+            if (empty($result['ids'])) {
                 break;
             }
-
+            $cursorMark = $result['cursorMark'];
             // Write the current entry:
             $smf = $this->getNewSitemap();
-            foreach ($ids as $item) {
+            foreach ($result['ids'] as $item) {
                 $loc = htmlspecialchars($recordUrl . urlencode($item));
                 if (strpos($loc, 'http') === false) {
                     $loc = 'http://' . $loc;
                 }
                 $smf->addUrl($loc);
-                $lastTerm = $item;
             }
             $filename = $this->getFilenameForPage($currentPage);
             if (false === $smf->write($filename)) {
                 throw new \Exception("Problem writing $filename.");
             }
-
-            // Update counters:
-            $count += $this->countPerPage;
+            // Update total record count:
+            $recordCount += count($result['ids']);
+            if ($this->verbose) {
+                Console::writeLine("Page $currentPage, $recordCount processed");
+            }
+            // Update counter:
             $currentPage++;
         }
         return $currentPage;
     }
-
-    /**
-     * Retrieve a batch of IDs.
-     *
-     * @param Backend $backend  Search backend
-     * @param string  $lastTerm Last term retrieved
-     * @param int     $offset   Number of terms previously retrieved
-     *
-     * @return array
-     */
-    protected function getIdsFromBackend(Backend $backend, $lastTerm, $offset)
-    {
-        if ($this->retrievalMode == 'terms') {
-            return $this->getIdsFromBackendUsingTerms($backend, $lastTerm);
-        }
-        return $this->getIdsFromBackendUsingSearch($backend, $offset);
-    }
-
-    /**
-     * Retrieve a batch of IDs using the terms component.
-     *
-     * @param Backend $backend  Search backend
-     * @param string  $lastTerm Last term retrieved
-     *
-     * @return array
-     */
-    protected function getIdsFromBackendUsingTerms(Backend $backend, $lastTerm)
-    {
-        $key = $backend->getConnector()->getUniqueKey();
-        $info = $backend->terms($key, $lastTerm, $this->countPerPage)
-            ->getFieldTerms($key);
-        return null === $info ? [] : array_keys($info->toArray());
-    }
-
     /**
      * Retrieve a batch of IDs using regular search.
      *
-     * @param Backend $backend Search backend
-     * @param int     $offset  Number of terms previously retrieved
+     * @param Backend $backend    Search backend
+     * @param int     $cursorMark cursorMark
      *
      * @return array
      */
-    protected function getIdsFromBackendUsingSearch(Backend $backend, $offset)
+    protected function getIdsFromBackend(Backend $backend, $cursorMark)
     {
         $connector = $backend->getConnector();
         $key = $connector->getUniqueKey();
@@ -280,22 +263,26 @@ class Generator
                 'q' => '*:*',
                 'fl' => $key,
                 'rows' => $this->countPerPage,
-                'start' => $offset,
+                'start' => 0, // Always 0 when using a cursorMark
                 'wt' => 'json',
                 'sort' => $key . ' asc',
+                // Override any default timeAllowed since it cannot be used with
+                // cursorMark
+                'timeAllowed' => -1,
+                'cursorMark' => $cursorMark
             ]
         );
         $raw = $connector->search($params);
         $result = json_decode($raw);
         $ids = [];
+        $cursorMark = $result->nextCursorMark;
         if (isset($result->response->docs)) {
             foreach ($result->response->docs as $doc) {
                 $ids[] = $doc->$key;
             }
         }
-        return $ids;
+        return compact('ids', 'cursorMark');
     }
-
     /**
      * Write a sitemap index if requested.
      *
@@ -309,7 +296,6 @@ class Generator
         if ($this->indexFile !== false) {
             $smf = $this->getNewSitemapIndex();
             $baseUrl = $this->getBaseSitemapIndexUrl();
-
             // Add a <sitemap /> group for a static sitemap file.
             // See sitemap.ini for more information on this option.
             if (isset($this->config->SitemapIndex->baseSitemapFileName)) {
@@ -328,20 +314,17 @@ class Generator
                         . 'without this sitemap file.';
                 }
             }
-
             // Add <sitemap /> group for each sitemap file generated.
             for ($i = 1; $i <= $totalPages; $i++) {
                 $sitemapNumber = ($i == 1) ? "" : "-" . $i;
                 $file = $this->config->Sitemap->fileName . $sitemapNumber . '.xml';
                 $smf->addUrl($baseUrl . '/' . $file);
             }
-
             if (false === $smf->write($this->indexFile)) {
                 throw new \Exception("Problem writing $this->indexFile.");
             }
         }
     }
-
     /**
      * Get a fresh SitemapIndex object.
      *
@@ -351,7 +334,6 @@ class Generator
     {
         return new SitemapIndex();
     }
-
     /**
      * Get a fresh Sitemap object.
      *
@@ -361,7 +343,6 @@ class Generator
     {
         return new Sitemap($this->frequency);
     }
-
     /**
      * Get the filename for the specified page number.
      *
@@ -373,7 +354,6 @@ class Generator
     {
         return $this->fileStart . ($page == 1 ? '' : '-' . $page) . '.xml';
     }
-
     /**
      * Get the base URL for sitemap index files
      *
