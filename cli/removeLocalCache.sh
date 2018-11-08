@@ -2,7 +2,7 @@
 #
 # Removal of local caches (except hierarchy cache)
 
-VUFIND_BASE=/usr/local/vufind/httpd2
+VUFIND_BASE=/usr/local/vufind/httpd
 #VUFIND_CACHE=$VUFIND_BASE/local/cache
 VUFIND_DEPLOY_LOG=$VUFIND_BASE/log
 TIMESTAMP=`date +%Y%m%d%H%M%S`  # seconds
