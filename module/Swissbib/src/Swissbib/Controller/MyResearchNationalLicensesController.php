@@ -114,7 +114,7 @@ class MyResearchNationalLicensesController extends MyResearchController
             }
 
             if (!$hasAccessToNationalLicenceContent && !$hasCommonLibTerms) {
-                return $this->forwardTo('national-licences', 'index');
+                return $this->redirect()->toRoute('national-licences');
             } else {
                 $tURL = $this->getDocumentProviderURL();
                 return $this->redirect()->toUrl($tURL);
