@@ -155,7 +155,7 @@ class Factory extends AbstractBaseFactory
     {
         return new PersonSearchController($sm);
     }
-    
+
     /**
      * Get Subject Detail Page Controller
      *

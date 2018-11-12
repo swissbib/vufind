@@ -26,11 +26,13 @@
  * @link     https://vufind.org Main Page
  */
 namespace VuFind\Sitemap;
+
 use VuFind\Search\BackendManager;
 use VuFindSearch\Backend\Solr\Backend;
 use VuFindSearch\ParamBag;
 use Zend\Config\Config;
 use Zend\Console\Console;
+
 /**
  * Class for generating sitemaps
  *
@@ -102,6 +104,7 @@ class Generator
      * @var bool
      */
     protected $verbose = false;
+
     /**
      * Constructor
      *
@@ -138,6 +141,7 @@ class Generator
                 $this->config->SitemapIndex->indexFileName . '.xml';
         }
     }
+
     /**
      * Get/set verbose mode
      *
@@ -152,6 +156,7 @@ class Generator
         }
         return $this->verbose;
     }
+
     /**
      * Get the current microtime, formatted to a number.
      *
@@ -162,6 +167,7 @@ class Generator
         $time = explode(" ", microtime());
         return $time[1] + $time[0];
     }
+
     /**
      * Generate the sitemaps based on settings established by the constructor.
      *
@@ -192,6 +198,7 @@ class Generator
             );
         }
     }
+
     /**
      * Get array of warning messages thrown during build.
      *
@@ -201,6 +208,7 @@ class Generator
     {
         return $this->warnings;
     }
+
     /**
      * Generate sitemap files for a single search backend.
      *
@@ -253,6 +261,7 @@ class Generator
         }
         return $currentPage;
     }
+
     /**
      * Retrieve a batch of IDs.
      *
@@ -269,6 +278,7 @@ class Generator
         }
         return $this->getIdsFromBackendUsingCursorMark($backend, $cursorMark);
     }
+
     /**
      * Retrieve a batch of IDs using the terms component.
      *
@@ -285,6 +295,7 @@ class Generator
         $ids = null === $info ? [] : array_keys($info->toArray());
         return compact('ids');
     }
+
     /**
      * Retrieve a batch of IDs using a cursorMark.
      *
@@ -322,6 +333,7 @@ class Generator
         }
         return compact('ids', 'cursorMark');
     }
+
     /**
      * Write a sitemap index if requested.
      *
@@ -364,6 +376,7 @@ class Generator
             }
         }
     }
+
     /**
      * Get a fresh SitemapIndex object.
      *
@@ -373,6 +386,7 @@ class Generator
     {
         return new SitemapIndex();
     }
+
     /**
      * Get a fresh Sitemap object.
      *
@@ -382,6 +396,7 @@ class Generator
     {
         return new Sitemap($this->frequency);
     }
+
     /**
      * Get the filename for the specified page number.
      *
@@ -393,6 +408,7 @@ class Generator
     {
         return $this->fileStart . ($page == 1 ? '' : '-' . $page) . '.xml';
     }
+
     /**
      * Get the base URL for sitemap index files
      *
