@@ -324,7 +324,7 @@ CallNumber:
       # Strip whitespace and quotes:
       - [preg_replace, '/[ "]/', '']
       # Escape colons (unescape first to avoid double-escapes):
-      - [preg_replace, '/(\\\:)/', ':']
+      - [preg_replace, '/(\\:)/', ':']
       - [preg_replace, '/:/', '\:']
       # Strip pre-existing trailing asterisks:
       - [preg_replace, '/\*+$/', '']
@@ -332,8 +332,12 @@ CallNumber:
       # Strip whitespace and quotes:
       - [preg_replace, '/[ "]/', '']
       # Escape colons (unescape first to avoid double-escapes):
-      - [preg_replace, '/(\\\:)/', ':']
+      - [preg_replace, '/(\\:)/', ':']
       - [preg_replace, '/:/', '\:']
+      # Escape parentheses to be able to search call numbers with
+      # parenthesis :
+      - [preg_replace, '/\(/', '\\(']
+      - [preg_replace, '/\)/', '\\)']
       # Strip pre-existing trailing asterisks, then add a new one:
       - [preg_replace, '/\*+$/', '']
       - [append, "*"]

@@ -34,12 +34,12 @@ namespace Swissbib\VuFind\Search\Factory;
 use Swissbib\Highlight\SolrConfigurator as HighlightSolrConfigurator;
 use Swissbib\VuFind\Search\Backend\Solr\LuceneSyntaxHelper;
 use Swissbib\VuFind\Search\Solr\InjectSwissbibSpellingListener;
-use Swissbib\VuFindSearch\Backend\Solr\QueryBuilder;
 
 use VuFind\Search\Factory\SolrDefaultBackendFactory
     as VuFindSolrDefaultBackendFactory;
 use VuFindSearch\Backend\Solr\Backend;
 use VuFindSearch\Backend\Solr\Connector;
+use VuFindSearch\Backend\Solr\QueryBuilder;
 use VuFindSearch\Backend\Solr\Response\Json\RecordCollectionFactory;
 
 /**
@@ -139,9 +139,7 @@ class SolrDefaultBackendFactory extends VuFindSolrDefaultBackendFactory
     {
         $specs   = $this->loadSpecs();
         $config = $this->config->get('config');
-        $defaultDismax = isset($config->Index->default_dismax_handler)
-            ? $config->Index->default_dismax_handler : 'dismax';
-        $builder = new QueryBuilder($specs, $defaultDismax);
+        $builder = new QueryBuilder($specs);
 
         // Configure builder:
         $search = $this->config->get($this->searchConfig);
