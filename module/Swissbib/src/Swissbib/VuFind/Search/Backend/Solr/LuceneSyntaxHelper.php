@@ -65,4 +65,17 @@ class LuceneSyntaxHelper extends VFCoreLuceneSyntaxHelper
 
         return $input;
     }
+
+    /**
+     * Normalize field specifications within the query.
+     *
+     * @param string $input String to normalize
+     *
+     * @return string
+     */
+    protected function normalizeColons($input)
+    {
+        //don't remove colons from search
+        return $input;
+    }
 }

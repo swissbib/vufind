@@ -29,7 +29,7 @@ parameters:
 
 
     id:
-      index: '{index}'
+      index: 'lsb'
       type: '{type}'
       size: '{size}'
       from: '{from}'
