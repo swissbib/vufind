@@ -146,10 +146,5 @@
     "sebastian/phpcpd": "3.0.1",
     "squizlabs/php_codesniffer": "3.2.3",
     "twig/twig": "1.27"
-  },
-  "scripts": {
-    "phing-install-dependencies": "phing installsolr installswaggerui",
-    "post-install-cmd": "@phing-install-dependencies",
-    "post-update-cmd": "@phing-install-dependencies"
   }
 }
