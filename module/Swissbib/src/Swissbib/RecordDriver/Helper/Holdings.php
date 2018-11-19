@@ -1316,8 +1316,10 @@ class Holdings
      *
      * @return String
      */
-    protected function getBackLinkSNL($networkCode, $institutionCode, $item,
-                                      array $data
+    protected function getBackLinkSNL(
+        $networkCode,
+        $institutionCode, $item,
+        array $data
     ) {
         $bibsysnumber = preg_replace('/^vtls/', '', $item['bibsysnumber']);
         $values = [
@@ -1336,8 +1338,11 @@ class Holdings
      *
      * @return String
      */
-    protected function getBackLinkCCSA($networkCode, $institutionCode, $item,
-                                       array $data
+    protected function getBackLinkCCSA(
+        $networkCode,
+        $institutionCode,
+        $item,
+        array $data
     ) {
         $bibsysnumber = preg_replace('/^vtls/', '', $item['bibsysnumber']);
         $values = [
