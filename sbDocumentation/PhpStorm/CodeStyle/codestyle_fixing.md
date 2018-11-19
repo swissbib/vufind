@@ -26,5 +26,20 @@ Starting with VF5 there are also rules for templates in theme directory.
 
 /usr/local/vufind/httpd/vendor/bin/php-cs-fixer fix --config=/usr/local/vufind/httpd/tests/vufind_templates.php_cs -vvv --diff /usr/local/vufind/httpd/themes/
 
+#Directly with phing for all the project
+
+ * phing phpcs-console (dryrun)
+ * phing phpcbf (fix)
+ * phing php-cs-fixer-dryrun
+ * phing php-cs-fixer 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
 
 
