@@ -63,6 +63,8 @@ class LuceneSyntaxHelper extends VFCoreLuceneSyntaxHelper
 
         $input = preg_replace($patterns, ' ', $input);
 
+        $input = $this->removeLonelyQuestionMarks($input);
+
         return $input;
     }
 
@@ -76,6 +78,19 @@ class LuceneSyntaxHelper extends VFCoreLuceneSyntaxHelper
     protected function normalizeColons($input)
     {
         //don't remove colons from search
+        return $input;
+    }
+
+    /**
+     * Remove the ? preceded by a space and followed by a space
+     *
+     * @param string $input String to normalize
+     *
+     * @return string
+     */
+    protected function removeLonelyQuestionMarks($input)
+    {
+        $input = preg_replace('/(\s\?\s)/', ' ', $input);
         return $input;
     }
 }
