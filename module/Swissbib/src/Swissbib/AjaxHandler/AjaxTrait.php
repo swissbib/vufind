@@ -34,7 +34,7 @@ use Zend\Http\Response;
 /**
  * Trait AjaxTrait
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  Swissbib\AjaxHandler
  * @author   Matthias Edel <matthias.edel@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License

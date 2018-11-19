@@ -2,7 +2,7 @@
 /**
  * Mixed List aspect of the Search Multi-class (Results)
  *
- * PHP version 5
+ * PHP version 7
  *
  * Copyright (C) Villanova University 2010.
  *
@@ -32,7 +32,7 @@ use VuFind\Search\MixedList\Results as VuFindMixedListResults;
 /**
  * Search Mixed List Results
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  Search_MixedList
  * @author   Matthias Edel <matthias.edel@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
