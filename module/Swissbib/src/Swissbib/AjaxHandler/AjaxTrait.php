@@ -1,20 +1,58 @@
 <?php
-
+/**
+ * Ajax Trait.
+ *
+ * PHP version 7
+ *
+ * Copyright (C) Villanova University 2018.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * @category VuFind
+ * @package  AJAX
+ * @author   Matthias Edel <matthias.edel@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     https://vufind.org/wiki/development Wiki
+ */
 namespace Swissbib\AjaxHandler;
 
+use VuFind\View\Helper\Root\RecordDataFormatter;
 use Zend\Http\Request;
 use Zend\Http\Response;
-use VuFind\View\Helper\Root\RecordDataFormatter;
 
+/**
+ * Trait AjaxTrait
+ *
+ * @category Swissbib_VuFind
+ * @package  Swissbib\AjaxHandler
+ * @author   Matthias Edel <matthias.edel@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://vufind.org
+ */
 trait AjaxTrait
 {
     /**
-     * @var Request
+     * Request
+     *
+     * @var request Request
      */
     protected $request;
 
     /**
-     * @var Response
+     * Response
+     *
+     * @var response Response
      */
     protected $response;
 
@@ -25,6 +63,11 @@ trait AjaxTrait
      */
     protected $renderer;
 
+    /**
+     * Get the configuration
+     *
+     * @return mixed
+     */
     protected function getConfig()
     {
         return $this->serviceLocator->get('VuFind\Config')->get('config');
@@ -72,8 +115,7 @@ trait AjaxTrait
     private function _format(&$formattedRecord)
     {
         $returnArray = [];
-        foreach ($formattedRecord as $arrayElement)
-        {
+        foreach ($formattedRecord as $arrayElement) {
             $returnArray[$arrayElement['label']] = $arrayElement['value'];
         }
         $formattedRecord = $returnArray;
@@ -169,5 +211,4 @@ trait AjaxTrait
         );
         return $specBuilder->getArray();
     }
-
 }

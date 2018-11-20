@@ -56,8 +56,10 @@ class AbstractAjaxFactory implements \Zend\ServiceManager\Factory\FactoryInterfa
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function __invoke(ContainerInterface $container, $requestedName,
-                             array $options = null
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array $options = null
     ) {
         if (!empty($options)) {
             throw new \Exception('Unexpected options passed to factory.');

@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category VuFind
  * @package  ElasticSearch\VuFind\Search\Factory
@@ -35,7 +35,6 @@ use ElasticsearchAdapter\Connector\ElasticsearchClientConnector;
 use Interop\Container\ContainerInterface;
 use Zend\Config\Config;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class ElasticSearchBackendFactory
@@ -74,9 +73,11 @@ class ElasticSearchBackendFactory implements FactoryInterface
     /**
      * Create service
      *
-     * @param ServiceLocatorInterface $serviceLocator The service locator
+     * @param ContainerInterface $sm      serviceManager
+     * @param string             $name    name of the service
+     * @param array|null         $options options
      *
-     * @return Backend
+     * @return Backend|object
      */
     public function __invoke(ContainerInterface $sm, $name, array $options = null)
     {

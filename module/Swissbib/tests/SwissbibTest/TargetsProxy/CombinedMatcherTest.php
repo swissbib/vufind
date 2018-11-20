@@ -2,7 +2,7 @@
 /**
  * CombinedMatcherTest
  *
- * PHP version 5
+ * PHP version 7
  *
  * Copyright (C) project swissbib, University Library Basel, Switzerland
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
@@ -20,9 +20,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  SwissbibTest_TargetsProxy
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -33,7 +33,7 @@ namespace SwissbibTest\TargetsProxy;
 /**
  * Test detection of targets from combined match patterns (IP + URL)
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  SwissbibTest_TargetsProxy
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -59,7 +59,10 @@ class CombinedMatcherTest extends TargetsProxyTestCase
      */
     public function testBothFail()
     {
-        $proxyDetected = $this->targetsProxy->detectTarget('1.2.3.4', 'swiishbiib.ch');
+        $proxyDetected = $this->targetsProxy->detectTarget(
+            '1.2.3.4',
+            'swiishbiib.ch'
+        );
 
         $this->assertInternalType('bool', $proxyDetected);
         $this->assertFalse($proxyDetected);
@@ -76,7 +79,13 @@ class CombinedMatcherTest extends TargetsProxyTestCase
 
         $this->assertInternalType('bool', $proxyDetected);
         $this->assertTrue($proxyDetected);
-        $this->assertEquals('Target_Both_Match', $this->targetsProxy->getTargetKey());
-        $this->assertEquals('apiKeyBothMatch', $this->targetsProxy->getTargetApiKey());
+        $this->assertEquals(
+            'Target_Both_Match',
+            $this->targetsProxy->getTargetKey()
+        );
+        $this->assertEquals(
+            'apiKeyBothMatch',
+            $this->targetsProxy->getTargetApiKey()
+        );
     }
 }

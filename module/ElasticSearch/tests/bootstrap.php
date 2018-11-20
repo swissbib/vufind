@@ -71,4 +71,7 @@ if (file_exists('vendor/autoload.php')) {
     $loader->register();
 }
 
-define('PHPUNIT_SEARCH_FIXTURES', realpath(__DIR__ . '/../../VuFindSearch/tests/unit-tests/fixtures'));
+define(
+    'PHPUNIT_SEARCH_FIXTURES',
+    realpath(__DIR__ . '/../../VuFindSearch/tests/unit-tests/fixtures')
+);

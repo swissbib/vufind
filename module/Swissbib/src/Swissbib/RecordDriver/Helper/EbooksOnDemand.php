@@ -2,7 +2,7 @@
 /**
  * EbooksOnDemand
  *
- * PHP version 5
+ * PHP version 7
  *
  * Copyright (C) project swissbib, University Library Basel, Switzerland
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
@@ -20,9 +20,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  RecordDriver_Helper
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -36,7 +36,7 @@ use Swissbib\RecordDriver\SolrMarc;
  * Build ebook links depending on institution configuration
  * Config in config_base.ini[eBooksOnDemand]
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  RecordDriver_Helper
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -202,6 +202,38 @@ class EbooksOnDemand extends EbooksOnDemandBase
         Holdings $holdingsHelper
     ) {
         // Works the same way, just forward to B404. But use B415 as institution code
+        return $this->buildLinkB404($item, $recordDriver, $holdingsHelper);
+    }
+
+    /**
+     * Check whether B490 item is valid for EOD link
+     *
+     * @param Array    $item           Item
+     * @param SolrMarc $recordDriver   RecordDriver
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function isValidForLinkB490(array $item, SolrMarc $recordDriver,
+        Holdings $holdingsHelper
+    ) {
+        // Works the same way, just forward to A100. But use B490 as institution code
+        return $this->isValidForLinkA100($item, $recordDriver, $holdingsHelper);
+    }
+
+    /**
+     * Build EOD link for B490 item
+     *
+     * @param Array    $item           Item
+     * @param SolrMarc $recordDriver   RecordDriver
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return String
+     */
+    protected function buildLinkB490(array $item, SolrMarc $recordDriver,
+        Holdings $holdingsHelper
+    ) {
+        // Works the same way, just forward to B404. But use B490 as institution code
         return $this->buildLinkB404($item, $recordDriver, $holdingsHelper);
     }
 

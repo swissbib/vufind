@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category VuFind
  * @package  Swissbib\Controller
@@ -112,9 +112,10 @@ abstract class AbstractSubjectController extends AbstractDetailsController
      */
     protected function getSubSubjects(string $id)
     {
-        return $this->serviceLocator->get('elasticsearchsearch')->searchElasticSearch(
-            $id, "sub_subjects", $this->config->subjectsSize
-        )->getResults();
+        return $this->serviceLocator->get('elasticsearchsearch')
+            ->searchElasticSearch(
+                $id, "sub_subjects", $this->config->subjectsSize
+            )->getResults();
     }
 
     /**
@@ -126,10 +127,14 @@ abstract class AbstractSubjectController extends AbstractDetailsController
      */
     protected function getParentSubjects(array $ids)
     {
-        return $this->serviceLocator->get('elasticsearchsearch')->searchElasticSearch(
-            $this->arrayToSearchString($ids), "id", "gnd", "DEFAULT",
-            $this->config->subjectsSize
-        )->getResults();
+        return $this->serviceLocator->get('elasticsearchsearch')
+            ->searchElasticSearch(
+                $this->arrayToSearchString($ids),
+                "id",
+                "gnd",
+                "DEFAULT",
+                $this->config->subjectsSize
+            )->getResults();
     }
 
     /**

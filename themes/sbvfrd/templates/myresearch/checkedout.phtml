@@ -12,7 +12,7 @@
 
 <?php if (!empty($this->transactions)): ?>
     <div>
-        <p><?= '<a href="' . $this->url('help-page', array('topic' => 'delivery')) . '">' . $this->transEsc('info returns') . '</a>'; ?></p>
+        <p><?= '<a href="' . $this->url('help-page', ['topic' => 'delivery']) . '">' . $this->transEsc('info returns') . '</a>'; ?></p>
     </div>
   <?php if ($this->renewForm): ?>
   <form name="renewals" action="" method="post" id="renewals">

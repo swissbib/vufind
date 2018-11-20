@@ -2,7 +2,7 @@
 /**
  * Solr spelling processor.
  *
- * PHP version 5
+ * PHP version 7
  *
  * Copyright (C) project swissbib, 2015.
  *
@@ -17,9 +17,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  VuFind_Search_Solr
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -36,7 +36,7 @@ use VuFindSearch\Query\AbstractQuery;
  * simple single term suggestions
  * term suggestions are variants of a token part of the original query
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  VuFind_Search_Solr
  * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
