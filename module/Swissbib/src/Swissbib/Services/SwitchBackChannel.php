@@ -6,7 +6,7 @@
  * Update user attributes, using Switch Back Channel
  * Info : http://www.swissbib.org/wiki/index.php?title=Switch_Shibboleth_Backchannel_and_Attribute_Query_Plugin
  *
- * PHP version 5
+ * PHP version 7
  *
  * Copyright (C) project swissbib, University Library Basel, Switzerland
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
@@ -24,9 +24,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  Services
  * @author   Lionel Walter <lionel.walter@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -43,7 +43,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * SwitchBackChannel
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  Services
  * @author   Lionel Walter <lionel.walter@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License

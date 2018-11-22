@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category VuFind
  * @package  Swissbib\View\Helper
@@ -55,7 +55,9 @@ class Ajax extends AbstractHelper
     public function url(array $params, string $exclusions = null): string
     {
         $exclusions = null === $exclusions ? '' : $exclusions;
-        $pattern = $this->getView()->serverUrl($_SERVER['CONTEXT_PREFIX'] . '/AJAX/JSON?%s');
+        $pattern = $this->getView()->serverUrl(
+            $_SERVER['CONTEXT_PREFIX'] . '/AJAX/JSON?%s'
+        );
         $url = sprintf($pattern, http_build_query($params));
 
         for ($index = 0; $index < strlen($exclusions); ++$index) {

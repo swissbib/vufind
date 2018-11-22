@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category VuFind
  * @package  Swissbib\Controller
@@ -124,9 +124,10 @@ class SubjectDetailPageController extends AbstractSubjectController
         if (isset($relatedTermsIds)) {
             $relatedTermsIds = is_array($relatedTermsIds)
                 ? $this->arrayToSearchString($relatedTermsIds) : $relatedTermsIds;
-            $relatedTerms = $this->serviceLocator->get('elasticsearchsearch')->searchElasticSearch(
-                $relatedTermsIds, "id", "gnd", "DEFAULT", 100
-            )->getResults();
+            $relatedTerms = $this->serviceLocator->get('elasticsearchsearch')
+                ->searchElasticSearch(
+                    $relatedTermsIds, "id", "gnd", "DEFAULT", 100
+                )->getResults();
             $viewModel->setVariable("relatedTerms", $relatedTerms);
         }
         $personIds = $this->getContributorsIdsFrom();

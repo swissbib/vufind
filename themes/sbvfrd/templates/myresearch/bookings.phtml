@@ -1,4 +1,4 @@
-<?
+<?php
 // Set up page title:
 $this->headTitle($this->translate('Bookings'));
 
@@ -11,15 +11,15 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
   <?= $this->flashmessages(); ?>
 
 
-  <?php if( sizeof($this->bookings) ): ?>
+  <?php if(sizeof($this->bookings)): ?>
 
-      <?
+      <?php
       $headers = [
-          'title'         => $this->transEsc('Title'),
+          'title' => $this->transEsc('Title'),
           'library_callno' => $this->transEsc('Institution'),
-          'pick_up_location'     => $this->transEsc('pick_up_location'),
-          'date_from'      => $this->transEsc('date_from'),
-          'date_to'        => $this->transEsc('date_to'),
+          'pick_up_location' => $this->transEsc('pick_up_location'),
+          'date_from' => $this->transEsc('date_from'),
+          'date_to' => $this->transEsc('date_to'),
       ];
 
       $flippedContent = '';
@@ -42,23 +42,23 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
 
           <tr>
-              <?
-              $flippedContent .= $this->render('myresearch/bookings-flipped.phtml', array(
-                  'booking'    => $booking,
+              <?php
+              $flippedContent .= $this->render('myresearch/bookings-flipped.phtml', [
+                  'booking' => $booking,
                   'headers' => $headers
-              ));
+              ]);
               ?>
               <td>
                   <?= $this->escapeHtml($booking['title']) ?>
               </td>
               <td>
-                  <? if (!empty($booking['library'])): ?>
+                  <?php if (!empty($booking['library'])): ?>
                       <?=$this->escapeHtml($booking['library'])?>
                       <br />
-                  <? endif; ?>
-                  <? if (!empty($booking['callNumber'])): ?>
+                  <?php endif; ?>
+                  <?php if (!empty($booking['callNumber'])): ?>
                       <?=$this->escapeHtml($booking['callNumber'])?>
-                  <? endif; ?>
+                  <?php endif; ?>
               </td>
               <td>
                   <?=$this->transEsc($booking['pickupLocation']) ?>
@@ -70,7 +70,7 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
                   <?=date('d/m/y H:i', $booking['dateEnd']) ?>
               </td>
           </tr>
-          <? endforeach; ?>
+          <?php endforeach; ?>
           </tbody>
       </table>
 
@@ -78,10 +78,10 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
 
   <?php else: ?>
       <p><?=$this->transEsc('No bookings') ?></p>
-  <? endif; ?>
+  <?php endif; ?>
 </div>
 
 
 <div class="<?= $this->layoutClass('sidebar') ?>">
-  <?= $this->context($this)->renderInContext("myresearch/menu.phtml", array('active' => 'bookings')) ?>
+  <?= $this->context($this)->renderInContext("myresearch/menu.phtml", ['active' => 'bookings']) ?>
 </div>

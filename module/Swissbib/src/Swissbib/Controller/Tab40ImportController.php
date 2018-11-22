@@ -2,7 +2,7 @@
 /**
  * Swissbib Tab40ImportController
  *
- * PHP version 5
+ * PHP version 7
  *
  * Copyright (C) project swissbib, University Library Basel, Switzerland
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
@@ -20,9 +20,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  Controller
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -32,14 +32,14 @@ namespace Swissbib\Controller;
 
 use Swissbib\Tab40Import\Importer as Tab40Importer;
 use Zend\Console\Request as ConsoleRequest;
-use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Import tab40.xxx files and convert them to label files
  * Use this controller over the command line
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  Controller
  * @author   Guenter Hipler  <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License

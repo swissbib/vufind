@@ -28,10 +28,12 @@
 namespace Swissbib\AjaxHandler;
 
 use Interop\Container\ContainerInterface;
+use VuFind\AjaxHandler\AbstractBase as VFAjax;
 use VuFind\AjaxHandler\AjaxHandlerInterface;
+use VuFind\View\Helper\Root\RecordDataFormatter;
+use Zend\Http\PhpEnvironment\Request;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\Plugin\Params;
-use VuFind\View\Helper\Root\RecordDataFormatter;
 
 /**
  * "GetBibliographicResource" AJAX handler
@@ -44,14 +46,17 @@ use VuFind\View\Helper\Root\RecordDataFormatter;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class GetBibliographicResource extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandlerInterface
+class GetBibliographicResource extends VFAjax implements AjaxHandlerInterface
 {
     use \Swissbib\AjaxHandler\AjaxTrait;
 
     /**
-     * Constructor
+     * GetBibliographicResource constructor.
+     *
+     * @param ContainerInterface $sm      Service Manager
+     * @param Request            $request Request
      */
-    public function __construct(ContainerInterface $sm, \Zend\Http\PhpEnvironment\Request $request)
+    public function __construct(ContainerInterface $sm, Request $request)
     {
         $this->serviceLocator = $sm;
         $this->request = $request;
@@ -127,8 +132,7 @@ class GetBibliographicResource extends \VuFind\AjaxHandler\AbstractBase implemen
     private function _format(&$formattedRecord)
     {
         $returnArray = [];
-        foreach ($formattedRecord as $arrayElement)
-        {
+        foreach ($formattedRecord as $arrayElement) {
             $returnArray[$arrayElement['label']] = $arrayElement['value'];
         }
         $formattedRecord = $returnArray;
@@ -147,5 +151,4 @@ class GetBibliographicResource extends \VuFind\AjaxHandler\AbstractBase implemen
 
         return $this->response;
     }
-
 }

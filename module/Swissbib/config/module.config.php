@@ -393,7 +393,6 @@ return [
             'subject-detail-page'                    => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
             'person-search'                          => 'Swissbib\Controller\Factory::getPersonSearchController',
             'Swissbib\Controller\ShibtestController' => 'Zend\ServiceManager\Factory\InvokableFactory',
-            'Swissbib\Controller\UtilController'     => 'Swissbib\Controller\Factory::getSwissbibUtilController'
         ],
         'aliases' => [
             //Overrides
@@ -404,8 +403,6 @@ return [
             \VuFind\Controller\SummonController::class => SummonController::class,
             'ajax'                 => AjaxController::class,
             'shibtest'             => 'Swissbib\Controller\ShibtestController',
-            'util'                 => 'Swissbib\Controller\UtilController'
-
         ],
     ],
     'controller_plugins' => [

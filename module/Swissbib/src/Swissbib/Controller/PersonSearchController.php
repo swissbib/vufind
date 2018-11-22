@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category VuFind
  * @package  Controller
@@ -63,9 +63,13 @@ class PersonSearchController extends AbstractBase
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
         $limit = $this->getRequest()->getQuery()['limit'] ?? 20;
 
-        $authors = $this->serviceLocator->get('elasticsearchsearch')->searchCoContributorsOfPerson(
-            $id, $limit, $this->config->searchSize ?? 100, $page
-        );
+        $authors = $this->serviceLocator->get('elasticsearchsearch')
+            ->searchCoContributorsOfPerson(
+                $id,
+                $limit,
+                $this->config->searchSize ?? 100,
+                $page
+            );
 
         return $this->createViewModel(["results" => $authors]);
     }
@@ -81,9 +85,10 @@ class PersonSearchController extends AbstractBase
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
         $limit = $this->getRequest()->getQuery()['limit'] ?? 20;
 
-        $authors = $this->serviceLocator->get('elasticsearchsearch')->searchElasticSearch(
-            $genre, "person_by_genre", null, null, $limit, $page
-        );
+        $authors = $this->serviceLocator->get('elasticsearchsearch')
+            ->searchElasticSearch(
+                $genre, "person_by_genre", null, null, $limit, $page
+            );
 
         return $this->createViewModel(["results" => $authors]);
     }
@@ -99,9 +104,10 @@ class PersonSearchController extends AbstractBase
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
         $limit = $this->getRequest()->getQuery()['limit'] ?? 20;
 
-        $authors = $this->serviceLocator->get('elasticsearchsearch')->searchElasticSearch(
-            $movement, "person_by_movement", null, null, $limit, $page
-        );
+        $authors = $this->serviceLocator->get('elasticsearchsearch')
+            ->searchElasticSearch(
+                $movement, "person_by_movement", null, null, $limit, $page
+            );
 
         return $this->createViewModel(["results" => $authors]);
     }
@@ -117,9 +123,10 @@ class PersonSearchController extends AbstractBase
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
         $limit = $this->getRequest()->getQuery()['limit'] ?? 20;
 
-        $authors = $this->serviceLocator->get('elasticsearchsearch')->searchContributorsOfSubject(
-            $id, $limit, $this->config->searchSize ?? 100, $page
-        );
+        $authors = $this->serviceLocator->get('elasticsearchsearch')
+            ->searchContributorsOfSubject(
+                $id, $limit, $this->config->searchSize ?? 100, $page
+            );
 
         return $this->createViewModel(["results" => $authors]);
     }

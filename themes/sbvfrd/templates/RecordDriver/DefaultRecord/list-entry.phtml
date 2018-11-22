@@ -148,7 +148,7 @@
             $urls = $this->record($this->driver)->getLinkDetails();
             if ($openUrlActive || !empty($urls)):
           ?>
-            <? if ($openUrlActive): ?>
+            <?php if ($openUrlActive): ?>
               <br/>
               <?=$this->openUrl($openUrl)?>
               <?
@@ -157,15 +157,15 @@
                   $urls = array();
                 }
               ?>
-            <? endif;?>
+            <?php endif;?>
 
-            <? if (!is_array($urls)) { $urls = array(); }
+            <?php if (!is_array($urls)) { $urls = array(); }
               if(!$this->driver->isCollection()):
                 foreach ($urls as $current): ?>
                   <a href="<?=$this->escapeHtmlAttr($this->proxyUrl($current['url']))?>" class="fulltext" target="new"><i class="fa fa-external-link"></i> <?=($current['url'] == $current['desc']) ? $this->transEsc('Get full text') : $this->escapeHtml($current['desc'])?></a>
-                <? endforeach; ?>
-              <? endif; ?>
-            <? endif; */?>
+                <?php endforeach; ?>
+              <?php endif; ?>
+            <?php endif; */?>
           <br/>
 
 

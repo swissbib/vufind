@@ -1,7 +1,6 @@
 <?php
 namespace Jusbib\Module\Config;
 
-
 return [
     'router' => [
         'routes' => [

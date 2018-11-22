@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category VuFind
  * @package  Swissbib\Controller
@@ -92,8 +92,8 @@ abstract class AbstractDetailsController extends AbstractBase
     {
         $content = $this->serviceLocator->get('elasticsearchsearch')
             ->searchElasticSearch(
-            $id, "id", $index, $type, 1
-        )->getResults();
+                $id, "id", $index, $type, 1
+            )->getResults();
 
         if ($content !== null && is_array($content) && count($content) === 1) {
             return array_pop($content);
@@ -119,7 +119,9 @@ abstract class AbstractDetailsController extends AbstractBase
     {
         return $this->serviceLocator->get('elasticsearchsearch')
             ->searchElasticSearch(
-                $this->arrayToSearchString(array_unique($this->subjectIds)), "id", "gnd",
+                $this->arrayToSearchString(array_unique($this->subjectIds)),
+                "id",
+                "gnd",
                 "DEFAULT", $this->config->subjectsSize
             )->getResults();
     }

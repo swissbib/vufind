@@ -28,9 +28,11 @@
 namespace Swissbib\AjaxHandler;
 
 use Interop\Container\ContainerInterface;
+use VuFind\AjaxHandler\AbstractBase as VFAjax;
 use VuFind\AjaxHandler\AjaxHandlerInterface;
-use Zend\Mvc\Controller\Plugin\Params;
 use VuFind\View\Helper\Root\RecordDataFormatter;
+use Zend\Http\PhpEnvironment\Request;
+use Zend\Mvc\Controller\Plugin\Params;
 
 /**
  * "GetOrganisations" AJAX handler
@@ -43,14 +45,17 @@ use VuFind\View\Helper\Root\RecordDataFormatter;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class GetOrganisations extends \VuFind\AjaxHandler\AbstractBase implements AjaxHandlerInterface
+class GetOrganisations extends VFAjax implements AjaxHandlerInterface
 {
     use \Swissbib\AjaxHandler\AjaxTrait;
 
     /**
-     * Constructor
+     * GetOrganisations constructor.
+     *
+     * @param ContainerInterface $sm      Service Manager
+     * @param Request            $request Request
      */
-    public function __construct(ContainerInterface $sm, \Zend\Http\PhpEnvironment\Request $request)
+    public function __construct(ContainerInterface $sm, Request $request)
     {
         $this->serviceLocator = $sm;
         $this->request = $request;
@@ -87,7 +92,5 @@ class GetOrganisations extends \VuFind\AjaxHandler\AbstractBase implements AjaxH
 
         $response = $this->buildResponse($content, $spec);
         return $this->formatResponse($response->getContent());
-
     }
-
 }

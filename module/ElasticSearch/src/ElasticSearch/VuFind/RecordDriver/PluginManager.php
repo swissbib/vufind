@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA    02111-1307    USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category VuFind
  * @package  ElasticSearch\VuFind\RecordDriver
@@ -29,7 +29,6 @@ namespace ElasticSearch\VuFind\RecordDriver;
 
 use Interop\Container\ContainerInterface;
 use VuFind\RecordDriver\AbstractBase;
-use Zend\ServiceManager\ConfigInterface;
 
 /**
  * Class PluginManager
@@ -45,11 +44,10 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
     const DEFAULT_RECORD = 'ElasticSearch';
 
     /**
-     * Constructor
+     * PluginManager constructor.
      *
-     * @param ContainerInterface $serviceLocator The Service Locator
-     * @param ConfigInterface    $configuration  Configuration settings
-     *                                           (optional)
+     * @param ContainerInterface $serviceLocator Service Locator
+     * @param array              $v3config       v3config
      */
     public function __construct(
         ContainerInterface $serviceLocator,

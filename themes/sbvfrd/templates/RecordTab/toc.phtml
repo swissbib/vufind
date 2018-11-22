@@ -1,4 +1,4 @@
-<?
+<?php
 // Set page title.
 $this->headTitle($this->translate('Table of Contents') . ': ' . $this->driver->getBreadcrumb());
 
@@ -12,17 +12,17 @@ $contentSummary = $this->driver->getContentSummary();
     <?php if (!empty($tableOfContent)): ?>
         <strong><?=$this->transEsc('toc.content')?>: </strong>
         <ul class="toc">
-            <? foreach ($tableOfContent as $line): ?>
+            <?php foreach ($tableOfContent as $line): ?>
                 <li><?=$this->escapeHtml($line)?></li>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </ul>
     <?php endif; ?>
     <?php if (!empty($contentSummary)): ?>
         <strong><?=$this->transEsc('toc.summary')?>: </strong>
         <ul class="toc">
-            <? foreach ($contentSummary as $line): ?>
+            <?php foreach ($contentSummary as $line): ?>
                 <li><?=$this->escapeHtml($line)?></li>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </ul>
-    <? endif; ?>
-<? endif; ?>
+    <?php endif; ?>
+<?php endif; ?>

@@ -2,7 +2,7 @@
 /**
  * Controller of the National Licence page on the Swissbib account.
  *
- * PHP version 5
+ * PHP version 7
  * Copyright (C) project swissbib, University Library Basel, Switzerland
  * http://www.swissbib.org  / http://www.swissbib.ch / http://www.ub.unibas.ch
  * This program is free software; you can redistribute it and/or modify
@@ -14,9 +14,9 @@
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  Controller
  * @author   Simone Cogno <scogno@snowflake.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -33,7 +33,7 @@ use Zend\View\Model\ViewModel;
 /**
  * Class NationalLicencesController.
  *
- * @category Swissbib_VuFind2
+ * @category Swissbib_VuFind
  * @package  Controller
  * @author   Simone Cogno <scogno@snowflake.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
