@@ -1324,7 +1324,7 @@ class Holdings
         ];
         return $this->compileString($data['pattern'], $values);
     }
-    
+
     /**
      * Get backlink for CCSA (poster collection)
      *
