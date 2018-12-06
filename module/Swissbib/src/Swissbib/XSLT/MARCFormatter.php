@@ -75,7 +75,7 @@ class MARCFormatter
         "SBT" => "http://aleph.sbt.ti.ch/F?local_base=SBT01&con_lng=ITA&func=find-b&find_code=SYS&request=%s",
         "SERVAL" => "http://serval.unil.ch/oaiprovider?verb=GetRecord&metadataPrefix=mods&identifier=oai:serval.unil.ch:%s",
         "SGBN" => "http://aleph.sg.ch/F/?local_base=SGB01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
-        "SNL" => "http://permalink.snl.ch/bib/sz%s",
+        "SNL" => "https://nb-helveticat.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma%s&context=L&vid=41SNL_51_INST:helveticat&search_scope=MyInstitution&tab=LibraryCatalog",
         "VAUD" => "https://renouvaud.hosted.exlibrisgroup.com/primo-explore/search?vid=41BCULIB_VU2&search_scope=41BCULIB_ALMA_ALL&query=any,contains,%s",
         "VAUDS" => "https://renouvaud.hosted.exlibrisgroup.com/primo-explore/search?vid=41BCULIB_VU2&search_scope=41BCULIB_ALMA_ALL&query=any,contains,%s",
         "ZORA" => "http://www.zora.uzh.ch/cgi/oai2?verb=GetRecord&metadataPrefix=oai_dc&identifier=%s",
