@@ -742,14 +742,16 @@ return [
             ], 'vufind_search_params' => [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Params\PluginFactory'],
                 'aliases' => [
-                    'solr'          => 'Swissbib\VuFind\Search\Solr\Params\Solr',
+                    'solr'          => 'Swissbib\VuFind\Search\Solr\Params',
                     'SolrClassification' => 'Swissbib\VuFind\Search\SolrClassification\Params',
-                    'elasticsearch' => 'ElasticSearch\VuFind\Search\Params\ElasticSearch'
+                    'elasticsearch' => 'ElasticSearch\VuFind\Search\Params\ElasticSearch',
+                    'summon' => 'Swissbib\VuFind\Search\Summon\Params',
                 ],
                 'factories' => [
-                    'Swissbib\VuFind\Search\Solr\Params\Solr'          => 'Swissbib\VuFind\Search\Params\Factory::getSolr',
+                    'Swissbib\VuFind\Search\Solr\Params'          => 'Swissbib\VuFind\Search\Params\Factory::getSolr',
                     'Swissbib\VuFind\Search\SolrClassification\Params' => 'Swissbib\VuFind\Search\Params\Factory::getSolrClassification',
-                    'ElasticSearch\VuFind\Search\Params\ElasticSearch' => '\ElasticSearch\VuFind\Search\Params\Factory::getElasticSearch'
+                    'Swissbib\VuFind\Search\Summon\Params' => 'Swissbib\VuFind\Search\Params\Factory::getSummon',
+                    'ElasticSearch\VuFind\Search\Params\ElasticSearch' => '\ElasticSearch\VuFind\Search\Params\Factory::getElasticSearch',
                 ],
 
             ],

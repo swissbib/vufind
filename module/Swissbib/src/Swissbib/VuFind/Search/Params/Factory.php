@@ -47,7 +47,7 @@ class Factory
      *
      * @param ServiceManager $sm Service manager.
      *
-     * @return \VuFind\Search\Solr\Params
+     * @return \Swissbib\VuFind\Search\Solr\Params
      */
     public static function getSolr(ServiceManager $sm)
     {
@@ -61,12 +61,26 @@ class Factory
      *
      * @param ServiceManager $sm Service manager.
      *
-     * @return \VuFind\Search\SolrClassification\Params
+     * @return \Swissbib\VuFind\Search\SolrClassification\Params
      */
     public static function getSolrClassification(ServiceManager $sm)
     {
         $factory = new PluginFactory();
         $helper = $sm->get('VuFind\HierarchicalFacetHelper');
         return $factory($sm, 'SolrClassification', [$helper]);
+    }
+
+    /**
+     * Factory for Summon params object.
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return \Swissbib\VuFind\Search\Summon\Params
+     */
+    public static function getSummon(ServiceManager $sm)
+    {
+        $factory = new PluginFactory();
+        $helper = $sm->get('VuFind\HierarchicalFacetHelper');
+        return $factory($sm, 'summon', [$helper]);
     }
 }
