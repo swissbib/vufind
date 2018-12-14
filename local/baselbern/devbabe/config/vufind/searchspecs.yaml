@@ -178,6 +178,8 @@ Subject:
   QueryFields:
     topic:
     - [onephrase, 350]
+    related_gnd_txt_mv:
+    - [or, ~]
   DismaxParams:
   - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
   - [mm, '100%']
@@ -190,8 +192,6 @@ Subject_OR:
     topic:
     - [onephrase, 350]
     - [or, 500]
-    related_gnd_txt_mv:
-    - [or, ~]
   DismaxParams:
   - [mm, '50%']
 
