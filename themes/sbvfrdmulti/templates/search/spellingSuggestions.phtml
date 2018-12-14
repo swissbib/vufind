@@ -11,6 +11,7 @@ $query = $this->results->getUrlQuery();
     </div>
 <?php endif; ?>
 
+<!-- SOLR suggestions -->
 <?php if (!empty($suggestions) && !is_array($suggestions) &&
     $suggestions instanceof Swissbib\VuFind\Search\Solr\SpellingResults && $suggestions->hasSuggestions()) : ?>
 
@@ -42,26 +43,27 @@ $query = $this->results->getUrlQuery();
         </div>
 
     <?php endif; ?>
+
+<!-- other suggestions (summon) -->
 <?php elseif (!empty($suggestions) && is_array($suggestions)) : ?>
     <?php if ($recordTotal === 0): ?>
         <?php
         // we have to expect an array type for suggestions delivered by Summon (actually it seems all the targets implemented by VF2 core deliver array structures for spelling suggestions
         //which is not really nice...
-        foreach ($suggestions as $key => $suggestionValue):
+        foreach ($suggestions as $term => $details):
             ?>
 
 
             <div class="alert">
-                <p><?=$this->transEsc('Your search terms')?>: <?= $this->escapeHtml($key) ?></p>
+                <p><?=$this->transEsc('Your search terms')?>: <?= $this->escapeHtml($term) ?></p>
             </div>
 
             <div class="alert">
                 <h4><?=$this->transEsc('nohit_spelling') ?></h4>
                 <!--                suggestions for: --><?//= $key ?>
-                <?php foreach (array_keys($suggestionValue['suggestions']) as $keyValue) : ?>
-                    <?php foreach ($keyValue as $value): ?>
-                        <p><a href="<?=$this->url('summon-search')?>?lookfor=<?=urlencode($value['new_term'])?>"><?=$this->escapeHtml($value['new_term']) ?></a></p>
-                    <?php endforeach ?>
+                <?php foreach ($details['suggestions'] as $word => $data) : ?>
+
+                        <p><a href="<?=$this->url('summon-search')?>?lookfor=<?=urlencode($data['new_term'])?>"><?=$this->escapeHtml($data['new_term']) ?></a></p>
 
                 <?php endforeach; ?>
 

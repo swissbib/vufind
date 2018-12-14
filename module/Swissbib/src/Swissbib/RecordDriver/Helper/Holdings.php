@@ -1307,7 +1307,7 @@ class Holdings
     }
 
     /**
-     * Get backlink for SNL (helveticat)
+     * Get backlink for SNL (alma)
      *
      * @param String $networkCode     Code of network
      * @param String $institutionCode Code of Institution
@@ -1316,20 +1316,17 @@ class Holdings
      *
      * @return String
      */
-    protected function getBackLinkSNL(
-        $networkCode,
-        $institutionCode, $item,
+    protected function getBackLinkSNL($networkCode, $institutionCode, $item,
         array $data
     ) {
-        $bibsysnumber = preg_replace('/^vtls/', '', $item['bibsysnumber']);
         $values = [
-            'bib-system-number' => $bibsysnumber,
+            'bib-system-number' => $item['bibsysnumber']
         ];
         return $this->compileString($data['pattern'], $values);
     }
 
     /**
-     * Get backlink for CCSA (poster collection)
+     * Get backlink for CCSA (poster collection, alma)
      *
      * @param String $networkCode     Code of network
      * @param String $institutionCode Code of Institution
@@ -1338,15 +1335,11 @@ class Holdings
      *
      * @return String
      */
-    protected function getBackLinkCCSA(
-        $networkCode,
-        $institutionCode,
-        $item,
+    protected function getBackLinkCCSA($networkCode, $institutionCode, $item,
         array $data
     ) {
-        $bibsysnumber = preg_replace('/^vtls/', '', $item['bibsysnumber']);
         $values = [
-            'bib-system-number' => $bibsysnumber,
+            'bib-system-number' => $item['bibsysnumber'],
         ];
         return $this->compileString($data['pattern'], $values);
     }
