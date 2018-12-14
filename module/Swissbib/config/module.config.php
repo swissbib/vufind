@@ -112,7 +112,7 @@ return [
                                 'action' => 'library',
                             ],
                             'constraints' => [
-                                'libraryCode' => 'Z01|RE01001|E02|A100',
+                                'libraryCode' => 'Z01|E65',
                                 'page' => 'registration|listResources'
                             ],
                         ],
