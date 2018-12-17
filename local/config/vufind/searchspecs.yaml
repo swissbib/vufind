@@ -603,6 +603,20 @@ LOC:
     location_str_mv:
          - [onephrase, ~]
 
+PUBL:
+  DismaxFields:
+  - publisher_txt_mv
+  QueryFields:
+    publisher_txt_mv:
+    - [onephrase, ~]
+
+PUBPL:
+  DismaxFields:
+  - pubplace_txt_mv
+  QueryFields:
+    pubplace_txt_mv:
+    - [onephrase, ~]
+
 # Section for Rara-Queries
 
 PublPlace:
