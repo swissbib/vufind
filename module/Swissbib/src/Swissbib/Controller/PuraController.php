@@ -71,6 +71,8 @@ class PuraController extends BaseController
     public function indexAction()
     {
         $institutionCodes = ["Z01"];
+        //for ZhDK go live :
+        //$institutionCodes = ["Z01", "E65"];
         $institutions = [];
 
         foreach ($institutionCodes as $institutionCode) {
