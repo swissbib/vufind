@@ -52,7 +52,7 @@ return [
       'includeTemplate' => 'Swissbib\View\Helper\Swissbib\Factory::getIncludeTemplate',
       'translateFacets' => 'Swissbib\View\Helper\Swissbib\Factory::getFacetTranslator',
       'formatRelatedEntries' => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
-      //'Swissbib\VuFind\View\Helper\Root\Translate', => '',
+      \Swissbib\VuFind\View\Helper\Root\Translate::class  => 'Zend\ServiceManager\Factory\InvokableFactory',
     ],
     'aliases' => [
         'auth' => 'VuFind\View\Helper\Root\Auth',
@@ -62,10 +62,7 @@ return [
         'recordLink' => 'Swissbib\View\Helper\RecordLink',
         'searchtabs' => 'Swissbib\VuFind\View\Helper\Root\SearchTabs',
         'piwik' => 'Swissbib\VuFind\View\Helper\Root\Piwik',
-        //'translate'     => 'Swissbib\VuFind\View\Helper\Root\Translate',
+        'translate' => \Swissbib\VuFind\View\Helper\Root\Translate::class,
     ],
-    'invokables' => [
-      'translate' => 'Swissbib\VuFind\View\Helper\Root\Translate',
-    ]
   ]
 ];

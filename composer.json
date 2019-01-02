@@ -13,6 +13,11 @@
       "php": "7.0.8"
     }
   },
+  "autoload": {
+    "psr-0" : {
+      "Swissbib" : "module/Swissbib/src/"
+    }
+  },
   "repositories": [
     {
       "type": "package",
