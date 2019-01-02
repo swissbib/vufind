@@ -52,7 +52,7 @@ return [
       'includeTemplate' => 'Swissbib\View\Helper\Swissbib\Factory::getIncludeTemplate',
       'translateFacets' => 'Swissbib\View\Helper\Swissbib\Factory::getFacetTranslator',
       'formatRelatedEntries' => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
-      \Swissbib\VuFind\View\Helper\Root\Translate::class  => 'Zend\ServiceManager\Factory\InvokableFactory',
+      \Swissbib\VuFind\View\Helper\Root\Translate::class => 'Zend\ServiceManager\Factory\InvokableFactory',
     ],
     'aliases' => [
         'auth' => 'VuFind\View\Helper\Root\Auth',
