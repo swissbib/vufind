@@ -242,7 +242,7 @@ export default class AutoSuggest {
     /**
      * @private
      */
-    private sectionHeaderLinkMouseDownHandler = (event: JQuery.Event) => {
+    private sectionHeaderLinkMouseDownHandler = (event: JQuery.TriggeredEvent) => {
         // simply navigate directly to the link to circumvent browser's blur behavior
         // which causes click event not to be fired
         window.location.href = $(event.target).attr("href");

@@ -158,7 +158,7 @@ class ElasticSearchSearch
     public function searchBibliographiResourcesOfPerson(string $id, int $resultSize
     ): array {
         $bibliographicResources = $this->searchElasticSearch(
-            "http://data.swissbib.ch/person/" . $id,
+            "https://data.swissbib.ch/person/" . $id,
             "bibliographicResources_by_author", "lsb", "bibliographicResource",
             $resultSize
         )->getResults();
