@@ -106,6 +106,33 @@ class Availability
     }
 
     /**
+     * Get availability info by library network
+     *
+     * @param String $sysNumber SysNumer
+     * @param String $bib       Bib
+     * @param String $locale    Locale
+     *
+     * @return Array|Boolean
+     */
+    public function getAvailabilityByLibraryNetwork($sysNumber, $bib, $locale)
+    {
+        $apiUrl    = $this->getApiByLibraryNetworkUrl($sysNumber, $bib, $locale);
+
+        try {
+            $responseBody    = $this->fetch($apiUrl);
+            $responseData    = json_decode($responseBody, true);
+
+            if (is_array($responseData)) {
+                return $responseData;
+            }
+
+            throw new \Exception('Unknown response data');
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
      * Get IDLS code for network
      *
      * @param String $network Network
@@ -136,10 +163,27 @@ class Availability
         }
 
         return     $this->config->apiEndpoint
-        . '?sysnumber=' . $sysNumber
-        . $barcodeParameters
-        . '&idls=' . $bib
-        . '&language=' . $locale;
+            . '?sysnumber=' . $sysNumber
+            . $barcodeParameters
+            . '&idls=' . $bib
+            . '&language=' . $locale;
+    }
+
+    /**
+     * Build API by network library url from params
+     *
+     * @param String $sysNumber Sysnumber
+     * @param String $bib       Bib
+     * @param String $locale    Locale
+     *
+     * @return String
+     */
+    protected function getApiByLibraryNetworkUrl($sysNumber, $bib, $locale)
+    {
+        return     $this->config->apiByLibraryNetworkEndpoint
+            . '?sysnumber=' . $sysNumber
+            . '&idls=' . $bib
+            . '&language=' . $locale;
     }
 
     /**

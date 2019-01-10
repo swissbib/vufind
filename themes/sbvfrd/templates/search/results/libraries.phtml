@@ -19,7 +19,16 @@ if (sizeof($institutions) > 1) {
       ?>
       <li role="presentation">
         <a role="menuitem" href="<?= $this->recordLink()->getUrl($driver) ?>?expandlib=<?= $groupCode ?>-<?= $institutionCode ?>#<?= $anchor ?>">
-          <span class="a-before"></span><?= $this->escapeHtml($this->zendTranslate($institutionCode, 'institution')); ?>
+           <?php
+            $availabilities = $driver->getAvailabilityIcon($institutionCode);
+            if (array_key_exists($institutionCode, $availabilities)) {
+                $symbolId = $availabilities[$institutionCode];
+                ?>
+                <div class="availability">&nbsp;</div><?php switch ($symbolId) { case '0': echo 'JA'; break; case '1': echo 'NEIN'; break; case '2'; echo '?'; break;case '3': echo 'NO-IDLS'; break;case '4': echo 'NO-BIBLIB'; break;case '5': echo 'NO-INSTI'; break;case '6': echo 'NOARRAY'; break;case '8': echo 'NO-ITEMS'; break;default: echo 'INVALID'; break; } ?>">
+                <?php
+            } else echo '!wrongRetVal!';
+           ?>
+            <span class="a-before"></span><?= $this->escapeHtml($this->zendTranslate($institutionCode, 'institution')); ?>
         </a>
       </li>
     <?php endforeach; ?>

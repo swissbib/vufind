@@ -2745,6 +2745,11 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         return $this->getHoldingsHelper()->getHoldingsStructure();
     }
 
+    public function getAvailabilityIcon($institutionCode)
+    {
+        return $this->getHoldingsHelper()->getAvailabilityInfosByLibrarycode($this, $institutionCode);
+    }
+
     /**
      * Get the Hierarchy Type (default if none)
      *
