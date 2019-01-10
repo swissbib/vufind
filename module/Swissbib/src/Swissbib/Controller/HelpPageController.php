@@ -65,7 +65,7 @@ class HelpPageController extends BaseController
         $template = $this->getTemplate($topic);
 
         if (!$template['template']) {
-            throw new \Exception('Can\'t find matching help page');
+            throw new \Exception('Can\'t find matching help page for topic \'' . $topic . '\'');
         }
 
         $helpContent = $this->createViewModel();
