@@ -36,9 +36,6 @@ use VuFind\Search\Results\PluginManager;
 use VuFind\View\Helper\Root\SearchTabs as VuFindSearchTabs;
 use Zend\View\Helper\Url;
 
-//use Swissbib\VuFind\Search\SearchTabsHelper;
-//use Swissbib\VuFind\Search\Results\PluginManager as PluginManager;
-
 /**
  * SearchTabs
  *

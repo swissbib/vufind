@@ -448,7 +448,6 @@ return [
             'VuFind\Search\Params\PluginManager'            => 'Swissbib\Services\Factory::getSearchParamsPluginManager',
             'VuFind\Search\Results\PluginManager'           => 'Swissbib\Services\Factory::getSearchResultsPluginManager',
 
-            'Swissbib\Search\SearchTabsHelper'              =>  'Swissbib\View\Helper\Swissbib\Factory::getSearchTabsHelper',
             'VuFind\Search\SearchTabsHelper'                =>  'Swissbib\View\Helper\Swissbib\Factory::getSearchTabsHelper',
             'Swissbib\Record\Form\CopyForm'                 =>  'Swissbib\Record\Factory::getCopyForm',
             'Swissbib\MyResearch\Form\AddressForm'          =>  'Swissbib\MyResearch\Factory::getAddressForm',
