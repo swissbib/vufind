@@ -191,7 +191,7 @@ class MyResearchController extends VuFindMyResearchController
                 'optsLanguage' => [
                     'de' => 'Deutsch',
                     'en' => 'English',
-                    'fr' => 'Francais',
+                    'fr' => 'Français',
                     'it' => 'Italiano'
                 ],
                 'optsMaxHits' => [
