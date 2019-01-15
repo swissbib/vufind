@@ -34,10 +34,11 @@ if (!$gndHeadings) {
                     ) . '&amp;type=Subject';
 
                 if (!in_array($fieldValues, $subjects)) {
-
-                    $id = array_key_exists(0, $fieldValues) ? "subjectid=\"" . explode(
-                            ")", $fieldValues[0]
-                        )[1] . "\"" : "";
+                    $id = "";
+                    if (array_key_exists(0, $fieldValues)
+                        && strpos($fieldValues[0], ')') !== false) {
+                       $id = "subjectid=\"" . explode(")", $fieldValues[0])[1] . "\"";
+                    }
                     unset($fieldValues[0]);
                     unset($fieldValues[2]);
                     echo '<li class="list-group-item" ' . $id . ' >';
