@@ -1497,60 +1497,6 @@ class Holdings
     }
 
     /**
-     * Get availability infos for items
-     *
-     * @param String $sysNumber SysNumber
-     * @param String $bib       Bib
-     *
-     * @return Array|Boolean
-     */
-    public function getAvailabilityInfosByLibrarycode($recordDriver, $bib)
-    {
-        $r = null;
-        switch ($bib) {
-            case 'RETROS':
-            case 'BORIS':
-            case 'EDOC':
-            case 'ECOD':
-            case 'ALEXREPO':
-            case 'NATIONALLICENCE':
-            case 'FREE':
-                $r = array($bib => "0");
-                break;
-            // alle von denen vom availabilityservice nichts kommt: "?"
-            //case 'NB001':
-            //    $r = array($bib => "2");
-            //    break;
-            default:
-                $userLocale = $this->translator->getLocale();
-                $items = $this->getItemsData($recordDriver, $bib, false);
-                $idls = $items[0]['bib_library'];
-                if ($idls !== '' && $idls != null) {
-                    $r = $this->availability->getAvailabilityByLibraryNetwork(
-                        $items[0]['bibsysnumber'], $idls, $userLocale
-                    );
-                } else {
-                    $r = array($bib => "8");
-                }
-            break;
-        }
-        // wenn sublibrary nicht den code der zweigstelle enthält, setze status auf "?": (not correctly implemented yet)
-        if (!is_array($r)) {
-            $r = array($bib => "6");
-        }
-        else if (!array_key_exists($bib, $r)) {
-            $biblib = $items[0]['bib_library'];
-            if ($biblib !== null && $biblib !== '' ) {
-                $r = array($biblib => "4");
-            }
-            else {
-                $r = array($bib => "5");
-            }
-        }
-        return $r;
-    }
-
-    /**
      * Get circulation statuses for all elements of the item
      *
      * @param String $sysNumber SysNumber

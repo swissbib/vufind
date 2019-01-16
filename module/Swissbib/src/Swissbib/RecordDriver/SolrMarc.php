@@ -2747,7 +2747,64 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
 
     public function getAvailabilityIcon($institutionCode)
     {
-        return $this->getHoldingsHelper()->getAvailabilityInfosByLibrarycode($this, $institutionCode);
+        /*
+        $konkordanzTabelle = $sm->get('VuFind\Config\PluginManager')
+            ->get('Holdings')->AlephNetworks;
+        */
+
+        //$konkordanzTabelle = array("IDSBB" => "DSV01", "xx" => "yy");
+        $konkordanzTabelle['IDSBB'] = 'DSV01';
+        $field035Array = $this->getFieldArray('035');
+        foreach ($field035Array as $field035) {
+            if (strpos($field035, '(') === false
+                || strpos($field035, ')') === false ) {
+                return array('' => '999');
+            }
+            $sysNr = explode(')', $field035)[1];
+            $idls = substr($field035, 1, strpos($field035, ')')-1);
+            $idls2 = $idls;
+
+            switch ($idls) {
+                case 'RETROS':
+                case 'BORIS':
+                case 'EDOC':
+                case 'ECOD':
+                case 'ALEXREPO':
+                case 'NATIONALLICENCE':
+                case 'FREE':
+                    $r = array($idls => '0');
+                    break;
+                // alle von denen vom availabilityservice nichts kommt: "?"
+                //case 'NB001':
+                //    $r = array($bib => "'2');
+                //    break;
+                default:
+                    $idls = array_key_exists($idls2, $konkordanzTabelle) ? $konkordanzTabelle[$idls] : '';
+                    $userLocale = $this->translator->getLocale();
+                    if ($idls !== '' && $idls != null) {
+                        $r = $this->availability->getAvailabilityByLibraryNetwork(
+                            $sysNr, $idls, $userLocale
+                        );
+                    } else {
+                        $r = array($idls => '999');
+                    }
+                    break;
+            }
+        }
+
+        // wenn sublibrary nicht den code der zweigstelle enthält, setze status auf "?": (not correctly implemented yet)
+        if (!is_array($r)) {
+            $r = array($idls2 => '888');
+        }
+        else if (!array_key_exists($idls, $r)) {
+            if ($idls !== null && $idls !== '') {
+                $r = array($idls2 => '777');
+            }
+            else {
+                $r = array($idls2 => '666');
+            }
+        }
+        return $r;
     }
 
     /**
