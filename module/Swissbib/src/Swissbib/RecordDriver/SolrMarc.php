@@ -32,6 +32,7 @@
  */
 namespace Swissbib\RecordDriver;
 
+use Doctrine\Common\Cache\ArrayCache;
 use Swissbib\RecordDriver\Helper\Holdings as HoldingsHelper;
 use VuFind\RecordDriver\SolrMarc as VuFindSolrMarc;
 use Zend\I18n\Translator\TranslatorInterface as Translator;
@@ -55,6 +56,13 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     protected $holdingsHelper;
 
     /**
+     * AvailabilityHelper
+     *
+     * @var AvailabilityHelper
+     */
+    protected $availabilityHelper;
+
+    /**
      * HoldingsHelper
      *
      * @var HoldingsHelper
@@ -74,6 +82,13 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      * @var Boolean
      */
     protected $useMostSpecificFormat = false;
+
+    /**
+     * Lookup table for marc-unions VS alephLibrary
+     *
+     * @var Array
+     */
+    protected $libraryNetworkLookup = null;
 
     /**
      * Used also for field 100 _ means repeatable
@@ -192,19 +207,22 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     /**
      * Constructor
      *
-     * @param \Zend\Config\Config $mainConfig         VuFind main configuration
-     *                                                (omit for built-in defaults)
-     * @param \Zend\Config\Config $recordConfig       Record-specific configu-
-     *                                                ration file
-     *                                                (omit to use $mainConfig as
-     *                                                $recordConfig)
-     * @param \Zend\Config\Config $searchSettings     Search-specific configu-
-     *                                                ration file
-     * @param HoldingsHelper      $holdingsHelper     Holdings helper
-     * @param HoldingsHelper      $solrDefaultAdapter SOLR adapter
+     * @param \Zend\Config\Config $mainConfig           VuFind main configuration
+     *                                                  (omit for built-in defaults)
+     * @param \Zend\Config\Config $recordConfig         Record-specific configu-
+     *                                                  ration file
+     *                                                  (omit to use $mainConfig as
+     *                                                  $recordConfig)
+     * @param \Zend\Config\Config $searchSettings       Search-specific configu-
+     *                                                  ration file
+     * @param HoldingsHelper      $holdingsHelper       Holdings helper
+     * @param HoldingsHelper      $solrDefaultAdapter   SOLR adapter
+     * @param AvailabilityHelper  $availabilityHelper   Availability helper
+     * @param ArrayCache          $libraryNetworkLookup lookup table for unions vs alephlibrary
      */
     public function __construct($mainConfig = null, $recordConfig = null,
-        $searchSettings = null, $holdingsHelper = null, $solrDefaultAdapter = null
+        $searchSettings = null, $holdingsHelper = null, $solrDefaultAdapter = null,
+        $availabilityHelper = null, $libraryNetworkLookup = null
     ) {
         parent::__construct($mainConfig, $recordConfig, $searchSettings);
 
@@ -213,8 +231,11 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             $searchSettings->General->multiValuedFRBRField : true;
 
         $this->solrDefaultAdapter = $solrDefaultAdapter;
-
         $this->holdingsHelper = $holdingsHelper;
+        $this->availabilityHelper = $availabilityHelper;
+
+        foreach ($libraryNetworkLookup as $key => $value) $libraryNetworkLookup[$key] = end(explode(',', $value));
+        $this->libraryNetworkLookup = $libraryNetworkLookup;
     }
 
     /**
@@ -2747,24 +2768,19 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
 
     public function getAvailabilityIcon($institutionCode)
     {
-        /*
-        $konkordanzTabelle = $sm->get('VuFind\Config\PluginManager')
-            ->get('Holdings')->AlephNetworks;
-        */
-
-        //$konkordanzTabelle = array("IDSBB" => "DSV01", "xx" => "yy");
-        $konkordanzTabelle['IDSBB'] = 'DSV01';
+        $r = array();
+        $konkordanzTabelle = $this->libraryNetworkLookup;
         $field035Array = $this->getFieldArray('035');
+
         foreach ($field035Array as $field035) {
             if (strpos($field035, '(') === false
                 || strpos($field035, ')') === false ) {
-                return array('' => '999');
+                return array('Wrong035' => '999');
             }
             $sysNr = explode(')', $field035)[1];
             $idls = substr($field035, 1, strpos($field035, ')')-1);
-            $idls2 = $idls;
 
-            switch ($idls) {
+            switch ($institutionCode) {
                 case 'RETROS':
                 case 'BORIS':
                 case 'EDOC':
@@ -2772,38 +2788,27 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 case 'ALEXREPO':
                 case 'NATIONALLICENCE':
                 case 'FREE':
-                    $r = array($idls => '0');
+                case 'SERSOL':
+                    $r = array_merge($r, array($institutionCode => '0'));
                     break;
-                // alle von denen vom availabilityservice nichts kommt: "?"
-                //case 'NB001':
-                //    $r = array($bib => "'2');
-                //    break;
                 default:
-                    $idls = array_key_exists($idls2, $konkordanzTabelle) ? $konkordanzTabelle[$idls] : '';
-                    $userLocale = $this->translator->getLocale();
-                    if ($idls !== '' && $idls != null) {
-                        $r = $this->availability->getAvailabilityByLibraryNetwork(
-                            $sysNr, $idls, $userLocale
-                        );
+                    if (array_key_exists($idls, $konkordanzTabelle)) {
+                        $userLocale = $this->translator->getLocale();
+                        $idls = $konkordanzTabelle[$idls];
+                        $r = array_merge($r, $this->availabilityHelper
+                            ->getAvailabilityByLibraryNetwork(
+                                $sysNr, $idls, $userLocale
+                                ));
                     } else {
-                        $r = array($idls => '999');
+                        if (!array_key_exists($institutionCode, $r)) {
+                            // write ?-value only if no valid value pre-exists
+                            $r = array_merge($r, array($institutionCode => '?'));
+                        }
                     }
                     break;
             }
         }
 
-        // wenn sublibrary nicht den code der zweigstelle enthält, setze status auf "?": (not correctly implemented yet)
-        if (!is_array($r)) {
-            $r = array($idls2 => '888');
-        }
-        else if (!array_key_exists($idls, $r)) {
-            if ($idls !== null && $idls !== '') {
-                $r = array($idls2 => '777');
-            }
-            else {
-                $r = array($idls2 => '666');
-            }
-        }
         return $r;
     }
 

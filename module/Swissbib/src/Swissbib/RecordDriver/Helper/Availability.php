@@ -30,10 +30,10 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
+use VuFind\Log\Logger;
 use Swissbib\RecordDriver\Helper\BibCode as BibCodeHelper;
 use Zend\Config\Config;
 use Zend\Http\Client as HttpClient;
-
 use Zend\Http\Response as HttpResponse;
 
 /**
@@ -62,16 +62,25 @@ class Availability
     protected $bibCodeHelper;
 
     /**
+     * Logger
+     *
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * Initialize
      * Build IDLS mapping for networks
      *
      * @param BibCode $bibCodeHelper BibCodeHelper
      * @param Config  $config        Config
      */
-    public function __construct(BibCodeHelper $bibCodeHelper, Config $config)
+    public function __construct(BibCodeHelper $bibCodeHelper, Config $config,
+                                Logger $logger)
     {
         $this->config        = $config;
         $this->bibCodeHelper = $bibCodeHelper;
+        $this->logger = $logger;
     }
 
     /**
@@ -128,6 +137,10 @@ class Availability
 
             throw new \Exception('Unknown response data');
         } catch (\Exception $e) {
+            $msg = 'AvailabilityService has thrown an Exception' .
+                ' while called with idls=' . $bib .
+                ' and sysNr=' . $sysNumber .': ' . $e;
+            $this->logger->log(Logger::ALERT, $msg);
             return false;
         }
     }
