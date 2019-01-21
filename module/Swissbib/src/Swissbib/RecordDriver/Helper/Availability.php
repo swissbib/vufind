@@ -30,8 +30,8 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
-use VuFind\Log\Logger;
 use Swissbib\RecordDriver\Helper\BibCode as BibCodeHelper;
+use VuFind\Log\Logger;
 use Zend\Config\Config;
 use Zend\Http\Client as HttpClient;
 use Zend\Http\Response as HttpResponse;
@@ -76,8 +76,8 @@ class Availability
      * @param Config  $config        Config
      */
     public function __construct(BibCodeHelper $bibCodeHelper, Config $config,
-                                Logger $logger)
-    {
+        Logger $logger
+    ) {
         $this->config        = $config;
         $this->bibCodeHelper = $bibCodeHelper;
         $this->logger = $logger;
@@ -126,20 +126,17 @@ class Availability
     public function getAvailabilityByLibraryNetwork($sysNumber, $bib, $locale)
     {
         $apiUrl    = $this->getApiByLibraryNetworkUrl($sysNumber, $bib, $locale);
-
         try {
             $responseBody    = $this->fetch($apiUrl);
             $responseData    = json_decode($responseBody, true);
-
             if (is_array($responseData)) {
                 return $responseData;
             }
-
             throw new \Exception('Unknown response data');
         } catch (\Exception $e) {
             $msg = 'AvailabilityService has thrown an Exception' .
                 ' while called with idls=' . $bib .
-                ' and sysNr=' . $sysNumber .': ' . $e;
+                ' and sysNr=' . $sysNumber . ': ' . $e;
             $this->logger->log(Logger::ALERT, $msg);
             return false;
         }
@@ -186,7 +183,7 @@ class Availability
      * Build API by network library url from params
      *
      * @param String $sysNumber Sysnumber
-     * @param String $bib       Bib
+     * @param String $bib       alephlibrary
      * @param String $locale    Locale
      *
      * @return String

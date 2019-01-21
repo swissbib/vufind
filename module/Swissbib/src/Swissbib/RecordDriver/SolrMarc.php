@@ -32,7 +32,6 @@
  */
 namespace Swissbib\RecordDriver;
 
-use Doctrine\Common\Cache\ArrayCache;
 use Swissbib\RecordDriver\Helper\Holdings as HoldingsHelper;
 use VuFind\RecordDriver\SolrMarc as VuFindSolrMarc;
 use Zend\I18n\Translator\TranslatorInterface as Translator;
@@ -218,7 +217,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      * @param HoldingsHelper      $holdingsHelper       Holdings helper
      * @param HoldingsHelper      $solrDefaultAdapter   SOLR adapter
      * @param AvailabilityHelper  $availabilityHelper   Availability helper
-     * @param ArrayCache          $libraryNetworkLookup lookup table for unions vs alephlibrary
+     * @param Array               $libraryNetworkLookup lookup table for unions vs alephlibrary
      */
     public function __construct($mainConfig = null, $recordConfig = null,
         $searchSettings = null, $holdingsHelper = null, $solrDefaultAdapter = null,
@@ -234,7 +233,9 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         $this->holdingsHelper = $holdingsHelper;
         $this->availabilityHelper = $availabilityHelper;
 
-        foreach ($libraryNetworkLookup as $key => $value) $libraryNetworkLookup[$key] = end(explode(',', $value));
+        foreach ($libraryNetworkLookup as $key => $value) {
+            $libraryNetworkLookup[$key] = end(explode(',', $value));
+        }
         $this->libraryNetworkLookup = $libraryNetworkLookup;
     }
 
@@ -2768,44 +2769,50 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
 
     public function getAvailabilityIcon($institutionCode)
     {
-        $r = array();
+        $r = [];
         $konkordanzTabelle = $this->libraryNetworkLookup;
         $field035Array = $this->getFieldArray('035');
 
         foreach ($field035Array as $field035) {
             if (strpos($field035, '(') === false
-                || strpos($field035, ')') === false ) {
-                return array('Wrong035' => '999');
+                || strpos($field035, ')') === false
+            ) {
+                $msg = 'Could not parse availability. Unexpected value in 035: \''
+                    . $field035 . '\'';
+                $this->logger->log(Logger::ALERT, $msg);
+                return ['Wrong035' => '999'];
             }
             $sysNr = explode(')', $field035)[1];
-            $idls = substr($field035, 1, strpos($field035, ')')-1);
+            $idls = substr($field035, 1, strpos($field035, ')') - 1);
 
-            switch ($institutionCode) {
-                case 'RETROS':
-                case 'BORIS':
-                case 'EDOC':
-                case 'ECOD':
-                case 'ALEXREPO':
-                case 'NATIONALLICENCE':
-                case 'FREE':
-                case 'SERSOL':
-                    $r = array_merge($r, array($institutionCode => '0'));
-                    break;
-                default:
-                    if (array_key_exists($idls, $konkordanzTabelle)) {
-                        $userLocale = $this->translator->getLocale();
-                        $idls = $konkordanzTabelle[$idls];
-                        $r = array_merge($r, $this->availabilityHelper
+            switch ($idls) {
+            case 'RETROS':
+            case 'BORIS':
+            case 'EDOC':
+            case 'ECOD':
+            case 'ALEXREPO':
+            case 'NATIONALLICENCE':
+            case 'FREE':
+            case 'SERSOL':
+                $r = array_merge($r, [$institutionCode => '0']);
+                break;
+            default:
+                if (array_key_exists($idls, $konkordanzTabelle)) {
+                    $userLocale = $this->translator->getLocale();
+                    $idls = $konkordanzTabelle[$idls];
+                    $r = array_merge(
+                        $r, $this->availabilityHelper
                             ->getAvailabilityByLibraryNetwork(
                                 $sysNr, $idls, $userLocale
-                                ));
-                    } else {
-                        if (!array_key_exists($institutionCode, $r)) {
-                            // write ?-value only if no valid value pre-exists
-                            $r = array_merge($r, array($institutionCode => '?'));
-                        }
+                            )
+                    );
+                } else {
+                    if (!array_key_exists($institutionCode, $r)) {
+                        // write ?-value only if no valid value pre-exists
+                        $r = array_merge($r, [$institutionCode => '?']);
                     }
-                    break;
+                }
+                break;
             }
         }
 

@@ -1576,7 +1576,7 @@ class Holdings
      *
      * @return Array Items or holdings for institution
      */
-    public function getHoldingsData($fieldName, array $mapping, $institutionCode)
+    protected function getHoldingsData($fieldName, array $mapping, $institutionCode)
     {
         $data = [];
         $fields = $this->holdings ? $this->holdings->getFields($fieldName) : false;
