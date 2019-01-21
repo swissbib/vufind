@@ -68,7 +68,9 @@ class Factory
             null,
             $sm->get('VuFind\Config\PluginManager')->get('searches'),
             $sm->get('Swissbib\HoldingsHelper'),
-            $sm->get('Swissbib\RecordDriver\SolrDefaultAdapter')
+            $sm->get('Swissbib\RecordDriver\SolrDefaultAdapter'),
+            $sm->get('Swissbib\Availability'),
+            $sm->get('VuFind\Config\PluginManager')->get('Holdings')->AlephNetworks->toArray()
         );
         $driver->attachILS(
             $sm->get('VuFind\ILS\Connection'),

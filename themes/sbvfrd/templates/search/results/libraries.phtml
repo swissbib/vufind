@@ -11,6 +11,7 @@ if (sizeof($institutions) > 1) {
 ?>
 <?php if (count($institutions) > 0): ?>
   <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownLibraries">
+    <?php $availabilities = []; ?>
     <?php foreach ($institutions as $institution): ?>
       <?php
         $institutionCode = $institution['institution'];
@@ -19,7 +20,20 @@ if (sizeof($institutions) > 1) {
       ?>
       <li role="presentation">
         <a role="menuitem" href="<?= $this->recordLink()->getUrl($driver) ?>?expandlib=<?= $groupCode ?>-<?= $institutionCode ?>#<?= $anchor ?>">
-          <span class="a-before"></span><?= $this->escapeHtml($this->zendTranslate($institutionCode, 'institution')); ?>
+           <?php
+           if (!array_key_exists($institutionCode, $availabilities)) $availabilities = $driver->getAvailabilityIcon($institutionCode);
+           if (array_key_exists($institutionCode, $availabilities)) {
+                $symbolId = $availabilities[$institutionCode];
+                switch ($symbolId) {
+                    case '0': $availabilityIcon = 'fa-check'; break;
+                    case '1': $availabilityIcon = 'fa-ban'; break;
+                    case '2': $availabilityIcon = 'fa-question'; break;
+                    case '?': $availabilityIcon = 'fa-question'; break;
+                    default: $availabilityIcon = 'fa-exclamation-circle'; break;
+                }
+            } else $availabilityIcon = 'fa-exclamation-circle';
+           ?>
+            <span class="a-before"></span><span class="availability <?php echo $availabilityIcon; ?>"></span><?= $this->escapeHtml($this->zendTranslate($institutionCode, 'institution')); ?>
         </a>
       </li>
     <?php endforeach; ?>

@@ -122,8 +122,9 @@ class Factory
         $bibCodeHelper = $sm->get('Swissbib\BibCodeHelper');
         $availabilityConfig = $sm->get('VuFind\Config\PluginManager')
             ->get('config')->Availability;
+        $logger = $sm->get('VuFind\Log\Logger');
 
-        return new AvailabilityHelper($bibCodeHelper, $availabilityConfig);
+        return new AvailabilityHelper($bibCodeHelper, $availabilityConfig, $logger);
     }
 
     /**
