@@ -2790,10 +2790,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             if (strpos($field035, '(') === false
                 || strpos($field035, ')') === false
             ) {
-                $msg = 'Could not parse availability. Unexpected value in 035: \''
-                    . $field035 . '\'';
-                $this->logger->log(Logger::ALERT, $msg);
-                return ['Wrong035' => '999'];
+                continue;
             }
             $sysNr = explode(')', $field035)[1];
             $idls = substr($field035, 1, strpos($field035, ')') - 1);
