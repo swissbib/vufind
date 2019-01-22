@@ -35,6 +35,7 @@ namespace Swissbib\RecordDriver;
 use Swissbib\RecordDriver\Helper\Holdings as HoldingsHelper;
 use VuFind\RecordDriver\SolrMarc as VuFindSolrMarc;
 use Zend\I18n\Translator\TranslatorInterface as Translator;
+use VuFind\Log\Logger;
 
 /**
  * SolrDefaultAdapter
@@ -88,6 +89,13 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      * @var Array
      */
     protected $libraryNetworkLookup = null;
+
+    /**
+     * Logger
+     *
+     * @var Logger
+     */
+    protected $logger;
 
     /**
      * Used also for field 100 _ means repeatable
@@ -221,7 +229,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function __construct($mainConfig = null, $recordConfig = null,
         $searchSettings = null, $holdingsHelper = null, $solrDefaultAdapter = null,
-        $availabilityHelper = null, $libraryNetworkLookup = null
+        $availabilityHelper = null, $libraryNetworkLookup = null, $logger = null
     )
     {
         parent::__construct($mainConfig, $recordConfig, $searchSettings);
@@ -233,6 +241,8 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         $this->solrDefaultAdapter = $solrDefaultAdapter;
         $this->holdingsHelper = $holdingsHelper;
         $this->availabilityHelper = $availabilityHelper;
+
+        $this->logger = $logger;
 
         if ($libraryNetworkLookup !== null) {
             foreach ($libraryNetworkLookup as $key => $value) {
