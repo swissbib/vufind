@@ -2800,12 +2800,11 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 if (array_key_exists($idls, $konkordanzTabelle)) {
                     $userLocale = $this->translator->getLocale();
                     $idls = $konkordanzTabelle[$idls];
-                    $r = array_merge(
-                        $r, $this->availabilityHelper
-                            ->getAvailabilityByLibraryNetwork(
-                                $sysNr, $idls, $userLocale
-                            )
-                    );
+                    $a = $this->availabilityHelper
+                        ->getAvailabilityByLibraryNetwork(
+                            $sysNr, $idls, $userLocale
+                        );
+                    if (is_array($a)) $r = array_merge($r, $a);
                 } else {
                     if (!array_key_exists($institutionCode, $r)) {
                         // write ?-value only if no valid value pre-exists
