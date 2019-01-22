@@ -222,7 +222,8 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     public function __construct($mainConfig = null, $recordConfig = null,
         $searchSettings = null, $holdingsHelper = null, $solrDefaultAdapter = null,
         $availabilityHelper = null, $libraryNetworkLookup = null
-    ) {
+    )
+    {
         parent::__construct($mainConfig, $recordConfig, $searchSettings);
 
         $this->multiValuedFRBRField
@@ -233,10 +234,12 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         $this->holdingsHelper = $holdingsHelper;
         $this->availabilityHelper = $availabilityHelper;
 
-        foreach ($libraryNetworkLookup as $key => $value) {
-            $libraryNetworkLookup[$key] = end(explode(',', $value));
+        if ($libraryNetworkLookup !== null) {
+            foreach ($libraryNetworkLookup as $key => $value) {
+                $libraryNetworkLookup[$key] = end(explode(',', $value));
+            }
+            $this->libraryNetworkLookup = $libraryNetworkLookup;
         }
-        $this->libraryNetworkLookup = $libraryNetworkLookup;
     }
 
     /**
