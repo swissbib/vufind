@@ -1,4 +1,8 @@
 <div class="<?=$this->layoutClass('mainbody')?>" id="libraryList">
+
+    <h3><?= $this->transEsc('Map')?></h3>
+
+    <script src="https://embed.github.com/view/geojson/swissbib/swissbibLibrariesMap/master/maps/map_<?= $this->layout()->userLang?>.geojson"></script>
     <?php $i = 0; ?>
     <?php foreach ($this->groupedInstitutions as $institutionGroup): ?>
         <?=
