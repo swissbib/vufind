@@ -225,7 +225,8 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      * @param HoldingsHelper      $holdingsHelper       Holdings helper
      * @param HoldingsHelper      $solrDefaultAdapter   SOLR adapter
      * @param AvailabilityHelper  $availabilityHelper   Availability helper
-     * @param Array               $libraryNetworkLookup lookup table for unions vs alephlibrary
+     * @param Array               $libraryNetworkLookup lookuptable for unions
+     * @param Logger              $logger               Logger
      */
     public function __construct($mainConfig = null, $recordConfig = null,
         $searchSettings = null, $holdingsHelper = null, $solrDefaultAdapter = null,
@@ -2779,6 +2780,13 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         return $this->getHoldingsHelper()->getHoldingsStructure();
     }
 
+    /**
+     * Get array of institutionCodes with availability value
+     *
+     * @param String $institutionCode institution code
+     *
+     * @return array
+     */
     public function getAvailabilityIcon($institutionCode)
     {
         $r = [];
@@ -2825,7 +2833,6 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 break;
             }
         }
-
         return $r;
     }
 
