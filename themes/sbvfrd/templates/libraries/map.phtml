@@ -1,0 +1,15 @@
+<h3>leaflet</h3>
+
+<?php
+$this->headScript()->appendFile('vendor/leaflet/leaflet.js');
+$this->headScript()->appendFile('vendor/leaflet/leaflet.latlng-graticule.js');
+$this->headLink()->appendStylesheet('vendor/leaflet/leaflet.css');
+$this->jsTranslations()->addStrings(
+    ['Coordinates' => 'Coordinates', 'no_description' => 'no_description']
+);
+?>
+
+<div id="mapid" style="width: 800px; height: 400px;">
+</div>
+<?= $this->inlineScript()->appendFile('map_fr.js'); ?>
+<?= $this->inlineScript()->appendFile('libraries_map.js'); ?>
