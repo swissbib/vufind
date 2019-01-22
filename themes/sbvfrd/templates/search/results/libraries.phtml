@@ -31,7 +31,7 @@ if (sizeof($institutions) > 1) {
                     case '?': $availabilityIcon = 'fa-question'; break;
                     default: $availabilityIcon = 'fa-exclamation-circle'; break;
                 }
-            } else $availabilityIcon = 'fa-exclamation-circle';
+            } else $availabilityIcon = 'fa-question';
            ?>
             <span class="a-before"></span><span class="availability <?php echo $availabilityIcon; ?>"></span><?= $this->escapeHtml($this->zendTranslate($institutionCode, 'institution')); ?>
         </a>

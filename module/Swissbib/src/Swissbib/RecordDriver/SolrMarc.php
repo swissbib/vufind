@@ -33,9 +33,9 @@
 namespace Swissbib\RecordDriver;
 
 use Swissbib\RecordDriver\Helper\Holdings as HoldingsHelper;
+use VuFind\Log\Logger;
 use VuFind\RecordDriver\SolrMarc as VuFindSolrMarc;
 use Zend\I18n\Translator\TranslatorInterface as Translator;
-use VuFind\Log\Logger;
 
 /**
  * SolrDefaultAdapter
@@ -230,8 +230,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     public function __construct($mainConfig = null, $recordConfig = null,
         $searchSettings = null, $holdingsHelper = null, $solrDefaultAdapter = null,
         $availabilityHelper = null, $libraryNetworkLookup = null, $logger = null
-    )
-    {
+    ) {
         parent::__construct($mainConfig, $recordConfig, $searchSettings);
 
         $this->multiValuedFRBRField
@@ -2814,7 +2813,9 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                         ->getAvailabilityByLibraryNetwork(
                             $sysNr, $idls, $userLocale
                         );
-                    if (is_array($a)) $r = array_merge($r, $a);
+                    if (is_array($a)) {
+                        $r = array_merge($r, $a);
+                    }
                 } else {
                     if (!array_key_exists($institutionCode, $r)) {
                         // write ?-value only if no valid value pre-exists
