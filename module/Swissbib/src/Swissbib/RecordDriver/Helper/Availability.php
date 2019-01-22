@@ -74,6 +74,7 @@ class Availability
      *
      * @param BibCode $bibCodeHelper BibCodeHelper
      * @param Config  $config        Config
+     * @param Logger  $logger        Logger
      */
     public function __construct(BibCodeHelper $bibCodeHelper, Config $config,
         Logger $logger
