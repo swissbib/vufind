@@ -8,29 +8,29 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
   id: 'mapbox.streets'
 }).addTo(mymap);
 
-var myStyle = {
-  "color": "#3d6eff",
-  "weight": 5,
-  "opacity": 0.65
-};
-
-var geojsonMarkerOptions = {
-  radius: 7,
-  fillColor: "#ff7800",
-  color: "#000",
-  weight: 1,
-  opacity: 1,
-  fillOpacity: 1
-};
-
 var myLayer = L.geoJSON(libraries, {
   pointToLayer: function (feature, latlng) {
-    return L.circleMarker(latlng, geojsonMarkerOptions);
+    return L.circleMarker(latlng, {
+      color: '#fff',
+      radius: 7,
+      fillColor: feature.properties.color,
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 1
+    });
   }
 }).bindPopup(function (layer) {
   return layer.feature.properties.Nom;
 }).addTo(mymap);
 //myLayer.addData(libraries);
 //myLayer.setStyle(geojsonMarkerOptions);
+//
+// L.geoJSON(libraries, {
+//   style: function (feature) {
+//     return {color: feature.properties.marker-color};
+//   }
+// }).bindPopup(function (layer) {
+//   return layer.feature.properties.Nom;
+// }).addTo(map);
 
 

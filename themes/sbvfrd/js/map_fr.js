@@ -8,7 +8,7 @@ var libraries = [
           "Nom": "Aargauer Kantonsbibliothek, Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -25,7 +25,7 @@ var libraries = [
           "Nom": "Aargauer Kunsthaus, Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -42,7 +42,7 @@ var libraries = [
           "Nom": "Aargauer Kuratorium, Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -59,7 +59,7 @@ var libraries = [
           "Nom": "Alte Kantonsschule Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -76,7 +76,7 @@ var libraries = [
           "Nom": "Berufsfachschule BBB Baden",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.bbbaden.ch/index.php?berufsfachschule-bbb\">http://www.bbbaden.ch/index.php?berufsfachschule-bbb</a>"
         },
@@ -94,7 +94,7 @@ var libraries = [
           "Nom": "Bildungszentrum Zofingen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.kszofingen.ch/index.cfm?tem=1&spr=0&hpn=8&sbn=46\">http://www.kszofingen.ch/index.cfm?tem=1&spr=0&hpn=8&sbn=46</a>"
         },
@@ -112,7 +112,7 @@ var libraries = [
           "Nom": "Denkmalpflege Aargau, Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -129,7 +129,7 @@ var libraries = [
           "Nom": "Departement Bau, Verkehr und Umwelt, Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -146,7 +146,7 @@ var libraries = [
           "Nom": "Höhere Fachschule Gesundheit und Soziales, Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -163,7 +163,7 @@ var libraries = [
           "Nom": "Kantonale Schule Berufsbildung, Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -180,7 +180,7 @@ var libraries = [
           "Nom": "Kantonsarchäologie Aargau, Brugg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -197,7 +197,7 @@ var libraries = [
           "Nom": "Kantonsschule Baden",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.kanti-baden.ch/mediothek\">http://www.kanti-baden.ch/mediothek</a>"
         },
@@ -215,7 +215,7 @@ var libraries = [
           "Nom": "Kantonsschule Wettingen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.kanti-wettingen.ch\">https://www.kanti-wettingen.ch</a>"
         },
@@ -233,7 +233,7 @@ var libraries = [
           "Nom": "Kantonsschule Wohlen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.kanti-wohlen.ch/ueber-uns/mediothek\">http://www.kanti-wohlen.ch/ueber-uns/mediothek</a>"
         },
@@ -251,7 +251,7 @@ var libraries = [
           "Nom": "Museum Aargau, Schloss Lenzburg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -268,7 +268,7 @@ var libraries = [
           "Nom": "Naturama Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.naturama.ch/mediothek/index.cfm\">http://www.naturama.ch/mediothek/index.cfm</a>"
         },
@@ -286,7 +286,7 @@ var libraries = [
           "Nom": "Neue Kantonsschule Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie",
           "Site web": "<a href=\"http://nksa.ch/mediothek/allgemeine-infos\">http://nksa.ch/mediothek/allgemeine-infos</a>"
         },
@@ -304,7 +304,7 @@ var libraries = [
           "Nom": "Obergerichtsbibliothek Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -321,7 +321,7 @@ var libraries = [
           "Nom": "Rechtsdienst des Regierungssrats, Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -338,7 +338,7 @@ var libraries = [
           "Nom": "Schweizer Bauschule Aarau, Unterentfelden",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.bauschule-sba.ch/dienstleistungen/\">http://www.bauschule-sba.ch/dienstleistungen/</a>"
         },
@@ -356,7 +356,7 @@ var libraries = [
           "Nom": "Spezialverwaltungsgerichte, Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -373,7 +373,7 @@ var libraries = [
           "Nom": "Staatsarchiv Aargau, Aarau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000000",
+          "color": "#000000",
           "category": "patisserie"
         },
         "geometry": {
@@ -390,7 +390,7 @@ var libraries = [
           "Nom": "Bibliothek am Guisanplatz, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -407,7 +407,7 @@ var libraries = [
           "Nom": "Office fédéral de la statistique, Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -424,7 +424,7 @@ var libraries = [
           "Nom": "Office fédéral du logement, Grenchen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -441,7 +441,7 @@ var libraries = [
           "Nom": "Dokumentationszentrum SECO, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -458,7 +458,7 @@ var libraries = [
           "Nom": "’Institut Fédéral de la Propriété Intellectuelle, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -475,7 +475,7 @@ var libraries = [
           "Nom": "ETH Zürich - Militärakademie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -492,7 +492,7 @@ var libraries = [
           "Nom": "Kartensammlung swisstopo, Wabern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -509,7 +509,7 @@ var libraries = [
           "Nom": "Museo Vincenzo Vela, Ligornetto",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -526,7 +526,7 @@ var libraries = [
           "Nom": "Musée des automates à musique, Seewen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -543,7 +543,7 @@ var libraries = [
           "Nom": "Pro Senectute, Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -560,7 +560,7 @@ var libraries = [
           "Nom": "RUAG Aerospace, Emmen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -577,7 +577,7 @@ var libraries = [
           "Nom": "Sammlung Oskar Reinhart, Winterthur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -594,7 +594,7 @@ var libraries = [
           "Nom": "Conseil suisse de la science CSS, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -611,7 +611,7 @@ var libraries = [
           "Nom": "Archives fédérales suisses, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -628,7 +628,7 @@ var libraries = [
           "Nom": "Comité national suisse de la FAO, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -645,7 +645,7 @@ var libraries = [
           "Nom": "Centrale de compensation, Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "990000",
+          "color": "#990000",
           "category": "patisserie"
         },
         "geometry": {
@@ -662,7 +662,7 @@ var libraries = [
           "Nom": "Amt für Natur und Umwelt, Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie"
         },
         "geometry": {
@@ -679,7 +679,7 @@ var libraries = [
           "Nom": "Amt für Wald, Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.wald.gr.ch\">http://www.wald.gr.ch</a>"
         },
@@ -697,7 +697,7 @@ var libraries = [
           "Nom": "Archäologischer Dienst Graubünden, Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.archaeologie.gr.ch/\">http://www.archaeologie.gr.ch/</a>"
         },
@@ -715,7 +715,7 @@ var libraries = [
           "Nom": "Biblioteca Engiadinaisa, Sils",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie"
         },
         "geometry": {
@@ -732,7 +732,7 @@ var libraries = [
           "Nom": "Bildungszentrum BGS, Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.bgs-chur.ch/go/bibliothek/\">http://www.bgs-chur.ch/go/bibliothek/</a>"
         },
@@ -750,7 +750,7 @@ var libraries = [
           "Nom": "Bündner Kantonsschule, Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie"
         },
         "geometry": {
@@ -767,7 +767,7 @@ var libraries = [
           "Nom": "Bündner Kunstmuseum, Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.buendner-kunstmuseum.ch\">http://www.buendner-kunstmuseum.ch</a>"
         },
@@ -785,7 +785,7 @@ var libraries = [
           "Nom": "Bündner Natur-Museum, Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie"
         },
         "geometry": {
@@ -802,7 +802,7 @@ var libraries = [
           "Nom": "Dokumentationsbibliothek Davos",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie"
         },
         "geometry": {
@@ -819,7 +819,7 @@ var libraries = [
           "Nom": "Fundaziun Planta, Samedan",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie"
         },
         "geometry": {
@@ -836,7 +836,7 @@ var libraries = [
           "Nom": "Gewerbliche Berufsschule Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.gbchur.ch\">http://www.gbchur.ch</a>"
         },
@@ -854,7 +854,7 @@ var libraries = [
           "Nom": "HTW Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie"
         },
         "geometry": {
@@ -871,7 +871,7 @@ var libraries = [
           "Nom": "Kantonale Denkmalpflege, Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie"
         },
         "geometry": {
@@ -888,7 +888,7 @@ var libraries = [
           "Nom": "Kantonsbibliothek Graubünden, Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.kantonsbibliothek.gr.ch\">http://www.kantonsbibliothek.gr.ch</a>"
         },
@@ -906,7 +906,7 @@ var libraries = [
           "Nom": "Kirchner Museum Davos",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.kirchnermuseum.ch/\">http://www.kirchnermuseum.ch/</a>"
         },
@@ -924,7 +924,7 @@ var libraries = [
           "Nom": "Nietzschehaus Sils / ikg Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.nietzschehaus.ch\">http://www.nietzschehaus.ch</a>"
         },
@@ -942,7 +942,7 @@ var libraries = [
           "Nom": "Pädagogische Hochschule, Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie"
         },
         "geometry": {
@@ -959,7 +959,7 @@ var libraries = [
           "Nom": "PDB Klinik Beverin, Cazis",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.pdgr.ch/\">http://www.pdgr.ch/</a>"
         },
@@ -977,7 +977,7 @@ var libraries = [
           "Nom": "Schweizerischer Nationalpark, Zernez",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.nationalpark.ch\">http://www.nationalpark.ch</a>"
         },
@@ -995,7 +995,7 @@ var libraries = [
           "Nom": "Staatsarchiv Graubünden, Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.staatsarchiv.gr.ch\">http://www.staatsarchiv.gr.ch</a>"
         },
@@ -1013,7 +1013,7 @@ var libraries = [
           "Nom": "Stabsstelle für Chancengleichheit von Frau und Mann, Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.stagl.gr.ch\">http://www.stagl.gr.ch</a>"
         },
@@ -1031,7 +1031,7 @@ var libraries = [
           "Nom": "Theologische Hochschule Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.THChur.ch\">http://www.THChur.ch</a>"
         },
@@ -1049,7 +1049,7 @@ var libraries = [
           "Nom": "Villa Garbald, Castagnega",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "000066",
+          "color": "#000066",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.garbald.ch\">http://www.garbald.ch</a>"
         },
@@ -1067,7 +1067,7 @@ var libraries = [
           "Nom": "Basler Afrika Bibliographien",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.baslerafrika.ch\">http://www.baslerafrika.ch</a>"
         },
@@ -1085,7 +1085,7 @@ var libraries = [
           "Nom": "Basler Botanische Gesellschaft (BBG)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://botges.unibas.ch\">http://botges.unibas.ch</a>"
         },
@@ -1103,7 +1103,7 @@ var libraries = [
           "Nom": "Berner BZ Pflege, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.bzpflege.ch/\">http://www.bzpflege.ch/</a>"
         },
@@ -1121,7 +1121,7 @@ var libraries = [
           "Nom": "Berner BZ Pflege, Thun",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.bzpflege.ch/\">http://www.bzpflege.ch/</a>"
         },
@@ -1139,7 +1139,7 @@ var libraries = [
           "Nom": "BFH - HKB Musikbibliothek, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hkb.bfh.ch/de/campus/bibliotheken-hkb/musikbibliothek/\">http://www.hkb.bfh.ch/de/campus/bibliotheken-hkb/musikbibliothek/</a>"
         },
@@ -1157,7 +1157,7 @@ var libraries = [
           "Nom": "Bibliothek für Gestaltung Basel, Münchenstein",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.sfgbasel.ch/bibliothek-fuer-gestaltung-basel/\">https://www.sfgbasel.ch/bibliothek-fuer-gestaltung-basel/</a>"
         },
@@ -1175,7 +1175,7 @@ var libraries = [
           "Nom": "Bildungszentrum Gesundheit BZG BS, Münchenstein",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -1192,7 +1192,7 @@ var libraries = [
           "Nom": "Burgerbibliothek Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.burgerbib.ch/d/index.html\">http://www.burgerbib.ch/d/index.html</a>"
         },
@@ -1210,7 +1210,7 @@ var libraries = [
           "Nom": "Campus Muristalden, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -1227,7 +1227,7 @@ var libraries = [
           "Nom": "IFFP Zollikofen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ehb.swiss/bibliothek-zollikofen\">http://www.ehb.swiss/bibliothek-zollikofen</a>"
         },
@@ -1245,7 +1245,7 @@ var libraries = [
           "Nom": "Gleichstellung,  Liestal",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.baselland.ch/Gleichstellung.273862.0.html\">http://www.baselland.ch/Gleichstellung.273862.0.html</a>"
         },
@@ -1263,7 +1263,7 @@ var libraries = [
           "Nom": "Goetheanum, Dornach",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.goetheanum.org\">http://www.goetheanum.org</a>"
         },
@@ -1281,7 +1281,7 @@ var libraries = [
           "Nom": "Gosteli-Stiftung, Worblaufen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.gosteli-foundation.ch/\">http://www.gosteli-foundation.ch/</a>"
         },
@@ -1299,7 +1299,7 @@ var libraries = [
           "Nom": "Historisches Museum Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hmb.ch/bibliothek.html\">http://www.hmb.ch/bibliothek.html</a>"
         },
@@ -1317,7 +1317,7 @@ var libraries = [
           "Nom": "Israelitische Gemeinde Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.igb.ch\">http://www.igb.ch</a>"
         },
@@ -1335,7 +1335,7 @@ var libraries = [
           "Nom": "Kantonales Laboratorium, Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -1352,7 +1352,7 @@ var libraries = [
           "Nom": "Kantonsspital Baselland, Liestal",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -1369,7 +1369,7 @@ var libraries = [
           "Nom": "Karl-Barth-Archiv, Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://karlbarth.unibas.ch\">https://karlbarth.unibas.ch</a>"
         },
@@ -1387,7 +1387,7 @@ var libraries = [
           "Nom": "Katholische Universitätsgemeinde (KUG), Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://kug.unibas.ch/index.php/angebot/bibliothek\">https://kug.unibas.ch/index.php/angebot/bibliothek</a>"
         },
@@ -1405,7 +1405,7 @@ var libraries = [
           "Nom": "Kunsthalle Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.kunsthallebasel.ch/bibliothek\">http://www.kunsthallebasel.ch/bibliothek</a>"
         },
@@ -1423,7 +1423,7 @@ var libraries = [
           "Nom": "Kunstmuseum / Uni Basel - Kunsthistorisches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -1440,7 +1440,7 @@ var libraries = [
           "Nom": "Mission 21, Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.mission-21.org/informieren/bibliothek/\">https://www.mission-21.org/informieren/bibliothek/</a>"
         },
@@ -1458,7 +1458,7 @@ var libraries = [
           "Nom": "Museum der Kulturen / Uni Basel - Ethnologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.mkb.ch/de/informationen_services/bibliothek.html\">https://www.mkb.ch/de/informationen_services/bibliothek.html</a>"
         },
@@ -1476,7 +1476,7 @@ var libraries = [
           "Nom": "Musik Akademie Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.musik-akademie.ch/bibliothek\">http://www.musik-akademie.ch/bibliothek</a>"
         },
@@ -1494,7 +1494,7 @@ var libraries = [
           "Nom": "Naturhistorisches Museum, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -1511,7 +1511,7 @@ var libraries = [
           "Nom": "Pädagogisches Zentrum PZ.BS, Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hochschulen.bs.ch/paedagogisches-zentrum/bibliothek-lesefoerderung.html\">http://www.hochschulen.bs.ch/paedagogisches-zentrum/bibliothek-lesefoerderung.html</a>"
         },
@@ -1529,7 +1529,7 @@ var libraries = [
           "Nom": "Paul Sacher Stiftung, Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.paul-sacher-stiftung.ch/de/bibliothek.html\">http://www.paul-sacher-stiftung.ch/de/bibliothek.html</a>"
         },
@@ -1547,7 +1547,7 @@ var libraries = [
           "Nom": "PH Bern - Medienbildung (IWM)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.phbern.ch/schule-und-weiterbildung/mediothek.html\">https://www.phbern.ch/schule-und-weiterbildung/mediothek.html</a>"
         },
@@ -1565,7 +1565,7 @@ var libraries = [
           "Nom": "Pro Natura, Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.pronatura.ch/bibliothek\">http://www.pronatura.ch/bibliothek</a>"
         },
@@ -1583,7 +1583,7 @@ var libraries = [
           "Nom": "PTT-Archiv / Bibliothek MfK, Köniz",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.mfk.ch/pttarchiv.html\">http://www.mfk.ch/pttarchiv.html</a>"
         },
@@ -1601,7 +1601,7 @@ var libraries = [
           "Nom": "Sammlung Morel, Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -1618,7 +1618,7 @@ var libraries = [
           "Nom": "SAPA Schweizer Archiv der Darstellenden Künste, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -1635,7 +1635,7 @@ var libraries = [
           "Nom": "SBB Historic, Windisch",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sbbhistoric.ch\">http://www.sbbhistoric.ch</a>"
         },
@@ -1653,7 +1653,7 @@ var libraries = [
           "Nom": "Schaulager, Münchenstein",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.schaulager.org\">http://www.schaulager.org</a>"
         },
@@ -1671,7 +1671,7 @@ var libraries = [
           "Nom": "Schule für Gestaltung Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sfgb-b.ch/web/sfgb/de/mediathek/allgemeine_infos.html\">http://www.sfgb-b.ch/web/sfgb/de/mediathek/allgemeine_infos.html</a>"
         },
@@ -1689,7 +1689,7 @@ var libraries = [
           "Nom": "Schulpsychologischer Dienst, Basel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -1706,7 +1706,7 @@ var libraries = [
           "Nom": "Schweizerisches Institut für Volkskunde / Uni Basel - Kulturwissenschaft, Europäische Ethnologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://kulturwissenschaft.philhist.unibas.ch/de/fachbereich/bibliothek\">https://kulturwissenschaft.philhist.unibas.ch/de/fachbereich/bibliothek</a>"
         },
@@ -1724,7 +1724,7 @@ var libraries = [
           "Nom": "Sportmediathek Magglingen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.baspo.admin.ch/de/bildung-und-forschung/sportmediathek.html\">https://www.baspo.admin.ch/de/bildung-und-forschung/sportmediathek.html</a>"
         },
@@ -1742,7 +1742,7 @@ var libraries = [
           "Nom": "Musée du Sport Suisse, Münchenstein",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sportmuseum.ch\">http://www.sportmuseum.ch</a>"
         },
@@ -1760,7 +1760,7 @@ var libraries = [
           "Nom": "Staatsarchiv Basel-Stadt",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.staatsarchiv.bs.ch\">http://www.staatsarchiv.bs.ch</a>"
         },
@@ -1778,7 +1778,7 @@ var libraries = [
           "Nom": "Staatsarchiv des Kantons Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.be.ch/staatsarchiv\">http://www.be.ch/staatsarchiv</a>"
         },
@@ -1796,7 +1796,7 @@ var libraries = [
           "Nom": "Swissmedic, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.swissmedic.ch/\">http://www.swissmedic.ch/</a>"
         },
@@ -1814,7 +1814,7 @@ var libraries = [
           "Nom": "Uni Basel - Altertumswissenschaften",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://daw.philhist.unibas.ch/de/departement/bibliothek\">https://daw.philhist.unibas.ch/de/departement/bibliothek</a>"
         },
@@ -1832,7 +1832,7 @@ var libraries = [
           "Nom": "Uni Basel - Altertumswissenschaften",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://daw.philhist.unibas.ch/de/departement/bibliothek\">https://daw.philhist.unibas.ch/de/departement/bibliothek</a>"
         },
@@ -1850,7 +1850,7 @@ var libraries = [
           "Nom": "Uni Basel - Altertumswissenschaften - Archäologie Schweiz",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://daw.philhist.unibas.ch/de/departement/bibliothek\">https://daw.philhist.unibas.ch/de/departement/bibliothek</a>"
         },
@@ -1868,7 +1868,7 @@ var libraries = [
           "Nom": "Uni Basel - Anatomisches Institut",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://anatomie.unibas.ch/\">http://anatomie.unibas.ch/</a>"
         },
@@ -1886,7 +1886,7 @@ var libraries = [
           "Nom": "Uni Basel - Bio- und Medizinethik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -1903,7 +1903,7 @@ var libraries = [
           "Nom": "Uni Basel - Biomedizin",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://biomedizin.unibas.ch\">https://biomedizin.unibas.ch</a>"
         },
@@ -1921,7 +1921,7 @@ var libraries = [
           "Nom": "Uni Basel - Biozentrum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.biozentrum.unibas.ch\">http://www.biozentrum.unibas.ch</a>"
         },
@@ -1939,7 +1939,7 @@ var libraries = [
           "Nom": "Uni Basel - Chemie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.chemie.unibas.ch\">http://www.chemie.unibas.ch</a>"
         },
@@ -1957,7 +1957,7 @@ var libraries = [
           "Nom": "Uni Basel - Confucius Institute",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ciub.ch/de/dienstleistungen/bibliothek\">http://www.ciub.ch/de/dienstleistungen/bibliothek</a>"
         },
@@ -1975,7 +1975,7 @@ var libraries = [
           "Nom": "Uni Basel - Deutsches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://germanistik.philhist.unibas.ch/de/fachbereich/kontakt-oeffnungszeiten\">https://germanistik.philhist.unibas.ch/de/fachbereich/kontakt-oeffnungszeiten</a>"
         },
@@ -1993,7 +1993,7 @@ var libraries = [
           "Nom": "Uni Basel - Diversity",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.unibas.ch/de/Universitaet/Administration-Services/Vizerektorat-Forschung/Chancengleichheit.html\">https://www.unibas.ch/de/Universitaet/Administration-Services/Vizerektorat-Forschung/Chancengleichheit.html</a>"
         },
@@ -2011,7 +2011,7 @@ var libraries = [
           "Nom": "Uni Basel - DUW Botanik Pflanzenökologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://duw.unibas.ch/de/departement/bibliotheken/bibliothek-botanik\">https://duw.unibas.ch/de/departement/bibliotheken/bibliothek-botanik</a>"
         },
@@ -2029,7 +2029,7 @@ var libraries = [
           "Nom": "Uni Basel - DUW Geographie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://duw.unibas.ch/de/departement/bibliotheken/bibliothek-geographie\">https://duw.unibas.ch/de/departement/bibliotheken/bibliothek-geographie</a>"
         },
@@ -2047,7 +2047,7 @@ var libraries = [
           "Nom": "Uni Basel - DUW Geologie, Paläontologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://duw.unibas.ch/de/departement/bibliotheken/biboliothek-geologie-und-mineralogie\">https://duw.unibas.ch/de/departement/bibliotheken/biboliothek-geologie-und-mineralogie</a>"
         },
@@ -2065,7 +2065,7 @@ var libraries = [
           "Nom": "Uni Basel - DUW IPNA",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://duw.unibas.ch/de/forschungsgruppen/integrative-biologie/ipnaintegrativepraehistorisch-naturwissenschaftlichearchaeologie/services/bibliothek\">https://duw.unibas.ch/de/forschungsgruppen/integrative-biologie/ipnaintegrativepraehistorisch-naturwissenschaftlichearchaeologie/services/bibliothek</a>"
         },
@@ -2083,7 +2083,7 @@ var libraries = [
           "Nom": "Uni Basel - DUW Mineralogie, Petrographie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://duw.unibas.ch/de/departement/bibliotheken/biboliothek-geologie-und-mineralogie\">https://duw.unibas.ch/de/departement/bibliotheken/biboliothek-geologie-und-mineralogie</a>"
         },
@@ -2101,7 +2101,7 @@ var libraries = [
           "Nom": "Uni Basel - DUW Umweltgeowissenschaften",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://duw.unibas.ch/de/departement/bibliotheken/bibliothek-umweltgeowissenschaften\">https://duw.unibas.ch/de/departement/bibliotheken/bibliothek-umweltgeowissenschaften</a>"
         },
@@ -2119,7 +2119,7 @@ var libraries = [
           "Nom": "Uni Basel - eikones NFS Bildkritik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://eikones.philhist.unibas.ch/de/zentrum/bibliothek\">https://eikones.philhist.unibas.ch/de/zentrum/bibliothek</a>"
         },
@@ -2137,7 +2137,7 @@ var libraries = [
           "Nom": "Uni Basel - Englisches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://english.philhist.unibas.ch/en/about-us/library\">https://english.philhist.unibas.ch/en/about-us/library</a>"
         },
@@ -2155,7 +2155,7 @@ var libraries = [
           "Nom": "Uni Basel - Gender Studies",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://genderstudies.philhist.unibas.ch/de/fachbereich/bibliothek\">https://genderstudies.philhist.unibas.ch/de/fachbereich/bibliothek</a>"
         },
@@ -2173,7 +2173,7 @@ var libraries = [
           "Nom": "Uni Basel - Geschichte",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://dg.philhist.unibas.ch/de/departement/bibliothek\">https://dg.philhist.unibas.ch/de/departement/bibliothek</a>"
         },
@@ -2191,7 +2191,7 @@ var libraries = [
           "Nom": "Uni Basel - Jüdische Studien",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://jewishstudies.unibas.ch\">http://jewishstudies.unibas.ch</a>"
         },
@@ -2209,7 +2209,7 @@ var libraries = [
           "Nom": "Uni Basel - Juristische Fakultät",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://ius.unibas.ch/bibliothek\">http://ius.unibas.ch/bibliothek</a>"
         },
@@ -2227,7 +2227,7 @@ var libraries = [
           "Nom": "Uni Basel - Kulturmanagement",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://kulturmanagement.philhist.unibas.ch/de/weitere-angebote/bibliothek\">https://kulturmanagement.philhist.unibas.ch/de/weitere-angebote/bibliothek</a>"
         },
@@ -2245,7 +2245,7 @@ var libraries = [
           "Nom": "Uni Basel - Kulturwissenschaft, Europäische Ethnologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://kulturwissenschaft.philhist.unibas.ch/de/fachbereich/bibliothek\">https://kulturwissenschaft.philhist.unibas.ch/de/fachbereich/bibliothek</a>"
         },
@@ -2263,7 +2263,7 @@ var libraries = [
           "Nom": "Uni Basel - Lernzentrum Medizin",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://medizinstudium.unibas.ch/lzm\">http://medizinstudium.unibas.ch/lzm</a>"
         },
@@ -2281,7 +2281,7 @@ var libraries = [
           "Nom": "Uni Basel - Mathematik und Informatik (DMI)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://math.unibas.ch/institut/bibliothek\">http://math.unibas.ch/institut/bibliothek</a>"
         },
@@ -2299,7 +2299,7 @@ var libraries = [
           "Nom": "Uni Basel - Medienwissenschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://medienwissenschaft.philhist.unibas.ch/de/fachbereich/bibliothek\">https://medienwissenschaft.philhist.unibas.ch/de/fachbereich/bibliothek</a>"
         },
@@ -2317,7 +2317,7 @@ var libraries = [
           "Nom": "Uni Basel - Musikwissenschaftliches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://musikwissenschaft.philhist.unibas.ch/de/fachbereich/bibliothek\">https://musikwissenschaft.philhist.unibas.ch/de/fachbereich/bibliothek</a>"
         },
@@ -2335,7 +2335,7 @@ var libraries = [
           "Nom": "Uni Basel - Nahoststudien",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://bibliomaiengasse.philhist.unibas.ch\">https://bibliomaiengasse.philhist.unibas.ch</a>"
         },
@@ -2353,7 +2353,7 @@ var libraries = [
           "Nom": "Uni Basel - Pathologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unispital-basel.ch/index.php?id=6791\">http://www.unispital-basel.ch/index.php?id=6791</a>"
         },
@@ -2371,7 +2371,7 @@ var libraries = [
           "Nom": "Uni Basel - Pharmaziemuseum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://pharmaziemuseum.ch\">https://pharmaziemuseum.ch</a>"
         },
@@ -2389,7 +2389,7 @@ var libraries = [
           "Nom": "Uni Basel - Philosophisches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\" https://philosophie.philhist.unibas.ch/de/fachbereich/bibliothek\"> https://philosophie.philhist.unibas.ch/de/fachbereich/bibliothek</a>"
         },
@@ -2407,7 +2407,7 @@ var libraries = [
           "Nom": "Uni Basel - Physik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -2424,7 +2424,7 @@ var libraries = [
           "Nom": "Uni Basel - Psychologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://psychologie.unibas.ch\">https://psychologie.unibas.ch</a>"
         },
@@ -2442,7 +2442,7 @@ var libraries = [
           "Nom": "Uni Basel - Rechtsmedizin",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -2459,7 +2459,7 @@ var libraries = [
           "Nom": "Uni Basel - Schweizerisches Tropen- und Public Health-Institut",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -2476,7 +2476,7 @@ var libraries = [
           "Nom": "Uni Basel - Slavisches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://slavistik.philhist.unibas.ch/de/fachbereich/bibliothek\">https://slavistik.philhist.unibas.ch/de/fachbereich/bibliothek</a>"
         },
@@ -2494,7 +2494,7 @@ var libraries = [
           "Nom": "Uni Basel - Soziologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://soziologie.philhist.unibas.ch/de/fachbereich/bibliothek-infrastruktur\">https://soziologie.philhist.unibas.ch/de/fachbereich/bibliothek-infrastruktur</a>"
         },
@@ -2512,7 +2512,7 @@ var libraries = [
           "Nom": "Uni Basel - Sprachenzentrum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.sprachenzentrum.unibas.ch\">https://www.sprachenzentrum.unibas.ch</a>"
         },
@@ -2530,7 +2530,7 @@ var libraries = [
           "Nom": "Uni Basel - Studentische Körperschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -2547,7 +2547,7 @@ var libraries = [
           "Nom": "Uni Basel - Studienberatung",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://studienberatung.unibas.ch/de/unser-angebot/infothek\">https://studienberatung.unibas.ch/de/unser-angebot/infothek</a>"
         },
@@ -2565,7 +2565,7 @@ var libraries = [
           "Nom": "Uni Basel - Theologische Fakultät",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://theolrel.unibas.ch/bibliothek\">http://theolrel.unibas.ch/bibliothek</a>"
         },
@@ -2583,7 +2583,7 @@ var libraries = [
           "Nom": "Uni Basel - UB Hauptbibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ub.unibas.ch\">http://www.ub.unibas.ch</a>"
         },
@@ -2601,7 +2601,7 @@ var libraries = [
           "Nom": "Uni Basel - UB Medizin",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ub.unibas.ch/ub-medizin\">http://www.ub.unibas.ch/ub-medizin</a>"
         },
@@ -2619,7 +2619,7 @@ var libraries = [
           "Nom": "Uni Basel - UB Wirtschaft - SWA",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ub.unibas.ch/ub-wirtschaft-swa\">http://www.ub.unibas.ch/ub-wirtschaft-swa</a>"
         },
@@ -2637,7 +2637,7 @@ var libraries = [
           "Nom": "Uni Basel - Zahnmedizin",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -2654,7 +2654,7 @@ var libraries = [
           "Nom": "Uni Basel – Bildungswissenschaften (IBW)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://paedagogik.unibas.ch/zentrum/bibliothek\">http://paedagogik.unibas.ch/zentrum/bibliothek</a>"
         },
@@ -2672,7 +2672,7 @@ var libraries = [
           "Nom": "Uni Bern - Anglistik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/anglistik\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/anglistik</a>"
         },
@@ -2690,7 +2690,7 @@ var libraries = [
           "Nom": "Uni Bern - Archives et Collections Rorschach",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -2707,7 +2707,7 @@ var libraries = [
           "Nom": "Uni Bern - Basisbibliothek Unitobler (BTO)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/basisbibliothek_unitobler_bto\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/basisbibliothek_unitobler_bto</a>"
         },
@@ -2725,7 +2725,7 @@ var libraries = [
           "Nom": "Uni Bern - Betriebswirtschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/wirtschaftswissenschaft/betriebswirtschaft\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/wirtschaftswissenschaft/betriebswirtschaft</a>"
         },
@@ -2743,7 +2743,7 @@ var libraries = [
           "Nom": "Uni Bern - Bibliothek Lerchenweg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/bibliothek_lerchenweg\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/bibliothek_lerchenweg</a>"
         },
@@ -2761,7 +2761,7 @@ var libraries = [
           "Nom": "Uni Bern - Bibliothek Münstergasse (BMü)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/bibliothek_muenstergasse\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/bibliothek_muenstergasse</a>"
         },
@@ -2779,7 +2779,7 @@ var libraries = [
           "Nom": "Uni Bern - Bibliothek vonRoll (BvR)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/human__und_sozialwissenschaftliche_faecher/bibliothek_vonroll_bvr\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/human__und_sozialwissenschaftliche_faecher/bibliothek_vonroll_bvr</a>"
         },
@@ -2797,7 +2797,7 @@ var libraries = [
           "Nom": "Uni Bern - Bibliothek Weiterbildung",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/human__und_sozialwissenschaftliche_faecher/bibliothek_weiterbildung\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/human__und_sozialwissenschaftliche_faecher/bibliothek_weiterbildung</a>"
         },
@@ -2815,7 +2815,7 @@ var libraries = [
           "Nom": "Uni Bern - Chemie und Biochemie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_naturwissenschaftliche_faecher/chemie_und_biochemie\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_naturwissenschaftliche_faecher/chemie_und_biochemie</a>"
         },
@@ -2833,7 +2833,7 @@ var libraries = [
           "Nom": "Uni Bern - Christkatholische Theologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/theologie/christkatholische_theologie\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/theologie/christkatholische_theologie</a>"
         },
@@ -2851,7 +2851,7 @@ var libraries = [
           "Nom": "Uni Bern - Eugen Huber Bibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -2868,7 +2868,7 @@ var libraries = [
           "Nom": "Uni Bern - Evangelische Theologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/theologie/evangelische_theologie\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/theologie/evangelische_theologie</a>"
         },
@@ -2886,7 +2886,7 @@ var libraries = [
           "Nom": "Uni Bern - Fachbereichsbibliothek Bühlplatz (FBB)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/medizin/fachbereichsbibliothek_buehlplatz_fbb\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/medizin/fachbereichsbibliothek_buehlplatz_fbb</a>"
         },
@@ -2904,7 +2904,7 @@ var libraries = [
           "Nom": "Uni Bern - Geographie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_naturwissenschaftliche_faecher/geographie\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_naturwissenschaftliche_faecher/geographie</a>"
         },
@@ -2922,7 +2922,7 @@ var libraries = [
           "Nom": "Uni Bern - Germanistik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/germanistik\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/germanistik</a>"
         },
@@ -2940,7 +2940,7 @@ var libraries = [
           "Nom": "Uni Bern - Geschichte",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/geschichte\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/geschichte</a>"
         },
@@ -2958,7 +2958,7 @@ var libraries = [
           "Nom": "Uni Bern - Juristische Bibliothek (JBB)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/rechtswissenschaft/juristische_bibliothek_jbb\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/rechtswissenschaft/juristische_bibliothek_jbb</a>"
         },
@@ -2976,7 +2976,7 @@ var libraries = [
           "Nom": "Uni Bern - Juristische Forschungsbibliothek (JFB)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/rechtswissenschaft/juristische_forschungsbibliothek\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/rechtswissenschaft/juristische_forschungsbibliothek</a>"
         },
@@ -2994,7 +2994,7 @@ var libraries = [
           "Nom": "Uni Bern - Klassische Philologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/klassische_philologie\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/klassische_philologie</a>"
         },
@@ -3012,7 +3012,7 @@ var libraries = [
           "Nom": "Uni Bern - Management im Gesundheitswesen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/wirtschaftswissenschaft/management_im_gesundheitswesen\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/wirtschaftswissenschaft/management_im_gesundheitswesen</a>"
         },
@@ -3030,7 +3030,7 @@ var libraries = [
           "Nom": "Uni Bern - Medizingeschichte",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/medizin/medizingeschichte\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/medizin/medizingeschichte</a>"
         },
@@ -3048,7 +3048,7 @@ var libraries = [
           "Nom": "Uni Bern - Medizinische Lehre",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/medizin/medizinische_lehre\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/medizin/medizinische_lehre</a>"
         },
@@ -3066,7 +3066,7 @@ var libraries = [
           "Nom": "Uni Bern - Pflanzenwissenschaften",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_naturwissenschaftliche_faecher/pflanzenwissenschaften\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_naturwissenschaftliche_faecher/pflanzenwissenschaften</a>"
         },
@@ -3084,7 +3084,7 @@ var libraries = [
           "Nom": "Uni Bern - Philosophie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/philosophie\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/philosophie</a>"
         },
@@ -3102,7 +3102,7 @@ var libraries = [
           "Nom": "Uni Bern - Public Health & Primary Care",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/medizin/sozial__und_praeventivmedizin\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/medizin/sozial__und_praeventivmedizin</a>"
         },
@@ -3120,7 +3120,7 @@ var libraries = [
           "Nom": "Uni Bern - Rechtsmedizin",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/medizin/rechtsmedizin\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/medizin/rechtsmedizin</a>"
         },
@@ -3138,7 +3138,7 @@ var libraries = [
           "Nom": "Uni Bern - Romanistik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/romanistik\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/romanistik</a>"
         },
@@ -3156,7 +3156,7 @@ var libraries = [
           "Nom": "Uni Bern - Schweizerische Osteuropabibliothek (SOB)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/schweizerische_osteuropabibliothek_sob\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/schweizerische_osteuropabibliothek_sob</a>"
         },
@@ -3174,7 +3174,7 @@ var libraries = [
           "Nom": "Uni Bern - Slavistik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/slavistik\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/slavistik</a>"
         },
@@ -3192,7 +3192,7 @@ var libraries = [
           "Nom": "Uni Bern - Sportwissenschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/human__und_sozialwissenschaftliche_faecher/sportwissenschaft\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/human__und_sozialwissenschaftliche_faecher/sportwissenschaft</a>"
         },
@@ -3210,7 +3210,7 @@ var libraries = [
           "Nom": "Uni Bern - Sprachwissenschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/sprachwissenschaft\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/philosophisch_historische_faecher/sprachwissenschaft</a>"
         },
@@ -3228,7 +3228,7 @@ var libraries = [
           "Nom": "Uni Bern - UB Speichermagazin",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -3245,7 +3245,7 @@ var libraries = [
           "Nom": "Uni Bern - Universitätsarchiv",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/organisation/leitung_und_zentralbereich/generalsekretariat/universitaetsarchiv\">http://www.unibe.ch/universitaet/organisation/leitung_und_zentralbereich/generalsekretariat/universitaetsarchiv</a>"
         },
@@ -3263,7 +3263,7 @@ var libraries = [
           "Nom": "Uni Bern - UPD Waldau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.puk.unibe.ch/bibliotheken\">https://www.puk.unibe.ch/bibliotheken</a>"
         },
@@ -3281,7 +3281,7 @@ var libraries = [
           "Nom": "Uni Bern - Vetsuisse",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/veterinaermedizin/vetsuisse_bibliothek\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/veterinaermedizin/vetsuisse_bibliothek</a>"
         },
@@ -3299,7 +3299,7 @@ var libraries = [
           "Nom": "Uni Bern - Wirtschaftswissenschaften",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/wirtschaftswissenschaft/volkswirtschaftslehre\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/wirtschaftswissenschaft/volkswirtschaftslehre</a>"
         },
@@ -3317,7 +3317,7 @@ var libraries = [
           "Nom": "Uni Bern - World Trade Institute",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/wirtschaftswissenschaft/bibliothek_world_trade_institute\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/wirtschaftswissenschaft/bibliothek_world_trade_institute</a>"
         },
@@ -3335,7 +3335,7 @@ var libraries = [
           "Nom": "Uni Bern - Zahnmedizin",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/medizin/zahnmedizin\">http://www.unibe.ch/universitaet/dienstleistungen/universitaetsbibliothek/teilbibliotheken/medizin/zahnmedizin</a>"
         },
@@ -3353,7 +3353,7 @@ var libraries = [
           "Nom": "Unispital Basel - Felix Platter-Spital",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -3370,7 +3370,7 @@ var libraries = [
           "Nom": "Unispital Basel - Frauenklinik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie"
         },
         "geometry": {
@@ -3387,7 +3387,7 @@ var libraries = [
           "Nom": "Universitäre Psychiatrische Kliniken Basel (UPK)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.upkbs.ch\">http://www.upkbs.ch</a>"
         },
@@ -3405,7 +3405,7 @@ var libraries = [
           "Nom": "ZB Solothurn",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF8000",
+          "color": "#FF8000",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zbsolothurn.ch\">http://www.zbsolothurn.ch</a>"
         },
@@ -3423,7 +3423,7 @@ var libraries = [
           "Nom": "Denkmalpflege und Archäologie Kanton Luzern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.da.lu.ch\">http://www.da.lu.ch</a>"
         },
@@ -3441,7 +3441,7 @@ var libraries = [
           "Nom": "HSLU Luzern - Design & Kunst",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.hslu.ch/de-ch/design-kunst/ueber-uns/kunst-und-designbibliothek\">https://www.hslu.ch/de-ch/design-kunst/ueber-uns/kunst-und-designbibliothek</a>"
         },
@@ -3459,7 +3459,7 @@ var libraries = [
           "Nom": "HSLU Luzern - Musik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -3476,7 +3476,7 @@ var libraries = [
           "Nom": "HSLU Luzern - Musik - Dreilinden",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hslu.ch/m-bibliothek\">http://www.hslu.ch/m-bibliothek</a>"
         },
@@ -3494,7 +3494,7 @@ var libraries = [
           "Nom": "HSLU Luzern - Musik - Mariahilf",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hslu.ch/m-bibliothek\">http://www.hslu.ch/m-bibliothek</a>"
         },
@@ -3512,7 +3512,7 @@ var libraries = [
           "Nom": "HSLU Luzern - Soziale Arbeit",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.hslu.ch/de-ch/soziale-arbeit/campus/mediothek\">https://www.hslu.ch/de-ch/soziale-arbeit/campus/mediothek</a>"
         },
@@ -3530,7 +3530,7 @@ var libraries = [
           "Nom": "HSLU Luzern - Technik & Architektur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.hslu.ch/de-ch/technik-architektur/campus/bibliothek\">https://www.hslu.ch/de-ch/technik-architektur/campus/bibliothek</a>"
         },
@@ -3548,7 +3548,7 @@ var libraries = [
           "Nom": "HSLU Luzern - Wirtschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zhbluzern.ch/standorte/hochschule-luzern-wirtschaft\">http://www.zhbluzern.ch/standorte/hochschule-luzern-wirtschaft</a>"
         },
@@ -3566,7 +3566,7 @@ var libraries = [
           "Nom": "Hugo-Loetscher-Bibliothek, Escholzmatt",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -3583,7 +3583,7 @@ var libraries = [
           "Nom": "Kapuzinerkloster Luzern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.kapuziner.ch/\">http://www.kapuziner.ch/</a>"
         },
@@ -3601,7 +3601,7 @@ var libraries = [
           "Nom": "Klosterbibliothek Sursee",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -3618,7 +3618,7 @@ var libraries = [
           "Nom": "Kunstmuseum Luzern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -3635,7 +3635,7 @@ var libraries = [
           "Nom": "MAZ Schweizer Journalistenschule, Luzern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.maz.ch\">http://www.maz.ch</a>"
         },
@@ -3653,7 +3653,7 @@ var libraries = [
           "Nom": "Natur-Museum Luzern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -3670,7 +3670,7 @@ var libraries = [
           "Nom": "PH Luzern - Bilderbuchsammlung",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://idsluzern.ch/index.php?id=2450\">http://idsluzern.ch/index.php?id=2450</a>"
         },
@@ -3688,7 +3688,7 @@ var libraries = [
           "Nom": "PH Schwyz",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.phsz.ch/dienstleistung/medienzentrum\">https://www.phsz.ch/dienstleistung/medienzentrum</a>"
         },
@@ -3706,7 +3706,7 @@ var libraries = [
           "Nom": "PH Zug",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zg.ch/behoerden/direktion-fur-bildung-und-kultur/phzg\">http://www.zg.ch/behoerden/direktion-fur-bildung-und-kultur/phzg</a>"
         },
@@ -3724,7 +3724,7 @@ var libraries = [
           "Nom": "PMZ Luzern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -3741,7 +3741,7 @@ var libraries = [
           "Nom": "PMZ Sursee",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -3758,7 +3758,7 @@ var libraries = [
           "Nom": "Seminar St. Beat, Luzern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.stbeat.ch\">http://www.stbeat.ch</a>"
         },
@@ -3776,7 +3776,7 @@ var libraries = [
           "Nom": "Staatsarchiv Luzern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://staatsarchiv.lu.ch\">https://staatsarchiv.lu.ch</a>"
         },
@@ -3794,7 +3794,7 @@ var libraries = [
           "Nom": "Stadtarchiv Luzern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.stadtluzern.ch/thema/72\">https://www.stadtluzern.ch/thema/72</a>"
         },
@@ -3812,7 +3812,7 @@ var libraries = [
           "Nom": "Vogelwarte, Sempach",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.vogelwarte.ch/home.php?lang=d&cap=dienste&subcap=bibliothek\">http://www.vogelwarte.ch/home.php?lang=d&cap=dienste&subcap=bibliothek</a>"
         },
@@ -3830,7 +3830,7 @@ var libraries = [
           "Nom": "ZHB Luzern - Provisorium Murbacherstrasse",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zhbluzern.ch/standorte/provisorium-murbacherstrasse\">http://www.zhbluzern.ch/standorte/provisorium-murbacherstrasse</a>"
         },
@@ -3848,7 +3848,7 @@ var libraries = [
           "Nom": "ZHB Luzern - Provisorium Murbacherstrasse",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zhbluzern.ch/standorte/provisorium-murbacherstrasse\">http://www.zhbluzern.ch/standorte/provisorium-murbacherstrasse</a>"
         },
@@ -3866,7 +3866,7 @@ var libraries = [
           "Nom": "ZHB Luzern - Uni/PH-Gebäude",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zhbluzern.ch/standorte/uniph-gebaeude\">http://www.zhbluzern.ch/standorte/uniph-gebaeude</a>"
         },
@@ -3884,7 +3884,7 @@ var libraries = [
           "Nom": "ZHB Luzern - UNI/PH-Gebäude - Fak. III",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zhbluzern.ch/standorte/uniph-gebaeude/\">http://www.zhbluzern.ch/standorte/uniph-gebaeude/</a>"
         },
@@ -3902,7 +3902,7 @@ var libraries = [
           "Nom": "ZHB Luzern - UNI/PH-Gebäude - PHZ",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zhbluzern.ch/standorte/uniph-gebaeude/\">http://www.zhbluzern.ch/standorte/uniph-gebaeude/</a>"
         },
@@ -3920,7 +3920,7 @@ var libraries = [
           "Nom": "ZHB Luzern - UNI/PH-Gebäude - RPI",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zhbluzern.ch/standorte/uniph-gebaeude/\">http://www.zhbluzern.ch/standorte/uniph-gebaeude/</a>"
         },
@@ -3938,7 +3938,7 @@ var libraries = [
           "Nom": "FHS St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.fhsg.ch/fhs.nsf/de/bibliothek-auf-einen-blick\">http://www.fhsg.ch/fhs.nsf/de/bibliothek-auf-einen-blick</a>"
         },
@@ -3956,7 +3956,7 @@ var libraries = [
           "Nom": "FHS St. Gallen - Gesundheit",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.fhsg.ch/FHSHome/fhs_homepage.nsf/e5c9f6d17312bc6fc1256c2b00262540/81d9473c181b8c5fc12572950033a2d1?OpenDocument\">http://www.fhsg.ch/FHSHome/fhs_homepage.nsf/e5c9f6d17312bc6fc1256c2b00262540/81d9473c181b8c5fc12572950033a2d1?OpenDocument</a>"
         },
@@ -3974,7 +3974,7 @@ var libraries = [
           "Nom": "FHS St. Gallen - Soziale Arbeit, Rorschach",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.fhsg.ch/FHSHome/fhs_homepage.nsf/e5c9f6d17312bc6fc1256c2b00262540/b41b25d8417017f1c12571da00365fa6?OpenDocument\">http://www.fhsg.ch/FHSHome/fhs_homepage.nsf/e5c9f6d17312bc6fc1256c2b00262540/b41b25d8417017f1c12571da00365fa6?OpenDocument</a>"
         },
@@ -3992,7 +3992,7 @@ var libraries = [
           "Nom": "Historisches und Völkerkundemuseum, St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hmsg.ch\">http://www.hmsg.ch</a>"
         },
@@ -4010,7 +4010,7 @@ var libraries = [
           "Nom": "PH St.Gallen - Mediathek Gossau",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4027,7 +4027,7 @@ var libraries = [
           "Nom": "PH St.Gallen - Mediathek Hadwig",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4044,7 +4044,7 @@ var libraries = [
           "Nom": "PH St.Gallen - Mediathek Mariaberg, Rorschach",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4061,7 +4061,7 @@ var libraries = [
           "Nom": "PH St.Gallen - Mediathek Stella Maris, Rorschach",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4078,7 +4078,7 @@ var libraries = [
           "Nom": "PH St.Gallen - RDZ Rapperswil-Jona",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4095,7 +4095,7 @@ var libraries = [
           "Nom": "PH St.Gallen - RDZ Sargans",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4112,7 +4112,7 @@ var libraries = [
           "Nom": "PH St.Gallen - RDZ Wattwil",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4129,7 +4129,7 @@ var libraries = [
           "Nom": "PH St.Gallen - RPM Altstätten",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4146,7 +4146,7 @@ var libraries = [
           "Nom": "Uni St. Gallen - Forschungsgemeinschaft für Rechtswissenschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4163,7 +4163,7 @@ var libraries = [
           "Nom": "Uni St. Gallen - HSG-Bibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.biblio.unisg.ch\">http://www.biblio.unisg.ch</a>"
         },
@@ -4181,7 +4181,7 @@ var libraries = [
           "Nom": "Uni St. Gallen - Schweizerisches Institut für Klein- und Mittelunternehmen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4198,7 +4198,7 @@ var libraries = [
           "Nom": "Uni St. Gallen - Versicherungswirtschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4215,7 +4215,7 @@ var libraries = [
           "Nom": "Uni St. Gallen - Wirtschaftinformatik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4232,7 +4232,7 @@ var libraries = [
           "Nom": "Uni St. Gallen - Wirtschaftpädagogik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "006600",
+          "color": "#006600",
           "category": "patisserie"
         },
         "geometry": {
@@ -4249,7 +4249,7 @@ var libraries = [
           "Nom": "Centre Dürrenmatt Neuchâtel ",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF3333",
+          "color": "#FF3333",
           "category": "patisserie"
         },
         "geometry": {
@@ -4266,7 +4266,7 @@ var libraries = [
           "Nom": "Cabinet des estampes, BN Berne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF3333",
+          "color": "#FF3333",
           "category": "patisserie"
         },
         "geometry": {
@@ -4283,7 +4283,7 @@ var libraries = [
           "Nom": "Bibliothèque nationale suisse (BN), Berne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF3333",
+          "color": "#FF3333",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.nb.admin.ch\">http://www.nb.admin.ch</a>"
         },
@@ -4301,7 +4301,7 @@ var libraries = [
           "Nom": "Archives littéraires suisses, BN Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "FF3333",
+          "color": "#FF3333",
           "category": "patisserie"
         },
         "geometry": {
@@ -4318,7 +4318,7 @@ var libraries = [
           "Nom": "BFH - Agrar-, Forst- und Lebensmittelwiss., Zollikofen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hafl.bfh.ch/index.php?id=1349\">http://www.hafl.bfh.ch/index.php?id=1349</a>"
         },
@@ -4336,7 +4336,7 @@ var libraries = [
           "Nom": "BFH - Gesundheit, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.gesundheit.bfh.ch/de/campus/bibliothek.html\">http://www.gesundheit.bfh.ch/de/campus/bibliothek.html</a>"
         },
@@ -4354,7 +4354,7 @@ var libraries = [
           "Nom": "BFH - HKB Mediothek, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hkb.bfh.ch/de/campus/bibliotheken-hkb/mediothek/\">http://www.hkb.bfh.ch/de/campus/bibliotheken-hkb/mediothek/</a>"
         },
@@ -4372,7 +4372,7 @@ var libraries = [
           "Nom": "BFH - Soziale Arbeit, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.soziale-arbeit.bfh.ch/de/campus/bibliothek.html\">http://www.soziale-arbeit.bfh.ch/de/campus/bibliothek.html</a>"
         },
@@ -4390,7 +4390,7 @@ var libraries = [
           "Nom": "BFH - Technik und Informatik, Biel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4407,7 +4407,7 @@ var libraries = [
           "Nom": "BFH - Wirtschaft, Bern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.wirtschaft.bfh.ch/de/campus/bibliothek.html\">http://www.wirtschaft.bfh.ch/de/campus/bibliothek.html</a>"
         },
@@ -4425,7 +4425,7 @@ var libraries = [
           "Nom": "Bibliothek Werner Oechslin, Einsiedeln",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4442,7 +4442,7 @@ var libraries = [
           "Nom": "Ecole hôtelière de Lausanne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4459,7 +4459,7 @@ var libraries = [
           "Nom": "EPFL Lausanne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4476,7 +4476,7 @@ var libraries = [
           "Nom": "EPFL Lausanne - Laboratoires",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4493,7 +4493,7 @@ var libraries = [
           "Nom": "EPFL Lausanne - Swiss Plasma Center (SPC)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4510,7 +4510,7 @@ var libraries = [
           "Nom": "ETH Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4527,7 +4527,7 @@ var libraries = [
           "Nom": "ETH Zürich - Baubibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4544,7 +4544,7 @@ var libraries = [
           "Nom": "ETH Zürich - Bibliothek HDB",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4561,7 +4561,7 @@ var libraries = [
           "Nom": "ETH Zürich - Chemie Biologie Pharmazie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4578,7 +4578,7 @@ var libraries = [
           "Nom": "ETH Zürich - Denkmalpflege und Bauforschung",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4595,7 +4595,7 @@ var libraries = [
           "Nom": "ETH Zürich - Erdwissenschaften",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4612,7 +4612,7 @@ var libraries = [
           "Nom": "ETH Zürich - Fluiddynamik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4629,7 +4629,7 @@ var libraries = [
           "Nom": "ETH Zürich - Geschichte und Theorie der Architektur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4646,7 +4646,7 @@ var libraries = [
           "Nom": "ETH Zürich - GESS-Bibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4663,7 +4663,7 @@ var libraries = [
           "Nom": "ETH Zürich - GESS-Bibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4680,7 +4680,7 @@ var libraries = [
           "Nom": "ETH Zürich - GESS-Bibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4697,7 +4697,7 @@ var libraries = [
           "Nom": "ETH Zürich - GESS-Bibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4714,7 +4714,7 @@ var libraries = [
           "Nom": "ETH Zürich - GESS-Bibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4731,7 +4731,7 @@ var libraries = [
           "Nom": "ETH Zürich - Graphische Sammlung",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4748,7 +4748,7 @@ var libraries = [
           "Nom": "ETH Zürich - Grüne Bibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4765,7 +4765,7 @@ var libraries = [
           "Nom": "ETH Zürich - Informatik-Bibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4782,7 +4782,7 @@ var libraries = [
           "Nom": "ETH Zürich - Mathematik",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4799,7 +4799,7 @@ var libraries = [
           "Nom": "ETH Zürich - Physik-Bibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4816,7 +4816,7 @@ var libraries = [
           "Nom": "FHNW - Campus Muttenz",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4833,7 +4833,7 @@ var libraries = [
           "Nom": "FHNW - Campusbibliothek Brugg-Windisch",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.fhnw.ch/campus-brugg-windisch/bibliothek\">http://www.fhnw.ch/campus-brugg-windisch/bibliothek</a>"
         },
@@ -4851,7 +4851,7 @@ var libraries = [
           "Nom": "FHNW - Life Sciences, Muttenz",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4868,7 +4868,7 @@ var libraries = [
           "Nom": "FHNW - Mediathek HGK, Münchenstein",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4885,7 +4885,7 @@ var libraries = [
           "Nom": "FHNW - Pädagogik ISEK, Basel (-x)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4902,7 +4902,7 @@ var libraries = [
           "Nom": "FHNW - Pädagogik ISP, Basel (-x)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://web.fhnw.ch/plattformen/ph-bibliotheken/basel-isp\">http://web.fhnw.ch/plattformen/ph-bibliotheken/basel-isp</a>"
         },
@@ -4920,7 +4920,7 @@ var libraries = [
           "Nom": "FHNW - Pädagogik Liestal (-x)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://web.fhnw.ch/plattformen/ph-bibliotheken/liestal\">http://web.fhnw.ch/plattformen/ph-bibliotheken/liestal</a>"
         },
@@ -4938,7 +4938,7 @@ var libraries = [
           "Nom": "FHNW - Pädagogik Solothurn",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://web.fhnw.ch/plattformen/ph-bibliotheken/solothurn\">http://web.fhnw.ch/plattformen/ph-bibliotheken/solothurn</a>"
         },
@@ -4956,7 +4956,7 @@ var libraries = [
           "Nom": "Haute école d'ingénierie et de gestion du canton de Vaud, Yverdon",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4973,7 +4973,7 @@ var libraries = [
           "Nom": "HE-Arc - Ingénierie, Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -4990,7 +4990,7 @@ var libraries = [
           "Nom": "HES-SO Valais - Haute Ecole d’Ingénierie de Sion",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://mediatheques.hevs.ch\">http://mediatheques.hevs.ch</a>"
         },
@@ -5008,7 +5008,7 @@ var libraries = [
           "Nom": "Hochschule für Heilpädagogik Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5025,7 +5025,7 @@ var libraries = [
           "Nom": "Hochschule für Technik Rapperswil (HSR)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5042,7 +5042,7 @@ var libraries = [
           "Nom": "Haute école d'ingénierie et d'architecture Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5059,7 +5059,7 @@ var libraries = [
           "Nom": "HTW Chur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5076,7 +5076,7 @@ var libraries = [
           "Nom": "infoDoc RADIX, Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5093,7 +5093,7 @@ var libraries = [
           "Nom": "Kinderspital, Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5110,7 +5110,7 @@ var libraries = [
           "Nom": "Landesmuseum Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5127,7 +5127,7 @@ var libraries = [
           "Nom": "Lib4RI - Eawag-Empa, Dübendorf",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5144,7 +5144,7 @@ var libraries = [
           "Nom": "Lib4RI - PSI, Villigen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.lib4ri.ch/\">http://www.lib4ri.ch/</a>"
         },
@@ -5162,7 +5162,7 @@ var libraries = [
           "Nom": "Lib4RI - WSL, Birmensdorf",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5179,7 +5179,7 @@ var libraries = [
           "Nom": "Museum Rietberg, Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.rietberg.ch/de-ch/ihr-besuch/bibliothek.aspx\">http://www.rietberg.ch/de-ch/ihr-besuch/bibliothek.aspx</a>"
         },
@@ -5197,7 +5197,7 @@ var libraries = [
           "Nom": "Museumsgesellschaft Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.mug.ch/\">http://www.mug.ch/</a>"
         },
@@ -5215,7 +5215,7 @@ var libraries = [
           "Nom": "NTB Interstaatliche Hochschule für Technik Buchs",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5232,7 +5232,7 @@ var libraries = [
           "Nom": "PH Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.bibliothek.phzh.ch/\">http://www.bibliothek.phzh.ch/</a>"
         },
@@ -5250,7 +5250,7 @@ var libraries = [
           "Nom": "PH Zürich - Pestalozzianum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.phzh.ch/de/Forschung/Forschungsbibliothek-Pestalozzianum/\">http://www.phzh.ch/de/Forschung/Forschungsbibliothek-Pestalozzianum/</a>"
         },
@@ -5268,7 +5268,7 @@ var libraries = [
           "Nom": "Psychiatrische Universitätsklinik, Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5285,7 +5285,7 @@ var libraries = [
           "Nom": "Schweizerische Nationalbank, Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.snb.ch/de/iabout/snb/address/id/snb_addresses_libraries\">http://www.snb.ch/de/iabout/snb/address/id/snb_addresses_libraries</a>"
         },
@@ -5303,7 +5303,7 @@ var libraries = [
           "Nom": "Schweizerisches Institut für Kinder- und Jugendmedien, Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5320,7 +5320,7 @@ var libraries = [
           "Nom": "Schweizerisches Institut für Kunstwissenschaft, Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sik-isea.ch/bibliothek\">http://www.sik-isea.ch/bibliothek</a>"
         },
@@ -5338,7 +5338,7 @@ var libraries = [
           "Nom": "Schweizerisches Sozialarchiv, Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5355,7 +5355,7 @@ var libraries = [
           "Nom": "Staatsarchiv Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.staatsarchiv.zh.ch/internet/justiz_inneres/sta/de/home.html\">http://www.staatsarchiv.zh.ch/internet/justiz_inneres/sta/de/home.html</a>"
         },
@@ -5373,7 +5373,7 @@ var libraries = [
           "Nom": "Stadtarchiv Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.stadt-zuerich.ch/stadtarchiv.secure.html\">https://www.stadt-zuerich.ch/stadtarchiv.secure.html</a>"
         },
@@ -5391,7 +5391,7 @@ var libraries = [
           "Nom": "SUPSI, Manno",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5408,7 +5408,7 @@ var libraries = [
           "Nom": "SUPSI-DFA, Locarno",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5425,7 +5425,7 @@ var libraries = [
           "Nom": "Tibet-Institut Rikon",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.tibet-institut.ch\">http://www.tibet-institut.ch</a>"
         },
@@ -5443,7 +5443,7 @@ var libraries = [
           "Nom": "Uni Bern - Exakte Wissenschaften",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.bewi.unibe.ch\">http://www.bewi.unibe.ch</a>"
         },
@@ -5461,7 +5461,7 @@ var libraries = [
           "Nom": "Uni Zürich - Allgemeine und Vergleichende Literaturwissenschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5478,7 +5478,7 @@ var libraries = [
           "Nom": "Uni Zürich - Anthropologisches Institut und Museum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.aim.uzh.ch\">http://www.aim.uzh.ch</a>"
         },
@@ -5496,7 +5496,7 @@ var libraries = [
           "Nom": "Uni Zürich - Asien-Orient-Institut - China",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.aoi.uzh.ch/de/bibliotheken/bibchina.html\">https://www.aoi.uzh.ch/de/bibliotheken/bibchina.html</a>"
         },
@@ -5514,7 +5514,7 @@ var libraries = [
           "Nom": "Uni Zürich - Asien-Orient-Institut - Islamwissenschaft und Gender Studies",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5531,7 +5531,7 @@ var libraries = [
           "Nom": "Uni Zürich - Asien-Orient-Institut - Japan",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.aoi.uzh.ch/de/bibliotheken/bibjapan.html\">https://www.aoi.uzh.ch/de/bibliotheken/bibjapan.html</a>"
         },
@@ -5549,7 +5549,7 @@ var libraries = [
           "Nom": "Uni Zürich - Asien-Orient-Institut - Korea",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.aoi.uzh.ch/de/bibliotheken/bibkorea.html\">https://www.aoi.uzh.ch/de/bibliotheken/bibkorea.html</a>"
         },
@@ -5567,7 +5567,7 @@ var libraries = [
           "Nom": "Uni Zürich - Asien-Orient-Institut - Ostasien in europäischen Sprachen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.aoi.uzh.ch/de/bibliotheken/bibostasien.html\">https://www.aoi.uzh.ch/de/bibliotheken/bibostasien.html</a>"
         },
@@ -5585,7 +5585,7 @@ var libraries = [
           "Nom": "Uni Zürich - Asien-Orient-Institut - Südasien",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.aoi.uzh.ch/de/bibliotheken/bibindologie.html\">http://www.aoi.uzh.ch/de/bibliotheken/bibindologie.html</a>"
         },
@@ -5603,7 +5603,7 @@ var libraries = [
           "Nom": "Uni Zürich - Betriebswirtschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5620,7 +5620,7 @@ var libraries = [
           "Nom": "Uni Zürich - Bibliothek Lehre",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5637,7 +5637,7 @@ var libraries = [
           "Nom": "Uni Zürich - Biomedizinische Ethik und Medizingeschichte",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ethik.uzh.ch/biblio/bme.html\">http://www.ethik.uzh.ch/biblio/bme.html</a>"
         },
@@ -5655,7 +5655,7 @@ var libraries = [
           "Nom": "Uni Zürich - Cai-Yuanpei-Bibliothek",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.musethno.uzh.ch/bibliothek.html\">http://www.musethno.uzh.ch/bibliothek.html</a>"
         },
@@ -5673,7 +5673,7 @@ var libraries = [
           "Nom": "Uni Zürich - Deutsches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ds.uzh.ch/Bibliothek/\">http://www.ds.uzh.ch/Bibliothek/</a>"
         },
@@ -5691,7 +5691,7 @@ var libraries = [
           "Nom": "Uni Zürich - Englisches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.es.uzh.ch/index.html\">http://www.es.uzh.ch/index.html</a>"
         },
@@ -5709,7 +5709,7 @@ var libraries = [
           "Nom": "Uni Zürich - Epidemiologie, Biostatistik, Prävention",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5726,7 +5726,7 @@ var libraries = [
           "Nom": "Uni Zürich - Erziehungswissenschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ife.uzh.ch/ueberuns/bibliothek.html\">http://www.ife.uzh.ch/ueberuns/bibliothek.html</a>"
         },
@@ -5744,7 +5744,7 @@ var libraries = [
           "Nom": "Uni Zürich - Ethik-Zentrum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5761,7 +5761,7 @@ var libraries = [
           "Nom": "Uni Zürich - Ethnologisches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5778,7 +5778,7 @@ var libraries = [
           "Nom": "Uni Zürich - Europa Institut",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5795,7 +5795,7 @@ var libraries = [
           "Nom": "Uni Zürich - Forschungsbibliothek Jakob Jud",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.rose.uzh.ch/bibliothek/jakobjud.html\">http://www.rose.uzh.ch/bibliothek/jakobjud.html</a>"
         },
@@ -5813,7 +5813,7 @@ var libraries = [
           "Nom": "Uni Zürich - Geographisches Institut",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.geo.uzh.ch/de/bibliothek\">http://www.geo.uzh.ch/de/bibliothek</a>"
         },
@@ -5831,7 +5831,7 @@ var libraries = [
           "Nom": "Uni Zürich - Griechische und Lateinische Philologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5848,7 +5848,7 @@ var libraries = [
           "Nom": "Uni Zürich - HBZ - Medizin Careum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hbz.uzh.ch/de/lernen-und-arbeiten/standorte-oeffnungszeiten/medizincareum.html\">http://www.hbz.uzh.ch/de/lernen-und-arbeiten/standorte-oeffnungszeiten/medizincareum.html</a>"
         },
@@ -5866,7 +5866,7 @@ var libraries = [
           "Nom": "Uni Zürich - HBZ - Naturwissenschaften",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hbz.uzh.ch/de/lernen-und-arbeiten/standorte-oeffnungszeiten/naturwissenschaften.html\">http://www.hbz.uzh.ch/de/lernen-und-arbeiten/standorte-oeffnungszeiten/naturwissenschaften.html</a>"
         },
@@ -5884,7 +5884,7 @@ var libraries = [
           "Nom": "Uni Zürich - Hermeneutik und Religionsphilosophie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hermes.uzh.ch/bibliothek.html\">http://www.hermes.uzh.ch/bibliothek.html</a>"
         },
@@ -5902,7 +5902,7 @@ var libraries = [
           "Nom": "Uni Zürich - Historisches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hist.uzh.ch/bibliotheken.html\">http://www.hist.uzh.ch/bibliotheken.html</a>"
         },
@@ -5920,7 +5920,7 @@ var libraries = [
           "Nom": "Uni Zürich - Historisches Seminar - Osteuropäische Geschichte",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5937,7 +5937,7 @@ var libraries = [
           "Nom": "Uni Zürich - Klassische Archäologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -5954,7 +5954,7 @@ var libraries = [
           "Nom": "Uni Zürich - Kommunikationswissenschaft und Medienforschung (IKMZ)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.uzh.ch/cmsssl/ikmz/de/department/library.html\">https://www.uzh.ch/cmsssl/ikmz/de/department/library.html</a>"
         },
@@ -5972,7 +5972,7 @@ var libraries = [
           "Nom": "Uni Zürich - Kunsthistorisches Institut",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.khist.uzh.ch/bibliothek.html\">http://www.khist.uzh.ch/bibliothek.html</a>"
         },
@@ -5990,7 +5990,7 @@ var libraries = [
           "Nom": "Uni Zürich - Medizinhistorisches Institut und Museum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6007,7 +6007,7 @@ var libraries = [
           "Nom": "Uni Zürich - Mittellatein",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sglp.uzh.ch/bibliothek.html\">http://www.sglp.uzh.ch/bibliothek.html</a>"
         },
@@ -6025,7 +6025,7 @@ var libraries = [
           "Nom": "Uni Zürich - Musikwissenschaftliches Institut",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.musik.uzh.ch/de/library.html\">http://www.musik.uzh.ch/de/library.html</a>"
         },
@@ -6043,7 +6043,7 @@ var libraries = [
           "Nom": "Uni Zürich - Paläontologisches Institut und Museum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6060,7 +6060,7 @@ var libraries = [
           "Nom": "Uni Zürich - Philosophisches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.philosophie.uzh.ch/bibliothek.html\">http://www.philosophie.uzh.ch/bibliothek.html</a>"
         },
@@ -6078,7 +6078,7 @@ var libraries = [
           "Nom": "Uni Zürich - Phonetisches Laboratorium",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6095,7 +6095,7 @@ var libraries = [
           "Nom": "Uni Zürich - Politikwissenschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ipz.uzh.ch/bibliothek.html\">http://www.ipz.uzh.ch/bibliothek.html</a>"
         },
@@ -6113,7 +6113,7 @@ var libraries = [
           "Nom": "Uni Zürich - Populäre Kulturen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6130,7 +6130,7 @@ var libraries = [
           "Nom": "Uni Zürich - Psychologisches Institut",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.psychologie.uzh.ch/dienstleistungen/bibliothek.html\">http://www.psychologie.uzh.ch/dienstleistungen/bibliothek.html</a>"
         },
@@ -6148,7 +6148,7 @@ var libraries = [
           "Nom": "Uni Zürich - Rechtsmedizin",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.irm.uzh.ch/\">http://www.irm.uzh.ch/</a>"
         },
@@ -6166,7 +6166,7 @@ var libraries = [
           "Nom": "Uni Zürich - Rechtswissenschaftliches Institut",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.rwi.uzh.ch/bibliothek.html\">http://www.rwi.uzh.ch/bibliothek.html</a>"
         },
@@ -6184,7 +6184,7 @@ var libraries = [
           "Nom": "Uni Zürich - Romanisches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.rose.uzh.ch/bibliothek.html\">http://www.rose.uzh.ch/bibliothek.html</a>"
         },
@@ -6202,7 +6202,7 @@ var libraries = [
           "Nom": "Uni Zürich - Schweizerische Reformationsgeschichte",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.uzh.ch/irg/bib-irg.html\">http://www.uzh.ch/irg/bib-irg.html</a>"
         },
@@ -6220,7 +6220,7 @@ var libraries = [
           "Nom": "Uni Zürich - Schweizerische Sozial- und Wirtschaftsgeschichte",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.fsw.uzh.ch/index.html\">http://www.fsw.uzh.ch/index.html</a>"
         },
@@ -6238,7 +6238,7 @@ var libraries = [
           "Nom": "Uni Zürich - Slavisches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.slav.uzh.ch/bibliothek.html\">http://www.slav.uzh.ch/bibliothek.html</a>"
         },
@@ -6256,7 +6256,7 @@ var libraries = [
           "Nom": "Uni Zürich - Soziologisches Institut",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.suz.uzh.ch/bibliothek/\">http://www.suz.uzh.ch/bibliothek/</a>"
         },
@@ -6274,7 +6274,7 @@ var libraries = [
           "Nom": "Uni Zürich - Sprachenzentrum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6291,7 +6291,7 @@ var libraries = [
           "Nom": "Uni Zürich - Sprachenzentrum - SLZ",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sprachenzentrum.uzh.ch/slz/\">http://www.sprachenzentrum.uzh.ch/slz/</a>"
         },
@@ -6309,7 +6309,7 @@ var libraries = [
           "Nom": "Uni Zürich - Systematische Botanik und Pflanzenbiologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.botlib.uzh.ch/\">http://www.botlib.uzh.ch/</a>"
         },
@@ -6327,7 +6327,7 @@ var libraries = [
           "Nom": "Uni Zürich - Theologisches Seminar / Religionswissenschaftliches Seminar",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6344,7 +6344,7 @@ var libraries = [
           "Nom": "Uni Zürich - UniversitätsSpital USZ-Kliniken",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6361,7 +6361,7 @@ var libraries = [
           "Nom": "Uni Zürich - Ur- und Frühgeschichte",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6378,7 +6378,7 @@ var libraries = [
           "Nom": "Uni Zürich - Vetsuisse-Fakultät",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.vetbiblio.uzh.ch/\">http://www.vetbiblio.uzh.ch/</a>"
         },
@@ -6396,7 +6396,7 @@ var libraries = [
           "Nom": "Uni Zürich - Völkerkundemuseum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.musethno.uzh.ch/bibliothek.html\">http://www.musethno.uzh.ch/bibliothek.html</a>"
         },
@@ -6414,7 +6414,7 @@ var libraries = [
           "Nom": "Uni Zürich - Volkswirtschaft",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.econ.uzh.ch/de/library.html\">http://www.econ.uzh.ch/de/library.html</a>"
         },
@@ -6432,7 +6432,7 @@ var libraries = [
           "Nom": "Uni Zürich - Zahnmedizin",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.dent.uzh.ch/bibliothek.html\">http://www.dent.uzh.ch/bibliothek.html</a>"
         },
@@ -6450,7 +6450,7 @@ var libraries = [
           "Nom": "ZB Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6467,7 +6467,7 @@ var libraries = [
           "Nom": "ZB Zürich - Bibliothek Schlag",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zb.uzh.ch/\">http://www.zb.uzh.ch/</a>"
         },
@@ -6485,7 +6485,7 @@ var libraries = [
           "Nom": "ZB Zürich - Graphische Sammlung",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zb.uzh.ch/\">http://www.zb.uzh.ch/</a>"
         },
@@ -6503,7 +6503,7 @@ var libraries = [
           "Nom": "ZB Zürich - Handschriftenabteilung",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zb.uzh.ch/\">http://www.zb.uzh.ch/</a>"
         },
@@ -6521,7 +6521,7 @@ var libraries = [
           "Nom": "ZB Zürich - Kartensammlung",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zb.uzh.ch/\">http://www.zb.uzh.ch/</a>"
         },
@@ -6539,7 +6539,7 @@ var libraries = [
           "Nom": "ZB Zürich - Musikabteilung",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zb.uzh.ch/\">http://www.zb.uzh.ch/</a>"
         },
@@ -6557,7 +6557,7 @@ var libraries = [
           "Nom": "ZB Zürich - Sammlung Alte Drucke",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zb.uzh.ch/\">http://www.zb.uzh.ch/</a>"
         },
@@ -6575,7 +6575,7 @@ var libraries = [
           "Nom": "ZB Zürich - Verlags-Bucharchiv",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.zb.uzh.ch/\">http://www.zb.uzh.ch/</a>"
         },
@@ -6593,7 +6593,7 @@ var libraries = [
           "Nom": "Zentrum für Ausbildung im Gesundheitswesen, Winterthur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6610,7 +6610,7 @@ var libraries = [
           "Nom": "Zentrum für Kinder- und Jugendpsychiatrie, Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6627,7 +6627,7 @@ var libraries = [
           "Nom": "ZHAW - Hochschulbibliothek Wädenswil",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6644,7 +6644,7 @@ var libraries = [
           "Nom": "ZHAW - Hochschulbibliothek Winterthur",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6661,7 +6661,7 @@ var libraries = [
           "Nom": "ZHAW - Hochschulbibliothek Zürich",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6678,7 +6678,7 @@ var libraries = [
           "Nom": "Zürcher Hochschule der Künste (ZHdK MIZ)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "0000FF",
+          "color": "#0000FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6695,7 +6695,7 @@ var libraries = [
           "Nom": "Abbaye de St-Maurice",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6712,7 +6712,7 @@ var libraries = [
           "Nom": "Archives d'Etat de Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://ge.ch/archives\">http://ge.ch/archives</a>"
         },
@@ -6730,7 +6730,7 @@ var libraries = [
           "Nom": "Archives de l'ancien Evêché de Bâle, Porrentruy",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.aaeb.ch/\">http://www.aaeb.ch/</a>"
         },
@@ -6748,7 +6748,7 @@ var libraries = [
           "Nom": "Archives de l'Etat de Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.fr.ch/aef\">https://www.fr.ch/aef</a>"
         },
@@ -6766,7 +6766,7 @@ var libraries = [
           "Nom": "Archives de l'Etat de Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6783,7 +6783,7 @@ var libraries = [
           "Nom": "Archives de l'Etat du Valais, Sion",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6800,7 +6800,7 @@ var libraries = [
           "Nom": "Archives de la Ville de Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.ville-fribourg.ch/archives-ville\">https://www.ville-fribourg.ch/archives-ville</a>"
         },
@@ -6818,7 +6818,7 @@ var libraries = [
           "Nom": "Archives de la Ville de Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ville-ge.ch/archives\">http://www.ville-ge.ch/archives</a>"
         },
@@ -6836,7 +6836,7 @@ var libraries = [
           "Nom": "BCU Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6853,7 +6853,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Beauregard",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6870,7 +6870,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Centrale",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6887,7 +6887,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Chimie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6904,7 +6904,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Droit",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6921,7 +6921,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Droit - Beauregard",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6938,7 +6938,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Droit européen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6955,7 +6955,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Economie, société, informatique et sport",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6972,7 +6972,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Ethique et droits de l'homme",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -6989,7 +6989,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Europe orientale et centrale",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7006,7 +7006,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Fédéralisme",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7023,7 +7023,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Histoire de l'art et philosophie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7040,7 +7040,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Histoire et théologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7057,7 +7057,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Langues et littératures médiévales et modernes",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7074,7 +7074,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Langues étrangères",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7091,7 +7091,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Mathématiques",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7108,7 +7108,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Musicologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7125,7 +7125,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Pédagogie curative",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7142,7 +7142,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Pédagogie et psychologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7159,7 +7159,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sciences - ANAT",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7176,7 +7176,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sciences - BOT",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7193,7 +7193,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sciences - CHIP",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7210,7 +7210,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sciences - DOKPE",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unifr.ch/dokpe/de/library\">http://www.unifr.ch/dokpe/de/library</a>"
         },
@@ -7228,7 +7228,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sciences - GEOG",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7245,7 +7245,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sciences - GEOL",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7262,7 +7262,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sciences - HIST",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7279,7 +7279,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sciences - MIN",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7296,7 +7296,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sciences - PHYO",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7313,7 +7313,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sciences - PHYQ",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7330,7 +7330,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sciences - ZOOL",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7347,7 +7347,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sciences de l'Antiquité",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7364,7 +7364,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Sociologie, politiques sociales et travail social",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7381,7 +7381,7 @@ var libraries = [
           "Nom": "Berufsinformationszentrum BIZ, Brig",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.vs.ch/de/web/bsl/biz\">https://www.vs.ch/de/web/bsl/biz</a>"
         },
@@ -7399,7 +7399,7 @@ var libraries = [
           "Nom": "Bibliothèque cantonale jurassienne, Porrentruy",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.jura.ch/occ/bicj\">http://www.jura.ch/occ/bicj</a>"
         },
@@ -7417,7 +7417,7 @@ var libraries = [
           "Nom": "Bibliothèque communale et scolaire Le Bouveret",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7434,7 +7434,7 @@ var libraries = [
           "Nom": "Bibliothèque communale et scolaire St-Gingolph",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7451,7 +7451,7 @@ var libraries = [
           "Nom": "Bibliothèque communale et scolaire Troistorrents",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7468,7 +7468,7 @@ var libraries = [
           "Nom": "Bibliothèque communale et scolaire Val d'Illiez",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7485,7 +7485,7 @@ var libraries = [
           "Nom": "Bibliothèque communale Vionnaz",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7502,7 +7502,7 @@ var libraries = [
           "Nom": "Bibliothèque d'art et d'archéologie, Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ville-ge.ch/baa/\">http://www.ville-ge.ch/baa/</a>"
         },
@@ -7520,7 +7520,7 @@ var libraries = [
           "Nom": "Bibliothèque de Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ville-ge.ch/bge/\">http://www.ville-ge.ch/bge/</a>"
         },
@@ -7538,7 +7538,7 @@ var libraries = [
           "Nom": "Bibliothèque de la Ville de la Chaux-de-Fonds",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://cdf-bibliotheques.ne.ch/\">http://cdf-bibliotheques.ne.ch/</a>"
         },
@@ -7556,7 +7556,7 @@ var libraries = [
           "Nom": "Bibliothèque de la Ville du Locle",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.lelocle.ch/qualitedevie/culture-et-manifestations/bibliotheques/bibliotheque-de-la-ville/\">http://www.lelocle.ch/qualitedevie/culture-et-manifestations/bibliotheques/bibliotheque-de-la-ville/</a>"
         },
@@ -7574,7 +7574,7 @@ var libraries = [
           "Nom": "Bibliothèque des Jeunes - Président-Wilson, La Chaux-de-Fonds",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://cdf-bj.ne.ch\">http://cdf-bj.ne.ch</a>"
         },
@@ -7592,7 +7592,7 @@ var libraries = [
           "Nom": "Bibliothèque des Jeunes - Ronde, La Chaux-de-Fonds",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://cdf-bj.ne.ch/\">http://cdf-bj.ne.ch/</a>"
         },
@@ -7610,7 +7610,7 @@ var libraries = [
           "Nom": "Bibliothèque des Jeunes, Bramois",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7627,7 +7627,7 @@ var libraries = [
           "Nom": "Bibliothèque des Jeunes, Sion (-x)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7644,7 +7644,7 @@ var libraries = [
           "Nom": "Bibliothèque Filigrane, Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.f-information.org/filigrane\">http://www.f-information.org/filigrane</a>"
         },
@@ -7662,7 +7662,7 @@ var libraries = [
           "Nom": "Bibliothèque municipale de Delémont - Adultes",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.delemont.ch/bibliotheque/\">http://www.delemont.ch/bibliotheque/</a>"
         },
@@ -7680,7 +7680,7 @@ var libraries = [
           "Nom": "Bibliothèque municipale de Delémont - Jeunes",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.delemont.ch/bibliotheque/\">http://www.delemont.ch/bibliotheque/</a>"
         },
@@ -7698,7 +7698,7 @@ var libraries = [
           "Nom": "Bibliothèque municipale et scolaire Vouvry",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7715,7 +7715,7 @@ var libraries = [
           "Nom": "Bibliothèque municipale, Sion (-x)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7732,7 +7732,7 @@ var libraries = [
           "Nom": "Bibliothèque musicale de la Ville de Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://institutions.ville-geneve.ch/fr/bge/connaitre-la-bibliotheque/sites/la-musicale/presentation\">http://institutions.ville-geneve.ch/fr/bge/connaitre-la-bibliotheque/sites/la-musicale/presentation</a>"
         },
@@ -7750,7 +7750,7 @@ var libraries = [
           "Nom": "Bibliothèque publique des Perraires, Collombey",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7767,7 +7767,7 @@ var libraries = [
           "Nom": "Bibliothèque publique et scolaire, Bulle",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.musee-gruerien.ch/fr/3-bibliotheque.html\">http://www.musee-gruerien.ch/fr/3-bibliotheque.html</a>"
         },
@@ -7785,7 +7785,7 @@ var libraries = [
           "Nom": "Bibliothèque scolaire Lec'Tour, La Tour-de-Trême",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.lectour.ch/\">http://www.lectour.ch/</a>"
         },
@@ -7803,7 +7803,7 @@ var libraries = [
           "Nom": "Bibliothèque UNIL-UNIGE Sion, Bramois (IUKB)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7820,7 +7820,7 @@ var libraries = [
           "Nom": "BPU Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://bpun.unine.ch/page.asp?sous_menu1=fonds_etude&sous_menu2=0\">http://bpun.unine.ch/page.asp?sous_menu1=fonds_etude&sous_menu2=0</a>"
         },
@@ -7838,7 +7838,7 @@ var libraries = [
           "Nom": "BPU Neuchâtel - Lecture publique",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://bpun.unine.ch/page.asp?sous_menu1=lecture_publique&sous_menu2=0\">http://bpun.unine.ch/page.asp?sous_menu1=lecture_publique&sous_menu2=0</a>"
         },
@@ -7856,7 +7856,7 @@ var libraries = [
           "Nom": "Office fédéral de la justice (ISDC-OFJ), Berne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.bj.admin.ch\">http://www.bj.admin.ch</a>"
         },
@@ -7874,7 +7874,7 @@ var libraries = [
           "Nom": "Tribunal fédéral Lausanne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7891,7 +7891,7 @@ var libraries = [
           "Nom": "Tribunal fédéral Lucerne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7908,7 +7908,7 @@ var libraries = [
           "Nom": "Tribunal pénal fédéral, Bellinzona",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7925,7 +7925,7 @@ var libraries = [
           "Nom": "Tribunal administratif fédéral, Saint Gall",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.bvger.ch\">http://www.bvger.ch</a>"
         },
@@ -7943,7 +7943,7 @@ var libraries = [
           "Nom": "Bureau de l'égalité et de la famille (BEF), Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.fr.ch/bef\">https://www.fr.ch/bef</a>"
         },
@@ -7961,7 +7961,7 @@ var libraries = [
           "Nom": "Centre d'art contemporain, Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.centre.ch\">http://www.centre.ch</a>"
         },
@@ -7979,7 +7979,7 @@ var libraries = [
           "Nom": "Centre international d'étude du sport (CIES), Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -7996,7 +7996,7 @@ var libraries = [
           "Nom": "Collège de Delémont",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.coldel.org/site\">http://www.coldel.org/site</a>"
         },
@@ -8014,7 +8014,7 @@ var libraries = [
           "Nom": "Collège Saint-Charles, Porrentruy",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.saint-charles.ch\">http://www.saint-charles.ch</a>"
         },
@@ -8032,7 +8032,7 @@ var libraries = [
           "Nom": "Conseil oecuménique des Eglises, Bogis-Bossey",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://library.oikoumene.org\">http://library.oikoumene.org</a>"
         },
@@ -8050,7 +8050,7 @@ var libraries = [
           "Nom": "Conservatoire de Fribourg, Granges-Paccot",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8067,7 +8067,7 @@ var libraries = [
           "Nom": "Conservatoire de musique de La Chaux-de-Fonds/Le Locle",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.cmne.ch\">http://www.cmne.ch</a>"
         },
@@ -8085,7 +8085,7 @@ var libraries = [
           "Nom": "Conservatoire de musique, Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.cmne.ch/infos-pratiques/bibliotheques/presentation\">http://www.cmne.ch/infos-pratiques/bibliotheques/presentation</a>"
         },
@@ -8103,7 +8103,7 @@ var libraries = [
           "Nom": "Conservatoire et Jardin botaniques de la Ville de Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ville-ge.ch/cjb/bibliotheque.php\">http://www.ville-ge.ch/cjb/bibliotheque.php</a>"
         },
@@ -8121,7 +8121,7 @@ var libraries = [
           "Nom": "Couvent des Cordeliers Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8138,7 +8138,7 @@ var libraries = [
           "Nom": "Ecole cantonale de culture générale / EMS2, Delémont",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ds2a.ch/administration/biblioth%C3%A8que_et_mediath%C3%A8que\">http://www.ds2a.ch/administration/biblioth%C3%A8que_et_mediath%C3%A8que</a>"
         },
@@ -8156,7 +8156,7 @@ var libraries = [
           "Nom": "Ecole d'arts appliqués, La Chaux-de-Fonds",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.eaa-la-chaux-de-fonds.ch\">http://www.eaa-la-chaux-de-fonds.ch</a>"
         },
@@ -8174,7 +8174,7 @@ var libraries = [
           "Nom": "Ecole professionnelle commerciale, Delémont",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.epc-jura.ch\">http://www.epc-jura.ch</a>"
         },
@@ -8192,7 +8192,7 @@ var libraries = [
           "Nom": "Ecole secondaire Crêtets, La Chaux-de-Fonds",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8209,7 +8209,7 @@ var libraries = [
           "Nom": "Ecole secondaire Forges, La Chaux-de-Fonds",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8226,7 +8226,7 @@ var libraries = [
           "Nom": "Ecole secondaire Numa-Droz, La Chaux-de-Fonds",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8243,7 +8243,7 @@ var libraries = [
           "Nom": "IFFP Lausanne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8260,7 +8260,7 @@ var libraries = [
           "Nom": "Fondation Archivum Helveto-Polonicum (AHP), Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8277,7 +8277,7 @@ var libraries = [
           "Nom": "Fondation Hardt pour l'étude de l'Antiquité classique, Vandoeuvres",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.fondationhardt.ch/la-bibliotheque\">http://www.fondationhardt.ch/la-bibliotheque</a>"
         },
@@ -8295,7 +8295,7 @@ var libraries = [
           "Nom": "Fondation rurale interjurassienne, Courtételle",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.frij.ch\">http://www.frij.ch</a>"
         },
@@ -8313,7 +8313,7 @@ var libraries = [
           "Nom": "Fondation rurale interjurassienne, Loveresse",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.frij.ch\">http://www.frij.ch</a>"
         },
@@ -8331,7 +8331,7 @@ var libraries = [
           "Nom": "Fondation Tissières, Martigny",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8348,7 +8348,7 @@ var libraries = [
           "Nom": "Fonds d'art contemporain, Genève (FMAC)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://institutions.ville-geneve.ch/fr/fmac/mediatheque\">http://institutions.ville-geneve.ch/fr/fmac/mediatheque</a>"
         },
@@ -8366,7 +8366,7 @@ var libraries = [
           "Nom": "Gemeindebibliothek Naters",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8383,7 +8383,7 @@ var libraries = [
           "Nom": "Glossaire des patois de la Suisse romande, Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.glossaire-romand.ch\">http://www.glossaire-romand.ch</a>"
         },
@@ -8401,7 +8401,7 @@ var libraries = [
           "Nom": "Haute école d'art et de design (HEAD), Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.hesge.ch/head/espace-etudiant/bibliotheque\">https://www.hesge.ch/head/espace-etudiant/bibliotheque</a>"
         },
@@ -8419,7 +8419,7 @@ var libraries = [
           "Nom": "Haute école de gestion (HEG), Carouge",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.hesge.ch/heg/infotheque\">https://www.hesge.ch/heg/infotheque</a>"
         },
@@ -8437,7 +8437,7 @@ var libraries = [
           "Nom": "Haute école de santé Genève (HEdS)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.hesge.ch/heds/centre-documentation/actualites\">https://www.hesge.ch/heds/centre-documentation/actualites</a>"
         },
@@ -8455,7 +8455,7 @@ var libraries = [
           "Nom": "Haute école de travail social Fribourg, Givisiez (-x)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hets-fr.ch/fr/ecole/bibliotheque/generalites\">http://www.hets-fr.ch/fr/ecole/bibliotheque/generalites</a>"
         },
@@ -8473,7 +8473,7 @@ var libraries = [
           "Nom": "Haute école de travail social Genève (HETS)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.hesge.ch/hets/infotheque\">https://www.hesge.ch/hets/infotheque</a>"
         },
@@ -8491,7 +8491,7 @@ var libraries = [
           "Nom": "Haute école pédagogique, Fribourg (HEP) - Atelier multimédia",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hepfr.ch/dm\">http://www.hepfr.ch/dm</a>"
         },
@@ -8509,7 +8509,7 @@ var libraries = [
           "Nom": "Hautes écoles de travail social et de santé, Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.heds-fr.ch\">http://www.heds-fr.ch</a>"
         },
@@ -8527,7 +8527,7 @@ var libraries = [
           "Nom": "HE-Arc - Campus 1, Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://gestion.he-arc.ch/ges-biblio/bibliothèque\">http://gestion.he-arc.ch/ges-biblio/bibliothèque</a>"
         },
@@ -8545,7 +8545,7 @@ var libraries = [
           "Nom": "HE-Arc - Campus 2, Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8562,7 +8562,7 @@ var libraries = [
           "Nom": "HEP BEJUNE - Delémont",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8579,7 +8579,7 @@ var libraries = [
           "Nom": "HEP BEJUNE - La Chaux-de-Fonds",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8596,7 +8596,7 @@ var libraries = [
           "Nom": "HES-SO Valais - Filières ES Sion",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8613,7 +8613,7 @@ var libraries = [
           "Nom": "HES-SO Valais - Médiathèque santé, Sion",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://mediatheques.hevs.ch/default.aspx?nolangue=19\">http://mediatheques.hevs.ch/default.aspx?nolangue=19</a>"
         },
@@ -8631,7 +8631,7 @@ var libraries = [
           "Nom": "HES-SO Valais - Médiathèque, Sierre",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.hevs.ch/fr/mini-sites/mediatheques/\">https://www.hevs.ch/fr/mini-sites/mediatheques/</a>"
         },
@@ -8649,7 +8649,7 @@ var libraries = [
           "Nom": "HUG - Département de chirurgie, Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8666,7 +8666,7 @@ var libraries = [
           "Nom": "HUG - Département de l'enfant et de l'adolescent, Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8683,7 +8683,7 @@ var libraries = [
           "Nom": "Institut de hautes études internationales et du développement (IHEID), Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://graduateinstitute.ch/fr/home/research/library.html\">http://graduateinstitute.ch/fr/home/research/library.html</a>"
         },
@@ -8701,7 +8701,7 @@ var libraries = [
           "Nom": "Institut de recherche et de documentation pédagogique, Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.irdp.ch\">http://www.irdp.ch</a>"
         },
@@ -8719,7 +8719,7 @@ var libraries = [
           "Nom": "Institut et Musée Voltaire, Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8736,7 +8736,7 @@ var libraries = [
           "Nom": "Institut suisse Jeunesse et Médias (ISJM), Lausanne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8753,7 +8753,7 @@ var libraries = [
           "Nom": "Lycée cantonal de Porrentruy",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://mediathequelcpecp.unblog.fr\">http://mediathequelcpecp.unblog.fr</a>"
         },
@@ -8771,7 +8771,7 @@ var libraries = [
           "Nom": "Lycée-Collège des Creusets, Sion",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.creusets.net\">http://www.creusets.net</a>"
         },
@@ -8789,7 +8789,7 @@ var libraries = [
           "Nom": "Médiathèque Valais, Brigue",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8806,7 +8806,7 @@ var libraries = [
           "Nom": "Médiathèque Valais, Martigny",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8823,7 +8823,7 @@ var libraries = [
           "Nom": "Médiathèque Valais, Sion",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8840,7 +8840,7 @@ var libraries = [
           "Nom": "Médiathèque Valais, St-Maurice",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8857,7 +8857,7 @@ var libraries = [
           "Nom": "Médiathèque du CIP, Tramelan",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.cip-tramelan.ch/mediatheque\">http://www.cip-tramelan.ch/mediatheque</a>"
         },
@@ -8875,7 +8875,7 @@ var libraries = [
           "Nom": "Médiathèque ECCG-EPP, Sion",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8892,7 +8892,7 @@ var libraries = [
           "Nom": "Médiathèque Monthey",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -8909,7 +8909,7 @@ var libraries = [
           "Nom": "Musée d'art et d'histoire, Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.mahf.ch/mahf/fr/pub/index.htm\">http://www.mahf.ch/mahf/fr/pub/index.htm</a>"
         },
@@ -8927,7 +8927,7 @@ var libraries = [
           "Nom": "Musée d'art et d'histoire, Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.mahn.ch/bibliotheques\">http://www.mahn.ch/bibliotheques</a>"
         },
@@ -8945,7 +8945,7 @@ var libraries = [
           "Nom": "Musée d'ethnographie, Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ville-ge.ch/musinfo/ethg/bibliotheque.php\">http://www.ville-ge.ch/musinfo/ethg/bibliotheque.php</a>"
         },
@@ -8963,7 +8963,7 @@ var libraries = [
           "Nom": "Musée d'histoire des sciences, Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://institutions.ville-geneve.ch/fr/mhn/votre-visite/preparer-votre-visite/musee-dhistoire-des-sciences/nos-services\">http://institutions.ville-geneve.ch/fr/mhn/votre-visite/preparer-votre-visite/musee-dhistoire-des-sciences/nos-services</a>"
         },
@@ -8981,7 +8981,7 @@ var libraries = [
           "Nom": "Musée d'histoire naturelle, Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.mhnf.ch/mhn/fr/pub/index.cfm\">http://www.mhnf.ch/mhn/fr/pub/index.cfm</a>"
         },
@@ -8999,7 +8999,7 @@ var libraries = [
           "Nom": "Musée d'histoire naturelle, La Chaux-de-Fonds",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9016,7 +9016,7 @@ var libraries = [
           "Nom": "Musée d'histoire, La Chaux-de-Fonds",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9033,7 +9033,7 @@ var libraries = [
           "Nom": "Musée des beaux-arts, La Chaux-de-Fonds",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9050,7 +9050,7 @@ var libraries = [
           "Nom": "Musée international d'horlogerie, La Chaux-de-Fonds",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9067,7 +9067,7 @@ var libraries = [
           "Nom": "Musées cantonaux du Valais, Sion",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.musees-valais.ch\">http://www.musees-valais.ch</a>"
         },
@@ -9085,7 +9085,7 @@ var libraries = [
           "Nom": "Muséum d'histoire naturelle, Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://institutions.ville-geneve.ch/fr/mhn/frontpage/bibliotheque-suite\">http://institutions.ville-geneve.ch/fr/mhn/frontpage/bibliotheque-suite</a>"
         },
@@ -9103,7 +9103,7 @@ var libraries = [
           "Nom": "Muséum d'histoire naturelle, Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.museum-neuchatel.ch\">http://www.museum-neuchatel.ch</a>"
         },
@@ -9121,7 +9121,7 @@ var libraries = [
           "Nom": "Haute école pédagogique, Fribourg (HEP)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.hepfr.ch/dm\">http://www.hepfr.ch/dm</a>"
         },
@@ -9139,7 +9139,7 @@ var libraries = [
           "Nom": "Haute école pédagogique, Fribourg (HEP)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.hepfr.ch/dm\">https://www.hepfr.ch/dm</a>"
         },
@@ -9157,7 +9157,7 @@ var libraries = [
           "Nom": "Pouvoir judiciaire, Genève",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://ge.ch/justice/bibliotheque\">http://ge.ch/justice/bibliotheque</a>"
         },
@@ -9175,7 +9175,7 @@ var libraries = [
           "Nom": "Service archéologique de l'Etat de Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.fr.ch/saef\">https://www.fr.ch/saef</a>"
         },
@@ -9193,7 +9193,7 @@ var libraries = [
           "Nom": "Service de l'information et de la communication Delémont",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.jura.ch/sic\">http://www.jura.ch/sic</a>"
         },
@@ -9211,7 +9211,7 @@ var libraries = [
           "Nom": "Service des biens culturels, Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.fr.ch/sbc\">https://www.fr.ch/sbc</a>"
         },
@@ -9229,7 +9229,7 @@ var libraries = [
           "Nom": "Service juridique de l'Etat de Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ne.ch/autorites/DJSC/SJEN/Pages/accueil.aspx\">http://www.ne.ch/autorites/DJSC/SJEN/Pages/accueil.aspx</a>"
         },
@@ -9247,7 +9247,7 @@ var libraries = [
           "Nom": "Bibliothèque spécialisée Privation de liberté du CSCSP, Fribourg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.skjv.ch/fr/savoirs-specialises/bibliotheque\">https://www.skjv.ch/fr/savoirs-specialises/bibliotheque</a>"
         },
@@ -9265,7 +9265,7 @@ var libraries = [
           "Nom": "Swiss Forum for Migration and Population Studies (SFM), Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.unine.ch/sfm/fr/home.html\">https://www.unine.ch/sfm/fr/home.html</a>"
         },
@@ -9283,7 +9283,7 @@ var libraries = [
           "Nom": "Tribunal cantonal - Cour de droit administratif et public, Lausanne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9300,7 +9300,7 @@ var libraries = [
           "Nom": "Tribunal cantonal - Cour des assurances sociales, Lausanne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9317,7 +9317,7 @@ var libraries = [
           "Nom": "Tribunal cantonal du Valais, Sion",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9334,7 +9334,7 @@ var libraries = [
           "Nom": "Tribunal cantonal, Neuchâtel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ne.ch/autorites/PJNE/TC/Pages/accueil.aspx\">http://www.ne.ch/autorites/PJNE/TC/Pages/accueil.aspx</a>"
         },
@@ -9352,7 +9352,7 @@ var libraries = [
           "Nom": "Tribunal de première instance, Porrentruy",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.jura.ch/JUST/Instances-judiciaires/Tribunal-de-premiere-instance.html\">http://www.jura.ch/JUST/Instances-judiciaires/Tribunal-de-premiere-instance.html</a>"
         },
@@ -9370,7 +9370,7 @@ var libraries = [
           "Nom": "Tribunaux jurassiens, Porrentruy",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.jura.ch/JUST\">http://www.jura.ch/JUST</a>"
         },
@@ -9388,7 +9388,7 @@ var libraries = [
           "Nom": "Uni Genève - CODIS - Coordination de l'information scientifique",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/dis/organisation/codis/\">http://www.unige.ch/dis/organisation/codis/</a>"
         },
@@ -9406,7 +9406,7 @@ var libraries = [
           "Nom": "Uni Genève - CODIS - Dépôt de la BU (DBU Seujet)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/dis/organisation/codis/dbu/\">http://www.unige.ch/dis/organisation/codis/dbu/</a>"
         },
@@ -9424,7 +9424,7 @@ var libraries = [
           "Nom": "Uni Genève Arve - Astronomie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/biblio/sciences/fr/infos/astronomie\">http://www.unige.ch/biblio/sciences/fr/infos/astronomie</a>"
         },
@@ -9442,7 +9442,7 @@ var libraries = [
           "Nom": "Uni Genève Arve - Bibliothèque Schmidheiny",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9459,7 +9459,7 @@ var libraries = [
           "Nom": "Uni Genève Arve - Informatique (CUI)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/biblio/sciences\">http://www.unige.ch/biblio/sciences</a>"
         },
@@ -9477,7 +9477,7 @@ var libraries = [
           "Nom": "Uni Genève Arve - Mathématiques",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/biblio/sciences/fr/infos/maths\">http://www.unige.ch/biblio/sciences/fr/infos/maths</a>"
         },
@@ -9495,7 +9495,7 @@ var libraries = [
           "Nom": "Uni Genève Arve - Sciences de l'environnement (ISE)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/biblio/sciences/fr/infos/ise\">http://www.unige.ch/biblio/sciences/fr/infos/ise</a>"
         },
@@ -9513,7 +9513,7 @@ var libraries = [
           "Nom": "Uni Genève Arve - Sciences de la terre et de l'environnement",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/biblio/sciences/fr/infos/terre\">http://www.unige.ch/biblio/sciences/fr/infos/terre</a>"
         },
@@ -9531,7 +9531,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Acquisitions",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9548,7 +9548,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Allemand",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9565,7 +9565,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Anglais",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/biblio/bastions/disciplines/anglais\">http://www.unige.ch/biblio/bastions/disciplines/anglais</a>"
         },
@@ -9583,7 +9583,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Arabe",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9600,7 +9600,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Espagnol",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9617,7 +9617,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Français",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/biblio/bastions/disciplines/francais\">http://www.unige.ch/biblio/bastions/disciplines/francais</a>"
         },
@@ -9635,7 +9635,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Français langue étrangère (FLE)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9652,7 +9652,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Grec moderne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9669,7 +9669,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Histoire de l'art",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/lettres/armus/istar/ressources\">http://www.unige.ch/lettres/armus/istar/ressources</a>"
         },
@@ -9687,7 +9687,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Histoire de la Réformation (IHR/MHR)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/ihr/fr/presentation/bibliotheque\">http://www.unige.ch/ihr/fr/presentation/bibliotheque</a>"
         },
@@ -9705,7 +9705,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Histoire générale",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9722,7 +9722,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Italien",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9739,7 +9739,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Langues orientales",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/lettres/estas/bibliotheques.html\">http://www.unige.ch/lettres/estas/bibliotheques.html</a>"
         },
@@ -9757,7 +9757,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Linguistique",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9774,7 +9774,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Littérature comparée",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9791,7 +9791,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Musicologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/biblio/bastions/disciplines/musicologie\">http://www.unige.ch/biblio/bastions/disciplines/musicologie</a>"
         },
@@ -9809,7 +9809,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Philosophie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9826,7 +9826,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Romanche",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9843,7 +9843,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Russe",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9860,7 +9860,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Sciences de l'Antiquité",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9877,7 +9877,7 @@ var libraries = [
           "Nom": "Uni Genève Bastions - Théologie",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.unige.ch/biblio/old/theologie/accueil\">https://www.unige.ch/biblio/old/theologie/accueil</a>"
         },
@@ -9895,7 +9895,7 @@ var libraries = [
           "Nom": "Uni Genève CMU - Humanités (IEH2)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.unige.ch/biblio/old/humanites-medecine/accueil/\">https://www.unige.ch/biblio/old/humanites-medecine/accueil/</a>"
         },
@@ -9913,7 +9913,7 @@ var libraries = [
           "Nom": "Uni Genève CMU - Médecine",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/biblio/cmu\">http://www.unige.ch/biblio/cmu</a>"
         },
@@ -9931,7 +9931,7 @@ var libraries = [
           "Nom": "Uni Genève CMU - Santé (CDS)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.medecine.unige.ch/cds/\">http://www.medecine.unige.ch/cds/</a>"
         },
@@ -9949,7 +9949,7 @@ var libraries = [
           "Nom": "Uni Genève Mail - Archives Jean Piaget",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.archivespiaget.ch/\">http://www.archivespiaget.ch/</a>"
         },
@@ -9967,7 +9967,7 @@ var libraries = [
           "Nom": "Uni Genève Mail - Droit",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -9984,7 +9984,7 @@ var libraries = [
           "Nom": "Uni Genève Mail - Espace audiovisuel",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/biblio/mediatheque\">http://www.unige.ch/biblio/mediatheque</a>"
         },
@@ -10002,7 +10002,7 @@ var libraries = [
           "Nom": "Uni Genève Mail - Etudes européennes et relations internationales (GSI)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10019,7 +10019,7 @@ var libraries = [
           "Nom": "Uni Genève Mail - Gérontologie et études des vulnérabilités (CIGEV)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"https://cigev.unige.ch/fr/bibliotheque\">https://cigev.unige.ch/fr/bibliotheque</a>"
         },
@@ -10037,7 +10037,7 @@ var libraries = [
           "Nom": "Uni Genève Mail - Institut J.-J. Rousseau (AIJJR)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/archives/aijjr\">http://www.unige.ch/archives/aijjr</a>"
         },
@@ -10055,7 +10055,7 @@ var libraries = [
           "Nom": "Uni Genève Mail - Psychologie et sciences de l'éducation",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10072,7 +10072,7 @@ var libraries = [
           "Nom": "Uni Genève Mail - Sciences économiques et sociales",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10089,7 +10089,7 @@ var libraries = [
           "Nom": "Uni Genève Mail - Traduction et interprétation",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.unige.ch/biblio/unimail\">http://www.unige.ch/biblio/unimail</a>"
         },
@@ -10107,7 +10107,7 @@ var libraries = [
           "Nom": "Uni Neuchâtel - Bibliothèque de Pierre-à-Mazel 7 (PAM7)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10124,7 +10124,7 @@ var libraries = [
           "Nom": "Uni Neuchâtel - Droit",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10141,7 +10141,7 @@ var libraries = [
           "Nom": "Uni Neuchâtel - Droit de la santé",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10158,7 +10158,7 @@ var libraries = [
           "Nom": "Uni Neuchâtel - Ethnologie (IE + MEN)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10175,7 +10175,7 @@ var libraries = [
           "Nom": "Uni Neuchâtel - Lettres et sciences humaines",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10192,7 +10192,7 @@ var libraries = [
           "Nom": "Uni Neuchâtel - Sciences économiques",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10209,7 +10209,7 @@ var libraries = [
           "Nom": "Uni Neuchâtel - Service de l'information scientifique et des bibliothèques",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www2.unine.ch/bibliotheque\">http://www2.unine.ch/bibliotheque</a>"
         },
@@ -10227,7 +10227,7 @@ var libraries = [
           "Nom": "Vitrocentre Romont",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "66B2FF",
+          "color": "#66B2FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.vitrocentre.ch\">http://www.vitrocentre.ch</a>"
         },
@@ -10245,7 +10245,7 @@ var libraries = [
           "Nom": "Abbaye de St-Maurice - Collection d'affiches",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.abbaye-stmaurice.ch\">http://www.abbaye-stmaurice.ch</a>"
         },
@@ -10263,7 +10263,7 @@ var libraries = [
           "Nom": "BCU Fribourg - Collection d'affiches",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie"
         },
         "geometry": {
@@ -10280,7 +10280,7 @@ var libraries = [
           "Nom": "Bibliothèque de Genève - Collection d'affiches",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ville-ge.ch/bge/\">http://www.ville-ge.ch/bge/</a>"
         },
@@ -10298,7 +10298,7 @@ var libraries = [
           "Nom": "Bibliothèque musicale de la Ville de Genève - Collection d'affiches",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie",
           "Site web": "<a href=\"http://institutions.ville-geneve.ch/fr/bge/connaitre-la-bibliotheque/sites/la-musicale/presentation\">http://institutions.ville-geneve.ch/fr/bge/connaitre-la-bibliotheque/sites/la-musicale/presentation</a>"
         },
@@ -10316,7 +10316,7 @@ var libraries = [
           "Nom": "BPU Neuchâtel - Collection d'affiches",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie"
         },
         "geometry": {
@@ -10333,7 +10333,7 @@ var libraries = [
           "Nom": "Cinémathèque Suisse - Collection d'affiches, Lausanne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.cinematheque.ch/\">http://www.cinematheque.ch/</a>"
         },
@@ -10351,7 +10351,7 @@ var libraries = [
           "Nom": "Kantonsbibliothek Nidwalden - Plakatsammlung, Stans",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.kantonsbibliothek.nw.ch\">http://www.kantonsbibliothek.nw.ch</a>"
         },
@@ -10369,7 +10369,7 @@ var libraries = [
           "Nom": "Médiathèque Valais - Collection d'affiches, Sion",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie"
         },
         "geometry": {
@@ -10386,7 +10386,7 @@ var libraries = [
           "Nom": "Bibliothèque nationale suisse (BN) - cabinet des estampes, Berne",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie"
         },
         "geometry": {
@@ -10403,7 +10403,7 @@ var libraries = [
           "Nom": "Musée suisse des transports - Collection d'affiches, Luzern",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.verkehrshaus.ch/de\">https://www.verkehrshaus.ch/de</a>"
         },
@@ -10421,7 +10421,7 @@ var libraries = [
           "Nom": "BORIS - Bern Open Repository and Information System",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie"
         },
         "geometry": {
@@ -10438,7 +10438,7 @@ var libraries = [
           "Nom": "e-codices - Bibliothèque virtuelle des manuscrits en Suisse",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie"
         },
         "geometry": {
@@ -10455,7 +10455,7 @@ var libraries = [
           "Nom": "e-periodica",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie"
         },
         "geometry": {
@@ -10472,7 +10472,7 @@ var libraries = [
           "Nom": "SERVAL - Serveur académique lausannois",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "808080",
+          "color": "#808080",
           "category": "patisserie"
         },
         "geometry": {
@@ -10489,7 +10489,7 @@ var libraries = [
           "Nom": "Accademia di Architettura, Mendrisio",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://biblio.arc.usi.ch\">http://biblio.arc.usi.ch</a>"
         },
@@ -10507,7 +10507,7 @@ var libraries = [
           "Nom": "Accademia di Architettura, Mendrisio",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10524,7 +10524,7 @@ var libraries = [
           "Nom": "Archivio di Stato, Bellinzona",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ti.ch/archivio\">http://www.ti.ch/archivio</a>"
         },
@@ -10542,7 +10542,7 @@ var libraries = [
           "Nom": "Archivio di Stato, Bellinzona",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10559,7 +10559,7 @@ var libraries = [
           "Nom": "Archivio storico della Città di Lugano",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10576,7 +10576,7 @@ var libraries = [
           "Nom": "Biblioteca cantonale Bellinzona",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sbt.ti.ch/bcb\">http://www.sbt.ti.ch/bcb</a>"
         },
@@ -10594,7 +10594,7 @@ var libraries = [
           "Nom": "Biblioteca cantonale Bellinzona",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sbt.ti.ch/bcb\">http://www.sbt.ti.ch/bcb</a>"
         },
@@ -10612,7 +10612,7 @@ var libraries = [
           "Nom": "Biblioteca cantonale Bellinzona",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10629,7 +10629,7 @@ var libraries = [
           "Nom": "Biblioteca cantonale e del Liceo di Mendrisio",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sbt.ti.ch/bcme\">http://www.sbt.ti.ch/bcme</a>"
         },
@@ -10647,7 +10647,7 @@ var libraries = [
           "Nom": "Biblioteca cantonale e del Liceo di Mendrisio",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10664,7 +10664,7 @@ var libraries = [
           "Nom": "Biblioteca cantonale Locarno",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sbt.ti.ch/bclocarno\">http://www.sbt.ti.ch/bclocarno</a>"
         },
@@ -10682,7 +10682,7 @@ var libraries = [
           "Nom": "Biblioteca cantonale Locarno",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10699,7 +10699,7 @@ var libraries = [
           "Nom": "Biblioteca cantonale Lugano",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sbt.ti.ch/bclugano\">http://www.sbt.ti.ch/bclugano</a>"
         },
@@ -10717,7 +10717,7 @@ var libraries = [
           "Nom": "Biblioteca cantonale Lugano",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10734,7 +10734,7 @@ var libraries = [
           "Nom": "Biblioteca Salita dei Frati, Lugano",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sbt.ti.ch/bsf/\">http://www.sbt.ti.ch/bsf/</a>"
         },
@@ -10752,7 +10752,7 @@ var libraries = [
           "Nom": "Biblioteca universitaria di Lugano",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.library.lu.usi.ch\">http://www.library.lu.usi.ch</a>"
         },
@@ -10770,7 +10770,7 @@ var libraries = [
           "Nom": "Centro di dialettologia e di etnografia, Bellinzona",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10787,7 +10787,7 @@ var libraries = [
           "Nom": "Centro di informazione e documentazione statistica, Bellinzona",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ti.ch/cids\">http://www.ti.ch/cids</a>"
         },
@@ -10805,7 +10805,7 @@ var libraries = [
           "Nom": "Centro di informazione e documentazione statistica, Giubiasco",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10822,7 +10822,7 @@ var libraries = [
           "Nom": "IFFP Lugano",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sbt.ti.ch/iuffp\">http://www.sbt.ti.ch/iuffp</a>"
         },
@@ -10840,7 +10840,7 @@ var libraries = [
           "Nom": "Fondo Sasso Corbaro Medical Humanities/Osp.civico Lugano",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sasso-corbaro.ch/\">http://www.sasso-corbaro.ch/</a>"
         },
@@ -10858,7 +10858,7 @@ var libraries = [
           "Nom": "Museo cantonale d'Arte, Lugano",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.sbt.ti.ch/mca\">http://www.sbt.ti.ch/mca</a>"
         },
@@ -10876,7 +10876,7 @@ var libraries = [
           "Nom": "Museo delle Culture, Lugano",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.lugano.ch/museoculture/welcome.cfm?id=003003\">http://www.lugano.ch/museoculture/welcome.cfm?id=003003</a>"
         },
@@ -10894,7 +10894,7 @@ var libraries = [
           "Nom": "Museo Villa dei cedri, Bellinzona",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.villacedri.ch\">http://www.villacedri.ch</a>"
         },
@@ -10912,7 +10912,7 @@ var libraries = [
           "Nom": "Organizzazione sociopsichiatrica cantonale, Mendrisio",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ti.ch/osc\">http://www.ti.ch/osc</a>"
         },
@@ -10930,7 +10930,7 @@ var libraries = [
           "Nom": "SUPSI-DFA, Locarno (-x)",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie"
         },
         "geometry": {
@@ -10947,7 +10947,7 @@ var libraries = [
           "Nom": "Ufficio della documentazione, Bellinzona",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "CCE5FF",
+          "color": "#CCE5FF",
           "category": "patisserie",
           "Site web": "<a href=\"http://www4.ti.ch/?id=62312\">http://www4.ti.ch/?id=62312</a>"
         },
@@ -10965,7 +10965,7 @@ var libraries = [
           "Nom": "Amt für Umweltschutz, St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -10982,7 +10982,7 @@ var libraries = [
           "Nom": "Archäologie St.Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -10999,7 +10999,7 @@ var libraries = [
           "Nom": "Archiv für Schweizer Landschaftsarchitektur, Rapperswil",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11016,7 +11016,7 @@ var libraries = [
           "Nom": "Baudepartement St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11033,7 +11033,7 @@ var libraries = [
           "Nom": "Berufs- und Laufbahnberatung Altstätten",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.berufsberatung.sg.ch\">http://www.berufsberatung.sg.ch</a>"
         },
@@ -11051,7 +11051,7 @@ var libraries = [
           "Nom": "Berufs- und Laufbahnberatung Sargans",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.berufsberatung.sg.ch\">http://www.berufsberatung.sg.ch</a>"
         },
@@ -11069,7 +11069,7 @@ var libraries = [
           "Nom": "Berufs- und Laufbahnberatung See-Gaster",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.berufsberatung.sg.ch\">http://www.berufsberatung.sg.ch</a>"
         },
@@ -11087,7 +11087,7 @@ var libraries = [
           "Nom": "Berufs- und Laufbahnberatung Toggenburg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.berufsberatung.sg.ch\">http://www.berufsberatung.sg.ch</a>"
         },
@@ -11105,7 +11105,7 @@ var libraries = [
           "Nom": "Berufs- und Laufbahnberatung Werdenberg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.berufsberatung.sg.ch\">http://www.berufsberatung.sg.ch</a>"
         },
@@ -11123,7 +11123,7 @@ var libraries = [
           "Nom": "Berufs- und Laufbahnberatung Wil",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.berufsberatung.sg.ch\">http://www.berufsberatung.sg.ch</a>"
         },
@@ -11141,7 +11141,7 @@ var libraries = [
           "Nom": "Berufs- und Weiterbildungszentrum Sarganserland",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11158,7 +11158,7 @@ var libraries = [
           "Nom": "Berufs-, Studien- und Laufbahnberatung St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.studienberatung.sg.ch\">http://www.studienberatung.sg.ch</a>"
         },
@@ -11176,7 +11176,7 @@ var libraries = [
           "Nom": "Berufs-, Studien- und Laufbahnberatung St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.berufsberatung.sg.ch\">http://www.berufsberatung.sg.ch</a>"
         },
@@ -11194,7 +11194,7 @@ var libraries = [
           "Nom": "Bibliotheksdienst Kantonsspital St.Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11211,7 +11211,7 @@ var libraries = [
           "Nom": "BZGS Grundbildung, St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.bzgs.ch\">http://www.bzgs.ch</a>"
         },
@@ -11229,7 +11229,7 @@ var libraries = [
           "Nom": "BZGS Höhere Fachschule, St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.bzgs.ch\">http://www.bzgs.ch</a>"
         },
@@ -11247,7 +11247,7 @@ var libraries = [
           "Nom": "Denkmalpflege St. Gallen - Bibliothek Bernhard Anderes",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11264,7 +11264,7 @@ var libraries = [
           "Nom": "Diözesane Kirchenmusikschule St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11281,7 +11281,7 @@ var libraries = [
           "Nom": "ED Rechtsdienst St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11298,7 +11298,7 @@ var libraries = [
           "Nom": "Finanzdepartement St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11315,7 +11315,7 @@ var libraries = [
           "Nom": "Gesundheitsdepartement St.Gallen - Rechtsdienst",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11332,7 +11332,7 @@ var libraries = [
           "Nom": "Gewerbliches Berufs- und Weiterbildungszentrum St.Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.gbssg.ch\">http://www.gbssg.ch</a>"
         },
@@ -11350,7 +11350,7 @@ var libraries = [
           "Nom": "Justiz- und Polizeidepartement St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11367,7 +11367,7 @@ var libraries = [
           "Nom": "Kantonales Forstamt St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11384,7 +11384,7 @@ var libraries = [
           "Nom": "Kantonsarztamt St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11401,7 +11401,7 @@ var libraries = [
           "Nom": "Kantonsbibliothek Appenzell Ausserrhoden, Trogen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ar.ch/?5216\">http://www.ar.ch/?5216</a>"
         },
@@ -11419,7 +11419,7 @@ var libraries = [
           "Nom": "Kantonsgericht St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11436,7 +11436,7 @@ var libraries = [
           "Nom": "Kantonsschule am Burggraben St.Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://ksbg.ch/index.php?id=14\">http://ksbg.ch/index.php?id=14</a>"
         },
@@ -11454,7 +11454,7 @@ var libraries = [
           "Nom": "Kantonsschule Heerbrugg",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.ksh.edu/infrastruktur/mediothek.html\">http://www.ksh.edu/infrastruktur/mediothek.html</a>"
         },
@@ -11472,7 +11472,7 @@ var libraries = [
           "Nom": "Kantonsschule Sargans",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.kantisargans.ch\">http://www.kantisargans.ch</a>"
         },
@@ -11490,7 +11490,7 @@ var libraries = [
           "Nom": "Kantonsschule Wattwil",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.kswattwil.ch\">http://www.kswattwil.ch</a>"
         },
@@ -11508,7 +11508,7 @@ var libraries = [
           "Nom": "Kantonsschule Wil",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"https://www.kantiwil.ch\">https://www.kantiwil.ch</a>"
         },
@@ -11526,7 +11526,7 @@ var libraries = [
           "Nom": "KB Vadiana - St. Galler Zentrum für das Buch",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11543,7 +11543,7 @@ var libraries = [
           "Nom": "KB Vadiana St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.kb.sg.ch\">http://www.kb.sg.ch</a>"
         },
@@ -11561,7 +11561,7 @@ var libraries = [
           "Nom": "KB Vadiana St. Gallen - Historisches Museum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11578,7 +11578,7 @@ var libraries = [
           "Nom": "KB Vadiana St. Gallen - Naturhistorisches Museum",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11595,7 +11595,7 @@ var libraries = [
           "Nom": "KJPD St.Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11612,7 +11612,7 @@ var libraries = [
           "Nom": "Kloster Magdenau, Wolfertswil",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11629,7 +11629,7 @@ var libraries = [
           "Nom": "Kunstbibliothek Sitterwerk, St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11646,7 +11646,7 @@ var libraries = [
           "Nom": "Musikschulzentrum St.Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11663,7 +11663,7 @@ var libraries = [
           "Nom": "Ostschweizer Kinderspital, St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11680,7 +11680,7 @@ var libraries = [
           "Nom": "Psychiatrische Dienste Wil",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11697,7 +11697,7 @@ var libraries = [
           "Nom": "Ragaziana, Bad Ragaz",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11714,7 +11714,7 @@ var libraries = [
           "Nom": "Staatsarchiv St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11731,7 +11731,7 @@ var libraries = [
           "Nom": "Staatskanzlei St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11748,7 +11748,7 @@ var libraries = [
           "Nom": "Stadtbibliothek St. Gallen - Bibliothek Hauptpost",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.bibliosg.ch\">http://www.bibliosg.ch</a>"
         },
@@ -11766,7 +11766,7 @@ var libraries = [
           "Nom": "Stadtbibliothek St.Gallen - Katharinen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.stadt.sg.ch/home/schule-bildung/bibliothek.html\">http://www.stadt.sg.ch/home/schule-bildung/bibliothek.html</a>"
         },
@@ -11784,7 +11784,7 @@ var libraries = [
           "Nom": "Stiftsarchiv St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11801,7 +11801,7 @@ var libraries = [
           "Nom": "Stiftsbibliothek St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.stibi.ch\">http://www.stibi.ch</a>"
         },
@@ -11819,7 +11819,7 @@ var libraries = [
           "Nom": "Textilbibliothek St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11836,7 +11836,7 @@ var libraries = [
           "Nom": "Versicherungsgericht St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.gerichte.sg.ch/home/gericht/versicherungsgericht.html\">http://www.gerichte.sg.ch/home/gericht/versicherungsgericht.html</a>"
         },
@@ -11854,7 +11854,7 @@ var libraries = [
           "Nom": "Volkswirtschaftsdepartement St. Gallen - Rechtsdienst",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie"
         },
         "geometry": {
@@ -11871,7 +11871,7 @@ var libraries = [
           "Nom": "Wyborada, St. Gallen",
           "marker-symbol": "library",
           "marker-size": "small",
-          "marker-color": "00FF00",
+          "color": "#00FF00",
           "category": "patisserie",
           "Site web": "<a href=\"http://www.wyborada.ch\">http://www.wyborada.ch</a>"
         },
