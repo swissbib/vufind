@@ -1,4 +1,4 @@
-    <?php
+<?php
 $this->headScript()->appendFile('vendor/leaflet/leaflet.js');
 $this->headScript()->appendFile('vendor/leaflet/leaflet.markercluster.js');
 $this->headLink()->appendStylesheet('vendor/leaflet/leaflet.css');
@@ -6,6 +6,10 @@ $this->headLink()->appendStylesheet('vendor/leaflet/MarkerCluster.css');
 ?>
 
 <div id="mapid" style="width: 800px; height: 600px;"></div>
+<br>
+
+<button class="btn btn-primary" onClick="swissbib.Test.test()">Find the nearest library</button>
+
 
 <!-- this part is necessary to have the labels in the good language on the map -->
 <?php $this->headScript()->captureStart() ?>
@@ -16,4 +20,6 @@ $this->headLink()->appendStylesheet('vendor/leaflet/MarkerCluster.css');
 <?php $this->headScript()->captureEnd() ?>
 
 <?= $this->inlineScript()->appendFile('libraries_map.js'); ?>
+
+
 

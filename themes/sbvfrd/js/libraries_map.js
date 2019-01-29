@@ -15,7 +15,7 @@ $.getJSON("/themes/sbvfrd/js/raw_map_fr.json", function(libraries){
     }
   });
 
-  var baseballIcon = L.icon({
+  var customIcon = L.icon({
     iconUrl: VuFind.path + '/themes/sbvfrd/images/map-markers/swissbib_dark.png',
     shadowUrl: VuFind.path + '/themes/bootstrap3/css/vendor/leaflet/images/marker-shadow.png',
     iconSize: [25.9, 44.9],
@@ -26,7 +26,7 @@ $.getJSON("/themes/sbvfrd/js/raw_map_fr.json", function(libraries){
 
   var geoJsonLayer = L.geoJson(libraries, {
     pointToLayer: function (feature, latlng) {
-      return L.marker(latlng, {icon: baseballIcon});
+      return L.marker(latlng, {icon: customIcon});
     },
     onEachFeature: function (feature, layer) {
       layer.bindPopup(
