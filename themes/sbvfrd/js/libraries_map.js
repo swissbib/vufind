@@ -15,7 +15,19 @@ $.getJSON("/themes/sbvfrd/js/raw_map_fr.json", function(libraries){
     }
   });
 
+  var baseballIcon = L.icon({
+    iconUrl: VuFind.path + '/themes/sbvfrd/images/map-markers/swissbib_dark.png',
+    shadowUrl: VuFind.path + '/themes/bootstrap3/css/vendor/leaflet/images/marker-shadow.png',
+    iconSize: [25.9, 44.9],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+
   var geoJsonLayer = L.geoJson(libraries, {
+    pointToLayer: function (feature, latlng) {
+      return L.marker(latlng, {icon: baseballIcon});
+    },
     onEachFeature: function (feature, layer) {
       layer.bindPopup(
         '<b>'+feature.properties.label.de+'</b><br>' +
