@@ -1,5 +1,5 @@
 <div id="nav_<?= $nr ?>" class="group">
-  <h3><?= $group['label'][$this->layout()->userLang] ?></h3>
+  <h1><?= $group['label'][$this->layout()->userLang] ?></h1>
 
   <div class="institutions">
     <?php foreach ($institutions as $institution): ?>
@@ -14,4 +14,5 @@
       <?php endif; ?>
     <?php endforeach; ?>
   </div>
+  <hr>
 </div>
