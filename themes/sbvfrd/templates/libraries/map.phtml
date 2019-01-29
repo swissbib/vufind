@@ -1,22 +1,19 @@
-<h3>leaflet</h3>
-
-<?php
+    <?php
 $this->headScript()->appendFile('vendor/leaflet/leaflet.js');
-$this->headScript()->appendFile('vendor/leaflet/leaflet.latlng-graticule.js');
 $this->headScript()->appendFile('vendor/leaflet/leaflet.markercluster.js');
 $this->headLink()->appendStylesheet('vendor/leaflet/leaflet.css');
 $this->headLink()->appendStylesheet('vendor/leaflet/MarkerCluster.css');
-$this->headLink()->appendStylesheet('vendor/leaflet/MarkerCluster.Default.css');
-$this->jsTranslations()->addStrings(
-    ['Coordinates' => 'Coordinates', 'no_description' => 'no_description']
-);
 ?>
 
-<h4>cluster marker</h4>
-<div id="mapid" style="width: 800px; height: 600px;">
-</div>
+<div id="mapid" style="width: 800px; height: 600px;"></div>
 
-
+<!-- this part is necessary to have the labels in the good language on the map -->
+<?php $this->headScript()->captureStart() ?>
+  var lang = '<?= $this->layout()->userLang ?>';
+  var action = '<?= $this->baseUrl ?>';
+  var Library_Information = '<?= $this->transEsc('Library_Information') ?>';
+  var Search_This_Library = '<?= $this->transEsc('Search_This_Library') ?>';
+<?php $this->headScript()->captureEnd() ?>
 
 <?= $this->inlineScript()->appendFile('libraries_map.js'); ?>
 
