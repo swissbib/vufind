@@ -5,10 +5,10 @@ $this->headLink()->appendStylesheet('vendor/leaflet/leaflet.css');
 $this->headLink()->appendStylesheet('vendor/leaflet/MarkerCluster.css');
 ?>
 
-<div id="mapid" style="width: 800px; height: 600px;"></div>
+<div id="mapid"></div>
 <br>
 
-<button class="btn btn-primary" onClick="swissbib.Test.test()">Find the nearest library</button>
+<button class="btn btn-primary" id="locate-button"><?= $this->transEsc('Find_Nearest_Library') ?></button>
 
 
 <!-- this part is necessary to have the labels in the good language on the map -->
