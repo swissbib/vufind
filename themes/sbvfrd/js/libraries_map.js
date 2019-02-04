@@ -1,5 +1,5 @@
 $.getJSON("/themes/sbvfrd/js/raw_map_fr.json", function(libraries){
-  var mymap = L.map('mapid').setView([46.758548, 8.1], 8);
+  var mymap = L.map('mapid').setView([46.758548, 8.3], 8);
 
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic3dpc3NiaWIiLCJhIjoiY2pyMHIxcm1zMGQzZDQ5cWVld3FhM3R3aiJ9.gtBW4uloJ6JvWIcPG2EzVw', {
     maxZoom: 18,
@@ -10,13 +10,14 @@ $.getJSON("/themes/sbvfrd/js/raw_map_fr.json", function(libraries){
   }).addTo(mymap);
 
   var markers = L.markerClusterGroup({
+    maxClusterRadius: 70,
     iconCreateFunction: function(cluster) {
       return L.divIcon({ html: '<span class="btn btn-primary"><b>' + cluster.getChildCount() + '</b>&nbsp;&nbsp;<i class="fa fa-institution"></i></span>' });
     }
   });
 
   var customIcon = L.icon({
-    iconUrl: VuFind.path + '/themes/sbvfrd/images/map-markers/swissbib_dark.png',
+    iconUrl: VuFind.path + '/themes/sbvfrd/images/map-markers/swissbib_dark2s.png',
     shadowUrl: VuFind.path + '/themes/bootstrap3/css/vendor/leaflet/images/marker-shadow.png',
     iconSize: [25.9, 44.9],
     iconAnchor: [12, 41],
