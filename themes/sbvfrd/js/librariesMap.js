@@ -23,7 +23,7 @@ var customIcon = L.icon({
   shadowSize: [41, 41]
 });
 
-$.getJSON("/themes/sbvfrd/js/raw_map_fr.json", function(libraries){
+$.getJSON("/geojson.json", function(libraries){
   var geoJsonLayer = L.geoJson(libraries, {
     pointToLayer: function (feature, latlng) {
       return L.marker(latlng, {icon: customIcon});

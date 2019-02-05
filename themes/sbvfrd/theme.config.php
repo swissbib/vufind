@@ -3,7 +3,7 @@ return [
   'extends' => 'bootstrap3',
 
   'less' => [
-    'active' => true,
+    'active' => false,
     'compiled.less'
   ],
 
@@ -52,7 +52,7 @@ return [
       'includeTemplate' => 'Swissbib\View\Helper\Swissbib\Factory::getIncludeTemplate',
       'translateFacets' => 'Swissbib\View\Helper\Swissbib\Factory::getFacetTranslator',
       'formatRelatedEntries' => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
-      \Swissbib\VuFind\View\Helper\Root\Translate::class => 'Zend\ServiceManager\Factory\InvokableFactory',
+      //'Swissbib\VuFind\View\Helper\Root\Translate', => '',
     ],
     'aliases' => [
         'auth' => 'VuFind\View\Helper\Root\Auth',
@@ -62,7 +62,10 @@ return [
         'recordLink' => 'Swissbib\View\Helper\RecordLink',
         'searchtabs' => 'Swissbib\VuFind\View\Helper\Root\SearchTabs',
         'piwik' => 'Swissbib\VuFind\View\Helper\Root\Piwik',
-        'translate' => \Swissbib\VuFind\View\Helper\Root\Translate::class,
+        //'translate'     => 'Swissbib\VuFind\View\Helper\Root\Translate',
     ],
+    'invokables' => [
+      'translate' => 'Swissbib\VuFind\View\Helper\Root\Translate',
+    ]
   ]
 ];
