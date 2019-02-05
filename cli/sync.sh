@@ -22,7 +22,7 @@ export VUFIND_LOCAL_MODULES=Swissbib
 php $INDEX libadmin syncGeoJson $@
 ln -s $VUFIND_BASE/data/cache/geojson.json $VUFIND_BASE/public/geojson.json
 
-su -c "php $INDEX libadmin sync $@" lionel
+su -c "php $INDEX libadmin sync $@" vfsb
 
 #please do not delete a directory with options -rf as root based on a relative directory! GH
 echo "Trying to remove local cache"
