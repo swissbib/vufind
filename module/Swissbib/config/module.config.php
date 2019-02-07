@@ -308,6 +308,15 @@ return [
                         ]
                     ]
                 ],
+                'libadmin-sync-geojson' => [
+                    'options' => [
+                        'route'    => 'libadmin syncGeoJson [--verbose|-v] [--result|-r] [<path>]',
+                        'defaults' => [
+                            'controller' => LibadminSyncController::class,
+                            'action'     => 'syncGeoJson'
+                        ]
+                    ]
+                ],
                 'tab40-import' => [ // Importer for aleph tab40 files
                     'options' => [
                         'route'    => 'tab40import <network> <locale> <source>',
