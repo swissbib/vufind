@@ -628,6 +628,7 @@ class Importer
     /**
      * Save downloaded response
      * Just for history and debugging
+     * GeoJson will be used from here to create the libraries map
      *
      * @param String $responseBody Body
      *
