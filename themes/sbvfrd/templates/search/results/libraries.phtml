@@ -20,7 +20,7 @@ if (sizeof($institutions) > 1) {
       ?>
       <li role="presentation">
         <a role="menuitem" href="<?= $this->recordLink()->getUrl($driver) ?>?expandlib=<?= $groupCode ?>-<?= $institutionCode ?>#<?= $anchor ?>">
-           <?php
+           <!-- ?php
            if (!array_key_exists($institutionCode, $availabilities)) $availabilities = $driver->getAvailabilityIcon($institutionCode);
            if (array_key_exists($institutionCode, $availabilities)) {
                 $symbolId = $availabilities[$institutionCode];
@@ -32,8 +32,8 @@ if (sizeof($institutions) > 1) {
                     default: $availabilityIcon = 'fa-exclamation-circle'; break;
                 }
             } else $availabilityIcon = 'fa-question';
-           ?>
-            <span class="a-before"></span><span class="availability <?php echo $availabilityIcon; ?>"></span><?= $this->escapeHtml($this->zendTranslate($institutionCode, 'institution')); ?>
+           ?-->
+            <span class="a-before"></span><span name="<?php echo $institutionCode; ?>" class="availability <?php echo $availabilityIcon; ?>"></span><?= $this->escapeHtml($this->zendTranslate($institutionCode, 'institution')); ?>
         </a>
       </li>
     <?php endforeach; ?>
