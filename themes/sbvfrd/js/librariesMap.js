@@ -15,7 +15,7 @@ var markers = L.markerClusterGroup({
 });
 
 var customIcon = L.icon({
-  iconUrl: VuFind.path + '/themes/sbvfrd/images/map-markers/swissbib_dark2s.png',
+  iconUrl: VuFind.path + markerUrl,
   shadowUrl: VuFind.path + '/themes/bootstrap3/css/vendor/leaflet/images/marker-shadow.png',
   iconSize: [25.9, 44.9],
   iconAnchor: [12, 41],
