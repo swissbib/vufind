@@ -2,8 +2,6 @@
 #
 # sync with libadmin and clear cache
 
-VUFIND_BASE=/usr/local/vufind/httpd
-
 if [ "$UID"  -ne 0 ]; then
     echo "You have to be root to use the script because cache will be cleared"
     exit 1
@@ -20,7 +18,7 @@ export VUFIND_CACHE=$VUFIND_LOCAL_DIR/cache
 export VUFIND_LOCAL_MODULES=Swissbib
 
 php $INDEX libadmin syncGeoJson $@
-ln -s $VUFIND_BASE/data/cache/geojson.json $VUFIND_BASE/public/geojson.json
+ln -s $BASEDIR/../data/cache/geojson.json $BASEDIR/../public/geojson.json
 
 su -c "php $INDEX libadmin sync $@" vfsb
 
