@@ -35,26 +35,23 @@ if (!isset($this->layout()->searchbox)) {
 <?php endif; ?>
 
 <div class="col-md-12">
-
   <div class="container">
     <div class="row searchHomeContent">
       <div class="col-sm-6 col-md-4 swissbibCustom">
-      <div class="row">
-        <?= $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_1'); ?>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4 swissbibCustom">
-      <div class="row">
-        <?= $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_2'); ?>
-      </div>
-    </div>
-
-    <div class="col-sm-6 col-md-4 swissbibCustom">
         <div class="row">
-            <?=implode('', array_map([$this, 'contentBlock'], $blocks ?? []))?>
+        <?= $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_1'); ?>
         </div>
-    </div>
-
+      </div>
+      <div class="col-sm-6 col-md-4 swissbibCustom">
+        <div class="row">
+          <?= $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_2'); ?>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 swissbibCustom">
+          <div class="row">
+              <?=implode('', array_map([$this, 'contentBlock'], $blocks ?? []))?>
+          </div>
+      </div>
     </div>
   </div>
 </div>
