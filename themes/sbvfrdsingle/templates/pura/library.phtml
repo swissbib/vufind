@@ -14,16 +14,16 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
     <?php if ($this->nonEduId): ?>
         <div class="alert alert-danger"><?= $this->transEsc('pura.nonEduId') ?></div>
     <?php elseif (!($this->showListResources)): ?>
-        <p><?= $this->transEsc('pura.registration1.1.'.$this->libraryCode) ?></p>
-        <p><?= $this->transEsc('pura.registration2.1.'.$this->libraryCode) ?></p>
+        <p><?= $this->transEsc('pura.registration1.1.' . $this->libraryCode) ?></p>
+        <p><?= $this->transEsc('pura.registration2.1.' . $this->libraryCode) ?></p>
         <p>
-            <?= $this->transEsc('pura.registration3.1.'.$this->libraryCode) ?>
+            <?= $this->transEsc('pura.registration3.1.' . $this->libraryCode) ?>
             <a href="<?= $this->agbLink ?>">
-                <?= $this->transEsc('pura.termsAndConditions.'.$this->libraryCode) . "</a>." ?>
-            <?= $this->transEsc('pura.registration3.2.'.$this->libraryCode) ?>
+                <?= $this->transEsc('pura.termsAndConditions.' . $this->libraryCode) . "</a>." ?>
+            <?= $this->transEsc('pura.registration3.2.' . $this->libraryCode) ?>
 
             <a href="<?= $this->infoLink ?>">
-            <?= $this->transEsc('pura.learnMore.'.$this->libraryCode) . "</a>." ?>
+            <?= $this->transEsc('pura.learnMore.' . $this->libraryCode) . "</a>." ?>
         </p>
 
 
@@ -57,8 +57,8 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
         </button>
 
     <?php else: ?>
-        <p><?= $this->transEsc('pura.registered1.1.'.$this->libraryCode) ?></p>
-        <p><?= $this->transEsc('pura.registered2.1.'.$this->libraryCode) ?></p>
+        <p><?= $this->transEsc('pura.registered1.1.' . $this->libraryCode) ?></p>
+        <p><?= $this->transEsc('pura.registered2.1.' . $this->libraryCode) ?></p>
 
         <ul>
             <?php foreach ($this->publishers as $publisher) : ?>
@@ -81,7 +81,7 @@ $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') .
         </ul>
 
         <p><?= $this->transEsc('pura.accountValidity1') ?> <?= $this->user->getExpirationDate()->format('j.n.Y') ?>.</p>
-        <p></p><?= $this->transEsc('pura.accountValidity2') ?></p>
+        <p><?= $this->transEsc('pura.accountValidity2') ?></p>
         <a href="<?= $this->url('pura/library', ['libraryCode' => $this->institution["bib_code"],'page' => 'registration']) ?>">
         <button class="btn btn-primary"><?= $this->transEsc('pura.renew') ?></button>
         </a>
