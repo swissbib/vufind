@@ -25,7 +25,7 @@ AllFields:
     - publplace_txt_mv^25         # publication country and place, i.e. 752ad
     - publplace_dsv11_txt_mv^25
     - fulltext                    # imported fulltext, i.e. TOC/Abstracts
-    - callnumber^1000             # callnumbers (works only when quoted) with high boost
+    - callnumber^50             # callnumbers (works only when quoted) with low boost
     - ctrlnum^1000
     - publishDate
     - isbn

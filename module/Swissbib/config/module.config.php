@@ -112,7 +112,7 @@ return [
                                 'action' => 'library',
                             ],
                             'constraints' => [
-                                'libraryCode' => 'Z01|RE01001|E02|A100',
+                                'libraryCode' => 'Z01|E65',
                                 'page' => 'registration|listResources'
                             ],
                         ],
@@ -308,6 +308,15 @@ return [
                         ]
                     ]
                 ],
+                'libadmin-sync-geojson' => [
+                    'options' => [
+                        'route'    => 'libadmin syncGeoJson [--verbose|-v] [--result|-r] [<path>]',
+                        'defaults' => [
+                            'controller' => LibadminSyncController::class,
+                            'action'     => 'syncGeoJson'
+                        ]
+                    ]
+                ],
                 'tab40-import' => [ // Importer for aleph tab40 files
                     'options' => [
                         'route'    => 'tab40import <network> <locale> <source>',
@@ -448,7 +457,6 @@ return [
             'VuFind\Search\Params\PluginManager'            => 'Swissbib\Services\Factory::getSearchParamsPluginManager',
             'VuFind\Search\Results\PluginManager'           => 'Swissbib\Services\Factory::getSearchResultsPluginManager',
 
-            'Swissbib\Search\SearchTabsHelper'              =>  'Swissbib\View\Helper\Swissbib\Factory::getSearchTabsHelper',
             'VuFind\Search\SearchTabsHelper'                =>  'Swissbib\View\Helper\Swissbib\Factory::getSearchTabsHelper',
             'Swissbib\Record\Form\CopyForm'                 =>  'Swissbib\Record\Factory::getCopyForm',
             'Swissbib\MyResearch\Form\AddressForm'          =>  'Swissbib\MyResearch\Factory::getAddressForm',

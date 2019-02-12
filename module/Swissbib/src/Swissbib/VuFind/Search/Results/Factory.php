@@ -102,7 +102,7 @@ class Factory
          *
          * @var $solr \Swissbib\VuFind\Search\Solr\Results
          */
-        $mixedlist = $factory($sm, 'mixedlist');
+        $mixedlist = $factory($sm, 'MixedList');
 
         return $mixedlist;
     }

@@ -232,6 +232,53 @@ class Importer
     }
 
     /**
+     * Importing GeoJson data
+     *
+     * @return Result
+     */
+    public function importGeoJsonData()
+    {
+        $this->result->reset();
+        $this->result->addInfo('Start import at ' . date('r'));
+
+        //the libadmin path from config.ini
+        $standardPath = $this->config->path;
+
+        //geojson/green.json or geojson/orange.json or ...
+        $geoJsonPath = str_replace('vufind', 'geojson', $standardPath);
+
+        $this->configPath = $geoJsonPath;
+
+        try {
+            $this->getGeoJsonData();
+
+            $this->result->addSuccess('Data fetched from libadmin in GeoJson');
+        } catch (Exceptions\Exception $e) {
+            return $this->result->addError($e->getMessage());
+        } catch (HttpException $e) {
+            $this->result->addError('Unable to connect to the server! Stopped sync');
+            return $this->result->addError($e->getMessage());
+        } catch (\Exception $e) {
+            $this->result->addError(
+                'Unexpected error type during import data fetching'
+            );
+            return $this->result->addError($e->getMessage());
+        }
+
+        if ($this->result->isSuccess()) {
+            $this->result->addSuccess(
+                'Import GeoJson format successfully completed at ' . date('r')
+            );
+        } else {
+            $this->result->addError(
+                'Import GeoJson format was NOT successful. Finished at ' . date('r')
+            );
+        }
+
+        return $this->result;
+    }
+
+    /**
      * Flush language cache
      *
      * @return void
@@ -581,6 +628,7 @@ class Importer
     /**
      * Save downloaded response
      * Just for history and debugging
+     * GeoJson will be used from here to create the libraries map
      *
      * @param String $responseBody Body
      *
@@ -628,6 +676,30 @@ class Importer
 
         if ($data['success'] !== true) {
             throw new Exceptions\Data('Server reported failed request');
+        }
+
+        return $data;
+    }
+
+    /**
+     * Get/download and verify data from server
+     *
+     * @throws Exception\Data
+     * @throws Exception\Fetch
+     *
+     * @return Array
+     */
+    protected function getGeoJsonData()
+    {
+        $jsonString = $this->download();
+        $data       = json_decode($jsonString, true);
+
+        if (null === $data || !is_array($data)) {
+            throw new Exceptions\Fetch('Received data is invalid');
+        }
+
+        if (!isset($data['type']) || !isset($data['features'])) {
+            throw new Exceptions\Data('Wrong GeoJson format');
         }
 
         return $data;

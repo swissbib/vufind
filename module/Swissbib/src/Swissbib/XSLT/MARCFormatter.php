@@ -54,7 +54,7 @@ class MARCFormatter
         "BGR" => "http://aleph.gr.ch/F/?local_base=BGR01&con_lng=GER&func=find-b&find_code=SYS&request=%s",
         "BISCH" => "https://webopac.bibliotheken-schaffhausen.ch/TouchPoint_touchpoint/perma.do?q=0%3D%22%s%22+IN+%5B2%5D&v=extern&l=de",
         "BORIS" => "http://boris.unibe.ch/cgi/oai2?verb=GetRecord&identifier=%s&metadataPrefix=oai_dc",
-        "CCSA" => "http://permalink.snl.ch/bib/chccsa%s",
+        "CCSA" => "https://nb-posters.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma%s&context=L&vid=41SNL_53_INST:posters&search_scope=MyInstitution&tab=LibraryCatalog",
         "CHARCH" => "http://www.helveticarchives.ch/detail.aspx?ID=%s",
         "DDB" => "http://d-nb.info/%s",
         "ECOD" => "http://www.e-codices.unifr.ch/oai/oai.php?verb=GetRecord&metadataPrefix=oai_dc&identifier=https://www.e-codices.unifr.ch/en/list/one/%s",
