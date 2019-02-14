@@ -1,4 +1,13 @@
-var mymap = L.map('mapid').setView([46.758548, 8.3], 8);
+var zoomLevel = 8;
+
+
+//to have the whole switzerland for small screens
+if ($(window).width() < 767) {
+  zoomLevel = 7;
+}
+
+
+var mymap = L.map('mapid').setView([46.758548, 8.3], zoomLevel);
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic3dpc3NiaWIiLCJhIjoiY2pyMHIxcm1zMGQzZDQ5cWVld3FhM3R3aiJ9.gtBW4uloJ6JvWIcPG2EzVw', {
   maxZoom: 18,
   attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
