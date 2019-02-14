@@ -2,8 +2,6 @@
 #
 # sync with libadmin and clear cache
 
-VUFIND_BASE=/usr/local/vufind/httpd
-
 if [ "$UID"  -ne 0 ]; then
     echo "You have to be root to use the script because cache will be cleared"
     exit 1
@@ -20,6 +18,10 @@ export VUFIND_CACHE=$VUFIND_LOCAL_DIR/cache
 export VUFIND_LOCAL_MODULES=Swissbib
 
 su -c "php $INDEX libadmin sync $@" vfsb
+
+su -c "php $INDEX libadmin syncGeoJson $@" vfsb
+#symbolic link so that geojson.json is reachable for libraries_map.js
+su -c "ln -s ../data/cache/geojson.json $BASEDIR/../public/geojson.json" vfsb
 
 #please do not delete a directory with options -rf as root based on a relative directory! GH
 echo "Trying to remove local cache"

@@ -33,6 +33,7 @@
 namespace Swissbib\RecordDriver;
 
 use Swissbib\RecordDriver\Helper\Holdings as HoldingsHelper;
+use VuFind\Log\Logger;
 use VuFind\RecordDriver\SolrMarc as VuFindSolrMarc;
 use Zend\I18n\Translator\TranslatorInterface as Translator;
 
@@ -55,6 +56,13 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     protected $holdingsHelper;
 
     /**
+     * AvailabilityHelper
+     *
+     * @var AvailabilityHelper
+     */
+    protected $availabilityHelper;
+
+    /**
      * HoldingsHelper
      *
      * @var HoldingsHelper
@@ -74,6 +82,20 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      * @var Boolean
      */
     protected $useMostSpecificFormat = false;
+
+    /**
+     * Lookup table for marc-unions VS alephLibrary
+     *
+     * @var Array
+     */
+    protected $libraryNetworkLookup = null;
+
+    /**
+     * Logger
+     *
+     * @var Logger
+     */
+    protected $logger;
 
     /**
      * Used also for field 100 _ means repeatable
@@ -192,19 +214,23 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     /**
      * Constructor
      *
-     * @param \Zend\Config\Config $mainConfig         VuFind main configuration
-     *                                                (omit for built-in defaults)
-     * @param \Zend\Config\Config $recordConfig       Record-specific configu-
-     *                                                ration file
-     *                                                (omit to use $mainConfig as
-     *                                                $recordConfig)
-     * @param \Zend\Config\Config $searchSettings     Search-specific configu-
-     *                                                ration file
-     * @param HoldingsHelper      $holdingsHelper     Holdings helper
-     * @param HoldingsHelper      $solrDefaultAdapter SOLR adapter
+     * @param \Zend\Config\Config $mainConfig           VuFind main configuration
+     *                                                  (omit for built-in defaults)
+     * @param \Zend\Config\Config $recordConfig         Record-specific configu-
+     *                                                  ration file
+     *                                                  (omit to use $mainConfig as
+     *                                                  $recordConfig)
+     * @param \Zend\Config\Config $searchSettings       Search-specific configu-
+     *                                                  ration file
+     * @param HoldingsHelper      $holdingsHelper       Holdings helper
+     * @param HoldingsHelper      $solrDefaultAdapter   SOLR adapter
+     * @param AvailabilityHelper  $availabilityHelper   Availability helper
+     * @param Array               $libraryNetworkLookup lookuptable for unions
+     * @param Logger              $logger               Logger
      */
     public function __construct($mainConfig = null, $recordConfig = null,
-        $searchSettings = null, $holdingsHelper = null, $solrDefaultAdapter = null
+        $searchSettings = null, $holdingsHelper = null, $solrDefaultAdapter = null,
+        $availabilityHelper = null, $libraryNetworkLookup = null, $logger = null
     ) {
         parent::__construct($mainConfig, $recordConfig, $searchSettings);
 
@@ -213,8 +239,18 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             $searchSettings->General->multiValuedFRBRField : true;
 
         $this->solrDefaultAdapter = $solrDefaultAdapter;
-
         $this->holdingsHelper = $holdingsHelper;
+        $this->availabilityHelper = $availabilityHelper;
+
+        $this->logger = $logger;
+
+        if ($libraryNetworkLookup !== null) {
+            foreach ($libraryNetworkLookup as $key => $value) {
+                $values = explode(',', $value);
+                $libraryNetworkLookup[$key] = end($values);
+            }
+            $this->libraryNetworkLookup = $libraryNetworkLookup;
+        }
     }
 
     /**
@@ -2743,6 +2779,62 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     public function getHoldingsStructure()
     {
         return $this->getHoldingsHelper()->getHoldingsStructure();
+    }
+
+    /**
+     * Get array of institutionCodes with availability value
+     *
+     * @param String $institutionCode institution code
+     *
+     * @return array
+     */
+    public function getAvailabilityIcon($institutionCode)
+    {
+        $r = [];
+        $konkordanzTabelle = $this->libraryNetworkLookup;
+        $field035Array = $this->getFieldArray('035');
+
+        foreach ($field035Array as $field035) {
+            if (strpos($field035, '(') === false
+                || strpos($field035, ')') === false
+            ) {
+                continue;
+            }
+            $sysNr = explode(')', $field035)[1];
+            $idls = substr($field035, 1, strpos($field035, ')') - 1);
+
+            switch ($idls) {
+            case 'RETROS':
+            case 'BORIS':
+            case 'EDOC':
+            case 'ECOD':
+            case 'ALEXREPO':
+            case 'NATIONALLICENCE':
+            case 'FREE':
+            case 'SERSOL':
+                $r = array_merge($r, [$institutionCode => '0']);
+                break;
+            default:
+                if (array_key_exists($idls, $konkordanzTabelle)) {
+                    $userLocale = $this->translator->getLocale();
+                    $idls = $konkordanzTabelle[$idls];
+                    $a = $this->availabilityHelper
+                        ->getAvailabilityByLibraryNetwork(
+                            $sysNr, $idls, $userLocale
+                        );
+                    if (is_array($a)) {
+                        $r = array_merge($r, $a);
+                    }
+                } else {
+                    if (!array_key_exists($institutionCode, $r)) {
+                        // write ?-value only if no valid value pre-exists
+                        $r = array_merge($r, [$institutionCode => '?']);
+                    }
+                }
+                break;
+            }
+        }
+        return $r;
     }
 
     /**

@@ -73,6 +73,9 @@ class PuraController extends BaseController
         $institutionCodes = ["Z01"];
         //for ZhDK go live :
         //$institutionCodes = ["Z01", "E65"];
+        if ($_SERVER["HTTP_HOST"] == "test.swissbib.ch") {
+            $institutionCodes = ["Z01", "E65"];
+        }
         $institutions = [];
 
         foreach ($institutionCodes as $institutionCode) {
@@ -117,6 +120,8 @@ class PuraController extends BaseController
         $publishers = $this->puraService->getPublishers()
             ->getPublishersForALibrary($libraryCode);
         $institution = $this->puraService->getInstitutionInfo($libraryCode);
+        $agbLink = $this->puraService->getAGBLink($libraryCode);
+        $infoLink = $this->puraService->getInfoLink($libraryCode);
 
         if (strpos($uniqueId, "eduid.ch") == false) {
             $view = new ViewModel(
@@ -185,6 +190,9 @@ class PuraController extends BaseController
                     'token' => $token,
                     'showRegistration' => $showRegistration,
                     'showListResources' => $showListResources,
+                    'agbLink' => $agbLink,
+                    'infoLink' => $infoLink,
+                    'libraryCode' => $libraryCode,
                 ]
             );
             return $view;
