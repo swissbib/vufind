@@ -21,13 +21,13 @@ try {
 ?>
 
 <?php if ($amountHoldings === 1): ?>
-    <a class="btn btn-primary dropdown-toggle hidden-print" id="dropdownLibraries" data-toggle="dropdown">
+    <a class="btn btn-primary dropdown-toggle hidden-print" id="dropdownLibraries" data-toggle="dropdown" onclick="swissbib.loadResultListAvailabilities('<?php echo $driver->getUniqueID(); ?>', this)">
         <span><?php if ($this->isFavoriteInstitution($institutions)): ?><i class="fa fa-heart"></i><?php else: ?><i class="fa fa-institution"></i></span><?php endif; ?>
       <span class="hidden-xs hidden-sm">1 <?= $this->transEsc('result.library') ?></span>
     </a>
     <span class="visible-print-inline"><i class="fa fa-institution"></i></span>
 <?php elseif ($amountHoldings > 1): ?>
-    <a class="btn btn-primary dropdown-toggle hidden-print" id="dropdownLibraries" data-toggle="dropdown">
+    <a class="btn btn-primary dropdown-toggle hidden-print" id="dropdownLibraries" data-toggle="dropdown" onclick="swissbib.loadResultListAvailabilities('<?php echo $driver->getUniqueID(); ?>', this)">
         <span><?php if ($this->isFavoriteInstitution($institutions)): ?><i class="fa fa-heart"></i><?php else: ?><i class="fa fa-institution"></i></span><?php endif; ?>
         <span class="hidden-xs hidden-sm"><?= $amountHoldings ?> <?= $this->transEsc('result.libraries') ?></span>
     </a>

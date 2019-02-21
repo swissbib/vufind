@@ -116,6 +116,36 @@ class SearchController extends VuFindSearchController
         return $viewModel;
     }
 
+    public function AvailabilityByLibraryNetworkAction()
+    {
+        $idRecord = $this->params()->fromRoute('record');
+        $record = $this->getRecord($idRecord);
+        $institutions = $record->getInstitutions(true);
+        $networks = $availabilities = [];
+        foreach ($institutions as $institution) {
+            $instCode = $institution['institution'];
+            $availabilities = array_merge($availabilities, $record->getAvailabilityIcon($instCode));
+        }
+
+        $response = $this->getResponse();
+        $response->setStatusCode(200);
+        $response->setContent(json_encode($availabilities));
+        return $response;
+    }
+
+    /**
+     * Load solr record
+     *
+     * @param Integer $idRecord record id
+     *
+     * @return SolrMarc
+     */
+    protected function getRecord($idRecord)
+    {
+        return $this->serviceLocator->get('VuFind\RecordLoader')
+            ->load($idRecord, 'Solr');
+    }
+
     /**
      * Get facet config
      *
