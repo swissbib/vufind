@@ -116,7 +116,12 @@ class SearchController extends VuFindSearchController
         return $viewModel;
     }
 
-    public function AvailabilityByLibraryNetworkAction()
+    /**
+     * Returns availability by library network
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    public function availabilityByLibraryNetworkAction()
     {
         $idRecord = $this->params()->fromRoute('record');
         $record = $this->getRecord($idRecord);
@@ -124,7 +129,8 @@ class SearchController extends VuFindSearchController
         $networks = $availabilities = [];
         foreach ($institutions as $institution) {
             $instCode = $institution['institution'];
-            $availabilities = array_merge($availabilities, $record->getAvailabilityIcon($instCode));
+            $availabilities = array_merge($availabilities,
+                $record->getAvailabilityIcon($instCode));
         }
 
         $response = $this->getResponse();
