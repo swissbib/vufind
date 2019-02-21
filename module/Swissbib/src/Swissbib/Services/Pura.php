@@ -397,6 +397,38 @@ class Pura
     }
 
     /**
+     * Get the link to the rules of this library
+     *
+     * @param string $libraryCode the library code
+     *
+     * @return string the url of the rules of the library
+     */
+    public function getAGBLink($libraryCode)
+    {
+        if (isset($this->puraConfig['AGBLink'][$libraryCode])) {
+            return $this->puraConfig['AGBLink'][$libraryCode];
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Get the link to the rules of this library
+     *
+     * @param string $libraryCode the library code
+     *
+     * @return string the url of the rules of the library
+     */
+    public function getInfoLink($libraryCode)
+    {
+        if (isset($this->puraConfig['InfoLink'][$libraryCode])) {
+            return $this->puraConfig['InfoLink'][$libraryCode];
+        } else {
+            return "";
+        }
+    }
+
+    /**
      * Send Pura Report for a specific library
      *
      * @param string $libraryCode the library code

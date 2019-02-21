@@ -1,0 +1,27 @@
+<?php
+$this->headScript()->appendFile('vendor/leaflet/leaflet.js');
+$this->headScript()->appendFile('vendor/leaflet/leaflet.markercluster.js');
+$this->headLink()->appendStylesheet('vendor/leaflet/leaflet.css');
+$this->headLink()->appendStylesheet('vendor/leaflet/MarkerCluster.css');
+?>
+
+<button class="btn btn-primary" id="locate-button"><?= $this->transEsc('Find_Nearest_Library') ?></button><br><br>
+<div id="mapid"></div>
+
+
+
+
+
+<!-- this part is necessary to have the labels in the good language on the map -->
+<?php $this->headScript()->captureStart() ?>
+  var lang = '<?= $this->layout()->userLang ?>';
+  var action = '<?= $this->baseUrl ?>';
+  var markerUrl = '<?= $this->imageLink('map-markers/dark2s.png') ?>';
+  var Library_Information = '<?= $this->transEsc('Library_Information') ?>';
+  var Search_This_Library = '<?= $this->transEsc('Search_This_Library') ?>';
+<?php $this->headScript()->captureEnd() ?>
+
+<?= $this->inlineScript()->appendFile('librariesMap.js'); ?>
+
+
+

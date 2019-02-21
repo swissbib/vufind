@@ -1,4 +1,10 @@
 <div class="<?=$this->layoutClass('mainbody')?>" id="libraryList">
+
+    <h1><?= $this->transEsc('Map')?></h1>
+
+
+
+    <?= $this->context($this)->renderInContext("map.phtml", []) ?>
     <?php $i = 0; ?>
     <?php foreach ($this->groupedInstitutions as $institutionGroup): ?>
         <?=

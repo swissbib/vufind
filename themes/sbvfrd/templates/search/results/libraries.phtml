@@ -33,7 +33,9 @@ if (sizeof($institutions) > 1) {
                 }
             } else $availabilityIcon = 'fa-question';
            ?-->
-            <span class="a-before"></span><span name="<?php echo $institutionCode; ?>" class="availability <?php echo $availabilityIcon; ?>"></span><?= $this->escapeHtml($this->zendTranslate($institutionCode, 'institution')); ?>
+            <span class="a-before"></span>
+            <!-- span name="<?php //echo $institutionCode; ?>" class="availability <?php //echo $availabilityIcon; ?>"></span -->
+            <?= $this->escapeHtml($this->zendTranslate($institutionCode, 'institution')); ?>
         </a>
       </li>
     <?php endforeach; ?>

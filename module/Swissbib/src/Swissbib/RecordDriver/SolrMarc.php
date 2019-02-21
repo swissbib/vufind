@@ -246,7 +246,8 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
 
         if ($libraryNetworkLookup !== null) {
             foreach ($libraryNetworkLookup as $key => $value) {
-                $libraryNetworkLookup[$key] = end(explode(',', $value));
+                $values = explode(',', $value);
+                $libraryNetworkLookup[$key] = end($values);
             }
             $this->libraryNetworkLookup = $libraryNetworkLookup;
         }

@@ -1037,14 +1037,14 @@ div.memorize {
 }
 
 
-/* home content */
 .home-content-box, .search-home-facets {
   background-color: @content-box-background-color;
   border: 1px solid @content-box-border-color;
   min-height: 320px;
   max-width: 95%;
   margin-top: 30px;
-  margin-left: -15px;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: 2px;
   padding: 20px 20px 0 20px;
 
@@ -1931,4 +1931,45 @@ h2 {
   font-size: 1.571rem;
   margin: 1.79rem 0;
   font-weight: bold;
+}
+
+#libraryList .group {
+  margin-bottom: 40px;
+}
+
+#libraryList .group h1{
+  margin-bottom: 20px;
+}
+
+#libraryList .group .institution{
+  margin-bottom: 40px;
+}
+
+
+
+/* xs */
+#mapid{
+  width: 330px;
+  height: 450px;
+}
+/* sm */
+@media (min-width: 768px) {
+  #mapid{
+    width: 700px;
+    height: 525px;
+  }
+}
+/* md */
+@media (min-width: 992px) {
+  #mapid{
+    width: 700px;
+    height: 525px;
+  }
+}
+/* lg */
+@media (min-width: 1200px) {
+  #mapid{
+    width: 800px;
+    height: 600px;
+  }
 }
