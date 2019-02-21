@@ -129,8 +129,9 @@ class SearchController extends VuFindSearchController
         $networks = $availabilities = [];
         foreach ($institutions as $institution) {
             $instCode = $institution['institution'];
-            $availabilities = array_merge($availabilities,
-                $record->getAvailabilityIcon($instCode));
+            $availabilities = array_merge(
+                $availabilities, $record->getAvailabilityIcon($instCode)
+            );
         }
 
         $response = $this->getResponse();
