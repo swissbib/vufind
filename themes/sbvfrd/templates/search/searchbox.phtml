@@ -56,7 +56,7 @@
   <form role="search" class="navbar-form navbar-left" method="get" action="<?=$this->url($basicSearch)?>" name="searchForm" id="searchForm" autocomplete="off">
 
     <div class="search-tabs-box">
-    <?php if (count($searchtabs) > 0): ?>
+    <?php if(is_array($searchtabs) && count($searchtabs) > 0): ?>
       <?= $this->context($this)->renderInContext('search/searchTabs', ['searchTabs' => $searchtabs]); ?>
     <?php endif; ?>
     </div>
