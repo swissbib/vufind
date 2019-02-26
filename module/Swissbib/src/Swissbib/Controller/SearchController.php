@@ -126,13 +126,13 @@ class SearchController extends VuFindSearchController
         $idRecord = $this->params()->fromRoute('record');
         $record = $this->getRecord($idRecord);
         $institutions = $record->getInstitutions(true);
+        $institutions = array_merge($institutions, $record->get949b());
         $availabilities = $groups = [];
         foreach ($institutions as $institution) {
             if (!in_array($institution['group'], $groups)) {
                 $institutionCode = $institution['institution'];
                 $all035Idls = $record->getAll035Idls();
                 foreach ($all035Idls as $idls => $sysNr) {
-                    //if (in_array($institution['group'], $groups)) continue;
                     if ($institution['group'] !== $idls) continue;
                     switch ($idls) {
                         case 'RETROS':

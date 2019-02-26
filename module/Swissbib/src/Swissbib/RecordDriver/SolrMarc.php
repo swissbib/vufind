@@ -2782,6 +2782,16 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
+     * returns institutions which we won't show by its name
+     *
+     * @return array
+     */
+    public function get949b()
+    {
+        return $this->getFieldArray('949', ['b']);
+    }
+
+    /**
      * returns an array with all system numbers of all unions/network
      *
      * @return array
