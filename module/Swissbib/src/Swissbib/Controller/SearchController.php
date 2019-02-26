@@ -133,7 +133,6 @@ class SearchController extends VuFindSearchController
                 $institutionCode = $institution['institution'];
                 $all035Idls = $record->getAll035Idls();
                 foreach ($all035Idls as $idls => $sysNr) {
-                    if ($institution['group'] !== $idls) continue;
                     switch ($idls) {
                         case 'RETROS':
                         case 'BORIS':
@@ -146,6 +145,7 @@ class SearchController extends VuFindSearchController
                             $availabilities = array_merge($availabilities, [$institutionCode => '0']);
                             break;
                         default:
+                            if ($institution['group'] !== $idls) continue;
                             array_push($groups, $institution['group']);
                             $availabilities = array_merge($availabilities, $record->getAvailabilityIconFromServer($idls, $sysNr));
                             break;
