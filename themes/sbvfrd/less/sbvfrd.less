@@ -714,29 +714,44 @@ ul[aria-labelledby=dropdownLibraries] {
     background-color: transparent;
   }
   .badge a {color:@link-color}
+
+  .facet {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 8px;
+    align-items: baseline;
+  }
+
+
   .list-group-item {
     text-overflow: ellipsis;
     overflow: hidden;
     padding: 8px;
   }
+
+
+
+
   .record-related-searches .list-group-item {
     padding: 0 8px 0 0;
   }
 
-  .facet {
-    align-items: baseline;
-  }
-
+  //needed ??
   .facetOR > a , .facetAND > a {
     color: @font-color;
   }
   .facetOR:hover , .facetAND:hover {
     background-color: @list-group-hover-bg;
   }
-  .facet div.list-group-item {
-    padding: 6px;
+
+  .facet > .text {
+    color: @font-color;
   }
-  .list-group-item.title {
+  .facet:hover{
+    background-color: @list-group-hover-bg;
+  }
+
+  .facet-group.title .list-group-item.title {
     margin-bottom: 0;
     //border-bottom: none;
 
@@ -804,7 +819,7 @@ ul[aria-labelledby=dropdownLibraries] {
   }
   #side-collapse-publishDate,
   #side-collapse-PublicationDate {
-    .list-group-item {
+    .facet {
       border: none;
     }
   }
@@ -1760,7 +1775,7 @@ footer {
       }
       & > .jstree-anchor {
         margin-left: 0;
-        display: block;
+        display: flex;
         background-image: none;
         .main,
         .main > i {
