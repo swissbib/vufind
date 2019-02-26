@@ -188,6 +188,8 @@ module.exports = function(grunt) {
           paths: getLoadPaths,
           sourceMap: true,
           sourceMapFileInline: true,
+          //sourceMapBasepath: 'themes/sbvfrdsingle/css/',
+          sourceMapRootpath: '../../../',
           modifyVars: {
             'fa-font-path': fontAwesomePath
           }
