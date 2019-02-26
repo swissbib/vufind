@@ -129,10 +129,28 @@ class SearchController extends VuFindSearchController
         $availabilities = $groups = [];
         foreach ($institutions as $institution) {
             if (!in_array($institution['group'], $groups)) {
-                array_push($groups, $institution['group']);
-                $availabilities = array_merge(
-                    $availabilities, $record->getAvailabilityIcon($institution['institution'])
-                );
+                $institutionCode = $institution['institution'];
+                $all035Idls = $record->getAll035Idls();
+                foreach ($all035Idls as $idls => $sysNr) {
+                    //if (in_array($institution['group'], $groups)) continue;
+                    if ($institution['group'] !== $idls) continue;
+                    switch ($idls) {
+                        case 'RETROS':
+                        case 'BORIS':
+                        case 'EDOC':
+                        case 'ECOD':
+                        case 'ALEXREPO':
+                        case 'NATIONALLICENCE':
+                        case 'FREE':
+                        case 'SERSOL':
+                            $availabilities = array_merge($availabilities, [$institutionCode => '0']);
+                            break;
+                        default:
+                            array_push($groups, $institution['group']);
+                            $availabilities = array_merge($availabilities, $record->getAvailabilityIconFromServer($idls, $sysNr));
+                            break;
+                    }
+                }
             }
         }
         $response = $this->getResponse();

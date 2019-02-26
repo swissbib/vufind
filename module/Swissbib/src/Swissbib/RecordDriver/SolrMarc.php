@@ -2782,59 +2782,48 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
-     * Get array of institutionCodes with availability value
-     *
-     * @param String $institutionCode institution code
+     * returns an array with all system numbers of all unions/network
      *
      * @return array
      */
-    public function getAvailabilityIcon($institutionCode)
+    public function getAll035Idls()
     {
-        $r = [];
-        $konkordanzTabelle = $this->libraryNetworkLookup;
+        $allIdls = [];
         $field035Array = $this->getFieldArray('035');
-
         foreach ($field035Array as $field035) {
             if (strpos($field035, '(') === false
                 || strpos($field035, ')') === false
             ) {
                 continue;
             }
-            $sysNr = explode(')', $field035)[1];
             $idls = substr($field035, 1, strpos($field035, ')') - 1);
+            $sysNr = explode(')', $field035)[1];
+            $allIdls[$idls] = $sysNr;
+        }
+        return $allIdls;
+    }
 
-            switch ($idls) {
-            case 'RETROS':
-            case 'BORIS':
-            case 'EDOC':
-            case 'ECOD':
-            case 'ALEXREPO':
-            case 'NATIONALLICENCE':
-            case 'FREE':
-            case 'SERSOL':
-                $r = array_merge($r, [$institutionCode => '0']);
-                break;
-            default:
-                if (array_key_exists($idls, $konkordanzTabelle)) {
-                    $userLocale = $this->translator->getLocale();
-                    $idls = $konkordanzTabelle[$idls];
-                    $a = $this->availabilityHelper
-                        ->getAvailabilityByLibraryNetwork(
-                            $sysNr, $idls, $userLocale
-                        );
-                    if (is_array($a)) {
-                        $r = array_merge($r, $a);
-                    }
-                } else {
-                    if (!array_key_exists($institutionCode, $r)) {
-                        //$r = array_merge($r, [$institutionCode => '?']);
-                        //it's probably better to NOT do this here
-                        //(cause of stuff like 55482552X).
-                        //better show "?" later in gui
-                        //(show '?' if instiCode not found in json/array).
-                    }
-                }
-                break;
+    /**
+     * Get array of institutionCodes with availability value
+     *
+     * @param String $idls  network/union
+     * @param String $sysNr system number
+     *
+     * @return array
+     */
+    public function getAvailabilityIconFromServer($idls, $sysNr)
+    {
+        $r = [];
+        $konkordanzTabelle = $this->libraryNetworkLookup;
+        if (array_key_exists($idls, $konkordanzTabelle)) {
+            $userLocale = $this->translator->getLocale();
+            $idls = $konkordanzTabelle[$idls];
+            $a = $this->availabilityHelper
+                ->getAvailabilityByLibraryNetwork(
+                    $sysNr, $idls, $userLocale
+                );
+            if (is_array($a)) {
+                $r = array_merge($r, $a);
             }
         }
         return $r;
