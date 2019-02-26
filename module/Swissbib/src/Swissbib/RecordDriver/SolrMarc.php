@@ -2827,8 +2827,11 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                     }
                 } else {
                     if (!array_key_exists($institutionCode, $r)) {
-                        // write ?-value only if no valid value pre-exists
-                        $r = array_merge($r, [$institutionCode => '?']);
+                        //$r = array_merge($r, [$institutionCode => '?']);
+                        //it's probably better to NOT do this here
+                        //(cause of stuff like 55482552X).
+                        //better show "?" later in gui
+                        //(show '?' if instiCode not found in json/array).
                     }
                 }
                 break;
