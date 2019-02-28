@@ -323,6 +323,7 @@
   s.carousel = new Carousel();
 
   s.loadResultListAvailabilities = function(recordId, element) {
+  /*
     var baseUrl = getUrlRoot(window.location.href);
     $.ajax({
       type: "GET",
@@ -334,6 +335,7 @@
         console.log('error retrieving availabilites:' + err);
       }
     });
+    */
   };
 
   s.setAvailabilityIcons = function(data, element) {
