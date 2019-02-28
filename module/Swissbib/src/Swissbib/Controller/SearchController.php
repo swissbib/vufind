@@ -142,7 +142,10 @@ class SearchController extends VuFindSearchController
                     case 'NATIONALLICENCE':
                     case 'FREE':
                     case 'SERSOL':
-                        $availabilities = array_merge($availabilities, [$institutionCode => '0']);
+                        $availabilities = array_merge(
+                            $availabilities,
+                            [$institutionCode => '0']
+                        );
                         break;
                     default:
                         if ($institution['group'] !== $idls) {
