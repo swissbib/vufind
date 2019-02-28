@@ -6,7 +6,7 @@
 #  - 7.2
 
 ##env:
-  - VUFIND_HOME=$PWD VUFIND_LOCAL_DIR=$PWD/local
+#  - VUFIND_HOME=$PWD VUFIND_LOCAL_DIR=$PWD/local
 
 before_script:
   - phpenv config-rm xdebug.ini
