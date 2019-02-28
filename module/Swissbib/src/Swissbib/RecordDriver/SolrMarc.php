@@ -2782,7 +2782,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
-     * returns institutions which we won't show by its name
+     * Returns institutions which we won't show by its name
      *
      * @return array
      */
@@ -2792,7 +2792,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
-     * returns an array with all system numbers of all unions/network
+     * Returns an array with all system numbers of all unions/network
      *
      * @return array
      */
