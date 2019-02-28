@@ -1,0 +1,29 @@
+#sudo: false
+#language: php
+#php:
+#  - 7.0
+#  - 7.1
+#  - 7.2
+
+##env:
+  - VUFIND_HOME=$PWD VUFIND_LOCAL_DIR=$PWD/local
+
+before_script:
+  - phpenv config-rm xdebug.ini
+  - phpenv rehash
+  - composer install
+  - npm install
+  - npm install -g eslint@"<5.0.0"
+
+#cache:
+#  directories:
+#    - downloads
+#    - .php_cs_cache
+#    - $HOME/.composer/cache/files
+
+testandbuild:
+  script:
+    - vendor/bin/phing eslint phpunitfast swissbibphpunitfast phpcs-console php-cs-fixer-dryrun
+  # npm tests don't run with VuFind 5 for the moment
+  # - npm run test
+    - npm run build
