@@ -22,7 +22,7 @@ $(document).ready(() => {
         if (!p.name) {
             return "";
         }
-        return `<li class="list-group-item"><a href="${VuFind.path}/Search/Results?lookfor=${p.name}&amp;type=Author" title="${p.name}">${p.name}</a><a href="${VuFind.path}/Card/Knowledge/Person/${p.id}" data-lightbox>
+        return `<li class="list-group-item"><a href="${VuFind.path}/Search/Results?lookfor=%22${p.name}%22&amp;type=Author" title="${p.name}">${p.name}</a><a href="${VuFind.path}/Card/Knowledge/Person/${p.id}" data-lightbox>
 <span ${ p.hasSufficientData === "1" ? ' class="fa icon-info fa-lg"' : "" } style="display: inline;"
 authorid="${p.id}"></span></a></li>`;
     };
