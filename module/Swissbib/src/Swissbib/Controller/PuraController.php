@@ -70,12 +70,8 @@ class PuraController extends BaseController
      */
     public function indexAction()
     {
-        $institutionCodes = ["Z01"];
-        //for ZhDK go live :
-        //$institutionCodes = ["Z01", "E65"];
-        if ($_SERVER["HTTP_HOST"] == "test.swissbib.ch") {
-            $institutionCodes = ["Z01", "E65"];
-        }
+        //libraries for which Pura is activated
+        $institutionCodes = ["Z01", "E65"];
         $institutions = [];
 
         foreach ($institutionCodes as $institutionCode) {
