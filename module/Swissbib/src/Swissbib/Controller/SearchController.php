@@ -145,7 +145,9 @@ class SearchController extends VuFindSearchController
                         $availabilities = array_merge($availabilities, [$institutionCode => '0']);
                         break;
                     default:
-                        if ($institution['group'] !== $idls) continue;
+                        if ($institution['group'] !== $idls) {
+                            continue;
+                        }
                         array_push($groups, $institution['group']);
                         $availabilities = array_merge(
                             $availabilities,
