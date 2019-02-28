@@ -76,6 +76,7 @@ class ConsoleController extends BaseController
         $puraService = $this->serviceLocator
             ->get('Swissbib\PuraService');
         $puraService->sendPuraReport('Z01');
+        $puraService->sendPuraReport('E65');
     }
 
     /**
