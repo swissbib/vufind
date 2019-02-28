@@ -31,4 +31,4 @@ Starting with VF5 there are also rules for templates in theme directory.
  * phing phpcs-console (dryrun)
  * phing phpcbf (fix)
  * phing php-cs-fixer-dryrun
- * phing php-cs-fixer 
+ * phing php-cs-fixer
