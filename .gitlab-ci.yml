@@ -1,29 +1,58 @@
-#sudo: false
-#language: php
-#php:
-#  - 7.0
-#  - 7.1
-#  - 7.2
+# Select image from https://hub.docker.com/_/php/
+image: php:7.1-apache
 
-##env:
-#  - VUFIND_HOME=$PWD VUFIND_LOCAL_DIR=$PWD/local
+# Select what we should cache
+cache:
+  paths:
+    - vendor/
+    - downloads
+    - .php_cs_cache
+    - $HOME/.composer/cache/files
 
 before_script:
+  # Install git, the php image doesn't have installed
+  - apt-get update -yqq
+  - apt-get install git -yqq
+
+  # Install mysql driver
+  - docker-php-ext-install pdo_mysql
+
+  # Install composer
+  - curl -sS https://getcomposer.org/installer | php
+
+  # Install all project dependencies
+  - php composer.phar install
+
+  # sb stuff
   - phpenv config-rm xdebug.ini
   - phpenv rehash
   - composer install
   - npm install
   - npm install -g eslint@"<5.0.0"
 
-#cache:
-#  directories:
-#    - downloads
-#    - .php_cs_cache
-#    - $HOME/.composer/cache/files
+services:
+  - mysql
+
+variables:
+  # Configure mysql service (https://hub.docker.com/_/mysql/)
+  MYSQL_DATABASE: hello_world_test
+  MYSQL_ROOT_PASSWORD: mysql
+
+# We test PHP5.6 (the default) with MySQL
+test:mysql:
+  script:
+    - vendor/bin/phpunit --configuration phpunit_mysql.xml --coverage-text
+
+# We test PHP7 with MySQL, but we allow it to fail
+test:php7:mysql:
+  image: php:7
+  script:
+    - vendor/bin/phpunit --configuration phpunit_mysql.xml --coverage-text
+  allow_failure: true
 
 testandbuild:
   script:
     - vendor/bin/phing eslint phpunitfast swissbibphpunitfast phpcs-console php-cs-fixer-dryrun
-  # npm tests don't run with VuFind 5 for the moment
-  # - npm run test
+    # npm tests don't run with VuFind 5 for the moment
+    # - npm run test
     - npm run build
