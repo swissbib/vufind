@@ -435,6 +435,14 @@ header {
   border-bottom-width: 2px;
 }
 
+.list-group-item:first-child,
+.list-group-item:last-child {
+  //border-top-right-radius: 2px;
+  //border-top-left-radius: 2px;
+  //border-bottom-right-radius: 2px;
+  //border-bottom-left-radius: 2px;
+}
+
 a.list-group-item.active,
 a.list-group-item.active:hover,
 a.list-group-item.active:focus {
@@ -444,16 +452,35 @@ a.list-group-item.active:focus {
   .border-bottom-radius(4px);
 }
 
-.list-group-item.title {
+
+/* for facets */
+.list-group-item {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0;
+  margin-bottom: 0;
+  border-style: none;
+
+  &:first-child {
+    .border-top-radius(0);
+  }
+  &:last-child {
+    margin-bottom: 0;
+    .border-bottom-radius(0);
+  }
+}
+
+.facet-group .title {
   font-weight: 600;
   background: @sidebar-title-color;
   border-bottom-style: solid;
   border-bottom-width: 2px;
 }
 
-a.facet-group.active,
-a.facet.active:hover,
-a.facet.active:focus {
+
+.facet.active,
+.facet.active:hover,
+.facet.active:focus {
   .mixin-btn-primary;
   border-color: #CCC;
   .border-top-radius(4px);
@@ -676,10 +703,6 @@ ul[aria-labelledby=dropdownLibraries] {
 }
 
 
-.js-facet-item {
-  padding: 6px;
-  border-bottom: 1px dotted @content-box-border-color;
-}
 
 
 .sidebar {
@@ -726,7 +749,7 @@ ul[aria-labelledby=dropdownLibraries] {
   .facet {
     text-overflow: ellipsis;
     overflow: hidden;
-    padding: 8px;
+    //padding: 8px;
     align-items: baseline;
   }
 
@@ -750,7 +773,7 @@ ul[aria-labelledby=dropdownLibraries] {
   .facet div.list-group-item {
     padding: 6px;
   }
-  .facet-group.title, .list-group-item.title {
+  .facet-group .title, .list-group-item.title {
     margin-bottom: 0;
     //border-bottom: none;
 
@@ -813,7 +836,7 @@ ul[aria-labelledby=dropdownLibraries] {
   }
   #side-collapse-publishDate,
   #side-collapse-PublicationDate {
-    .facet {
+    .list-group-item {
       border: none;
     }
   }
@@ -1769,7 +1792,7 @@ footer {
       }
       & > .jstree-anchor {
         margin-left: 0;
-        display: flex;
+        display: block;
         background-image: none;
         .main,
         .main > i {
@@ -1791,7 +1814,7 @@ footer {
       background-position: -83px 0px;
 
       .jstree-anchor {
-        display: flex;
+        display: block;
       }
 
       .jstree-icon,
