@@ -475,6 +475,29 @@ a.list-group-item.active:focus {
   background: @sidebar-title-color;
   border-bottom-style: solid;
   border-bottom-width: 2px;
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-left-width: 0px;
+
+}
+
+.facet-group {
+  border-bottom-width: 1px;
+  border-right-width: 0px;
+  border-left-width: 0px;
+
+  .collapse,
+  .collapsing,
+  & > .facet {
+    border-left: 0px;
+    border-right: 0px;
+  }
+}
+
+.facet {
+  border-bottom-width: 0px;
+  border-right-width: 0px;
+  border-left-width: 0px;
 }
 
 
@@ -706,6 +729,23 @@ ul[aria-labelledby=dropdownLibraries] {
 
 
 .sidebar {
+  /* added lio */
+  .checkbox-filter{
+    font-weight: lighter;
+    position: relative;
+    display: block;
+    margin-top : 10px;
+    margin-bottom: 10px;
+    &:hover {
+      background-color: @list-group-hover-bg;
+    }
+  }
+
+
+
+
+  /* end add */
+
   background: @sidebar-background-color;
   vertical-align: top;
 
@@ -751,6 +791,10 @@ ul[aria-labelledby=dropdownLibraries] {
     overflow: hidden;
     //padding: 8px;
     align-items: baseline;
+  }
+
+  .facet .text{
+    display:inline;
   }
 
 
@@ -1763,6 +1807,7 @@ footer {
   margin-left: -20px;
 }
 
+/* sidebar - jstree */
 .sidebar {
   .jstree-default {
     .jstree-container-ul > .jstree-node {
@@ -1792,7 +1837,7 @@ footer {
       }
       & > .jstree-anchor {
         margin-left: 0;
-        display: block;
+        display: flex;
         background-image: none;
         .main,
         .main > i {
@@ -1814,7 +1859,7 @@ footer {
       background-position: -83px 0px;
 
       .jstree-anchor {
-        display: block;
+        display: flex;
       }
 
       .jstree-icon,
