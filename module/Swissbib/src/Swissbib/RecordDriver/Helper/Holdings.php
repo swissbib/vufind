@@ -1448,6 +1448,26 @@ class Holdings
         return $this->compileString($data['pattern'], $values);
     }
 
+    /**
+     * Get backlink for ABN
+     * set link to ABN Primo View
+     *
+     * @param String $networkCode     Code of network
+     * @param String $institutionCode Code of Institution
+     * @param Array  $item            Item
+     * @param Array  $data            Data
+     *
+     * @return String
+     */
+    protected function getBackLinkABN($networkCode, $institutionCode, $item,
+                                       array $data
+    ) {
+        $values = [
+            'bib-system-number' => $item['bibsysnumber'],
+        ];
+        return $this->compileString($data['pattern'], $values);
+    }
+
 
     /**
      * Compile string
