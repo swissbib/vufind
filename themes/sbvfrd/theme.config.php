@@ -3,7 +3,7 @@ return [
   'extends' => 'bootstrap3',
 
   'less' => [
-    'active' => true,
+    'active' => false,
     'compiled.less'
   ],
 
