@@ -125,42 +125,37 @@ class SearchController extends VuFindSearchController
     {
         $idRecord = $this->params()->fromRoute('record');
         $record = $this->getRecord($idRecord);
-        $institutions = $record->getInstitutions(true);
-        $institutions = array_merge($institutions, $record->get949b());
-        $availabilities = $groups = [];
-        foreach ($institutions as $institution) {
-            if (!in_array($institution['group'], $groups)) {
-                $institutionCode = $institution['institution'];
-                $all035Idls = $record->getAll035Idls();
-                foreach ($all035Idls as $idls => $sysNr) {
-                    switch ($idls) {
-                    case 'RETROS':
-                    case 'BORIS':
-                    case 'EDOC':
-                    case 'ECOD':
-                    case 'ALEXREPO':
-                    case 'NATIONALLICENCE':
-                    case 'FREE':
-                    case 'SERSOL':
-                        $availabilities = array_merge(
-                            $availabilities,
-                            [$institutionCode => '0']
-                        );
-                        break;
-                    default:
-                        if ($institution['group'] !== $idls) {
-                            continue;
-                        }
-                        array_push($groups, $institution['group']);
-                        $availabilities = array_merge(
-                            $availabilities,
-                            $record->getAvailabilityIconFromServer($idls, $sysNr)
-                        );
-                        break;
-                    }
-                }
+        $availabilities = [];
+
+        $alwaysAvailableGroups = ['RETROS', 'BORIS', 'EDOC', 'ECOD', 'ALEXREPO', 'NATIONALLICENCE', 'FREE', 'SERSOL'];
+        $all035Idls = $record->getAll035Idls();
+        $recordHasAlwaysAvailableGroup = false;
+        foreach ($all035Idls as $idls => $sysNr) {
+            if (!in_array($idls, $alwaysAvailableGroups)) {
+                $availabilities = array_merge(
+                    $availabilities,
+                    $record->getAvailabilityIconFromServer($idls, $sysNr)
+                );
+            } else {
+                $recordHasAlwaysAvailableGroup = true;
             }
         }
+
+        // all institutions which don't have an availability yet
+        // are treated as members of the $alwaysAvailableGroups:
+        $institutions = $record->getInstitutions(true);
+        $institutions = array_merge($institutions, $record->get949b());
+        foreach ($institutions as $institution) {
+            if (!array_key_exists($institution['institution'], $availabilities)
+                && $recordHasAlwaysAvailableGroup
+            ) {
+                $availabilities = array_merge(
+                    $availabilities,
+                    [$institution['institution'] => '0']
+                );
+            }
+        }
+
         $response = $this->getResponse();
         $response->setStatusCode(200);
         $response->setContent(json_encode($availabilities));
