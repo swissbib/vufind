@@ -1468,7 +1468,6 @@ class Holdings
         return $this->compileString($data['pattern'], $values);
     }
 
-
     /**
      * Compile string
      * Replace {varName} pattern with names and data from array
