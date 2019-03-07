@@ -249,7 +249,18 @@ class EbooksOnDemand extends EbooksOnDemandBase
     protected function isValidForLinkZ01(array $item, SolrMarc $recordDriver,
         Holdings $holdingsHelper
     ) {
-        return $this->isValidForLinkA100($item, $recordDriver, $holdingsHelper);
+        $institutionCode    = $item['institution_chb'];
+        $publishYear        = $recordDriver->getPublicationDates();
+        $itemFormats        = $recordDriver->getMostSpecificFormat();
+        $localCodes         = $recordDriver->getLocalCodes();
+
+        if (in_array("EOD", $localCodes)) {
+            return $this->isYearInRange($institutionCode, $publishYear)
+                && $this->isSupportedInstitution($institutionCode)
+                && $this->hasStopWords(
+                    $institutionCode, $recordDriver->getLocalCodes()
+                ) === false;
+        }
     }
 
     /**
@@ -274,7 +285,7 @@ class EbooksOnDemand extends EbooksOnDemandBase
     }
 
     /**
-     * Check whether Z01 item is valid for EOD link
+     * Check whether Z07 item is valid for EOD link
      *
      * @param Array    $item           Item
      * @param SolrMarc $recordDriver   RecordDriver
@@ -285,7 +296,7 @@ class EbooksOnDemand extends EbooksOnDemandBase
     protected function isValidForLinkZ07(array $item, SolrMarc $recordDriver,
         Holdings $holdingsHelper
     ) {
-        return $this->isValidForLinkA100($item, $recordDriver, $holdingsHelper);
+        return $this->isValidForLinkZ01($item, $recordDriver, $holdingsHelper);
     }
 
     /**

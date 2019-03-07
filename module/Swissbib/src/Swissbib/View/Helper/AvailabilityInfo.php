@@ -155,7 +155,9 @@ class AvailabilityInfo extends AbstractHelper
                 } elseif ($borrowinginformation['due_date'] === 'lost') {
                     $info .= $escapedTranslation('Lost');
                 } elseif ($borrowinginformation['due_date'] === 'on hold') {
-                    $info .= $escapedTranslation('on_hold');
+                    $info .= $escapedTranslation('on_hold') . "<div>" .
+                        $escapedTranslation('no_requests') . "&nbsp;" .
+                        $borrowinginformation['no_requests'] . "</div>";
                 } else {
                     foreach ($borrowinginformation as $key => $value) {
                         if (strcmp(trim($value), "") != 0) {
@@ -189,7 +191,9 @@ class AvailabilityInfo extends AbstractHelper
                     } elseif ($borrowinginformation['due_date'] === 'lost') {
                         $info .= $escapedTranslation('Lost');
                     } elseif ($borrowinginformation['due_date'] === 'on hold') {
-                        $info .= $escapedTranslation('on_hold');
+                        $info .= $escapedTranslation('on_hold') . "<div>" .
+                            $escapedTranslation('no_requests') . "&nbsp;" .
+                            $borrowinginformation['no_requests'] . "</div>";
                     } else {
                         foreach ($borrowinginformation as $key => $value) {
                             if (strcmp(trim($value), "") != 0) {
@@ -228,7 +232,9 @@ class AvailabilityInfo extends AbstractHelper
                     } elseif ($borrowinginformation['due_date'] === 'lost') {
                         $info .= $escapedTranslation('Lost');
                     } elseif ($borrowinginformation['due_date'] === 'on hold') {
-                        $info .= $escapedTranslation('on_hold');
+                        $info .= $escapedTranslation('on_hold') . "<div>" .
+                            $escapedTranslation('no_requests') . "&nbsp;" .
+                            $borrowinginformation['no_requests'] . "</div>";
                     } else {
                         foreach ($borrowinginformation as $key => $value) {
                             if (strcmp(trim($value), "") != 0) {
@@ -266,7 +272,9 @@ class AvailabilityInfo extends AbstractHelper
                     } elseif ($borrowinginformation['due_date'] === 'lost') {
                         $info .= $escapedTranslation('Lost');
                     } elseif ($borrowinginformation['due_date'] === 'on hold') {
-                        $info .= $escapedTranslation('on_hold');
+                        $info .= $escapedTranslation('on_hold') . "<div>" .
+                            $escapedTranslation('no_requests') . "&nbsp;" .
+                            $borrowinginformation['no_requests'] . "</div>";
                     } else {
                         foreach ($borrowinginformation as $key => $value) {
                             if (strcmp(trim($value), "") != 0) {
