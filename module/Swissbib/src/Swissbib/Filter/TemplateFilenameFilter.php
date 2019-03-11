@@ -83,9 +83,11 @@ class TemplateFilenameFilter extends AbstractFilter
         $fileProperty->setAccessible(true);
         $templateFilename = $fileProperty->getValue($phpRenderer);
 
-        // Don't wrap export stuff
+        // Don't wrap export stuff and swagger
         if ((stristr($templateFilename, 'export-') !== false)
             || (stristr($templateFilename, '/email/') !== false)
+            || (stristr($templateFilename, '/searchapi/') !== false)
+            || (stristr($templateFilename, '/api/') !== false)
             || (stristr($templateFilename, '/link') !== false)
         ) {
             return $content;
