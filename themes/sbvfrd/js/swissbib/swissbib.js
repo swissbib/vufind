@@ -339,6 +339,12 @@
   s.setAvailabilityIcons = function(data, element) {
     var availabilities = [];
     availabilities = JSON.parse(data);
+
+    /**
+     * Object.entries not supported on Internet explorer
+     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
+     */
+    /*
     Object.entries(availabilities).forEach(([key, value]) => {
     var availabilityIcon = 'fa-exclamation-circle';
       switch (value) {
@@ -350,6 +356,7 @@
       }
       $(element).siblings('ul').find("span.availability[name='" + key + "']").addClass(availabilityIcon);
     });
+    */
   };
 
 })(window.swissbib = window.swissbib || {});
