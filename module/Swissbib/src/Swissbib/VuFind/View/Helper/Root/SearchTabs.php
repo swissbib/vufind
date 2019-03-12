@@ -90,6 +90,16 @@ class SearchTabs extends VuFindSearchTabs
     }
 
     /**
+     * Return array of tabs.
+     *
+     * @return array
+     */
+    public function getTabArray()
+    {
+        return $this->helper->getTabConfig();
+    }
+
+    /**
      * This function is used to distinguish between the two configs [SearchTabs]
      * and [AdvancedSearchTabs] depending on the view parameter
      *
