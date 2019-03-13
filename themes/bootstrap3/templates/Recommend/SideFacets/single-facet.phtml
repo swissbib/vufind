@@ -13,12 +13,12 @@
     $classList[] = 'active';
   }
   if ($this->facet['operator'] == 'OR') {
-      $classList[] = 'facetOR';
+    $classList[] = 'facetOR';
   }
   if ($this->facet['operator'] == 'AND') {
-      $classList[] = 'facetAND';
+    $classList[] = 'facetAND';
   }
-
+  
   $displayText = '-';
   if (!empty($this->facet['displayText'])) {
     $displayText = $this->escapeHtml($this->facet['displayText']);
