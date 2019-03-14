@@ -139,7 +139,9 @@ class SearchController extends VuFindSearchController
         ];
         $all035Idls = $record->getAll035Idls();
         $recordHasAlwaysAvailableGroup = false;
-        foreach ($all035Idls as $idls => $sysNr) {
+        foreach ($all035Idls as $index => $one035array) {
+            $idls = $one035array['idls'];
+            $sysNr = $one035array['sysNr'];
             if (!in_array($idls, $alwaysAvailableGroups)) {
                 $availabilities = array_merge(
                     $availabilities,

@@ -2808,7 +2808,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             }
             $idls = substr($field035, 1, strpos($field035, ')') - 1);
             $sysNr = explode(')', $field035)[1];
-            $allIdls[$idls] = $sysNr;
+            $allIdls[$field035] = ['idls' => $idls, 'sysNr' => $sysNr];
         }
         return $allIdls;
     }
