@@ -323,6 +323,7 @@
   s.carousel = new Carousel();
 
   s.loadResultListAvailabilities = function(recordId, element) {
+    /*
     var baseUrl = getUrlRoot(window.location.href);
     $.ajax({
       type: "GET",
@@ -334,22 +335,28 @@
         console.log('error retrieving availabilites:' + err);
       }
     });
+    */
   };
 
   s.setAvailabilityIcons = function(data, element) {
     var availabilities = [];
     availabilities = JSON.parse(data);
-    Object.entries(availabilities).forEach(([key, value]) => {
-    var availabilityIcon = 'fa-exclamation-circle';
+
+    for (var key in availabilities) {
+      var availabilityIcon = 'fa-exclamation-circle';
+      var availableTooltip = 'no_ava_info';
+      var value = availabilities[key];
       switch (value) {
-        case '0': availabilityIcon = 'fa-check'; break;
-        case '1': availabilityIcon = 'fa-ban'; break;
-        case '2': availabilityIcon = 'fa-question'; break;
+        case '0': availabilityIcon = 'fa-check'; availableTooltip = 'available'; break;
+        case '1': availabilityIcon = 'fa-ban'; availableTooltip = 'unavailable'; break;
+        case '2': availabilityIcon = 'fa-question'; availableTooltip = 'lookOnSite'; break;
         case '?': availabilityIcon = 'fa-question'; break;
         default: break;
       }
-      $(element).siblings('ul').find("span.availability[name='" + key + "']").addClass(availabilityIcon);
-    });
+       $(element).siblings('ul').find("span.availability[name='" + key + "']")
+        .addClass(availabilityIcon)
+        .attr('title', VuFind.translate(availableTooltip));
+    }
   };
 
 })(window.swissbib = window.swissbib || {});
