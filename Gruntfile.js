@@ -39,9 +39,21 @@ module.exports = function(grunt) {
   }
 
   var fontAwesomePath = '"../../bootstrap3/css/fonts"';
+
+  //this works only for sbvfrd, therefore the logo on jusbib won't show up
+  //a better way is needed
+  var themePath = '"../../sbvfrd/"'
   var lessFileSettings = [{
     expand: true,
     src: "themes/*/less/compiled.less",
+    rename: function (dest, src) {
+      return src.replace('/less/', '/css/').replace('.less', '.css');
+    }
+  }];
+
+  var lessSbvfrdFileSettings = [{
+    expand: true,
+    src: "themes/sbvfrd/less/compiled.less",
     rename: function (dest, src) {
       return src.replace('/less/', '/css/').replace('.less', '.css');
     }
@@ -56,13 +68,19 @@ module.exports = function(grunt) {
           paths: getLoadPaths,
           compress: true,
           modifyVars: {
-            'fa-font-path': fontAwesomePath
+            'fa-font-path': fontAwesomePath,
+            'theme-base-path' : themePath,
           }
         }
       }
     },
     // Less with maps
     lessdev: {
+      less: {
+      }
+    },
+    // Less with maps only for sbvrd theme
+    lessdevSbvfrd: {
       less: {
       }
     },
@@ -173,6 +191,10 @@ module.exports = function(grunt) {
         files: 'themes/*/less/**/*.less',
         tasks: ['lessdev']
       },
+      lessdevSbvfrd: {
+        files: 'themes/sbvfrd/less/**/*.less',
+        tasks: ['lessdevSbvfrd']
+      },
       scss: {
         files: 'themes/*/scss/**/*.scss',
         tasks: ['scss']
@@ -191,7 +213,28 @@ module.exports = function(grunt) {
           //sourceMapBasepath: 'themes/sbvfrdsingle/css/',
           sourceMapRootpath: '../../../',
           modifyVars: {
-            'fa-font-path': fontAwesomePath
+            'fa-font-path': fontAwesomePath,
+            'theme-base-path' : themePath,
+          }
+        }
+      }
+    });
+    grunt.task.run('less');
+  });
+
+  grunt.registerMultiTask('lessdevSbvfrd', function lessWithMaps() {
+    grunt.config.set('less', {
+      dev: {
+        files: lessSbvfrdFileSettings,
+        options: {
+          paths: getLoadPaths,
+          sourceMap: true,
+          sourceMapFileInline: true,
+          //sourceMapBasepath: 'themes/sbvfrdsingle/css/',
+          sourceMapRootpath: '../../../',
+          modifyVars: {
+            'fa-font-path': fontAwesomePath,
+            'theme-base-path' : themePath,
           }
         }
       }
