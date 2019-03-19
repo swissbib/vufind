@@ -20,7 +20,7 @@
       <?php foreach ($this->sortOptions as $key => $sort): ?>
         <?php if (!($sort == "sort_alphabetic" && ($facet == "language" || $facet == "navSubform" || $facet == "institution" || $facet == "navDrsys"))): ?>
           <a href="<?=$urlBase . '&amp;facetpage=1&amp;facetsort=' . urlencode($key) ?>" class="btn btn-default js-facet-sort<?php if($this->sort == $key): ?> active<?php endif; ?>" data-sort="<?=$key ?>" data-lightbox-ignore><?=$this->translate($sort) ?></a>
-        <?php endif ?>
+        <?php endif; ?>
       <?php endforeach; ?>
     </div>
   </div>
