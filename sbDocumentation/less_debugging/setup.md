@@ -1,18 +1,33 @@
 # Debug vufind less with Firefox Developer tools
 
-1. sudo npm install -g grunt-cli
-2. grunt lessdev (in any directory)
-3. firefox tools tell the good less
-4. AliasMatch ^/themes/([0-9a-zA-Z-_]*)/less/(.*)$ /usr/local/vufind/httpd/themes/$1/less/$2 dans la config apache
-5. aussi dessous    <Directory ~ "^/usr/local/vufind/compare/themes/([0-9a-zA-Z-_]*)/(css|images|js|less)/">
-5. dans le gruntfile.js, ajouter : sourceMapRootpath: '../../../',
-6. faire grunt watch:lessdev : the compiled.css is then compiled every time a less files is changed
-7. active compilation of the theme must be set on false
-8. maybe git update-index --assume-unchanged themes/bootstrap3/css/compiled.css themes/local_theme_example/css/compiled.css themes/sandal/css/compiled.css
+This is the way to see directly the less files in firefox developer tools.
 
 
+![screenshot]
 
-https://developer.mozilla.org/fr/docs/Outils/%C3%89diteur_de_style
+##Standard Setup
 
-il y a encore un problème avec le logo et les images avec
-@theme-base-path: "../../"; dans variables.less
+* sudo npm install -g grunt-cli
+* Edit apache configuration to serve less files. Add the following :  
+  * `AliasMatch ^/themes/([0-9a-zA-Z-_]*)/less/(.*)$ /usr/local/vufind/httpd/themes/$1/less/$2`
+  * `<Directory ~ "^/usr/local/vufind/compare/themes/([0-9a-zA-Z-_]*)/(css|images|js|less)/">`
+* do `grunt lessdev` (in any vufind directory)
+
+##Watch files
+* do `grunt watch:lessdev` : the compiled.css is then compiled every time a less files is changed
+
+##Only generate the sbvfrd theme
+
+Most of the time we only need to generate the sbvfrd theme, not all themes. Therefore to compile faster we can use `grunt lessdevSbvfrd` or `grunt watch:lessdevSbvfrd`.
+
+
+**Remark** : active compilation of the theme must be set on false (in theme.config.php).
+
+More info : 
+
+* https://developer.mozilla.org/fr/docs/Outils/%C3%89diteur_de_style
+* https://vufind.org/wiki/development:architecture:less
+* https://vufind.org/wiki/development:grunt
+
+
+[screenshot]: screenshot_less.png
