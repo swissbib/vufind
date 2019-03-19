@@ -25,12 +25,12 @@ export default class SearchResultConverter {
         const sectionResult: SectionResult = { items: [], total: 0 };
         const data: SearchResultData = this.getResult(result);
 
-        sectionResult.total = data.total;
+        sectionResult.total = data.suggestions.length;
 
         for (let index: number = 0; index < data.suggestions.length; ++index) {
             const item: Item = {
-                label: data.suggestions[index].value,
-                value: data.suggestions[index].id,
+                label: data.suggestions[index],
+                value: index,
             };
 
             item.href = configuration.getRecordLink(item, section);
@@ -42,12 +42,12 @@ export default class SearchResultConverter {
     }
 
     private getResult(result: SearchResult): SearchResultData {
-        return result.data[SearchResultConverter.RESULT_INDEX];
+        return result.data;
     }
 }
 
 declare interface SearchResultSuggestionItem { id: string; value: string; }
-declare interface SearchResultData { total: number; suggestions: SearchResultSuggestionItem[]; }
+declare interface SearchResultData { total: number; suggestions: string[]; }
 
 /**
  * Type definition for search results received for the per-section auto-suggest.
@@ -57,7 +57,7 @@ export interface SearchResult {
     /**
      * The data received.
      */
-    data: SearchResultData[];
+    data: SearchResultData;
 
     /**
      * The response status.

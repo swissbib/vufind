@@ -96,7 +96,7 @@ class Availability
      */
     public function getAvailability($sysNumber, $barcode, $bib, $locale)
     {
-        $apiUrl    = $this->getApiUrl($sysNumber, $barcode, $bib, $locale);
+        $apiUrl = $this->getApiUrl($sysNumber, $barcode, $bib, $locale);
 
         try {
             $responseBody    = $this->fetch($apiUrl);

@@ -2782,56 +2782,58 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
-     * Get array of institutionCodes with availability value
-     *
-     * @param String $institutionCode institution code
+     * Returns institutions which we won't show by its name
      *
      * @return array
      */
-    public function getAvailabilityIcon($institutionCode)
+    public function get949b()
     {
-        $r = [];
-        $konkordanzTabelle = $this->libraryNetworkLookup;
-        $field035Array = $this->getFieldArray('035');
+        return $this->getFieldArray('949', ['b']);
+    }
 
+    /**
+     * Returns an array with all system numbers of all unions/network
+     *
+     * @return array
+     */
+    public function getAll035Idls()
+    {
+        $allIdls = [];
+        $field035Array = $this->getFieldArray('035');
         foreach ($field035Array as $field035) {
             if (strpos($field035, '(') === false
                 || strpos($field035, ')') === false
             ) {
                 continue;
             }
-            $sysNr = explode(')', $field035)[1];
             $idls = substr($field035, 1, strpos($field035, ')') - 1);
+            $sysNr = explode(')', $field035)[1];
+            $allIdls[$field035] = ['idls' => $idls, 'sysNr' => $sysNr];
+        }
+        return $allIdls;
+    }
 
-            switch ($idls) {
-            case 'RETROS':
-            case 'BORIS':
-            case 'EDOC':
-            case 'ECOD':
-            case 'ALEXREPO':
-            case 'NATIONALLICENCE':
-            case 'FREE':
-            case 'SERSOL':
-                $r = array_merge($r, [$institutionCode => '0']);
-                break;
-            default:
-                if (array_key_exists($idls, $konkordanzTabelle)) {
-                    $userLocale = $this->translator->getLocale();
-                    $idls = $konkordanzTabelle[$idls];
-                    $a = $this->availabilityHelper
-                        ->getAvailabilityByLibraryNetwork(
-                            $sysNr, $idls, $userLocale
-                        );
-                    if (is_array($a)) {
-                        $r = array_merge($r, $a);
-                    }
-                } else {
-                    if (!array_key_exists($institutionCode, $r)) {
-                        // write ?-value only if no valid value pre-exists
-                        $r = array_merge($r, [$institutionCode => '?']);
-                    }
-                }
-                break;
+    /**
+     * Get array of institutionCodes with availability value
+     *
+     * @param String $idls  network/union
+     * @param String $sysNr system number
+     *
+     * @return array
+     */
+    public function getAvailabilityIconFromServer($idls, $sysNr)
+    {
+        $r = [];
+        $konkordanzTabelle = $this->libraryNetworkLookup;
+        if (array_key_exists($idls, $konkordanzTabelle)) {
+            $userLocale = $this->translator->getLocale();
+            $idls = $konkordanzTabelle[$idls];
+            $a = $this->availabilityHelper
+                ->getAvailabilityByLibraryNetwork(
+                    $sysNr, $idls, $userLocale
+                );
+            if (is_array($a)) {
+                $r = array_merge($r, $a);
             }
         }
         return $r;

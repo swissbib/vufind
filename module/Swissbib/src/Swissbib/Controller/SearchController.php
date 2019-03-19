@@ -117,6 +117,76 @@ class SearchController extends VuFindSearchController
     }
 
     /**
+     * Returns availability by library network
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    public function availabilityByLibraryNetworkAction()
+    {
+        $idRecord = $this->params()->fromRoute('record');
+        $record = $this->getRecord($idRecord);
+        $availabilities = [];
+
+        $alwaysAvailableGroups = [
+            'RETROS',
+            'BORIS',
+            'EDOC',
+            'ECOD',
+            'ALEXREPO',
+            'NATIONALLICENCE',
+            'FREE',
+            'SERSOL'
+        ];
+        $all035Idls = $record->getAll035Idls();
+        $recordHasAlwaysAvailableGroup = false;
+        foreach ($all035Idls as $index => $one035array) {
+            $idls = $one035array['idls'];
+            $sysNr = $one035array['sysNr'];
+            if (!in_array($idls, $alwaysAvailableGroups)) {
+                $availabilities = array_merge(
+                    $availabilities,
+                    $record->getAvailabilityIconFromServer($idls, $sysNr)
+                );
+            } else {
+                $recordHasAlwaysAvailableGroup = true;
+            }
+        }
+
+        // all institutions which don't have an availability yet
+        // are treated as members of the $alwaysAvailableGroups:
+        $institutions = $record->getInstitutions(true);
+        $institutions = array_merge($institutions, $record->get949b());
+        foreach ($institutions as $institution) {
+            if (!array_key_exists($institution['institution'], $availabilities)
+                && $recordHasAlwaysAvailableGroup
+            ) {
+                $availabilities = array_merge(
+                    $availabilities,
+                    [$institution['institution'] => '0']
+                );
+            }
+        }
+
+        $response = $this->getResponse();
+        $response->setStatusCode(200);
+        $response->setContent(json_encode($availabilities));
+        return $response;
+    }
+
+    /**
+     * Load solr record
+     *
+     * @param Integer $idRecord record id
+     *
+     * @return SolrMarc
+     */
+    protected function getRecord($idRecord)
+    {
+        return $this->serviceLocator->get('VuFind\RecordLoader')
+            ->load($idRecord, 'Solr');
+    }
+
+    /**
      * Get facet config
      *
      * @return Config

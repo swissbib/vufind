@@ -94,26 +94,6 @@
   };
 
   /**
-   * Enables scroll to selected node, mostly copied from VuFind bootstrap3 hierarchyTree.js
-   */
-  /*
-  s.initHierarchyTree = function() {
-    var htmlID = swissbib.getParameterByName('htmlID');
-
-    if (htmlID !== '') {
-      var $hierarchyTree = $("#hierarchyTree");
-
-      $hierarchyTree.bind("ready.jstree", function (event, data) {
-        var jstree = $hierarchyTree.jstree(true);
-
-        jstree.select_node(htmlID);
-        jstree._open_to(htmlID);
-      });
-    }
-  },
-  */
-
-  /**
    * Handle click on bulk export
    * Append list of record ids to existing link
    *
@@ -269,7 +249,6 @@
     });
   };
 
-
   var Carousel = function() {
     var infos = {};
 
@@ -342,6 +321,43 @@
   };
 
   s.carousel = new Carousel();
+
+  s.loadResultListAvailabilities = function(recordId, element) {
+    /*
+    var baseUrl = getUrlRoot(window.location.href);
+    $.ajax({
+      type: "GET",
+      async: true,
+      url: VuFind.path + '/Search/' + recordId + '/AvailabilityByLibraryNetwork',
+      success: function(data) { swissbib.setAvailabilityIcons(data, element); },
+      error: function(xhr, status, error) {
+        var err = xhr.responseText;
+        console.log('error retrieving availabilites:' + err);
+      }
+    });
+    */
+  };
+
+  s.setAvailabilityIcons = function(data, element) {
+    var availabilities = [];
+    availabilities = JSON.parse(data);
+
+    for (var key in availabilities) {
+      var availabilityIcon = 'fa-exclamation-circle';
+      var availableTooltip = 'no_ava_info';
+      var value = availabilities[key];
+      switch (value) {
+        case '0': availabilityIcon = 'fa-check'; availableTooltip = 'available'; break;
+        case '1': availabilityIcon = 'fa-ban'; availableTooltip = 'unavailable'; break;
+        case '2': availabilityIcon = 'fa-question'; availableTooltip = 'lookOnSite'; break;
+        case '?': availabilityIcon = 'fa-question'; break;
+        default: break;
+      }
+       $(element).siblings('ul').find("span.availability[name='" + key + "']")
+        .addClass(availabilityIcon)
+        .attr('title', VuFind.translate(availableTooltip));
+    }
+  };
 
 })(window.swissbib = window.swissbib || {});
 

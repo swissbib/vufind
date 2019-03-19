@@ -52,6 +52,17 @@ return [
                     ]
                 ]
             ],
+            // load availability by library network with ajax
+            'availability-resultlist-ajax' => [
+                'type'    => 'segment',
+                'options' => [
+                    'route'    => '/Search/:record/AvailabilityByLibraryNetwork',
+                    'defaults' => [
+                        'controller' => SearchController::class,
+                        'action'     => 'availabilityByLibraryNetwork'
+                    ]
+                ]
+            ],
             // (local) Search User Settings
             'myresearch-settings' => [
                 'type'    => 'literal',
