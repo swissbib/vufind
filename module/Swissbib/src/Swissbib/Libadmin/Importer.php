@@ -131,7 +131,7 @@ class Importer
 
         try {
             $importData = $this->getData();
-            $this->downloadAndStoreAllInstitutionData(); //libadmin_all.json
+            $importDataFull = $this->downloadAndStoreAllInstitutionData(); //libadmin_all.json
 
             $this->result->addSuccess('Data fetched from libadmin');
         } catch (Exceptions\Exception $e) {
@@ -152,7 +152,12 @@ class Importer
 
                 $storeStatus = $this->storeData($importData['data']);
 
-                if ($storeStatus) {
+                $storeHierarchical
+                    = $this->storeHierarchicalInstitutionLabels(
+                        $importDataFull['data']
+                    );
+
+                if ($storeStatus && $storeHierarchical) {
                     $this->result->addSuccess(
                         'All data files were stored successfully'
                     );
@@ -560,15 +565,78 @@ class Importer
     }
 
     /**
+     * Store localized hierarchical institution label in local language files
+     *
+     * @param Array $data InstitutionData
+     *
+     * @return Boolean
+     */
+    protected function storeHierarchicalInstitutionLabels(array $data)
+    {
+        $translations = [];
+        $writer       = new LibadminWriter();
+        $status       = true;
+        $type         = 'canton-institution/institution';
+
+        if (sizeof($data) === 0) {
+            $this->result->addInfo(
+                'No full data received from libadmin server. Are any institutions' .
+                ' linked for this view?'
+            );
+        }
+
+        $this->result->addInfo(
+            'Store hierarchical institution labels (with canton)'
+        );
+
+        foreach ($data as $group) {
+            if (isset($group['institutions']) && is_array($group['institutions'])) {
+                foreach ($group['institutions'] as $institution) {
+                    $canton = $institution['canton'] ?? false;
+                    $bib_code = $institution['bib_code'] ?? false;
+                    if ($canton && $bib_code) {
+                        $canton = $institution['canton'];
+                        foreach ($institution['label'] as $locale => $label) {
+                            $key = '1/' . $canton . '/' . $bib_code . '/';
+                            $translations[$locale][$key] = $label;
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($translations as $locale => $labels) {
+            try {
+                $storageFile = $writer->saveLanguageFile($labels, $type, $locale);
+                $numLabels   = sizeof($labels);
+
+                $this->result->addSuccess(
+                    'Saved ' . $numLabels . ' [' . $locale . '] ' . $type .
+                    ' label file to ' . $storageFile
+                );
+            } catch (\Exception $e) {
+                $this->result->addError(
+                    'Failed saving [' . $locale . '] ' . $type . ' label file'
+                );
+                $this->result->addError($e->getMessage());
+                $status = false;
+            }
+        }
+
+        return $status;
+    }
+
+    /**
      * DownloadAndStoreAllInstitutionData
      *
-     * @return void
+     * @return Array
      */
     protected function downloadAndStoreAllInstitutionData()
     {
         $this->downloadAllInstitutions = true;
-        $this->getData();
+        $result = $this->getData();
         $this->downloadAllInstitutions = false;
+        return $result;
     }
 
     /**
