@@ -5,7 +5,7 @@ This is the way to see directly the less files in firefox developer tools.
 
 ![screenshot]
 
-##Standard Setup
+## Standard Setup
 
 * sudo npm install -g grunt-cli
 * Edit apache configuration to serve less files. Add the following :  
@@ -13,10 +13,10 @@ This is the way to see directly the less files in firefox developer tools.
   * `<Directory ~ "^/usr/local/vufind/compare/themes/([0-9a-zA-Z-_]*)/(css|images|js|less)/">`
 * do `grunt lessdev` (in any vufind directory)
 
-##Watch files
+## Watch files
 * do `grunt watch:lessdev` : the compiled.css is then compiled every time a less files is changed
 
-##Only generate the sbvfrd theme
+## Only generate the sbvfrd theme
 
 Most of the time we only need to generate the sbvfrd theme, not all themes. Therefore to compile faster we can use `grunt lessdevSbvfrd` or `grunt watch:lessdevSbvfrd`.
 
