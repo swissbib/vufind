@@ -193,15 +193,21 @@ class NationalLicenceServiceTest extends VuFindTestCase
          */
         $user = $this->getNationalLicenceUserObjectInstance();
         $user->edu_id = $this->externalIdTest;
-        $user->setExpirationDate(new \DateTime());
+        $user->setExpirationDate((new \DateTime())->modify('+1 day'));
+        $isOnGroup = $this->switchApiService
+            ->userIsOnNationalCompliantSwitchGroup($user->edu_id);
+        if (!$isOnGroup) {
+            $this->switchApiService
+                ->setNationalCompliantFlag($user->edu_id);
+        }
         $res = $this->nationalLicenceService
             ->isTemporaryAccessCurrentlyValid($user);
-        //$this->assertEquals(true, $res);
+        $this->assertEquals(true, $res);
 
         $user->setExpirationDate((new \DateTime())->modify('-1 day'));
         $res = $this->nationalLicenceService
             ->isTemporaryAccessCurrentlyValid($user);
-        //$this->assertEquals(false, $res);
+        $this->assertEquals(false, $res);
 
         $user->setExpirationDate((new \DateTime())->modify('+1 day'));
         $res = $this->nationalLicenceService
