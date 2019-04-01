@@ -51,9 +51,9 @@ module.exports = function(grunt) {
     }
   }];
 
-  var lessSbvfrdFileSettings = [{
+  var lessSbvfrdsingleFileSettings = [{
     expand: true,
-    src: "themes/sbvfrd/less/compiled.less",
+    src: "themes/sbvfrdsingle/less/compiled.less",
     rename: function (dest, src) {
       return src.replace('/less/', '/css/').replace('.less', '.css');
     }
@@ -80,7 +80,7 @@ module.exports = function(grunt) {
       }
     },
     // Less with maps only for sbvrd theme
-    lessdevSbvfrd: {
+    lessdevSbvfrdsingle: {
       less: {
       }
     },
@@ -191,9 +191,9 @@ module.exports = function(grunt) {
         files: 'themes/*/less/**/*.less',
         tasks: ['lessdev']
       },
-      lessdevSbvfrd: {
-        files: 'themes/sbvfrd/less/**/*.less',
-        tasks: ['lessdevSbvfrd']
+      lessdevSbvfrdsingle: {
+        files: 'themes/*/less/**/*.less',
+        tasks: ['lessdevSbvfrdsingle']
       },
       scss: {
         files: 'themes/*/scss/**/*.scss',
@@ -222,10 +222,10 @@ module.exports = function(grunt) {
     grunt.task.run('less');
   });
 
-  grunt.registerMultiTask('lessdevSbvfrd', function lessWithMaps() {
+  grunt.registerMultiTask('lessdevSbvfrdsingle', function lessWithMaps() {
     grunt.config.set('less', {
       dev: {
-        files: lessSbvfrdFileSettings,
+        files: lessSbvfrdsingleFileSettings,
         options: {
           paths: getLoadPaths,
           sourceMap: true,
