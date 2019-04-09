@@ -353,7 +353,7 @@
         case '?': availabilityIcon = 'fa-question'; break;
         default: break;
       }
-       $(element).siblings('ul').find("span.availability[name='" + key + "']")
+       $(element).siblings('ul').find("span.availability[name*='" + key + "']")
         .addClass(availabilityIcon)
         .attr('title', VuFind.translate(availableTooltip));
     }
