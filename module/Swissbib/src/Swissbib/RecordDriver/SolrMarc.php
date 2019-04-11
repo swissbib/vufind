@@ -2305,10 +2305,18 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             $institutions = $this->fields['institution'];
 
             if ($extended) {
+                $fields = $this->getMarcRecord()->getFields('949');
+                $konkordanzTabelle949 = [];
+                foreach ($fields as $currentField) {
+                    $b = $this->getSubfieldArray($currentField, ['b']);
+                    $F = $this->getSubfieldArray($currentField, ['F']);
+                    $konkordanzTabelle949[$F[0]] = $b[0];
+                }
                 foreach ($institutions as $key => $institution) {
                     $institutions[$key] = [
                         'institution' => $institution,
-                        'group' => $this->getHoldingsHelper()->getGroup($institution)
+                        'group' => $this->getHoldingsHelper()->getGroup($institution),
+                        'institution_b' => $konkordanzTabelle949[$institution]
                     ];
                 }
             }
@@ -2788,7 +2796,13 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function get949b()
     {
-        return $this->getFieldArray('949', ['b']);
+        $r = [];
+        $institutionCodes = $this->getFieldArray('949', ['b']);
+        foreach ($institutionCodes as $institutionCode) {
+            $i['institution'] = $institutionCode;
+            array_push($r, $i);
+        }
+        return $r;
     }
 
     /**
@@ -2808,7 +2822,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             }
             $idls = substr($field035, 1, strpos($field035, ')') - 1);
             $sysNr = explode(')', $field035)[1];
-            $allIdls[$idls] = $sysNr;
+            $allIdls[$field035] = ['idls' => $idls, 'sysNr' => $sysNr];
         }
         return $allIdls;
     }

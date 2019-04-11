@@ -57,11 +57,6 @@
   .search-controls { text-align: left; }
 }
 
-/* fix für facet list styling (kürzt zu lange facetten-namen mit "..." ab) */
-.jstree-facet li span.main {
-  //display: block;
-  text-overflow: ellipsis;
-}
 
 /* fix for showing action buttons in trefferliste */
 .result {
@@ -89,40 +84,11 @@ input[name="processLogin"] {
   margin-left: 25%;
 }
 
-.facet {
-  display: block;
-  padding: 0;
-}
 
 /* show full hierarchytree (without scrollbars) */
 .hierarchy-tree {
   max-height: none;
   overflow-y: auto;
-}
-
-/* fix for hierarchical facets */
-div.facet {
-  //text-align: right;
-
-  /*
-  .main.text {
-    float: left;
-    text-align: left;
-  }
-  */
-
-  /*
-  li span.main:first-child {
-    margin-left: -57px;
-  }
-  */
-
-  /*
-  span.badge {
-    float: right;
-    }
-  */
-
 }
 
 .home-facet-list {

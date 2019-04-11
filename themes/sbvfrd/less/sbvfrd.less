@@ -452,6 +452,26 @@ a.list-group-item.active:focus {
   .border-bottom-radius(4px);
 }
 
+
+/* for facets */
+.list-group-item {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0;
+  margin-bottom: 0;
+  border-style: none;
+
+  &:first-child {
+    .border-top-radius(0);
+  }
+  &:last-child {
+    margin-bottom: 0;
+    .border-bottom-radius(0);
+  }
+}
+
+
+
 .sidebar > .sidegroup > h4 {
   padding-left: 9px;
   padding-bottom: 2px;
@@ -668,13 +688,24 @@ ul[aria-labelledby=dropdownLibraries] {
 }
 
 
-.js-facet-item {
-  padding: 6px;
-  border-bottom: 1px dotted @content-box-border-color;
-}
-
 
 .sidebar {
+  /* added lio */
+  .checkbox-filter {
+    font-weight: lighter;
+    position: relative;
+    display: block;
+    margin-top : 10px;
+    margin-bottom: 10px;
+    &:hover {
+      background-color: @list-group-hover-bg;
+    }
+  }
+
+
+
+  /* end add */
+
   background: @sidebar-background-color;
   vertical-align: top;
 
@@ -713,7 +744,75 @@ ul[aria-labelledby=dropdownLibraries] {
     padding-right: 2px;
     background-color: transparent;
   }
-  .badge a {color:@link-color}
+  a.exclude {color:@link-color}
+
+  .facet-group .title {
+    font-weight: 600;
+    background: @sidebar-title-color;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    position: relative;
+
+  }
+
+  .facet-group {
+    border-bottom-width: 1px;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    margin-left: 0px;
+
+    .collapse,
+    .collapsing,
+    & > .facet {
+      border-left: 0px;
+      border-right: 0px;
+    }
+  }
+
+  .facet {
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;
+  }
+
+  .active-filters .facet,
+  .active-filters .facet:hover,
+  .active-filters .facet:focus,
+  .facet.active,
+  .facet.active:hover,
+  .facet.active:focus {
+    .mixin-btn-primary;
+    border-color: #CCC;
+    .border-top-radius(4px);
+    .border-bottom-radius(4px);
+    & > .text {
+      color: #fff;
+    }
+  }
+
+  .facet {
+    align-items: baseline;
+  }
+
+  .facet .text {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .facet .text .description {
+    white-space: normal !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .facet .text i{
+    padding-right: 5px;
+  }
+
+
   .list-group-item {
     text-overflow: ellipsis;
     overflow: hidden;
@@ -722,16 +821,22 @@ ul[aria-labelledby=dropdownLibraries] {
   .record-related-searches .list-group-item {
     padding: 0 8px 0 0;
   }
-  .facetOR > a , .facetAND > a {
+
+
+  a {
     color: @font-color;
   }
-  .facetOR:hover , .facetAND:hover {
+  .facet:hover{
     background-color: @list-group-hover-bg;
+  }
+
+  li.active > a > .facet:hover{
+    background-color: transparent;
   }
   .facet div.list-group-item {
     padding: 6px;
   }
-  .list-group-item.title {
+  .facet-group .title, .list-group-item.title {
     margin-bottom: 0;
     //border-bottom: none;
 
@@ -741,6 +846,15 @@ ul[aria-labelledby=dropdownLibraries] {
   }
   .facet .exclude {
     padding-left: 0.2rem;
+    justify-content: flex-end;
+  }
+  .facetAND.active {
+    &:after  {
+      content: "\f00c";
+      font-family: FontAwesome;
+      margin-right: 5px;
+      font-weight: normal;
+    }
   }
   h4.list-group-item.title {
     padding-top: 9px;
@@ -749,8 +863,24 @@ ul[aria-labelledby=dropdownLibraries] {
   .title.collapsed {
     border-radius: 2px;
   }
-  .collapse .list-group-item[id^=more],
-  .collapsing .list-group-item[id^=more],
+  .collapse .facet[id^=more],
+  .collapsing .facet[id^=more] {
+    //.collapse .list-group-item[class*=narrowGroupHidden]:last-child,
+    //.collapsing .list-group-item[class*=narrowGroupHidden]:last-child {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+
+    .text {
+      color: @link-color;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    &:before {
+      .a-before;
+    }
+  }
+
   .controlElement {
   //.collapse .list-group-item[class*=narrowGroupHidden]:last-child,
   //.collapsing .list-group-item[class*=narrowGroupHidden]:last-child {
@@ -1720,6 +1850,7 @@ footer {
   margin-left: -20px;
 }
 
+/* sidebar - jstree */
 .sidebar {
   .jstree-default {
     .jstree-container-ul > .jstree-node {
@@ -1749,9 +1880,11 @@ footer {
       }
       & > .jstree-anchor {
         margin-left: 0;
-        display: block;
+        display: flex;
         background-image: none;
-        .main,
+        .main {
+          line-height: inherit;
+        }
         .main > i {
           line-height: 34px;
         }
@@ -1771,14 +1904,15 @@ footer {
       background-position: -83px 0px;
 
       .jstree-anchor {
-        display: block;
+        display: flex;
+        padding-bottom: 5px;
       }
 
       .jstree-icon,
       .jstree-icon:empty {
         float: left;
-        height: 20px;
-        margin-right: 2px;
+        height: 1.5rem;
+        margin-right: 0px;
       }
     }
     a.jstree-hovered {
@@ -1817,31 +1951,29 @@ footer {
     .badge {
       line-height: 18px;
     }
-    span.main.applied i {
-      padding-top: 5px;
-    }
     .jstree-open > .jstree-ocl,
     .jstree-closed > .jstree-ocl {
       background-position: -43px -128px !important; //overwrite jstree responsive !important
     }
   }
-  .jstree-facet .jstree-container-ul  li.active {
+
+
+  .jstree-facet .jstree-container-ul li.active > i {
+    background-color: @link-color-transparent;
+    .border-left-radius(4px);
+    color: @white;
+  }
+
+  .jstree-facet .jstree-container-ul li.active > a.jstree-anchor > .facet > .text {
+    background-color: @link-color-transparent;
+    .border-right-radius(4px);
+    color: @white;
+  }
+  //don't highlight the children of an active node
+  .jstree-facet .active a.jstree-anchor,
+  .jstree-facet .active .badge {
     background-color: @white;
     color: @font-color;
-  }
-  .jstree-facet .jstree-container-ul li.active a.jstree-anchor {
-    background-color: transparent;
-    color: @font-color;
-  }
-  .jstree-facet .jstree-container-ul li.active > i {
-    background-color: transparent;
-    color: @white;
-  }
-  .jstree-facet .jstree-container-ul li.active > a.jstree-anchor {
-    background-color: @link-color-transparent;
-    .border-top-radius(4px);
-    .border-bottom-radius(4px);
-    color: @white;
   }
   .jstree-facet .list-group-item.active,
   .jstree-facet .list-group-item.active:hover,

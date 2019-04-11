@@ -69,6 +69,20 @@ class SideFacets extends VFSideFacets
     }
 
     /**
+     * Get facet information from the search results.
+     * Core facets merged with mylibraries (favoriten)
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function getFacetSet()
+    {
+        $facetSet = parent::getFacetSet();
+        $myLibraries = $this->getMyLibraries();
+        return array_merge($myLibraries, $facetSet);
+    }
+
+    /**
      * Store the configuration of the recommendation module.
      *
      * @param string $settings Settings from searches.ini.

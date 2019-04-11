@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       // First identify mixins:
       var mixinMatches = config.match(/["']mixins["']\s*=>\s*\[([^\]]+)\]/);
       if (mixinMatches !== null) {
-        var mixinParts = mixinMatches[1].split(',')
+        var mixinParts = mixinMatches[1].split(',');
         for (var i = 0; i < mixinParts.length; i++) {
           parts[1] = mixinParts[i].trim().replace(/['"]/g, '');
           retVal.push(parts.join('/') + '/');
@@ -39,9 +39,21 @@ module.exports = function(grunt) {
   }
 
   var fontAwesomePath = '"../../bootstrap3/css/fonts"';
+
+  //this works only for sbvfrd, therefore the logo on jusbib won't show up
+  //a better way is needed
+  var themePath = '"../../sbvfrd/"'
   var lessFileSettings = [{
     expand: true,
     src: "themes/*/less/compiled.less",
+    rename: function (dest, src) {
+      return src.replace('/less/', '/css/').replace('.less', '.css');
+    }
+  }];
+
+  var lessSbvfrdsingleFileSettings = [{
+    expand: true,
+    src: "themes/sbvfrdsingle/less/compiled.less",
     rename: function (dest, src) {
       return src.replace('/less/', '/css/').replace('.less', '.css');
     }
@@ -56,13 +68,19 @@ module.exports = function(grunt) {
           paths: getLoadPaths,
           compress: true,
           modifyVars: {
-            'fa-font-path': fontAwesomePath
+            'fa-font-path': fontAwesomePath,
+            'theme-base-path' : themePath,
           }
         }
       }
     },
     // Less with maps
     lessdev: {
+      less: {
+      }
+    },
+    // Less with maps only for sbvrd theme
+    lessdevSbvfrdsingle: {
       less: {
       }
     },
@@ -173,6 +191,10 @@ module.exports = function(grunt) {
         files: 'themes/*/less/**/*.less',
         tasks: ['lessdev']
       },
+      lessdevSbvfrdsingle: {
+        files: 'themes/*/less/**/*.less',
+        tasks: ['lessdevSbvfrdsingle']
+      },
       scss: {
         files: 'themes/*/scss/**/*.scss',
         tasks: ['scss']
@@ -188,8 +210,31 @@ module.exports = function(grunt) {
           paths: getLoadPaths,
           sourceMap: true,
           sourceMapFileInline: true,
+          //sourceMapBasepath: 'themes/sbvfrdsingle/css/',
+          sourceMapRootpath: '../../../',
           modifyVars: {
-            'fa-font-path': fontAwesomePath
+            'fa-font-path': fontAwesomePath,
+            'theme-base-path' : themePath,
+          }
+        }
+      }
+    });
+    grunt.task.run('less');
+  });
+
+  grunt.registerMultiTask('lessdevSbvfrdsingle', function lessWithMaps() {
+    grunt.config.set('less', {
+      dev: {
+        files: lessSbvfrdsingleFileSettings,
+        options: {
+          paths: getLoadPaths,
+          sourceMap: true,
+          sourceMapFileInline: true,
+          //sourceMapBasepath: 'themes/sbvfrdsingle/css/',
+          sourceMapRootpath: '../../../',
+          modifyVars: {
+            'fa-font-path': fontAwesomePath,
+            'theme-base-path' : themePath,
           }
         }
       }

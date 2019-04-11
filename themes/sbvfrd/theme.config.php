@@ -43,7 +43,6 @@ return [
       'Swissbib\View\Helper\RecordLink' => 'VuFind\View\Helper\Root\RecordLinkFactory',
       'Swissbib\View\Helper\LayoutClass' => 'VuFind\View\Helper\Bootstrap3\LayoutClassFactory',
       'Swissbib\VuFind\View\Helper\Root\SearchTabs' => 'VuFind\View\Helper\Root\SearchTabsFactory',
-      'Swissbib\VuFind\View\Helper\Root\Piwik' => 'VuFind\View\Helper\Root\PiwikFactory',
       'nationalLicences' => 'Swissbib\View\Helper\Swissbib\Factory::getNationalLicences',
       'autoSuggestConfig' => 'Swissbib\View\Helper\Swissbib\Factory::getAutoSuggestConfig',
       'getextendedlastsearchlink' => 'Swissbib\View\Helper\Swissbib\Factory::getExtendedLastSearchLink',
@@ -59,7 +58,6 @@ return [
         'citation' => 'Swissbib\VuFind\View\Helper\Root\Citation',
         'recordLink' => 'Swissbib\View\Helper\RecordLink',
         'searchtabs' => 'Swissbib\VuFind\View\Helper\Root\SearchTabs',
-        'piwik' => 'Swissbib\VuFind\View\Helper\Root\Piwik',
         'translate' => \Swissbib\VuFind\View\Helper\Root\Translate::class,
     ],
   ]
