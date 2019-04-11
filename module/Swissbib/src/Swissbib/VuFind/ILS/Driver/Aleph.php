@@ -705,18 +705,16 @@ class Aleph extends VuFindDriver
      * by a specific patron.
      *
      * @param array $user    The patron array from patronLogin
-     * @param bool  $history Include history of transactions (true) or just get
-     *                       current ones (false).
      *
      * @throws \VuFind\Exception\Date
      * @throws ILSException
      *
      * @return array        Array of the patron's transactions on success.
      */
-    public function getMyTransactions($user, $history = false)
+    public function getMyTransactions($user, $params = [])
     {
         $transactionsResponseItems = $this->getMyTransactionsResponse(
-            $user, $history
+            $user
         );
         $dataMap = [
             'barcode'        => 'z30-barcode',
@@ -751,7 +749,7 @@ class Aleph extends VuFindDriver
 
             // Add special data
             try {
-                $itemData['id'] = ($history) ? null : $this->barcodeToID(
+                $itemData['id'] = $this->barcodeToID(
                     $itemData['barcode']
                 );
                 $itemData['item_id'] = substr(strrchr($group[0], "/"), 1);
