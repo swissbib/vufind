@@ -797,20 +797,15 @@ ul[aria-labelledby=dropdownLibraries] {
     align-items: baseline;
   }
 
-  .facet .text{
-    display:flex;
-    white-space: normal !important;
+  .facet .text {
+    display: flex;
     align-items: baseline;
-    //text-overflow: ellipsis;
-    //word-break: break-word;
-    //overflow-wrap: break-word;
-    //line-height: 1.5rem;
+  }
 
-    //too much hyphens...
-    //hyphens: auto;
-    //-webkit-hyphens: auto;
-    //-ms-hyphens: auto;
-
+  .facet .text .description {
+    white-space: normal !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .facet .text i{
