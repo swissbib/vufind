@@ -794,9 +794,6 @@ ul[aria-labelledby=dropdownLibraries] {
   }
 
   .facet {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    //padding: 8px;
     align-items: baseline;
   }
 
@@ -1880,7 +1877,9 @@ footer {
         margin-left: 0;
         display: flex;
         background-image: none;
-        .main,
+        .main {
+          line-height: inherit;
+        }
         .main > i {
           line-height: 34px;
         }
