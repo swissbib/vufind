@@ -794,14 +794,22 @@ ul[aria-labelledby=dropdownLibraries] {
   }
 
   .facet {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    //padding: 8px;
     align-items: baseline;
   }
 
-  .facet .text{
-    display:inline;
+  .facet .text {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .facet .text .description {
+    white-space: normal !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .facet .text i{
+    padding-right: 5px;
   }
 
 
@@ -1874,7 +1882,9 @@ footer {
         margin-left: 0;
         display: flex;
         background-image: none;
-        .main,
+        .main {
+          line-height: inherit;
+        }
         .main > i {
           line-height: 34px;
         }
@@ -1895,6 +1905,7 @@ footer {
 
       .jstree-anchor {
         display: flex;
+        padding-bottom: 5px;
       }
 
       .jstree-icon,
@@ -1953,7 +1964,7 @@ footer {
     color: @white;
   }
 
-  .jstree-facet .jstree-container-ul li.active > a.jstree-anchor {
+  .jstree-facet .jstree-container-ul li.active > a.jstree-anchor > .facet > .text {
     background-color: @link-color-transparent;
     .border-right-radius(4px);
     color: @white;

@@ -18,7 +18,7 @@ This is the way to see directly the less files in firefox developer tools.
 
 ## Only generate the sbvfrd theme
 
-Most of the time we only need to generate the sbvfrd theme, not all themes. Therefore to compile faster we can use `grunt lessdevSbvfrd` or `grunt watch:lessdevSbvfrd`.
+Most of the time we only need to generate the sbvfrdsingle theme, not all themes. Therefore to compile faster we can use `grunt lessdevSbvfrdsingle` or `grunt watch:lessdevSbvfrdsingle`.
 
 
 **Remark** : active compilation of the theme must be set on false (in theme.config.php).

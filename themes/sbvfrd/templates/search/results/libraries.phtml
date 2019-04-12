@@ -15,13 +15,14 @@ if (sizeof($institutions) > 1) {
     <?php foreach ($institutions as $institution): ?>
       <?php
         $institutionCode = $institution['institution'];
+        $institutionCodeSub = $institution['institution_b'];
         $groupCode = $institution['group'];
         $anchor = 'holding-institution-' . $groupCode . '-' . $institutionCode;
       ?>
       <li role="presentation">
         <a role="menuitem" href="<?= $this->recordLink()->getUrl($driver) ?>?expandlib=<?= $groupCode ?>-<?= $institutionCode ?>#<?= $anchor ?>">
             <span class="a-before"></span>
-            <span name="<?php echo $institutionCode; ?>" class="availability"></span>
+            <span name="<?php echo $institutionCode . ' ' . $institutionCodeSub; ?>" class="availability"></span>
             <?= $this->escapeHtml($this->zendTranslate($institutionCode, 'institution')); ?>
         </a>
       </li>
