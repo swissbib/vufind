@@ -334,4 +334,16 @@ class Factory
     {
         return new ElasticSearchSearch($sm);
     }
+
+    /**
+     * Constructs the RdfDataApi Search service
+     *
+     * @param ServiceManager $sm The service manager
+     *
+     * @return \Swissbib\Services\SwissbibDataRdfApiSearch
+     */
+    public static function getRdfDataApiSearch(ServiceManager $sm)
+    {
+        return new SwissbibDataRdfApiSearch($sm);
+    }
 }

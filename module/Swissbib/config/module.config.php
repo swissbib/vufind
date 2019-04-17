@@ -482,11 +482,13 @@ return [
             //'VuFind\ILS\Connection' => 'VuFind\ILS\Driver\Aleph',
             'Swissbib\XSLT\MARCFormatter'                   => 'Zend\ServiceManager\Factory\InvokableFactory',
             'Swissbib\Services\ElasticSearchSearch'=> 'Swissbib\Services\Factory::getElasticSearchSearch',
+            'Swissbib\Services\RdfDataApiSearch'    => 'Swissbib\Services\Factory::getRdfDataApiSearch',
         ],
         'aliases' => [
             'MvcTranslator'         => 'Zend\Mvc\I18n\Translator',
-            'MarcFormatter'         => 'Swissbib\XSLT\MARCFormatter',
+            'MarcFormatter'          => 'Swissbib\XSLT\MARCFormatter',
             'elasticsearchsearch'   => 'Swissbib\Services\ElasticSearchSearch',
+            'swissbibrdfdataapi'            =>  'Swissbib\Services\RdfDataApiSearch',
         ],
     ],
     'view_helpers'    => [
@@ -756,7 +758,9 @@ return [
                     'SolrClassification' => 'Swissbib\VuFind\Search\SolrClassification\Options',
                 ],
                 'factories' => [
-                    'elasticsearch' => '\ElasticSearch\VuFind\Search\Options\Factory::getElasticSearch'
+                    'elasticsearch' => '\ElasticSearch\VuFind\Search\Options\Factory::getElasticSearch',
+                    'swissbibrdfdataapi' => '\SwissbibRdfDataApi\VuFind\Search\Options\Factory::getRdfDataApiSearch'
+
                 ],
             ], 'vufind_search_params' => [
                 'abstract_factories' => ['Swissbib\VuFind\Search\Params\PluginFactory'],
@@ -765,12 +769,15 @@ return [
                     'SolrClassification' => 'Swissbib\VuFind\Search\SolrClassification\Params',
                     'elasticsearch' => 'ElasticSearch\VuFind\Search\Params\ElasticSearch',
                     'summon' => 'Swissbib\VuFind\Search\Summon\Params',
+                    'swissbibrdfdataapi' => 'SwissbibRdfDataApi\VuFind\Search\Params\SwissbibRdfDataApi'
                 ],
                 'factories' => [
                     'Swissbib\VuFind\Search\Solr\Params'          => 'Swissbib\VuFind\Search\Params\Factory::getSolr',
                     'Swissbib\VuFind\Search\SolrClassification\Params' => 'Swissbib\VuFind\Search\Params\Factory::getSolrClassification',
                     'Swissbib\VuFind\Search\Summon\Params' => 'Swissbib\VuFind\Search\Params\Factory::getSummon',
                     'ElasticSearch\VuFind\Search\Params\ElasticSearch' => '\ElasticSearch\VuFind\Search\Params\Factory::getElasticSearch',
+  'SwissbibRdfDataApi\VuFind\Search\Params\SwissbibRdfDataApi' =>
+  '\SwissbibRdfDataApi\VuFind\Search\Params\Factory::getRdfDataApiSearch'
                 ],
 
             ],
@@ -784,6 +791,7 @@ return [
                     'elasticsearch'     => 'ElasticSearch\VuFind\Search\Results\ElasticSearch',
                     'summon'            => 'Swissbib\VuFind\Search\Summon\Results',
                     'SolrClassification' => 'Swissbib\VuFind\Search\SolrClassification\Results',
+                    'swissbibrdfdataapi' => 'SwissbibRdfDataApi\VuFind\Search\Results\RdfDataApi'
                 ],
                 'factories' => [
                     'Swissbib\VuFind\Search\SolrClassification\Results' => 'Swissbib\VuFind\Search\Results\Factory::getSolrClassification',
@@ -793,6 +801,9 @@ return [
                     'Swissbib\VuFind\Search\Solr\Results\Favorites'         => 'Swissbib\VuFind\Search\Results\Factory::getFavorites',
                     'ElasticSearch\VuFind\Search\Results\ElasticSearch'     => '\ElasticSearch\VuFind\Search\Results\Factory::getElasticSearch',
                     'Swissbib\VuFind\Search\Summon\Results'                 => 'Swissbib\VuFind\Search\Results\Factory::getSummon',
+  'SwissbibRdfDataApi\VuFind\Search\Results\RdfDataApi'                     =>
+  '\SwissbibRdfDataApi\VuFind\Search\Results\Factory::getRdfDataApiSearch'
+
                 ],
             ]
         ]
