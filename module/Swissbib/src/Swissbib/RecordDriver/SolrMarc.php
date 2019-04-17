@@ -2307,21 +2307,26 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             if ($extended) {
                 $fields = $this->getMarcRecord()->getFields('949');
                 $konkordanzTabelle949 = [];
-                foreach ($fields as $currentField) {
-                    $b = $this->getSubfieldArray($currentField, ['b']);
-                    $F = $this->getSubfieldArray($currentField, ['F']);
-                    $konkordanzTabelle949[$F[0]] = $b[0];
+                if (!empty($fields)) {
+                    foreach ($fields as $currentField) {
+                        $b = $this->getSubfieldArray($currentField, ['b']);
+                        $F = $this->getSubfieldArray($currentField, ['F']);
+                        $konkordanzTabelle949[$F[0]] = $b[0];
+                    }
                 }
+                $institution_b = '';
                 foreach ($institutions as $key => $institution) {
+                    if (!empty($konkordanzTabelle949)) {
+                        $institution_b = $konkordanzTabelle949[$institution];
+                    }
                     $institutions[$key] = [
                         'institution' => $institution,
                         'group' => $this->getHoldingsHelper()->getGroup($institution),
-                        'institution_b' => $konkordanzTabelle949[$institution]
+                        'institution_b' => $institution_b
                     ];
                 }
             }
         }
-
         return $institutions;
     }
 
