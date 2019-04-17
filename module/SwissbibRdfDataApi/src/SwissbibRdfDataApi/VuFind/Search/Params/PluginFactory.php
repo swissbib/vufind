@@ -20,8 +20,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category VuFind
- * @package  ElasticSearch\VuFind\Search\Params
- * @author   Christoph Boehm <cbo@outermedia.de>
+ * @package  SwissbibRdfDataApi\VuFind\Search\Params
+ * @author   Günter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
@@ -31,8 +31,8 @@ namespace SwissbibRdfDataApi\VuFind\Search\Params;
  * Class PluginFactory
  *
  * @category VuFind
- * @package  ElasticSearch\VuFind\Search\Params
- * @author   Christoph Boehm <cbo@outermedia.de>
+ * @package  SwissbibRdfDataApi\VuFind\Search\Params
+ * @author   Günter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */

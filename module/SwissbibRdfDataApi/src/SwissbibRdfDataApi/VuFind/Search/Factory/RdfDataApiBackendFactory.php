@@ -20,16 +20,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category VuFind
- * @package  ElasticSearch\VuFind\Search\Factory
- * @author   Christoph Boehm <cbo@outermedia.de>
+ * @package  SwissbibRdfDataApi\VuFind\Search\Factory
+ * @author   Günter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
 namespace SwissbibRdfDataApi\VuFind\Search\Factory;
 
-use ElasticSearch\VuFindSearch\Backend\ElasticSearch\Backend;
+use SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch\Backend;
 // @codingStandardsIgnoreLineuse
-use ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
+use SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
 use ElasticsearchAdapter\Adapter;
 use ElasticsearchAdapter\Connector\ElasticsearchClientConnector;
 use Interop\Container\ContainerInterface;
@@ -41,7 +41,7 @@ use Zend\ServiceManager\Factory\FactoryInterface;
  *
  * @category VuFind
  * @package  SwissbibRdfDataApi\VuFind\Search\Factory
- * @author   Christoph Boehm <cbo@outermedia.de>
+ * @author   Günter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
@@ -93,7 +93,7 @@ class RdfDataApiBackendFactory implements FactoryInterface
     /**
      * Creates the Backend
      *
-     * @return \ElasticSearch\VuFindSearch\Backend\ElasticSearch\Backend
+     * @return \SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch\Backend
      */
     protected function createBackend()
     {
@@ -106,7 +106,7 @@ class RdfDataApiBackendFactory implements FactoryInterface
         }
 
         $manager = $this->_serviceLocator->get(
-            'ElasticSearch\VuFind\RecordDriver\PluginManager'
+            'SwissbibRdfDataApi\VuFind\RecordDriver\PluginManager'
         );
         $factory = new RecordCollectionFactory(
             [$manager, 'getElasticSearchRecord']

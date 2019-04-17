@@ -20,15 +20,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category VuFind
- * @package  ElasticSearch\VuFindSearch\Backend\ElasticSearch
- * @author   Christoph Boehm <cbo@outermedia.de>
+ * @package  SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch
+ * @author   Günter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
 namespace SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch;
 
 // @codingStandardsIgnoreLineuse
-use ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
+use SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
 //use ElasticsearchAdapter\Adapter;
 use ElasticsearchAdapter\Result\ElasticsearchClientResult;
 use VuFindSearch\Backend\AbstractBackend;
@@ -44,8 +44,8 @@ use VuFindSearch\Response\RecordCollectionFactoryInterface;
  * Class Backend
  *
  * @category VuFind
- * @package  ElasticSearch\VuFindSearch\Backend\ElasticSearch
- * @author   Christoph Boehm <cbo@outermedia.de>
+ * @package  SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch
+ * @author   Günter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
@@ -59,7 +59,7 @@ class Backend extends AbstractBackend
      */
     protected $connector;
 
-    // @var \ElasticSearch\VuFindSearch\Backend\ElasticSearch\SearchBuilder
+    // @var \SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch\SearchBuilder
     protected $searchBuilder;
 
     /**
