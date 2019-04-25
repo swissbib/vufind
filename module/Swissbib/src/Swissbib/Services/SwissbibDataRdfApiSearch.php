@@ -82,7 +82,7 @@ class SwissbibDataRdfApiSearch
      *
      * @return Results
      */
-    public function searchElasticSearch(
+    public function searchApiSearch(
         string $q, string $template, string $index = null, string $type = null,
         int $limit = 20, int $page = 1
     ): Results {

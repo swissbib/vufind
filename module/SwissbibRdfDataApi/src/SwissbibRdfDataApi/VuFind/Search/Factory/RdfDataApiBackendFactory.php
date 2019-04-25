@@ -27,11 +27,10 @@
  */
 namespace SwissbibRdfDataApi\VuFind\Search\Factory;
 
-use SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch\Backend;
+use SwissbibRdfDataApi\VuFindSearch\Backend\SwissbibRdfDataApi\Backend;
 // @codingStandardsIgnoreLineuse
-use SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
-use ElasticsearchAdapter\Adapter;
-use ElasticsearchAdapter\Connector\ElasticsearchClientConnector;
+//use SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Connector\RdfDataApiConnector;
 use Interop\Container\ContainerInterface;
 use Zend\Config\Config;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -98,9 +97,10 @@ class RdfDataApiBackendFactory implements FactoryInterface
     protected function createBackend()
     {
         $hosts = $this->_config->get("config")->ElasticSearch->hosts->toArray();
-        $connector = new ElasticsearchClientConnector($hosts);
+        $connector = new RdfDataApiConnector("gnd");
         $adapter = new Adapter($connector);
-        $backend = new Backend($adapter, $this->loadSpecs());
+        //$backend = new Backend($adapter, $this->loadSpecs());
+        $backend = new Backend();
         if ($this->logger) {
             $backend->setLogger($this->logger);
         }

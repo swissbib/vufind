@@ -25,10 +25,9 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-namespace SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch;
+namespace SwissbibRdfDataApi\VuFindSearch\Backend\SwissbibRdfDataApi;
 
 // @codingStandardsIgnoreLineuse
-use SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
 //use ElasticsearchAdapter\Adapter;
 use ElasticsearchAdapter\Result\ElasticsearchClientResult;
 use VuFindSearch\Backend\AbstractBackend;
