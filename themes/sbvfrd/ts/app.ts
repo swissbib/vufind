@@ -53,6 +53,7 @@ authorid="${p.id}"></span></a></li>`;
 
     autoSuggest.initialize();
 
+    /*
     // Remove the focus and close the autosuggest, if the search field is not empty on load
     if (! $.isEmptyObject(autoSuggest.getValue())) {
         $("#searchForm_lookfor").blur();
@@ -62,6 +63,7 @@ authorid="${p.id}"></span></a></li>`;
         // Doing it old fashoined :-(
         $(".autocomplete-results").hide();
     }
+    */
 
     const mediaQueryObserver: MediaQueryObserver = new MediaQueryObserver();
 
