@@ -312,8 +312,7 @@ class Email
             '<a href="https://www.swissbib.ch">' .
             'https://www.swissbib.ch</a></p>';
 
-        $textMail = $vufindUser->email . "<br />" .
-            $textMailDe . '<p>---</p>' .
+        $textMail =  $textMailDe . '<p>---</p>' .
             $textMailFr;
 
         $mimeMessage = $this->createMimeMessage(
@@ -322,8 +321,7 @@ class Email
             Mime\Mime::TYPE_HTML
         );
         $this->sendMailWithAttachment(
-            //$toUser->email,
-            ['lionel.walter@unibas.ch','liowalter@gmail.com'],
+            $toUser->email,
             $mimeMessage,
             'Pura Konto Erneuerung',
             //use 'true' to test locally if sendmail not installed
