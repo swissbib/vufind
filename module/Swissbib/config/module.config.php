@@ -1,8 +1,6 @@
 <?php
 namespace Swissbib\Module\Config;
 
-use Elasticsearch\Endpoints\Cat\Help;
-use Swissbib\Controller\AjaxController;
 use Swissbib\Controller\CoverController;
 use Swissbib\Controller\FavoritesController;
 use Swissbib\Controller\FeedbackController;
@@ -387,6 +385,7 @@ return [
     ],
     'controllers' => [
         'factories'  => [
+            'Swissbib\Controller\AjaxController' => 'VuFind\Controller\AjaxControllerFactory',
             CoverController::class => 'Swissbib\Controller\Factory::getCoverController',
             FavoritesController::class => AbstractBaseFactory::class,
             FeedbackController::class  => AbstractBaseFactory::class,
@@ -421,7 +420,8 @@ return [
             \VuFind\Controller\MyResearchController::class => MyResearchController::class,
             \VuFind\Controller\SearchController::class => SearchController::class,
             \VuFind\Controller\SummonController::class => SummonController::class,
-            'ajax'                 => AjaxController::class,
+            'ajax'                 => 'Swissbib\Controller\AjaxController',
+            'AJAX'                 => 'Swissbib\Controller\AjaxController',
             'shibtest'             => 'Swissbib\Controller\ShibtestController',
         ],
     ],
@@ -596,7 +596,10 @@ return [
             ],
             'autocomplete' => [
                 'factories' => [
-                    'solr'          =>  'Swissbib\VuFind\Autocomplete\Factory::getSolr',
+                    'Swissbib\VuFind\Autocomplete\Solr'  =>  'Swissbib\VuFind\Autocomplete\Factory::getSolr',
+                ],
+                'aliases' => [
+                    'solr'             => 'Swissbib\VuFind\Autocomplete\Solr',
                 ],
             ],
             'content_covers' => [
@@ -715,6 +718,7 @@ return [
                     'Swissbib\AjaxHandler\GetSameMovementAuthors'     => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
                     'Swissbib\AjaxHandler\GetSubjectAuthors'          => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
                     'Swissbib\AjaxHandler\GetOrganisations'           => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
+                    \Swissbib\AjaxHandler\GetACSuggestions::class     => \VuFind\AjaxHandler\GetACSuggestionsFactory::class,
                 ],
                 'aliases' =>  [
                     'getSubjects'                 => 'Swissbib\AjaxHandler\GetSubjects',
@@ -725,6 +729,7 @@ return [
                     'getSameMovementAuthors'      => 'Swissbib\AjaxHandler\GetSameMovementAuthors',
                     'getSubjectAuthors'           => 'Swissbib\AjaxHandler\GetSubjectAuthors',
                     'getOrganisations'            => 'Swissbib\AjaxHandler\GetOrganisations',
+                    'getACSuggestions'            => \Swissbib\AjaxHandler\GetACSuggestions::class,
                 ]
             ],
         ]

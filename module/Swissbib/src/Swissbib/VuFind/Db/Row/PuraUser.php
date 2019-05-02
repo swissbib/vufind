@@ -85,6 +85,17 @@ class PuraUser extends RowGateway
     }
 
     /**
+     * Get the library code (the library for which this user
+     * has registered for pura)
+     *
+     * @return string
+     */
+    public function getLibraryCode()
+    {
+        return $this->library_code;
+    }
+
+    /**
      * Check if user has access
      *
      * @return bool

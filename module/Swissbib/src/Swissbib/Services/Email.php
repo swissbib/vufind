@@ -29,6 +29,8 @@ use Zend\Mail\Transport\Sendmail as SendmailTransport;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Zend\Mime;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Swissbib\VuFind\Db\Row\PuraUser;
+
 
 /**
  * Class Email.
@@ -261,55 +263,57 @@ class Email
      * @return void
      * @throws \Exception
      */
-    public function sendPuraAccountExtensionEmail($toUser)
-    {
+    public function sendPuraAccountExtensionEmail(
+        puraUser $puraUser, $vufindUser, array $institutionInfo
+    ) {
         $sl = $this->getServiceLocator();
-        $vhm = $sl->get('viewhelpermanager');
+        $vhm = $sl->get('ViewHelperManager');
         $url = $vhm->get('url');
         $baseDomainPath = $this->config->get('config')['Site']['url'];
         $link =  $baseDomainPath .
             $url(
                 'pura/library',
                 [
-                    'libraryCode' => 'Z01',
+                    'libraryCode' => $puraUser->getLibraryCode(),
                     'page' => 'registration',
                 ],
                 ['force_canonical' => true]
             );
-        $username = $toUser->firstname . ' ' . $toUser->lastname;
+        $username = $vufindUser->firstname . ' ' . $vufindUser->lastname;
 
-        $textMailDe = '<p>Liebe(r) ' . $username .
-            ',<br /> <br /> Seit einem Jahr, haben Sie ' .
-            'Pura nicht mehr benutzt. ' .
-            'Wir haben Ihr Konto deshalb deaktiviert. ' .
-            'Wenn Sie wollen, können Sie Ihres Konto ' .
-            '<a href="' . $link . '" ' .
-            'target="_blank" rel="noreferrer">reaktivieren</a>' .
-            '.</p> ';
+        $textMailDe = '<p>Guten Tag Frau/Herr ' . $username .
+            ',<br /> <br />Ihre Einschreibung für die Dienstleistung PURA (' .
+            $institutionInfo['name']['de'] .
+            ') läuft am ' .
+            $puraUser->getExpirationDate()->format('j.n.Y') .
+            ' ab. Falls Sie auch weiterhin die Dienstleitung nutzen möchten, ' .
+            'dann bitten wir Sie,  <a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">Ihre Einschreibung nun zu ' .
+            'erneuern</a>. Andernfalls wird ihr Konto demnächst deaktiviert. ' .
+            'Eine spätere Reaktivierung des Kontos bleibt allerdings möglich.</a>' .
+            '</p>'.
+            '<p>Freundliche Grüsse,</p>' .
+            '<p>swissbib Team<br />' .
+            '<a href="https://www.swissbib.ch">' .
+            'https://www.swissbib.ch</a></p>';
 
         $textMailFr = '<p>Cher/Chère ' . $username .
-            ',<br /> <br /> Vous n\'avez pas utilisé ' .
-            'Pura dans les 12 derniers mois. ' .
-            'Nous avons donc désactivé votre compte. ' .
-            'Néanmoins, vous pouvez le réactiver' .
-            ' en visitant <a href="' . $link . '" ' .
-            'target="_blank" rel="noreferrer">ce lien</a>' .
-            '.</p> ';
+            ',<br /> <br />Votre inscription pour le service PURA (' .
+            $institutionInfo['name']['fr'] .
+            ') arrivera à échéance le ' .
+            $puraUser->getExpirationDate()->format('j.n.Y') .
+            '. Si vous le désirez, vous pouvez <a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">renouveler votre inscription</a>. ' .
+            'Sinon, votre compte sera désactivé prochainement. Une réactivation ' .
+            'ultérieure demeure possible.</a>' .
+            '</p>'.
+            '<p>Avec nos meilleures salutations,</p>' .
+            '<p>Votre service swissbib<br />' .
+            '<a href="https://www.swissbib.ch">' .
+            'https://www.swissbib.ch</a></p>';
 
-        $textMailEn = '<p>Dear ' . $username .
-            ',<br /> <br /> We noticed that you didn\'t use ' .
-            'Pura as a private user ' .
-            'in the last 12 months. ' .
-            'Therefore we deactivated your account. ' .
-            'Please print <a href="' . $link . '" ' .
-            'target="_blank" rel="noreferrer">this page</a> ' .
-            'and bring it to the desk of your library' .
-            'if you wish to reactivate your account.</p> ';
-
-        $textMail = $toUser->email . "<br />" .
-            $textMailDe . '<p>---</p>' .
-            $textMailFr . '<p>---</p>' .
-            $textMailEn;
+        $textMail =  $textMailDe . '<p>---</p>' .
+            $textMailFr;
 
         $mimeMessage = $this->createMimeMessage(
             $textMail,
@@ -317,12 +321,11 @@ class Email
             Mime\Mime::TYPE_HTML
         );
         $this->sendMailWithAttachment(
-            //$toUser->email,
-            'lionel.walter@unibas.ch',
+            $toUser->email,
             $mimeMessage,
-            'Pura Extension',
+            'Pura Konto Erneuerung',
             //use 'true' to test locally if sendmail not installed
-            'true'
+            'false'
         );
     }
 

@@ -24,7 +24,7 @@ export default class AutoSuggest {
      * @private
      * @type {string}
      */
-    private static SECTION_HEADER_LINK_SELECTOR: string = ".ac-group-header > a";
+    private static SECTION_HEADER_LINK_SELECTOR: string = ".ac-section-header > a";
 
     /**
      * @private

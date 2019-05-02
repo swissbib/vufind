@@ -25,7 +25,7 @@ export default class SearchResultConverter {
         const sectionResult: SectionResult = { items: [], total: 0 };
         const data: SearchResultData = this.getResult(result);
 
-        sectionResult.total = data.suggestions.length;
+        sectionResult.total = data.total;
 
         for (let index: number = 0; index < data.suggestions.length; ++index) {
             const item: Item = {
@@ -46,7 +46,6 @@ export default class SearchResultConverter {
     }
 }
 
-declare interface SearchResultSuggestionItem { id: string; value: string; }
 declare interface SearchResultData { total: number; suggestions: string[]; }
 
 /**
