@@ -134,7 +134,7 @@ class ConsoleController extends BaseController
         //http://stackoverflow.com/questions/27295895/how-can-i-
         //create-a-url-in-a-console-controller-in-zf2
         $event = $this->getEvent();
-        $http = $this->getServiceLocator()->get('HttpRouter');
+        $http = $this->serviceLocator->get('HttpRouter');
         $router = $event->setRouter($http);
         $request = new \Zend\Http\Request();
         $request->setUri('');
@@ -146,7 +146,7 @@ class ConsoleController extends BaseController
          *
          * @var Pura $puraService
          */
-        $puraService = $this->getServiceLocator()
+        $puraService = $this->serviceLocator
             ->get('Swissbib\PuraService');
         $puraService->checkValidityPuraUsers();
     }
