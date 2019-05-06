@@ -28,7 +28,9 @@ class RdfDataApiResult implements Result
      */
     public function getTotal() : int
     {
-        return $this->result['hits']['total'];
+        //todo: implement this
+        return 0;
+        //return $this->result['hits']['total'];
     }
 
     /**

@@ -49,7 +49,7 @@ class Factory
      */
     public static function getElasticSearchRecord(ServiceManager $sm)
     {
-        $driver = new ElasticSearch(
+        $driver = new RdfDataApi(
             //          $sm->getServiceLocator()->get('VuFind\Config')->get('config'),
             //          null,
             //          $sm->getServiceLocator()->get('VuFind\Config')->get('searches')
@@ -67,7 +67,7 @@ class Factory
      */
     public static function getESPersonRecord(ServiceManager $sm)
     {
-        $driver = new ESPerson(
+        $driver = new APIPerson(
             //          $sm->getServiceLocator()->get('VuFind\Config')->get('config'),
             //          null,
             //          $sm->getServiceLocator()->get('VuFind\Config')->get('searches')
@@ -85,7 +85,7 @@ class Factory
      */
     public static function getESBibliographicResourceRecord(ServiceManager $sm)
     {
-        return new ESBibliographicResource();
+        return new APIBibliographicResource();
     }
 
     /**
@@ -97,7 +97,7 @@ class Factory
      */
     public static function getESSubjectRecord(ServiceManager $sm)
     {
-        return new ESSubject();
+        return new APISubject();
     }
 
     /**
@@ -109,6 +109,6 @@ class Factory
      */
     public static function getESOrganisationRecord(ServiceManager $sm)
     {
-        return new ESOrganisation();
+        return new APIOrganisation();
     }
 }

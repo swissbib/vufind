@@ -90,4 +90,27 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
         $driver->setRawData($data);
         return $driver;
     }
+
+    /**
+     * Convenience method to retrieve a populated Solr record driver.
+     *
+     * @param array $data Raw ElasticSearch data
+     *
+     * @return AbstractBase
+     */
+    public function getRdfDataApiSearchRecord($data)
+    {
+        if (isset($data['_type'])) {
+            $key = 'API' . ucwords($data['_type']);
+            $recordType = $this->has($key) ? $key : self::DEFAULT_RECORD;
+        } else {
+            $recordType = self::DEFAULT_RECORD;
+        }
+        // Build the object:
+        $driver = $this->get($recordType);
+        $driver->setRawData($data);
+        return $driver;
+    }
+
+
 }

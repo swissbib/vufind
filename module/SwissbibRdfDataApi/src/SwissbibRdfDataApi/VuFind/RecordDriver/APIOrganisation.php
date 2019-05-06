@@ -1,6 +1,6 @@
 <?php
 /**
- * ESDEFAULT.php
+ * ESOrganisation.php
  *
  * PHP Version 7
  *
@@ -28,7 +28,7 @@
 namespace SwissbibRdfDataApi\VuFind\RecordDriver;
 
 /**
- * Class ESDEFAULT
+ * Class ESOrganisation
  *
  * @category VuFind
  * @package  ElasticSearch\VuFind\RecordDriver
@@ -36,6 +36,47 @@ namespace SwissbibRdfDataApi\VuFind\RecordDriver;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class ESDEFAULT extends APISubject
+class APIOrganisation extends RdfDataApi
 {
+    /**
+     * Magic function to access all fields
+     *
+     * @param string $name      Name of the field
+     * @param array  $arguments Unused but required
+     *
+     * @method getHomepage()
+     * @method getMbox()
+     * @method getPhone()
+     *
+     * @return array|null
+     */
+    public function __call(string $name, $arguments)
+    {
+        $fieldName = lcfirst(substr($name, 3));
+        return $this->getField($fieldName, "foaf");
+    }
+
+    /**
+     * Gets the Name
+     *
+     * @return array|null
+     */
+    public function getName()
+    {
+        $name = $this->getField('name', 'foaf');
+        if (isset($name)) {
+            return $name;
+        }
+        return $this->getField('label', 'rdfs');
+    }
+
+    /**
+     * Never true
+     *
+     * @return bool
+     */
+    public function hasSufficientData(): bool
+    {
+        return false;
+    }
 }

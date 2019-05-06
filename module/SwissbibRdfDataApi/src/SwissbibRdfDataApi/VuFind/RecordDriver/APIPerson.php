@@ -36,7 +36,7 @@ namespace SwissbibRdfDataApi\VuFind\RecordDriver;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class ESPerson extends ElasticSearch
+class APIPerson extends RdfDataApi
 {
     /**
      * Magic function to access all fields

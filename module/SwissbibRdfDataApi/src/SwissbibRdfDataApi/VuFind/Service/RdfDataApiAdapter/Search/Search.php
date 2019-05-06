@@ -12,29 +12,6 @@ use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Query\Query;
  */
 interface Search
 {
-    /**
-     * @param string $index
-     *
-     * @return void
-     */
-    public function setIndex(string $index);
-
-    /**
-     * @return string
-     */
-    public function getIndex() : string;
-
-    /**
-     * @param string $type
-     *
-     * @return void
-     */
-    public function setType(string $type);
-
-    /**
-     * @return string
-     */
-    public function getType() : string;
 
     /**
      * @param int $size
@@ -72,8 +49,10 @@ interface Search
      */
     public function getQuery() : Query;
 
-    /**
-     * @return array
-     */
-    public function toArray() : array;
+
+    public function getSearchType() : SearchType;
+
+
+    public function setSearchType(SearchType $type);
+
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * ESOrganisation.php
+ * Record.php
  *
  * PHP Version 7
  *
@@ -20,63 +20,63 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category VuFind
- * @package  ElasticSearch\VuFind\RecordDriver
+ * @package  ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult
  * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-namespace SwissbibRdfDataApi\VuFind\RecordDriver;
+// @codingStandardsIgnoreLineuse
+namespace SwissbibRdfDataApi\VuFindSearch\Backend\SwissbibRdfDataApi\Response\AdapterClientResult;
+
+use VuFindSearch\Response\RecordInterface;
 
 /**
- * Class ESOrganisation
+ * Class Record
  *
  * @category VuFind
- * @package  ElasticSearch\VuFind\RecordDriver
+ * @package  ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult
  * @author   Christoph Boehm <cbo@outermedia.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class ESOrganisation extends ElasticSearch
+class Record implements RecordInterface
 {
     /**
-     * Magic function to access all fields
+     * Fields
      *
-     * @param string $name      Name of the field
-     * @param array  $arguments Unused but required
-     *
-     * @method getHomepage()
-     * @method getMbox()
-     * @method getPhone()
-     *
-     * @return array|null
+     * @var array
      */
-    public function __call(string $name, $arguments)
+    private $_fields;
+
+    /**
+     * Record constructor.
+     *
+     * @param array $fields The fields
+     */
+    public function __construct(array $fields)
     {
-        $fieldName = lcfirst(substr($name, 3));
-        return $this->getField($fieldName, "foaf");
+        $this->_fields = $fields;
     }
 
     /**
-     * Gets the Name
+     * Set the source backend identifier.
      *
-     * @return array|null
+     * @param string $identifier Backend identifier
+     *
+     * @return void
      */
-    public function getName()
+    public function setSourceIdentifier($identifier)
     {
-        $name = $this->getField('name', 'foaf');
-        if (isset($name)) {
-            return $name;
-        }
-        return $this->getField('label', 'rdfs');
+        $this->source = $identifier;
     }
 
     /**
-     * Never true
+     * Return the source backend identifier.
      *
-     * @return bool
+     * @return string
      */
-    public function hasSufficientData(): bool
+    public function getSourceIdentifier()
     {
-        return false;
+        return $this->_fields['_id'];
     }
 }

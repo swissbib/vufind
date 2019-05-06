@@ -38,14 +38,14 @@ use VuFind\RecordDriver\AbstractBase;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-abstract class ElasticSearch extends AbstractBase
+abstract class RdfDataApi extends AbstractBase
 {
     /**
      * The source indentifier
      *
      * @var string
      */
-    protected $sourceIdentifier = 'ElasticSearch';
+    protected $sourceIdentifier = 'RdfDataApi';
 
     /**
      * Get text that can be displayed to represent this record in breadcrumbs.

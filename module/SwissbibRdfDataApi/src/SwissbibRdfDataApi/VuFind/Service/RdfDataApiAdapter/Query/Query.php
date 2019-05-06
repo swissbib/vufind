@@ -12,10 +12,9 @@ use ElasticsearchAdapter\Params\Params;
  */
 interface Query
 {
-    /**
-     * @return array
-     */
-    public function toArray() : array;
+
+    public function getURL() : string;
+
 
     /**
      * @return void

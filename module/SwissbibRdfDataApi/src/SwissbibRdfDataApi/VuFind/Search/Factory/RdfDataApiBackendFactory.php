@@ -27,9 +27,11 @@
  */
 namespace SwissbibRdfDataApi\VuFind\Search\Factory;
 
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Adapter;
 use SwissbibRdfDataApi\VuFindSearch\Backend\SwissbibRdfDataApi\Backend;
 // @codingStandardsIgnoreLineuse
-//use SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult\RecordCollectionFactory;
+use SwissbibRdfDataApi\VuFindSearch\Backend\SwissbibRdfDataApi\Response\AdapterClientResult\RecordCollectionFactory;
+// @codingStandardsIgnoreLineuse
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Connector\RdfDataApiConnector;
 use Interop\Container\ContainerInterface;
 use Zend\Config\Config;
@@ -92,7 +94,7 @@ class RdfDataApiBackendFactory implements FactoryInterface
     /**
      * Creates the Backend
      *
-     * @return \SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch\Backend
+     * @return \SwissbibRdfDataApi\VuFindSearch\Backend\SwissbibRdfDataApi\Backend
      */
     protected function createBackend()
     {
@@ -100,7 +102,7 @@ class RdfDataApiBackendFactory implements FactoryInterface
         $connector = new RdfDataApiConnector("gnd");
         $adapter = new Adapter($connector);
         //$backend = new Backend($adapter, $this->loadSpecs());
-        $backend = new Backend();
+        $backend = new Backend($adapter);
         if ($this->logger) {
             $backend->setLogger($this->logger);
         }

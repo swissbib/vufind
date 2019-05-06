@@ -28,7 +28,11 @@
 namespace SwissbibRdfDataApi\VuFindSearch\Backend\SwissbibRdfDataApi;
 
 // @codingStandardsIgnoreLineuse
-//use ElasticsearchAdapter\Adapter;
+use ElasticSearch\VuFindSearch\Backend\ElasticSearch\SearchBuilder;
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Result\RdfDataApiResult;
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\SearchBuilder\RdfDataApiSearchBuilder;
+
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Adapter;
 use ElasticsearchAdapter\Result\ElasticsearchClientResult;
 use VuFindSearch\Backend\AbstractBackend;
 use VuFindSearch\Feature\RandomInterface;
@@ -52,9 +56,9 @@ class Backend extends AbstractBackend
     implements SimilarInterface, RetrieveBatchInterface, RandomInterface
 {
     /**
-     * The Elastic Search Adapter
+     * The Api Adapter
      *
-     * @var \ElasticsearchAdapter\Adapter
+     * @var Adapter
      */
     protected $connector;
 
@@ -64,14 +68,17 @@ class Backend extends AbstractBackend
     /**
      * Backend constructor.
      *
-     * @param \ElasticsearchAdapter\Adapter $esAdapter The Elastic Search
+     * @param Adapter $apiAdapter the api search
      *                                                 Adapter
      * @param array                         $templates The search templates
      *
      * @internal param $esHosts
      */
-    public function __construct()
+    public function __construct(Adapter $adapter)
     {
+        $this->connector = $adapter;
+        $this->searchBuilder = new RdfDataApiSearchBuilder();
+
     }
 
     /**
@@ -105,8 +112,14 @@ class Backend extends AbstractBackend
         ParamBag $params = null
     ) {
 
-        //return $collection;
-        return null;
+        $search = $this->searchBuilder->buildSearch(
+            $query, $offset, $limit, $params
+        );
+
+        $result = $this->connector->search($search);
+        $collection = $this->createRecordCollection($result);
+
+        return $collection;
     }
 
     /**
@@ -166,7 +179,7 @@ class Backend extends AbstractBackend
     /**
      * Create record collection.
      *
-     * @param ElasticsearchClientResult $result The search result
+     * @param RdfDataApiResult $result The search result
      *
      * @return RecordCollectionInterface
      */

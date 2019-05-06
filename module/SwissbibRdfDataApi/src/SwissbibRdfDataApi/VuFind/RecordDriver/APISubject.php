@@ -36,7 +36,7 @@ namespace SwissbibRdfDataApi\VuFind\RecordDriver;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class ESSubject extends ElasticSearch
+class APISubject extends RdfDataApi
 {
     const GND_FIELD_PREFIX = 'http://d-nb_info/standards/elementset/gnd';
 
