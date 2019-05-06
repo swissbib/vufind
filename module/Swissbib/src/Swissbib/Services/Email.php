@@ -286,10 +286,10 @@ class Email
             $institutionInfo['name']['de'] .
             ') läuft am ' .
             $puraUser->getExpirationDate()->format('j.n.Y') .
-            ' ab. Falls Sie auch weiterhin die Dienstleitung nutzen möchten, ' .
+            ' ab. Falls Sie auch weiterhin die Dienstleistung nutzen möchten, ' .
             'dann bitten wir Sie,  <a href="' . $link . '" ' .
             'target="_blank" rel="noreferrer">Ihre Einschreibung nun zu ' .
-            'erneuern</a>. Andernfalls wird ihr Konto demnächst deaktiviert. ' .
+            'erneuern</a>. Andernfalls wird Ihr Konto demnächst deaktiviert. ' .
             'Eine spätere Reaktivierung des Kontos bleibt allerdings möglich.</a>' .
             '</p>'.
             '<p>Freundliche Grüsse,</p>' .
