@@ -321,7 +321,7 @@ class Email
             Mime\Mime::TYPE_HTML
         );
         $this->sendMailWithAttachment(
-            $toUser->email,
+            $vufindUser->email,
             $mimeMessage,
             'Pura Konto Erneuerung',
             //use 'true' to test locally if sendmail not installed
