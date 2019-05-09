@@ -485,7 +485,7 @@ class Holdings
      */
     protected function initNetworks()
     {
-        $networkNames = ['Aleph'];
+        $networkNames = ['Aleph','Special'];
 
         foreach ($networkNames as $networkName) {
             $configName = ucfirst($networkName) . 'Networks';
@@ -559,7 +559,7 @@ class Holdings
             foreach ($institutionItems as $index => $item) {
                 $institutionItems[$index] = $this->extendItem($item, $recordDriver);
                 $networkCode = $item['network'] ?? '';
-                if ($this->isAlephNetwork($networkCode)) {
+                if ($this->isAvailavilityServiceSupportedNetwork($networkCode)) {
                     if (!isset($extendingOptions['availability'])
                         || $extendingOptions['availability']
                     ) {
@@ -594,8 +594,13 @@ class Holdings
         $firstItem = $items[0];
         $allAvailabilities = '';
         if (0 < count($barcodes)) {
+            $idls = $firstItem['bib_library'];
+            if ($idls == '' && $firstItem['network'] == 'RERO')
+            {
+                $idls = 'RERO';
+            }
             $allAvailabilities = $this->getAvailabilityInfos(
-                $firstItem['bibsysnumber'], $barcodes, $firstItem['bib_library']
+                $firstItem['bibsysnumber'], $barcodes, $idls
             );
         }
 
@@ -999,6 +1004,20 @@ class Holdings
     protected function getPatron()
     {
         return $this->ilsAuth->storedCatalogLogin();
+    }
+
+    /**
+     * Check whether network is respected by supportiveServices availabilityService
+     *
+     * @param String $network Network
+     *
+     * @return Boolean
+     */
+    public function isAvailavilityServiceSupportedNetwork($network)
+    {
+        $type = isset($this->networks[$network]) ?
+            $this->networks[$network]['type'] : null;
+        return $type = 'Aleph' || $type = 'RERO';
     }
 
     /**
