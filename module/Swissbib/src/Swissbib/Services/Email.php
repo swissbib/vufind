@@ -258,7 +258,9 @@ class Email
     /**
      * Send the Pura account extension e-mail to a specific user.
      *
-     * @param string $toUser User
+     * @param puraUser $puraUser        Pura User (pura sepcific infos)
+     * @param array    $vufindUser      Vufind User (name, email, ...)
+     * @param array    $institutionInfo Infos about related library
      *
      * @return void
      * @throws \Exception
@@ -286,14 +288,32 @@ class Email
             $institutionInfo['name']['de'] .
             ') läuft am ' .
             $puraUser->getExpirationDate()->format('j.n.Y') .
-            ' ab. Falls Sie auch weiterhin die Dienstleitung nutzen möchten, ' .
-            'dann bitten wir Sie,  <a href="' . $link . '" ' .
+            ' ab. Falls Sie den Service auch weiterhin nutzen möchten, ' .
+            'bitten wir Sie, ' .
+            '<a href="' . $link . '" ' .
             'target="_blank" rel="noreferrer">Ihre Einschreibung nun zu ' .
-            'erneuern</a>. Andernfalls wird ihr Konto demnächst deaktiviert. ' .
-            'Eine spätere Reaktivierung des Kontos bleibt allerdings möglich.</a>' .
+            'erneuern</a>. Andernfalls wird Ihr Konto demnächst deaktiviert. ' .
+            'Eine spätere Reaktivierung des Kontos bleibt allerdings möglich.' .
             '</p>'.
             '<p>Freundliche Grüsse,</p>' .
             '<p>swissbib Team<br />' .
+            '<a href="https://www.swissbib.ch">' .
+            'https://www.swissbib.ch</a></p>';
+
+        $textMailEn = '<p>Dear ' . $username .
+            ',<br /> <br />Your registration for PURA (' .
+            $institutionInfo['name']['de'] .
+            ') expires on ' .
+            $puraUser->getExpirationDate()->format('j.n.Y') .
+            '. If you wish to continue using the service, please ' .
+            '<a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">renew your registration now' .
+            '</a>. Otherwise your account will be deactivated soon. ' .
+            'You will, however, be able to reactivate your account ' .
+            'at a later stage.' .
+            '</p>'.
+            '<p>Best regards,</p>' .
+            '<p>Team swissbib<br />' .
             '<a href="https://www.swissbib.ch">' .
             'https://www.swissbib.ch</a></p>';
 
@@ -305,7 +325,7 @@ class Email
             '. Si vous le désirez, vous pouvez <a href="' . $link . '" ' .
             'target="_blank" rel="noreferrer">renouveler votre inscription</a>. ' .
             'Sinon, votre compte sera désactivé prochainement. Une réactivation ' .
-            'ultérieure demeure possible.</a>' .
+            'ultérieure demeure possible.' .
             '</p>'.
             '<p>Avec nos meilleures salutations,</p>' .
             '<p>Votre service swissbib<br />' .
@@ -313,6 +333,7 @@ class Email
             'https://www.swissbib.ch</a></p>';
 
         $textMail =  $textMailDe . '<p>---</p>' .
+            $textMailEn . '<p>---</p>' .
             $textMailFr;
 
         $mimeMessage = $this->createMimeMessage(
@@ -323,7 +344,7 @@ class Email
         $this->sendMailWithAttachment(
             $vufindUser->email,
             $mimeMessage,
-            'Pura Konto Erneuerung',
+            'Ihr PURA-Login läuft demnächst ab / Your PURA account expires soon',
             //use 'true' to test locally if sendmail not installed
             'false'
         );

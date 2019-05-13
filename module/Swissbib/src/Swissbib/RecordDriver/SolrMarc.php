@@ -342,7 +342,15 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             $params['rft.spage'] = $this->getContainerStartPage();
             // unset default title -- we only want jtitle/atitle here:
             unset($params['rft.title']);
-            $params['rft.jtitle'] = $this->getContainerTitle();
+            $jtitle = $this->getContainerTitle();
+            if (empty($jtitle)) {
+                $hostItems = $this->tryMethod('getHostItemEntry');
+                if (!empty($hostItems)) {
+                    foreach ($hostItems as $hostItem) {
+                        $params['rft.jtitle'] = $hostItem['title'];
+                    }
+                }
+            }
             $params['rft.atitle'] = $this->getTitle();
 
             $authors[] = $this->getPrimaryAuthor();
