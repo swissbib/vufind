@@ -34,7 +34,7 @@ export default class RecordRenderer {
                         const elements: HTMLElement[] = [];
                         for (const detail of details) {
                             elements.push(
-                                this.renderDetails(detail, template, htmlList),
+                                this.renderDetails(detail.data, template, htmlList),
                             );
                         }
                         return elements;
