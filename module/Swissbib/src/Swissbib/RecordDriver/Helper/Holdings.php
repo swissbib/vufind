@@ -595,8 +595,7 @@ class Holdings
         $allAvailabilities = '';
         if (0 < count($barcodes)) {
             $idls = $firstItem['bib_library'];
-            if ($idls == '' && $firstItem['network'] == 'RERO')
-            {
+            if ($idls == '' && $firstItem['network'] == 'RERO') {
                 $idls = 'RERO';
             }
             $allAvailabilities = $this->getAvailabilityInfos(

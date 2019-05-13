@@ -24,13 +24,12 @@
  */
 namespace Swissbib\Services;
 
+use Swissbib\VuFind\Db\Row\PuraUser;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Sendmail as SendmailTransport;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Zend\Mime;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Swissbib\VuFind\Db\Row\PuraUser;
-
 
 /**
  * Class Email.
@@ -294,7 +293,7 @@ class Email
             'target="_blank" rel="noreferrer">Ihre Einschreibung nun zu ' .
             'erneuern</a>. Andernfalls wird Ihr Konto demnächst deaktiviert. ' .
             'Eine spätere Reaktivierung des Kontos bleibt allerdings möglich.' .
-            '</p>'.
+            '</p>' .
             '<p>Freundliche Grüsse,</p>' .
             '<p>swissbib Team<br />' .
             '<a href="https://www.swissbib.ch">' .
@@ -311,7 +310,7 @@ class Email
             '</a>. Otherwise your account will be deactivated soon. ' .
             'You will, however, be able to reactivate your account ' .
             'at a later stage.' .
-            '</p>'.
+            '</p>' .
             '<p>Best regards,</p>' .
             '<p>Team swissbib<br />' .
             '<a href="https://www.swissbib.ch">' .
@@ -326,7 +325,7 @@ class Email
             'target="_blank" rel="noreferrer">renouveler votre inscription</a>. ' .
             'Sinon, votre compte sera désactivé prochainement. Une réactivation ' .
             'ultérieure demeure possible.' .
-            '</p>'.
+            '</p>' .
             '<p>Avec nos meilleures salutations,</p>' .
             '<p>Votre service swissbib<br />' .
             '<a href="https://www.swissbib.ch">' .
