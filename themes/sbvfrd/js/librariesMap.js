@@ -39,9 +39,9 @@ $.getJSON("/geojson.json", function(libraries){
     },
     onEachFeature: function (feature, layer) {
       layer.bindPopup(
-        '<b>'+feature.properties.label.de+'</b><br>' +
-        feature.properties.group_label.de+'<br>' +
-        '<a href="'+feature.properties.url.de+'">' + Library_Information + '</a><br>' +
+        '<b>'+feature.properties.label[lang]+'</b><br>' +
+        feature.properties.group_label[lang]+'<br>' +
+        '<a target="_blank" href="'+feature.properties.url[lang]+'">' + Library_Information + '</a><br>' +
         '<a href="/Search/Results?lookfor=&type=AllFields&filter%5B%5D=institution%3A%22'+feature.properties.bib_code+'%22">' + Search_This_Library +'</a>'
       );
     }
