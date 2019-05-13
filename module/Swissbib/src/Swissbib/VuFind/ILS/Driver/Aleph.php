@@ -704,7 +704,8 @@ class Aleph extends VuFindDriver
      * This is responsible for retrieving all transactions (i.e. checked out items)
      * by a specific patron.
      *
-     * @param array $user    The patron array from patronLogin
+     * @param array $user   The patron array from patronLogin
+     * @param array $params Params
      *
      * @throws \VuFind\Exception\Date
      * @throws ILSException

@@ -2329,7 +2329,8 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                     }
                     $institutions[$key] = [
                         'institution' => $institution,
-                        'group' => $this->getHoldingsHelper()->getGroup($institution),
+                        'group' => $this->getHoldingsHelper()
+                            ->getGroup($institution),
                         'institution_b' => $institution_b
                     ];
                 }
