@@ -26,6 +26,5 @@ script:
   - vendor/bin/phing eslint jshint phpunitfast phpcs-console php-cs-fixer-dryrun
 
   - vendor/bin/phing eslint phpunitfast swissbibphpunitfast phpcs-console php-cs-fixer-dryrun
-# npm tests don't run with VuFind 5 for the moment
-# - npm run test
+  - npm run test
   - npm run build
