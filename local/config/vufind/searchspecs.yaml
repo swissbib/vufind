@@ -839,3 +839,16 @@ AuthorSuggest:
       - [or, 100]
   DismaxParams:
     - [mm, '100%']
+
+SubjectSuggest:
+  DismaxHandler: edismax
+  DismaxFields:
+    - navSub_green
+  QueryFields:
+    author:
+      - [onephrase, 350]
+      - [and, 200]
+      - [or, 100]
+  DismaxParams:
+    - [mm, '100%']
+
