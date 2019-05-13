@@ -1,0 +1,8 @@
+/* jshint strict:false */
+
+"globals": {
+  "browser" : false,
+  "$":        false,
+  "jQuery":   false,
+  "swissbib": false
+}
