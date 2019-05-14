@@ -28,11 +28,12 @@
 namespace SwissbibRdfDataApi\VuFind\RecordDriver;
 
 /**
- * Class ESSubject
+ * Class APISubject
  *
  * @category VuFind
- * @package  ElasticSearch\VuFind\RecordDriver
+ * @package  SwissbibRdfDataApi\VuFind\RecordDriver
  * @author   Christoph Boehm <cbo@outermedia.de>
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */

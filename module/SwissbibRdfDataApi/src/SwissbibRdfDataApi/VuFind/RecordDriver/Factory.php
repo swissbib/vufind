@@ -45,9 +45,9 @@ class Factory
      *
      * @param \Zend\ServiceManager\ServiceManager $sm The Service Manager
      *
-     * @return \ElasticSearch\VuFind\RecordDriver\ElasticSearch
+     * @return \SwissbibRdfDataApi\VuFind\RecordDriver\RdfDataApi
      */
-    public static function getElasticSearchRecord(ServiceManager $sm)
+    public static function getRdfDataApiRecord(ServiceManager $sm)
     {
         $driver = new RdfDataApi(
             //          $sm->getServiceLocator()->get('VuFind\Config')->get('config'),
@@ -63,9 +63,9 @@ class Factory
      *
      * @param \Zend\ServiceManager\ServiceManager $sm The Service Manager
      *
-     * @return \ElasticSearch\VuFind\RecordDriver\ESPerson
+     * @return \SwissbibRdfDataApi\VuFind\RecordDriver\APIPerson
      */
-    public static function getESPersonRecord(ServiceManager $sm)
+    public static function getAPIPersonRecord(ServiceManager $sm)
     {
         $driver = new APIPerson(
             //          $sm->getServiceLocator()->get('VuFind\Config')->get('config'),
@@ -81,9 +81,9 @@ class Factory
      *
      * @param \Zend\ServiceManager\ServiceManager $sm The Service Manager
      *
-     * @return \ElasticSearch\VuFind\RecordDriver\ESBibliographicResource
+     * @return \SwissbibRdfDataApi\VuFind\RecordDriver\APIBibliographicResource
      */
-    public static function getESBibliographicResourceRecord(ServiceManager $sm)
+    public static function getAPIBibliographicResourceRecord(ServiceManager $sm)
     {
         return new APIBibliographicResource();
     }
@@ -93,9 +93,9 @@ class Factory
      *
      * @param \Zend\ServiceManager\ServiceManager $sm The Service Manager
      *
-     * @return \ElasticSearch\VuFind\RecordDriver\ESSubject
+     * @return \SwissbibRdfDataApi\VuFind\RecordDriver\APISubject
      */
-    public static function getESSubjectRecord(ServiceManager $sm)
+    public static function getAPISubjectRecord(ServiceManager $sm)
     {
         return new APISubject();
     }
@@ -105,9 +105,9 @@ class Factory
      *
      * @param \Zend\ServiceManager\ServiceManager $sm The Service Manager
      *
-     * @return \ElasticSearch\VuFind\RecordDriver\ESOrganisation
+     * @return \SwissbibRdfDataApi\VuFind\RecordDriver\APIOrganisation
      */
-    public static function getESOrganisationRecord(ServiceManager $sm)
+    public static function getAPIOrganisationRecord(ServiceManager $sm)
     {
         return new APIOrganisation();
     }

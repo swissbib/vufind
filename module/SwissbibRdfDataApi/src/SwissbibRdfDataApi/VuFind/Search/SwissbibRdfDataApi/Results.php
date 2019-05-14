@@ -96,11 +96,6 @@ class Results extends BaseResults
                 $this->getParams()->getHiddenFilters()
             )
         );
-        $index = $this->getParams()->getIndex();
-        if (strlen($index) > 0) {
-            $params->add("index", $index);
-        }
-        $params->add("template", $this->getParams()->getTemplate());
 
         $searchService = $this->getSearchService();
 

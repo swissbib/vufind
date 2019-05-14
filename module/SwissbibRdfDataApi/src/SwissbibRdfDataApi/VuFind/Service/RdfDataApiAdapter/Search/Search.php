@@ -50,9 +50,9 @@ interface Search
     public function getQuery() : Query;
 
 
-    public function getSearchType() : SearchType;
+    public function getSearchType() : SearchTypeEnum;
 
 
-    public function setSearchType(SearchType $type);
+    public function setSearchType(SearchTypeEnum $type);
 
 }

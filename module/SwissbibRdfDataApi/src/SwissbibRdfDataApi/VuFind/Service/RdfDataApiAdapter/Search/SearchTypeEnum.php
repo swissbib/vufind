@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SearchType
+ * SearchTypeEnum
  *
  * PHP version 5
  *
@@ -32,10 +32,9 @@
 
 namespace SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search;
 
-use mysql_xdevapi\Exception;
 
 /**
- * SearchType
+ * SearchTypeEnum
  *
  * @category Swissbib_VuFind2
  * @package  SwissbibRdfDataApi_VuFind_Service_RdfDataApiAdapter_Search
@@ -44,7 +43,7 @@ use mysql_xdevapi\Exception;
  * @link     http://vufind.org
  * @link     http://www.swissbib.ch
  */
-class SearchType
+class SearchTypeEnum
 {
 
     /**
@@ -52,18 +51,50 @@ class SearchType
      *
      * @var array
      */
-    private $_allowedTypes = [1, 2];
+    private $_allowedTypes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+        16, 17];
 
     private $_currentSearchType;
 
-    const GND = 1;
+    const ID_SEARCH_PERSON = 1;
 
-    const BIBRESOURCES = 2;
+    const ID_SEARCH_ORGANISATION = 2;
 
+    const ID_SEARCH_BIB_RESOURCE = 3;
 
+    const ID_SEARCH_DOCUMENT = 4;
+
+    const ID_SEARCH_SUBJECT = 5;
+
+    const ID_SEARCH_GND = 6;
+
+    const COLLECTION_FIELDS = 7;
+
+    const COLLECTION_DOCUMENT = 8;
+
+    const COLLECTION_BIB_RESOURCE = 9;
+
+    const COLLECTION_ITEM = 10;
+
+    const COLLECTION_PERSON = 11;
+
+    //const CollectionWork = 2;
+
+    //do we need this??
+    const PERSON = 12;
+
+    const SUB_SUBJECTS = 13;
+
+    const BIB_RESOURCES_BY_AUTHOR = 14;
+
+    const BIB_RESOURCES_BY_SUBJECT = 15;
+
+    const PERSON_BY_GENRE = 16;
+
+    const PERSON_BY_MOVEMENT = 17;
 
     /**
-     * SearchType constructor.
+     * SearchTypeEnum constructor.
      * @param int $type
      * @throws \Exception
      */

@@ -1,6 +1,6 @@
 <?php
 /**
- * ElasticSearchBackendFactory.php
+ * RdfDataApiBackendFactory.php
  *
  * PHP Version 7
  *
@@ -111,7 +111,7 @@ class RdfDataApiBackendFactory implements FactoryInterface
             'SwissbibRdfDataApi\VuFind\RecordDriver\PluginManager'
         );
         $factory = new RecordCollectionFactory(
-            [$manager, 'getElasticSearchRecord']
+            [$manager, 'getRdfDataApiSearchRecord']
         );
         $backend->setRecordCollectionFactory($factory);
 

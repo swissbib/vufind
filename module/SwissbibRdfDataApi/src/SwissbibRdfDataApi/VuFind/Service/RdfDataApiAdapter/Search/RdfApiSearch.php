@@ -77,12 +77,12 @@ class RdfApiSearch implements Search
         // TODO: Implement getQuery() method.
     }
 
-    public function getSearchType(): SearchType
+    public function getSearchType(): SearchTypeEnum
     {
         // TODO: Implement getSearchType() method.
     }
 
-    public function setSearchType(SearchType $type)
+    public function setSearchType(SearchTypeEnum $type)
     {
         // TODO: Implement setSearchType() method.
     }

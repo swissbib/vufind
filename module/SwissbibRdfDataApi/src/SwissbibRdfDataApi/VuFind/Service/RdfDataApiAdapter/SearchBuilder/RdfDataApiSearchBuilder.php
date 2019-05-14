@@ -37,7 +37,9 @@ use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\RdfApiSearch;
 use ElasticsearchAdapter\Search\TemplateSearch;
 use InvalidArgumentException;
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Params\Params;
-use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\SearchType;
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\SearchTypeEnum;
+use VuFindSearch\ParamBag;
+use VuFindSearch\Query\AbstractQuery;
 
 /**
  * RdfDataApiSearchBuilder
@@ -77,7 +79,13 @@ class RdfDataApiSearchBuilder
      *
      * @throws InvalidArgumentException if template is not found
      */
-    public function buildSearch() : RdfApiSearch
+    public function buildSearch(
+        AbstractQuery $query,
+        $offset,
+        $limit,
+        ParamBag $params = null
+
+    ) : RdfApiSearch
     {
         //if (!isset($this->templates[$template])) {
         //    throw new InvalidArgumentException('No template with name "' . $template . '" found.');

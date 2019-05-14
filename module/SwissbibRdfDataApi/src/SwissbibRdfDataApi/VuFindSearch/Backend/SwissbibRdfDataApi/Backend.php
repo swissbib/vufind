@@ -27,13 +27,13 @@
  */
 namespace SwissbibRdfDataApi\VuFindSearch\Backend\SwissbibRdfDataApi;
 
-// @codingStandardsIgnoreLineuse
-use ElasticSearch\VuFindSearch\Backend\ElasticSearch\SearchBuilder;
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Result\RdfDataApiResult;
+// @codingStandardsIgnoreLineuse
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\SearchBuilder\RdfDataApiSearchBuilder;
 
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Adapter;
-use ElasticsearchAdapter\Result\ElasticsearchClientResult;
+// @codingStandardsIgnoreLineuse
+use SwissbibRdfDataApi\VuFindSearch\Backend\SwissbibRdfDataApi\Response\AdapterClientResult\RecordCollectionFactory;
 use VuFindSearch\Backend\AbstractBackend;
 use VuFindSearch\Feature\RandomInterface;
 use VuFindSearch\Response\RecordCollectionInterface;
@@ -42,6 +42,10 @@ use VuFindSearch\Feature\SimilarInterface;
 use VuFindSearch\ParamBag;
 use VuFindSearch\Query\AbstractQuery;
 use VuFindSearch\Response\RecordCollectionFactoryInterface;
+// @codingStandardsIgnoreLineuse
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\Search as RdfApiSearchInterface;
+
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Result\Result as IApiResult;
 
 /**
  * Class Backend
@@ -60,23 +64,25 @@ class Backend extends AbstractBackend
      *
      * @var Adapter
      */
-    protected $connector;
+    protected $apiAdapter;
 
-    // @var \SwissbibRdfDataApi\VuFindSearch\Backend\ElasticSearch\SearchBuilder
+    /**
+     * SearchObjectBuilder
+     *
+     * @var RdfDataApiSearchBuilder $searchBuilder
+     */
     protected $searchBuilder;
 
     /**
      * Backend constructor.
      *
-     * @param Adapter $apiAdapter the api search
-     *                                                 Adapter
-     * @param array                         $templates The search templates
+     * @param Adapter $adapter the api search
      *
      * @internal param $esHosts
      */
     public function __construct(Adapter $adapter)
     {
-        $this->connector = $adapter;
+        $this->apiAdapter = $adapter;
         $this->searchBuilder = new RdfDataApiSearchBuilder();
 
     }
@@ -112,11 +118,16 @@ class Backend extends AbstractBackend
         ParamBag $params = null
     ) {
 
+        /**
+         * SearchObject
+         *
+         * @var RdfApiSearchInterface $search
+         */
         $search = $this->searchBuilder->buildSearch(
             $query, $offset, $limit, $params
         );
 
-        $result = $this->connector->search($search);
+        $result = $this->apiAdapter->search($search);
         $collection = $this->createRecordCollection($result);
 
         return $collection;
@@ -179,7 +190,7 @@ class Backend extends AbstractBackend
     /**
      * Create record collection.
      *
-     * @param RdfDataApiResult $result The search result
+     * @param IApiResult $result The search result
      *
      * @return RecordCollectionInterface
      */
