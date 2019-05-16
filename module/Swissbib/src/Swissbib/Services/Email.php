@@ -167,8 +167,7 @@ class Email
         $message->setBody($mimeMessage);
         $message->addTo($to)
             ->addFrom($emailAddressFrom)
-            ->setSubject($subject)
-            ->addBcc('lionel.walter@unibas.ch');
+            ->setSubject($subject);
         $transport = null;
         if ($tlsActive) {
             $transport = new SmtpTransport();
