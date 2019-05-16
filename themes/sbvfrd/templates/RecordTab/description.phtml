@@ -505,7 +505,18 @@ $prevTitles = $record->getPreviousTitles();
               <th><?= $this->transEsc('Bio_Adm_Hist') ?>: </th>
               <td>
                   <?php foreach ($histData as $field): ?>
-                      <?= $this->escapeHtml($field) ?><br/>
+                      <?php if (!empty($field['histdata'])): ?>
+                          <?= $this->escapeHtml($field['histdata']) ?> <br/>
+                      <?php endif; ?>
+                      <?php if (!empty($field['expansion'])): ?>
+                          <?= $this->escapeHtml($field['expansion']) ?> <br/>
+                      <?php endif; ?>
+                      <?php if (!empty($field['url'])): ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['url'])) ?>"
+                             target="_blank">
+                              <?= $this->escapeHtml($field['url']) ?>
+                          </a><br/>
+                      <?php endif; ?>
                   <?php endforeach; ?>
               </td>
           </tr>
@@ -763,6 +774,8 @@ $prevTitles = $record->getPreviousTitles();
                 <?php foreach ($findingAids as $field): ?>
                     <?php if (empty($field['degreecontrol'])): ?>
                         <?php $fieldDesc = $field['cumulativeindex']; ?>
+                    <?php elseif (empty($field['cumulativeindex'])): ?>
+                        <?php $fieldDesc = $field['degreecontrol']; ?>
                     <?php else: ?>
                         <?php $fieldDesc = $field['cumulativeindex'] . ', ' . $field['degreecontrol']; ?>
                     <?php endif; ?>

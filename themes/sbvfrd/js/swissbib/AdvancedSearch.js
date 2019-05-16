@@ -158,7 +158,7 @@ swissbib.AdvancedSearch = {
    */
   deleteGroup: function (groupIndex) {
     $("#group" + groupIndex).remove();
-    this.reSortGroups()
+    this.reSortGroups();
   },
 
 
@@ -384,7 +384,7 @@ swissbib.AdvancedSearch = {
         name: name,
         label: label,
         selected: matchField == name
-      })
+      });
     });
 
     return template(data);
@@ -432,7 +432,7 @@ swissbib.AdvancedSearch = {
         name: name,
         label: label,
         selected: selectedJoin == name
-      })
+      });
     });
 
     return template(data);
@@ -444,9 +444,9 @@ swissbib.AdvancedSearch = {
    */
   initAdvancedClassificationTabs: function() {
     $('#tabbed-tree').find('.nav-tabs a').click(function (e) {
-      e.preventDefault()
-      $(this).tab('show')
-    })
+      e.preventDefault();
+      $(this).tab('show');
+    });
   }
 
 };

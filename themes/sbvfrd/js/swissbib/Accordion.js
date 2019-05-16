@@ -139,5 +139,5 @@ $(document).ready(function () {
             var scrollToEl = document.getElementById(elId);
             scrollToEl.scrollIntoView(true);
         }
-    }
+    };
 });

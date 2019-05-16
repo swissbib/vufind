@@ -26,6 +26,22 @@ function html_entity_decode(string, quote_style) {
     return tmp_str;
 }
 
+function getNodeIdFromRecordId(treeModel,recordId)
+{
+    var id = '';
+    for(var node in treeModel) {
+        if (treeModel.hasOwnProperty(node)
+          && node !== '#'
+          && treeModel[node].li_attr.recordid
+          && treeModel[node].li_attr.recordid === recordId
+        ) {
+            id = treeModel[node].li_attr.id;
+            break;
+        }
+    }
+    return id;
+}
+
 function getRecord(recordID) {
     $.ajax({
             url: VuFind.path + '/Hierarchy/GetRecord?' + $.param({id: recordID}),
@@ -106,22 +122,6 @@ function doTreeSearch() {
                 $('#treeSearchLoadingImg').addClass('hidden');
             });
     }
-}
-
-function getNodeIdFromRecordId(treeModel,recordId)
-{
-    var id = '';
-    for(var node in treeModel) {
-        if (treeModel.hasOwnProperty(node)
-            && node !== '#'
-            && treeModel[node].li_attr.recordid
-            && treeModel[node].li_attr.recordid === recordId
-        ) {
-            id = treeModel[node].li_attr.id;
-            break;
-        }
-    }
-    return id;
 }
 
 function buildJSONNodes(xml)
