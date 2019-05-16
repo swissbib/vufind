@@ -118,7 +118,8 @@ class Email
         // first create the parts
         $text = new Mime\Part();
         $text->type = $contentType;
-        $text->charset = 'utf-8';
+        $text->setEncoding(Mime\Mime::ENCODING_QUOTEDPRINTABLE);
+        $text->charset = 'UTF-8';
         $text->setContent($textMail);
 
         if (!empty($attachmentFilePath)) {
@@ -166,7 +167,8 @@ class Email
         $message->setBody($mimeMessage);
         $message->addTo($to)
             ->addFrom($emailAddressFrom)
-            ->setSubject($subject);
+            ->setSubject($subject)
+            ->addBcc('lionel.walter@unibas.ch');
         $transport = null;
         if ($tlsActive) {
             $transport = new SmtpTransport();
@@ -342,6 +344,7 @@ class Email
         );
         $this->sendMailWithAttachment(
             $vufindUser->email,
+            //'lionel.walter@unibas.ch',
             $mimeMessage,
             'Ihr PURA-Login läuft demnächst ab / Your PURA account expires soon',
             //use 'true' to test locally if sendmail not installed
