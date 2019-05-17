@@ -14,45 +14,16 @@ interface Search
 {
 
     /**
-     * @param int $size
+     * @param string $url
      *
      * @return void
      */
-    public function setSize(int $size);
+    public function setUrl(string $url);
 
     /**
-     * @return int
+     * @return string
      */
-    public function getSize() : int;
+    public function getUrl() : string;
 
-    /**
-     * @param int $from
-     *
-     * @return void
-     */
-    public function setFrom(int $from);
-
-    /**
-     * @return int
-     */
-    public function getFrom() : int;
-
-    /**
-     * @param Query $query
-     *
-     * @return void
-     */
-    public function setQuery(Query $query);
-
-    /**
-     * @return Query
-     */
-    public function getQuery() : Query;
-
-
-    public function getSearchType() : SearchTypeEnum;
-
-
-    public function setSearchType(SearchTypeEnum $type);
 
 }

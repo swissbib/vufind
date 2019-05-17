@@ -75,14 +75,14 @@ class SwissbibDataRdfApiSearch
      * Execute the search
      *
      * @param string $q The query string
-     * @param int $type Serachtype from SearchTypeEnum
+     * @param string $type Searchtype from SearchTypeEnum
      * @param int $limit The limit
      * @param int $page The page
      * @return Results
      * @throws \Exception
      */
     public function searchApiSearch(
-        string $q,  int $searchType,
+        string $q,  string $searchType,
         int $limit = 20, int $page = 1
     ): Results {
         // Set up the search:
@@ -112,7 +112,7 @@ class SwissbibDataRdfApiSearch
          */
         $query = $params->getQuery();
         if (isset($searchType)) {
-            $query->setHandler((string) $searchType);
+            $query->setHandler($searchType);
         } else {
             throw new \Exception("not initialized Handler type");
         }

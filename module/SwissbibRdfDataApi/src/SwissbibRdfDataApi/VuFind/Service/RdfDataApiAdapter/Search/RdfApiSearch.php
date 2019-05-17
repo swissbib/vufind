@@ -47,43 +47,25 @@ use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Query\Query;
 class RdfApiSearch implements Search
 {
 
-    public function setSize(int $size)
+    protected $url;
+
+    /**
+     * RdfApiSearch constructor.
+     * @param string $url
+     */
+    public function __construct(string $url)
     {
-        // TODO: Implement setSize() method.
+        $this->url = $url;
+
     }
 
-    public function getSize(): int
+    public function setUrl(string $url)
     {
-        // TODO: Implement getSize() method.
+        $this->url = $url;
     }
 
-    public function setFrom(int $from)
+    public function getUrl(): string
     {
-        // TODO: Implement setFrom() method.
-    }
-
-    public function getFrom(): int
-    {
-        // TODO: Implement getFrom() method.
-    }
-
-    public function setQuery(Query $query)
-    {
-        // TODO: Implement setQuery() method.
-    }
-
-    public function getQuery(): Query
-    {
-        // TODO: Implement getQuery() method.
-    }
-
-    public function getSearchType(): SearchTypeEnum
-    {
-        // TODO: Implement getSearchType() method.
-    }
-
-    public function setSearchType(SearchTypeEnum $type)
-    {
-        // TODO: Implement setSearchType() method.
+        return $this->url;
     }
 }

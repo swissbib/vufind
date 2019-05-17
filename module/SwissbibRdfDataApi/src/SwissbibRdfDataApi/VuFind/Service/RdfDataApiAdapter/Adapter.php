@@ -2,6 +2,7 @@
 namespace SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter;
 
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Connector\Connector;
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Connector\RdfDataApiConnector;
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Result\Result;
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\Search;
 
@@ -22,9 +23,11 @@ class Adapter
     /**
      * @param Connector $connector
      */
-    public function __construct(Connector $connector)
+    public function __construct()
     {
-        $this->connector = $connector;
+
+
+        $this->connector = new RdfDataApiConnector();
     }
 
     /**
@@ -34,6 +37,6 @@ class Adapter
      */
     public function search(Search $search) : Result
     {
-        return $this->connector->search();
+        return $this->connector->search($search);
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Query;
+namespace SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Query\Elasticsearch;
 
 use ElasticsearchAdapter\Exception\RequiredParameterException;
 use ElasticsearchAdapter\Params\Params;

@@ -32,7 +32,6 @@ use SwissbibRdfDataApi\VuFindSearch\Backend\SwissbibRdfDataApi\Backend;
 // @codingStandardsIgnoreLineuse
 use SwissbibRdfDataApi\VuFindSearch\Backend\SwissbibRdfDataApi\Response\AdapterClientResult\RecordCollectionFactory;
 // @codingStandardsIgnoreLineuse
-use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Connector\RdfDataApiConnector;
 use Interop\Container\ContainerInterface;
 use Zend\Config\Config;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -68,7 +67,7 @@ class RdfDataApiBackendFactory implements FactoryInterface
     public function __construct()
     {
         $this->searchConfig = 'searches';
-        $this->searchYaml = 'elasticsearch_adapter.yml';
+        $this->searchYaml = 'rdf_api_adapter.yml';
     }
 
     /**
@@ -98,11 +97,9 @@ class RdfDataApiBackendFactory implements FactoryInterface
      */
     protected function createBackend()
     {
-        $hosts = $this->_config->get("config")->ElasticSearch->hosts->toArray();
-        $connector = new RdfDataApiConnector("gnd");
-        $adapter = new Adapter($connector);
-        //$backend = new Backend($adapter, $this->loadSpecs());
-        $backend = new Backend($adapter);
+        $adapter = new Adapter();
+
+        $backend = new Backend($adapter, $this->loadSpecs());
         if ($this->logger) {
             $backend->setLogger($this->logger);
         }
@@ -127,7 +124,7 @@ class RdfDataApiBackendFactory implements FactoryInterface
     {
         $specReader = $this->_serviceLocator->get('VuFind\SearchSpecsReader');
         $yaml = $specReader->get($this->searchYaml);
-        return $yaml['parameters']['elasticsearch_adapter.templates'];
+        return $yaml;
     }
 
     /**

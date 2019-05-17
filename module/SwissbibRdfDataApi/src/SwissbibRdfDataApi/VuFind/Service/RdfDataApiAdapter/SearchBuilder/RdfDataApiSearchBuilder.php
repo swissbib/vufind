@@ -33,13 +33,13 @@
 
 namespace SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\SearchBuilder;
 
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Query\AbstractQuery;
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\RdfApiSearch;
-use ElasticsearchAdapter\Search\TemplateSearch;
+//use ElasticsearchAdapter\Search\TemplateSearch;
 use InvalidArgumentException;
-use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Params\Params;
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\SearchTypeEnum;
-use VuFindSearch\ParamBag;
-use VuFindSearch\Query\AbstractQuery;
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Params\ParamBag;
+//use VuFindSearch\Query\AbstractQuery;
 
 /**
  * RdfDataApiSearchBuilder
@@ -56,20 +56,35 @@ class RdfDataApiSearchBuilder
 
 
     /**
-     * @var \SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Params\Params;
+     * @var \SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Params\ParamBag
      */
     protected $params;
 
+    /**
+     * @var \SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\SearchTypeEnum
+     */
     protected $searchType;
 
+    protected $config;
+
+    protected $query;
+
     /**
-     * @param array $templates
-     * @param Params $params
+     * RdfDataApiSearchBuilder constructor.
+     * @param AbstractQuery $query
+     * @param ParamBag $params
+     * @param array $config
+     * @throws \Exception
      */
-    public function __construct()
+    public function __construct(AbstractQuery $query,
+                                ParamBag $params,
+                                array $config)
     {
-        //$this->params = $params;
-        //$this->searchType = $searchType;
+        $this->query = $query;
+        $this->params = $params;
+        $this->searchType = new SearchTypeEnum($query->getHandler());
+        $this->config = $config;
+
     }
 
     /**
@@ -80,40 +95,57 @@ class RdfDataApiSearchBuilder
      * @throws InvalidArgumentException if template is not found
      */
     public function buildSearch(
-        AbstractQuery $query,
         $offset,
-        $limit,
-        ParamBag $params = null
+        $limit
+    ) : RdfApiSearch {
 
-    ) : RdfApiSearch
-    {
-        //if (!isset($this->templates[$template])) {
-        //    throw new InvalidArgumentException('No template with name "' . $template . '" found.');
-        //}
-
-        //$templateSearch = new TemplateSearch($this->templates[$template], $this->params);
+        $searchTypeMethod = strtolower($this->searchType->getCurrectSearchType());
+        $url = $this->{$searchTypeMethod}();
 
         //$templateSearch->prepare();
-        $rdfApiSearch =  new RdfApiSearch();
+        $rdfApiSearch =  new RdfApiSearch($url);
 
+        //todo: what about offset, limit and additional Query parameters
 
         return $rdfApiSearch;
     }
 
     /**
-     * @return Params
+     * @return ParamBag
      */
-    public function getParams() : Params
+    public function getParams() : ParamBag
     {
         return $this->params;
     }
 
     /**
-     * @param Params $params
+     * @param ParamBag $params
      */
-    public function setParams(Params $params)
+    public function setParams(ParamBag $params)
     {
         $this->params = $params;
+    }
+
+    private function getBaseUrl(): string
+    {
+        return $this->config["parameters"]["rdf_api_adapter.hosts"][0];
+    }
+
+
+    /**
+     * Create Person search string
+     *
+     * @return string
+     */
+    public function person() : string
+    {
+        $urlPathPattern = $this->config["parameters"]["rdf_api_adapter.urls"]
+            [strtoupper($this->searchType->getCurrectSearchType())];
+        $urlPath = preg_replace(
+            '/\?id/', $this->query->getString(),
+            $urlPathPattern
+        );
+        return $this->getBaseUrl() . $urlPath;
     }
 
 

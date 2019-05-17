@@ -3,6 +3,7 @@ namespace SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Connector;
 
 use Elasticsearch\Client;
 
+use ML\JsonLD\JsonLD;
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Result\RdfDataApiResult;
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Result\Result;
 use VuFindSearch\Backend\Exception\HttpErrorException;
@@ -12,6 +13,7 @@ use VuFindSearch\Backend\Solr\HandlerMap;
 use Zend\Http\Client\Adapter\AdapterInterface;
 use Zend\Http\Client\Adapter\Exception\TimeoutException;
 use Zend\Http\Client as HttpClient;
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\Search;
 
 use Zend\Http\Request;
 
@@ -42,7 +44,6 @@ class RdfDataApiConnector implements Connector
      */
     protected $timeout = 30;
 
-    protected $host = "http://localhost:9000";
 
 
     /**
@@ -54,10 +55,10 @@ class RdfDataApiConnector implements Connector
      *
      * @return void
      */
-    public function __construct($url, $uniqueKey = 'id')
+    public function __construct()
     {
-        $this->url = $url;
-        $this->uniqueKey = $uniqueKey;
+        //$this->url = $url;
+        //$this->uniqueKey = $uniqueKey;
     }
 
 
@@ -74,6 +75,9 @@ class RdfDataApiConnector implements Connector
      */
     protected function send(HttpClient $client)
     {
+
+        //todo: actually we do not integrate a looging trait
+
         //useful to display links to solr queries directly on screen
         /*
         echo '<a href="' .
@@ -82,20 +86,20 @@ class RdfDataApiConnector implements Connector
             ' target="_blank">solr link</a>';
         */
 
-        $this->debug(
-            sprintf('=> %s %s', $client->getMethod(), $client->getUri())
-        );
+        //$this->debug(
+        //    sprintf('=> %s %s', $client->getMethod(), $client->getUri())
+        //);
 
         $time     = microtime(true);
         $response = $client->send();
         $time     = microtime(true) - $time;
 
-        $this->debug(
-            sprintf(
-                '<= %s %s', $response->getStatusCode(),
-                $response->getReasonPhrase()
-            ), ['time' => $time]
-        );
+        //$this->debug(
+        //    sprintf(
+        //        '<= %s %s', $response->getStatusCode(),
+        //        $response->getReasonPhrase()
+        //    ), ['time' => $time]
+        //);
 
         if (!$response->isSuccess()) {
             throw HttpErrorException::createFromResponse($response);
@@ -125,10 +129,20 @@ class RdfDataApiConnector implements Connector
     }
 
 
-    public function search(): Result
+    public function search(Search $search): Result
     {
-        // TODO: Implement search() method.
+        $client = $this->createClient("http://" . $search->getUrl(), "GET");
 
-        return new RdfDataApiResult([]);
+
+
+        $result = json_decode($this->send($client));
+        //$result1 = json_decode($this->send($client));
+        //$flatten =  JsonLD::flatten($result);
+        $compact = JsonLD::compact($result,"http://lobid.org/gnd/context.jsonld");
+
+        //$id = $result1->gndIdentifier;
+        //$describedBy = $result1->describedBy->id;
+
+        return new RdfDataApiResult($result);
     }
 }

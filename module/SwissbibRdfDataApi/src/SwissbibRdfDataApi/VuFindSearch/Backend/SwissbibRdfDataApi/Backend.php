@@ -29,6 +29,7 @@ namespace SwissbibRdfDataApi\VuFindSearch\Backend\SwissbibRdfDataApi;
 
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Result\RdfDataApiResult;
 // @codingStandardsIgnoreLineuse
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\SearchTypeEnum;
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\SearchBuilder\RdfDataApiSearchBuilder;
 
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Adapter;
@@ -41,11 +42,23 @@ use VuFindSearch\Feature\RetrieveBatchInterface;
 use VuFindSearch\Feature\SimilarInterface;
 use VuFindSearch\ParamBag;
 use VuFindSearch\Query\AbstractQuery;
+use VuFindSearch\Query\Query;
 use VuFindSearch\Response\RecordCollectionFactoryInterface;
 // @codingStandardsIgnoreLineuse
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\Search as RdfApiSearchInterface;
 
 use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Result\Result as IApiResult;
+
+// @codingStandardsIgnoreLineuse
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Params\ParamBag as RdfApiParamBag;
+
+// @codingStandardsIgnoreLineuse
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Query\AbstractQuery as RdfAbstractQuery;
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Query\Query as RdfQuery;
+// @codingStandardsIgnoreLineuse
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Query\QueryGroup as RdfQueryGroup;
+
+
 
 /**
  * Class Backend
@@ -74,16 +87,29 @@ class Backend extends AbstractBackend
     protected $searchBuilder;
 
     /**
+     * Configuration for the Api Adapter
+     *
+     * @var array $configs
+     */
+    protected $configs;
+
+    /**
      * Backend constructor.
      *
      * @param Adapter $adapter the api search
+     * @param array $configs configuration
      *
      * @internal param $esHosts
      */
-    public function __construct(Adapter $adapter)
+    public function __construct(Adapter $adapter, array $configs)
     {
+        //todo: configs are now injected into backend
+        //a better solution (at least I'm going to refactor the api adapter into a
+        // separate component) might be that the adapter is responsible by itself
+        // for the configuration and only base url of the server api is set
+        // by the backend
         $this->apiAdapter = $adapter;
-        $this->searchBuilder = new RdfDataApiSearchBuilder();
+        $this->configs = $configs;
 
     }
 
@@ -108,6 +134,7 @@ class Backend extends AbstractBackend
      * @param int           $offset Search offset
      * @param int           $limit  Search limit
      * @param ParamBag      $params Search backend parameters
+     * @throws \Exception
      *
      * @return \VuFindSearch\Response\RecordCollectionInterface
      */
@@ -118,13 +145,26 @@ class Backend extends AbstractBackend
         ParamBag $params = null
     ) {
 
+        if (is_null($params)) {
+            throw new \Exception("no search type given for swissbib data RDF API");
+        }
+
+        $rdfQuery = $this->createApiSpecificQueryComponent($query);
+
+        $rdfApiSearchBuilder = new RdfDataApiSearchBuilder(
+            $rdfQuery,
+            new RdfApiParamBag($params->getArrayCopy()),
+            $this->configs
+        );
+
+
         /**
          * SearchObject
          *
          * @var RdfApiSearchInterface $search
          */
-        $search = $this->searchBuilder->buildSearch(
-            $query, $offset, $limit, $params
+        $search = $rdfApiSearchBuilder->buildSearch(
+            $offset, $limit
         );
 
         $result = $this->apiAdapter->search($search);
@@ -197,5 +237,24 @@ class Backend extends AbstractBackend
     protected function createRecordCollection($result)
     {
         return $this->getRecordCollectionFactory()->factory($result);
+    }
+
+    /**
+     * @param AbstractQuery $query
+     * @throws \Exception
+     * @return RdfAbstractQuery
+     */
+    private function createApiSpecificQueryComponent(AbstractQuery $query): RdfAbstractQuery {
+
+        //todo: implement switch for QueryGroups - actually not used
+        $rdfQuery = null;
+        if ($query instanceof Query) {
+            $rdfQuery = new RdfQuery($query->getString(),$query->getHandler(),$query->getOperator());
+        } else {
+            throw new \Exception(   "QueryGroups are not implemented for RDF API requests");
+        }
+
+        return $rdfQuery;
+
     }
 }

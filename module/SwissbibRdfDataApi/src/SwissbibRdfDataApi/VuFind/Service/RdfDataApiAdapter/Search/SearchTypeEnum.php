@@ -51,54 +51,69 @@ class SearchTypeEnum
      *
      * @var array
      */
-    private $_allowedTypes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-        16, 17];
+    private $_allowedTypes = ["ID_SEARCH_PERSON",
+            "ID_SEARCH_ORGANISATION",
+            "ID_SEARCH_BIB_RESOURCE",
+            "ID_SEARCH_DOCUMENT",
+            "ID_SEARCH_SUBJECT",
+            "ID_SEARCH_GND",
+            "COLLECTION_FIELDS",
+            "COLLECTION_DOCUMENT",
+            "COLLECTION_BIB_RESOURCE",
+            "COLLECTION_ITEM",
+            "COLLECTION_PERSON",
+            "PERSON",
+            "SUB_SUBJECTS",
+            "BIB_RESOURCES_BY_AUTHOR",
+            "BIB_RESOURCES_BY_SUBJECT",
+            "PERSON_BY_GENRE",
+            "PERSON_BY_MOVEMENT"];
 
     private $_currentSearchType;
 
-    const ID_SEARCH_PERSON = 1;
+    const ID_SEARCH_PERSON = "ID_SEARCH_PERSON";
 
-    const ID_SEARCH_ORGANISATION = 2;
+    const ID_SEARCH_ORGANISATION = "ID_SEARCH_ORGANISATION";
 
-    const ID_SEARCH_BIB_RESOURCE = 3;
+    const ID_SEARCH_BIB_RESOURCE = "ID_SEARCH_BIB_RESOURCE";
 
-    const ID_SEARCH_DOCUMENT = 4;
+    const ID_SEARCH_DOCUMENT = "ID_SEARCH_DOCUMENT";
 
-    const ID_SEARCH_SUBJECT = 5;
+    const ID_SEARCH_SUBJECT = "ID_SEARCH_SUBJECT";
 
-    const ID_SEARCH_GND = 6;
+    const ID_SEARCH_GND = "ID_SEARCH_GND";
 
-    const COLLECTION_FIELDS = 7;
+    const COLLECTION_FIELDS = "COLLECTION_FIELDS";
 
-    const COLLECTION_DOCUMENT = 8;
+    const COLLECTION_DOCUMENT = "COLLECTION_DOCUMENT";
 
-    const COLLECTION_BIB_RESOURCE = 9;
+    const COLLECTION_BIB_RESOURCE = "COLLECTION_BIB_RESOURCE";
 
-    const COLLECTION_ITEM = 10;
+    const COLLECTION_ITEM = "COLLECTION_ITEM";
 
-    const COLLECTION_PERSON = 11;
+    const COLLECTION_PERSON = "COLLECTION_PERSON";
 
     //const CollectionWork = 2;
 
     //do we need this??
-    const PERSON = 12;
+    const PERSON = "PERSON";
 
-    const SUB_SUBJECTS = 13;
+    const SUB_SUBJECTS = "SUB_SUBJECTS";
 
-    const BIB_RESOURCES_BY_AUTHOR = 14;
+    const BIB_RESOURCES_BY_AUTHOR = "BIB_RESOURCES_BY_AUTHOR";
 
-    const BIB_RESOURCES_BY_SUBJECT = 15;
+    const BIB_RESOURCES_BY_SUBJECT = "BIB_RESOURCES_BY_SUBJECT";
 
-    const PERSON_BY_GENRE = 16;
+    const PERSON_BY_GENRE = "PERSON_BY_GENRE";
 
-    const PERSON_BY_MOVEMENT = 17;
+    const PERSON_BY_MOVEMENT = "PERSON_BY_MOVEMENT";
 
     /**
      * SearchTypeEnum constructor.
-     * @param int $type
+     * @param string $type
      * @throws \Exception
      */
-    public function __construct(int $type)
+    public function __construct(string $type)
     {
 
         if (!in_array($type, $this->_allowedTypes)) {
@@ -106,6 +121,10 @@ class SearchTypeEnum
         }
 
         $this->_currentSearchType = $type;
+    }
+
+    public function getCurrectSearchType(): string {
+        return $this->_currentSearchType;
     }
 
 

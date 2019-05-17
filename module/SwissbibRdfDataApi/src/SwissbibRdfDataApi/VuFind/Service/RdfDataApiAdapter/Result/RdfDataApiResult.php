@@ -1,6 +1,7 @@
 <?php
 namespace SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Result;
 
+
 /**
  * TemplateQuery
  *
@@ -11,14 +12,14 @@ namespace SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Result;
 class RdfDataApiResult implements Result
 {
     /**
-     * @var array
+     * @var stdClass
      */
     protected $result;
 
     /**
      * @param array $result
      */
-    public function __construct(array $result)
+    public function __construct(\stdClass $result)
     {
         $this->result = $result;
     }

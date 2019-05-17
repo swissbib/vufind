@@ -13,5 +13,5 @@ use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\Search;
  */
 interface Connector
 {
-    public function search() : Result;
+    public function search(Search $search) : Result;
 }
