@@ -1,9 +1,9 @@
-'use strict';
-
 /**
  * swissbib VuFind Javascript
  */
 (function closure(s) {
+  'use strict';
+
   /**
    * Initialize on ready.
    */
@@ -107,7 +107,7 @@
         idArgs = [],
         fullUrl,
         ids = $('a.singleLinkForBulk').map(function () {
-          return driver + '|' + this.href.split('/').pop()
+          return driver + '|' + this.href.split('/').pop();
         }).get();
 
     event.preventDefault();
@@ -132,7 +132,7 @@
       uv.async = true;
       uv.src = '//widget.uservoice.com/JtF9LB73G7r3zwkipwE1LA.js';
       var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(uv, s)
+      s.parentNode.insertBefore(uv, s);
     })();
     UserVoice.push(['set', {
       accent_color: '#6aba2e',
@@ -364,6 +364,7 @@
  * Init Swissbib on ready & load
  */
 $(document).ready(function () {
+  'use strict';
   swissbib.initOnReady();
 });
 

@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Manage favorite actions on record holding tab
  *
@@ -17,6 +15,7 @@ swissbib.HoldingFavorites = {
    *
    */
   initRecord: function () {
+    'use strict';
     this.baseUrl = window.path + this.baseUrl;
 
     this.setupClickHandlers();
@@ -28,6 +27,7 @@ swissbib.HoldingFavorites = {
    *
    */
   setupClickHandlers: function () {
+    'use strict';
     var that = this, allMiniActions, notFavorised,
         favoriteInstitutionCodes = this.getFavoriteInstitutionCodes();
 
@@ -56,6 +56,7 @@ swissbib.HoldingFavorites = {
    * @param  {Object}  event
    */
   onRemoveFavoriteIconClick: function (event) {
+    'use strict';
     var institutionBox = $(event.target).parents('.institutionBox').get(0),
         institutionCode = institutionBox.id.split('-')[3];
 
@@ -69,6 +70,7 @@ swissbib.HoldingFavorites = {
    * @param  {Object}  event
    */
   onAddFavoriteIconClick: function (event) {
+    'use strict';
     var institutionBox = $(event.target).parents('.institutionBox').get(0),
         institutionCode = institutionBox.id.split('-')[3];
 
@@ -84,6 +86,7 @@ swissbib.HoldingFavorites = {
    * @param  {Function}  [callback]
    */
   updateFavorite: function (institutionCode, action, callback) {
+    'use strict';
     var url = this.baseUrl + '/' + action,
         data = {
           institution: institutionCode
@@ -107,6 +110,7 @@ swissbib.HoldingFavorites = {
    * @returns {String[]}
    */
   getFavoriteInstitutionCodes: function () {
+    'use strict';
     var favoriteTogglers = $('#holdings-favorite').find('.institutionToggler');
 
     return $.map(favoriteTogglers, function (node, index) {
