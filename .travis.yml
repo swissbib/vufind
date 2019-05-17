@@ -27,4 +27,4 @@ script:
 
   - vendor/bin/phing eslint phpunitfast swissbibphpunitfast phpcs-console php-cs-fixer-dryrun
   - npm run test
-  #- npm run build
+  - npm run build
