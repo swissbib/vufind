@@ -209,13 +209,15 @@ export default class AutoSuggest {
      */
     private createItemSection(section: Section): ItemSection {
         const config: Configuration = this.configuration;
+        let count = section.result.total.toString();
+        count = count.replace(/\B(?=(\d{3})+\b)/g, config.translate('number_thousands_separator'));
 
         return {
             items: section.result ? section.result.items.slice(0, section.limit) : [],
             label: this.templates.sectionHeader({
                 label: config.translate(section.label),
                 target: this.configuration.getLookForLink(section),
-                targetLabel: config.translate("autosuggest.show.all", [section.result.total]),
+                targetLabel: config.translate("autosuggest.show.all", [count]),
             }),
         };
     }

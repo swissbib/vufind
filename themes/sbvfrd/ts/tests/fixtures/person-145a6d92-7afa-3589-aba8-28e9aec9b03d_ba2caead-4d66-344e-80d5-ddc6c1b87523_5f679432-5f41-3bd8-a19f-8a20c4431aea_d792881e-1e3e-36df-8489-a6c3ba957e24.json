@@ -1,27 +1,29 @@
-[
-  {
-    "id": "5f679432-5f41-3bd8-a19f-8a20c4431aea",
-    "name": "Bamber, David",
-    "firstName": "David",
-    "lastName": "Bamber"
-  },
-  {
-    "id": "85d9afdd-b7bf-34ba-a5c7-a4c1df5c0b04",
-    "name": "Dear, Nick",
-    "firstName": "Nick",
-    "lastName": "Dear"
-  },
-  {
-    "id": "66f120d2-5d83-31dc-92dd-3ef48bd3a7c3",
-    "name": "Davies, Andrew",
-    "firstName": "Andrew",
-    "lastName": "Davies"
-  },
-  {
-    "id": "d792881e-1e3e-36df-8489-a6c3ba957e24",
-    "name": "Austen, Jane, 1775-1817",
-    "firstName": "Jane",
-    "lastName": "Austen",
-    "birthDate": "1775-12-16 00:00:00.0000003Europe\/Zurich"
-  }
-]
+{
+  "data": [
+    {
+      "id": "5f679432-5f41-3bd8-a19f-8a20c4431aea",
+      "name": "Bamber, David",
+      "firstName": "David",
+      "lastName": "Bamber"
+    },
+    {
+      "id": "85d9afdd-b7bf-34ba-a5c7-a4c1df5c0b04",
+      "name": "Dear, Nick",
+      "firstName": "Nick",
+      "lastName": "Dear"
+    },
+    {
+      "id": "66f120d2-5d83-31dc-92dd-3ef48bd3a7c3",
+      "name": "Davies, Andrew",
+      "firstName": "Andrew",
+      "lastName": "Davies"
+    },
+    {
+      "id": "d792881e-1e3e-36df-8489-a6c3ba957e24",
+      "name": "Austen, Jane, 1775-1817",
+      "firstName": "Jane",
+      "lastName": "Austen",
+      "birthDate": "1775-12-16 00:00:00.0000003Europe\/Zurich"
+    }
+  ]
+}

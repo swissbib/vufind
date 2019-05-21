@@ -142,14 +142,14 @@ class NationalLicencesController extends BaseController
             // Compute the checks
             $isHomePostalAddressInSwitzerland
                 = $this->nationalLicenceService
-                    ->isAddressInSwitzerland($homePostalAddress);
+                ->isAddressInSwitzerland($homePostalAddress);
             $isSwissPhoneNumber
                 = $this->nationalLicenceService->isSwissPhoneNumber($mobile);
             $isNationalLicenceCompliant
                 = $this->nationalLicenceService->isNationalLicenceCompliant();
             $temporaryAccessValid
                 = $this->nationalLicenceService
-                    ->isTemporaryAccessCurrentlyValid($user);
+                ->isTemporaryAccessCurrentlyValid($user);
             $hasAcceptedTermsAndConditions
                 = $user->hasAcceptedTermsAndConditions();
             $hasVerifiedHomePostalAddress

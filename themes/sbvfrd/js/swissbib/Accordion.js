@@ -20,6 +20,7 @@ swissbib.Accordion = {
    * @param  {Number}  idRecord
    */
   initRecord: function(idRecord) {
+      'use strict';
       this.idRecord = idRecord;
   },
 
@@ -28,6 +29,7 @@ swissbib.Accordion = {
    *
    */
   saveExpandedGroups: function() {
+      'use strict';
       var expandedGroupIds = [];
 
       $("#accordion").find(".in").each(function (index) {
@@ -56,6 +58,7 @@ swissbib.Accordion = {
    * return {String|null}
    */
   getParameterByName: function(name) {
+      'use strict';
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
@@ -68,6 +71,7 @@ swissbib.Accordion = {
 * Remains state of expanded accordion group
 */
 $(document).ready(function () {
+    'use strict';
     var accordionContainer = $("#accordion");
 
     //when a group is shown, save state of expanded groups
@@ -139,5 +143,5 @@ $(document).ready(function () {
             var scrollToEl = document.getElementById(elId);
             scrollToEl.scrollIntoView(true);
         }
-    }
+    };
 });

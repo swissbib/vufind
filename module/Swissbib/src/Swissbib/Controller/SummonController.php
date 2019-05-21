@@ -209,8 +209,8 @@ class SummonController extends VuFindSummonController
 
         $defaultTopRecommend
             = $this->serviceLocator->get('VuFind\Config\PluginManager')
-                ->get('Summon')->get('General')->get('default_top_recommend')
-                ->toArray();
+            ->get('Summon')->get('General')->get('default_top_recommend')
+            ->toArray();
 
         $viewModel->setVariable('htmlLayoutClass', 'resultView');
 

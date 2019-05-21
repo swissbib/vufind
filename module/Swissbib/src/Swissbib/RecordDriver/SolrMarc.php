@@ -877,11 +877,6 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 );
                 return 'https://externalservices.swissbib.ch/services/' .
                 'ImageTransformer?imagePath=' . $URL_thumb . '&scale=1';
-            } elseif ($field['union'] === 'CHARCH' && $field['tag'] === '856') {
-                //todo : Kann entfernt werden nach Neuladen Januar 2016, neu #766ff
-                $thumb_URL = preg_replace('/SIZE=10/', 'SIZE=30', $field['sf_u']);
-                $URL_thumb = preg_replace('/http/', 'https', $thumb_URL);
-                return $URL_thumb;
             }
         }
     }
@@ -1511,7 +1506,14 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getHistData()
     {
-        return $this->getFieldArray('545', ['a', 'b']);
+        $data = $this->getMarcSubFieldMaps(
+            545, [
+                'a' => 'histdata',
+                'b' => 'expansion',
+                '_u' => 'url',
+            ]
+        );
+        return $data;
     }
 
     /**
@@ -2329,7 +2331,8 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                     }
                     $institutions[$key] = [
                         'institution' => $institution,
-                        'group' => $this->getHoldingsHelper()->getGroup($institution),
+                        'group' => $this->getHoldingsHelper()
+                            ->getGroup($institution),
                         'institution_b' => $institution_b
                     ];
                 }

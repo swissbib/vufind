@@ -24,11 +24,9 @@
  * @author   Matthias Edel <matthias.edel@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
-**/
+ */
 namespace Swissbib\AjaxHandler;
 
-use VuFind\Autocomplete\Suggester;
-use VuFind\Session\Settings as SessionSettings;
 use Zend\Mvc\Controller\Plugin\Params;
 use Zend\Stdlib\Parameters;
 
