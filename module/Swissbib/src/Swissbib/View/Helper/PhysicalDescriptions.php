@@ -56,6 +56,7 @@ class PhysicalDescriptions extends AbstractHelper
         foreach ($physicalDescriptions as $physicalDescription) {
             unset($physicalDescription['@ind1'], $physicalDescription['@ind2']);
             $types = array_keys($physicalDescription);
+            $types = array_map('strval', $types);
             foreach ($types as $type) {
                 if (isset($physicalDescription[$type])) {
                     if ($type == "1extent") {
