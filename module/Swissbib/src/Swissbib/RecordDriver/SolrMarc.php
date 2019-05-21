@@ -1510,7 +1510,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             545, [
                 'a' => 'histdata',
                 'b' => 'expansion',
-                'u' => 'url',
+                '_u' => 'url',
             ]
         );
         return $data;

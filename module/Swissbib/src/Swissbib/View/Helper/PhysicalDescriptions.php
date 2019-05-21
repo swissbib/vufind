@@ -51,22 +51,34 @@ class PhysicalDescriptions extends AbstractHelper
      */
     public function __invoke(array $physicalDescriptions)
     {
-        $infos = [];
+        $string = '';
 
         foreach ($physicalDescriptions as $physicalDescription) {
             unset($physicalDescription['@ind1'], $physicalDescription['@ind2']);
             $types = array_keys($physicalDescription);
             foreach ($types as $type) {
                 if (isset($physicalDescription[$type])) {
-                    if (is_array($physicalDescription[$type])) {
-                        $infos = array_merge($infos, $physicalDescription[$type]);
-                    } else {
-                        $infos[] = $physicalDescription[$type];
+                    if ($type == "1extent") {
+                        $string = $physicalDescription[$type];
+                    } else if (strpos($type, 'extent') !== false) {
+                        $string .= ', ' . $physicalDescription[$type];
+                    } else if (strpos($type, 'details') !== false) {
+                        $string .= ' : ' . $physicalDescription[$type];
+                    } else if (strpos($type, 'dimensions') !== false) {
+                        $string .= ' ; ' . $physicalDescription[$type];
+                    } else if (strpos($type, 'materials') !== false) {
+                        $string .= ' + ' . $physicalDescription[$type];
+                    } else if (strpos($type, 'type') !== false) {
+                        $string .= ' ' . $physicalDescription[$type];
+                    } else if (strpos($type, 'size') !== false) {
+                        $string .= ' ; ' . $physicalDescription[$type];
+                    } else if (strpos($type, 'appliesTo') !== false) {
+                        $string .= ' ; ' . $physicalDescription[$type];
                     }
                 }
             }
         }
 
-        return implode(' ; ', $infos);
+        return $string;
     }
 }

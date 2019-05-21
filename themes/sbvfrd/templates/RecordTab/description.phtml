@@ -511,10 +511,22 @@ $prevTitles = $record->getPreviousTitles();
                       <?php if (!empty($field['expansion'])): ?>
                           <?= $this->escapeHtml($field['expansion']) ?> <br/>
                       <?php endif; ?>
-                      <?php if (!empty($field['url'])): ?>
-                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['url'])) ?>"
+                      <?php if (!empty($field['1url'])): ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['1url'])) ?>"
                              target="_blank">
-                              <?= $this->escapeHtml($field['url']) ?>
+                              <?= $this->escapeHtml($field['1url']) ?>
+                          </a><br/>
+                      <?php endif; ?>
+                      <?php if (!empty($field['2url'])): ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['2url'])) ?>"
+                             target="_blank">
+                              <?= $this->escapeHtml($field['2url']) ?>
+                          </a><br/>
+                      <?php endif; ?>
+                      <?php if (!empty($field['3url'])): ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['3url'])) ?>"
+                             target="_blank">
+                              <?= $this->escapeHtml($field['3url']) ?>
                           </a><br/>
                       <?php endif; ?>
                   <?php endforeach; ?>
