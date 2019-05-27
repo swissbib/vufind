@@ -43,6 +43,9 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
 {
     const DEFAULT_RECORD = 'ElasticSearch';
 
+    static $conceptRegex = ['/person/','/bibliographicResource/'];
+
+
     /**
      * PluginManager constructor.
      *
@@ -79,6 +82,9 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
      */
     public function getElasticSearchRecord($data)
     {
+
+        $this->checkRecordType();
+
         if (isset($data['_type'])) {
             $key = 'ES' . ucwords($data['_type']);
             $recordType = $this->has($key) ? $key : self::DEFAULT_RECORD;
@@ -100,16 +106,31 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
      */
     public function getRdfDataApiSearchRecord($data)
     {
-        if (isset($data['_type'])) {
-            $key = 'API' . ucwords($data['_type']);
-            $recordType = $this->has($key) ? $key : self::DEFAULT_RECORD;
-        } else {
-            $recordType = self::DEFAULT_RECORD;
-        }
+        $recordType = 'API' . ucwords($this->checkRecordType($data->{'@context'}));
+
+        //if (isset($data['_type'])) {
+        //    $key = 'API' . ucwords($data['_type']);
+        //    $recordType = $this->has($key) ? $key : self::DEFAULT_RECORD;
+        //} else {
+        //    $recordType = self::DEFAULT_RECORD;
+        //}
         // Build the object:
         $driver = $this->get($recordType);
         $driver->setRawData($data);
         return $driver;
+    }
+
+
+    private function checkRecordType(string $contextURI) {
+
+        $match = null;
+        foreach(self::$conceptRegex as $regex) {
+            preg_match($regex, $contextURI,$matches);
+            if (count($matches)) {$match = $matches[0]; break;}
+        }
+
+        return isset($match) ? $match : self::DEFAULT_RECORD;
+
     }
 
 

@@ -1,6 +1,8 @@
 parameters:
   rdf_api_adapter.hosts: ['localhost:9001']
   rdf_api_adapter.urls:
-#    PERSON: '/person/?id'
+    ID_SEARCH_PERSON: '/person/?id'
+#    ID_SEARCH_PERSON: '/person'
     PERSON: '/person'
 #    PERSON: '/gnd/118755714'
+    BIB_RESOURCES_BY_AUTHOR: '/bibliographicResource/byauthor/?id'

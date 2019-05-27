@@ -30,6 +30,7 @@ namespace Swissbib\Services;
 use SwissbibRdfDataApi\VuFind\Search\SwissbibRdfDataApi\Params;
 
 use SwissbibRdfDataApi\VuFind\Search\SwissbibRdfDataApi\Results;
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\SearchTypeEnum;
 use VuFindSearch\Query\Query;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -154,10 +155,12 @@ class SwissbibDataRdfApiSearch
      */
     public function searchBibliographiResourcesOfPerson(string $id, int $resultSize
     ): array {
-        $bibliographicResources = $this->searchElasticSearch(
-            "https://data.swissbib.ch/person/" . $id,
-            "bibliographicResources_by_author", "lsb", "bibliographicResource",
-            $resultSize
+
+        //todo: wollen wir nur mit der id suchen oder der kompletten URL
+        //oder beide Varianten (Aufgabe der Schnittstelle
+        $bibliographicResources = $this->searchApiSearch(
+            $id,
+            SearchTypeEnum::BIB_RESOURCES_BY_AUTHOR, 100
         )->getResults();
         return $bibliographicResources;
     }

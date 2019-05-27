@@ -56,7 +56,7 @@ class Factory
         $config = $sm->get('Config');
         return new $className(
             $sm,
-            $config['elasticsearch']['plugin_managers'][$configKey]
+            $config['restapi']['plugin_managers'][$configKey]
         );
     }
 

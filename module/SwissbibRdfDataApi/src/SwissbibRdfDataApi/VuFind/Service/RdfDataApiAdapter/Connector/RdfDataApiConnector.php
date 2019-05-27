@@ -136,13 +136,17 @@ class RdfDataApiConnector implements Connector
 
 
         $result = json_decode($this->send($client));
+
         //$result1 = json_decode($this->send($client));
         //$flatten =  JsonLD::flatten($result);
-        $compact = JsonLD::compact($result,"http://lobid.org/gnd/context.jsonld");
+        //$compact = JsonLD::compact($result,"http://lobid.org/gnd/context.jsonld");
+        //$compact = JsonLD::compact($result);
 
         //$id = $result1->gndIdentifier;
         //$describedBy = $result1->describedBy->id;
 
-        return new RdfDataApiResult($result);
+        //return  is_array($result) ? new RdfDataApiResult($result) : new RdfDataApiResult([$result]);
+        return  new RdfDataApiResult($result);
+
     }
 }

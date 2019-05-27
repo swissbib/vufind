@@ -112,6 +112,26 @@ abstract class RdfDataApi extends AbstractBase
             ? $this->fields["_source"][$fieldName] : null;
     }
 
+
+    /**
+     * Gets the field
+     *
+     * @param string $name      Name of the field
+     * @param string $prefix    The prefix
+     * @param string $delimiter The delimiter
+     *
+     * @return array|null
+     */
+    protected function getFieldApi(
+        string $name, string $prefix, string $delimiter = ':'
+    ) {
+        $fieldName = $this->getQualifiedFieldName($name, $prefix, $delimiter);
+
+        return isset($this->fields->{$fieldName})
+            ? $this->fields->{$fieldName} : null;
+    }
+
+
     /**
      * Gets the qualified field name
      *

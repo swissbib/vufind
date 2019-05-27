@@ -111,7 +111,7 @@ class APIBibliographicResource extends RdfDataApi
     protected function getField(
         string $name, string $prefix = "dct", string $delimiter = ':'
     ) {
-        return parent::getField($name, $prefix, $delimiter);
+        return parent::getFieldApi($name, $prefix, $delimiter);
     }
 
     /**
