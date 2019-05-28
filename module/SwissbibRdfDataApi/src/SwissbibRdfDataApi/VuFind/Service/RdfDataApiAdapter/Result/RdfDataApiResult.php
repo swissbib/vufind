@@ -2,6 +2,8 @@
 namespace SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Result;
 
 
+use ML\JsonLD\JsonLD;
+
 /**
  * TemplateQuery
  *
@@ -22,6 +24,7 @@ class RdfDataApiResult implements Result
     public function __construct(\stdClass $result)
     {
         $this->result = $result;
+
     }
 
     /**
@@ -29,8 +32,7 @@ class RdfDataApiResult implements Result
      */
     public function getTotal() : int
     {
-        //todo: implement this
-        return 0;
+        return isset($this->result->totalItems) ? $this->result->totalItems : 0;
         //return $this->result['hits']['total'];
     }
 
@@ -39,7 +41,9 @@ class RdfDataApiResult implements Result
      */
     public function getTook() : int
     {
-        return $this->result['took'];
+        throw new \Exception("not implemented so far");
+
+        //return $this->result['took'];
     }
 
     /**
@@ -47,7 +51,9 @@ class RdfDataApiResult implements Result
      */
     public function getTimedOut() : bool
     {
-        return $this->result['timed_out'];
+        throw new \Exception("not implemented so far");
+
+        //return $this->result['timed_out'];
     }
 
     /**
@@ -55,7 +61,8 @@ class RdfDataApiResult implements Result
      */
     public function getMaxScore() : float
     {
-        return $this->result['hits']['max_score'];
+        throw new \Exception("not implemented so far");
+        //return $this->result['hits']['max_score'];
     }
 
     /**
@@ -63,7 +70,7 @@ class RdfDataApiResult implements Result
      */
     public function getHits() : array
     {
-        return $this->result['hits']['hits'] ?? [];
+        return $this->result->member ?? [];
     }
 
     /**
@@ -71,6 +78,9 @@ class RdfDataApiResult implements Result
      */
     public function getRawResult() : array
     {
-        return $this->result;
+        //do we need this with the new API?
+        throw new \Exception("not implemented so far");
+
+        //return $this->result;
     }
 }

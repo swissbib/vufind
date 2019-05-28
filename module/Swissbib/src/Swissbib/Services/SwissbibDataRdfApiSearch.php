@@ -221,10 +221,17 @@ class SwissbibDataRdfApiSearch
         $searchIds = $start < count($contributorIds) ? array_slice(
             $contributorIds, $start, $resultSize
         ) : [];
-        $results = $this->searchElasticSearch(
-            $this->arrayToSearchString($searchIds), "id", "lsb", "person",
-            $resultSize
+        //$results = $this->searchApiSearch(
+        //    $this->arrayToSearchString($searchIds), SearchTypeEnum::ID_SEARCH_PERSON,
+        //    $resultSize,$page
+        //);
+
+        $results = $this->searchApiSearch(
+            implode(",",$searchIds), SearchTypeEnum::IDS_SEARCH_PERSON,
+            $resultSize,$page
         );
+
+
 
         $this->_fixResultForPagination($id, $page, $results, $contributorIds);
         return $results;

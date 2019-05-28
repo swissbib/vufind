@@ -57,6 +57,7 @@ class SearchTypeEnum
             "ID_SEARCH_DOCUMENT",
             "ID_SEARCH_SUBJECT",
             "ID_SEARCH_GND",
+            "IDS_SEARCH_GND",
             "COLLECTION_FIELDS",
             "COLLECTION_DOCUMENT",
             "COLLECTION_BIB_RESOURCE",
@@ -67,11 +68,14 @@ class SearchTypeEnum
             "BIB_RESOURCES_BY_AUTHOR",
             "BIB_RESOURCES_BY_SUBJECT",
             "PERSON_BY_GENRE",
-            "PERSON_BY_MOVEMENT"];
+            "PERSON_BY_MOVEMENT",
+            "IDS_SEARCH_PERSON"];
 
     private $_currentSearchType;
 
     const ID_SEARCH_PERSON = "ID_SEARCH_PERSON";
+
+    const IDS_SEARCH_PERSON = "IDS_SEARCH_PERSON";
 
     const ID_SEARCH_ORGANISATION = "ID_SEARCH_ORGANISATION";
 
@@ -82,6 +86,8 @@ class SearchTypeEnum
     const ID_SEARCH_SUBJECT = "ID_SEARCH_SUBJECT";
 
     const ID_SEARCH_GND = "ID_SEARCH_GND";
+
+    const IDS_SEARCH_GND = "IDS_SEARCH_GND";
 
     const COLLECTION_FIELDS = "COLLECTION_FIELDS";
 

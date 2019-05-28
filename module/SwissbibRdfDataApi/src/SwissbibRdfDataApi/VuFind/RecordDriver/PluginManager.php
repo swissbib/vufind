@@ -43,7 +43,7 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
 {
     const DEFAULT_RECORD = 'ElasticSearch';
 
-    static $conceptRegex = ['/person/','/bibliographicResource/'];
+    static $conceptRegex = ['/person/','/bibliographicResource/','/gnd/'];
 
 
     /**
@@ -129,6 +129,11 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
             if (count($matches)) {$match = $matches[0]; break;}
         }
 
+        //we check the context from lobid which is called
+        //http://lobid.org/gnd/context.jsonld
+        //But our driver is called subject so we have to re-map it -
+        // might be changed in the future
+        if (isset($match) && $match === "gnd") {$match = "subject";}
         return isset($match) ? $match : self::DEFAULT_RECORD;
 
     }

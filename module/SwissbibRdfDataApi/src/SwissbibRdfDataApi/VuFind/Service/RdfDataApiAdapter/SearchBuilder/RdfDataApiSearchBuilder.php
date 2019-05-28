@@ -170,7 +170,38 @@ class RdfDataApiSearchBuilder
         return $this->getBaseUrl() . $urlPath;
     }
 
+    public function ids_search_gnd() : string
+    {
+        $urlPathPattern = $this->config["parameters"]["rdf_api_adapter.urls"]
+        [strtoupper($this->searchType->getCurrectSearchType())];
+        $urlPath = preg_replace(
+            '/\?ids/', $this->query->getString(),
+            $urlPathPattern
+        );
+        return $this->getBaseUrl() . $urlPath;
+    }
 
+    public function ids_search_person() : string
+    {
+        $urlPathPattern = $this->config["parameters"]["rdf_api_adapter.urls"]
+        [strtoupper($this->searchType->getCurrectSearchType())];
+        $urlPath = preg_replace(
+            '/\?ids/', $this->query->getString(),
+            $urlPathPattern
+        );
+        return $this->getBaseUrl() . $urlPath;
+    }
+
+    public function person_by_genre() : string
+    {
+        $urlPathPattern = $this->config["parameters"]["rdf_api_adapter.urls"]
+        [strtoupper($this->searchType->getCurrectSearchType())];
+        $urlPath = preg_replace(
+            '/\?id/', $this->query->getString(),
+            $urlPathPattern
+        );
+        return $this->getBaseUrl() . $urlPath;
+    }
 
 
 }

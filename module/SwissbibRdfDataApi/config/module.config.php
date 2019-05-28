@@ -37,6 +37,7 @@ $config = [
           'APIPerson' => 'SwissbibRdfDataApi\VuFind\RecordDriver\Factory::getAPIPersonRecord',
           'apidefault' => 'SwissbibRdfDataApi\VuFind\RecordDriver\Factory::getAPISubjectRecord',
           'APIBibliographicResource' => 'SwissbibRdfDataApi\VuFind\RecordDriver\Factory::getAPIBibliographicResourceRecord',
+          'APISubject' => 'SwissbibRdfDataApi\VuFind\RecordDriver\Factory::getAPISubjectRecord',
           'apiorganisation' => 'SwissbibRdfDataApi\VuFind\RecordDriver\Factory::getAPIOrganisationRecord',
         ],
       ],

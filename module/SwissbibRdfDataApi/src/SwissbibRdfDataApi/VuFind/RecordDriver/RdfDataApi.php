@@ -81,7 +81,10 @@ abstract class RdfDataApi extends AbstractBase
      */
     public function getUniqueID()
     {
-        return $this->fields["_id"];
+        $uri = $this->fields->{'@id'};
+        preg_match('/https:\/\/data.swissbib.ch\/person\/(.*)/', $uri,$matches);
+        return $matches[1];
+
     }
 
     /**
@@ -108,8 +111,9 @@ abstract class RdfDataApi extends AbstractBase
     ) {
         $fieldName = $this->getQualifiedFieldName($name, $prefix, $delimiter);
 
-        return array_key_exists($fieldName, $this->fields["_source"])
-            ? $this->fields["_source"][$fieldName] : null;
+        return isset($this->fields->$fieldName) ? $this->fields->$fieldName : null;
+        //return array_key_exists($fieldName, $this->fields["_source"])
+        //    ? $this->fields["_source"][$fieldName] : null;
     }
 
 

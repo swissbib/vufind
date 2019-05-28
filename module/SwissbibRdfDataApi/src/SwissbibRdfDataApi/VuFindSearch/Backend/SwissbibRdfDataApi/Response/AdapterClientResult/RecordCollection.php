@@ -68,6 +68,8 @@ class RecordCollection extends AbstractRecordCollection
     {
         //$this->response = array_replace_recursive(static::$template, $response);
         //todo: how to get the offset from the ES response
+
+        $this->response = $response;
         $this->offset = 0;
         $this->rewind();
     }
