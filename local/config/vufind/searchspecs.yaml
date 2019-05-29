@@ -845,7 +845,7 @@ SubjectSuggest:
   DismaxFields:
     - navSub_green
   QueryFields:
-    author:
+    navSub_green:
       - [onephrase, 350]
       - [and, 200]
       - [or, 100]
