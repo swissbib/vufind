@@ -323,10 +323,10 @@ class APIPerson extends RdfDataApi
                 $results = [];
 
                 foreach ($content as $valueArray) {
-                    if (isset($valueArray[$locale])
-                        && null !== $valueArray[$locale]
+                    if (isset($valueArray->$locale)
+                        && null !== $valueArray->$locale
                     ) {
-                        $results[] = $valueArray[$locale];
+                        $results[] = $valueArray->$locale;
                     }
                 }
 

@@ -70,6 +70,8 @@ class APISubject extends RdfDataApi
             $fieldValue = $this->getField($fieldName);
         }
 
+        //why do we need an array - still necessary with the new lobid data??
+        if (!is_array($fieldValue)) $fieldValue = [$fieldValue];
         return $fieldValue ?? [];
     }
 
@@ -113,15 +115,19 @@ class APISubject extends RdfDataApi
      */
     public function getName(): string
     {
-        $field = "SubjectHeading";
+        $field = "preferredName";
+        //I guess we no longer need the intermediate step
         $name = $this->getPreferredName($field);
 
-        if (!isset($name)) {
+        /*
+         * if we need it we have to change the implementation
+        if (!isset($field)) {
             $type = parent::getField("@type", "", "")[0];
             $field = substr($type, strpos($type, "#") + 1);
 
             $name = $this->getPreferredName($field);
         }
+        */
 
         return $name ?? "";
     }
@@ -135,10 +141,16 @@ class APISubject extends RdfDataApi
      */
     protected function getPreferredName(string $field)
     {
-        $name = $this->getField('preferredNameForThe' . $field);
+        $name = $this->getField($field);
+        //todo: I guess this is still work in progress
+        //when Silvia is back from holidays in June we should validate with her the correct
+        //usage of the data fields delivered by lobid
         if (isset($name) && is_array($name) && count($name) > 0) {
             return $name[0];
+        } else {
+            return $name;
         }
+        /*
         $keys = array_keys($this->fields["_source"]);
         foreach ($keys as $key) {
             $found = preg_match("/preferredNameForThe(.+)/", $key, $matches);
@@ -149,6 +161,7 @@ class APISubject extends RdfDataApi
         }
 
         return null;
+        */
     }
 
     /**
@@ -158,13 +171,14 @@ class APISubject extends RdfDataApi
      */
     public function getParentSubjects(): array
     {
+        //todo: evaluate GND Data and compare it with our old GND data
         return array_unique(
             array_merge(
                 [],
-                $this->getField("broaderTermGeneral") ?? [],
-                $this->getField("broaderTermGeneric") ?? [],
-                $this->getField("broaderTermInstantial") ?? [],
-                $this->getField("broaderTermPartitive") ?? []
+                $this->getField("broaderTermGeneral") ?? []
+                //$this->getField("broaderTermGeneric") ?? [],
+                //$this->getField("broaderTermInstantial") ?? [],
+                //$this->getField("broaderTermPartitive") ?? []
             )
         );
     }
@@ -183,11 +197,16 @@ class APISubject extends RdfDataApi
             "http://d-nb_info/standards/elementset/gnd#definition",
         ];
 
+        if (isset($this->fields->variantName)) {
+            return true;
+        }
+        /*
         foreach ($fields as $field) {
             if (array_key_exists($field, $this->fields["_source"])) {
                 return true;
             }
         }
+        */
         if (count($this->getParentSubjects()) > 0) {
             return true;
         }
@@ -228,6 +247,13 @@ class APISubject extends RdfDataApi
     protected function getField(
         string $fieldName, string $prefix = null, string $delimiter = '#'
     ) {
+
+        //seems we do not need prefix and delimiter mechanism as lobid delivers only values without prefix
+        return isset($this->fields->{$fieldName})
+            ? $this->fields->{$fieldName} : null;
+
+        //return parent::getFieldApi($fieldName, "");
+
         $field = $this->getRawField($fieldName, $prefix, $delimiter);
 
         // TODO Can we have fields with id and values? How to return this values?

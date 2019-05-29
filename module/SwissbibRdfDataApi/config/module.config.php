@@ -45,9 +45,11 @@ $config = [
   ],
   'view_helpers' => [
     'invokables' => [
-      'esperson' => 'ElasticSearch\View\Helper\ESPerson',
-      'essubject' => 'ElasticSearch\View\Helper\ESSubject',
-      'essubjectcollection' => 'ElasticSearch\View\Helper\ESSubjectCollection',
+        //these definitions aren't used so far because we re-directed the ES view helper definitions
+        // to the new types - perhaps in the future
+      'apiperson' => 'SwissbibRdfDataApi\View\Helper\RdfApiPerson',
+      'apisubject' => 'SwissbibRdfDataApi\View\Helper\RdfApiSubject',
+      'apisubjectcollection' => 'SwissbibRdfDataApi\View\Helper\RdfApiSubjectCollection',
     ]
   ]
 ];

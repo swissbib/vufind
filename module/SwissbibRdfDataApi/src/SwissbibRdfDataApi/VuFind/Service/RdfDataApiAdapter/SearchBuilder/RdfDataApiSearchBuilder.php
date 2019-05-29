@@ -203,5 +203,16 @@ class RdfDataApiSearchBuilder
         return $this->getBaseUrl() . $urlPath;
     }
 
+    public function person_by_movement() : string
+    {
+        $urlPathPattern = $this->config["parameters"]["rdf_api_adapter.urls"]
+        [strtoupper($this->searchType->getCurrectSearchType())];
+        $urlPath = preg_replace(
+            '/\?id/', $this->query->getString(),
+            $urlPathPattern
+        );
+        return $this->getBaseUrl() . $urlPath;
+    }
+
 
 }

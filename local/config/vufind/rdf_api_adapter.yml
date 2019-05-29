@@ -8,6 +8,7 @@ parameters:
     PERSON: '/person'
     PERSON_BY_GENRE: '/persongenre?q=?id'
 
+    PERSON_BY_MOVEMENT: '/personmovement?q=?id'
 
 #    PERSON: '/gnd/118755714'
     BIB_RESOURCES_BY_AUTHOR: '/bibliographicResource/byauthor/?id'

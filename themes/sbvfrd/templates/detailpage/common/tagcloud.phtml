@@ -4,12 +4,15 @@
     <a id="detailpage-<?= $this->name ?>"></a>
     <h2><?= $this->headline ?></h2>
     <?php foreach ($this->records as $recordName => $recordValue): ?>
-        <?php $record = $recordValue[strtolower($this->type)] ?>
+        <!-- this was used because of the old type mechanism in ES
+          not sure if we have to use types in other contexts
+           $record = $recordValue->{strtolower($this->type)}-->
+        <?php $record = $recordValue ?>
         <span>
         <?= $this->render('/detailpage/common/tagcloud/link.phtml', [
                 'name' => $recordName,
                 'record' => $record,
-                'weight' => $recordValue['weight'],
+                'weight' => $recordValue->{'weight'},
                 'type' => $this->type
             ]);
         ?>
