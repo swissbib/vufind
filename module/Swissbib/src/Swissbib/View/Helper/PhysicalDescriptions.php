@@ -60,22 +60,21 @@ class PhysicalDescriptions extends AbstractHelper
                 if (isset($physicalDescription[$type])) {
                     if (is_array($physicalDescription[$type])) {
                         $string .= implode(' ; ', ($physicalDescription[$type]));
-                    }
-                    else if ($type == "1extent") {
+                    } elseif ($type == "1extent") {
                         $string .= $physicalDescription[$type];
-                    } else if (strpos($type, 'extent') !== false) {
+                    } elseif (strpos($type, 'extent') !== false) {
                         $string .= ', ' . $physicalDescription[$type];
-                    } else if (strpos($type, 'details') !== false) {
+                    } elseif (strpos($type, 'details') !== false) {
                         $string .= ' : ' . $physicalDescription[$type];
-                    } else if (strpos($type, 'dimensions') !== false) {
+                    } elseif (strpos($type, 'dimensions') !== false) {
                         $string .= ' ; ' . $physicalDescription[$type];
-                    } else if (strpos($type, 'materials') !== false) {
+                    } elseif (strpos($type, 'materials') !== false) {
                         $string .= ' + ' . $physicalDescription[$type];
-                    } else if (strpos($type, 'type') !== false) {
+                    } elseif (strpos($type, 'type') !== false) {
                         $string .= ' ' . $physicalDescription[$type];
-                    } else if (strpos($type, 'size') !== false) {
+                    } elseif (strpos($type, 'size') !== false) {
                         $string .= ' ; ' . $physicalDescription[$type];
-                    } else if (strpos($type, 'appliesTo') !== false) {
+                    } elseif (strpos($type, 'appliesTo') !== false) {
                         $string .= ' ; ' . $physicalDescription[$type];
                     }
                 }
