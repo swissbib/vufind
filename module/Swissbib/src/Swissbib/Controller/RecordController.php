@@ -262,7 +262,7 @@ class RecordController extends VuFindRecordController
         $defaultDateUNIX = $this->holds()->getDefaultRequiredDate($checkHolds);
         $defaultRequired = (!empty($requiredDate)) ?
             $requiredDate : $this->serviceLocator->get('VuFind\DateConverter')
-                ->convertToDisplayDate("U", $defaultDateUNIX);
+            ->convertToDisplayDate("U", $defaultDateUNIX);
         //$defaultRequired = $this->getServiceLocator()->get('VuFind\DateConverter')
         //    ->convertToDisplayDate("U", $defaultRequired);
 
