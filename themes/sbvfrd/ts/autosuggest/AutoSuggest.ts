@@ -199,7 +199,7 @@ export default class AutoSuggest {
      * @private
      */
     private buildSectionResult(section: Section, collection: ItemCollection) {
-        if (section.result && section.result.total > 0) {
+        if (section.result) {
             collection.groups.push(this.createItemSection(section));
         }
     }
@@ -209,15 +209,13 @@ export default class AutoSuggest {
      */
     private createItemSection(section: Section): ItemSection {
         const config: Configuration = this.configuration;
-        let count = section.result.total.toString();
-        count = count.replace(/\B(?=(\d{3})+\b)/g, config.translate('number_thousands_separator'));
 
         return {
             items: section.result ? section.result.items.slice(0, section.limit) : [],
             label: this.templates.sectionHeader({
                 label: config.translate(section.label),
                 target: this.configuration.getLookForLink(section),
-                targetLabel: config.translate("autosuggest.show.all", [count]),
+                targetLabel: config.translate("autosuggest.show.all"),
             }),
         };
     }
