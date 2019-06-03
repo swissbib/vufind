@@ -48,7 +48,7 @@ use Swissbib\VuFind\Search\Solr\Params as Params;
  *           License
  * @link     http://vufind.org
  */
-class SolrAuthorSuggester extends VFAutocompleteSolr
+class SolrSubjectSuggester extends VFAutocompleteSolr
 {
     /**
      * This method returns an array of strings matching the user's query for
@@ -66,7 +66,7 @@ class SolrAuthorSuggester extends VFAutocompleteSolr
 
         try {
             $this->searchObject->getParams()->setBasicSearch(
-                $this->mungeQuery($query), 'Author'
+                $this->mungeQuery($query), 'Subject'
             );
             $this->searchObject->getParams()->setLimit(0);
 
@@ -81,20 +81,20 @@ class SolrAuthorSuggester extends VFAutocompleteSolr
             $params->setLimit(0);
             //only the first 3 facets
             $params->setFacetLimit(3);
-            $params->addFacet('navAuthor_full');
+            $params->addFacet('navSub_green');
+
+            $params->setFacetContains(rtrim($query, '*'));
+
+            $params->setFacetContainsIgnoreCase(true);
+
 
             $this->searchObject->setParams($params);
 
-            /**
-             * Search Results
-             *
-             * @var Results $searchResults
-             */
+            //do search and get facet results
             $facets = $this->searchObject->getFacetList();
-            //$facet = $searchResults->getFacetList();
 
             $suggestions = [];
-            foreach ($facets['navAuthor_full']['list'] as $facet) {
+            foreach ($facets['navSub_green']['list'] as $facet) {
                 $suggestions [] = $facet['value'];
             }
 

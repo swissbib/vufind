@@ -598,10 +598,12 @@ return [
                 'factories' => [
                     'Swissbib\VuFind\Autocomplete\Solr'  =>  'Swissbib\VuFind\Autocomplete\Factory::getSolr',
                     'Swissbib\VuFind\Autocomplete\SolrAuthorSuggester' => 'VuFind\Autocomplete\SolrFactory',
+                    'Swissbib\VuFind\Autocomplete\SolrSubjectSuggester' => 'VuFind\Autocomplete\SolrFactory',
                 ],
                 'aliases' => [
                     'solr'             => 'Swissbib\VuFind\Autocomplete\Solr',
                     'SolrAuthorSuggester' => 'Swissbib\VuFind\Autocomplete\SolrAuthorSuggester',
+                    'SolrSubjectSuggester' => 'Swissbib\VuFind\Autocomplete\SolrSubjectSuggester',
                 ],
             ],
             'content_covers' => [
