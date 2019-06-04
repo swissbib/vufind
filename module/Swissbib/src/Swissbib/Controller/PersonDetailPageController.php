@@ -28,6 +28,8 @@
 namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\Search\ElasticSearch\Results;
+use SwissbibRdfDataApi\VuFind\Search\SwissbibRdfDataApi\Results as ApiResult;
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\SearchTypeEnum;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -48,7 +50,8 @@ class PersonDetailPageController extends AbstractPersonController
      */
     public function personAction()
     {
-        $viewModel = parent::personAction();
+        //$viewModel = parent::personAction();
+        $viewModel = parent::personActionApi();
         $viewModel->setVariable(
             "references", $this->getRecordReferencesConfig()
         );
@@ -100,6 +103,53 @@ class PersonDetailPageController extends AbstractPersonController
         }
     }
 
+
+    /**
+     * Adds additional data to view model
+     *
+     * @param ViewModel $viewModel The view model
+     *
+     * @return void
+     */
+    protected function addDataApi(
+        ViewModel &$viewModel
+    ) {
+        $medias = $this->solrsearch()->getMedias(
+            "Author", $this->driver, $this->config->mediaLimit
+        );
+        $viewModel->setVariable("medias", $medias);
+        $contributors = $this->getCoContributorsApi(
+            $this->driver->getUniqueID(), $this->bibliographicResources
+        );
+        if (isset($contributors)) {
+            $viewModel->setVariable("coContributors", $contributors->getResults());
+            $viewModel->setVariable(
+                "coContributorsTotal", $contributors->getResultTotal()
+            );
+        }
+        $personsOfSameGenre = $this->getPersonsOfSameGenreApi($this->driver);
+        if (isset($personsOfSameGenre)) {
+            $viewModel->setVariable(
+                "authorsOfSameGenre", $personsOfSameGenre->getResults()
+            );
+            $viewModel->setVariable(
+                "authorsOfSameGenreTotal", $personsOfSameGenre->getResultTotal()
+            );
+        }
+        $personsOfSameMovement = $this->getPersonsOfSameMovementApi($this->driver);
+        if (isset($personsOfSameMovement)) {
+            $viewModel->setVariable(
+                "personsOfSameMovement", $personsOfSameMovement->getResults()
+            );
+            $viewModel->setVariable(
+                "personsOfSameMovementTotal",
+                $personsOfSameMovement->getResultTotal()
+            );
+        }
+    }
+
+
+
     /**
      * Gets subjects
      *
@@ -130,6 +180,23 @@ class PersonDetailPageController extends AbstractPersonController
             );
     }
 
+
+    /**
+     * Adds co contributors of author
+     *
+     * @param string $id The id
+     *
+     * @return Results
+     */
+    protected function getCoContributorsApi(string $id): ApiResult
+    {
+        return $this->serviceLocator->get('swissbibrdfdataapi')
+            ->searchCoContributorsFrom(
+                $this->bibliographicResources, $id, $this->config->coAuthorsSize
+            );
+    }
+
+
     /**
      * Adds persons of same genre as author
      *
@@ -155,6 +222,34 @@ class PersonDetailPageController extends AbstractPersonController
         return $authors;
     }
 
+
+    /**
+     * Adds persons of same genre as author
+     *
+     * @return Results|null
+     */
+    protected function getPersonsOfSameGenreApi()
+    {
+        $genres = $this->driver->getGenre();
+
+        if (is_array($genres)) {
+            $genres = $this->arrayToSearchString($genres);
+        }
+
+        $authors = null;
+        if (isset($genres)) {
+            $authors = $this->serviceLocator->get('swissbibrdfdataapi')
+                ->searchApiSearch(
+                    $genres, SearchTypeEnum::PERSON_BY_GENRE,
+                    $this->config->sameGenreAuthorsSize
+                );
+        }
+
+        return $authors;
+    }
+
+
+
     /**
      * Adds persons of same movement as author
      *
@@ -178,4 +273,30 @@ class PersonDetailPageController extends AbstractPersonController
         }
         return $authors;
     }
+
+    /**
+     * Adds persons of same movement as author
+     *
+     * @return Results|null
+     */
+    protected function getPersonsOfSameMovementApi()
+    {
+        $movements = $this->driver->getMovement();
+
+        if (is_array($movements)) {
+            $movements = $this->arrayToSearchString($movements);
+        }
+
+        $authors = null;
+        if (isset($movements)) {
+            $authors = $this->serviceLocator->get('swissbibrdfdataapi')
+                ->searchElasticSearch(
+                    $movements, "person_by_movement", null, null,
+                    $this->config->sameMovementAuthorsSize
+                );
+        }
+        return $authors;
+    }
+
+
 }

@@ -28,8 +28,15 @@
 namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
+use SwissbibRdfDataApi\VuFind\RecordDriver\RdfDataApi;
+use SwissbibRdfDataApi\VuFind\Search\SwissbibRdfDataApi\Results as ApiResults;
+
+use Swissbib\Services\SwissbibDataRdfApiSearch;
+
+
 use Swissbib\Util\Config\FlatArrayConverter;
 use Swissbib\Util\Config\ValueConverter;
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\SearchTypeEnum;
 use VuFind\Controller\AbstractBase;
 use Zend\Config\Config as ZendConfig;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -41,6 +48,7 @@ use Zend\View\Model\ViewModel;
  * @category VuFind
  * @package  Swissbib\Controller
  * @author   Christoph Boehm <cbo@outermedia.de>
+ * @author   Guenter Hipler <guenter.hipler@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
@@ -101,6 +109,45 @@ abstract class AbstractDetailsController extends AbstractBase
         throw new \Exception("Found no data for id " . $id);
     }
 
+
+    /**
+     * Gets the record driver for id
+     *
+     * @param string $id    The id
+     * @param string $index The index
+     * @param string $type  The type
+     *
+     * @return RdfDataApi
+     *
+     * @throws \Exception
+     */
+    protected function getRecordDriverApi($id,  $type): RdfDataApi
+    {
+
+        /**
+         * Api Search Service
+         *
+         * @var SwissbibDataRdfApiSearch $rdfApiSearch
+         */
+        $rdfApiSearch =  $this->serviceLocator->get('swissbibrdfdataapi');
+
+        /**
+         * Results object RdfDataApi
+         *
+         * @var ApiResults $content
+         */
+        $content = $rdfApiSearch->searchApiSearch(
+            $id,  $type
+        )->getResults();
+
+        if ($content !== null && is_array($content) && count($content) === 1) {
+            return array_pop($content);
+        }
+        throw new \Exception("Found no data for id " . $id);
+    }
+
+
+
     /**
      * Gets the  BibliographicResources
      *
@@ -125,6 +172,16 @@ abstract class AbstractDetailsController extends AbstractBase
                 "DEFAULT", $this->config->subjectsSize
             )->getResults();
     }
+
+    protected function getSubjectsOfByApi(): array
+    {
+        return $this->serviceLocator->get('swissbibrdfdataapi')
+            ->searchApiSearch(
+                $this->gndIdFromURI( array_unique($this->subjectIds)),
+                SearchTypeEnum::IDS_SEARCH_GND
+            )->getResults();
+    }
+
 
     /**
      * Gets the subject ids from the bibliographic resources
@@ -176,6 +233,19 @@ abstract class AbstractDetailsController extends AbstractBase
     {
         return '[' . implode(",", $ids) . ']';
     }
+
+
+    protected function gndIdFromURI(array $uris): string
+    {
+
+        $ids = array_map(function ($uri)   {
+            preg_match('/http:\/\/d-nb.info\/gnd\/(.*)/',$uri,$matches);
+            return $matches [1];
+        }, $uris );
+        return implode(",", $ids);
+    }
+
+
 
     /**
      * Provides the record references configuration section.

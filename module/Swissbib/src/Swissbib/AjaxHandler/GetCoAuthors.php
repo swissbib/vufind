@@ -75,7 +75,7 @@ class GetCoAuthors extends VFAjax implements AjaxHandlerInterface
         $pageSize = $this->getRequest()->getQuery()['size'] ??
             $this->getConfig()->DetailPage->coAuthorsSize;
 
-        $authors = $this->serviceLocator->get('elasticsearchsearch')
+        $authors = $this->serviceLocator->get('swissbibrdfdataapi')
             ->searchCoContributorsOfPerson(
                 $id,
                 $pageSize,
