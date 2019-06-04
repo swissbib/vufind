@@ -82,6 +82,10 @@ class SolrAuthorSuggester extends VFAutocompleteSolr
             $params->setFacetLimit(3);
             $params->addFacet('navAuthor_full');
 
+            $params->setFacetContains(rtrim($query, '*'));
+
+            $params->setFacetContainsIgnoreCase(true);
+
             $this->searchObject->setParams($params);
 
             /**
@@ -105,7 +109,6 @@ class SolrAuthorSuggester extends VFAutocompleteSolr
 
         $results = [
             [
-                "total" => 100,
                 "suggestions" => $suggestions,
             ]
         ];

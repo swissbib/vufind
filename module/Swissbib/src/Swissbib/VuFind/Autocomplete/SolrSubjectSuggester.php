@@ -106,7 +106,6 @@ class SolrSubjectSuggester extends VFAutocompleteSolr
 
         $results = [
             [
-                "total" => 100,
                 "suggestions" => $suggestions,
             ]
         ];
