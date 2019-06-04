@@ -68,7 +68,6 @@ class SolrAuthorSuggester extends VFAutocompleteSolr
             $this->searchObject->getParams()->setBasicSearch(
                 $this->mungeQuery($query), 'Author'
             );
-            $this->searchObject->getParams()->setLimit(0);
 
             /**
              * Search Params

@@ -295,6 +295,65 @@ Title:
     - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
     - [mm, '100%']
 
+#this is for the autosuggest for title
+#it is title with high boost, together with author with low boost
+TitleSuggest:
+  DismaxHandler: edismax
+  DismaxFields:
+    - title_short^1000            # main title, i.e. 245 $a
+    - title_alt^200
+    - title_additional_dsv11_txt_mv^200
+    - title_additional_gnd_txt_mv^200
+    - title_sub^200
+    - title_old^200
+    - title_new^200
+    - series^200
+    - author^7                          # all entries main name forms
+    - author_additional^1          # all entries additional fields
+    - author_additional_dsv11_txt_mv^1  # variants from dsv11
+    - author_additional_gnd_txt_mv^1  # variants from GND
+  QueryFields:
+    title_short:
+      - [onephrase, 500]
+    title_alt:
+      - [onephrase, 450]
+      - [and, 400]
+    title_additional_dsv11_txt_mv:
+      - [onephrase, 450]
+      - [and, 400]
+    title_additional_gnd_txt_mv:
+      - [onephrase, 450]
+      - [and, 400]
+    title_sub:
+      - [onephrase, 400]
+    title_old:
+      - [onephrase, 300]
+      - [and, 250]
+    title_new:
+      - [and, 100]
+    series:
+      - [onephrase, 100]
+      - [and, 50]
+    author:
+      - [onephrase, 10]
+      - [and, 5]
+      - [or, 1]
+    author_additional:
+      - [onephrase, 3]
+      - [and, 2]
+      - [or, 1]
+    author_additional_dsv11_txt_mv:
+      - [onephrase, 3]
+      - [and, 2]
+      - [or, 1]
+    author_additional_gnd_txt_mv:
+      - [onephrase, 3]
+      - [and, 2]
+      - [or, 1]
+  DismaxParams:
+    - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
+    - [mm, '100%']
+
 Series:
   DismaxHandler: edismax
   DismaxFields:

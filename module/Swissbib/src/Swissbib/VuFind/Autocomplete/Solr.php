@@ -28,6 +28,8 @@
  */
 namespace Swissbib\VuFind\Autocomplete;
 
+use Swissbib\VuFind\Search\Solr\Options;
+use Swissbib\VuFind\Search\Solr\Params as Params;
 use VuFind\Autocomplete\Solr as VFAutocompleteSolr;
 
 /**
@@ -90,20 +92,39 @@ class Solr extends VFAutocompleteSolr
      */
     public function getSuggestions($query)
     {
+        //due to https://github.com/swissbib/vufind/issues/700
+        //we do an OR wildcarded search
+        $revisedQuery = rtrim($query, '*') . " OR " . $query;
         if (!is_object($this->searchObject)) {
             throw new \Exception('Please set configuration first.');
         }
 
         try {
             $this->searchObject->getParams()->setBasicSearch(
-                $this->mungeQuery($query), $this->handler
+                $this->mungeQuery($revisedQuery), $this->handler
             );
-            $this->searchObject->getParams()->setSort($this->sortField);
-            foreach ($this->filters as $current) {
-                $this->searchObject->getParams()->addFilter($current);
-            }
 
-            // Perform the search:
+            /**
+             * Search Params
+             *
+             * @var Params $params
+             */
+            $params = $this->searchObject->getParams();
+
+            /**
+             * Search Options
+             *
+             * @var Options $options
+             */
+
+            $options = $this->searchObject->getOptions();
+            $options->disableHighlighting();
+            $options->spellcheckEnabled(false);
+
+            $params->setOptions($options);
+
+
+            $this->searchObject->setParams($params);
             $searchResults = $this->searchObject->getResults();
 
             // Build the recommendation list -- first we'll try with exact matches;
@@ -140,7 +161,7 @@ class Solr extends VFAutocompleteSolr
     protected function isDuplicate(string $bestMatch, array &$results)
     {
         foreach ($results as $result) {
-            if ($result === $bestMatch) {
+            if (strtolower($result) === strtolower($bestMatch)) {
                 return true;
             }
         }

@@ -199,7 +199,7 @@ export default class AutoSuggest {
      * @private
      */
     private buildSectionResult(section: Section, collection: ItemCollection) {
-        if (section.result) {
+        if (section.result && section.result.items.length > 0) {
             collection.groups.push(this.createItemSection(section));
         }
     }
