@@ -94,7 +94,7 @@ class APISubject extends RdfDataApi
      */
     public function getFullUniqueID()
     {
-        return $this->fields["_id"];
+        return $this->fields->id;
     }
 
     /**
@@ -182,6 +182,28 @@ class APISubject extends RdfDataApi
             )
         );
     }
+
+
+    /**
+     * Get Parent Subjects
+     *
+     * @return array
+     */
+    public function getParentSubjectsApi(): array
+    {
+        //todo: evaluate GND Data and compare it with our old GND data
+        return array_unique(
+            array_merge(
+                [],
+                $this->getField("broaderTermGeneral") ?? []
+            //$this->getField("broaderTermGeneric") ?? [],
+            //$this->getField("broaderTermInstantial") ?? [],
+            //$this->getField("broaderTermPartitive") ?? []
+            )
+        );
+    }
+
+
 
     /**
      * Caveat: Does not check for sub subjects

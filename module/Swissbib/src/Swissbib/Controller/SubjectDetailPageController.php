@@ -27,6 +27,7 @@
  */
 namespace Swissbib\Controller;
 
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\SearchTypeEnum;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -47,11 +48,13 @@ class SubjectDetailPageController extends AbstractSubjectController
      */
     public function subjectAction()
     {
-        $viewModel = parent::subjectAction();
+        //$viewModel = parent::subjectAction();
+        $viewModel = parent::subjectActionApi();
 
         if (!isset($viewModel->exception)) {
             // in case parent class implementation did not generate an error already
-            $viewModel = $this->extendViewModel($viewModel);
+            //$viewModel = $this->extendViewModel($viewModel);
+            $viewModel = $this->extendViewModelApi($viewModel);
             $viewModel->setVariable(
                 "references", $this->getRecordReferencesConfig()
             );
@@ -91,6 +94,43 @@ class SubjectDetailPageController extends AbstractSubjectController
             return $this->createErrorView($info->id, $e);
         }
     }
+
+
+    /**
+     * Extends the view model by media data if possible.
+     *
+     * @param \Zend\View\Model\ViewModel $viewModel The view model to extend.
+     *
+     * @return \Zend\View\Model\ViewModel
+     * Either the extended model or a new view model in case an exception occurred.
+     */
+    protected function extendViewModelApi(ViewModel $viewModel): ViewModel
+    {
+        $info = $this->getSubjectInfoApi();
+
+        try {
+            // access the driver from the view model directly instead of triggering
+            // complex resolution jobs again
+            $driver = $viewModel->driver;
+
+            $this->bibliographicResources
+                = $this->getBibliographicResourcesOfApi(
+                    $this->driver->getUniqueID());
+            $this->subjectIds = $this->getSubjectIdsFrom();
+            $this->subjects = $this->getSubjectsOfByApi();
+
+            $this->addDataApi(
+                $viewModel
+            );
+
+            return $viewModel;
+        } catch (\Exception $e) {
+            return $this->createErrorView($info->id, $e);
+        }
+    }
+
+
+
 
     /**
      * Adds additional data to view model
@@ -135,6 +175,61 @@ class SubjectDetailPageController extends AbstractSubjectController
             $viewModel->setVariable("subjectAuthorsTotal", count($personIds));
         }
     }
+
+
+    /**
+     * Adds additional data to view model
+     *
+     * @param ViewModel $viewModel The view model
+     *
+     * @return void
+     */
+    protected function addDataApi(ViewModel &$viewModel)
+    {
+        $medias = $this->solrsearch()->getMedias(
+            "Subject", $this->driver, $this->config->mediaLimit
+        );
+        $viewModel->setVariable("medias", $medias);
+
+        if (!empty($this->parentSubjects)) {
+            $parentSubjectsMedias = $this->solrsearch()->getMedias(
+                "Subject_OR", $this->parentSubjects, $this->config->mediaLimit
+            );
+            $viewModel->setVariable("parentMedias", $parentSubjectsMedias);
+        }
+
+        if (!empty($this->subSubjects)) {
+            $subSubjectsMedias = $this->solrsearch()->getMedias(
+                "Subject_OR", $this->subSubjects, $this->config->mediaLimit
+            );
+            $viewModel->setVariable("childrenMedias", $subSubjectsMedias);
+        }
+
+        $relatedTermsIds = $this->driver->getRelatedTerm();
+        $onlyIDS = array_map(function($item){
+            return $item->id;
+        },$relatedTermsIds);
+
+        $relatedTermsIds = $this->gndIdFromURI($onlyIDS);
+
+        if (isset($onlyIDS)) {
+
+            //$this->gndIdFromURI
+            $relatedTermsIds = is_array($relatedTermsIds)
+                ? $this->arrayToSearchString($relatedTermsIds) : $relatedTermsIds;
+            $relatedTerms = $this->serviceLocator->get('swissbibrdfdataapi')
+                ->searchApiSearch(
+                    $relatedTermsIds, SearchTypeEnum::IDS_SEARCH_GND, 100
+                )->getResults();
+            $viewModel->setVariable("relatedTerms", $relatedTerms);
+        }
+        $personIds = $this->getContributorsIdsFrom();
+        if (isset($personIds)) {
+            $viewModel->setVariable("subjectAuthorsTotal", count($personIds));
+        }
+    }
+
+
 
     /**
      * Gets the subject ids from the bibliographic resources

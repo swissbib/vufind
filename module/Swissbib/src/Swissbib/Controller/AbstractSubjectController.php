@@ -27,6 +27,7 @@
  */
 namespace Swissbib\Controller;
 
+use SwissbibRdfDataApi\VuFind\Service\RdfDataApiAdapter\Search\SearchTypeEnum;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -88,6 +89,42 @@ abstract class AbstractSubjectController extends AbstractDetailsController
         }
     }
 
+
+    /**
+     * The subject action
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function subjectActionApi()
+    {
+        $info = $this->getSubjectInfoApi();
+
+        try {
+            $this->driver = $this->getRecordDriverApi(
+                $info->id, $info->type
+            );
+
+            //$this->subSubjects = $this->getSubSubjectsApi($info->id);
+            $this->subSubjects = $this->getSubSubjectsApi($this->driver->getName());
+            //$this->parentSubjects = $this->getParentSubjectsApi(
+            //    $this->driver->getParentSubjectsApi()
+            //);
+            $ps = $this->driver->getParentSubjectsApi();
+            $this->parentSubjects = count($ps) == 0 ? [] :
+                $this->getParentSubjectsApi($ps);
+
+            return $this->createViewModel(
+                [
+                    "driver" => $this->driver, "parents" => $this->parentSubjects,
+                    "children" => $this->subSubjects
+                ]
+            );
+        } catch (\Exception $e) {
+            return $this->createErrorView($info->id, $e);
+        }
+    }
+
+
     /**
      * Provides an object with index, type and id for a subject.
      *
@@ -104,6 +141,22 @@ abstract class AbstractSubjectController extends AbstractDetailsController
     }
 
     /**
+     * Provides an object with index, type and id for a person.
+     *
+     * @return \stdClass
+     */
+    protected function getSubjectInfoApi(): \stdClass
+    {
+        return (object)[
+            'type' => SearchTypeEnum::ID_SEARCH_GND,
+            'id' => $this->params()->fromRoute('id', [])
+            //'id' => 'd296a8ff-81e1-32a7-8cbb-316dd56df034'
+        ];
+    }
+
+
+
+    /**
      * Gets the SubSubjects
      *
      * @param string $id The id
@@ -117,6 +170,23 @@ abstract class AbstractSubjectController extends AbstractDetailsController
                 $id, "sub_subjects", $this->config->subjectsSize
             )->getResults();
     }
+
+
+    /**
+     * Gets the SubSubjects
+     *
+     * @param string $id The id
+     *
+     * @return array
+     */
+    protected function getSubSubjectsApi(string $id)
+    {
+        return $this->serviceLocator->get('swissbibrdfdataapi')
+            ->searchApiSearch(
+                $id, SearchTypeEnum::SUB_SUBJECTS, $this->config->subjectsSize
+            )->getResults();
+    }
+
 
     /**
      * Gets the ParentSubjects
@@ -138,6 +208,28 @@ abstract class AbstractSubjectController extends AbstractDetailsController
     }
 
     /**
+     * Gets the ParentSubjects
+     *
+     * @param array $ids Array of ids
+     *
+     * @return array
+     */
+    protected function getParentSubjectsApi(array $ids)
+    {
+        return $this->serviceLocator->get('swissbibrdfdataapi')
+            ->searchElasticSearch(
+                $this->arrayToSearchString($ids),
+                "id",
+                "gnd",
+                "DEFAULT",
+                $this->config->subjectsSize
+            )->getResults();
+    }
+
+
+
+
+    /**
      * Gets the  BibliographicResources
      *
      * @param string $id The id of the subject
@@ -150,4 +242,20 @@ abstract class AbstractSubjectController extends AbstractDetailsController
         return $this->serviceLocator->get('elasticsearchsearch')
             ->searchBibliographiResourcesOfSubject($id, $searchSize);
     }
+
+    /**
+     * Gets the  BibliographicResources
+     *
+     * @param string $id The id of the subject
+     *
+     * @return array
+     */
+    protected function getBibliographicResourcesOfApi(string $id): array
+    {
+        $searchSize = $this->config->searchSize;
+        return $this->serviceLocator->get('swissbibrdfdataapi')
+            ->searchBibliographiResourcesOfSubject($id, $searchSize);
+    }
+
+
 }
