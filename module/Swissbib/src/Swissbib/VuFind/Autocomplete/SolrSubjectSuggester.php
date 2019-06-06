@@ -98,10 +98,12 @@ class SolrSubjectSuggester extends VFAutocompleteSolr
             $facets = $this->searchObject->getFacetList();
 
             $suggestions = [];
-            foreach ($facets['navSub_green']['list'] as $facet) {
-                $suggestions [] = $facet['value'];
-            }
 
+            if (isset($facets['navSub_green'])) {
+                foreach ($facets['navSub_green']['list'] as $facet) {
+                    $suggestions [] = $facet['value'];
+                }
+            }
 
 
         } catch (\Exception $e) {

@@ -117,6 +117,9 @@ class Solr extends VFAutocompleteSolr
              * @var Options $options
              */
 
+            //needed to handle OR query correctly
+            $params->convertToAdvancedSearch();
+
             $options = $this->searchObject->getOptions();
             $options->disableHighlighting();
             $options->spellcheckEnabled(false);
@@ -127,15 +130,11 @@ class Solr extends VFAutocompleteSolr
             $this->searchObject->setParams($params);
             $searchResults = $this->searchObject->getResults();
 
-            // Build the recommendation list -- first we'll try with exact matches;
-            // if we don't get anything at all, we'll try again with a less strict
-            // set of rules.
-            $results = $this->getSuggestionsFromSearch($searchResults, $query, true);
-            if (empty($results)) {
-                $results = $this->getSuggestionsFromSearch(
-                    $searchResults, $query, false
-                );
-            }
+            // Build the recommendation list
+            // at least one of the queried word must match
+            $results = $this->getSuggestionsFromSearch(
+                $searchResults, $query, false
+            );
         } catch (\Exception $e) {
             // Ignore errors -- just return empty results if we must.
         }

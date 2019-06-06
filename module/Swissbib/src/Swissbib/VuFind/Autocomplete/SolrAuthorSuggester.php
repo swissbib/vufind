@@ -100,10 +100,12 @@ class SolrAuthorSuggester extends VFAutocompleteSolr
             //$facet = $searchResults->getFacetList();
 
             $suggestions = [];
-            foreach ($facets['navAuthor_full']['list'] as $facet) {
-                $suggestions [] = $facet['value'];
-            }
 
+            if (isset($facets['navAuthor_full'])) {
+                foreach ($facets['navAuthor_full']['list'] as $facet) {
+                    $suggestions [] = $facet['value'];
+                }
+            }
 
 
         } catch (\Exception $e) {
