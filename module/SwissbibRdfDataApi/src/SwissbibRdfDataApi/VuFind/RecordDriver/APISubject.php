@@ -298,6 +298,9 @@ class APISubject extends RdfDataApi
         return null;
     }
 
+
+    //todo: very important
+
     /**
      * Get Raw Field
      *
@@ -318,8 +321,11 @@ class APISubject extends RdfDataApi
             $key = $prefix . $delimiter . $fieldName;
         }
 
-        $fields = $this->fields["_source"];
+        //$fields = $this->fields["_source"];
 
-        return array_key_exists($key, $fields) ? $fields[$key] : null;
+        //todo we have to change this
+        //https://gitlab.com/swissbib/linked/data.swissbib.ch/issues/3
+        return isset($this->fields->key) ? $this->fields->key : null;
+        //return array_key_exists($key, $fields) ? $fields[$key] : null;
     }
 }
