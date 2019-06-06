@@ -37,7 +37,7 @@ use VuFind\Autocomplete\Solr as VFAutocompleteSolr;
 use Swissbib\VuFind\Search\Solr\Params as Params;
 
 /**
- * SolrSuggester
+ * SolrSubjectSuggester
  *
  * Suggestions based on Suggester Search Handler from SOLR
  *
@@ -83,7 +83,11 @@ class SolrSubjectSuggester extends VFAutocompleteSolr
             $params->setFacetLimit(3);
             $params->addFacet('navSub_green');
 
-            $params->setFacetContains(rtrim($query, '*'));
+
+            //only facet values which contains the first typed word
+            $firstWord = explode(" ", $query)[0];
+            $firstWord = rtrim($firstWord, '*');
+            $params->setFacetContains($firstWord);
 
             $params->setFacetContainsIgnoreCase(true);
 

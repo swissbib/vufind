@@ -82,7 +82,10 @@ class SolrAuthorSuggester extends VFAutocompleteSolr
             $params->setFacetLimit(3);
             $params->addFacet('navAuthor_full');
 
-            $params->setFacetContains(rtrim($query, '*'));
+            //only facet values which contains the first typed word
+            $firstWord = explode(" ", $query)[0];
+            $firstWord = rtrim($firstWord, '*');
+            $params->setFacetContains($firstWord);
 
             $params->setFacetContainsIgnoreCase(true);
 
