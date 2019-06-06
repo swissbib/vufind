@@ -108,18 +108,7 @@ JS;
   // Append TypeScript generated output
   $this->headScript()->appendFile("swissbib/swissbib.ts.js");
 
-  // Extend swissbib global object by autocomplete configuration
-  $autoSuggestConfig = json_encode($this->autoSuggestConfig()->toArray());
-  $swissbibObjectExtension = <<<JS
-(function(s) {
-  var autoSuggestConfiguration = {$autoSuggestConfig};
-  s.autoSuggestConfiguration = function () {
-    return autoSuggestConfiguration;
-  };
-})(window.swissbib = window.swissbib || {});
-JS;
 
-  $this->headScript()->appendScript($swissbibObjectExtension);
   ?>  <?=$this->headScript()?>
 </head>
 <body>
@@ -170,7 +159,6 @@ if (!isset($this->layout()->searchbox)) {
     </div>
   </div>
 </div>
-</body>
 
 <script type="text/javascript">
 $(document).ready(function()
@@ -183,5 +171,7 @@ $(document).ready(function()
   <?php endif; ?>
 });
 </script>
+
+</body>
 
 </html>

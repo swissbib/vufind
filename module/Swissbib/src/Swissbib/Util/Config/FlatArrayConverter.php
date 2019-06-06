@@ -113,7 +113,7 @@ final class FlatArrayConverter
      */
     public function fromConfigSections(Config $config, $sectionNames)
     {
-        $sectionNames = is_string($sectionNames) ? [$sectionNames] : [];
+        $sectionNames = is_string($sectionNames) ? [$sectionNames] : $sectionNames;
         $result = $this->_processSections($config, $sectionNames);
 
         return new Config($result);
@@ -156,7 +156,7 @@ final class FlatArrayConverter
             ?? null;
         $result = null;
 
-        if (null !== $sectionName) {
+        if (null !== $sectionData) {
             $result = $this->fromFlatArray($sectionData);
         }
 

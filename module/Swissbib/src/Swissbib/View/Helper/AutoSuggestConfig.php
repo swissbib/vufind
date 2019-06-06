@@ -74,10 +74,10 @@ class AutoSuggestConfig extends AbstractHelper
      *
      * @return ZendConfig
      */
-    protected function getConfig()
+    protected function getConfig(String $searchClassId = '')
     {
         if (!$this->config) {
-            $this->_loadAutoSuggestConfig();
+            $this->_loadAutoSuggestConfig($searchClassId);
         }
 
         return $this->config;
@@ -88,9 +88,9 @@ class AutoSuggestConfig extends AbstractHelper
      *
      * @return ZendConfig
      */
-    public function __invoke()
+    public function __invoke(String $searchClassId = '')
     {
-        return $this->getConfig();
+        return $this->getConfig($searchClassId);
     }
 
     /**
@@ -98,7 +98,7 @@ class AutoSuggestConfig extends AbstractHelper
      *
      * @return void
      */
-    private function _loadAutoSuggestConfig()
+    private function _loadAutoSuggestConfig(String $searchClassId)
     {
         $flatArrayConverter = new FlatArrayConverter();
         $valueConverter = new ValueConverter();
@@ -109,6 +109,15 @@ class AutoSuggestConfig extends AbstractHelper
             );
         $autoSuggestEnabled
             = $this->_isAutoSuggestEnabled($searchesConfig, $valueConverter);
+
+        if ($searchClassId == 'Summon') {
+            $summonConfig = $this->serviceLocator->get('VuFind\Config')->get(
+                'Summon'
+            );
+            if (isset($summonConfig->AutoSuggest->enabled)) {
+                $autoSuggestEnabled = $summonConfig->AutoSuggest->enabled;
+            }
+        }
 
         $autoSuggestConfig
             = $flatArrayConverter->fromConfigSections(

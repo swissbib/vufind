@@ -2085,7 +2085,13 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getBinding()
     {
-        return $this->getFieldArray('563');
+        $data = $this->getMarcSubFieldMaps(
+            563, [
+                'a' => 'binding',
+                'u' => 'url',
+            ]
+        );
+        return $data;
     }
 
     /**
