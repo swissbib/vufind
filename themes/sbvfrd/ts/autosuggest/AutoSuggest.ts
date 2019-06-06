@@ -129,13 +129,7 @@ export default class AutoSuggest {
             this.buildSectionResult(this.configuration.getSectionAt(position), collection);
         }
 
-        if (collection.groups.length === 1) {
-            // in case only one section is available, then simply use its items to exclude section header
-            collection.groups[0] = {
-                label: undefined,
-                items: (collection.groups[0] as ItemSection).items
-            };
-        }
+
 
         this.applyResults(collection, callback);
         this.searchInputElement.removeClass('hidden');//autocomplete('show');
