@@ -55,6 +55,7 @@ class SearchTypeEnum
             "ID_SEARCH_ORGANISATION",
             "ID_SEARCH_BIB_RESOURCE",
             "ID_SEARCH_DOCUMENT",
+            //Todo: können wir mit ID_SEARCH_SUBJECT auch die Suche nach mehreren subjects absetzen??
             "ID_SEARCH_SUBJECT",
             "ID_SEARCH_GND",
             "IDS_SEARCH_GND",
@@ -69,7 +70,9 @@ class SearchTypeEnum
             "BIB_RESOURCES_BY_SUBJECT",
             "PERSON_BY_GENRE",
             "PERSON_BY_MOVEMENT",
-            "IDS_SEARCH_PERSON"];
+            "IDS_SEARCH_PERSON",
+            "IDS_SEARCH_ORGANISATION"
+        ];
 
     private $_currentSearchType;
 
@@ -113,6 +116,8 @@ class SearchTypeEnum
     const PERSON_BY_GENRE = "PERSON_BY_GENRE";
 
     const PERSON_BY_MOVEMENT = "PERSON_BY_MOVEMENT";
+
+    const IDS_SEARCH_ORGANISATION = "IDS_SEARCH_ORGANISATION";
 
     /**
      * SearchTypeEnum constructor.

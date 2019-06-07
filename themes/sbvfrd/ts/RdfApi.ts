@@ -19,6 +19,12 @@ export default class RdfApi {
         };
     }
 
+
+    //todo: Überlege
+    //sollen die Methoden eine abweichende Signatur erhalten, damit der ES workflow erhalten bleibt?
+    //also, anstelle von
+    //getBibliographicResource getBibliographicResourceApi
+
     /**
      * Fetches array with ids of all contributors
      *
@@ -30,10 +36,10 @@ export default class RdfApi {
             ...this.axiosConfig,
             method: "get",
             params: {
+                searchType: "ID_SEARCH_BIB_RESOURCE",
                 lookfor: bibliographicResourceId,
                 method: "getBibliographicResource",
-                searcher: "ElasticSearch",
-                type: "bibliographicResource",
+                searcher: "swissbibrdfdataapi",
             },
         };
 
@@ -52,12 +58,11 @@ export default class RdfApi {
             ...this.axiosConfig,
             method: "get",
             params: {
-                "index": "lsb",
                 // lookfor: "[" + contributorIds + "]",
+                "searchType": "IDS_SEARCH_PERSON",
                 "method": "getAuthors",
                 "overrideIds[]": personIds,
-                "searcher": "ElasticSearch",
-                "type": "person",
+                "searcher": "swissbibrdfdataapi",
             },
         };
 
@@ -72,12 +77,12 @@ export default class RdfApi {
             ...this.axiosConfig,
             method: "get",
             params: {
-                "index": "lsb",
                 // lookfor: "[" + contributorIds + "]",
+                //todo: brauchen wir die Untereteilung zwischen person und organisation
+                "searchType": "IDS_SEARCH_ORGANISATION",
                 "method": "getOrganisations",
                 "overrideIds[]": organisationIds,
-                "searcher": "ElasticSearch",
-                "type": "organisation",
+                "searcher": "swissbibrdfdataapi",
             },
         };
 
@@ -92,13 +97,11 @@ export default class RdfApi {
             ...this.axiosConfig,
             method: "get",
             params: {
-                "index": "gnd",
+                "searchType": "IDS_SEARCH_ORGANISATION",
                 // lookfor: "[" + contributorIds + "]",
-                "method": "getSubjectsApi",
+                "method": "getSubjects",
                 "overrideIds[]": subjectIds,
-                //"searcher": "ElasticSearch",
-                "searcher": "NeNe",
-                "type": "DEFAULT",
+                "searcher": "swissbibrdfdataapi",
             },
         };
 
