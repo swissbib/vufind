@@ -37,9 +37,9 @@ use VuFind\Autocomplete\Solr as VFAutocompleteSolr;
 use Swissbib\VuFind\Search\Solr\Params as Params;
 
 /**
- * SolrSuggester
+ * SolrFacetBasedSuggester
  *
- * Suggestions based on Suggester Search Handler from SOLR
+ * This Suggester provides suggestions based on a given facet
  *
  * @category Swissbib_VuFind
  * @package  VuFind_Autocomplete
@@ -48,7 +48,7 @@ use Swissbib\VuFind\Search\Solr\Params as Params;
  *           License
  * @link     http://vufind.org
  */
-class SolrAuthorSuggester extends VFAutocompleteSolr
+class SolrFacetBasedSuggester extends VFAutocompleteSolr
 {
     /**
      * This method returns an array of strings matching the user's query for
@@ -66,8 +66,11 @@ class SolrAuthorSuggester extends VFAutocompleteSolr
 
         try {
             $this->searchObject->getParams()->setBasicSearch(
-                $this->mungeQuery($query), 'Author'
+                $this->mungeQuery($query), $this->handler
             );
+
+            //this is the facet we will search and display
+            $facet = $this->displayField[0];
 
             /**
              * Search Params
@@ -78,9 +81,10 @@ class SolrAuthorSuggester extends VFAutocompleteSolr
 
             //no results, only facets
             $params->setLimit(0);
+
             //only the first 3 facets
             $params->setFacetLimit(3);
-            $params->addFacet('navAuthor_full');
+            $params->addFacet($facet);
 
             //only facet values which contains the first typed word
             $firstWord = explode(" ", $query)[0];
@@ -94,18 +98,12 @@ class SolrAuthorSuggester extends VFAutocompleteSolr
 
             $this->searchObject->setParams($params);
 
-            /**
-             * Search Results
-             *
-             * @var Results $searchResults
-             */
             $facets = $this->searchObject->getFacetList();
-            //$facet = $searchResults->getFacetList();
 
             $suggestions = [];
 
-            if (isset($facets['navAuthor_full'])) {
-                foreach ($facets['navAuthor_full']['list'] as $facet) {
+            if (isset($facets[$facet])) {
+                foreach ($facets[$facet]['list'] as $facet) {
                     $suggestions [] = $facet['value'];
                 }
             }

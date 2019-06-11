@@ -597,13 +597,11 @@ return [
             'autocomplete' => [
                 'factories' => [
                     'Swissbib\VuFind\Autocomplete\Solr'  =>  'Swissbib\VuFind\Autocomplete\Factory::getSolr',
-                    'Swissbib\VuFind\Autocomplete\SolrAuthorSuggester' => 'VuFind\Autocomplete\SolrFactory',
-                    'Swissbib\VuFind\Autocomplete\SolrSubjectSuggester' => 'VuFind\Autocomplete\SolrFactory',
+                    'Swissbib\VuFind\Autocomplete\SolrFacetBasedSuggester' => 'VuFind\Autocomplete\SolrFactory',
                 ],
                 'aliases' => [
                     'solr'             => 'Swissbib\VuFind\Autocomplete\Solr',
-                    'SolrAuthorSuggester' => 'Swissbib\VuFind\Autocomplete\SolrAuthorSuggester',
-                    'SolrSubjectSuggester' => 'Swissbib\VuFind\Autocomplete\SolrSubjectSuggester',
+                    'SolrFacetBasedSuggester' => 'Swissbib\VuFind\Autocomplete\SolrFacetBasedSuggester',
                 ],
             ],
             'content_covers' => [
