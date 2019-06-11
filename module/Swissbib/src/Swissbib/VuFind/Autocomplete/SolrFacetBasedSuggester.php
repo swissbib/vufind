@@ -90,7 +90,7 @@ class SolrFacetBasedSuggester extends VFAutocompleteSolr
             $firstWord = explode(" ", $query)[0];
 
             //or the word before apostrophe
-            $firstWord = explode("'", $query)[0];
+            $firstWord = explode("'", $firstWord)[0];
             $firstWord = rtrim($firstWord, '*');
             $params->setFacetContains($firstWord);
 
