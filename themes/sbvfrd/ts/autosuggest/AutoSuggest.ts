@@ -207,9 +207,7 @@ export default class AutoSuggest {
         return {
             items: section.result ? section.result.items.slice(0, section.limit) : [],
             label: this.templates.sectionHeader({
-                label: config.translate(section.label),
-                target: this.configuration.getLookForLink(section),
-                targetLabel: config.translate("autosuggest.show.all"),
+                label: config.translate(section.label)
             }),
         };
     }
