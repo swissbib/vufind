@@ -86,6 +86,10 @@ class SolrSubjectSuggester extends VFAutocompleteSolr
 
             //only facet values which contains the first typed word
             $firstWord = explode(" ", $query)[0];
+
+            //or the word before apostrophe
+            $firstWord = explode("'", $query)[0];
+            
             $firstWord = rtrim($firstWord, '*');
             $params->setFacetContains($firstWord);
 
