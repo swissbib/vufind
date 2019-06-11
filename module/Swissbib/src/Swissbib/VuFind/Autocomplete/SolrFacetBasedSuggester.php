@@ -103,8 +103,8 @@ class SolrFacetBasedSuggester extends VFAutocompleteSolr
             $suggestions = [];
 
             if (isset($facets[$facet])) {
-                foreach ($facets[$facet]['list'] as $facet) {
-                    $suggestions [] = $facet['value'];
+                foreach ($facets[$facet]['list'] as $facet_values) {
+                    $suggestions [] = $facet_values['value'];
                 }
             }
 
