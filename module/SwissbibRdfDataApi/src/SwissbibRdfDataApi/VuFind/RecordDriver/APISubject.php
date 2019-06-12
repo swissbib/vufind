@@ -94,7 +94,7 @@ class APISubject extends RdfDataApi
      */
     public function getFullUniqueID()
     {
-        return $this->fields["_id"];
+        return $this->fields->id;
     }
 
     /**
@@ -182,6 +182,28 @@ class APISubject extends RdfDataApi
             )
         );
     }
+
+
+    /**
+     * Get Parent Subjects
+     *
+     * @return array
+     */
+    public function getParentSubjectsApi(): array
+    {
+        //todo: evaluate GND Data and compare it with our old GND data
+        return array_unique(
+            array_merge(
+                [],
+                $this->getField("broaderTermGeneral") ?? []
+            //$this->getField("broaderTermGeneric") ?? [],
+            //$this->getField("broaderTermInstantial") ?? [],
+            //$this->getField("broaderTermPartitive") ?? []
+            )
+        );
+    }
+
+
 
     /**
      * Caveat: Does not check for sub subjects
@@ -276,6 +298,9 @@ class APISubject extends RdfDataApi
         return null;
     }
 
+
+    //todo: very important
+
     /**
      * Get Raw Field
      *
@@ -296,8 +321,11 @@ class APISubject extends RdfDataApi
             $key = $prefix . $delimiter . $fieldName;
         }
 
-        $fields = $this->fields["_source"];
+        //$fields = $this->fields["_source"];
 
-        return array_key_exists($key, $fields) ? $fields[$key] : null;
+        //todo we have to change this
+        //https://gitlab.com/swissbib/linked/data.swissbib.ch/issues/3
+        return isset($this->fields->key) ? $this->fields->key : null;
+        //return array_key_exists($key, $fields) ? $fields[$key] : null;
     }
 }

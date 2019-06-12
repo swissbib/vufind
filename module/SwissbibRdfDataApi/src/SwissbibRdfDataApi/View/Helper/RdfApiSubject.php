@@ -137,7 +137,9 @@ class RdfApiSubject extends AbstractHelper
         $subject = $this->getSubject();
         $route = sprintf('%s-subject', $routePrefix);
 
-        $url = $this->getView()->url($route, ['id' => $subject->getUniqueID()]);
+        //todo: something doesn't work here (response from API???)
+        $url = $this->getView()->url($route, ['id' => "4711_todo"]);
+        //$url = $this->getView()->url($route, ['id' => $subject->getUniqueID()]);
 
         return sprintf($template, $url, $subject->getName());
     }
@@ -161,7 +163,8 @@ class RdfApiSubject extends AbstractHelper
      */
     public function getVariantNames(string $delimiter = ', ')
     {
-        $variants = $this->getSubject()->getVariantNameForTheSubjectHeading();
+        //$variants = $this->getSubject()->getVariantNameForTheSubjectHeading();
+        $variants = $this->getSubject()->getVariantName();
 
         if (is_array($variants)) {
             $variants = implode($delimiter, $variants);
@@ -249,7 +252,7 @@ class RdfApiSubject extends AbstractHelper
             return parent::getMediaSearchLink($template, $label, $translateLabel);
         }
         $data = array_map(
-            function (\ElasticSearch\VuFind\RecordDriver\ESSubject $subject) {
+            function (\SwissbibRdfDataApi\VuFind\RecordDriver\APISubject $subject) {
                 return $subject->getName();
             }, $data
         );

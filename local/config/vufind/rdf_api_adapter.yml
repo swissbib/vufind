@@ -14,3 +14,9 @@ parameters:
     BIB_RESOURCES_BY_AUTHOR: '/bibliographicResource/byauthor/?id'
 
     IDS_SEARCH_GND: '/gnd/ids/?ids'
+    ID_SEARCH_GND: '/gnd/?id'
+    SUB_SUBJECTS: '/gnd/subsubjects/?subjects'
+    BIB_RESOURCES_BY_SUBJECT: '/bibliographicResource/bysubject/?id'
+
+
+

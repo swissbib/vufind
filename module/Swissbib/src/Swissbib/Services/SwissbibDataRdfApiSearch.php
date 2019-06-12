@@ -195,9 +195,9 @@ class SwissbibDataRdfApiSearch
      */
     public function searchBibliographiResourcesOfSubject(string $id, int $resultSize
     ): array {
-        return $bibliographicResources = $this->searchElasticSearch(
-            "http://d-nb.info/gnd/" . $id,
-            "bibliographicResources_by_subject", "lsb", "bibliographicResource",
+        return $bibliographicResources = $this->searchApiSearch(
+            $id,
+            SearchTypeEnum::BIB_RESOURCES_BY_SUBJECT,
             $resultSize
         )->getResults();
     }

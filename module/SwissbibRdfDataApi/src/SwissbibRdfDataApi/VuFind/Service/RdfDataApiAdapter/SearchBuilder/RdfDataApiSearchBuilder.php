@@ -170,6 +170,18 @@ class RdfDataApiSearchBuilder
         return $this->getBaseUrl() . $urlPath;
     }
 
+    public function bib_resources_by_subject() : string
+    {
+        $urlPathPattern = $this->config["parameters"]["rdf_api_adapter.urls"]
+        [strtoupper($this->searchType->getCurrectSearchType())];
+        $urlPath = preg_replace(
+            '/\?id/', $this->query->getString(),
+            $urlPathPattern
+        );
+        return $this->getBaseUrl() . $urlPath;
+    }
+
+
     public function ids_search_gnd() : string
     {
         $urlPathPattern = $this->config["parameters"]["rdf_api_adapter.urls"]
@@ -180,6 +192,19 @@ class RdfDataApiSearchBuilder
         );
         return $this->getBaseUrl() . $urlPath;
     }
+
+
+    public function id_search_gnd() : string
+    {
+        $urlPathPattern = $this->config["parameters"]["rdf_api_adapter.urls"]
+        [strtoupper($this->searchType->getCurrectSearchType())];
+        $urlPath = preg_replace(
+            '/\?id/', $this->query->getString(),
+            $urlPathPattern
+        );
+        return $this->getBaseUrl() . $urlPath;
+    }
+
 
     public function ids_search_person() : string
     {
@@ -213,6 +238,18 @@ class RdfDataApiSearchBuilder
         );
         return $this->getBaseUrl() . $urlPath;
     }
+
+    public function sub_subjects() : string
+    {
+        $urlPathPattern = $this->config["parameters"]["rdf_api_adapter.urls"]
+        [strtoupper($this->searchType->getCurrectSearchType())];
+        $urlPath = preg_replace(
+            '/\?subjects/', $this->query->getString(),
+            $urlPathPattern
+        );
+        return $this->getBaseUrl() . $urlPath;
+    }
+
 
 
 }
