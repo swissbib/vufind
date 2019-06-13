@@ -35,6 +35,9 @@ AllFields:
     - variant_isbn_isn_mv
     - issn
     - incoissn_isn_mv
+    - ismn_isn_mv
+    - doi_isn_mv
+    - urn_isn_mv
     - localcode                     # local codes (field 909)
     - id_txt
   DismaxParams:
@@ -132,6 +135,7 @@ Author:
 
 
 ISN:
+  DismaxHandler: edismax
   DismaxFields:
     - isbn
     - variant_isbn_isn_mv
