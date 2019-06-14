@@ -57,20 +57,6 @@ class RecordController extends VuFindRecordController
     public function homeAction()
     {
         try {
-            //GH: this is kind of a hack but in this situation not avoidable
-            //MarcFormatter and Processor are hard instantiated (not as a service)
-            // so you get no chance to set references for these types
-            //because MarcFormatter is now implementing ServiceManagerAwareInterface
-            // it will get a reference to the ServiceManager to fetch the
-            //new service RedirectProtocolWrapper
-            //there is another caveat: MarcFormatter is used by the XSLT Template to
-            // hook into a custom PHP function using a static function
-            // (which doesn't work for PHP 5.4.24 and higher
-            //another issue - should be solved by snowfake because it was
-            // implemented by them)
-            //some work for a redesign
-            $this->serviceLocator->get("MarcFormatter");
-
             return parent::homeAction();
         } catch (RecordMissingException $e) {
             return $this->forwardTo('MissingRecord', 'Home');
