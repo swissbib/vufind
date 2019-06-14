@@ -77,7 +77,8 @@ class LuceneSyntaxHelper extends VFCoreLuceneSyntaxHelper
      */
     protected function normalizeColons($input)
     {
-        //don't remove colons from search
+        //don't remove colons from search as colons have a
+        //special meaning for call numbers
         return $input;
     }
 
