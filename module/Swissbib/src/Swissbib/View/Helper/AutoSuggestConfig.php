@@ -72,6 +72,8 @@ class AutoSuggestConfig extends AbstractHelper
     /**
      * GetConfig
      *
+     * @param String $searchClassId searchClassId
+     *
      * @return ZendConfig
      */
     protected function getConfig(String $searchClassId = '')
@@ -86,6 +88,8 @@ class AutoSuggestConfig extends AbstractHelper
     /**
      * Get Config
      *
+     * @param String $searchClassId searchClassId
+     *
      * @return ZendConfig
      */
     public function __invoke(String $searchClassId = '')
@@ -95,6 +99,8 @@ class AutoSuggestConfig extends AbstractHelper
 
     /**
      * Loads the auto suggest config
+     *
+     * @param String $searchClassId searchClassId
      *
      * @return void
      */
