@@ -92,10 +92,12 @@ class SolrFacetBasedSuggester extends VFAutocompleteSolr
             //or the word before apostrophe
             $firstWord = explode("'", $firstWord)[0];
             $firstWord = rtrim($firstWord, '*');
-            $params->setFacetContains($firstWord);
 
-            $params->setFacetContainsIgnoreCase(true);
-
+            //small hack to inject facet contains from config
+            if ($this->sortField == 'yes') {
+                $params->setFacetContains($firstWord);
+                $params->setFacetContainsIgnoreCase(true);
+            }
             $this->searchObject->setParams($params);
 
             $facets = $this->searchObject->getFacetList();
