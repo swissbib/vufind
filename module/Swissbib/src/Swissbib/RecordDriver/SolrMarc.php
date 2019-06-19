@@ -2070,7 +2070,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getCopyNotes()
     {
-        $f562 = $this->getFieldArray('562', ['c']);
+        $f562 = $this->getFieldArray('562');
         $f590 = $this->getFieldArray('590');
 
         $copynotes = array_merge_recursive($f562, $f590);
