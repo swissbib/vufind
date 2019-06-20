@@ -2860,18 +2860,37 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     public function getAvailabilityIconFromServer($idls, $sysNr)
     {
         $r = [];
-        $konkordanzTabelle = $this->libraryNetworkLookup;
-        if (array_key_exists($idls, $konkordanzTabelle)) {
-            $userLocale = $this->translator->getLocale();
-            $idls = $konkordanzTabelle[$idls];
-            $a = $this->availabilityHelper
-                ->getAvailabilityByLibraryNetwork(
-                    $sysNr, $idls, $userLocale
-                );
-            if (is_array($a)) {
-                $r = array_merge($r, $a);
+        $userLocale = $this->translator->getLocale();
+        if ($idls == 'RERO') {
+            $hh = $this->getHoldingsHelper();
+            $institutions = $hh->getHoldingsStructure()[$idls]['institutions'];
+            foreach ($institutions as $institution) {
+                $institutionCode = $institution['label'];
+                $hh->resetHolding();
+                $barcodes = $hh->getAllBarcodes($this, $institutionCode);
+                $r2 = $this->availabilityHelper->getAvailability($sysNr, $barcodes, $idls, $userLocale);
+                $r3 = [];
+                foreach ($r2 as $key => $val) {
+                    if ($val['statusfield'] == 'lendable_available') {
+                        $r3[$institutionCode] = '0';
+                        break;
+                    } else if ($val['statusfield'] == 'lendable_borrowed') {
+                        $r3[$institutionCode] = '1';
+                    }
+                }
+                $r = array_merge($r, $r3);
+            }
+        } else {
+            $konkordanzTabelle = $this->libraryNetworkLookup;
+            if (array_key_exists($idls, $konkordanzTabelle)) {
+                $idls = $konkordanzTabelle[$idls];
+                $r = $this->availabilityHelper
+                    ->getAvailabilityByLibraryNetwork(
+                        $sysNr, $idls, $userLocale
+                    );
             }
         }
+        if (!$r) $r = [];
         return $r;
     }
 

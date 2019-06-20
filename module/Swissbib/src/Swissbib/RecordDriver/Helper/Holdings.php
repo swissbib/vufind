@@ -32,6 +32,7 @@ namespace Swissbib\RecordDriver\Helper;
 use Swissbib\Log\Logger;
 use Swissbib\RecordDriver\SolrMarc;
 
+use Swissbib\RecordDriver\SwissbibRecordDriver;
 use Swissbib\VuFind\ILS\Driver\Aleph;
 use VuFind\Auth\ILSAuthenticator as IlsAuth;
 use VuFind\Auth\Manager as AuthManager;
@@ -305,6 +306,16 @@ class Holdings
         $this->hmacKeys = $holdsIlsConfig['HMACKeys'];
 
         $this->initNetworks();
+    }
+
+    /**
+     * Resets the cached holding information
+     *
+     * @return void
+     */
+    public function resetHolding()
+    {
+        $this->holdingData = false;
     }
 
     /**
@@ -614,6 +625,24 @@ class Holdings
         }
 
         return $items;
+    }
+
+    /**
+     * Get all barcodes of an institution of a SolrMarcRecord
+     *
+     * @param  SolrMarc $recordDriver solrmarc recorddriver
+     * @param  String   $institution  institution
+     *
+     * @return Array
+     */
+    public function getAllBarcodes(SolrMarc $recordDriver, String $institution)
+    {
+        $r = [];
+        $holdings = $this->getHoldings($recordDriver, $institution);
+        foreach ($holdings['items'] as $item) {
+            array_push($r, $item['barcode']);
+        }
+        return $r;
     }
 
     /**
