@@ -126,7 +126,7 @@ class Availability
      */
     public function getAvailabilityByLibraryNetwork($sysNumber, $bib, $locale)
     {
-        $apiUrl    = $this->getApiByLibraryNetworkUrl($sysNumber, $bib, $locale);
+        $apiUrl = $this->getApiUrlByLibraryNetworkUrl($sysNumber, $bib, $locale);
         try {
             $responseBody    = $this->fetch($apiUrl);
             $responseData    = json_decode($responseBody, true);
@@ -189,7 +189,7 @@ class Availability
      *
      * @return String
      */
-    protected function getApiByLibraryNetworkUrl($sysNumber, $bib, $locale)
+    protected function getApiUrlByLibraryNetworkUrl($sysNumber, $bib, $locale)
     {
         return     $this->config->apiByLibraryNetworkEndpoint
             . '?sysnumber=' . $sysNumber
