@@ -630,8 +630,8 @@ class Holdings
     /**
      * Get all barcodes of an institution of a SolrMarcRecord
      *
-     * @param  SolrMarc $recordDriver solrmarc recorddriver
-     * @param  String   $institution  institution
+     * @param SolrMarc $recordDriver solrmarc recorddriver
+     * @param String   $institution  institution
      *
      * @return Array
      */
