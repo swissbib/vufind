@@ -38,10 +38,11 @@ AllFields:
     - ismn_isn_mv
     - doi_isn_mv
     - urn_isn_mv
-    - localcode                     # local codes (field 909)
+    - localcode                     # local codes (field 909) : should be removed after next full reindex. It will be replaced by localcode_txt_mv
+    - localcode_txt_mv              # local codes splitted at spaces
     - id_txt
   DismaxParams:
-    - [pf, 'title_short^1000 callnumber_txt_mv^100']
+    - [pf, 'title_short^1000 callnumber_txt_mv^100 localcode_txt_mv^10']
     - [ps, '2']
     - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
 

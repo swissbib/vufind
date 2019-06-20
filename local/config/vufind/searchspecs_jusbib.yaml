@@ -33,7 +33,8 @@ AllFields:
     - variant_isbn_isn_mv
     - issn
     - incoissn_isn_mv
-    - localcode                     # local codes (field 909)
+    - localcode                     # local codes (field 909) : should be removed after next full reindex. It will be replaced by localcode_txt_mv
+    - localcode_txt_mv              # local codes splitted at spaces
     - id_txt
   DismaxParams:
     - [pf, 'title_short^1000 callnumber_txt_mv^100']
