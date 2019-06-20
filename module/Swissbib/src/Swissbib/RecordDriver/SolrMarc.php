@@ -2875,7 +2875,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                     if ($val['statusfield'] == 'lendable_available') {
                         $r3[$institutionCode] = '0';
                         break;
-                    } else if ($val['statusfield'] == 'lendable_borrowed') {
+                    } elseif ($val['statusfield'] == 'lendable_borrowed') {
                         $r3[$institutionCode] = '1';
                     }
                 }

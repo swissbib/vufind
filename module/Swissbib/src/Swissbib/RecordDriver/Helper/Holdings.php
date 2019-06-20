@@ -32,7 +32,6 @@ namespace Swissbib\RecordDriver\Helper;
 use Swissbib\Log\Logger;
 use Swissbib\RecordDriver\SolrMarc;
 
-use Swissbib\RecordDriver\SwissbibRecordDriver;
 use Swissbib\VuFind\ILS\Driver\Aleph;
 use VuFind\Auth\ILSAuthenticator as IlsAuth;
 use VuFind\Auth\Manager as AuthManager;
