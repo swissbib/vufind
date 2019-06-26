@@ -63,7 +63,7 @@ export default class Hydra {
 
         return Axios.request(config)
             .then((response: AxiosResponse) => {
-                return response.data as Person[];
+                return response.data.data as Person[];
             });
     }
 
