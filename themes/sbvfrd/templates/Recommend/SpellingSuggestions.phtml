@@ -1,7 +1,6 @@
 <?php
 $results = $this->results;
-$label="";
-$suggestionsNew = $this->renderSuggestions($results, $this);
+$suggestions = $this->renderSuggestions($results, $this);
 ?>
 
 
@@ -11,10 +10,10 @@ $suggestionsNew = $this->renderSuggestions($results, $this);
       <h1><i class="fa fa-search"></i> <span><?=$this->transEsc('nohit_heading')?></span></h1>
     </div>
   </div>
-  <?php if (!empty($suggestionsNew)): ?>
+  <?php if (!empty($suggestions)): ?>
     <div class="alert">
       <h4><?=$this->transEsc('nohit_spelling') ?></h4>
-      <p><?=$suggestionsNew?></p>
+      <p><?=$suggestions?></p>
     </div>
   <?php endif; ?>
   <div class="alert">
