@@ -1,78 +1,15 @@
+<h1>added</h1>
+<?php
+$results = $this->results;
+$label = "<h1>youhou</h1>";
+$suggestionsFixed = $this->search()->renderSpellingSuggestions($label, $results, $this);
+?>
+<?php if (!empty($suggestionsFixed)): ?>
+    <?=$suggestionsFixed?>
+<?php endif; ?>
+
 <?php
 $suggestions = $this->results->getSpellingSuggestions();
 $query = $this->results->getUrlQuery();
 ?>
-
-<h1>added</h1>
-<?php
-$results = $this->results;
-$label = $results->getResultTotal() > 0
-    ? '<strong>' . $this->transEsc('spell_suggest') . '</strong>:'
-    : $this->transEsc('nohit_spelling') . ':';
-$suggestions = $this->search()->renderSpellingSuggestions($label, $results, $this);
-?>
-<?php if (!empty($suggestions)): ?>
-    <?=$suggestions?>
-<?php endif; ?>
-
-
-
-
-
-
-<?php if ($recordTotal === 0): ?>
-    <div class="results-top row">
-        <div class="col-md-9">
-            <h1><i class="fa fa-search"></i> <span><?=$this->transEsc('nohit_heading')?></span></h1>
-        </div>
-    </div>
-<?php endif; ?>
-
-<?php if (!empty($suggestions) && !is_array($suggestions) &&
-    $suggestions instanceof Swissbib\VuFind\Search\Solr\SpellingResults && $suggestions->hasSuggestions()) : ?>
-
-    <div class="alert">
-        <p><?=$this->transEsc('Your search terms')?>: <?= $this->escapeHtml($suggestions->getSpellingQuery()->getAllTerms()) ?></p>
-    </div>
-
-    <div class="alert">
-    <h4><?=$this->transEsc('nohit_spelling') ?></h4>
-    <!--            <span>suggestions for: --><?//= $suggestions->getSpellingQuery()->getString() ?><!--</span>-->
-
-    <?php if ($suggestions->hasCollocations()) :?>
-        <!--            <p>Collocation queries</p>-->
-        <?php foreach($suggestions->getCollocationSuggestions() as $collocation) :?>
-            <p><a href="<?=$this->url('search-results')?>?lookfor=<?=urlencode($collocation['query'])?>"><?=$this->escapeHtml($collocation['query']) ?></a></p>
-        <?php endforeach ?>
-    <?php endif; ?>
-
-    <?php if ($suggestions->hasTerms()) :?>
-        <!--                <p>suggestions based on single terms</p> <p>&nbsp;</p>-->
-        <?php foreach($suggestions->getTermSuggestions() as $key => $termValues) :?>
-            <!--                        <p>suggestions for: --><?//= $key ?><!--</p>-->
-            <?php foreach ($termValues as $termValue): ?>
-                <p><a href="<?=$this->url('search-results')?>?lookfor=<?=urlencode($termValue['query'])?>"><?=$this->escapeHtml($termValue['query']) ?></a></p>
-            <?php endforeach; ?>
-            <!--                        --><?// // paragraph element with nbsp is not really nice - look for better css classes?>
-            <!--                        <p>&nbsp;</p>-->
-        <?php endforeach ?>
-        </div>
-
-    <?php endif; ?>
-
-<?php endif; ?>
-
-<?php if ($recordTotal === 0): ?>
-    <div class="alert">
-        <h4><?=$this->transEsc('nohit_suggest') ?></h4>
-        <p><?=$this->transEsc('nohit_text3') ?><a href="http://www.worldcat.org/search?qt=worldcat_org_all&q=<?=$lookfor ?>" target="_blank"><?=$this->transEsc('worldcat') ?></a></p>
-    </div>
-    <div class="alert">
-        <h4><?=$this->transEsc('nohit_tip') ?></h4>
-        <p><a class="help-link" data-lightbox href="<?=$this->url('help-home')?>?topic=search"><?= $this->transEsc('Search Tips') ?></a></p>
-        <p><a href="<?=$this->url('search-advanced')?>"><?=$this->transEsc('Advanced Search')?></a> <?=$this->transEsc('nohit_text5') ?> </p>
-    </div>
-<?php endif; ?>
-
-
 

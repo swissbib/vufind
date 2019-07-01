@@ -192,7 +192,6 @@ class Params extends VuFindSolrParams
     public function getSpellcheckBackendParameters()
     {
         $backendParams = parent::getBackendParameters();
-        $backendParams->remove("spellcheck");
 
         //with SOLR 4.3 AND is no longer the default parameter
         $backendParams->add("q.op", "AND");
@@ -200,7 +199,6 @@ class Params extends VuFindSolrParams
         //we need this homegrown param to control the behaviour of
         // InjectSwissbibSpellingListener
         //I don't see another possibilty yet
-        $backendParams->add("swissbibspellcheck", "true");
 
         return $backendParams;
     }
