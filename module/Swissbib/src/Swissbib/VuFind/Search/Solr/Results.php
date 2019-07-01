@@ -50,13 +50,6 @@ class Results extends VuFindSolrResults
     protected $target = 'swissbib';
 
     /**
-     * SpellingResults
-     *
-     * @var SpellingResults
-     */
-    protected $sbSuggestions;
-
-    /**
      * Configuration for QueryFacets for swissbib MyLibraries
      *
      * @var \Zend\Config\Config
