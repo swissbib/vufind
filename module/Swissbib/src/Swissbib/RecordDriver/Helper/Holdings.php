@@ -308,6 +308,16 @@ class Holdings
     }
 
     /**
+     * Resets the cached holding information
+     *
+     * @return void
+     */
+    public function resetHolding()
+    {
+        $this->holdingData = false;
+    }
+
+    /**
      * Initialize for item
      *
      * @param String $idItem      ItemId
@@ -614,6 +624,24 @@ class Holdings
         }
 
         return $items;
+    }
+
+    /**
+     * Get all barcodes of an institution of a SolrMarcRecord
+     *
+     * @param SolrMarc $recordDriver solrmarc recorddriver
+     * @param String   $institution  institution
+     *
+     * @return Array
+     */
+    public function getAllBarcodes(SolrMarc $recordDriver, String $institution)
+    {
+        $r = [];
+        $holdings = $this->getHoldings($recordDriver, $institution);
+        foreach ($holdings['items'] as $item) {
+            array_push($r, $item['barcode']);
+        }
+        return $r;
     }
 
     /**

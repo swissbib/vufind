@@ -70,7 +70,7 @@ it("should return all contributor details", () => {
     expect.assertions(4);
 
     return actual.then((response: any) => {
-        for (const contributor of response.data) {
+        for (const contributor of response) {
             expect(contributor).toHaveProperty("firstName");
         }
     });
