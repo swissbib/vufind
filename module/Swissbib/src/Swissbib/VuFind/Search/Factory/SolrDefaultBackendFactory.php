@@ -74,6 +74,10 @@ class SolrDefaultBackendFactory extends VuFindSolrDefaultBackendFactory
         } else {
             $dictionaries = ['default', 'basicSpell'];
         }
+        $spellingListener = new InjectSwissbibSpellingListener(
+            $backend, $dictionaries
+        );
+        $spellingListener->attach($events);
 
         $this->attachHighlightSolrConfigurator($backend);
     }

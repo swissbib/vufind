@@ -191,4 +191,68 @@ class Results extends VuFindSolrResults
     {
         return $this->target;
     }
+
+    /**
+     * PerformSearch
+     *
+     * @throws \Exception
+     * @throws \VuFindSearch\Backend\Exception\BackendException
+     *
+     * @return void
+     */
+    protected function performSearch()
+    {
+        $query  = $this->getParams()->getQuery();
+        $limit  = $this->getParams()->getLimit();
+        $offset = $this->getStartRecord() - 1;
+        $params = $this->getParams()->getBackendParameters();
+        $searchService = $this->getSearchService();
+
+        try {
+            $collection = $searchService
+                ->search($this->backendId, $query, $offset, $limit, $params);
+        } catch (\VuFindSearch\Backend\Exception\BackendException $e) {
+            // If the query caused a parser error, see if we can clean it up:
+            if ($e->hasTag('VuFind\Search\ParserError')
+                && $newQuery = $this->fixBadQuery($query)
+            ) {
+                // We need to get a fresh set of $params, since the previous one was
+                // manipulated by the previous search() call.
+                $params = $this->getParams()->getBackendParameters();
+                $collection = $searchService
+                    ->search($this->backendId, $newQuery, $offset, $limit, $params);
+            } else {
+                throw $e;
+            }
+        }
+
+        //code aus letztem VuFind Core
+        $this->responseFacets = $collection->getFacets();
+        $this->resultTotal = $collection->getTotal();
+
+        if ($this->resultTotal == 0) {
+
+            //we use spellchecking only in case of 0 hits
+
+            $params = $this->getParams()->getSpellcheckBackendParameters();
+            try {
+                $recordCollectionSpellingQuery = $searchService
+                    ->search($this->backendId, $query, $offset, $limit, $params);
+            } catch (\VuFindSearch\Backend\Exception\BackendException $e) {
+                //todo: some kind of logging?
+                throw $e;
+            }
+            // Process spelling suggestions
+            $spellcheck = $recordCollectionSpellingQuery->getSpellcheck();
+            $this->spellingQuery = $spellcheck->getQuery();
+            $this->suggestions = $this->getSpellingProcessor()
+                ->getSuggestions($spellcheck, $this->getParams()->getQuery());
+
+
+        }
+
+        // Construct record drivers for all the items in the response:
+        $this->results = $collection->getRecords();
+    }
+
 }
