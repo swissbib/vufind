@@ -20,7 +20,25 @@ AllFields:
     - author_additional_gnd_txt_mv^100    # variants from GND
     - title_additional_gnd_txt_mv^100
     - publplace_additional_gnd_txt_mv^100
-                   # local codes (field 909) : should be removed after next full reindex. It will be replaced by localcode_txt_mv
+    - series^200
+    - topic^500                           # all verbal topics, i.e. 6xx
+    - related_gnd_txt_mv^500              # GND related terms 5xx
+    - addfields_txt_mv^50                 # additional fields
+    - publplace_txt_mv^25                 # publication country and place, i.e. 752ad
+    - publplace_dsv11_txt_mv^25
+    - fulltext                            # imported fulltext, i.e. TOC/Abstracts
+    - callnumber_txt_mv^50                # callnumbers (works only when quoted) with low boost
+    - ctrlnum^1000
+    - publishDate
+    - isbn
+    - cancisbn_isn_mv
+    - variant_isbn_isn_mv
+    - issn
+    - incoissn_isn_mv
+    - ismn_isn_mv
+    - doi_isn_mv
+    - urn_isn_mv
+    - localcode                     # local codes (field 909) : should be removed after next full reindex. It will be replaced by localcode_txt_mv
     - localcode_txt_mv              # local codes splitted at spaces
     - id_txt
   DismaxParams:
