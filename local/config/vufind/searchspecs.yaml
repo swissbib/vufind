@@ -35,73 +35,16 @@ AllFields:
     - variant_isbn_isn_mv
     - issn
     - incoissn_isn_mv
-    - localcode                     # local codes (field 909)
+    - ismn_isn_mv
+    - doi_isn_mv
+    - urn_isn_mv
+    - localcode                     # local codes (field 909) : should be removed after next full reindex. It will be replaced by localcode_txt_mv
+    - localcode_txt_mv              # local codes splitted at spaces
     - id_txt
   DismaxParams:
-    - [pf, 'title_short^1000 callnumber_txt_mv^100']
+    - [pf, 'title_short^1000 callnumber_txt_mv^100 localcode_txt_mv^10']
     - [ps, '2']
     - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
-
-
-#  DismaxParams:
-#  boost param as in old solrconfig.xml
-  QueryFields:
-    0:
-      0:
-        - OR
-        - 50
-      title_short:
-        - [onephrase, 1000]
-      title_alt:
-        - [onephrase, 600]
-        - [and, 500]
-      title_additional_dsv11_txt_mv:
-        - [onephrase, 600]
-        - [and, 500]
-      title_additional_gnd_txt_mv:
-        - [onephrase, 600]
-        - [and, 500]
-      title_sub:
-        - [onephrase, 400]
-      title_old:
-        - [onephrase, 300]
-        - [and, 250]
-      title_new:
-        - [and, 200]
-      title:
-        - [onephrase, 100]
-    author:
-      - [and, 750]
-    author_additional:
-      - [and, 100]
-    author_additional_dsv11_txt_mv:
-      - [and, 100]
-    author_additional_gnd_txt_mv:
-      - [and, 100]
-    series:
-      - [and, 50]
-    topic:
-      - [onephrase, 300]
-      - [and, 250]
-    related_gnd_txt_mv:
-      - [onephrase, 300]
-      - [and, 250]
-    addfields_txt_mv:
-      - [onephrase, 150]
-      - [and, 125]
-    publplace_txt_mv:
-      - [onephrase, 150]
-      - [and, 125]
-    publplace_dsv11_txt_mv:
-      - [onephrase, 150]
-      - [and, 125]
-    publplace_gnd_txt_mv:
-      - [onephrase, 150]
-      - [and, 125]
-    fulltext:
-      - [or, ~]
-    localcode:
-      - [and, ~]
 
 Author:
   DismaxHandler: edismax
@@ -110,28 +53,12 @@ Author:
     - author_additional^20
     - author_additional_dsv11_txt_mv^20
     - author_additional_gnd_txt_mv^20
-  QueryFields:
-    author:
-      - [onephrase, 350]
-      - [and, 200]
-      - [or, 100]
-    author_additional:
-      - [onephrase, 50]
-      - [and, 50]
-      - [or, 20]
-    author_additional_dsv11_txt_mv:
-      - [onephrase, 50]
-      - [and, 50]
-      - [or, 20]
-    author_additional_gnd_txt_mv:
-      - [onephrase, 50]
-      - [and, 50]
-      - [or, 20]
   DismaxParams:
     - [mm, '100%']
 
 
 ISN:
+  DismaxHandler: edismax
   DismaxFields:
     - isbn
     - variant_isbn_isn_mv
@@ -141,31 +68,6 @@ ISN:
     - ismn_isn_mv
     - doi_isn_mv
     - urn_isn_mv
-  QueryFields:
-    issn:
-      - [and, 100]
-      - [or, ~]
-    incoissn_isn_mv:
-      - [and, 100]
-      - [or, ~]
-    isbn:
-      - [and, 100]
-      - [or, ~]
-    variant_isbn_isn_mv:
-      - [and, 100]
-      - [or, ~]
-    cancisbn_isn_mv:
-      - [and, 100]
-      - [or, ~]
-    ismn_isn_mv:
-      - [and, 100]
-      - [or, ~]
-    doi_isn_mv:
-      - [and, 100]
-      - [or, ~]
-    urn_isn_mv:
-      - [and, 100]
-      - [or, ~]
   DismaxParams:
     - [mm, '100%']
 
@@ -175,11 +77,6 @@ Subject:
   DismaxFields:
     - topic^150
     - related_gnd_txt_mv
-  QueryFields:
-    topic:
-    - [onephrase, 350]
-    related_gnd_txt_mv:
-    - [or, ~]
   DismaxParams:
     - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
     - [mm, '100%']
@@ -267,30 +164,6 @@ Title:
     - series^100
     - series2
     - series^200
-  QueryFields:
-    title_short:
-      - [onephrase, 500]
-    title_alt:
-      - [onephrase, 450]
-      - [and, 400]
-    title_additional_dsv11_txt_mv:
-      - [onephrase, 450]
-      - [and, 400]
-    title_additional_gnd_txt_mv:
-      - [onephrase, 450]
-      - [and, 400]
-    title_sub:
-      - [onephrase, 400]
-    title_old:
-      - [onephrase, 300]
-      - [and, 250]
-    title_alt:
-      - [and, 200]
-    title_new:
-      - [and, 100]
-    series:
-      - [onephrase, 100]
-      - [and, 50]
   DismaxParams:
     - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
     - [mm, '100%']
@@ -358,11 +231,6 @@ Series:
   DismaxHandler: edismax
   DismaxFields:
     - series^100
-  QueryFields:
-    series:
-      - [onephrase, 500]
-      - [and, 200]
-      - [or, 100]
   DismaxParams:
     - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
     - [mm, '100%']
@@ -891,11 +759,6 @@ AuthorSuggest:
   DismaxHandler: edismax
   DismaxFields:
     - author
-  QueryFields:
-    author:
-      - [onephrase, 350]
-      - [and, 200]
-      - [or, 100]
   DismaxParams:
     - [mm, '100%']
 

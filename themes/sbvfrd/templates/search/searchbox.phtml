@@ -28,8 +28,7 @@ $swissbibObjectExtension = <<<JS
   };
 })(window.swissbib = window.swissbib || {});
 JS;
-
-$this->headScript()->appendScript($swissbibObjectExtension);
+$this->inlineScript()->appendScript($swissbibObjectExtension);
 ?>
 
 <?php if ($this->searchType == 'advanced'): ?>

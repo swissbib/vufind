@@ -37,8 +37,8 @@
     }
     else if (searchField !== null) {
       var textLength = searchField.value.length;
-      // For IE Only
-      if (document.selection) {
+      if (document.selection && textLength > 0) {
+        // IE<11 only
         searchField.focus();
         var oSel = document.selection.createRange();
         // Reset position to 0 & then set at end
@@ -48,10 +48,14 @@
         oSel.select();
       }
       else if (searchField.selectionStart || searchField.selectionStart == '0') {
-        // Firefox/Chrome
-        searchField.selectionStart = textLength;
-        searchField.selectionEnd = textLength;
-        searchField.focus();
+        // Firefox/Chrome/IE11/Edge
+        var useragent = window.navigator.userAgent;
+        var isIE = useragent.indexOf('MSIE ') > 0  || useragent.indexOf('Trident/') > 0;
+        if (!(isIE && textLength > 0)) {
+          searchField.selectionStart = textLength;
+          searchField.selectionEnd = textLength;
+          searchField.focus();
+        }
       }
     }
   };
