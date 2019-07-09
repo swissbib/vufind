@@ -362,6 +362,14 @@ class Connector implements \Zend\Log\LoggerAwareInterface
         }
 
         $this->debug(sprintf('Query %s', $paramString));
+
+        //useful to display links to solr queries directly on screen
+
+        echo '<a href="' . $this->url . '/' . $handler . '?' .
+            sprintf('%s', $paramString) .
+            '&debug=all&echoParams=all&debug.explain.structured=true"' .
+            ' target="_blank">solr link</a>';
+
         return $this->trySolrUrls($method, $urlSuffix, $callback);
     }
 
@@ -449,14 +457,6 @@ class Connector implements \Zend\Log\LoggerAwareInterface
      */
     protected function send(HttpClient $client)
     {
-        //useful to display links to solr queries directly on screen
-        /*
-        echo '<a href="' .
-            sprintf('%s', $client->getUri()) .
-            '&debug=all&echoParams=all&debug.explain.structured=true"' .
-            ' target="_blank">solr link</a>';
-        */
-
         $this->debug(
             sprintf('=> %s %s', $client->getMethod(), $client->getUri())
         );
