@@ -17,7 +17,48 @@
     //this.initHierarchyTree();
     //this.initNationaLicensesFlow();
   };
-  
+
+  /**
+   * Initialize focus either
+   * - on search box at the end of text
+   * - or on login-field, if present
+   * - or on favorites-library-field, if present
+   */
+  s.initFocus = function() {
+    var favoritesLibraryField = window.location.pathname.match(/Favorites$/) !== null ? document.getElementById('query') : null;
+    var loginField = document.getElementById('login_username');
+    var searchField = document.getElementById('searchForm_lookfor');
+
+    if (favoritesLibraryField !== null) {
+      favoritesLibraryField.focus();
+    }
+    else if (loginField !== null) {
+      loginField.focus();
+    }
+    else if (searchField !== null) {
+      var textLength = searchField.value.length;
+      if (document.selection && textLength > 0) {
+        // IE<11 only
+        searchField.focus();
+        var oSel = document.selection.createRange();
+        // Reset position to 0 & then set at end
+        oSel.moveStart('character', -textLength);
+        oSel.moveStart('character', textLength);
+        oSel.moveEnd('character', 0);
+        oSel.select();
+      }
+      else if (searchField.selectionStart || searchField.selectionStart == '0') {
+        // Firefox/Chrome/IE11/Edge
+        var useragent = window.navigator.userAgent;
+        var isIE = useragent.indexOf('MSIE ') > 0  || useragent.indexOf('Trident/') > 0;
+        if (!(isIE && textLength > 0)) {
+          searchField.selectionStart = textLength;
+          searchField.selectionEnd = textLength;
+          searchField.focus();
+        }
+      }
+    }
+  };
 
   /**
    * Initializes remove search text icon on main search field
