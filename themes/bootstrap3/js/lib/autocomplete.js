@@ -258,7 +258,7 @@
         input.on('paste', function acinputPaste() {
           requestAnimationFrame(search);
         });
-        input.keyup(function acinputKeyup(event) {
+        input.keydown(function acinputKeyup(event) {
           // Ignore navigation keys
           // - Ignore control functions
           if (event.ctrlKey || event.which === 17) {

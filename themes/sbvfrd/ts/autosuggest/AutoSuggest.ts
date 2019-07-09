@@ -251,13 +251,13 @@ export default class AutoSuggest {
      * @private
      */
     private disconnectSectionHeaders() {
-        this.sectionHeaders.off("mousedown", this.sectionHeaderLinkMouseDownHandler);
+        
     }
 
     /**
      * @private
      */
     private connectSectionHeaders() {
-        this.sectionHeaders.on("mousedown", this.sectionHeaderLinkMouseDownHandler);
+
     }
 }
