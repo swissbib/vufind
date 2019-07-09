@@ -45,6 +45,7 @@ AllFields:
     - [pf, 'title_short^1000 callnumber_txt_mv^100 localcode_txt_mv^10']
     - [ps, '2']
     - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
+    - [fq, '{!collapse field=groupid_txt max=publishDateInt}'] #the most recent record for each fbrr cluster
 
 Author:
   DismaxHandler: edismax
