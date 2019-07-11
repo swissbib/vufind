@@ -38,7 +38,6 @@ AllFields:
     - ismn_isn_mv
     - doi_isn_mv
     - urn_isn_mv
-    - localcode                     # local codes (field 909) : should be removed after next full reindex. It will be replaced by localcode_txt_mv
     - localcode_txt_mv              # local codes splitted at spaces
     - id_txt
   DismaxParams:
