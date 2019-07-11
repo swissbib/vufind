@@ -128,7 +128,7 @@ class SearchController extends VuFindSearchController
         $record = $this->getRecord($idRecord);
         $availabilities = [];
 
-        if (empty($record->getField('949',['B','F','b','c','j']))) {
+        if (empty($record->getField('949', ['B','F','b','c','j']))) {
             $field898a = $record->getField('898', ['a']);
             $field898a = $field898a[0];
             if (substr_compare($field898a, '53', -strlen('53')) == 0) {
@@ -141,17 +141,37 @@ class SearchController extends VuFindSearchController
                     );
                 }
             } else {
-                $doAlephRequest =
-                    substr_compare($field898a, 'CR02', 0, strlen('CR02')) === 0 ||
-                    substr_compare($field898a, 'CR0300', 0, strlen('CR0300')) === 0 ||
-                    substr_compare($field898a, 'CR0301', 0, strlen('CR0301')) === 0 ||
-                    substr_compare($field898a, 'CR0302', 0, strlen('CR0302')) === 0 ||
-                    substr_compare($field898a, 'CR0303', 0, strlen('CR0303')) === 0 ||
-                    substr_compare($field898a, 'CR0304', 0, strlen('CR0304')) === 0 ||
-                    substr_compare($field898a, 'CR0305', 0, strlen('CR0305')) === 0 ||
-                    substr_compare($field898a, 'CR0306', 0, strlen('CR0306')) === 0 ||
-                    substr_compare($field898a, 'CR0307', 0, strlen('CR0307')) === 0 ||
-                    substr_compare($field898a, 'CR0308', 0, strlen('CR0308')) === 0;
+                $doAlephRequest
+                    = substr_compare(
+                        $field898a, 'CR02', 0, strlen('CR02')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0300', 0, strlen('CR0300')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0301', 0, strlen('CR0301')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0302', 0, strlen('CR0302')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0303', 0, strlen('CR0303')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0304', 0, strlen('CR0304')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0305', 0, strlen('CR0305')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0306', 0, strlen('CR0306')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0307', 0, strlen('CR0307')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0308', 0, strlen('CR0308')
+                    ) === 0;
                 if ($doAlephRequest) {
                     $availabilities = $this->doAlephAvailabilityRequest($record);
                 }
@@ -169,11 +189,11 @@ class SearchController extends VuFindSearchController
     /**
      * Do Aleph Availability Request
      *
-     * @param $record SolrMarc the solrMarc record
+     * @param SolrMarc $record the solrMarc record
      *
      * @return array
      */
-    private function doAlephAvailabilityRequest(SolrMarc $record)
+    protected function doAlephAvailabilityRequest(SolrMarc $record)
     {
         $availabilities = [];
         $alwaysAvailableGroups = [

@@ -2825,9 +2825,12 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      *
      * @return array
      */
-    public function getField($field, $subfields = null, $concat = true,
-            $separator = ' ')
-    {
+    public function getField(
+        $field,
+        $subfields = null,
+        $concat = true,
+        $separator = ' '
+    ) {
         return $this->getFieldArray($field, $subfields, $concat, $separator);
     }
 

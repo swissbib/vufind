@@ -28,11 +28,9 @@
  */
 namespace Swissbib\View\Helper;
 
-use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use VuFind\Search\UrlQueryHelper;
 use VuFindSearch\Query\Query;
 use Zend\View\Helper\AbstractHelper;
-use Normalizer;
 
 /**
  * Render suggestions
@@ -88,15 +86,13 @@ class RenderSuggestions extends AbstractHelper
 
         foreach ($suggested as $term => $suggestion) {
             $queryText = str_replace($term, $suggestion, $queryText);
-            $queryUrl = $queryUrl->replaceTerm($term, $suggestion, true, true);
+            $queryUrl = $queryUrl->replaceTerm($term, $suggestion, true);
         }
 
         $href=$queryUrl->getParams();
 
-
         $html .= '<a href="' . $href . '">' . $view->escapeHtml($queryText)
             . '</a>';
-
 
         return $html;
     }
