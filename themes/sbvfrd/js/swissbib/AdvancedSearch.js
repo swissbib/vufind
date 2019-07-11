@@ -1,5 +1,3 @@
-'use strict';
-
 swissbib.AdvancedSearch = {
 
   searchDetails: {},
@@ -17,6 +15,7 @@ swissbib.AdvancedSearch = {
    * Initialize when in advanced search view
    */
   init: function () {
+    'use strict';
     if (this.isInAdvancedSearch()) {
       this.initJsTree();
       this.initChosenMultiSelect();
@@ -30,13 +29,18 @@ swissbib.AdvancedSearch = {
   },
 
   initChosenMultiSelect: function() {
-    $('.chosen-select').chosen({no_results_text: VuFind.translate('MultiSelectNothingFound')});
+    'use strict';
+    $('.chosen-select').chosen({
+      search_contains: true,
+      no_results_text: VuFind.translate('MultiSelectNothingFound')
+    });
   },
 
   /**
    * @return void
    */
   initJsTree: function () {
+    'use strict';
     jQuery(".classification-tree").jstree().bind("select_node.jstree", this.onJsTreeSelectNode);
     jQuery(".classification-tree").bind("close_node.jstree", this.onJsTreeCloseNode);
   },
@@ -48,6 +52,7 @@ swissbib.AdvancedSearch = {
    * @return void
    */
   onJsTreeCloseNode: function(event, data) {
+    'use strict';
     data.instance.deselect_node(data.node);
   },
 
@@ -58,6 +63,7 @@ swissbib.AdvancedSearch = {
    * @return void
    */
   onJsTreeSelectNode: function (event, data) {
+    'use strict';
     var el = jQuery('#' + data.selected[0]);
 
     if (el.data('openchildren') === 'yes') {
@@ -79,6 +85,7 @@ swissbib.AdvancedSearch = {
    * @return void
    */
   sendForm: function (el) {
+    'use strict';
     jQuery(el).parents('form:first').submit();
   },
 
@@ -89,6 +96,7 @@ swissbib.AdvancedSearch = {
    * @return    {Boolean}
    */
   isInAdvancedSearch: function () {
+    'use strict';
     return location.pathname.indexOf('/Advanced') >= 0;
   },
 
@@ -99,6 +107,7 @@ swissbib.AdvancedSearch = {
    * @return    {Boolean}
    */
   isInAdvancedClassificationSearch: function () {
+    'use strict';
     return location.pathname.indexOf('/AdvancedClassification') >= 0;
   },
 
@@ -113,6 +122,7 @@ swissbib.AdvancedSearch = {
    * @return    {Number}
    */
   addGroup: function (firstTerm, firstField, join) {
+    'use strict';
     firstTerm = firstTerm || '';
     firstField = firstField || '';
     join = join || '';
@@ -141,6 +151,7 @@ swissbib.AdvancedSearch = {
    *
    */
   addNewGroup: function () {
+    'use strict';
     var groupIndex = this.addGroup();
 
     this.addField(groupIndex);
@@ -154,8 +165,9 @@ swissbib.AdvancedSearch = {
    * @param    {Number}    groupIndex
    */
   deleteGroup: function (groupIndex) {
+    'use strict';
     $("#group" + groupIndex).remove();
-    this.reSortGroups()
+    this.reSortGroups();
   },
 
 
@@ -165,6 +177,7 @@ swissbib.AdvancedSearch = {
    * @param    {HTMLElement}    element
    */
   deleteThisGroup: function (element) {
+    'use strict';
     this.deleteGroup(element.id.split('_').pop());
   },
 
@@ -175,6 +188,7 @@ swissbib.AdvancedSearch = {
    * @param    {HTMLElement}    element
    */
   addFieldToThisGroup: function (element) {
+    'use strict';
     this.addField(element.id.split('_').pop());
   },
 
@@ -184,6 +198,7 @@ swissbib.AdvancedSearch = {
    *
    */
   reSortGroups: function reSortGroups() {
+    'use strict';
     var groupIndex = 0,
         that = this;
 
@@ -212,6 +227,7 @@ swissbib.AdvancedSearch = {
    * @param    {Number}        newGroupIndex
    */
   reNumGroup: function (groupElement, newGroupIndex) {
+    'use strict';
     // Keep the old details for use
     var oldGroupIndex = $(groupElement).attr("id").substring(5),
         searchHolder = $("#group" + oldGroupIndex + "SearchHolder");
@@ -249,6 +265,7 @@ swissbib.AdvancedSearch = {
    * @return    {String}
    */
   buildGroup: function (groupIndex, join) {
+    'use strict';
     var html = $("#adv-search-group").html(),
         template = Handlebars.compile(html),
         data = {
@@ -270,6 +287,7 @@ swissbib.AdvancedSearch = {
    * @return    {Number}    New field index
    */
   addField: function (groupIndex, searchWord, matchField) {
+    'use strict';
     searchWord = searchWord || '';
     matchField = matchField || '';
 
@@ -292,6 +310,7 @@ swissbib.AdvancedSearch = {
    * @return    {String}
    */
   buildField: function (groupIndex, searchWord, matchField, fieldIndex) {
+    'use strict';
     var html = $("#adv-search-field").html(),
         template = Handlebars.compile(html),
         data = {
@@ -307,6 +326,7 @@ swissbib.AdvancedSearch = {
 
 
   removeField: function (groupIndex, fieldIndex) {
+    'use strict';
     //remove console object because of IE8 / IE9 incompatibility
     //http://stackoverflow.com/questions/690251/what-happened-to-console-log-in-ie8
     //console.log(groupIndex, fieldIndex);
@@ -323,6 +343,7 @@ swissbib.AdvancedSearch = {
    * @return    {String}
    */
   buildFieldLabel: function (groupIndex, fieldIndex) {
+    'use strict';
     var html = $("#adv-search-field-label").html(),
         template = Handlebars.compile(html),
         data = {
@@ -345,6 +366,7 @@ swissbib.AdvancedSearch = {
    * @return    {String}
    */
   buildFieldTermText: function (groupIndex, fieldIndex, searchWord) {
+    'use strict';
     var html = $("#adv-search-field-term-text").html(),
         template = Handlebars.compile(html),
         data = {
@@ -367,6 +389,7 @@ swissbib.AdvancedSearch = {
    * @return    {String}
    */
   buildFieldFieldSelector: function (groupIndex, fieldIndex, matchField) {
+    'use strict';
     var html = $("#adv-search-field-field-selector").html(),
         template = Handlebars.compile(html),
         data = {
@@ -381,7 +404,7 @@ swissbib.AdvancedSearch = {
         name: name,
         label: label,
         selected: matchField == name
-      })
+      });
     });
 
     return template(data);
@@ -395,6 +418,7 @@ swissbib.AdvancedSearch = {
    * @return    {String}
    */
   buildGroupAddFieldLink: function (groupIndex) {
+    'use strict';
     var html = $("#adv-search-group-addfield").html(),
         template = Handlebars.compile(html),
         data = {
@@ -414,6 +438,7 @@ swissbib.AdvancedSearch = {
    * @return    {String}
    */
   buildGroupSearchDetails: function (groupIndex, selectedJoin) {
+    'use strict';
     var html = $("#adv-search-group-searchDetails").html(),
         template = Handlebars.compile(html),
         data = {
@@ -429,7 +454,7 @@ swissbib.AdvancedSearch = {
         name: name,
         label: label,
         selected: selectedJoin == name
-      })
+      });
     });
 
     return template(data);
@@ -440,10 +465,11 @@ swissbib.AdvancedSearch = {
    * Initializes classification tabs
    */
   initAdvancedClassificationTabs: function() {
+    'use strict';
     $('#tabbed-tree').find('.nav-tabs a').click(function (e) {
-      e.preventDefault()
-      $(this).tab('show')
-    })
+      e.preventDefault();
+      $(this).tab('show');
+    });
   }
 
 };

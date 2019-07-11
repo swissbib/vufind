@@ -346,12 +346,17 @@ class Pura
          * @var PuraUser $user
          */
         foreach ($users as $user) {
-            //we send an email to user with expired expiration date
-            if (!($this->isAccountExtensionEmailHasAlreadyBeenSent($user))
-                && new \DateTime() > $user->getExpirationDate()
+            //we send an email to user with the expiration date
+            //in less than one month
+
+            if ($user->hasAccess()
+                && !($this->isAccountExtensionEmailHasAlreadyBeenSent($user))
+                && $this->isExpirationInLessThan30Days($user)
             ) {
                 $this->emailService->sendPuraAccountExtensionEmail(
-                    $this->getVuFindUser($user->id)
+                    $user,
+                    $this->getVuFindUser($user->id),
+                    $this->getInstitutionInfo($user->getLibraryCode())
                 );
                 $user->setLastAccountExtensionRequest(new \DateTime());
                 $user->save();
@@ -394,6 +399,24 @@ class Pura
             return false;
         }
         return true;
+    }
+
+    /**
+     * Return true if the expiration date is in less than 30 days
+     *
+     * @param PuraUser $user user
+     *
+     * @return bool
+     */
+    protected function isExpirationInLessThan30Days($user)
+    {
+        $today = new \DateTime();
+
+        if ($today->modify("+30 days") > $user->getExpirationDate()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

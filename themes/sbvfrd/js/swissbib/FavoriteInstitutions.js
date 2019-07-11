@@ -1,5 +1,3 @@
-'use strict';
-
 swissbib.FavoriteInstitutions = {
 
     baseUrl: '/MyResearch/Favorites',
@@ -16,6 +14,7 @@ swissbib.FavoriteInstitutions = {
      * @param  {Object|Boolean}  availableInstitutions    List of institutions of false of already cached
      */
     init: function (availableInstitutions) {
+        'use strict';
         this.baseUrl = window.path + this.baseUrl;
 
         // The institutions should already be cached
@@ -37,6 +36,7 @@ swissbib.FavoriteInstitutions = {
      * @param  {Object}  availableInstitutions
      */
     installAutocomplete: function (availableInstitutions) {
+        'use strict';
         $('input#query').autocomplete({
             static: availableInstitutions,
             callback: $.proxy(this.onInstitutionSelect,this)
@@ -49,6 +49,7 @@ swissbib.FavoriteInstitutions = {
      *
      */
     installHandlers: function () {
+        'use strict';
         var that = this;
         $('#favorites-table').find('.deleteFavoriteInstitution').click(function (event) {
             var institutionCode = $(this).data('institution');
@@ -64,6 +65,7 @@ swissbib.FavoriteInstitutions = {
      * @param  {Object}  ui
      */
     onInstitutionSelect: function (datum, obj, eventType) {
+        'use strict';
         this.clearSearchField();
         this.addInstitution(datum.value);
 
@@ -77,6 +79,7 @@ swissbib.FavoriteInstitutions = {
      * @param  {String}  institutionCode
      */
     deleteInstitution: function (institutionCode) {
+        'use strict';
         this.sendRequestOnUpdateList('delete', institutionCode);
     },
 
@@ -87,6 +90,7 @@ swissbib.FavoriteInstitutions = {
      * @param  {String}  institutionCode
      */
     addInstitution: function (institutionCode) {
+        'use strict';
         this.sendRequestOnUpdateList('add', institutionCode);
     },
 
@@ -99,6 +103,7 @@ swissbib.FavoriteInstitutions = {
      * @param  {String}  institutionCode
      */
     sendRequestOnUpdateList: function (action, institutionCode) {
+        'use strict';
         var that = this,
             url = this.baseUrl + '/' + action,
             data = {
@@ -120,6 +125,7 @@ swissbib.FavoriteInstitutions = {
      *
      */
     clearSearchField: function () {
+        'use strict';
         $('#query').val('');
     },
 
@@ -130,6 +136,7 @@ swissbib.FavoriteInstitutions = {
      * @returns {Object}
      */
     getInstitutionsFromStorage: function () {
+        'use strict';
         return $.jStorage.get('favorite-institutions');
     },
 
@@ -140,6 +147,7 @@ swissbib.FavoriteInstitutions = {
      * @param  {Object}  institutions
      */
     saveInstitutionsToStorage: function (institutions) {
+        'use strict';
         $.jStorage.set('favorite-institutions', institutions);
     }
 

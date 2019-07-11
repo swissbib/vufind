@@ -505,7 +505,30 @@ $prevTitles = $record->getPreviousTitles();
               <th><?= $this->transEsc('Bio_Adm_Hist') ?>: </th>
               <td>
                   <?php foreach ($histData as $field): ?>
-                      <?= $this->escapeHtml($field) ?><br/>
+                      <?php if (!empty($field['histdata'])): ?>
+                          <?= $this->escapeHtml($field['histdata']) ?> <br/>
+                      <?php endif; ?>
+                      <?php if (!empty($field['expansion'])): ?>
+                          <?= $this->escapeHtml($field['expansion']) ?> <br/>
+                      <?php endif; ?>
+                      <?php if (!empty($field['1url'])): ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['1url'])) ?>"
+                             target="_blank">
+                              <?= $this->escapeHtml($field['1url']) ?>
+                          </a><br/>
+                      <?php endif; ?>
+                      <?php if (!empty($field['2url'])): ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['2url'])) ?>"
+                             target="_blank">
+                              <?= $this->escapeHtml($field['2url']) ?>
+                          </a><br/>
+                      <?php endif; ?>
+                      <?php if (!empty($field['3url'])): ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['3url'])) ?>"
+                             target="_blank">
+                              <?= $this->escapeHtml($field['3url']) ?>
+                          </a><br/>
+                      <?php endif; ?>
                   <?php endforeach; ?>
               </td>
           </tr>
@@ -541,7 +564,15 @@ $prevTitles = $record->getPreviousTitles();
               <th><?= $this->transEsc('Binding') ?>: </th>
               <td>
                   <?php foreach ($binding as $field): ?>
-                      <?= $this->escapeHtml($field) ?><br/>
+                      <?php $fieldDesc = $field['binding']; ?>
+                      <?php if (empty($field['url'])): ?>
+                          <?= $this->escapeHtml($fieldDesc) ?> <br/>
+                      <?php else: ?>
+                          <a href="<?= $this->escapeHtmlAttr($this->proxyUrl($field['url'])) ?>"
+                             target="_blank">
+                              <?= $this->escapeHtml($fieldDesc) ?>
+                          </a><br/>
+                      <?php endif; ?>
                   <?php endforeach; ?>
               </td>
           </tr>
@@ -763,6 +794,8 @@ $prevTitles = $record->getPreviousTitles();
                 <?php foreach ($findingAids as $field): ?>
                     <?php if (empty($field['degreecontrol'])): ?>
                         <?php $fieldDesc = $field['cumulativeindex']; ?>
+                    <?php elseif (empty($field['cumulativeindex'])): ?>
+                        <?php $fieldDesc = $field['degreecontrol']; ?>
                     <?php else: ?>
                         <?php $fieldDesc = $field['cumulativeindex'] . ', ' . $field['degreecontrol']; ?>
                     <?php endif; ?>

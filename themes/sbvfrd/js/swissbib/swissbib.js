@@ -1,9 +1,9 @@
-'use strict';
-
 /**
  * swissbib VuFind Javascript
  */
 (function closure(s) {
+  'use strict';
+
   /**
    * Initialize on ready.
    */
@@ -37,8 +37,8 @@
     }
     else if (searchField !== null) {
       var textLength = searchField.value.length;
-      // For IE Only
-      if (document.selection) {
+      if (document.selection && textLength > 0) {
+        // IE<11 only
         searchField.focus();
         var oSel = document.selection.createRange();
         // Reset position to 0 & then set at end
@@ -48,10 +48,14 @@
         oSel.select();
       }
       else if (searchField.selectionStart || searchField.selectionStart == '0') {
-        // Firefox/Chrome
-        searchField.selectionStart = textLength;
-        searchField.selectionEnd = textLength;
-        searchField.focus();
+        // Firefox/Chrome/IE11/Edge
+        var useragent = window.navigator.userAgent;
+        var isIE = useragent.indexOf('MSIE ') > 0  || useragent.indexOf('Trident/') > 0;
+        if (!(isIE && textLength > 0)) {
+          searchField.selectionStart = textLength;
+          searchField.selectionEnd = textLength;
+          searchField.focus();
+        }
       }
     }
   };
@@ -107,7 +111,7 @@
         idArgs = [],
         fullUrl,
         ids = $('a.singleLinkForBulk').map(function () {
-          return driver + '|' + this.href.split('/').pop()
+          return driver + '|' + this.href.split('/').pop();
         }).get();
 
     event.preventDefault();
@@ -132,7 +136,7 @@
       uv.async = true;
       uv.src = '//widget.uservoice.com/JtF9LB73G7r3zwkipwE1LA.js';
       var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(uv, s)
+      s.parentNode.insertBefore(uv, s);
     })();
     UserVoice.push(['set', {
       accent_color: '#6aba2e',
@@ -351,9 +355,11 @@
         case '?': availabilityIcon = 'fa-question'; break;
         default: break;
       }
-       $(element).siblings('ul').find("span.availability[name*='" + key + "']")
+      var r = [];
+      r["&#039;"] = "'";
+      $(element).siblings('ul').find("span.availability[name*='" + key + "']")
         .addClass(availabilityIcon)
-        .attr('title', VuFind.translate(availableTooltip));
+        .attr('title', VuFind.translate(availableTooltip, r));
     }
   };
 
@@ -364,6 +370,7 @@
  * Init Swissbib on ready & load
  */
 $(document).ready(function () {
+  'use strict';
   swissbib.initOnReady();
 });
 

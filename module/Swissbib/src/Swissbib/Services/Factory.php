@@ -281,11 +281,11 @@ class Factory
     {
         $credentials
             = $sm->get('VuFind\Config')
-                ->get('config')['SwitchApiCredentials'];
+            ->get('config')['SwitchApiCredentials'];
 
         $configSwitchApi
             = $sm->get('VuFind\Config')
-                ->get('SwitchApi')['SwitchApi'];
+            ->get('SwitchApi')['SwitchApi'];
         if (null === $credentials or null === $configSwitchApi) {
             throw new \Exception('SwitchApi configuration is missing');
         }

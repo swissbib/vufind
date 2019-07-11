@@ -69,9 +69,7 @@ class Solr extends VFAutocompleteSolr
                         $bestMatch = str_replace($forbidden, " ", $bestMatch);
 
                         if (!$this->isDuplicate($bestMatch, $results)) {
-                            $results[] = [
-                                'id' => $current['id'], 'value' => $bestMatch
-                            ];
+                            $results[] = $bestMatch;
                             break;
                         }
                     }
@@ -168,7 +166,7 @@ class Solr extends VFAutocompleteSolr
     protected function isDuplicate(string $bestMatch, array &$results)
     {
         foreach ($results as $result) {
-            if ($result["value"] === $bestMatch) {
+            if ($result === $bestMatch) {
                 return true;
             }
         }

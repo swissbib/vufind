@@ -237,15 +237,24 @@ class UrlQueryHelper
     /**
      * Replace a term in the search query (used for spelling replacement)
      *
-     * @param string $from Search term to find
-     * @param string $to   Search term to insert
+     * @param string  $from             Search term to find
+     * @param string  $to               Search term to insert
+     * @param boolean $ignoreCase       If we should ignore the case differences
+     *                                  when replacing
+     * @param boolean $ignoreDiacritics If we should ignore the diacritics when
+     *                                  replacing, i.e. if $from is durenmatt,
+     *                                  it could replace dürenmatt in the query
      *
      * @return UrlQueryHelper
      */
-    public function replaceTerm($from, $to)
-    {
+    public function replaceTerm(
+        $from,
+        $to,
+        $ignoreCase = false,
+        $ignoreDiacritics = false
+    ) {
         $query = clone $this->queryObject;
-        $query->replaceTerm($from, $to);
+        $query->replaceTerm($from, $to, $ignoreCase, $ignoreDiacritics);
         return new static($this->urlParams, $query, $this->config);
     }
 

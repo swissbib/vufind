@@ -172,8 +172,15 @@ class Bootstrapper
                 if (($locale = $request->getPost()->get('mylang', false))
                     || ($locale = $request->getQuery()->get('lng', false))
                 ) {
-                    $user->language = $locale;
-                    $user->save();
+                    $locale = strtolower($locale);
+                    if (in_array(
+                        $locale,
+                        array_keys($this->config->Languages->toArray())
+                    )
+                    ) {
+                        $user->language = $locale;
+                        $user->save();
+                    }
                 }
             };
 

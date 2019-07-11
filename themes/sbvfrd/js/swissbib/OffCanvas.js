@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  *
  * @type {{sidebar: null, button: null, body: null, init: init, initOffCanvas: initOffCanvas, toggleOffCanvas: toggleOffCanvas, enableTransition: enableTransition}}
@@ -15,6 +13,7 @@ var OffCanvas = {
    * Initialize Off-Canvas handling
    */
   init: function () {
+    'use strict';
     if (OffCanvas.isActive) OffCanvas.initOffCanvas();
   },
 
@@ -22,6 +21,7 @@ var OffCanvas = {
    *
    */
   initOffCanvas: function () {
+    'use strict';
     OffCanvas.sidebar = $(".sidebar");
     OffCanvas.button = $("button#sidebar-offcanvas-trigger");
     OffCanvas.icon = $("button#sidebar-offcanvas-trigger i");
@@ -41,6 +41,7 @@ var OffCanvas = {
    * Toggle Off Canvas
    */
   toggleOffCanvas: function () {
+    'use strict';
     OffCanvas.enableTransition();
 
     if (OffCanvas.body.hasClass("offcanvas-active")) {
@@ -70,6 +71,7 @@ var OffCanvas = {
    * Workaround to prevent transition on orientation change
    */
   enableTransition: function() {
+    'use strict';
     OffCanvas.sidebar.addClass('transition');
     setTimeout(function() {
       $('.sidebar').removeClass('transition');

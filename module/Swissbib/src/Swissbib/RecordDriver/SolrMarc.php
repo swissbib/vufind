@@ -342,7 +342,15 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             $params['rft.spage'] = $this->getContainerStartPage();
             // unset default title -- we only want jtitle/atitle here:
             unset($params['rft.title']);
-            $params['rft.jtitle'] = $this->getContainerTitle();
+            $jtitle = $this->getContainerTitle();
+            if (empty($jtitle)) {
+                $hostItems = $this->tryMethod('getHostItemEntry');
+                if (!empty($hostItems)) {
+                    foreach ($hostItems as $hostItem) {
+                        $params['rft.jtitle'] = $hostItem['title'];
+                    }
+                }
+            }
             $params['rft.atitle'] = $this->getTitle();
 
             $authors[] = $this->getPrimaryAuthor();
@@ -869,11 +877,6 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                 );
                 return 'https://externalservices.swissbib.ch/services/' .
                 'ImageTransformer?imagePath=' . $URL_thumb . '&scale=1';
-            } elseif ($field['union'] === 'CHARCH' && $field['tag'] === '856') {
-                //todo : Kann entfernt werden nach Neuladen Januar 2016, neu #766ff
-                $thumb_URL = preg_replace('/SIZE=10/', 'SIZE=30', $field['sf_u']);
-                $URL_thumb = preg_replace('/http/', 'https', $thumb_URL);
-                return $URL_thumb;
             }
         }
     }
@@ -1503,7 +1506,14 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getHistData()
     {
-        return $this->getFieldArray('545', ['a', 'b']);
+        $data = $this->getMarcSubFieldMaps(
+            545, [
+                'a' => 'histdata',
+                'b' => 'expansion',
+                '_u' => 'url',
+            ]
+        );
+        return $data;
     }
 
     /**
@@ -2060,7 +2070,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getCopyNotes()
     {
-        $f562 = $this->getFieldArray('562', ['c']);
+        $f562 = $this->getFieldArray('562');
         $f590 = $this->getFieldArray('590');
 
         $copynotes = array_merge_recursive($f562, $f590);
@@ -2075,7 +2085,13 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getBinding()
     {
-        return $this->getFieldArray('563');
+        $data = $this->getMarcSubFieldMaps(
+            563, [
+                'a' => 'binding',
+                'u' => 'url',
+            ]
+        );
+        return $data;
     }
 
     /**
@@ -2307,21 +2323,27 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             if ($extended) {
                 $fields = $this->getMarcRecord()->getFields('949');
                 $konkordanzTabelle949 = [];
-                foreach ($fields as $currentField) {
-                    $b = $this->getSubfieldArray($currentField, ['b']);
-                    $F = $this->getSubfieldArray($currentField, ['F']);
-                    $konkordanzTabelle949[$F[0]] = $b[0];
+                if (!empty($fields)) {
+                    foreach ($fields as $currentField) {
+                        $b = $this->getSubfieldArray($currentField, ['b']);
+                        $F = $this->getSubfieldArray($currentField, ['F']);
+                        $konkordanzTabelle949[$F[0]] = $b[0];
+                    }
                 }
                 foreach ($institutions as $key => $institution) {
+                    $institution_b = '';
+                    if (isset($konkordanzTabelle949[$institution])) {
+                        $institution_b = $konkordanzTabelle949[$institution];
+                    }
                     $institutions[$key] = [
                         'institution' => $institution,
-                        'group' => $this->getHoldingsHelper()->getGroup($institution),
-                        'institution_b' => $konkordanzTabelle949[$institution]
+                        'group' => $this->getHoldingsHelper()
+                            ->getGroup($institution),
+                        'institution_b' => $institution_b
                     ];
                 }
             }
         }
-
         return $institutions;
     }
 
@@ -2790,6 +2812,26 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
+     * Return an array of all values extracted from the specified field/subfield
+     * combination.  If multiple subfields are specified and $concat is true, they
+     * will be concatenated together in the order listed -- each entry in the array
+     * will correspond with a single MARC field.  If $concat is false, the return
+     * array will contain separate entries for separate subfields.
+     *
+     * @param string $field     The MARC field number to read
+     * @param array  $subfields The MARC subfield codes to read
+     * @param bool   $concat    Should we concatenate subfields?
+     * @param string $separator Separator string (used only when $concat === true)
+     *
+     * @return array
+     */
+    public function getField($field, $subfields = null, $concat = true,
+            $separator = ' ')
+    {
+        return $this->getFieldArray($field, $subfields, $concat, $separator);
+    }
+
+    /**
      * Returns institutions which we won't show by its name
      *
      * @return array
@@ -2838,17 +2880,39 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     public function getAvailabilityIconFromServer($idls, $sysNr)
     {
         $r = [];
-        $konkordanzTabelle = $this->libraryNetworkLookup;
-        if (array_key_exists($idls, $konkordanzTabelle)) {
-            $userLocale = $this->translator->getLocale();
-            $idls = $konkordanzTabelle[$idls];
-            $a = $this->availabilityHelper
-                ->getAvailabilityByLibraryNetwork(
-                    $sysNr, $idls, $userLocale
-                );
-            if (is_array($a)) {
-                $r = array_merge($r, $a);
+        $userLocale = $this->translator->getLocale();
+        if ($idls == 'RERO') {
+            $hh = $this->getHoldingsHelper();
+            $institutions = $hh->getHoldingsStructure()[$idls]['institutions'];
+            foreach ($institutions as $institution) {
+                $institutionCode = $institution['label'];
+                $hh->resetHolding();
+                $barcodes = $hh->getAllBarcodes($this, $institutionCode);
+                $r2 = $this->availabilityHelper
+                    ->getAvailability($sysNr, $barcodes, $idls, $userLocale);
+                $r3 = [];
+                foreach ($r2 as $key => $val) {
+                    if ($val['statusfield'] == 'lendable_available') {
+                        $r3[$institutionCode] = '0';
+                        break;
+                    } elseif ($val['statusfield'] == 'lendable_borrowed') {
+                        $r3[$institutionCode] = '1';
+                    }
+                }
+                $r = array_merge($r, $r3);
             }
+        } else {
+            $konkordanzTabelle = $this->libraryNetworkLookup;
+            if (array_key_exists($idls, $konkordanzTabelle)) {
+                $idls = $konkordanzTabelle[$idls];
+                $r = $this->availabilityHelper
+                    ->getAvailabilityByLibraryNetwork(
+                        $sysNr, $idls, $userLocale
+                    );
+            }
+        }
+        if (!$r) {
+            $r = [];
         }
         return $r;
     }

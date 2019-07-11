@@ -51,7 +51,7 @@ class PhysicalDescriptions extends AbstractHelper
      */
     public function __invoke(array $physicalDescriptions)
     {
-        $infos = [];
+        $string = '';
 
         foreach ($physicalDescriptions as $physicalDescription) {
             unset($physicalDescription['@ind1'], $physicalDescription['@ind2']);
@@ -59,14 +59,28 @@ class PhysicalDescriptions extends AbstractHelper
             foreach ($types as $type) {
                 if (isset($physicalDescription[$type])) {
                     if (is_array($physicalDescription[$type])) {
-                        $infos = array_merge($infos, $physicalDescription[$type]);
-                    } else {
-                        $infos[] = $physicalDescription[$type];
+                        $string .= implode(' ; ', ($physicalDescription[$type]));
+                    } elseif ($type == "1extent") {
+                        $string .= $physicalDescription[$type];
+                    } elseif (strpos($type, 'extent') !== false) {
+                        $string .= ', ' . $physicalDescription[$type];
+                    } elseif (strpos($type, 'details') !== false) {
+                        $string .= ' : ' . $physicalDescription[$type];
+                    } elseif (strpos($type, 'dimensions') !== false) {
+                        $string .= ' ; ' . $physicalDescription[$type];
+                    } elseif (strpos($type, 'materials') !== false) {
+                        $string .= ' + ' . $physicalDescription[$type];
+                    } elseif (strpos($type, 'type') !== false) {
+                        $string .= ' ' . $physicalDescription[$type];
+                    } elseif (strpos($type, 'size') !== false) {
+                        $string .= ' ; ' . $physicalDescription[$type];
+                    } elseif (strpos($type, 'appliesTo') !== false) {
+                        $string .= ' ; ' . $physicalDescription[$type];
                     }
                 }
             }
         }
 
-        return implode(' ; ', $infos);
+        return $string;
     }
 }

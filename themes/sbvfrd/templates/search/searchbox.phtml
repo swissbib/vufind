@@ -18,6 +18,17 @@
     $lastLimit = $this->searchMemory()->getLastLimit($this->searchClassId);
     $searchtabs = $this->searchtabs($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType);
 
+// Extend swissbib global object by autocomplete configuration
+$autoSuggestConfig = json_encode($this->autoSuggestConfig($this->searchClassId)->toArray());
+$swissbibObjectExtension = <<<JS
+(function(s) {
+  var autoSuggestConfiguration = {$autoSuggestConfig};
+  s.autoSuggestConfiguration = function () {
+    return autoSuggestConfiguration;
+  };
+})(window.swissbib = window.swissbib || {});
+JS;
+$this->inlineScript()->appendScript($swissbibObjectExtension);
 ?>
 
 <?php if ($this->searchType == 'advanced'): ?>

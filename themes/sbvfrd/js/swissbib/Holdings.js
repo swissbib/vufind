@@ -1,5 +1,3 @@
-'use strict';
-
 swissbib.Holdings = {
 
 
@@ -9,6 +7,7 @@ swissbib.Holdings = {
    * @param  {Number}  idRecord
    */
   initRecord: function (idRecord) {
+    'use strict';
     this.getInstitutionHeaders().click($.proxy(this.onInstitutionClick, this, idRecord));
   },
 
@@ -19,6 +18,7 @@ swissbib.Holdings = {
    * @returns  {*|jQuery|HTMLElement}
    */
   getInstitutionHeaders: function () {
+    'use strict';
     return $('.institutionToggler');
   },
 
@@ -32,6 +32,7 @@ swissbib.Holdings = {
    * @param  {Event}    event
    */
   onInstitutionClick: function (idRecord, event) {
+    'use strict';
     var isLoaded = !!$.data(event.target, 'loaded'),
         dataParts, groupCode, institutionCode;
 
@@ -45,7 +46,7 @@ swissbib.Holdings = {
       // Load table
       this.loadHoldingTable(idRecord, groupCode, institutionCode);
       // Mark institution as loaded
-      $.data(event.target, 'loaded', true)
+      $.data(event.target, 'loaded', true);
     }
   },
 
@@ -58,6 +59,7 @@ swissbib.Holdings = {
    * @param  {String}  institutionCode
    */
   loadHoldingTable: function (idRecord, groupCode, institutionCode) {
+    'use strict';
     var url = window.path + '/Holdings/' + idRecord + '/' + institutionCode,
         callback = $.proxy(this.onHoldingTableLoaded, this, idRecord, groupCode, institutionCode),
         container = $('.holding-institution-' + groupCode + '-' + institutionCode);
@@ -77,6 +79,7 @@ swissbib.Holdings = {
    * @param  {Object}  response
    */
   onHoldingTableLoaded: function (idRecord, groupCode, institutionCode, responseText, status, response) {
+    'use strict';
     if (status === 'error') {
       $('#holdings-institution-' + groupCode + '-' + institutionCode).html('Request failed. Information is currently not available');
     }
@@ -89,6 +92,7 @@ swissbib.Holdings = {
    * @param  {String}  institutionCode
    */
   startSpinner: function (institutionCode, groupCode) {
+    'use strict';
     var loaderBox = $('.holding-ajax-spinner-' + groupCode + '-' + institutionCode);
     loaderBox.css({
       display: 'inline-block'
@@ -104,6 +108,7 @@ swissbib.Holdings = {
    * @param  {Number}  height
    */
   openEODPopup: function (url, width, height) {
+    'use strict';
     width = width || 650;
     height = height || 760;
 
@@ -120,6 +125,7 @@ swissbib.Holdings = {
    * @param  {Number}  height
    */
   showMap: function (url, width, height) {
+    'use strict';
     width = width || 650;
     height = height || 760;
 
@@ -135,6 +141,7 @@ swissbib.Holdings = {
    * @param  {String}  dialogTitle    Title of dialog
    */
   openHoldingItemsPopup: function (contentUrl, dialogTitle) {
+    'use strict';
     var that = this,
         popup = $('#holdings-items-popup');
 
@@ -151,6 +158,7 @@ swissbib.Holdings = {
    * @param {Object} dialog
    */
   centerPopup: function (dialog) {
+    'use strict';
     dialog.dialog("option", "position", { my: "center", at: "center", of: window });
   },
 
@@ -162,6 +170,7 @@ swissbib.Holdings = {
    * @param  {Object}  dialog
    */
   setupItemsPopup: function (dialog) {
+    'use strict';
     var that = this,
         popup = $('#holdings-items-popup'),
         paging = $('#holding-items-popup-paging'),
@@ -195,6 +204,7 @@ swissbib.Holdings = {
    * @param  {String}  url
    */
   updateHoldingsPopup: function (url, dialog) {
+    'use strict';
     var that = this,
         popup = $('#holdings-items-popup');
 
@@ -214,6 +224,7 @@ swissbib.Holdings = {
    * @param  {String}    text
    */
   showQrCode: function (winKey, url, text) {
+    'use strict';
     var win = $('#qrcode-' + winKey);
 
     $('img', win).attr('src', url);

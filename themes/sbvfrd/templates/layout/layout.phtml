@@ -108,9 +108,10 @@ JS;
   // Append TypeScript generated output
   $this->headScript()->appendFile("swissbib/swissbib.ts.js");
 
-  // Extend swissbib global object by autocomplete configuration
-  $autoSuggestConfig = json_encode($this->autoSuggestConfig()->toArray());
-  $swissbibObjectExtension = <<<JS
+  if (isset($this->layout()->searchbox)) {
+      // Extend swissbib global object by autocomplete configuration
+      $autoSuggestConfig = json_encode($this->autoSuggestConfig()->toArray());
+      $swissbibObjectExtension = <<<JS
 (function(s) {
   var autoSuggestConfiguration = {$autoSuggestConfig};
   s.autoSuggestConfiguration = function () {
@@ -118,8 +119,9 @@ JS;
   };
 })(window.swissbib = window.swissbib || {});
 JS;
+      $this->headScript()->appendScript($swissbibObjectExtension);
+  }
 
-  $this->headScript()->appendScript($swissbibObjectExtension);
   ?>  <?=$this->headScript()?>
 </head>
 <body>
@@ -131,6 +133,7 @@ JS;
 // this covers case 1.  Cases 2 and 3 are then covered by logic below.
 if (!isset($this->layout()->searchbox)) {
   $this->layout()->searchbox = $this->render('search/searchbox.phtml');
+  echo $this->inlineScript();
 }
 ?>
 
@@ -170,7 +173,6 @@ if (!isset($this->layout()->searchbox)) {
     </div>
   </div>
 </div>
-</body>
 
 <script type="text/javascript">
 $(document).ready(function()
@@ -183,5 +185,7 @@ $(document).ready(function()
   <?php endif; ?>
 });
 </script>
+
+</body>
 
 </html>
