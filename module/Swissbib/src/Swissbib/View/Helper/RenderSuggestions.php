@@ -28,7 +28,6 @@
  */
 namespace Swissbib\View\Helper;
 
-use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use VuFind\Search\UrlQueryHelper;
 use VuFindSearch\Query\Query;
 use Zend\View\Helper\AbstractHelper;
