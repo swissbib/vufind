@@ -94,7 +94,6 @@ class RenderSuggestions extends AbstractHelper
         $html .= '<a href="' . $href . '">' . $view->escapeHtml($queryText)
             . '</a>';
 
-
         return $html;
     }
 }
