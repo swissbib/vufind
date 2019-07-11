@@ -507,13 +507,15 @@ class Holdings
              */
             $networkConfigs = $this->configHoldings->get($configName);
 
-            foreach ($networkConfigs as $networkCode => $networkConfig) {
-                list($domain, $library) = explode(',', $networkConfig, 2);
-                $this->networks[$networkCode] = [
-                    'domain' => $domain,
-                    'library' => $library,
-                    'type' => $networkName,
-                ];
+            if (!empty($networkConfig)) {
+                foreach ($networkConfigs as $networkCode => $networkConfig) {
+                    list($domain, $library) = explode(',', $networkConfig, 2);
+                    $this->networks[$networkCode] = [
+                        'domain' => $domain,
+                        'library' => $library,
+                        'type' => $networkName,
+                    ];
+                }
             }
         }
     }
