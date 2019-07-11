@@ -87,7 +87,7 @@ class RenderSuggestions extends AbstractHelper
 
         foreach ($suggested as $term => $suggestion) {
             $queryText = str_replace($term, $suggestion, $queryText);
-            $queryUrl = $queryUrl->replaceTerm($term, $suggestion, true, true);
+            $queryUrl = $queryUrl->replaceTerm($term, $suggestion, true);
         }
 
         $href=$queryUrl->getParams();
