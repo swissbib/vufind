@@ -640,8 +640,10 @@ class Holdings
     {
         $r = [];
         $holdings = $this->getHoldings($recordDriver, $institution);
-        foreach ($holdings['items'] as $item) {
-            array_push($r, $item['barcode']);
+        if (isset($holdings['items'])) {
+            foreach ($holdings['items'] as $item) {
+                array_push($r, $item['barcode']);
+            }
         }
         return $r;
     }
