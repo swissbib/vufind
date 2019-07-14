@@ -2812,6 +2812,29 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     }
 
     /**
+     * Return an array of all values extracted from the specified field/subfield
+     * combination.  If multiple subfields are specified and $concat is true, they
+     * will be concatenated together in the order listed -- each entry in the array
+     * will correspond with a single MARC field.  If $concat is false, the return
+     * array will contain separate entries for separate subfields.
+     *
+     * @param string $field     The MARC field number to read
+     * @param array  $subfields The MARC subfield codes to read
+     * @param bool   $concat    Should we concatenate subfields?
+     * @param string $separator Separator string (used only when $concat === true)
+     *
+     * @return array
+     */
+    public function getField(
+        $field,
+        $subfields = null,
+        $concat = true,
+        $separator = ' '
+    ) {
+        return $this->getFieldArray($field, $subfields, $concat, $separator);
+    }
+
+    /**
      * Returns institutions which we won't show by its name
      *
      * @return array
@@ -2859,24 +2882,26 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getAvailabilityIconFromServer($idls, $sysNr)
     {
-        $r = [];
+        $r = $r3 = [];
         $userLocale = $this->translator->getLocale();
         if ($idls == 'RERO') {
             $hh = $this->getHoldingsHelper();
-            $institutions = $hh->getHoldingsStructure()[$idls]['institutions'];
-            foreach ($institutions as $institution) {
-                $institutionCode = $institution['label'];
-                $hh->resetHolding();
-                $barcodes = $hh->getAllBarcodes($this, $institutionCode);
-                $r2 = $this->availabilityHelper
-                    ->getAvailability($sysNr, $barcodes, $idls, $userLocale);
-                $r3 = [];
-                foreach ($r2 as $key => $val) {
-                    if ($val['statusfield'] == 'lendable_available') {
-                        $r3[$institutionCode] = '0';
-                        break;
-                    } elseif ($val['statusfield'] == 'lendable_borrowed') {
-                        $r3[$institutionCode] = '1';
+            $hs = $hh->getHoldingsStructure();
+            if (isset($hs[$idls])) {
+                $institutions = $hh->getHoldingsStructure()[$idls]['institutions'];
+                foreach ($institutions as $institution) {
+                    $institutionCode = $institution['label'];
+                    $hh->resetHolding();
+                    $barcodes = $hh->getAllBarcodes($this, $institutionCode);
+                    $r2 = $this->availabilityHelper
+                        ->getAvailability($sysNr, $barcodes, $idls, $userLocale);
+                    foreach ($r2 as $key => $val) {
+                        if ($val['statusfield'] == 'lendable_available') {
+                            $r3[$institutionCode] = '0';
+                            break;
+                        } elseif ($val['statusfield'] == 'lendable_borrowed') {
+                            $r3[$institutionCode] = '1';
+                        }
                     }
                 }
                 $r = array_merge($r, $r3);

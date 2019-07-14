@@ -30,6 +30,7 @@
  */
 namespace Swissbib\Controller;
 
+use Swissbib\RecordDriver\SolrMarc;
 use Swissbib\VuFind\Search\Results\PluginManager
     as SwissbibSearchResultsPluginManager;
 use VuFind\Controller\SearchController as VuFindSearchController;
@@ -127,6 +128,74 @@ class SearchController extends VuFindSearchController
         $record = $this->getRecord($idRecord);
         $availabilities = [];
 
+        if (empty($record->getField('949', ['B','F','b','c','j']))) {
+            $field898a = $record->getField('898', ['a']);
+            $field898a = $field898a[0];
+            if (substr_compare($field898a, '53', -strlen('53')) == 0) {
+                // all institutions of the record get the 'available' flag:
+                $institutions = $record->getInstitutions(true);
+                foreach ($institutions as $institution) {
+                    $availabilities = array_merge(
+                        $availabilities,
+                        [$institution['institution'] => '0']
+                    );
+                }
+            } else {
+                $doAlephRequest
+                    = substr_compare(
+                        $field898a, 'CR02', 0, strlen('CR02')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0300', 0, strlen('CR0300')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0301', 0, strlen('CR0301')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0302', 0, strlen('CR0302')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0303', 0, strlen('CR0303')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0304', 0, strlen('CR0304')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0305', 0, strlen('CR0305')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0306', 0, strlen('CR0306')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0307', 0, strlen('CR0307')
+                    ) === 0 ||
+                    substr_compare(
+                        $field898a, 'CR0308', 0, strlen('CR0308')
+                    ) === 0;
+                if ($doAlephRequest) {
+                    $availabilities = $this->doAlephAvailabilityRequest($record);
+                }
+            }
+        } else {
+            $availabilities = $this->doAlephAvailabilityRequest($record);
+        }
+
+        $response = $this->getResponse();
+        $response->setStatusCode(200);
+        $response->setContent(json_encode($availabilities));
+        return $response;
+    }
+
+    /**
+     * Do Aleph Availability Request
+     *
+     * @param SolrMarc $record the solrMarc record
+     *
+     * @return array
+     */
+    protected function doAlephAvailabilityRequest(SolrMarc $record)
+    {
+        $availabilities = [];
         $alwaysAvailableGroups = [
             'RETROS',
             'BORIS',
@@ -166,11 +235,7 @@ class SearchController extends VuFindSearchController
                 );
             }
         }
-
-        $response = $this->getResponse();
-        $response->setStatusCode(200);
-        $response->setContent(json_encode($availabilities));
-        return $response;
+        return $availabilities;
     }
 
     /**

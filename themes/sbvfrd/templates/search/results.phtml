@@ -94,7 +94,7 @@
 
   <?php endif; ?>
 
-  <?=$this->render('search/spellingSuggestions.phtml')?>
+  <?=$this->render('Recommend/SpellingSuggestions.phtml')?>
 
   <?php if ($recordTotal > 0): // only display these at very top if we have results ?>
     <?php foreach ($this->results->getRecommendations('top') as $current): ?>

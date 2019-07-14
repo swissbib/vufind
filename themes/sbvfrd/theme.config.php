@@ -50,6 +50,7 @@ return [
       'translateFacets' => 'Swissbib\View\Helper\Swissbib\Factory::getFacetTranslator',
       'formatRelatedEntries' => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
       \Swissbib\VuFind\View\Helper\Root\Translate::class => 'Zend\ServiceManager\Factory\InvokableFactory',
+       'Swissbib\View\Helper\RenderSuggestions' => 'Zend\ServiceManager\Factory\InvokableFactory',
     ],
     'aliases' => [
         'auth' => 'VuFind\View\Helper\Root\Auth',
@@ -59,6 +60,7 @@ return [
         'recordLink' => 'Swissbib\View\Helper\RecordLink',
         'searchtabs' => 'Swissbib\VuFind\View\Helper\Root\SearchTabs',
         'translate' => \Swissbib\VuFind\View\Helper\Root\Translate::class,
+        'renderSuggestions' => 'Swissbib\View\Helper\RenderSuggestions',
     ],
   ]
 ];

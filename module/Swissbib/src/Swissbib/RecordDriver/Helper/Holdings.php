@@ -507,13 +507,15 @@ class Holdings
              */
             $networkConfigs = $this->configHoldings->get($configName);
 
-            foreach ($networkConfigs as $networkCode => $networkConfig) {
-                list($domain, $library) = explode(',', $networkConfig, 2);
-                $this->networks[$networkCode] = [
-                    'domain' => $domain,
-                    'library' => $library,
-                    'type' => $networkName,
-                ];
+            if (!empty($networkConfigs)) {
+                foreach ($networkConfigs as $networkCode => $networkConfig) {
+                    list($domain, $library) = explode(',', $networkConfig, 2);
+                    $this->networks[$networkCode] = [
+                        'domain' => $domain,
+                        'library' => $library,
+                        'type' => $networkName,
+                    ];
+                }
             }
         }
     }
@@ -638,8 +640,10 @@ class Holdings
     {
         $r = [];
         $holdings = $this->getHoldings($recordDriver, $institution);
-        foreach ($holdings['items'] as $item) {
-            array_push($r, $item['barcode']);
+        if (isset($holdings['items'])) {
+            foreach ($holdings['items'] as $item) {
+                array_push($r, $item['barcode']);
+            }
         }
         return $r;
     }
