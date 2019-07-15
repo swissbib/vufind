@@ -258,6 +258,10 @@
         input.on('paste', function acinputPaste() {
           requestAnimationFrame(search);
         });
+        //fixes the suggestions not appearing on firefox mobile
+        input.on('input', function acinputInput() {
+          search();
+        });
         input.keyup(function acinputKeyup(event) {
           // Ignore navigation keys
           // - Ignore control functions
@@ -287,8 +291,6 @@
             case 145: // scroll lock
             case 19: // pause/break
               return;
-            default:
-              search();
           }
         });
         input.keydown(function acinputKeydown(event) {
