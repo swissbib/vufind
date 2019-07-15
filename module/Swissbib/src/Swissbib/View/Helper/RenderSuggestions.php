@@ -28,13 +28,13 @@
  */
 namespace Swissbib\View\Helper;
 
-use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use VuFind\Search\UrlQueryHelper;
 use VuFindSearch\Query\Query;
 use Zend\View\Helper\AbstractHelper;
 
 /**
  * Render suggestions
+ * Based on renderSpellingSuggestions from VuFind
  *
  * @category Swissbib_VuFind
  * @package  View_Helper
@@ -75,32 +75,24 @@ class RenderSuggestions extends AbstractHelper
          * @var Query $initialQuery
          */
         $initialQuery = $results->getParams()->getQuery();
-
-
-        foreach ($suggested as $term => $suggestion) {
-            $initialQuery->replaceTerm($term, $suggestion);
-        }
-
-        $text = $initialQuery->getString();
+        $queryText = $initialQuery->getNormalizedString();
 
         /**
          * Url Query Helper
          *
-         * @var UrlQueryHelper $query
+         * @var UrlQueryHelper $queryUrl
          */
-        $query = $results->getUrlQuery();
+        $queryUrl = $results->getUrlQuery();
 
         foreach ($suggested as $term => $suggestion) {
-            $query = $query->replaceTerm($term, $suggestion);
+            $queryText = str_replace($term, $suggestion, $queryText);
+            $queryUrl = $queryUrl->replaceTerm($term, $suggestion, true);
         }
 
+        $href=$queryUrl->getParams();
 
-        $href=$query->getParams();
-
-
-        $html .= '<a href="' . $href . '">' . $view->escapeHtml($text)
+        $html .= '<a href="' . $href . '">' . $view->escapeHtml($queryText)
             . '</a>';
-
 
         return $html;
     }

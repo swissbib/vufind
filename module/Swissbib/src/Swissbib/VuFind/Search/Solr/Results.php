@@ -240,12 +240,9 @@ class Results extends VuFindSolrResults
             $this->spellingQuery = $spellcheck->getQuery();
             $this->suggestions = $this->getSpellingProcessor()
                 ->getSuggestions($spellcheck, $this->getParams()->getQuery());
-
-
         }
 
         // Construct record drivers for all the items in the response:
         $this->results = $collection->getRecords();
     }
-
 }

@@ -2825,9 +2825,12 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      *
      * @return array
      */
-    public function getField($field, $subfields = null, $concat = true,
-            $separator = ' ')
-    {
+    public function getField(
+        $field,
+        $subfields = null,
+        $concat = true,
+        $separator = ' '
+    ) {
         return $this->getFieldArray($field, $subfields, $concat, $separator);
     }
 
@@ -2879,24 +2882,26 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getAvailabilityIconFromServer($idls, $sysNr)
     {
-        $r = [];
+        $r = $r3 = [];
         $userLocale = $this->translator->getLocale();
         if ($idls == 'RERO') {
             $hh = $this->getHoldingsHelper();
-            $institutions = $hh->getHoldingsStructure()[$idls]['institutions'];
-            foreach ($institutions as $institution) {
-                $institutionCode = $institution['label'];
-                $hh->resetHolding();
-                $barcodes = $hh->getAllBarcodes($this, $institutionCode);
-                $r2 = $this->availabilityHelper
-                    ->getAvailability($sysNr, $barcodes, $idls, $userLocale);
-                $r3 = [];
-                foreach ($r2 as $key => $val) {
-                    if ($val['statusfield'] == 'lendable_available') {
-                        $r3[$institutionCode] = '0';
-                        break;
-                    } elseif ($val['statusfield'] == 'lendable_borrowed') {
-                        $r3[$institutionCode] = '1';
+            $hs = $hh->getHoldingsStructure();
+            if (isset($hs[$idls])) {
+                $institutions = $hh->getHoldingsStructure()[$idls]['institutions'];
+                foreach ($institutions as $institution) {
+                    $institutionCode = $institution['label'];
+                    $hh->resetHolding();
+                    $barcodes = $hh->getAllBarcodes($this, $institutionCode);
+                    $r2 = $this->availabilityHelper
+                        ->getAvailability($sysNr, $barcodes, $idls, $userLocale);
+                    foreach ($r2 as $key => $val) {
+                        if ($val['statusfield'] == 'lendable_available') {
+                            $r3[$institutionCode] = '0';
+                            break;
+                        } elseif ($val['statusfield'] == 'lendable_borrowed') {
+                            $r3[$institutionCode] = '1';
+                        }
                     }
                 }
                 $r = array_merge($r, $r3);

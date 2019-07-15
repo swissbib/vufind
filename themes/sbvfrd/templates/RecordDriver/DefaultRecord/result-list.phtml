@@ -19,6 +19,7 @@ $uniqueID = $record->getUniqueID();
 $showFRBR = $this->configAccess()->Site->displayFrbr;
 $memorizeLink = $this->recordLink()->getActionUrl($this->driver, 'Save');
 $formats = $viewRecord->getFormatList();
+$isFRBR = (!empty($showFRBR) && $showFRBR && !empty($groupID) &&!strcmp($results->getParams()->getSearchHandler(), 'FRBR') == 0);
 
 ?>
 <div class="<?=$this->driver->supportsAjaxStatus()?'ajaxItem ':''?>col-xs-11 gutter-1">
@@ -81,13 +82,13 @@ $formats = $viewRecord->getFormatList();
             <?php endif; ?>
         </div>
         <div class="row">
-            <?php if ($summDate): ?>
+            <?php if ($summDate && !$isFRBR): ?>
                     <div class="col-md-3 hidden-xs"><?= $this->transEsc('Year') ?>:</div>
                     <div class="col-md-9"><?= $this->escapeHtml($summDate[0]) ?></div>
             <?php endif; ?>
         </div>
         <div class="row">
-            <?php if ($edition): ?>
+            <?php if ($edition && !$isFRBR): ?>
                 <div class="col-md-3 hidden-xs"><?= $this->transEsc('Edition') ?>:</div>
                 <div class="col-md-9"><?= $this->escapeHtml($edition) ?></div>
             <?php endif; ?>
@@ -103,7 +104,7 @@ $formats = $viewRecord->getFormatList();
 
         <!-- Medien-Typ -->
         <div class="row">
-          <?php if (!empty($formats)): ?>
+          <?php if (!empty($formats) && !$isFRBR): ?>
                 <div class="col-md-3 hidden-xs"><?= $this->transEsc('Format') ?>:</div>
                 <div class="col-md-9"><?= $formats ?></div>
           <?php endif; ?>
@@ -121,7 +122,7 @@ $formats = $viewRecord->getFormatList();
             <?= $this->render('search/results/links.phtml') ?>
         <?php endif; ?>
 
-      <?php if (!empty($showFRBR) && $showFRBR && !empty($groupID) && !strcmp($results->getParams()->getSearchHandler(), 'FRBR') == 0) : ?>
+      <?php if ($isFRBR) : ?>
         <a class="btn btn-primary btn-frbr hidden-print" href="<?= $this->url('search-results') .
             '?lookfor=' . $groupID .
             '&type=FRBR' .
