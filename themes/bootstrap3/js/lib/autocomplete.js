@@ -343,7 +343,9 @@
           }
         });
 
-        window.addEventListener('resize', hide, false);
+        //autcomplete.js 2.0 has a better version of this
+        //this actually hides the suggestions when the soft keyboard on mobile appears
+        //window.addEventListener('resize', hide, false);
       };
 
       // Setup
