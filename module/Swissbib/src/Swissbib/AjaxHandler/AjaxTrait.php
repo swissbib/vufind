@@ -158,6 +158,8 @@ trait AjaxTrait
             'VuFind\Search\Results\PluginManager'
         );
         $searcher = $this->request->getQuery()['searcher'];
+
+        $searcher = $searcher ===  "ElasticSearch" ? "swissbibrdfdataapi" : $searcher;
         /*
          * @var Results
          */

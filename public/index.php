@@ -11,6 +11,8 @@ if (!empty($xhprof)) {
     }
 }
 
+error_reporting(0);
+
 // Define path to application directory
 defined('APPLICATION_PATH')
     || define(
