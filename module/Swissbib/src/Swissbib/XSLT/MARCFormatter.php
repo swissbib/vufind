@@ -160,8 +160,10 @@ class MARCFormatter
         if ($domNode->getAttribute('code') != 'a' || empty($institution)) {
             return $domNode;
         } else {
+            $suffix = array('/HSB01/', '/DSV01/', '/EBI01/', '/ILU01/', '/SBT01/', '/-41SLSP/');
             $request = substr($nodeValue, strlen($institution) + 2);
             $request = str_replace(self::$trimPrefixes, '', $request);
+            $request = preg_replace($suffix, '', $request);
             $url = str_replace('%s', $request, self::$institutionURLs[$institution]);
             $urlcbs = str_replace( '%s', $request, self::$cbsURLs[$institution]);
 
