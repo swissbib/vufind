@@ -84,6 +84,47 @@ class MARCFormatter
     // @codingStandardsIgnoreEnd
 
     /**
+     * InstitutionUrls
+     *
+     * @var array
+     */
+    // @codingStandardsIgnoreStart
+    protected static $cbsURLs = [
+        "SGBN" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+sgbn+%s&REC=*",
+        "OCoLC" => "http://www.worldcat.org/oclc/%s",
+        "ABN" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+abn+%s&REC=*",
+        "ALEX" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+alex+%s&REC=*",
+        "ALEXREPO" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+alexrepo+%s&REC=*",
+        "BGR" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+bgr+%s&REC=*",
+        "BISCH" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+bisch+%s&REC=*",
+        "BORIS" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+boris+%s&REC=*",
+        "CCSA" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+ccsa+%s&REC=*",
+        "CHARCH" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+charch+%s&REC=*",
+        "DDB" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+ddb+%s&REC=*",
+        "ECOD" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+ecod+%s&REC=*",
+        "EDOC" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+edoc+%s&REC=*",
+        "ETHRESEARCH" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+ethresearch+%s&REC=*",
+        "HAN" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+han+%s&REC=*",
+        "HEMU" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+hemu+%s&REC=*",
+        "IDSBB" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+idsbb+%s&REC=*",
+        "IDSSG2" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+idssg2+%s&REC=*",
+        "IDSSG" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+idssg+%s&REC=*",
+        "IDSLU" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+idslu+%s&REC=*",
+        "KBTG" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+kbtg+%s&REC=*",
+        "LIBIB" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+libib+%s&REC=*",
+        "NEBIS" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+nebis+%s&REC=*",
+        "RERO" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+rero+%s&REC=*",
+        "RETROS" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+retros+%s&REC=*",
+        "SBT" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+sbt+%s&REC=*",
+        "SERVAL" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+serval+%s&REC=*",
+        "SNL" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+snl+%s&REC=*",
+        "VAUD" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+vaud+%s&REC=*",
+        "VAUDS" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+vauds+%s&REC=*",
+        "ZORA" => "http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=1/TTL=12/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=sdn+zora+%s&REC=*",
+    ];
+    // @codingStandardsIgnoreEnd
+    //
+    /**
      * TrimPrefixes
      *
      * @var array
@@ -108,6 +149,7 @@ class MARCFormatter
         $domNode = $domArray[0];
         if ($domNode->parentNode !== null
             && $domNode->parentNode->getAttribute('tag') != '035'
+            && $domNode->parentNode-getAttribute('tag') != '001'
         ) {
             return $domNode; //return before trying to find institution
         }
@@ -121,9 +163,11 @@ class MARCFormatter
             $request = substr($nodeValue, strlen($institution) + 2);
             $request = str_replace(self::$trimPrefixes, '', $request);
             $url = str_replace('%s', $request, self::$institutionURLs[$institution]);
+            $urlcbs = str_replace( '%s', $request, self::$cbsURLs[$institution]);
 
             return '<a href="' . $url . '" target="_blank">' .
-                htmlentities('(' . $institution . ')' . $request) . '</a>';
+                htmlentities('(' . $institution . ')' . $request) . '</a> <a href="' . $urlcbs . '" target="_blank">' .
+                '<i class=\'availability fa-eye\'></i>' . '</a>';
         }
     }
 

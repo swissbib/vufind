@@ -1,1 +1,39 @@
-<?=\Swissbib\XSLT\Processor::process('record-marc.xsl', $this->driver->getXML('marc21'))?>
+<?php
+$record         = $this->driver;
+$viewRecord     = $this->record($record);
+$id             = $record->getUniqueId();
+
+?>
+<?=\Swissbib\XSLT\Processor::process('record-marc.xsl', $this->driver->getXML('marc21')) ?>
+</br>
+<table class="table table-striped">
+    <? if (!empty($id)):
+        $url = 'http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=2/TTL=1/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=ppn+' . $id . '&REC=*;';
+        $secret = 'http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=2/TTL=1/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=ppn+' . $id . '&REC=*;&PRS=PP';
+        $slaves = 'http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=6/TTL=1/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=%5C6158+' . $id . '&REC=*'
+        ?>
+        <div class="row">
+            <div class="col-sm-3"><?=$this->transEsc('PPN Master/Unique in CBS')?>: </div>
+            <div class="col-sm-9">
+                <span property="ppn">
+                    <a title="<?= $this->transEsc('PPN in CBS') ?>" target="_blank" href="<?= $url ?>"><?=$this->escapeHtml($id)?></a><br/>
+                </span>
+            </div>
+            <div class="col-sm-3"><?=$this->transEsc('PPN in CBS (secret view)')?>: </div>
+            <div class="col-sm-9">
+                <span property="ppn">
+                    <a title="<?= $this->transEsc('PPN in CBS (secret view)') ?>" target="_blank" href="<?= $secret ?>"><?=$this->escapeHtml($id)?></a><br/>
+                </span>
+            </div>
+            <div class="col-sm-3"><?=$this->transEsc('Alle Slaves')?>: </div>
+            <div class="col-sm-9">
+                <span property="ppn">
+                    <a title="<?= $this->transEsc('Alle Slaves') ?>" target="_blank" href="<?= $slaves ?>"><?=$this->transEsc('Alle Slaves')?></a><br/>
+                </span>
+            </div>
+        </div>
+    <? endif; ?>
+</table>
+
+
+
