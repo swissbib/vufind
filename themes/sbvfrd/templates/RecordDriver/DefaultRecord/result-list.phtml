@@ -115,12 +115,6 @@ $isFRBR = (!empty($showFRBR) && $showFRBR && !empty($groupID) &&!strcmp($results
 
   <div class="col-xs-1 col-md-3 actions">
     <div>
-        <?php if ($this->driver->displayHoldings()): ?>
-            <?= $this->render('search/results/available.phtml') ?>
-            <?= $this->render('search/results/libraries.phtml') ?>
-        <?php elseif ($this->driver->displayLinks()): ?>
-            <?= $this->render('search/results/links.phtml') ?>
-        <?php endif; ?>
 
       <?php if ($isFRBR) : ?>
         <a class="btn btn-primary btn-frbr hidden-print" href="<?= $this->url('search-results') .
@@ -133,18 +127,28 @@ $isFRBR = (!empty($showFRBR) && $showFRBR && !empty($groupID) &&!strcmp($results
           <span><i class="fa fa-eye"></i></span>
           <span class="hidden-xs hidden-sm"><?= $this->transEsc('Other Editions') ?></span>
         </a>
+      <?php else: ?>
+        <?php if ($this->driver->displayHoldings()): ?>
+            <?= $this->render('search/results/available.phtml') ?>
+            <?= $this->render('search/results/libraries.phtml') ?>
+
+        <?php elseif ($this->driver->displayLinks()): ?>
+            <?= $this->render('search/results/links.phtml') ?>
+        <?php endif; ?>
+
+        <?php if ($this->userlist()->getMode() !== 'disabled'): ?>
+          <a class="btn btn-primary hidden-print" href="<?= $this->recordLink()->getActionUrl($this->driver, 'Save'); ?>" title="<?= $this->transEsc('Add to favorites') ?>">
+            <span class="memorizelistadd"><i class="fa fa-list-ul"></i></span>
+            <span class="hidden-xs hidden-sm"><?= $this->transEsc('List') ?></span>
+          </a>
+          <?php /* Saved lists */ ?>
+          <div class="savedLists alert alert-info hidden hidden-xs hidden-sm hidden-print">
+            <strong><?=$this->transEsc('Saved in')?>:</strong>
+          </div>
+        <?php endif; ?>
       <?php endif; ?>
 
-      <?php if ($this->userlist()->getMode() !== 'disabled'): ?>
-        <a class="btn btn-primary hidden-print" href="<?= $this->recordLink()->getActionUrl($this->driver, 'Save'); ?>" title="<?= $this->transEsc('Add to favorites') ?>">
-          <span class="memorizelistadd"><i class="fa fa-list-ul"></i></span>
-          <span class="hidden-xs hidden-sm"><?= $this->transEsc('List') ?></span>
-        </a>
-            <?php /* Saved lists */ ?>
-            <div class="savedLists alert alert-info hidden hidden-xs hidden-sm hidden-print">
-                <strong><?=$this->transEsc('Saved in')?>:</strong>
-            </div>
-      <?php endif; ?>
+
 
     </div>
   </div>
