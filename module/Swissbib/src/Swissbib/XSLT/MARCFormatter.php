@@ -165,11 +165,9 @@ class MARCFormatter
             $request = str_replace(self::$trimPrefixes, '', $request);
             $request = preg_replace($suffix, '', $request);
             $url = str_replace('%s', $request, self::$institutionURLs[$institution]);
-            $urlcbs = str_replace( '%s', $request, self::$cbsURLs[$institution]);
 
             return '<a href="' . $url . '" target="_blank">' .
-                htmlentities('(' . $institution . ')' . $request) . '</a> <a href="' . $urlcbs . '" target="_blank">' .
-                '<i class=\'availability fa-eye\'></i>' . '</a>';
+                htmlentities('(' . $institution . ')' . $request) . '</a>';
         }
     }
 
