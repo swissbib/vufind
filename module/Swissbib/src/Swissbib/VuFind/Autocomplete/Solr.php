@@ -55,10 +55,8 @@ class Solr extends VFAutocompleteSolr
     protected function getSuggestionsFromSearch($searchResults, $query, $exact)
     {
         $results = [];
-
         foreach ($searchResults as $object) {
             $current = $object->getRawData();
-            $combination = '';
             foreach ($this->displayField as $field) {
                 if (isset($current[$field])) {
                     $bestMatch = $this->pickBestMatch(
@@ -70,22 +68,14 @@ class Solr extends VFAutocompleteSolr
                             '='
                         ];
                         $bestMatch = str_replace($forbidden, " ", $bestMatch);
-
-                        if ($combination != '') {
-                            $combination .= ' / ' . $bestMatch;
-                        } else {
-                            $combination = $bestMatch;
+                        if (!$this->isDuplicate($bestMatch, $results)) {
+                            $results[] = $bestMatch;
+                            break;
                         }
                     }
                 }
-
             }
-            if (!$this->isDuplicate($combination, $results)) {
-                $results[]=$combination;
-            }
-
         }
-
         return $results;
     }
 
