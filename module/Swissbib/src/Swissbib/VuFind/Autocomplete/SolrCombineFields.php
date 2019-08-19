@@ -28,9 +28,6 @@
  */
 namespace Swissbib\VuFind\Autocomplete;
 
-use Swissbib\VuFind\Search\Solr\Options;
-use Swissbib\VuFind\Search\Solr\Params as Params;
-
 /**
  * SolrCombineFields
  *

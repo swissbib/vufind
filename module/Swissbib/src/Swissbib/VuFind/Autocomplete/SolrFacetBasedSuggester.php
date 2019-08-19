@@ -19,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
  * USA
  *
  * @category Swissbib_VuFind2
@@ -29,12 +29,11 @@
  *           License
  * @link     http://www.swissbib.org
  */
-
 namespace Swissbib\VuFind\Autocomplete;
 
+use Swissbib\VuFind\Search\Solr\Params as Params;
 use Swissbib\VuFind\Search\Solr\Results;
 use VuFind\Autocomplete\Solr as VFAutocompleteSolr;
-use Swissbib\VuFind\Search\Solr\Params as Params;
 
 /**
  * SolrFacetBasedSuggester
@@ -72,7 +71,6 @@ class SolrFacetBasedSuggester extends VFAutocompleteSolr
      */
     protected $numberSuggestions;
 
-
     /**
      * Set parameters that affect the behavior of the autocomplete handler.
      * These values normally come from the search configuration file.
@@ -90,7 +88,7 @@ class SolrFacetBasedSuggester extends VFAutocompleteSolr
         $this->facet = (isset($params[1]) && !empty($params[1])) ?
             $params[1] : null;
         $this->displayField = $this->facet;
-        if (isset($params[2]) && !empty($params[2]) && $params[2]=='true') {
+        if (isset($params[2]) && !empty($params[2]) && $params[2] == 'true') {
             $this->facetContains = true;
         } else {
             $this->facetContains = false;
@@ -165,11 +163,9 @@ class SolrFacetBasedSuggester extends VFAutocompleteSolr
 
             if (isset($facets[$facet])) {
                 foreach ($facets[$facet]['list'] as $facet_values) {
-                    $suggestions [] = $facet_values['value'];
+                    $suggestions[] = $facet_values['value'];
                 }
             }
-
-
         } catch (\Exception $e) {
             // Ignore errors -- just return empty results if we must.
         }

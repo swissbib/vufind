@@ -124,7 +124,6 @@ class Solr extends VFAutocompleteSolr
 
             $params->setOptions($options);
 
-
             $this->searchObject->setParams($params);
             $searchResults = $this->searchObject->getResults();
 
