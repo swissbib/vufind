@@ -35,6 +35,12 @@
       $this->layout()->breadcrumbs .= '<li class="active">' .
           $this->searchMemory()->getLastSearchLink($this->transEsc('Search'), '', '</li> ' . '<li class="active">' . sprintf($this->transEsc('search_breadcrumb_frbr'), $this->escapeHtml($this->lookfor)) . '</li>');
     }
+    else if ('Author' === $type) {
+      $this->layout()->breadcrumbs .= '<li class="active">' .
+            $this->searchMemory()->getLastSearchLink(
+                $this->transEsc('Search') . ': (' . $this->transEsc('Author') . ':'. $this->escapeHtml($this->lookfor) .')'
+            );
+    }
     else {
       $this->layout()->breadcrumbs .= '<li class="active">' .
           $this->searchMemory()->getLastSearchLink($this->transEsc('Search') . ': ' . $this->escapeHtml($this->lookfor), '', '</li> ');
