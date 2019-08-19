@@ -132,8 +132,11 @@ export default class AutoSuggest {
 
 
         this.applyResults(collection, callback);
-        this.searchInputElement.removeClass('hidden');//autocomplete('show');
-        this.autocompleteInstance.show();
+        //only display suggestion box if there are any suggestion
+        if (collection.groups.length>0) {
+            this.searchInputElement.removeClass('hidden');//autocomplete('show');
+            this.autocompleteInstance.show();
+        }
     }
 
     /**
