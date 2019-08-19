@@ -51,6 +51,66 @@ use Swissbib\VuFind\Search\Solr\Params as Params;
 class SolrFacetBasedSuggester extends VFAutocompleteSolr
 {
     /**
+     * Facet to use to retrieve suggestions
+     *
+     * @var string
+     */
+    protected $facet;
+
+    /**
+     * If true, only terms which contains the first word of the
+     * search query will be suggested
+     *
+     * @var bool
+     */
+    protected $facetContains;
+
+    /**
+     * Number of Suggestions to retrieve
+     *
+     * @var int
+     */
+    protected $numberSuggestions;
+
+
+    /**
+     * Set parameters that affect the behavior of the autocomplete handler.
+     * These values normally come from the search configuration file.
+     *
+     * @param string $params Parameters to set
+     *
+     * @return void
+     */
+    public function setConfig($params)
+    {
+        // Save the basic parameters:
+        $params = explode(':', $params);
+        $this->handler = (isset($params[0]) && !empty($params[0])) ?
+            $params[0] : null;
+        $this->facet = (isset($params[1]) && !empty($params[1])) ?
+            $params[1] : null;
+        $this->displayField = $this->facet;
+        if (isset($params[2]) && !empty($params[2]) && $params[2]=='true') {
+            $this->facetContains = true;
+        } else {
+            $this->facetContains = false;
+        }
+        if (isset($params[3]) && !empty($params[3])) {
+            $value = intval($params[3]);
+            if ($value < 1) {
+                //default value
+                $this->numberSuggestions = 3;
+            } else {
+                $this->numberSuggestions = $value;
+            }
+        }
+        $this->filters = [];
+
+        // Set up the Search Object:
+        $this->initSearchObject();
+    }
+
+    /**
      * This method returns an array of strings matching the user's query for
      * display in the autocomplete box.
      *
@@ -70,7 +130,7 @@ class SolrFacetBasedSuggester extends VFAutocompleteSolr
             );
 
             //this is the facet we will search and display
-            $facet = $this->displayField[0];
+            $facet = $this->facet;
 
             /**
              * Search Params
@@ -83,18 +143,17 @@ class SolrFacetBasedSuggester extends VFAutocompleteSolr
             $params->setLimit(0);
 
             //only the first 3 facets
-            $params->setFacetLimit(3);
+            $params->setFacetLimit($this->numberSuggestions);
             $params->addFacet($facet);
 
-            //only facet values which contains the first typed word
-            $firstWord = explode(" ", $query)[0];
+            if ($this->facetContains) {
+                //only facet values which contains the first typed word
+                $firstWord = explode(" ", $query)[0];
 
-            //or the word before apostrophe
-            $firstWord = explode("'", $firstWord)[0];
-            $firstWord = rtrim($firstWord, '*');
+                //or the word before apostrophe
+                $firstWord = explode("'", $firstWord)[0];
+                $firstWord = rtrim($firstWord, '*');
 
-            //small hack to inject facet contains from config
-            if ($this->sortField == 'yes') {
                 $params->setFacetContains($firstWord);
                 $params->setFacetContainsIgnoreCase(true);
             }
