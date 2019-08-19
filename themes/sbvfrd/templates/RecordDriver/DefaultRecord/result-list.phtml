@@ -19,7 +19,6 @@ $uniqueID = $record->getUniqueID();
 $showFRBR = $this->configAccess()->Site->displayFrbr;
 $memorizeLink = $this->recordLink()->getActionUrl($this->driver, 'Save');
 $formats = $viewRecord->getFormatList();
-$isFRBR = (!empty($showFRBR) && $showFRBR && !empty($groupID) &&!strcmp($results->getParams()->getSearchHandler(), 'FRBR') == 0);
 
 ?>
 <div class="<?=$this->driver->supportsAjaxStatus()?'ajaxItem ':''?>col-xs-11 gutter-1">
@@ -82,13 +81,13 @@ $isFRBR = (!empty($showFRBR) && $showFRBR && !empty($groupID) &&!strcmp($results
             <?php endif; ?>
         </div>
         <div class="row">
-            <?php if ($summDate && !$isFRBR): ?>
+            <?php if ($summDate): ?>
                     <div class="col-md-3 hidden-xs"><?= $this->transEsc('Year') ?>:</div>
                     <div class="col-md-9"><?= $this->escapeHtml($summDate[0]) ?></div>
             <?php endif; ?>
         </div>
         <div class="row">
-            <?php if ($edition && !$isFRBR): ?>
+            <?php if ($edition): ?>
                 <div class="col-md-3 hidden-xs"><?= $this->transEsc('Edition') ?>:</div>
                 <div class="col-md-9"><?= $this->escapeHtml($edition) ?></div>
             <?php endif; ?>
@@ -104,7 +103,7 @@ $isFRBR = (!empty($showFRBR) && $showFRBR && !empty($groupID) &&!strcmp($results
 
         <!-- Medien-Typ -->
         <div class="row">
-          <?php if (!empty($formats) && !$isFRBR): ?>
+          <?php if (!empty($formats)): ?>
                 <div class="col-md-3 hidden-xs"><?= $this->transEsc('Format') ?>:</div>
                 <div class="col-md-9"><?= $formats ?></div>
           <?php endif; ?>
@@ -122,7 +121,7 @@ $isFRBR = (!empty($showFRBR) && $showFRBR && !empty($groupID) &&!strcmp($results
             <?= $this->render('search/results/links.phtml') ?>
         <?php endif; ?>
 
-      <?php if ($isFRBR) : ?>
+      <?php if (!empty($showFRBR) && $showFRBR && !empty($groupID) && !strcmp($results->getParams()->getSearchHandler(), 'FRBR') == 0) : ?>
         <a class="btn btn-primary btn-frbr hidden-print" href="<?= $this->url('search-results') .
             '?lookfor=' . $groupID .
             '&type=FRBR' .

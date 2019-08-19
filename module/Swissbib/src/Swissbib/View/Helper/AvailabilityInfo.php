@@ -159,12 +159,13 @@ class AvailabilityInfo extends AbstractHelper
                         $info .= $escapedTranslation('on_hold') . "<div>" .
                             $escapedTranslation('no_requests') . "&nbsp;" .
                             $borrowingInfo['no_requests'] . "</div>";
-                    }
-                } else {
-                    foreach ($borrowingInfo as $key => $value) {
-                        if (strcmp(trim($value), "") != 0) {
-                            $info .= "<div>" . $escapedTranslation($key) . "&nbsp;" .
-                                $value . "</div>";
+                    } else {
+                        foreach ($borrowingInfo as $key => $value) {
+                            if (strcmp(trim($value), "") != 0) {
+                                $info .= "<div>" . $escapedTranslation($key)
+                                    . "&nbsp;" .
+                                    $value . "</div>";
+                            }
                         }
                     }
                 }
