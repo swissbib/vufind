@@ -35,9 +35,14 @@ export default class Section {
     readonly searcher: string;
 
     /**
-     * The search type to filter results on request for this section
+     * The search type (from searchspecs.yaml) to filter results on request for this section
      */
     readonly type: string;
+
+    /**
+     * The Autocomplete Type (from searches.ini) to use for autocompletion
+     */
+    readonly autocomplete_type: string;
 
     /**
      * The field to read from search result items for use in item links as query.
