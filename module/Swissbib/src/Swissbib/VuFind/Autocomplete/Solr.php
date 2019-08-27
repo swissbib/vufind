@@ -89,16 +89,13 @@ class Solr extends VFAutocompleteSolr
      */
     public function getSuggestions($query)
     {
-        //due to https://github.com/swissbib/vufind/issues/700
-        //we do an OR wildcarded search
-        $revisedQuery = rtrim($query, '*') . " OR " . $query;
         if (!is_object($this->searchObject)) {
             throw new \Exception('Please set configuration first.');
         }
 
         try {
             $this->searchObject->getParams()->setBasicSearch(
-                $this->mungeQuery($revisedQuery), $this->handler
+                $this->mungeQuery($query), $this->handler
             );
 
             /**
@@ -162,5 +159,28 @@ class Solr extends VFAutocompleteSolr
             }
         }
         return false;
+    }
+
+
+    /**
+     * Process the user query to make it suitable for a Solr query.
+     * Adds a * at the end.
+     *
+     * @param string $query Incoming user query
+     *
+     * @return string       Processed query
+     */
+    protected function mungeQuery($query)
+    {
+        // Modify the query so it makes a nice, truncated autocomplete query:
+        $forbidden = [':', '(', ')', '*', '+', '"', "'"];
+        $query = str_replace($forbidden, " ", $query);
+        if (substr($query, -1) != " ") {
+            //due to https://github.com/swissbib/vufind/issues/700
+            //we do an OR wildcarded search except if the last character is
+            //a space
+            $query = $query . " OR " . $query . "*";
+        }
+        return $query;
     }
 }
