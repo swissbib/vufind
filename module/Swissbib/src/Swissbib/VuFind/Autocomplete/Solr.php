@@ -161,7 +161,6 @@ class Solr extends VFAutocompleteSolr
         return false;
     }
 
-
     /**
      * Process the user query to make it suitable for a Solr query.
      * Adds a * at the end.
