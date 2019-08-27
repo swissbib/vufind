@@ -59,23 +59,25 @@ class SolrCombineFields extends Solr
             $combination = '';
             foreach ($this->displayField as $field) {
                 $displayText = '';
-                $fieldValues = $current[$field];
-                if (is_array($fieldValues) && !empty($fieldValues)) {
-                    $displayText =  $fieldValues[0];
-                } else {
-                    $displayText = $fieldValues;
-                }
-                $forbidden = [
-                    ':', '&', '?', '*', '[', ']', '"', '/', '\\', ';', '.',
-                    '='
-                ];
-                $displayText = str_replace($forbidden, " ", $displayText);
-
-                if ($displayText) {
-                    if ($combination != '') {
-                        $combination .= ' / ' . $displayText;
+                if (isset($current[$field])) {
+                    $fieldValues = $current[$field];
+                    if (is_array($fieldValues) && !empty($fieldValues)) {
+                        $displayText = $fieldValues[0];
                     } else {
-                        $combination = $displayText;
+                        $displayText = $fieldValues;
+                    }
+                    $forbidden = [
+                        ':', '&', '?', '*', '[', ']', '"', '/', '\\', ';', '.',
+                        '='
+                    ];
+                    $displayText = trim(str_replace($forbidden, " ", $displayText));
+
+                    if ($displayText) {
+                        if ($combination != '') {
+                            $combination .= ' / ' . $displayText;
+                        } else {
+                            $combination = $displayText;
+                        }
                     }
                 }
             }
