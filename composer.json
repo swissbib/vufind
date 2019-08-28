@@ -23,28 +23,11 @@
       "type": "package",
       "package": {
         "name": "linked-swissbib/adapterES",
-        "version": "dev-master",
+        "version": "dev-updateES7",
         "source": {
           "url": "https://github.com/linked-swissbib/adapterElasticsearch.git",
           "type": "git",
-          "reference": "master"
-        },
-        "autoload": {
-          "psr-0" : {
-            "ElasticsearchAdapter" : "src"
-          }
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "linked-swissbib/adapterESdev",
-        "version": "dev-updateOngr2Version5",
-        "source": {
-          "url": "https://github.com/linked-swissbib/adapterElasticsearch.git",
-          "type": "git",
-          "reference": "updateOngr2Version5"
+          "reference": "updateES7"
         },
         "autoload": {
           "psr-0" : {
@@ -130,13 +113,14 @@
     "zendframework/zendservice-amazon": "2.3.0",
     "zendframework/zendservice-recaptcha": "3.1.0",
     "zf-commons/zfc-rbac": "2.6.3",
-    "elasticsearch/elasticsearch": "5.2.*",
-    "linked-swissbib/adapterESdev": "dev-updateOngr2Version5",
-    "ongr/elasticsearch-dsl": "5.0.*",
+    "linked-swissbib/adapterES": "dev-updateES7",
+    "elasticsearch/elasticsearch": "6.7.2",
+    "ongr/elasticsearch-dsl": "6.0.3",
+
+
     "swissbib/switchSharedAttributesAPIClient": "dev-master",
     "zendframework/zend-i18n-resources": "^2.5",
     "doctrine/common": "^2.7",
-    "zendframework/zend-form": "^2.12",
     "zendframework/zend-hydrator": "^2.4",
     "zendframework/zend-barcode": "^2.7"
   },

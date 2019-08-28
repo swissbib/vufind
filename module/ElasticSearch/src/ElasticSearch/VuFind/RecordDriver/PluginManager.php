@@ -79,8 +79,10 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
      */
     public function getElasticSearchRecord($data)
     {
-        if (isset($data['_type'])) {
-            $key = 'ES' . ucwords($data['_type']);
+        //preg_replace('[0-9]','',$data['_index']);
+        if (isset($data['_index'])) {
+            //$key = 'ES' . ucwords(preg_replace('[0-9]','',$data['_index']));
+            $key = 'ES' . $this->mapIndexName( ucwords(str_replace([0,1,2,3,4,5,6,7,8,9],'',$data['_index'])));
             $recordType = $this->has($key) ? $key : self::DEFAULT_RECORD;
         } else {
             $recordType = self::DEFAULT_RECORD;
@@ -90,4 +92,12 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
         $driver->setRawData($data);
         return $driver;
     }
+
+    private function mapIndexName($name) {
+        $map = ['Bibr' => 'BibliographicResource'];
+        return array_key_exists($name,$map) ? $map[$name]: $name;
+    }
+
+
+
 }
