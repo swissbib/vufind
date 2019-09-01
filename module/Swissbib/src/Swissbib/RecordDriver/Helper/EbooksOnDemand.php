@@ -174,6 +174,38 @@ class EbooksOnDemand extends EbooksOnDemandBase
     }
 
     /**
+     * Check whether B410 item is valid for EOD link
+     *
+     * @param Array    $item           Item
+     * @param SolrMarc $recordDriver   RecordDriver
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function isValidForLinkB410(array $item, SolrMarc $recordDriver,
+                                          Holdings $holdingsHelper
+    ) {
+        // Works the same way, just forward to A100. But use B410 as institution code
+        return $this->isValidForLinkA100($item, $recordDriver, $holdingsHelper);
+    }
+
+    /**
+     * Build EOD link for B410 item
+     *
+     * @param Array    $item           Item
+     * @param SolrMarc $recordDriver   RecordDriver
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return String
+     */
+    protected function buildLinkB410(array $item, SolrMarc $recordDriver,
+                                     Holdings $holdingsHelper
+    ) {
+        // Works the same way, just forward to B404. But use B410 as institution code
+        return $this->buildLinkB404($item, $recordDriver, $holdingsHelper);
+    }
+
+    /**
      * Check whether B415 item is valid for EOD link
      *
      * @param Array    $item           Item
@@ -206,7 +238,7 @@ class EbooksOnDemand extends EbooksOnDemandBase
     }
 
     /**
-     * Check whether B490 item is valid for EOD link
+     * Check whether B583 item is valid for EOD link
      *
      * @param Array    $item           Item
      * @param SolrMarc $recordDriver   RecordDriver
@@ -214,15 +246,15 @@ class EbooksOnDemand extends EbooksOnDemandBase
      *
      * @return Boolean
      */
-    protected function isValidForLinkB490(array $item, SolrMarc $recordDriver,
+    protected function isValidForLinkB583(array $item, SolrMarc $recordDriver,
         Holdings $holdingsHelper
     ) {
-        // Works the same way, just forward to A100. But use B490 as institution code
+        // Works the same way, just forward to A100. But use B583 as institution code
         return $this->isValidForLinkA100($item, $recordDriver, $holdingsHelper);
     }
 
     /**
-     * Build EOD link for B490 item
+     * Build EOD link for B583 item
      *
      * @param Array    $item           Item
      * @param SolrMarc $recordDriver   RecordDriver
@@ -230,10 +262,10 @@ class EbooksOnDemand extends EbooksOnDemandBase
      *
      * @return String
      */
-    protected function buildLinkB490(array $item, SolrMarc $recordDriver,
+    protected function buildLinkB583(array $item, SolrMarc $recordDriver,
         Holdings $holdingsHelper
     ) {
-        // Works the same way, just forward to B404. But use B490 as institution code
+        // Works the same way, just forward to B404. But use B583 as institution code
         return $this->buildLinkB404($item, $recordDriver, $holdingsHelper);
     }
 
