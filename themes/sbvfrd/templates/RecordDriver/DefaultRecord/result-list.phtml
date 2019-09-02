@@ -22,7 +22,7 @@ $formats = $viewRecord->getFormatList();
 $isFRBR = (!empty($showFRBR) && $showFRBR && !empty($groupID) &&!strcmp($results->getParams()->getSearchHandler(), 'FRBR') == 0);
 
 ?>
-<div class="<?=$this->driver->supportsAjaxStatus()?'ajaxItem ':''?>col-xs-11 gutter-1">
+<div class="<?=$this->driver->supportsAjaxStatus()?'ajaxItem ':''?>col-xs-11 gutter-1<?=$isFRBR?' frbrCluster':''?>">
   <input type="hidden" value="<?=$this->escapeHtmlAttr($this->driver->getUniqueID())?>" class="hiddenId" />
   <input type="hidden" value="<?=$this->escapeHtmlAttr($this->driver->getResourceSource())?>" class="hiddenSource" />
 
