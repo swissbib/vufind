@@ -183,7 +183,7 @@ class EbooksOnDemand extends EbooksOnDemandBase
      * @return Boolean
      */
     protected function isValidForLinkB410(array $item, SolrMarc $recordDriver,
-                                          Holdings $holdingsHelper
+        Holdings $holdingsHelper
     ) {
         // Works the same way, just forward to A100. But use B410 as institution code
         return $this->isValidForLinkA100($item, $recordDriver, $holdingsHelper);
@@ -199,7 +199,7 @@ class EbooksOnDemand extends EbooksOnDemandBase
      * @return String
      */
     protected function buildLinkB410(array $item, SolrMarc $recordDriver,
-                                     Holdings $holdingsHelper
+        Holdings $holdingsHelper
     ) {
         // Works the same way, just forward to B404. But use B410 as institution code
         return $this->buildLinkB404($item, $recordDriver, $holdingsHelper);
