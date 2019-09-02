@@ -186,7 +186,8 @@ $(document).ready(function()
 
   // format frbrCluster resultlistitems:
   $("div.frbrCluster").parent().parent().css("border", "5px solid transparent");
-  $("div.frbrCluster").parent().parent().css("border-image", "url(http://localhost/vfrd/themes/sbvfrd/images/clustertreffer.png) 5 round");
+  $("div.frbrCluster").parent().parent().css("border-image", "url(<?= $this->basePath('themes/sbvfrd/images/clustertreffer.png'); ?>) 5 round");
+
 });
 </script>
 
