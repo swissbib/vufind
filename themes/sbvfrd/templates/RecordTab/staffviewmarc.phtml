@@ -8,9 +8,9 @@ $id             = $record->getUniqueId();
 </br>
 <table class="table table-striped">
     <? if (!empty($id)):
-        $url = 'http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=2/TTL=1/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=ppn+' . $id . '&REC=*;';
-        $secret = 'http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=2/TTL=1/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=ppn+' . $id . '&REC=*;&PRS=PP';
-        $slaves = 'http://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=6/TTL=1/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=%5C6158+' . $id . '&REC=*'
+        $url = 'https://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=2/TTL=1/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=ppn+' . $id . '&REC=*;';
+        $secret = 'https://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=2/TTL=1/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=ppn+' . $id . '&REC=*;&PRS=PP';
+        $slaves = 'https://cbsslsp.swissbib.ch/xslt/DB=1.1/SET=6/TTL=1/PRS=MARC21/CMD?ACT=SRCH&IKT=8110&SRT=RLV&TRM=%5C6158+' . $id . '&REC=*'
         ?>
         <div class="row">
             <div class="col-sm-3"><?=$this->transEsc('PPN Master/Unique in CBS')?>: </div>
