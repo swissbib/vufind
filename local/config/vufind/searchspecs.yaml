@@ -161,8 +161,6 @@ Title:
     - title_old^200
     - title_new^200
     - series^100
-    - series2
-    - series^200
   DismaxParams:
     - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
     - [mm, '100%']
