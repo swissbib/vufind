@@ -43,6 +43,22 @@ class Params extends \VuFind\Search\Base\Params
     use \VuFind\Search\Params\FacetLimitTrait;
 
     /**
+     * Search with facet.contains
+     * cf. https://lucene.apache.org/solr/guide/7_3/faceting.html
+     *
+     * @var string
+     */
+    protected $facetContains = null;
+
+    /**
+     * Ignore Case when using facet.contains
+     * cf. https://lucene.apache.org/solr/guide/7_3/faceting.html
+     *
+     * @var bool
+     */
+    protected $facetContainsIgnoreCase = null;
+
+    /**
      * Offset for facet results
      *
      * @var int
@@ -188,6 +204,13 @@ class Params extends \VuFind\Search\Base\Params
             if ($this->facetPrefix != null) {
                 $facetSet['prefix'] = $this->facetPrefix;
             }
+            if ($this->facetContains != null) {
+                $facetSet['contains'] = $this->facetContains;
+            }
+            if ($this->facetContainsIgnoreCase != null) {
+                $facetSet['contains.ignoreCase']
+                    = $this->facetContainsIgnoreCase ? 'true' : 'false';
+            }
             $facetSet['sort'] = $this->facetSort ?: 'count';
             if ($this->indexSortedFacets != null) {
                 foreach ($this->indexSortedFacets as $field) {
@@ -216,6 +239,30 @@ class Params extends \VuFind\Search\Base\Params
             // Use standard initialization:
             parent::initSearch($request);
         }
+    }
+
+    /**
+     * Set Facet Contains
+     *
+     * @param string $p the new contains value
+     *
+     * @return void
+     */
+    public function setFacetContains($p)
+    {
+        $this->facetContains = $p;
+    }
+
+    /**
+     * Set Facet Contains Ignore Case
+     *
+     * @param bool $val the new boolean value
+     *
+     * @return void
+     */
+    public function setFacetContainsIgnoreCase($val)
+    {
+        $this->facetContainsIgnoreCase = $val;
     }
 
     /**
