@@ -12,7 +12,7 @@ export default class Templates extends TemplateBase {
      * @returns {string}
      */
     public sectionHeader(args: SectionHeader): string {
-        return `<span class="section-label">${args.label}</span><a href="${args.target}">${args.targetLabel}</a>`;
+        return `<span class="section-label">${args.label}</span>`;
     }
 }
 
@@ -22,8 +22,4 @@ export default class Templates extends TemplateBase {
 interface SectionHeader {
 
     label: string;
-
-    target: string;
-
-    targetLabel: string;
 }
