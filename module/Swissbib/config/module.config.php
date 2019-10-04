@@ -458,8 +458,6 @@ return [
             'Swissbib\RecordDriver\SolrDefaultAdapter'      =>  'Swissbib\RecordDriver\Factory::getSolrDefaultAdapter',
             'VuFind\Export'                                 =>  'Swissbib\Services\Factory::getExport',
             //no longer needed but test it more profoundly
-            'sbSpellingProcessor'                           =>  'Swissbib\VuFind\Search\Solr\Factory::getSpellchecker',
-            'sbSpellingResults'                             =>  'Swissbib\VuFind\Search\Solr\Factory::getSpellingResults',
 
             'Swissbib\Hierarchy\SimpleTreeGenerator'        =>  'Swissbib\Hierarchy\Factory::getSimpleTreeGenerator',
             'Swissbib\Hierarchy\MultiTreeGenerator'         =>  'Swissbib\Hierarchy\Factory::getMultiTreeGenerator',
@@ -597,9 +595,13 @@ return [
             'autocomplete' => [
                 'factories' => [
                     'Swissbib\VuFind\Autocomplete\Solr'  =>  'Swissbib\VuFind\Autocomplete\Factory::getSolr',
+                    'Swissbib\VuFind\Autocomplete\SolrFacetBasedSuggester' => 'VuFind\Autocomplete\SolrFactory',
+                    'Swissbib\VuFind\Autocomplete\SolrCombineFields' => 'VuFind\Autocomplete\SolrFactory',
                 ],
                 'aliases' => [
                     'solr'             => 'Swissbib\VuFind\Autocomplete\Solr',
+                    'SolrFacetBasedSuggester' => 'Swissbib\VuFind\Autocomplete\SolrFacetBasedSuggester',
+                    'SolrCombineFields' => 'Swissbib\VuFind\Autocomplete\SolrCombineFields',
                 ],
             ],
             'content_covers' => [

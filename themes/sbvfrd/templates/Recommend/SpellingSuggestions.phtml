@@ -1,0 +1,28 @@
+<?php
+$results = $this->results;
+$suggestions = $this->renderSuggestions($results, $this);
+?>
+
+
+<?php if ($recordTotal === 0): ?>
+  <div class="results-top row">
+    <div class="col-md-9">
+      <h1><i class="fa fa-search"></i> <span><?=$this->transEsc('nohit_heading')?></span></h1>
+    </div>
+  </div>
+  <?php if (!empty($suggestions)): ?>
+    <div class="alert">
+      <h4><?=$this->transEsc('nohit_spelling') ?></h4>
+      <p><?=$suggestions?></p>
+    </div>
+  <?php endif; ?>
+  <div class="alert">
+    <h4><?=$this->transEsc('nohit_suggest') ?></h4>
+    <p><?=$this->transEsc('nohit_text3') ?><a href="http://www.worldcat.org/search?qt=worldcat_org_all&q=<?=$lookfor ?>" target="_blank"><?=$this->transEsc('worldcat') ?></a></p>
+  </div>
+  <div class="alert">
+      <h4><?=$this->transEsc('nohit_tip') ?></h4>
+      <p><a class="help-link" data-lightbox href="<?=$this->url('help-home')?>?topic=search"><?= $this->transEsc('Search Tips') ?></a></p>
+      <p><a href="<?=$this->url('search-advanced')?>"><?=$this->transEsc('Advanced Search')?></a> <?=$this->transEsc('nohit_text5') ?> </p>
+  </div>
+<?php endif; ?>

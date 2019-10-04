@@ -86,17 +86,6 @@ export default class Configuration implements Translator {
     }
 
     /**
-     * Generates a search URL to navigate to for showing all results the given section.
-     *
-     * @param {Section} section
-     * @returns {string}
-     */
-    public getLookForLink(section: Section): string {
-        let template: string = VuFind.path + this.settings.templates.search.lookfor;
-        return this.templates.resolve(template, section);
-    }
-
-    /**
      * Generates a URL to navigate directly to a single search result.
      *
      * @param {VuFindAutoCompleteItem} item

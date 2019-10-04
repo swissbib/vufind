@@ -156,7 +156,8 @@ class SimpleTreeGenerator
             return $this->generatePageTree($this->orderAndFilter($facets));
         }
 
-        $tree = $this->generatePageTree($this->orderAndFilter($facets));
+        $datas = $this->orderAndFilter($facets);
+        $tree = $this->generatePageTree($datas);
         $this->objectCache->setItem($cacheTreeId, $tree);
 
         return $tree;

@@ -50,13 +50,6 @@ class Results extends VuFindSolrResults
     protected $target = 'swissbib';
 
     /**
-     * SpellingResults
-     *
-     * @var SpellingResults
-     */
-    protected $sbSuggestions;
-
-    /**
      * Configuration for QueryFacets for swissbib MyLibraries
      *
      * @var \Zend\Config\Config
@@ -242,53 +235,14 @@ class Results extends VuFindSolrResults
                 //todo: some kind of logging?
                 throw $e;
             }
-
-            // Processing of spelling suggestions
+            // Process spelling suggestions
             $spellcheck = $recordCollectionSpellingQuery->getSpellcheck();
             $this->spellingQuery = $spellcheck->getQuery();
-
-            //GH: I introduced a special type for suggestions provided by the SOLR
-            // index in opposition to the VF2 core implementation where a simple
-            // array structure is used a specialized type makes it much easier to
-            // use the suggestions in the view script
-            //the object variable suggestions is already used by VF2 core
-            $this->sbSuggestions = $this->getSpellingProcessor()
+            $this->suggestions = $this->getSpellingProcessor()
                 ->getSuggestions($spellcheck, $this->getParams()->getQuery());
         }
 
         // Construct record drivers for all the items in the response:
         $this->results = $collection->getRecords();
-    }
-
-    /**
-     * GetSpellingProcessor
-     *
-     * @return mixed
-     */
-    public function getSpellingProcessor()
-    {
-        if (null === $this->spellingProcessor) {
-            //$this->spellingProcessor = $this->getServiceLocator()
-            //    ->get("sbSpellingProcessor");
-            //
-            //only temporary, with VF4 we do not have ServiceLocator
-            //old Factory is creating the processor in this simple way
-            //todo !!
-            //but: we do have to analyze the new VF implementation
-            $this->spellingProcessor = new SpellingProcessor(new SpellingResults());
-        }
-
-        return $this->spellingProcessor;
-    }
-
-    /**
-     * Turn the list of spelling suggestions into an array of urls
-     *   for on-screen use to implement the suggestions.
-     *
-     * @return array Spelling suggestion data arrays
-     */
-    public function getSpellingSuggestions()
-    {
-        return $this->sbSuggestions;
     }
 }

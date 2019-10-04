@@ -35,6 +35,12 @@
       $this->layout()->breadcrumbs .= '<li class="active">' .
           $this->searchMemory()->getLastSearchLink($this->transEsc('Search'), '', '</li> ' . '<li class="active">' . sprintf($this->transEsc('search_breadcrumb_frbr'), $this->escapeHtml($this->lookfor)) . '</li>');
     }
+    elseif ('Author' === $type) {
+      $this->layout()->breadcrumbs .= '<li class="active">' .
+            $this->searchMemory()->getLastSearchLink(
+                $this->transEsc('Search') . ': (' . $this->transEsc('Author') . ':' . $this->escapeHtml($this->lookfor) . ')'
+            );
+    }
     else {
       $this->layout()->breadcrumbs .= '<li class="active">' .
           $this->searchMemory()->getLastSearchLink($this->transEsc('Search') . ': ' . $this->escapeHtml($this->lookfor), '', '</li> ');
@@ -94,7 +100,7 @@
 
   <?php endif; ?>
 
-  <?=$this->render('search/spellingSuggestions.phtml')?>
+  <?=$this->render('Recommend/SpellingSuggestions.phtml')?>
 
   <?php if ($recordTotal > 0): // only display these at very top if we have results ?>
     <?php foreach ($this->results->getRecommendations('top') as $current): ?>

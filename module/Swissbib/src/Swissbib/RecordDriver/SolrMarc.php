@@ -2327,11 +2327,14 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                     foreach ($fields as $currentField) {
                         $b = $this->getSubfieldArray($currentField, ['b']);
                         $F = $this->getSubfieldArray($currentField, ['F']);
-                        $konkordanzTabelle949[$F[0]] = $b[0];
+                        if (!array_key_exists($F[0], $konkordanzTabelle949)) {
+                            $konkordanzTabelle949[$F[0]] = [];
+                        }
+                        array_push($konkordanzTabelle949[$F[0]], $b[0]);
                     }
                 }
                 foreach ($institutions as $key => $institution) {
-                    $institution_b = '';
+                    $institution_b = [];
                     if (isset($konkordanzTabelle949[$institution])) {
                         $institution_b = $konkordanzTabelle949[$institution];
                     }
@@ -2825,9 +2828,12 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      *
      * @return array
      */
-    public function getField($field, $subfields = null, $concat = true,
-            $separator = ' ')
-    {
+    public function getField(
+        $field,
+        $subfields = null,
+        $concat = true,
+        $separator = ' '
+    ) {
         return $this->getFieldArray($field, $subfields, $concat, $separator);
     }
 
@@ -2879,24 +2885,26 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
      */
     public function getAvailabilityIconFromServer($idls, $sysNr)
     {
-        $r = [];
+        $r = $r3 = [];
         $userLocale = $this->translator->getLocale();
         if ($idls == 'RERO') {
             $hh = $this->getHoldingsHelper();
-            $institutions = $hh->getHoldingsStructure()[$idls]['institutions'];
-            foreach ($institutions as $institution) {
-                $institutionCode = $institution['label'];
-                $hh->resetHolding();
-                $barcodes = $hh->getAllBarcodes($this, $institutionCode);
-                $r2 = $this->availabilityHelper
-                    ->getAvailability($sysNr, $barcodes, $idls, $userLocale);
-                $r3 = [];
-                foreach ($r2 as $key => $val) {
-                    if ($val['statusfield'] == 'lendable_available') {
-                        $r3[$institutionCode] = '0';
-                        break;
-                    } elseif ($val['statusfield'] == 'lendable_borrowed') {
-                        $r3[$institutionCode] = '1';
+            $hs = $hh->getHoldingsStructure();
+            if (isset($hs[$idls])) {
+                $institutions = $hh->getHoldingsStructure()[$idls]['institutions'];
+                foreach ($institutions as $institution) {
+                    $institutionCode = $institution['label'];
+                    $hh->resetHolding();
+                    $barcodes = $hh->getAllBarcodes($this, $institutionCode);
+                    $r2 = $this->availabilityHelper
+                        ->getAvailability($sysNr, $barcodes, $idls, $userLocale);
+                    foreach ($r2 as $key => $val) {
+                        if ($val['statusfield'] == 'lendable_available') {
+                            $r3[$institutionCode] = '0';
+                            break;
+                        } elseif ($val['statusfield'] == 'lendable_borrowed') {
+                            $r3[$institutionCode] = '1';
+                        }
                     }
                 }
                 $r = array_merge($r, $r3);

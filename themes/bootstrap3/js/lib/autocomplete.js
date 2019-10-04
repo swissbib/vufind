@@ -258,6 +258,10 @@
         input.on('paste', function acinputPaste() {
           requestAnimationFrame(search);
         });
+        //fixes the suggestions not appearing on firefox mobile
+        input.on('input', function acinputInput() {
+          search();
+        });
         input.keyup(function acinputKeyup(event) {
           // Ignore navigation keys
           // - Ignore control functions
@@ -287,8 +291,6 @@
             case 145: // scroll lock
             case 19: // pause/break
               return;
-            default:
-              search();
           }
         });
         input.keydown(function acinputKeydown(event) {
@@ -341,7 +343,9 @@
           }
         });
 
-        window.addEventListener('resize', hide, false);
+        //autcomplete.js 2.0 has a better version of this
+        //this actually hides the suggestions when the soft keyboard on mobile appears
+        //window.addEventListener('resize', hide, false);
       };
 
       // Setup
