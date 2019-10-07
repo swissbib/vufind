@@ -15,7 +15,7 @@ if (sizeof($institutions) > 1) {
     <?php foreach ($institutions as $institution): ?>
       <?php
         $institutionCode = $institution['institution'];
-        $institutionCodeSub = $institution['institution_b'];
+        $institutionCodeSub = implode(' ', $institution['institution_b']);
         $groupCode = $institution['group'];
         $anchor = 'holding-institution-' . $groupCode . '-' . $institutionCode;
       ?>

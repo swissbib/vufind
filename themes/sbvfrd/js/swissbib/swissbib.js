@@ -344,22 +344,29 @@
     var availabilities = [];
     availabilities = JSON.parse(data);
 
+    var availabilityIcon = 'fa-exclamation-circle';
     for (var key in availabilities) {
-      var availabilityIcon = 'fa-exclamation-circle';
       var availableTooltip = 'no_ava_info';
       var value = availabilities[key];
-      switch (value) {
-        case '0': availabilityIcon = 'fa-check'; availableTooltip = 'available'; break;
-        case '1': availabilityIcon = 'fa-ban'; availableTooltip = 'unavailable'; break;
-        case '2': availabilityIcon = 'fa-question'; availableTooltip = 'lookOnSite'; break;
-        case '?': availabilityIcon = 'fa-question'; break;
-        default: break;
+      if (value == '0') {
+        availabilityIcon = 'fa-check'; availableTooltip = 'available';
+      } else if (value == '1' && availabilityIcon != 'fa-question')  {
+        availabilityIcon = 'fa-ban'; availableTooltip = 'unavailable';
+      } else if (value == '2' && availabilityIcon != 'fa-check')  {
+        availabilityIcon = 'fa-question'; availableTooltip = 'lookOnSite';
+      } else if (value == '3' && availabilityIcon == '')  {
+        availabilityIcon = 'fa-question';
       }
       var r = [];
       r["&#039;"] = "'";
-      $(element).siblings('ul').find("span.availability[name*='" + key + "']")
-        .addClass(availabilityIcon)
-        .attr('title', VuFind.translate(availableTooltip, r));
+      var iconElement = $(element).siblings('ul').find("span.availability[name*='" + key + "']");
+      var betterAvailabilityExists = false;
+      if (typeof(iconElement[0].className) != "undefined") {
+        betterAvailabilityExists = iconElement[0].className.includes('fa-check') || (iconElement[0].className.includes('fa-question') && availabilityIcon == 'fa-ban');
+      }
+      if (!betterAvailabilityExists) {
+        iconElement.addClass(availabilityIcon).attr('title', VuFind.translate(availableTooltip, r));
+      }
     }
   };
 
