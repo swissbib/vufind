@@ -609,7 +609,7 @@ class Holdings
             $idls = $firstItem['bib_library'];
             if ($idls == '' && $firstItem['network'] == 'RERO') {
                 $idls = 'RERO';
-            } else if ($idls == '' && $firstItem['network'] == 'SNL') {
+            } elseif ($idls == '' && $firstItem['network'] == 'SNL') {
                 $idls = 'SNL';
             }
 
