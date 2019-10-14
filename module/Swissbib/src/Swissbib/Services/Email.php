@@ -291,8 +291,9 @@ class Email
             ' ab. Falls Sie den Service auch weiterhin nutzen möchten, ' .
             'bitten wir Sie, ' .
             '<a href="' . $link . '" ' .
-            'target="_blank" rel="noreferrer">Ihre Einschreibung nun zu ' .
-            'erneuern</a>. Andernfalls wird Ihr Konto demnächst deaktiviert. ' .
+            'target="_blank" rel="noreferrer">Ihre Einschreibung</a> nun zu ' .
+            'erneuern und sich am Schalter der Bibliothek freischalten zu lassen. ' .
+            'Andernfalls wird Ihr Konto demnächst deaktiviert. ' .
             'Eine spätere Reaktivierung des Kontos bleibt allerdings möglich.' .
             '</p>' .
             '<p>Freundliche Grüsse,</p>' .
@@ -306,9 +307,10 @@ class Email
             ') expires on ' .
             $puraUser->getExpirationDate()->format('j.n.Y') .
             '. If you wish to continue using the service, please ' .
-            '<a href="' . $link . '" ' .
-            'target="_blank" rel="noreferrer">renew your registration now' .
-            '</a>. Otherwise your account will be deactivated soon. ' .
+            'renew your <a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">registration</a> personally ' .
+            'at the counter. ' .
+            'Otherwise your account will be deactivated soon. ' .
             'You will, however, be able to reactivate your account ' .
             'at a later stage.' .
             '</p>' .
@@ -322,8 +324,9 @@ class Email
             $institutionInfo['name']['fr'] .
             ') arrivera à échéance le ' .
             $puraUser->getExpirationDate()->format('j.n.Y') .
-            '. Si vous le désirez, vous pouvez <a href="' . $link . '" ' .
-            'target="_blank" rel="noreferrer">renouveler votre inscription</a>. ' .
+            '. Si vous le désirez, vous pouvez renouveler <a href="' . $link . '" ' .
+            'target="_blank" rel="noreferrer">votre inscription</a>, '.
+            'en vous présentant personnellement au guichet de la bibliothèque. ' .
             'Sinon, votre compte sera désactivé prochainement. Une réactivation ' .
             'ultérieure demeure possible.' .
             '</p>' .
