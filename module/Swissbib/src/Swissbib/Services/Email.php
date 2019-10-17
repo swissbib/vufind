@@ -292,7 +292,9 @@ class Email
             'bitten wir Sie, ' .
             '<a href="' . $link . '" ' .
             'target="_blank" rel="noreferrer">Ihre Einschreibung</a> nun zu ' .
-            'erneuern und sich am Schalter der Bibliothek freischalten zu lassen. ' .
+            'erneuern in dem Sie sich am Schalter der Bibliothek (' .
+            $institutionInfo['name']['de'] .
+            ') freischalten lassen. ' .
             'Andernfalls wird Ihr Konto demnächst deaktiviert. ' .
             'Eine spätere Reaktivierung des Kontos bleibt allerdings möglich.' .
             '</p>' .
@@ -303,13 +305,15 @@ class Email
 
         $textMailEn = '<p>Dear ' . $username .
             ',<br /> <br />Your registration for PURA (' .
-            $institutionInfo['name']['de'] .
+            $institutionInfo['name']['en'] .
             ') expires on ' .
             $puraUser->getExpirationDate()->format('j.n.Y') .
             '. If you wish to continue using the service, please ' .
             'renew your <a href="' . $link . '" ' .
             'target="_blank" rel="noreferrer">registration</a> personally ' .
-            'at the counter. ' .
+            'at the counter (' .
+            $institutionInfo['name']['en'] .
+            '). ' .
             'Otherwise your account will be deactivated soon. ' .
             'You will, however, be able to reactivate your account ' .
             'at a later stage.' .
@@ -326,7 +330,9 @@ class Email
             $puraUser->getExpirationDate()->format('j.n.Y') .
             '. Si vous le désirez, vous pouvez renouveler <a href="' . $link . '" ' .
             'target="_blank" rel="noreferrer">votre inscription</a>, '.
-            'en vous présentant personnellement au guichet de la bibliothèque. ' .
+            'en vous présentant personnellement au guichet de la bibliothèque (' .
+            $institutionInfo['name']['fr'] .
+            '). ' .
             'Sinon, votre compte sera désactivé prochainement. Une réactivation ' .
             'ultérieure demeure possible.' .
             '</p>' .
@@ -345,8 +351,8 @@ class Email
             Mime\Mime::TYPE_HTML
         );
         $this->sendMailWithAttachment(
-            $vufindUser->email,
-            //'lionel.walter@unibas.ch',
+            //$vufindUser->email,
+            'lionel.walter@unibas.ch',
             $mimeMessage,
             'Ihr PURA-Login läuft demnächst ab / Your PURA account expires soon',
             //use 'true' to test locally if sendmail not installed
