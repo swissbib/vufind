@@ -329,7 +329,7 @@ class Email
             ') arrivera à échéance le ' .
             $puraUser->getExpirationDate()->format('j.n.Y') .
             '. Si vous le désirez, vous pouvez renouveler <a href="' . $link . '" ' .
-            'target="_blank" rel="noreferrer">votre inscription</a>, '.
+            'target="_blank" rel="noreferrer">votre inscription</a>, ' .
             'en vous présentant personnellement au guichet de la bibliothèque (' .
             $institutionInfo['name']['fr'] .
             '). ' .
