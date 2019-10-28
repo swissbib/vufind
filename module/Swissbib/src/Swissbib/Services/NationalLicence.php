@@ -497,7 +497,9 @@ class NationalLicence
         }
         if (empty($qualityLevelString)) {
             throw new \Exception(
-                "Assurance level for 'homePostalAddress' attribute not found"
+                "Assurance level for 'homePostalAddress' attribute " .
+                "not found (user " .
+                $user->getRelUser()->email . ")"
             );
         }
         $qualityLevel = substr($qualityLevelString, -4);
@@ -884,7 +886,7 @@ class NationalLicence
                         ) {
                             //Send and email to the user for extending their account
                             $this->emailService->sendAccountExtensionEmail(
-                                $user->getRelUser()
+                                $user->getRelUser()->email
                             );
                             $nbEmailSent++;
                             echo 'Email sent to ' . $user->getRelUser()->email .
