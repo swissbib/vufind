@@ -886,7 +886,7 @@ class NationalLicence
                         ) {
                             //Send and email to the user for extending their account
                             $this->emailService->sendAccountExtensionEmail(
-                                $user->getRelUser()->email
+                                $user->getRelUser()
                             );
                             $nbEmailSent++;
                             echo 'Email sent to ' . $user->getRelUser()->email .
