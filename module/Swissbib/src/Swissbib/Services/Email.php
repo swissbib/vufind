@@ -351,8 +351,8 @@ class Email
             Mime\Mime::TYPE_HTML
         );
         $this->sendMailWithAttachment(
-            //$vufindUser->email,
-            'lionel.walter@unibas.ch',
+            $vufindUser->email,
+            //'lionel.walter@unibas.ch',
             $mimeMessage,
             'Ihr PURA-Login läuft demnächst ab / Your PURA account expires soon',
             //use 'true' to test locally if sendmail not installed
