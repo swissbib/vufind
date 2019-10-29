@@ -1,16 +1,14 @@
 <?php
+///Productive AAI federation
+$wayfUrl = 'https://wayf.switch.ch/SWITCHaai/WAYF';
+$embeddedWayfJsUrl = 'https://wayf.switch.ch/SWITCHaai/WAYF/embedded-wayf.js';
+$loginEduId = 'https://login.eduid.ch';
 
-if ($this->serverUrl() == 'https://shibdev.swissbib.ch') {
-    ///AAI test federation
-    $wayfUrl = 'https://wayf-test.switch.ch/aaitest/WAYF';
-    $embeddedWayfJsUrl = 'https://wayf-test.switch.ch/aaitest/WAYF/embedded-wayf.js';
-    $loginEduId = 'https://login.test.eduid.ch';
-} else {
-    ///Productive AAI federation
-    $wayfUrl = 'https://wayf.switch.ch/SWITCHaai/WAYF';
-    $embeddedWayfJsUrl = 'https://wayf.switch.ch/SWITCHaai/WAYF/embedded-wayf.js';
-    $loginEduId = 'https://login.eduid.ch';
-}
+///AAI test federation
+//$wayfUrl = 'https://wayf-test.switch.ch/aaitest/WAYF';
+//$embeddedWayfJsUrl = 'https://wayf-test.switch.ch/aaitest/WAYF/embedded-wayf.js';
+//$loginEduId = 'https://login.test.eduid.ch';
+
 $encodedProviderID = urlencode($this->serverUrl() . "/" . "shibboleth");
 $encodedTarget = urlencode($this->serverUrl() . "/MyResearch/Home");
 $encodedprivateUserURL = $loginEduId . "/idp/profile/SAML2/Unsolicited/SSO?providerId=" . $encodedProviderID . "&target=" . $encodedTarget;

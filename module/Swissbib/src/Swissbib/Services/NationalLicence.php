@@ -497,7 +497,9 @@ class NationalLicence
         }
         if (empty($qualityLevelString)) {
             throw new \Exception(
-                "Assurance level for 'homePostalAddress' attribute not found"
+                "Assurance level for 'homePostalAddress' attribute " .
+                "not found (user " .
+                $user->getRelUser()->email . ")"
             );
         }
         $qualityLevel = substr($qualityLevelString, -4);
