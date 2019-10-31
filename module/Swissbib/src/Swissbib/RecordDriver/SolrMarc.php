@@ -2898,12 +2898,14 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                     $barcodes = $hh->getAllBarcodes($this, $institutionCode);
                     $r2 = $this->availabilityHelper
                         ->getAvailability($sysNr, $barcodes, $idls, $userLocale);
-                    foreach ($r2 as $key => $val) {
-                        if ($val['statusfield'] == 'lendable_available') {
-                            $r3[$institutionCode] = '0';
-                            break;
-                        } elseif ($val['statusfield'] == 'lendable_borrowed') {
-                            $r3[$institutionCode] = '1';
+                    if (is_array($r2)) {
+                        foreach ($r2 as $key => $val) {
+                            if ($val['statusfield'] == 'lendable_available') {
+                                $r3[$institutionCode] = '0';
+                                break;
+                            } elseif ($val['statusfield'] == 'lendable_borrowed') {
+                                $r3[$institutionCode] = '1';
+                            }
                         }
                     }
                 }
