@@ -361,7 +361,7 @@
       r["&#039;"] = "'";
       var iconElement = $(element).siblings('ul').find("span.availability[name*='" + key + "']");
       var betterAvailabilityExists = false;
-      if (typeof(iconElement[0].className) != "undefined") {
+      if (typeof(iconElement) != "undefined" && iconElement.length != 0 && typeof(iconElement[0].className) != "undefined") {
         betterAvailabilityExists = iconElement[0].className.includes('fa-check') || (iconElement[0].className.includes('fa-question') && availabilityIcon == 'fa-ban');
       }
       if (!betterAvailabilityExists) {
