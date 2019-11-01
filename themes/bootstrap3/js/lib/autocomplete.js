@@ -331,7 +331,7 @@
                 if (event.which === 13 && selected.attr('href') && options.callback === 'undefined') {
                   return window.location.assign(selected.attr('href'));
                 } else {
-                  _populate(selected.data(), $(this), { key: true });
+                  _populate(selected.data(), { key: true });
                 }
               }
               break;
