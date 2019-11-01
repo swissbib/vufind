@@ -13,10 +13,10 @@
      */
 
 ?>
-<?php $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType, $this->hiddenFilters); ?>
+<?php $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType, $this->hiddenFilters)['tabs']; ?>
 <?php if (count($searchTabs) > 0): ?>
     <ul class="nav nav-tabs">
-        <?php foreach ($searchTabs['tabs'] as $tab): ?>
+        <?php foreach ($searchTabs as $tab): ?>
             <li<?=$tab['selected'] ? ' class="active"' : ''?>  data-searchClass="<?=  $tab['class'] ?>"  >
                 <a <?=$tab['selected'] ? '' : 'href="' . $this->escapeHtmlAttr($tab['url']) . '"' ?> title="<?= $this->transEsc($tab['label'] . '.title')?> "><?=$this->transEsc($tab['label']); ?></a>
             </li>

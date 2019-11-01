@@ -23,11 +23,6 @@ export default interface Settings {
             autosuggest: string,
 
             /**
-             * Search URL template for all results in a section of the auto-suggest result list
-             */
-            lookfor: string,
-
-            /**
              * Search URL template for a single record in the azto-suggest result list
              */
             record: string,

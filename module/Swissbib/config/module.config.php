@@ -595,9 +595,13 @@ return [
             'autocomplete' => [
                 'factories' => [
                     'Swissbib\VuFind\Autocomplete\Solr'  =>  'Swissbib\VuFind\Autocomplete\Factory::getSolr',
+                    'Swissbib\VuFind\Autocomplete\SolrFacetBasedSuggester' => 'VuFind\Autocomplete\SolrFactory',
+                    'Swissbib\VuFind\Autocomplete\SolrCombineFields' => 'VuFind\Autocomplete\SolrFactory',
                 ],
                 'aliases' => [
                     'solr'             => 'Swissbib\VuFind\Autocomplete\Solr',
+                    'SolrFacetBasedSuggester' => 'Swissbib\VuFind\Autocomplete\SolrFacetBasedSuggester',
+                    'SolrCombineFields' => 'Swissbib\VuFind\Autocomplete\SolrCombineFields',
                 ],
             ],
             'content_covers' => [

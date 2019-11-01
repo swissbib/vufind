@@ -40,8 +40,53 @@ AllFields:
     - urn_isn_mv
     - localcode_txt_mv              # local codes splitted at spaces
     - id_txt
+  #add the new fields to AllFieldsAutosuggest as well
   DismaxParams:
     - [pf, 'title_short^1000 callnumber_txt_mv^100 localcode_txt_mv^10']
+    - [ps, '2']
+    - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
+
+#same as AllFileds, but without pf for title_short
+#reason is that with pf a query like algebra OR algebra* will boost
+#results that have twice algebra in the title
+AllFieldsAutosuggest:
+  DismaxHandler: edismax
+  DismaxFields:
+    - title_short^1000                    # main title, i.e. 245 $a
+    - title_alt^200
+    - title^200
+    - title_sub^200
+    - title_old^200
+    - title_new^200
+    - author^750                          # all entries main name forms
+    - author_additional^100               # all entries additional fields
+    - author_additional_dsv11_txt_mv^100  # variants from dsv11
+    - title_additional_dsv11_txt_mv^100
+    - author_additional_gnd_txt_mv^100    # variants from GND
+    - title_additional_gnd_txt_mv^100
+    - publplace_additional_gnd_txt_mv^100
+    - series^50
+    - topic^100                           # all verbal topics, i.e. 6xx
+    - related_gnd_txt_mv^50
+    - addfields_txt_mv^50                 # additional fields
+    - publplace_txt_mv^25                 # publication country and place, i.e. 752ad
+    - publplace_dsv11_txt_mv^25
+    - fulltext                            # imported fulltext, i.e. TOC/Abstracts
+    - callnumber_txt_mv^50                # callnumbers (works only when quoted) with low boost
+    - ctrlnum^1000
+    - publishDate
+    - isbn
+    - cancisbn_isn_mv
+    - variant_isbn_isn_mv
+    - issn
+    - incoissn_isn_mv
+    - ismn_isn_mv
+    - doi_isn_mv
+    - urn_isn_mv
+    - localcode_txt_mv              # local codes splitted at spaces
+    - id_txt
+  DismaxParams:
+    - [pf, 'callnumber_txt_mv^100 localcode_txt_mv^10']
     - [ps, '2']
     - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
 
@@ -161,8 +206,6 @@ Title:
     - title_old^200
     - title_new^200
     - series^100
-    - series2
-    - series^200
   DismaxParams:
     - [bf, 'recip(abs(ms(NOW/DAY,freshness)),3.16e-10,100,100)']
     - [mm, '100%']
@@ -674,30 +717,3 @@ RaraIllustrator:
       - [and, ~]
     author_egr_txt_mv:
       - [and, ~]
-
-Autosuggest:
-  DismaxHandler: dismax
-  DismaxFields:
-    - title_short
-    - author
-    - author_additional
-  QueryFields:
-    title_short:
-      - [onephrase, 350]
-      - [and, 200]
-      - [or, 100]
-    author:
-      - [onephrase, 350]
-      - [and, 200]
-      - [or, 100]
-    author_additional:
-      - [onephrase, 50]
-      - [and, 50]
-      - [or, 20]
-
-AuthorSuggest:
-  DismaxHandler: edismax
-  DismaxFields:
-    - author
-  DismaxParams:
-    - [mm, '100%']
