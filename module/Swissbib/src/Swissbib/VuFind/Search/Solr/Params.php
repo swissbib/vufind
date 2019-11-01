@@ -274,13 +274,13 @@ class Params extends VuFindSolrParams
      *
      * @return string Human-readable description of field.
      */
-    public function getFacetLabel($field, $value = null)
+    public function getFacetLabel($field, $value = null, $default = null)
     {
         switch ($field) {
         case 'publishDate':
             return 'adv_search_year';
         default:
-            return parent::getFacetLabel($field, $value);
+            return parent::getFacetLabel($field, $value, $default);
         }
     }
 }
