@@ -10,7 +10,7 @@
     "license": "GPL-2.0",
     "config": {
         "platform": {
-            "php": "7.0.8"
+            "php": "7.1.0"
         }
     },
   "autoload": {
@@ -114,8 +114,8 @@
     "zendframework/zendservice-recaptcha": "3.1.0",
     "zf-commons/zfc-rbac": "2.6.3",
     "linked-swissbib/adapterES": "dev-updateES7",
-    "elasticsearch/elasticsearch": "6.7.2",
-    "ongr/elasticsearch-dsl": "6.0.3",
+    "elasticsearch/elasticsearch": "7.1.1",
+    "ongr/elasticsearch-dsl": "7.0.0",
 
 
     "swissbib/switchSharedAttributesAPIClient": "dev-master",
