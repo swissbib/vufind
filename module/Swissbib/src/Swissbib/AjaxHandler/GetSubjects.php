@@ -71,7 +71,41 @@ class GetSubjects extends VFAjax implements AjaxHandlerInterface
      */
     public function handleRequest(Params $params)
     {
-        $content = $this->search();
+
+        //Todo - id-issue:
+        //we have to check if there are IDS available send to ES -
+        // otherwise empty ID lists will throw an error
+        //to figure out if an empty ID list is sent is a little bit more tricky
+        $ids = $this->request->getQuery()['overrideIds'];
+        $isIdInQuery = false;
+        if (is_array( $ids) && count($ids) > 0) {
+            foreach ($ids as $id) {
+                if (isset($id) && strlen($id) > 0) {
+                    $isIdInQuery = true;
+                    break;
+                }
+            }
+        }
+        if ($isIdInQuery) {
+
+            $content = $this->search();
+
+            $spec = $this->getSpec();
+
+            $response = $this->buildResponse($content, $spec);
+            return $this->formatResponse($response->getContent());
+        } else {
+            $content = [];
+
+            $spec = $this->getSpec();
+
+            $response = $this->buildResponse($content, $spec);
+            return $this->formatResponse($response->getContent());
+
+        }
+    }
+
+    private function getSpec() {
 
         // TODO externalize spec
         $specBuilder = new RecordDataFormatter\SpecBuilder();
@@ -89,8 +123,8 @@ class GetSubjects extends VFAjax implements AjaxHandlerInterface
             ['allowZero' => false]
         );
         $spec = $specBuilder->getArray();
+        return $spec;
 
-        $response = $this->buildResponse($content, $spec);
-        return $this->formatResponse($response->getContent());
     }
+
 }

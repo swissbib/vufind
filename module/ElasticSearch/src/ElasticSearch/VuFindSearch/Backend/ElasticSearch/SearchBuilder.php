@@ -51,6 +51,9 @@ class SearchBuilder
      */
     private $_templates;
 
+
+    private $_type_2_index_mapping;
+
     /**
      * SearchBuilder constructor.
      *
@@ -58,7 +61,12 @@ class SearchBuilder
      */
     public function __construct(array $templates)
     {
-        $this->_templates = $templates;
+        $this->_templates
+            = $templates['parameters']['elasticsearch_adapter.templates'];
+        //we use this additional configuration to figure out the index
+        // related to the type used with ES version 5
+        $this->_type_2_index_mapping
+            = $templates['parameters']['mappings']['type_2_index_mapping'];
     }
 
     /**
@@ -90,7 +98,7 @@ class SearchBuilder
         );
 
         $searchBuilder = new TemplateSearchBuilder(
-            $this->_templates, $elasticSearchParams
+            $this->_templates, $this->_type_2_index_mapping, $elasticSearchParams
         );
 
         $search = $searchBuilder->buildSearchFromTemplate(

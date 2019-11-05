@@ -72,10 +72,21 @@ abstract class AbstractSubjectController extends AbstractDetailsController
             $this->driver = $this->getRecordDriver(
                 $info->id, $info->index, $info->type
             );
+
+            //Todo - id-issue:
+            //we have to check if there are IDS available send to ES -
+            // otherwise empty ID lists will throw an error
             $this->subSubjects = $this->getSubSubjects($info->id);
-            $this->parentSubjects = $this->getParentSubjects(
-                $this->driver->getParentSubjects()
-            );
+            $tParentSubj = $this->driver->getParentSubjects();
+            if (!is_null($tParentSubj) && is_array($tParentSubj) && count($tParentSubj) > 0) {
+                $this->parentSubjects = $this->getParentSubjects(
+                    $tParentSubj
+                );
+            } else {
+                $this->parentSubjects = [];
+            }
+
+
 
             return $this->createViewModel(
                 [
