@@ -181,6 +181,13 @@ WNEL:
      itemnote_isn_mv:
         - [or, ~]
 
+Itemnote:
+  DismaxFields:
+    - itemnote_txt_mv
+  QueryFields:
+    itemnote_isn_mv:
+      - [or, ~]
+
 WFC:
   DismaxFields:
     - classif_912_BSBE
