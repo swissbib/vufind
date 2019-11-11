@@ -77,6 +77,7 @@ class ESPerson extends ElasticSearch
      */
     public function __call(string $name, $arguments)
     {
+        //todo I guess we can remove this
         if ($pos = strpos($name, "DisplayField")) {
             $fieldName = substr(substr($name, 0, $pos), 3);
             $field = $this->getField(
@@ -371,7 +372,7 @@ class ESPerson extends ElasticSearch
      * @return array|null
      */
     protected function getField(
-        string $name, string $prefix = "dbp", string $delimiter = ":"
+        string $name, string $prefix = "dbo", string $delimiter = ":"
     ) {
         return parent::getField($name, $prefix, $delimiter);
     }
