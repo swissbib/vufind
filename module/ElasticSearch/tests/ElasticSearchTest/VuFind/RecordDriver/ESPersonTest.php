@@ -68,6 +68,40 @@ class ESPersonTest extends VuFindTestCase
 
         $cut->setRawData($data);
         $actual = $cut->getBirthPlaceDisplayField();
-        static::assertEquals(["valuee"], $actual);
+        static::assertEquals(["value"], $actual);
+    }
+
+    /**
+     * Tests getOccupation
+     *
+     * @return void
+     */
+    public function testGetOccupation()
+    {
+        $cut = new ESPerson();
+
+        $data
+            = ["_source" =>
+                ["dbo:occupation" =>
+                    [
+                        [
+                            "en" => "pianist",
+                            "de" => "klavierspieler",
+                            "fr" => "pianiste",
+                            "@id" => "http://d-nb.info/gnd/4131406-2",
+                        ],
+                        [
+                            "@id" => "http://d-nb.info/gnd/1234",
+                            "de" => "komponist",
+                            "en" => "composer",
+                            "fr" => "compositeur",
+                        ]
+                    ]
+                ]
+            ];
+
+        $cut->setRawData($data);
+        $actual = $cut->getOccupations();
+        static::assertEquals(["pianist", "composer"], $actual);
     }
 }

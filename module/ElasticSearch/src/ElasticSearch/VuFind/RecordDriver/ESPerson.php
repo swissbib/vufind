@@ -77,17 +77,6 @@ class ESPerson extends ElasticSearch
      */
     public function __call(string $name, $arguments)
     {
-        //todo I guess we can remove this
-        if ($pos = strpos($name, "DisplayField")) {
-            $fieldName = substr(substr($name, 0, $pos), 3);
-            $field = $this->getField(
-                sprintf('dbp%sAsLiteral', $fieldName), 'lsb'
-            );
-
-            return null !== $field ? $this->getValueByLanguagePriority($field)
-                : null;
-        }
-
         $fieldName = lcfirst(substr($name, 3));
         return $this->getField($fieldName);
     }
@@ -171,6 +160,16 @@ class ESPerson extends ElasticSearch
     }
 
     /**
+     * Gets the Occupation
+     *
+     * @return mixed|null
+     */
+    public function getOccupations()
+    {
+        return $this->getLocalizedField('occupation');
+    }
+
+    /**
      * Gets the Pseudonym
      *
      * @return array|null
@@ -182,14 +181,13 @@ class ESPerson extends ElasticSearch
     }
 
     /**
-     * Gets the BirthPlaceDisplayField
+     * Gets the BirthPlaces
      *
      * @return array|null
      */
-    public function getBirthPlaceDisplayField()
+    public function getBirthPlaces()
     {
-        $place = $this->getField("dbpBirthPlaceAsLiteral", "lsb");
-        return $this->getValueByLanguagePriority($place);
+        return $this->getLocalizedField('birthPlace');
     }
 
     /**
@@ -197,10 +195,10 @@ class ESPerson extends ElasticSearch
      *
      * @return array|null
      */
-    public function getDeathPlaceDisplayField()
+    public function getDeathPlaces()
     {
-        $place = $this->getField("dbpDeathPlaceAsLiteral", "lsb");
-        return $this->getValueByLanguagePriority($place);
+        return $this->getLocalizedField('deathPlace');
+
     }
 
     /**
@@ -301,6 +299,27 @@ class ESPerson extends ElasticSearch
         return $this->getField('alternateName', 'schema');
     }
 
+    protected function getLocalizedField(string $name, string $prefix='dbo')
+    {
+        $field = $this->getField($name, $prefix);
+        $localizedField = $this->getArrayOfValuesByLanguagePriority(
+            $field
+        );
+        return $localizedField;
+    }
+
+
+    protected function getArrayOfValuesByLanguagePriority(
+        array $content = null, string $userLocale = null
+    ) {
+        $results = [];
+        foreach ($content as $value) {
+            $results[] = $this->getValueByLanguagePriority($value);
+        }
+        return $results;
+    }
+
+
     /**
      * Gets the ValueByLanguagePriority
      *
@@ -320,18 +339,10 @@ class ESPerson extends ElasticSearch
             $locales = $this->getPrioritizedLocaleList($userLocale);
 
             foreach ($locales as $locale) {
-                $results = [];
-
-                foreach ($content as $valueArray) {
-                    if (isset($valueArray[$locale])
-                        && null !== $valueArray[$locale]
-                    ) {
-                        $results[] = $valueArray[$locale];
-                    }
-                }
-
-                if (count($results) > 0) {
-                    return $results;
+                if (isset($content[$locale])
+                    && null !== $content[$locale]
+                ) {
+                    return $content[$locale];
                 }
             }
         }

@@ -173,7 +173,7 @@ class ESPerson extends AbstractHelper
     {
         return $this->getDateAndPlaceInfo(
             $separator, $this->getPerson()->getBirthDate(),
-            $this->getPerson()->getBirthPlaceDisplayField()
+            $this->getPerson()->getBirthPlaces()
         );
     }
 
@@ -188,7 +188,7 @@ class ESPerson extends AbstractHelper
     {
         return $this->getDateAndPlaceInfo(
             $separator, $this->getPerson()->getDeathDate(),
-            $this->getPerson()->getDeathPlaceDisplayField()
+            $this->getPerson()->getDeathPlaces()
         );
     }
 
@@ -227,7 +227,7 @@ class ESPerson extends AbstractHelper
      */
     public function getJobInfo(string $delimiter = ', ')
     {
-        return $this->fieldToString('occupationDisplayField', $delimiter);
+        return implode($delimiter, $this->getPerson()->getOccupations());
     }
 
     /**
