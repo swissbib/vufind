@@ -1,6 +1,4 @@
 parameters:
-  elasticsearch_adapter.hosts: ['sb-ues1.swissbib.unibas.ch:8080','sb-ues2.swissbib.unibas.ch:8080','sb-ues3.swissbib.unibas.ch:8080']
-
 #  POST _aliases
 #  {
 #    "actions": [
