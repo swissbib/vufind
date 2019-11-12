@@ -108,11 +108,7 @@ class PersonDetailPageController extends AbstractPersonController
     protected function getSubjectsOf(): array
     {
 
-        if (count(array_unique($this->subjectIds)) > 0) {
-            $subjects =  parent::getSubjectsOf();
-        } else {
-            $subjects = [];
-        }
+        $subjects = parent::getSubjectsOf();
 
         if (count($subjects) > 0) {
             return $this->tagcloud()->getTagCloud($this->subjectIds, $subjects);

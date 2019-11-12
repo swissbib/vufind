@@ -117,13 +117,17 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function getSubjectsOf(): array
     {
-        return $this->serviceLocator->get('elasticsearchsearch')
-            ->searchElasticSearch(
-                $this->arrayToSearchString(array_unique($this->subjectIds)),
-                "id",
-                "gnd",
-                "DEFAULT", $this->config->subjectsSize
-            )->getResults();
+        if (count(array_unique($this->subjectIds)) > 0) {
+            return $this->serviceLocator->get('elasticsearchsearch')
+                ->searchElasticSearch(
+                    $this->arrayToSearchString(array_unique($this->subjectIds)),
+                    "id",
+                    "gnd",
+                    "DEFAULT", $this->config->subjectsSize
+                )->getResults();
+        } else {
+            return [];
+        }
     }
 
     /**
