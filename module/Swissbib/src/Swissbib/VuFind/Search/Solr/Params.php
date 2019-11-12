@@ -271,6 +271,7 @@ class Params extends VuFindSolrParams
      *
      * @param string $field Facet field name.
      * @param string $value Facet value.
+     * @param string $default Default field name (null for default behavior).
      *
      * @return string Human-readable description of field.
      */
