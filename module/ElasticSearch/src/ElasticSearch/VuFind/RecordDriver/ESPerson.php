@@ -165,7 +165,6 @@ class ESPerson extends ElasticSearch
             ? $localizedAbstract[0] : null;
     }
 
-
     /**
      * Gets the Pseudonym
      *
@@ -176,7 +175,6 @@ class ESPerson extends ElasticSearch
         $pseudonym = $this->getField("pseudonym");
         return $this->getValueByLanguagePriority($pseudonym);
     }
-
 
     /**
      * Gets the DeathDate
@@ -195,7 +193,47 @@ class ESPerson extends ElasticSearch
      */
     public function getSameAs()
     {
-        return $this->getField("sameAs", "owl");
+        $sameAs = $this->getField("sameAs", "owl");
+
+        //multiple GND identifiers are present, we only keep the
+        //most recent which is in the gnd:gndIdentifier field
+        return array_filter($sameAs, [$this, 'isObsoleteGndId']);
+    }
+
+    /**
+     * Check if an uri is an obsolete GND id
+     *
+     * @param string $uri The uri to test, for example http://d-nb.info/gnd/12162692X
+     *
+     * @return bool
+     */
+    protected function isObsoleteGndId($uri)
+    {
+        if ($this->isGndUri($uri)) {
+            $currentGndId = $this->getField('gndIdentifier', 'gnd');
+            $gndIdToTest = substr($uri, strrpos($uri, '/') + 1);
+            if ($currentGndId === $gndIdToTest) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Check if an uri is a GND uri
+     *
+     * @param string $uri The uri to test, for example
+     *                    http://www.wikidata.org/entity/Q220340
+     *
+     * @return bool
+     */
+    protected function isGndUri(string $uri)
+    {
+        $gndRegExp = "/^https{0,1}:\\/\\/d-nb.info\\/gnd\\/.*$/";
+        return preg_match($gndRegExp, $uri) === 1 ? true : false;
     }
 
     /**
@@ -278,6 +316,9 @@ class ESPerson extends ElasticSearch
     /**
      * Gets the field labels in the locale language
      *
+     * @param string $name   field name
+     * @param string $prefix prefix
+     *
      * @return array|null
      */
     protected function getLocalizedField(string $name, string $prefix='dbo')
@@ -293,7 +334,14 @@ class ESPerson extends ElasticSearch
         }
     }
 
-
+    /**
+     * Get an Array of all the values in the locale language
+     *
+     * @param array|null  $content    the content
+     * @param string|null $userLocale the locale
+     *
+     * @return array
+     */
     protected function getArrayOfValuesByLanguagePriority(
         array $content = null, string $userLocale = null
     ) {
@@ -303,7 +351,6 @@ class ESPerson extends ElasticSearch
         }
         return $results;
     }
-
 
     /**
      * Gets the ValueByLanguagePriority
