@@ -101,7 +101,7 @@ class ESPersonTest extends VuFindTestCase
             ];
 
         $cut->setRawData($data);
-        $actual = $cut->getOccupations();
+        $actual = $cut->getOccupationDisplayField();
         static::assertEquals(["pianist", "composer"], $actual);
     }
 }

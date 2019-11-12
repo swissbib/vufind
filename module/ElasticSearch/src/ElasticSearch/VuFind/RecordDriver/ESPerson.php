@@ -77,6 +77,12 @@ class ESPerson extends ElasticSearch
      */
     public function __call(string $name, $arguments)
     {
+        if ($pos = strpos($name, "DisplayField")) {
+            $fieldName = lcfirst(substr(substr($name, 0, $pos), 3));
+            $field = $this->getLocalizedField($fieldName);
+
+            return $field;
+        }
         $fieldName = lcfirst(substr($name, 3));
         return $this->getField($fieldName);
     }
@@ -159,15 +165,6 @@ class ESPerson extends ElasticSearch
             ? $localizedAbstract[0] : null;
     }
 
-    /**
-     * Gets the Occupation
-     *
-     * @return mixed|null
-     */
-    public function getOccupations()
-    {
-        return $this->getLocalizedField('occupation');
-    }
 
     /**
      * Gets the Pseudonym
@@ -180,26 +177,6 @@ class ESPerson extends ElasticSearch
         return $this->getValueByLanguagePriority($pseudonym);
     }
 
-    /**
-     * Gets the BirthPlaces
-     *
-     * @return array|null
-     */
-    public function getBirthPlaces()
-    {
-        return $this->getLocalizedField('birthPlace');
-    }
-
-    /**
-     * Gets the DeathPlaceDisplayField
-     *
-     * @return array|null
-     */
-    public function getDeathPlaces()
-    {
-        return $this->getLocalizedField('deathPlace');
-
-    }
 
     /**
      * Gets the DeathDate
@@ -240,15 +217,15 @@ class ESPerson extends ElasticSearch
     public function hasSufficientData(): bool
     {
         $fields = [
-            "dbp:thumbnail",
-            "dbp:abstract",
-            "dbp:birthDate",
-            "lsb:dbpBirthPlaceAsLiteral",
-            "dbp:deathDate",
-            "lsb:dbpDeathPlaceAsLiteral",
-            "dbp:abstract",
-            "lsb:dbpNationalityAsLiteral",
-            "lsb:dbpOccupationAsLiteral"
+            "dbo:thumbnail",
+            //"dbp:abstract",
+            //"dbp:birthDate",
+            //"lsb:dbpBirthPlaceAsLiteral",
+            //"dbp:deathDate",
+            //"lsb:dbpDeathPlaceAsLiteral",
+            //"dbp:abstract",
+            //"lsb:dbpNationalityAsLiteral",
+            //"lsb:dbpOccupationAsLiteral"
         ];
 
         foreach ($fields as $field) {
@@ -299,13 +276,22 @@ class ESPerson extends ElasticSearch
         return $this->getField('alternateName', 'schema');
     }
 
+    /**
+     * Gets the field labels in the locale language
+     *
+     * @return array|null
+     */
     protected function getLocalizedField(string $name, string $prefix='dbo')
     {
         $field = $this->getField($name, $prefix);
-        $localizedField = $this->getArrayOfValuesByLanguagePriority(
-            $field
-        );
-        return $localizedField;
+        if ($field !== null) {
+            $localizedField = $this->getArrayOfValuesByLanguagePriority(
+                $field
+            );
+            return $localizedField;
+        } else {
+            return null;
+        }
     }
 
 
