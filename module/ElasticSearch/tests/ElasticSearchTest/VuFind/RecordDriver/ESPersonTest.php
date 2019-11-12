@@ -52,31 +52,13 @@ class ESPersonTest extends VuFindTestCase
         parent::setUp();
         $this->sm = Bootstrap::getServiceManager();
     }
-    /**
-     * Tests getBirthPlaceDisplayField
-     *
-     * @return void
-     */
-    public function testGetBirthPlaceDisplayField()
-    {
-        $cut = new ESPerson();
-
-        $data
-            = ["_source" =>
-            ["lsb:dbpBirthPlaceAsLiteral" => [0 => ["en" => "value"]]]
-            ];
-
-        $cut->setRawData($data);
-        $actual = $cut->getBirthPlaceDisplayField();
-        static::assertEquals(["value"], $actual);
-    }
 
     /**
      * Tests getOccupation
      *
      * @return void
      */
-    public function testGetOccupation()
+    public function testGetOccupationDisplayField()
     {
         $cut = new ESPerson();
 
