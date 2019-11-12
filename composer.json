@@ -130,7 +130,16 @@
         "zendframework/zendrest": "2.0.2",
         "zendframework/zendservice-amazon": "2.3.1",
         "zendframework/zendservice-recaptcha": "3.2.0",
-        "zf-commons/zfc-rbac": "2.6.3"
+        "zf-commons/zfc-rbac": "2.6.3",
+        "elasticsearch/elasticsearch": "5.2.*",
+        "linked-swissbib/adapterESdev": "dev-updateOngr2Version5",
+        "ongr/elasticsearch-dsl": "5.0.*",
+        "swissbib/switchSharedAttributesAPIClient": "dev-master",
+        "zendframework/zend-i18n-resources": "^2.5",
+        "doctrine/common": "^2.7",
+        "zendframework/zend-form": "^2.12",
+        "zendframework/zend-hydrator": "^2.4",
+        "zendframework/zend-barcode": "^2.7"
     },
     "require-dev": {
         "behat/mink": "1.7.1",
@@ -143,7 +152,7 @@
         "squizlabs/php_codesniffer": "3.4.2"
     },
     "scripts": {
-        "phing-install-dependencies": "phing installsolr installswaggerui",
+        "phing-install-dependencies": "phing installswaggerui",
         "post-install-cmd": "@phing-install-dependencies",
         "post-update-cmd": "@phing-install-dependencies"
     }
