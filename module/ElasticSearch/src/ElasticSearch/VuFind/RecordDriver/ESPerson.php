@@ -218,14 +218,13 @@ class ESPerson extends ElasticSearch
     {
         $fields = [
             "dbo:thumbnail",
-            //"dbp:abstract",
-            //"dbp:birthDate",
-            //"lsb:dbpBirthPlaceAsLiteral",
-            //"dbp:deathDate",
-            //"lsb:dbpDeathPlaceAsLiteral",
-            //"dbp:abstract",
-            //"lsb:dbpNationalityAsLiteral",
-            //"lsb:dbpOccupationAsLiteral"
+            "dbo:abstract",
+            "dbo:birthDate",
+            "dbo:birthPlace",
+            "dbo:deathDate",
+            "dbo:deathPlace",
+            "dbo:nationality",
+            "dbo:occcupation"
         ];
 
         foreach ($fields as $field) {
