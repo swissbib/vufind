@@ -18,6 +18,16 @@
     $lastLimit = $this->searchMemory()->getLastLimit($this->searchClassId);
     $searchtabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType)['tabs'];
 
+    if (!isset($this->filterList) || !isset($this->checkboxFilters)) {
+        $params = $this->searchMemory()->getLastSearchParams($this->searchClassId);
+        $filterList = $params->getFilterList(true);
+        $checkboxFilters = $params->getCheckboxFacets();
+    } else {
+        $filterList = is_array($this->filterList) ? $this->filterList : [];
+        $checkboxFilters = is_array($this->checkboxFilters) ? $this->checkboxFilters : [];
+    }
+    $filterDetails = $this->searchbox()->getFilterDetails($filterList, $checkboxFilters);
+
 // Extend swissbib global object by autocomplete configuration
 $autoSuggestConfig = json_encode($this->autoSuggestConfig($this->searchClassId)->toArray());
 $swissbibObjectExtension = <<<JS
@@ -62,6 +72,13 @@ $this->inlineScript()->appendScript($swissbibObjectExtension);
         </div>-->
       </div>
     </div>
+      <?=$this->context($this)->renderInContext(
+          'search/filters.phtml',
+          [
+              'params' => $params ?? null,
+              'urlQuery' => isset($results) ? $results->getUrlQuery() : null
+          ]
+      );?>
   </div>
 <?php else: ?>
   <form role="search" class="navbar-form navbar-left" method="get" action="<?=$this->url($basicSearch)?>" name="searchForm" id="searchForm" autocomplete="off">
@@ -142,5 +159,12 @@ $this->inlineScript()->appendScript($swissbibObjectExtension);
         echo '<input type="hidden" name="sort" value="' . $this->escapeHtmlAttr($lastSort) . '" />';
       }
     ?>
+    <?=$this->context($this)->renderInContext(
+        'search/filters.phtml',
+        [
+            'params' => $params ?? null,
+            'urlQuery' => isset($results) ? $results->getUrlQuery() : null
+        ]
+    );?>
   </form>
 <?php endif; ?>
