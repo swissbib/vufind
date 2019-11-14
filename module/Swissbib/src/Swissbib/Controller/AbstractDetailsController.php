@@ -178,6 +178,13 @@ abstract class AbstractDetailsController extends AbstractBase
      */
     protected function arrayToSearchString(array $ids): string
     {
+        //remove ids equal to ""
+        $ids = array_filter(
+            $ids,
+            function ($a) {
+                return $a !== "";
+            }
+        );
         return '[' . implode(",", $ids) . ']';
     }
 

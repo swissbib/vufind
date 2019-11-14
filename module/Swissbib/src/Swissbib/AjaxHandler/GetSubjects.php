@@ -78,7 +78,7 @@ class GetSubjects extends VFAjax implements AjaxHandlerInterface
         //to figure out if an empty ID list is sent is a little bit more tricky
         $ids = $this->request->getQuery()['overrideIds'];
         $isIdInQuery = false;
-        if (is_array( $ids) && count($ids) > 0) {
+        if (is_array($ids) && count($ids) > 0) {
             foreach ($ids as $id) {
                 if (isset($id) && strlen($id) > 0) {
                     $isIdInQuery = true;
