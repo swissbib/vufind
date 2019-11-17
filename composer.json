@@ -137,7 +137,6 @@
         "swissbib/switchSharedAttributesAPIClient": "dev-master",
         "zendframework/zend-i18n-resources": "^2.5",
         "doctrine/common": "^2.7",
-        "zendframework/zend-form": "^2.12",
         "zendframework/zend-hydrator": "^2.4",
         "zendframework/zend-barcode": "^2.7"
     },
