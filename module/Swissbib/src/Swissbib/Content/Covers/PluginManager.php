@@ -27,7 +27,7 @@
  */
 namespace Swissbib\Content\Covers;
 
-use VuFind\Content\Covers\Factory as VFFactory;
+use VuFind\Content\Covers\PluginManager as VFPluginManager;
 use Zend\ServiceManager\ServiceManager;
 
 /**
@@ -41,7 +41,7 @@ use Zend\ServiceManager\ServiceManager;
  *
  * @codeCoverageIgnore
  */
-class Factory extends VFFactory
+class PluginManager extends VFPluginManager
 {
     /**
      * Create Amazon loader
