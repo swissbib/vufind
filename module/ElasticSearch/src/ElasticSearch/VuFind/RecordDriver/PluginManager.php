@@ -43,6 +43,9 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
 {
     const DEFAULT_RECORD = 'ElasticSearch';
 
+    protected $searchYaml = 'elasticsearch_adapter.yml';
+
+
     /**
      * PluginManager constructor.
      *
@@ -79,15 +82,61 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
      */
     public function getElasticSearchRecord($data)
     {
-        if (isset($data['_type'])) {
-            $key = 'ES' . ucwords($data['_type']);
-            $recordType = $this->has($key) ? $key : self::DEFAULT_RECORD;
+        //preg_replace('[0-9]','',$data['_index']);
+
+        if (is_array($data) && array_key_exists("_source", $data) &&
+          array_key_exists("@type", $data["_source"])) {
+            $recordType =  $this->mapType2RecordDriver($data["_source"]["@type"]);
+
         } else {
             $recordType = self::DEFAULT_RECORD;
         }
+
         // Build the object:
         $driver = $this->get($recordType);
         $driver->setRawData($data);
         return $driver;
     }
+
+    /**
+     * @param $sourceType
+     * @return string
+     */
+    private function mapType2RecordDriver($sourceType) {
+
+        $specReader = $this->creationContext->get('VuFind\SearchSpecsReader');
+        $yaml = $specReader->get($this->searchYaml);
+        $index_2_driver_mapping = $yaml['parameters']['mappings']['index_2_driver_mapping'];
+
+        if (!is_array($sourceType)) {
+            $sourceType = [$sourceType];
+        }
+
+        $recordType = self::DEFAULT_RECORD;
+
+        $callable = function ($st) use ($index_2_driver_mapping, &$recordType){
+
+            if (self::DEFAULT_RECORD != $recordType)
+                return;
+
+
+            foreach ($index_2_driver_mapping as $key => $definedTypes) {
+                foreach ($definedTypes as $definedType) {
+                    if ($st == $definedType || strpos($st, $definedType) !== false) {
+                        $test = strpos($st, $definedType);
+                        $recordType = $key;
+                        break 2;
+                    }
+                }
+            }
+
+        };
+
+        array_map($callable, $sourceType);
+
+        return $recordType;
+
+    }
+
+
 }

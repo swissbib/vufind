@@ -125,7 +125,8 @@ class ElasticSearchBackendFactory implements FactoryInterface
     {
         $specReader = $this->_serviceLocator->get('VuFind\SearchSpecsReader');
         $yaml = $specReader->get($this->searchYaml);
-        return $yaml['parameters']['elasticsearch_adapter.templates'];
+        //return $yaml['parameters']['elasticsearch_adapter.templates'];
+        return $yaml;
     }
 
     /**

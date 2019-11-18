@@ -25,8 +25,12 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-namespace ElasticSearch\VuFind\RecordDriver;
+namespace ElasticSearchTest\VuFind\RecordDriver;
 
+use ElasticSearch\VuFind\RecordDriver\ESPerson;
+use Swissbib\Services\NationalLicence;
+use ElasticSearchTest\Bootstrap;
+use VuFindTest\Unit\TestCase as VuFindTestCase;
 /**
  * Class ESPersonTest
  *
@@ -36,24 +40,50 @@ namespace ElasticSearch\VuFind\RecordDriver;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class ESPersonTest extends \PHPUnit\Framework\TestCase
+class ESPersonTest extends VuFindTestCase
 {
     /**
-     * Tests getBirthPlaceDisplayField
+     * Set up service manager and National Licence Service.
      *
      * @return void
      */
-    public function testGetBirthPlaceDisplayField()
+    public function setUp()
+    {
+        parent::setUp();
+        $this->sm = Bootstrap::getServiceManager();
+    }
+
+    /**
+     * Tests getOccupation
+     *
+     * @return void
+     */
+    public function testGetOccupationDisplayField()
     {
         $cut = new ESPerson();
 
         $data
             = ["_source" =>
-            ["lsb:dbpBirthPlaceAsLiteral" => [0 => ["en" => "value"]]]
+                ["dbo:occupation" =>
+                    [
+                        [
+                            "en" => "pianist",
+                            "de" => "klavierspieler",
+                            "fr" => "pianiste",
+                            "@id" => "http://d-nb.info/gnd/4131406-2",
+                        ],
+                        [
+                            "@id" => "http://d-nb.info/gnd/1234",
+                            "de" => "komponist",
+                            "en" => "composer",
+                            "fr" => "compositeur",
+                        ]
+                    ]
+                ]
             ];
 
         $cut->setRawData($data);
-        $actual = $cut->getBirthPlaceDisplayField();
-        static::assertEquals(["value"], $actual);
+        $actual = $cut->getOccupationDisplayField();
+        static::assertEquals(["pianist", "composer"], $actual);
     }
 }

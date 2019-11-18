@@ -171,6 +171,7 @@
   <!-- Swissbib PHPUnit without logging output -->
   <target name="swissbibphpunitfast" description="Run tests">
     <exec dir="${srcdir}/module/Swissbib/tests" command="VUFIND_LOCAL_DIR=${srcdir}/local ${srcdir}/vendor/bin/phpunit -dzend.enable_gc=0 ${phpunit_extra_params}" passthru="true" checkreturn="true" />
+    <exec dir="${srcdir}/module/ElasticSearch/tests" command="VUFIND_LOCAL_DIR=${srcdir}/local ${srcdir}/vendor/bin/phpunit -dzend.enable_gc=0 ${phpunit_extra_params}" passthru="true" checkreturn="true" />
   </target>
 
   <target name="installsolr" description="Install Solr">

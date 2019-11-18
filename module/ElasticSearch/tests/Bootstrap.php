@@ -28,7 +28,7 @@
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swissbib.org
  */
-namespace SwissbibTest;
+namespace ElasticSearchTest;
 
 use RuntimeException;
 use Zend\Mvc\Service\ServiceManagerConfig;
@@ -36,7 +36,7 @@ use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\ArrayUtils;
 
 define('APPLICATION_PATH', realpath(dirname(__DIR__) . '/../..'));
-define('SWISSBIB_TESTS_PATH', __DIR__);
+define('ELASTICSEARCH_TESTS_PATH', __DIR__);
 chdir(APPLICATION_PATH);
 
 /**
@@ -78,13 +78,12 @@ class Bootstrap
      */
     public static function init()
     {
-
         // Load the user-defined test configuration file, if it exists;
         // otherwise, load
-        if (is_readable(SWISSBIB_TESTS_PATH . '/TestConfig.php')) {
-            $testConfig = include SWISSBIB_TESTS_PATH . '/TestConfig.php';
+        if (is_readable(ELASTICSEARCH_TESTS_PATH . '/TestConfig.php')) {
+            $testConfig = include ELASTICSEARCH_TESTS_PATH . '/TestConfig.php';
         } else {
-            $testConfig = include SWISSBIB_TESTS_PATH . '/TestConfig.php.dist';
+            $testConfig = include ELASTICSEARCH_TESTS_PATH . '/TestConfig.php.dist';
         }
 
         $zf2ModulePaths = [];
@@ -132,7 +131,7 @@ class Bootstrap
     public static function initEnvironment()
     {
         define('APPLICATION_ENV', 'development');
-        define('SWISSBIB_TEST_FIXTURES', realpath(SWISSBIB_TESTS_PATH . '/fixtures'));
+        define('SWISSBIB_TEST_FIXTURES', realpath(ELASTICSEARCH_TESTS_PATH . '/fixtures'));
     }
 
     /**
@@ -170,7 +169,7 @@ class Bootstrap
             $loader = new \Composer\Autoload\ClassLoader();
             $loader->add('VuFindTest', APPLICATION_PATH . '/module/VuFind/tests/unit-tests/src');
             $loader->add('VuFindTest', APPLICATION_PATH . '/module/VuFind/src');
-            $loader->add('SwissbibTest', SWISSBIB_TESTS_PATH . '/');
+            $loader->add('ElasticSearchTest', ELASTICSEARCH_TESTS_PATH . '/');
             $loader->add('VuFindTest', APPLICATION_PATH . '/module/VuFind/src/VuFindTest');
 
             $loader->register();
@@ -188,7 +187,7 @@ class Bootstrap
      */
     protected static function findParentPath($path)
     {
-        $dir         = SWISSBIB_TESTS_PATH;
+        $dir         = ELASTICSEARCH_TESTS_PATH;
         $previousDir = '.';
         while (!is_dir($dir . '/' . $path)) {
             $dir = dirname($dir);

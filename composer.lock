@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc063e78f84a6fbd46d45b7125c6e843",
+    "content-hash": "f4aacac52634140ea5acb957825dacbc",
     "packages": [
         {
             "name": "ahand/mobileesp",
@@ -287,16 +287,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "1.9.0",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "c15dcd24b756f9e52ea7c3ae8227354f3628f11a"
+                "reference": "89a5c76c39c292f7798f964ab3c836c3f8192a55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/c15dcd24b756f9e52ea7c3ae8227354f3628f11a",
-                "reference": "c15dcd24b756f9e52ea7c3ae8227354f3628f11a",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/89a5c76c39c292f7798f964ab3c836c3f8192a55",
+                "reference": "89a5c76c39c292f7798f964ab3c836c3f8192a55",
                 "shasum": ""
             },
             "require": {
@@ -366,7 +366,7 @@
                 "riak",
                 "xcache"
             ],
-            "time": "2019-11-11T10:31:52+00:00"
+            "time": "2019-11-15T14:31:57+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -880,31 +880,33 @@
         },
         {
             "name": "elasticsearch/elasticsearch",
-            "version": "v5.2.0",
+            "version": "v7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elastic/elasticsearch-php.git",
-                "reference": "dc57bbcd4be2c9061ebe5be59058ea8bdebc904e"
+                "reference": "f8b5d2beeeb22a5a59aabb183b5bcd7e70878d2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/dc57bbcd4be2c9061ebe5be59058ea8bdebc904e",
-                "reference": "dc57bbcd4be2c9061ebe5be59058ea8bdebc904e",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/f8b5d2beeeb22a5a59aabb183b5bcd7e70878d2f",
+                "reference": "f8b5d2beeeb22a5a59aabb183b5bcd7e70878d2f",
                 "shasum": ""
             },
             "require": {
+                "ext-json": ">=1.3.7",
                 "guzzlehttp/ringphp": "~1.0",
-                "php": "^5.6|^7.0",
+                "php": "^7.1",
                 "psr/log": "~1.0"
             },
             "require-dev": {
-                "cpliakas/git-wrapper": "~1.0",
-                "doctrine/inflector": "^1.1",
-                "mockery/mockery": "0.9.4",
-                "phpunit/phpunit": "^4.7|^5.4",
-                "sami/sami": "~3.2",
-                "symfony/finder": "^2.8",
-                "symfony/yaml": "^2.8"
+                "cpliakas/git-wrapper": "~2.0",
+                "doctrine/inflector": "^1.3",
+                "mockery/mockery": "^1.2",
+                "phpstan/phpstan-shim": "^0.11",
+                "phpunit/phpunit": "^7.5",
+                "squizlabs/php_codesniffer": "^3.4",
+                "symfony/finder": "~4.0",
+                "symfony/yaml": "~4.0"
             },
             "suggest": {
                 "ext-curl": "*",
@@ -923,6 +925,9 @@
             "authors": [
                 {
                     "name": "Zachary Tong"
+                },
+                {
+                    "name": "Enrico Zimuel"
                 }
             ],
             "description": "PHP Client for Elasticsearch",
@@ -931,7 +936,7 @@
                 "elasticsearch",
                 "search"
             ],
-            "time": "2017-04-12T20:40:50+00:00"
+            "time": "2019-09-30T12:52:38+00:00"
         },
         {
             "name": "endroid/installer",
@@ -1364,12 +1369,12 @@
             "time": "2018-04-26T11:41:33+00:00"
         },
         {
-            "name": "linked-swissbib/adapterESdev",
-            "version": "dev-updateOngr2Version5",
+            "name": "linked-swissbib/adapterES",
+            "version": "dev-updateES7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/linked-swissbib/adapterElasticsearch.git",
-                "reference": "updateOngr2Version5"
+                "reference": "updateES7"
             },
             "type": "library",
             "autoload": {
@@ -1377,7 +1382,7 @@
                     "ElasticsearchAdapter": "src"
                 }
             },
-            "time": "2018-02-12T09:11:29+00:00"
+            "time": "2019-11-05T17:21:05+00:00"
         },
         {
             "name": "matthiasmullie/minify",
@@ -1580,16 +1585,16 @@
         },
         {
             "name": "ocramius/package-versions",
-            "version": "1.4.0",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/PackageVersions.git",
-                "reference": "a4d4b60d0e60da2487bd21a2c6ac089f85570dbb"
+                "reference": "44af6f3a2e2e04f2af46bcb302ad9600cba41c7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/a4d4b60d0e60da2487bd21a2c6ac089f85570dbb",
-                "reference": "a4d4b60d0e60da2487bd21a2c6ac089f85570dbb",
+                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/44af6f3a2e2e04f2af46bcb302ad9600cba41c7d",
+                "reference": "44af6f3a2e2e04f2af46bcb302ad9600cba41c7d",
                 "shasum": ""
             },
             "require": {
@@ -1601,7 +1606,7 @@
                 "doctrine/coding-standard": "^5.0.1",
                 "ext-zip": "*",
                 "infection/infection": "^0.7.1",
-                "phpunit/phpunit": "^7.0.0"
+                "phpunit/phpunit": "^7.5.17"
             },
             "type": "composer-plugin",
             "extra": {
@@ -1626,7 +1631,7 @@
                 }
             ],
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
-            "time": "2019-02-21T12:16:21+00:00"
+            "time": "2019-11-15T16:17:10+00:00"
         },
         {
             "name": "ocramius/proxy-manager",
@@ -1699,28 +1704,28 @@
         },
         {
             "name": "ongr/elasticsearch-dsl",
-            "version": "v5.0.7",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ongr-io/ElasticsearchDSL.git",
-                "reference": "d2c7f0e8cc1a88069b5217cdb6cd6cd673514ffb"
+                "reference": "b86153ce7a4192ff7caf8d93f59c2e7c151cba1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ongr-io/ElasticsearchDSL/zipball/d2c7f0e8cc1a88069b5217cdb6cd6cd673514ffb",
-                "reference": "d2c7f0e8cc1a88069b5217cdb6cd6cd673514ffb",
+                "url": "https://api.github.com/repos/ongr-io/ElasticsearchDSL/zipball/b86153ce7a4192ff7caf8d93f59c2e7c151cba1f",
+                "reference": "b86153ce7a4192ff7caf8d93f59c2e7c151cba1f",
                 "shasum": ""
             },
             "require": {
-                "elasticsearch/elasticsearch": "~5.0",
                 "paragonie/random_compat": "*",
-                "php": ">=5.6",
-                "symfony/serializer": "~2.7|~3.0|~4.0"
+                "php": "^7.1",
+                "symfony/serializer": "^3.0|^4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~5.6",
-                "satooshi/php-coveralls": "~1.0|~2.0",
-                "squizlabs/php_codesniffer": "~2.0"
+                "elasticsearch/elasticsearch": "^7.0",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "~6.0",
+                "squizlabs/php_codesniffer": "^3.0"
             },
             "suggest": {
                 "elasticsearch/elasticsearch": "This library is for elasticsearch/elasticsearch client to enhance it with DSL functionality."
@@ -1728,7 +1733,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.1-dev"
+                    "dev-master": "7.0-dev"
                 }
             },
             "autoload": {
@@ -1748,7 +1753,7 @@
             ],
             "description": "Elasticsearch DSL library",
             "homepage": "http://ongr.io",
-            "time": "2019-10-08T11:15:52+00:00"
+            "time": "2019-10-08T11:06:59+00:00"
         },
         {
             "name": "oyejorge/less.php",
@@ -2779,7 +2784,7 @@
         },
         {
             "name": "symfony/inflector",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/inflector.git",
@@ -2837,7 +2842,7 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
@@ -3067,7 +3072,7 @@
         },
         {
             "name": "symfony/property-access",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
@@ -3135,16 +3140,16 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "a9b988899604cf3ecb144834ffbd11134c6f7773"
+                "reference": "9d14f7ff2c585a8a9f6f980253066285ddc2f675"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/a9b988899604cf3ecb144834ffbd11134c6f7773",
-                "reference": "a9b988899604cf3ecb144834ffbd11134c6f7773",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/9d14f7ff2c585a8a9f6f980253066285ddc2f675",
+                "reference": "9d14f7ff2c585a8a9f6f980253066285ddc2f675",
                 "shasum": ""
             },
             "require": {
@@ -3210,7 +3215,7 @@
             ],
             "description": "Symfony Serializer Component",
             "homepage": "https://symfony.com",
-            "time": "2019-10-29T11:09:57+00:00"
+            "time": "2019-11-12T17:51:12+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -8397,7 +8402,7 @@
         },
         {
             "name": "symfony/config",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
@@ -8461,16 +8466,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "c7edffb26b29cae972ca4afccb610a38ce8d0ccf"
+                "reference": "17b154f932c5874cdbda6d05796b6490eec9f9f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/c7edffb26b29cae972ca4afccb610a38ce8d0ccf",
-                "reference": "c7edffb26b29cae972ca4afccb610a38ce8d0ccf",
+                "url": "https://api.github.com/repos/symfony/console/zipball/17b154f932c5874cdbda6d05796b6490eec9f9f7",
+                "reference": "17b154f932c5874cdbda6d05796b6490eec9f9f7",
                 "shasum": ""
             },
             "require": {
@@ -8529,11 +8534,11 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2019-10-24T15:33:53+00:00"
+            "time": "2019-11-13T07:12:39+00:00"
         },
         {
             "name": "symfony/css-selector",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -8586,7 +8591,7 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
@@ -8642,7 +8647,7 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
@@ -8713,7 +8718,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -8776,7 +8781,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -8826,7 +8831,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -8930,7 +8935,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -8979,7 +8984,7 @@
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v3.4.34",
+            "version": "v3.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
@@ -9163,7 +9168,7 @@
         "ahand/mobileesp": 20,
         "ghislainf/zf2-whoops": 20,
         "pear/validate_ispn": 20,
-        "linked-swissbib/adapteresdev": 20,
+        "linked-swissbib/adapteres": 20,
         "swissbib/switchsharedattributesapiclient": 20
     },
     "prefer-stable": false,
