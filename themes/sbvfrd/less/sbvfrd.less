@@ -1178,10 +1178,39 @@ div.memorize {
   border-radius: 2px;
   padding: 20px 20px 0 20px;
 
+
+  ul.home-box-list{
+    //padding-left: 0;
+    padding-right: 1rem;
+    list-style: none;
+    padding-left: 0px;
+    li:before {
+        content: "\00BB";
+        margin-right: 5px;
+    }
+    li {
+      padding-top: 5px;
+      padding-bottom:5px;
+    }
+
+    a {
+      font-weight: bold;
+    }
+    li:last-child {
+      padding-top: 5px;
+    }
+    li:last-child::before {
+      color: black;
+      font-weight: normal;
+    }
+  }
+
   & > a:before,
   ul li:before {
     .a-before;
   }
+
+
 
   h2 {
     font-size: 20px;
