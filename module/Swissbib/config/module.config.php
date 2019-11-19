@@ -606,7 +606,7 @@ return [
             ],
             'content_covers' => [
                 'factories' => [
-                    'VuFind\Content\Covers\Amazon' => 'Swissbib\Content\Covers\Factory::getAmazon',
+                    'VuFind\Content\Covers\Amazon' => 'Swissbib\Content\Covers\PluginManager::getAmazon',
                 ],
                 'aliases' => [
                     'amazon'   => 'VuFind\Content\Covers\Amazon',

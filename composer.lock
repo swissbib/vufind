@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4aacac52634140ea5acb957825dacbc",
+    "content-hash": "b138078378f4b262ffe930ff426accc6",
     "packages": [
         {
             "name": "ahand/mobileesp",
@@ -880,33 +880,31 @@
         },
         {
             "name": "elasticsearch/elasticsearch",
-            "version": "v7.3.0",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elastic/elasticsearch-php.git",
-                "reference": "f8b5d2beeeb22a5a59aabb183b5bcd7e70878d2f"
+                "reference": "dc57bbcd4be2c9061ebe5be59058ea8bdebc904e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/f8b5d2beeeb22a5a59aabb183b5bcd7e70878d2f",
-                "reference": "f8b5d2beeeb22a5a59aabb183b5bcd7e70878d2f",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/dc57bbcd4be2c9061ebe5be59058ea8bdebc904e",
+                "reference": "dc57bbcd4be2c9061ebe5be59058ea8bdebc904e",
                 "shasum": ""
             },
             "require": {
-                "ext-json": ">=1.3.7",
                 "guzzlehttp/ringphp": "~1.0",
-                "php": "^7.1",
+                "php": "^5.6|^7.0",
                 "psr/log": "~1.0"
             },
             "require-dev": {
-                "cpliakas/git-wrapper": "~2.0",
-                "doctrine/inflector": "^1.3",
-                "mockery/mockery": "^1.2",
-                "phpstan/phpstan-shim": "^0.11",
-                "phpunit/phpunit": "^7.5",
-                "squizlabs/php_codesniffer": "^3.4",
-                "symfony/finder": "~4.0",
-                "symfony/yaml": "~4.0"
+                "cpliakas/git-wrapper": "~1.0",
+                "doctrine/inflector": "^1.1",
+                "mockery/mockery": "0.9.4",
+                "phpunit/phpunit": "^4.7|^5.4",
+                "sami/sami": "~3.2",
+                "symfony/finder": "^2.8",
+                "symfony/yaml": "^2.8"
             },
             "suggest": {
                 "ext-curl": "*",
@@ -925,9 +923,6 @@
             "authors": [
                 {
                     "name": "Zachary Tong"
-                },
-                {
-                    "name": "Enrico Zimuel"
                 }
             ],
             "description": "PHP Client for Elasticsearch",
@@ -936,7 +931,7 @@
                 "elasticsearch",
                 "search"
             ],
-            "time": "2019-09-30T12:52:38+00:00"
+            "time": "2017-04-12T20:40:50+00:00"
         },
         {
             "name": "endroid/installer",
@@ -1369,12 +1364,12 @@
             "time": "2018-04-26T11:41:33+00:00"
         },
         {
-            "name": "linked-swissbib/adapterES",
-            "version": "dev-updateES7",
+            "name": "linked-swissbib/adapterESdev",
+            "version": "dev-updateOngr2Version5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/linked-swissbib/adapterElasticsearch.git",
-                "reference": "updateES7"
+                "reference": "updateOngr2Version5"
             },
             "type": "library",
             "autoload": {
@@ -1382,7 +1377,7 @@
                     "ElasticsearchAdapter": "src"
                 }
             },
-            "time": "2019-11-05T17:21:05+00:00"
+            "time": "2018-02-12T09:11:29+00:00"
         },
         {
             "name": "matthiasmullie/minify",
@@ -1704,28 +1699,28 @@
         },
         {
             "name": "ongr/elasticsearch-dsl",
-            "version": "v7.0.0",
+            "version": "v5.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ongr-io/ElasticsearchDSL.git",
-                "reference": "b86153ce7a4192ff7caf8d93f59c2e7c151cba1f"
+                "reference": "d2c7f0e8cc1a88069b5217cdb6cd6cd673514ffb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ongr-io/ElasticsearchDSL/zipball/b86153ce7a4192ff7caf8d93f59c2e7c151cba1f",
-                "reference": "b86153ce7a4192ff7caf8d93f59c2e7c151cba1f",
+                "url": "https://api.github.com/repos/ongr-io/ElasticsearchDSL/zipball/d2c7f0e8cc1a88069b5217cdb6cd6cd673514ffb",
+                "reference": "d2c7f0e8cc1a88069b5217cdb6cd6cd673514ffb",
                 "shasum": ""
             },
             "require": {
+                "elasticsearch/elasticsearch": "~5.0",
                 "paragonie/random_compat": "*",
-                "php": "^7.1",
-                "symfony/serializer": "^3.0|^4.0"
+                "php": ">=5.6",
+                "symfony/serializer": "~2.7|~3.0|~4.0"
             },
             "require-dev": {
-                "elasticsearch/elasticsearch": "^7.0",
-                "php-coveralls/php-coveralls": "^2.1",
-                "phpunit/phpunit": "~6.0",
-                "squizlabs/php_codesniffer": "^3.0"
+                "phpunit/phpunit": "~5.6",
+                "satooshi/php-coveralls": "~1.0|~2.0",
+                "squizlabs/php_codesniffer": "~2.0"
             },
             "suggest": {
                 "elasticsearch/elasticsearch": "This library is for elasticsearch/elasticsearch client to enhance it with DSL functionality."
@@ -1733,7 +1728,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.0-dev"
+                    "dev-master": "5.1-dev"
                 }
             },
             "autoload": {
@@ -1753,7 +1748,7 @@
             ],
             "description": "Elasticsearch DSL library",
             "homepage": "http://ongr.io",
-            "time": "2019-10-08T11:06:59+00:00"
+            "time": "2019-10-08T11:15:52+00:00"
         },
         {
             "name": "oyejorge/less.php",
@@ -4301,16 +4296,16 @@
         },
         {
             "name": "zendframework/zend-form",
-            "version": "2.14.3",
+            "version": "2.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-form.git",
-                "reference": "0b1616c59b1f3df194284e26f98c81ad0c377871"
+                "reference": "ff9385b7d0d93d9bdbc2aa4af82ab616dbc7d4be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-form/zipball/0b1616c59b1f3df194284e26f98c81ad0c377871",
-                "reference": "0b1616c59b1f3df194284e26f98c81ad0c377871",
+                "url": "https://api.github.com/repos/zendframework/zend-form/zipball/ff9385b7d0d93d9bdbc2aa4af82ab616dbc7d4be",
+                "reference": "ff9385b7d0d93d9bdbc2aa4af82ab616dbc7d4be",
                 "shasum": ""
             },
             "require": {
@@ -4375,7 +4370,7 @@
                 "form",
                 "zf"
             ],
-            "time": "2019-10-04T10:46:36+00:00"
+            "time": "2019-02-26T18:13:31+00:00"
         },
         {
             "name": "zendframework/zend-http",
@@ -9168,7 +9163,7 @@
         "ahand/mobileesp": 20,
         "ghislainf/zf2-whoops": 20,
         "pear/validate_ispn": 20,
-        "linked-swissbib/adapteres": 20,
+        "linked-swissbib/adapteresdev": 20,
         "swissbib/switchsharedattributesapiclient": 20
     },
     "prefer-stable": false,
