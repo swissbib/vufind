@@ -33,6 +33,9 @@
         <?php if ($this->page > 1): ?>
           <a href="<?=$urlBase . '&amp;facetpage=' . ($this->page - 1) . '&amp;facetsort=' . $this->sort ?>" class="facet js-facet-prev-page" data-page="<?=($this->page + 1) ?>" data-sort="<?=$this->sort ?>" data-limit="<?=count($this->data) ?>" data-lightbox-ignore><?=$this->translate('prev') ?> ...</a>
         <?php endif; ?>
+        <?php if ($sort == 'sort_alphabetic'): ?>
+          <?php $this->data = $this->facetListSorter($this->data); ?>
+        <?php endif; ?>
         <?php foreach ($this->data as $item): ?>
           <?=$this->render('Recommend/SideFacets/single-facet.phtml', [
             'exclude' => $this->exclude,

@@ -29,6 +29,7 @@
 namespace Swissbib\View\Helper\Swissbib;
 
 use Swissbib\View\Helper\AutoSuggestConfig;
+use Swissbib\View\Helper\FacetListSorter;
 use Swissbib\View\Helper\FormatRelatedEntries;
 use Swissbib\View\Helper\IncludeTemplate;
 
@@ -211,4 +212,17 @@ class Factory
     {
         return new AutoSuggestConfig($sm);
     }
+
+    /**
+     * Construct facet2ListSorter
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return array
+     */
+    public static function getFacetListSorter(ServiceManager $sm)
+    {
+        return new FacetListSorter($sm);
+    }
+
 }

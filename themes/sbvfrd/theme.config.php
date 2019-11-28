@@ -50,7 +50,11 @@ return [
       'translateFacets' => 'Swissbib\View\Helper\Swissbib\Factory::getFacetTranslator',
       'formatRelatedEntries' => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
       \Swissbib\VuFind\View\Helper\Root\Translate::class => 'Zend\ServiceManager\Factory\InvokableFactory',
-       'Swissbib\View\Helper\RenderSuggestions' => 'Zend\ServiceManager\Factory\InvokableFactory',
+      'Swissbib\View\Helper\RenderSuggestions' => 'Zend\ServiceManager\Factory\InvokableFactory',
+      //'Swissbib\View\Helper\Facet2ListSorter' => 'Zend\ServiceManager\Factory\InvokableFactory',
+      //\Swissbib\View\Helper\Facet2ListSorter::class => 'Swissbib\View\Helper\Factory::getFacet2ListSorter',
+      //'Swissbib\View\Helper\Facet2ListSorter' => 'Swissbib\View\Helper\Factory::getFacet2ListSorter',
+      'facetListSorter' => 'Swissbib\View\Helper\Swissbib\Factory::getFacetListSorter', // <-- !!
     ],
     'aliases' => [
         'auth' => 'VuFind\View\Helper\Root\Auth',
@@ -61,6 +65,8 @@ return [
         'searchtabs' => 'Swissbib\VuFind\View\Helper\Root\SearchTabs',
         'translate' => \Swissbib\VuFind\View\Helper\Root\Translate::class,
         'renderSuggestions' => 'Swissbib\View\Helper\RenderSuggestions',
+        //'facet2ListSorter' => \Swissbib\View\Helper\Facet2ListSorter::class,
+        //'facet2ListSorter' => 'Swissbib\View\Helper\Facet2ListSorter',
     ],
   ]
 ];
