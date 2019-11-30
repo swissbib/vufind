@@ -26,7 +26,7 @@ $institutions = $this->displayNameSorter($translatedInstitutions, "translatedIns
         <a role="menuitem" href="<?= $this->recordLink()->getUrl($driver) ?>?expandlib=<?= $groupCode ?>-<?= $institutionCode ?>#<?= $anchor ?>">
             <span class="a-before"></span>
             <span name="<?php echo $institutionCode . ' ' . $institutionCodeSub; ?>" class="availability"></span>
-            <?= $this->escapeHtml($this->zendTranslate($institutionCode, 'institution')); ?>
+            <?= $institution['translatedInstitution']; ?>
         </a>
       </li>
     <?php endforeach; ?>
