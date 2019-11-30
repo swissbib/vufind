@@ -4,9 +4,12 @@
 $institutions = $driver->getInstitutions(true);
 $institutions = $this->filterUntranslatedInstitutions($institutions, true);
 
-if (sizeof($institutions) > 1) {
-  $institutions = $this->institutionSorter()->sortInstitutions($institutions, true);
+$translatedInstitutions = array();
+foreach ($institutions as $index => $institution) {
+    $institution['translatedInstitution'] = $this->escapeHtml($this->zendTranslate($institution['institution'], 'institution'));
+    $translatedInstitutions[$index] = $institution;
 }
+$institutions = $this->displayNameSorter($translatedInstitutions, "translatedInstitution");
 
 ?>
 <?php if (count($institutions) > 0): ?>
