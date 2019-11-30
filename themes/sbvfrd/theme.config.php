@@ -54,7 +54,7 @@ return [
       //'Swissbib\View\Helper\Facet2ListSorter' => 'Zend\ServiceManager\Factory\InvokableFactory',
       //\Swissbib\View\Helper\Facet2ListSorter::class => 'Swissbib\View\Helper\Factory::getFacet2ListSorter',
       //'Swissbib\View\Helper\Facet2ListSorter' => 'Swissbib\View\Helper\Factory::getFacet2ListSorter',
-      'facetListSorter' => 'Swissbib\View\Helper\Swissbib\Factory::getFacetListSorter', // <-- !!
+      'displayNameSorter' => 'Swissbib\View\Helper\Swissbib\Factory::getDisplayNameSorter',
     ],
     'aliases' => [
         'auth' => 'VuFind\View\Helper\Root\Auth',
@@ -65,8 +65,6 @@ return [
         'searchtabs' => 'Swissbib\VuFind\View\Helper\Root\SearchTabs',
         'translate' => \Swissbib\VuFind\View\Helper\Root\Translate::class,
         'renderSuggestions' => 'Swissbib\View\Helper\RenderSuggestions',
-        //'facet2ListSorter' => \Swissbib\View\Helper\Facet2ListSorter::class,
-        //'facet2ListSorter' => 'Swissbib\View\Helper\Facet2ListSorter',
     ],
   ]
 ];

@@ -31,7 +31,7 @@ namespace Swissbib\View\Helper;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * Prepare authors link list
+ * Sorter for facet- and library-datastructures by displayName/label
  *
  * @category Swissbib_VuFind
  * @package  View_Helper
@@ -39,30 +39,38 @@ use Zend\View\Helper\AbstractHelper;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class FacetListSorter extends AbstractHelper
+class DisplayNameSorter extends AbstractHelper
 {
+    /**
+     * Associative index of subarray to sort by
+     *
+     * @var string
+     */
+    protected $sortIndex;
+
     /**
      * Sort facets by display name
      *
      * @return Array[]
      */
-    public function __invoke(array $facetList = [])
+    public function __invoke(array $facetList = [], string $sortIndex)
     {
-        usort($facetList,  array($this, "sortFacetListByLabel"));
+        $this->sortIndex = $sortIndex;
+        usort($facetList,  array($this, "sortByDisplayName"));
         return $facetList;
     }
 
     /**
-     * Sort two facets by display name
+     * Sort two data-structures by display name
      *
-     * @param $a that one facet
-     * @param $b that other facet
+     * @param $a that one datastructure
+     * @param $b that other datastructure
      *
      * @return int which one is on top now?
      */
-    private function sortFacetListByLabel($a, $b) {
-        $a = strtoupper($a['displayText']);
-        $b = strtoupper($b['displayText']);
+    private function sortByDisplayName($a, $b) {
+        $a = strtoupper($a[$this->sortIndex]);
+        $b = strtoupper($b[$this->sortIndex]);
         if ($a == $b) {
             return 0;
         }
