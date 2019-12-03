@@ -162,7 +162,7 @@ class ESPerson extends ElasticSearch
         $abstract = $this->getField('abstract');
         $localizedAbstract = $this->getValueByLanguagePriority($abstract);
         return is_array($localizedAbstract) && count($localizedAbstract) > 0
-            ? $localizedAbstract[0] : null;
+            ? $localizedAbstract[0] : $localizedAbstract;
     }
 
     /**
