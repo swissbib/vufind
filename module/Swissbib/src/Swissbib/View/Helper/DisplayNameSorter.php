@@ -56,7 +56,7 @@ class DisplayNameSorter extends AbstractHelper
     public function __invoke(array $facetList = [], string $sortIndex)
     {
         $this->sortIndex = $sortIndex;
-        usort($facetList,  array($this, "sortByDisplayName"));
+        usort($facetList, [$this, "sortByDisplayName"]);
         return $facetList;
     }
 
@@ -68,7 +68,8 @@ class DisplayNameSorter extends AbstractHelper
      *
      * @return int which one is on top now?
      */
-    private function sortByDisplayName($a, $b) {
+    private function sortByDisplayName($a, $b)
+    {
         $a = strtoupper($a[$this->sortIndex]);
         $b = strtoupper($b[$this->sortIndex]);
         if ($a == $b) {
@@ -76,5 +77,4 @@ class DisplayNameSorter extends AbstractHelper
         }
         return ($a < $b) ? -1 : 1;
     }
-
 }

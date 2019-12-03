@@ -58,7 +58,7 @@ $this->headTitle('swissbib : ' . $this->driver->getBreadcrumb() . $extendedTitle
       <div id="collapse-<?= $groupCode ?>" level="1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<?= $groupCode ?>">
         <div class="list-group">
             <?php
-            $translatedInstitutions = array();
+            $translatedInstitutions = [];
             foreach ($group['institutions'] as $index => $institution) {
                 $institution['translatedInstitution'] = $this->escapeHtml($this->zendTranslate($institution['label'], 'institution'));
                 $translatedInstitutions[$index] = $institution;

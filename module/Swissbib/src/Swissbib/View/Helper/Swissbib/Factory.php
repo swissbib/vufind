@@ -224,5 +224,4 @@ class Factory
     {
         return new DisplayNameSorter($sm);
     }
-
 }

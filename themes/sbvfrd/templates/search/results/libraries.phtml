@@ -4,7 +4,7 @@
 $institutions = $driver->getInstitutions(true);
 $institutions = $this->filterUntranslatedInstitutions($institutions, true);
 
-$translatedInstitutions = array();
+$translatedInstitutions = [];
 foreach ($institutions as $index => $institution) {
     $institution['translatedInstitution'] = $this->escapeHtml($this->zendTranslate($institution['institution'], 'institution'));
     $translatedInstitutions[$index] = $institution;
