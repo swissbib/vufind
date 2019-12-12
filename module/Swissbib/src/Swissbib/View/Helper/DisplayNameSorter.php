@@ -56,7 +56,7 @@ class DisplayNameSorter extends AbstractHelper
     public function __invoke(array $facetList = [], string $sortIndex)
     {
         $this->sortIndex = $sortIndex;
-        usort($facetList, [$this, "sortByDisplayName"]);
+        uasort($facetList, [$this, "sortByDisplayName"]);
         return $facetList;
     }
 
