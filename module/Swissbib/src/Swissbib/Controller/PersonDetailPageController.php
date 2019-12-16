@@ -70,9 +70,27 @@ class PersonDetailPageController extends AbstractPersonController
             "Author", $this->driver, $this->config->mediaLimit
         );
         $viewModel->setVariable("medias", $medias);
-        $contributors = $this->getCoContributors(
-            $this->driver->getUniqueID(), $this->bibliographicResources
-        );
+        $es = $this->serviceLocator->get('elasticsearchsearch');
+        //issue: https://github.com/swissbib/vufind/issues/719
+        //The ElasticSearchSearch Type is responsible for the check if there
+        // are CoContributors available. But this methods returns a result type as
+        //the last expression value which is created via a search engine request
+        //so we can't return just an e.g. empty array expression.
+        //The method responsible for checking the co-authors is implemented as
+        // protected so not usable just out of the box. For me the most reasonable
+        //implementation is to provide an additional helper function on the
+        //ElasticSearch Type to get the number of available CoContributors
+        //so we do not duplicate the code for this
+
+        if ($es->hasCoContributors(
+            $this->bibliographicResources,
+            $this->driver->getUniqueID()
+        )
+        ) {
+            $contributors = $this->getCoContributors(
+                $this->driver->getUniqueID()
+            );
+        }
         if (isset($contributors)) {
             $viewModel->setVariable("coContributors", $contributors->getResults());
             $viewModel->setVariable(
@@ -80,6 +98,9 @@ class PersonDetailPageController extends AbstractPersonController
             );
         }
         $personsOfSameGenre = $this->getPersonsOfSameGenre($this->driver);
+        //GH: I think we can make this request without the risk of ES searches having
+        //empty parameter values which throws often an exception because
+        //checks if there are genres available
         if (isset($personsOfSameGenre)) {
             $viewModel->setVariable(
                 "authorsOfSameGenre", $personsOfSameGenre->getResults()
@@ -88,6 +109,9 @@ class PersonDetailPageController extends AbstractPersonController
                 "authorsOfSameGenreTotal", $personsOfSameGenre->getResultTotal()
             );
         }
+
+        //GH: same reason as argued for PersonsOfSameGenre - an ES request is
+        //only done if movements are available
         $personsOfSameMovement = $this->getPersonsOfSameMovement($this->driver);
         if (isset($personsOfSameMovement)) {
             $viewModel->setVariable(
