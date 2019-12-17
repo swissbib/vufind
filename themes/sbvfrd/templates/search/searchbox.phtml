@@ -18,15 +18,12 @@
     $lastLimit = $this->searchMemory()->getLastLimit($this->searchClassId);
     $searchtabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType)['tabs'];
 
-    if (!isset($this->filterList) || !isset($this->checkboxFilters)) {
+    $filterList = isset($this->filterList) && is_array($this->filterList) ? $this->filterList : [];
+    if (!isset($params)) {
         $params = $this->searchMemory()->getLastSearchParams($this->searchClassId);
-        $filterList = $params->getFilterList(true);
-        $checkboxFilters = $params->getCheckboxFacets();
-    } else {
-        $filterList = is_array($this->filterList) ? $this->filterList : [];
-        $checkboxFilters = is_array($this->checkboxFilters) ? $this->checkboxFilters : [];
     }
-    $filterDetails = $this->searchbox()->getFilterDetails($filterList, $checkboxFilters);
+    $params->removeAllFilters();
+    $params->setFilterList($filterList);
 
 // Extend swissbib global object by autocomplete configuration
 $autoSuggestConfig = json_encode($this->autoSuggestConfig($this->searchClassId)->toArray());
