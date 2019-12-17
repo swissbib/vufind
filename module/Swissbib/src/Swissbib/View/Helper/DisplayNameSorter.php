@@ -51,24 +51,27 @@ class DisplayNameSorter extends AbstractHelper
     /**
      * Sort facets by display name
      *
+     * @param array $facetList facet list
+     * @param string $sortIndex sort index
+     *
      * @return Array[]
      */
-    public function __invoke(array $facetList = [], string $sortIndex)
+    public function __invoke(array $facetList, string $sortIndex)
     {
         $this->sortIndex = $sortIndex;
-        uasort($facetList, [$this, "sortByDisplayName"]);
+        uasort($facetList, [$this, "_sortByDisplayName"]);
         return $facetList;
     }
 
     /**
      * Sort two data-structures by display name
      *
-     * @param $a that one datastructure
-     * @param $b that other datastructure
+     * @param string $a that one datastructure
+     * @param string $b that other datastructure
      *
      * @return int which one is on top now?
      */
-    private function sortByDisplayName($a, $b)
+    private function _sortByDisplayName($a, $b)
     {
         $a = strtoupper($a[$this->sortIndex]);
         $b = strtoupper($b[$this->sortIndex]);
