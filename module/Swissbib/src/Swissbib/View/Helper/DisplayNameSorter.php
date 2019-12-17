@@ -51,7 +51,7 @@ class DisplayNameSorter extends AbstractHelper
     /**
      * Sort facets by display name
      *
-     * @param array $facetList facet list
+     * @param array  $facetList facet list
      * @param string $sortIndex sort index
      *
      * @return Array[]
