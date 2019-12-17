@@ -57,9 +57,16 @@ $this->headTitle('swissbib : ' . $this->driver->getBreadcrumb() . $extendedTitle
       <!-- begin: group content -->
       <div id="collapse-<?= $groupCode ?>" level="1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<?= $groupCode ?>">
         <div class="list-group">
-
-          <div class="panel-group" id="institutions-<?= $groupCode ?>" role="tablist" aria-multiselectable="true">
-          <?php foreach ($group['institutions'] as $institutionCode => $institution): ?>
+            <?php
+            $translatedInstitutions = [];
+            foreach ($group['institutions'] as $index => $institution) {
+                $institution['translatedInstitution'] = $this->escapeHtml($this->zendTranslate($institution['label'], 'institution'));
+                $translatedInstitutions[$index] = $institution;
+            }
+            $translatedInstitutions = $this->displayNameSorter($translatedInstitutions, "translatedInstitution");
+            ?>
+            <div class="panel-group" id="institutions-<?= $groupCode ?>" role="tablist" aria-multiselectable="true">
+          <?php foreach ($translatedInstitutions as $institutionCode => $institution): ?>
 
             <!-- begin: institution <?= $institutionCode ?>-->
             <div class="panel panel-default institutionBox institution-<?= $institutionCode ?>-box" id="holding-institution-<?= $groupCode ?>-<?= $institutionCode ?>-box">
