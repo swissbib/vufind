@@ -83,7 +83,7 @@ class PluginFactory extends VuFindParamsPluginFactory
     public function __invoke(ContainerInterface $container,
         $requestedName, array $extraParams = null
     ) {
-        $options =$container
+        $options = $container
             ->get('VuFind\Search\Options\PluginManager')->get($requestedName);
 
         $extendedTargetHelper = $container
