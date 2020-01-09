@@ -109,7 +109,7 @@ class LocationMap extends LocationMapBase
      * @return Boolean
      */
     protected function isItemValidForLocationMapB410(array $item,
-                                                     HoldingsHelper $holdingsHelper
+        HoldingsHelper $holdingsHelper
     ) {
         //Implement availability check with holdings helper
         $isItemAvailable = true;
@@ -142,7 +142,7 @@ class LocationMap extends LocationMapBase
      * @return String
      */
     protected function buildLocationMapLinkB410(array $item,
-                                                HoldingsHelper $holdingsHelper
+        HoldingsHelper $holdingsHelper
     ) {
         $mapLinkPattern  = $this->config->get('B410');
         $signature = $item['signature'];
