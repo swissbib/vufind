@@ -260,6 +260,25 @@ class ElasticSearchSearch
     }
 
     /**
+     * Lookup if there are CoContributors
+     *
+     * @param array  $bibliographicResources The bibliographic resources
+     * @param string $authorId               The author ID
+     *
+     * @return bool
+     */
+    public function hasCoContributors(array $bibliographicResources, $authorId):
+        bool
+    {
+        return count(
+            $this->getCoContributorIds(
+                $bibliographicResources,
+                $authorId
+            )
+        ) > 0;
+    }
+
+    /**
      * Converts array to search string
      *
      * @param array $ids Array of ids

@@ -16,7 +16,14 @@
     $advSearch = $options->getAdvancedSearchAction();
     $lastSort = $this->searchMemory()->getLastSort($this->searchClassId);
     $lastLimit = $this->searchMemory()->getLastLimit($this->searchClassId);
-    $searchtabs = $this->searchtabs($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType);
+    $searchtabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, $this->searchType)['tabs'];
+
+    $filterList = isset($this->filterList) && is_array($this->filterList) ? $this->filterList : [];
+    if (!isset($params)) {
+        $params = $this->searchMemory()->getLastSearchParams($this->searchClassId);
+    }
+    $params->removeAllFilters();
+    $params->setFilterList($filterList);
 
 // Extend swissbib global object by autocomplete configuration
 $autoSuggestConfig = json_encode($this->autoSuggestConfig($this->searchClassId)->toArray());
@@ -38,7 +45,7 @@ $this->inlineScript()->appendScript($swissbibObjectExtension);
         //initialize variable, otherwise we will get a notice in log
         $withTabsClass = '';
     ?>
-    <?php if(is_array($searchtabs->getTabArray()) && count($searchtabs->getTabArray()) > 0): ?>
+    <?php if(count($searchtabs) > 0): ?>
       <?= $this->context($this)->renderInContext('search/searchTabs', ['searchTabs' => $searchtabs]); ?>
 
       <?php $withTabsClass = ' tabsVisible' ?>
@@ -62,12 +69,19 @@ $this->inlineScript()->appendScript($swissbibObjectExtension);
         </div>-->
       </div>
     </div>
+      <?=$this->context($this)->renderInContext(
+          'search/filters.phtml',
+          [
+              'params' => $params ?? null,
+              'urlQuery' => isset($results) ? $results->getUrlQuery() : null
+          ]
+      );?>
   </div>
 <?php else: ?>
   <form role="search" class="navbar-form navbar-left" method="get" action="<?=$this->url($basicSearch)?>" name="searchForm" id="searchForm" autocomplete="off">
 
     <div class="search-tabs-box">
-    <?php if(is_array($searchtabs->getTabArray()) && count($searchtabs->getTabArray()) > 0): ?>
+    <?php if(count($searchtabs) > 0): ?>
       <?= $this->context($this)->renderInContext('search/searchTabs', ['searchTabs' => $searchtabs]); ?>
     <?php endif; ?>
     </div>
@@ -142,5 +156,12 @@ $this->inlineScript()->appendScript($swissbibObjectExtension);
         echo '<input type="hidden" name="sort" value="' . $this->escapeHtmlAttr($lastSort) . '" />';
       }
     ?>
+    <?=$this->context($this)->renderInContext(
+        'search/filters.phtml',
+        [
+            'params' => $params ?? null,
+            'urlQuery' => isset($results) ? $results->getUrlQuery() : null
+        ]
+    );?>
   </form>
 <?php endif; ?>

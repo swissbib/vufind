@@ -282,19 +282,12 @@ class Params extends VFSummonParams
     }
 
     /**
-     * InitHomePageFacets
+     * Set filterList
      *
-     * @return void
+     * @param $filterArray
      */
-    /*
-    public function initHomePageFacets()
-    {
-    //todo: seems, this method is unused anymore initAdvancedFacets() doesn't exist
-    //needs to be varified
-        // Load Advanced settings if HomePage settings are missing (legacy support):
-        if (!$this->initFacetList('HomePage', 'HomePage_Settings', 'Summon')) {
-            $this->initAdvancedFacets();
-        }
+    public function setFilterList($filterArray) {
+        $this->filterList = $filterArray;
     }
-    */
+
 }

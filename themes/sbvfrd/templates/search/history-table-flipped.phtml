@@ -23,7 +23,6 @@
       <th><?=$headers['history_limits']?></th>
       <td>
         <?php
-        $info->getParams()->activateAllFacets();
         foreach ($info->getParams()->getFilterList() as $field => $filters):
           foreach ($filters as $i => $filter):
             if ($filter['operator'] == 'NOT') echo $this->transEsc('NOT') . ' ';

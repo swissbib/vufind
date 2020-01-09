@@ -93,7 +93,7 @@ CREATE TABLE `national_licence_user` (
   `home_postal_address` varchar(255) DEFAULT NULL,
   `affiliation` varchar(255) DEFAULT NULL,
   `swiss_library_person_residence` varchar(10) DEFAULT NULL,
-  `assurance_level` varchar(255) DEFAULT NULL,
+  `assurance_level` varchar(2000) DEFAULT NULL,
   `condition_accepted` tinyint(1) DEFAULT '0',
   `request_temporary_access` tinyint(1) NOT NULL DEFAULT '0',
   `request_temporary_access_created` datetime DEFAULT NULL,

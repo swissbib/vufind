@@ -50,7 +50,11 @@ return [
       'translateFacets' => 'Swissbib\View\Helper\Swissbib\Factory::getFacetTranslator',
       'formatRelatedEntries' => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
       \Swissbib\VuFind\View\Helper\Root\Translate::class => 'Zend\ServiceManager\Factory\InvokableFactory',
-       'Swissbib\View\Helper\RenderSuggestions' => 'Zend\ServiceManager\Factory\InvokableFactory',
+      'Swissbib\View\Helper\RenderSuggestions' => 'Zend\ServiceManager\Factory\InvokableFactory',
+      //'Swissbib\View\Helper\Facet2ListSorter' => 'Zend\ServiceManager\Factory\InvokableFactory',
+      //\Swissbib\View\Helper\Facet2ListSorter::class => 'Swissbib\View\Helper\Factory::getFacet2ListSorter',
+      //'Swissbib\View\Helper\Facet2ListSorter' => 'Swissbib\View\Helper\Factory::getFacet2ListSorter',
+      'displayNameSorter' => 'Swissbib\View\Helper\Swissbib\Factory::getDisplayNameSorter',
     ],
     'aliases' => [
         'auth' => 'VuFind\View\Helper\Root\Auth',

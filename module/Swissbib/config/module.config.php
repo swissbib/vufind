@@ -449,7 +449,7 @@ return [
             'Swissbib\BibCodeHelper'                        =>  'Swissbib\RecordDriver\Helper\Factory::getBibCodeHelper',
 
             'Swissbib\FavoriteInstitutions\DataSource'      =>  'Swissbib\Favorites\Factory::getFavoritesDataSource',
-            'Swissbib\FavoriteInstitutions\Manager'         =>   'Swissbib\Favorites\Factory::getFavoritesManager',
+            'Swissbib\FavoriteInstitutions\Manager'         =>  'Swissbib\Favorites\Factory::getFavoritesManager',
             'Swissbib\ExtendedSolrFactoryHelper'            =>  'Swissbib\VuFind\Search\Helper\Factory::getExtendedSolrFactoryHelper',
             'Swissbib\TypeLabelMappingHelper'               =>  'Swissbib\VuFind\Search\Helper\Factory::getTypeLabelMappingHelper',
 
@@ -595,14 +595,18 @@ return [
             'autocomplete' => [
                 'factories' => [
                     'Swissbib\VuFind\Autocomplete\Solr'  =>  'Swissbib\VuFind\Autocomplete\Factory::getSolr',
+                    'Swissbib\VuFind\Autocomplete\SolrFacetBasedSuggester' => 'VuFind\Autocomplete\SolrFactory',
+                    'Swissbib\VuFind\Autocomplete\SolrCombineFields' => 'VuFind\Autocomplete\SolrFactory',
                 ],
                 'aliases' => [
                     'solr'             => 'Swissbib\VuFind\Autocomplete\Solr',
+                    'SolrFacetBasedSuggester' => 'Swissbib\VuFind\Autocomplete\SolrFacetBasedSuggester',
+                    'SolrCombineFields' => 'Swissbib\VuFind\Autocomplete\SolrCombineFields',
                 ],
             ],
             'content_covers' => [
                 'factories' => [
-                    'VuFind\Content\Covers\Amazon' => 'Swissbib\Content\Covers\Factory::getAmazon',
+                    'VuFind\Content\Covers\Amazon' => 'Swissbib\Content\Covers\PluginManager::getAmazon',
                 ],
                 'aliases' => [
                     'amazon'   => 'VuFind\Content\Covers\Amazon',

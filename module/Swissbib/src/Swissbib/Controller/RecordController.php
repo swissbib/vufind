@@ -115,7 +115,7 @@ class RecordController extends VuFindRecordController
         // Find out if the item is already part of any lists; save list info/IDs
         $listIds = [];
         $resources = $user->getSavedData(
-            $driver->getUniqueId(), null, $driver->getResourceSource()
+            $driver->getUniqueId(), null, $driver->getSourceIdentifier()
         );
         foreach ($resources as $userResource) {
             $listIds[] = $userResource->list_id;

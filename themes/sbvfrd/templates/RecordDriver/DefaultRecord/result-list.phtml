@@ -23,7 +23,7 @@ $formats = $viewRecord->getFormatList();
 ?>
 <div class="<?=$this->driver->supportsAjaxStatus()?'ajaxItem ':''?>col-xs-11 gutter-1">
   <input type="hidden" value="<?=$this->escapeHtmlAttr($this->driver->getUniqueID())?>" class="hiddenId" />
-  <input type="hidden" value="<?=$this->escapeHtmlAttr($this->driver->getResourceSource())?>" class="hiddenSource" />
+  <input type="hidden" value="<?=$this->escapeHtmlAttr($this->driver->getSourceIdentifier())?>" class="hiddenSource" />
 
   <div class="hidden-xs col-sm-2 col-md-2 no-gutter hidden-print">
     <a href="<?=$this->recordLink()->getUrl($this->driver)?>" class="img-responsive">

@@ -74,7 +74,7 @@ class GetExtendedLastSearchLink extends AbstractHelper
      */
     public function getWithDecoration($link, $prefix = '', $suffix = '')
     {
-        $last = $this->memory->retrieve();
+        $last = $this->memory->retrieveSearch();
         if (!empty($last)) {
             $escaper = $this->getView()->plugin('escapeHtml');
             return $prefix . '<a href="' . $escaper($last) . '">' . $link . '</a>'
@@ -90,7 +90,7 @@ class GetExtendedLastSearchLink extends AbstractHelper
      */
     public function getLinkOnly()
     {
-        $last = $this->memory->retrieve();
+        $last = $this->memory->retrieveSearch();
         if (!empty($last)) {
             //no escape should be done in the client
             //$escaper = $this->getView()->plugin('escapeHtml');
@@ -106,7 +106,7 @@ class GetExtendedLastSearchLink extends AbstractHelper
      */
     public function getEscapedLinkOnly()
     {
-        $last = $this->memory->retrieve();
+        $last = $this->memory->retrieveSearch();
         if (!empty($last)) {
             $escaper = $this->getView()->plugin('escapeHtml');
 
