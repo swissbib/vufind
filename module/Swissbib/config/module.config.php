@@ -449,7 +449,7 @@ return [
             'Swissbib\BibCodeHelper'                        =>  'Swissbib\RecordDriver\Helper\Factory::getBibCodeHelper',
 
             'Swissbib\FavoriteInstitutions\DataSource'      =>  'Swissbib\Favorites\Factory::getFavoritesDataSource',
-            'Swissbib\FavoriteInstitutions\Manager'         =>   'Swissbib\Favorites\Factory::getFavoritesManager',
+            'Swissbib\FavoriteInstitutions\Manager'         =>  'Swissbib\Favorites\Factory::getFavoritesManager',
             'Swissbib\ExtendedSolrFactoryHelper'            =>  'Swissbib\VuFind\Search\Helper\Factory::getExtendedSolrFactoryHelper',
             'Swissbib\TypeLabelMappingHelper'               =>  'Swissbib\VuFind\Search\Helper\Factory::getTypeLabelMappingHelper',
 
@@ -606,7 +606,7 @@ return [
             ],
             'content_covers' => [
                 'factories' => [
-                    'VuFind\Content\Covers\Amazon' => 'Swissbib\Content\Covers\Factory::getAmazon',
+                    'VuFind\Content\Covers\Amazon' => 'Swissbib\Content\Covers\PluginManager::getAmazon',
                 ],
                 'aliases' => [
                     'amazon'   => 'VuFind\Content\Covers\Amazon',

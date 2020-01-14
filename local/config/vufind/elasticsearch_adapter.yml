@@ -1,5 +1,46 @@
 parameters:
-  elasticsearch_adapter.hosts: ['sb-ues1.swissbib.unibas.ch:8080','sb-ues2.swissbib.unibas.ch:8080','sb-ues3.swissbib.unibas.ch:8080']
+#  POST _aliases
+#  {
+#    "actions": [
+#    {"add" : { "index" : "bibr20190605", "alias" : "BibliographicResource-linked" }},
+#    {"add" : { "index" : "sb-persons-enriched-2019-10-28", "alias" : "Person-linked" }},
+#    {"add" : { "index" : "sb-organisations-2019-31-10", "alias" : "Organisation-linked" }},
+#    {"add" : { "index" : "sb-items-2019-31-10", "alias" : "Item-linked" }},
+#    {"add" : { "index" : "gnd20180309", "alias" : "Subject-linked" }},
+#    {"add" : { "index" : "sb-documents-2019-10-01", "alias" : "Document-linked" }}
+#    ]
+#  }
+
+  mappings:
+    type_2_index_mapping:
+      #map former doc types (ES5) to ES 7 indices (in fact alias names)
+      bibliographicResource: 'BibliographicResource-linked'
+      document: 'Document-Linked'
+      work: 'work'
+      person: 'Person-linked'
+      organisation: 'Organisation-linked'
+      item: 'Item-linked'
+      DEFAULT: 'Subject-linked'
+
+    index_2_driver_mapping:
+      #map json-ld @types to VuFind RecordDrivers
+      #the only way possible to bridge a relation from ES responses to application data structures
+      ESBibliographicResource:
+        - 'http://purl.org/dc/terms/BibliographicResource'
+      ESDefault:
+        - 'http://d-nb.info/standards/elementset/gnd#DifferentiatedPerson'
+        - 'http://d-nb.info/standards/elementset/gnd'
+      ESPerson:
+        - 'http://xmlns.com/foaf/0.1/Person'
+        - 'http://schema.org/Person'
+        # Warum wird der GND Index aktuell im VuFind client für eine Person aufgerufen???
+        #- 'https://d-nb.info/standards/elementset/gnd#AuthorityResource'
+        #- 'https://d-nb.info/standards/elementset/gnd#DifferentiatedPerson'
+        #- 'https://d-nb.info/standards/elementset/gnd#Person'
+      ESOrganisation:
+        - 'http://xmlns.com/foaf/0.1/Organization'
+
+
 #  elasticsearch_adapter.hosts: ['sb-s2.swissbib.unibas.ch:8080']
   elasticsearch_adapter.templates:
 #    search:
@@ -78,7 +119,7 @@ parameters:
           must:
             multi_match:
               query: '{q}'
-              fields: 'dct:title,dct:language,bf:instanceOf,dc:format,bibo:edition,bibo:isbn10,bibo:isbn13,bibo:issn,dbp:originalLanguage,dct:alternative,dct:bibliographicCitation,dct:contributor,dct:hasPart,dct:isPartOf,dct:issued,dct:subject,rdfs:isDefinedBy'
+              fields: 'dct:title,dct:language,bf:instanceOf,dc:format,bibo:edition,bibo:isbn10,bibo:isbn13,bibo:issn,dbo:originalLanguage,dct:alternative,dct:bibliographicCitation,dct:contributor,dct:hasPart,dct:isPartOf,dct:issued,dct:subject,rdfs:isDefinedBy'
               operator: 'and'
           must_not:
             exists:
@@ -109,7 +150,7 @@ parameters:
       query:
         multi_match:
           query: '{q}'
-          fields: 'dbp:birthYear,dbp:deathYear,foaf:firstName,foaf:lastName,foaf:name,schema:sameAs,rdfs:label,skos:note,dbp:birthPlace,dbp:deathPlace,dbp:birthDate,dbp:deathDate,dbp:genre,dbp:movement,dbp:nationality,dbp:notableWork,dbp:occupation,dbp:thumbnail,dbp:influencedBy,dbp:partner,dbp:pseudonym,dbp:spouse,dbp:influenced,schema:alternateName,schema:familyName,schema:givenName,schema:gender,rdf:type,dbp:abstract'
+          fields: 'dbo:birthYear,dbo:deathYear,foaf:firstName,foaf:lastName,foaf:name,schema:sameAs,rdfs:label,skos:note,dbo:birthPlace,dbo:deathPlace,dbo:birthDate,dbo:deathDate,dbo:genre,dbo:movement,dbo:nationality,dbo:notableWork,dbo:occupation,dbo:thumbnail,dbo:influencedBy,dbo:partner,dbo:pseudonym,dbo:spouse,dbo:influenced,schema:alternateName,schema:familyName,schema:givenName,schema:gender,rdf:type,dbo:abstract'
 
     collection_work:
           index: 'lsb'
@@ -131,10 +172,10 @@ parameters:
             - foaf:name
             - foaf:firstName
             - foaf:lastName
-            - dbp:pseudonym.de
-            - dbp:pseudonym.en
-            - dbp:pseudonym.fr
-            - dbp:pseudonym.it
+            - dbo:pseudonym.de
+            - dbo:pseudonym.en
+            - dbo:pseudonym.fr
+            - dbo:pseudonym.it
             - schema:alternateName
             #- rdfs:label
           type: cross_fields
@@ -190,7 +231,7 @@ parameters:
       from: '{from}'
       query:
         terms:
-          'dbp:genre': '{q}'
+          'dbo:genre': '{q}'
 
     person_by_movement:
       type: 'person'
@@ -199,5 +240,5 @@ parameters:
       from: '{from}'
       query:
         terms:
-          'dbp:movement': '{q}'
+          'dbo:movement': '{q}'
 

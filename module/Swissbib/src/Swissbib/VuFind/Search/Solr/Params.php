@@ -271,16 +271,26 @@ class Params extends VuFindSolrParams
      *
      * @param string $field Facet field name.
      * @param string $value Facet value.
+     * @param string $default Default field name (null for default behavior).
      *
      * @return string Human-readable description of field.
      */
-    public function getFacetLabel($field, $value = null)
+    public function getFacetLabel($field, $value = null, $default = null)
     {
         switch ($field) {
         case 'publishDate':
             return 'adv_search_year';
         default:
-            return parent::getFacetLabel($field, $value);
+            return parent::getFacetLabel($field, $value, $default);
         }
+    }
+
+    /**
+     * Set filterList
+     *
+     * @param $filterArray
+     */
+    public function setFilterList($filterArray) {
+        $this->filterList = $filterArray;
     }
 }

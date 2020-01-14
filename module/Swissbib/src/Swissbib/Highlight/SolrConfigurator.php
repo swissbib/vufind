@@ -127,7 +127,7 @@ class SolrConfigurator
 
                         // Add hl.q for non query events
                     if (!$event->getParam('query', false)) {
-                        $lastSearch = $this->memory->retrieve();
+                        $lastSearch = $this->memory->retrieveSearch();
                         if ($lastSearch) {
                             $urlParams = parse_url($lastSearch);
 

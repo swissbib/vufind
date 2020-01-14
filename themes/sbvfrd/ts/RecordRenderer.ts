@@ -62,6 +62,7 @@ export default class RecordRenderer {
         subjects.each((i, el) => {
             subjectIds += "http://d-nb.info/gnd/" + $(el).attr("subjectid") + ",";
         });
+        subjectIds = subjectIds.slice(0, -1);
         const subjectDetails: Promise<Subject[]> = this.client.getSubjectDetails(subjectIds);
         return subjectDetails
             .then((details: Subject[]) => {

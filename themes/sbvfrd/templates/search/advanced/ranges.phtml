@@ -1,6 +1,6 @@
 <?php if (isset($this->ranges) && !empty($this->ranges)): ?>
   <div class="row">
-  <?php $params = $this->searchParams($this->searchClassId); $params->activateAllFacets(); ?>
+  <?php $params = $this->searchParams($this->searchClassId); ?>
   <?php foreach ($this->ranges as $current): $escField = $this->escapeHtmlAttr($current['field']); ?>
     <?php $extraInputAttribs = ($current['type'] == 'date') ? 'maxlength="4" ' : ''; ?>
     <div class="col-sm-12"><fieldset>

@@ -78,15 +78,11 @@ class ESPerson extends ElasticSearch
     public function __call(string $name, $arguments)
     {
         if ($pos = strpos($name, "DisplayField")) {
-            $fieldName = substr(substr($name, 0, $pos), 3);
-            $field = $this->getField(
-                sprintf('dbp%sAsLiteral', $fieldName), 'lsb'
-            );
+            $fieldName = lcfirst(substr(substr($name, 0, $pos), 3));
+            $field = $this->getLocalizedField($fieldName);
 
-            return null !== $field ? $this->getValueByLanguagePriority($field)
-                : null;
+            return $field;
         }
-
         $fieldName = lcfirst(substr($name, 3));
         return $this->getField($fieldName);
     }
@@ -166,7 +162,7 @@ class ESPerson extends ElasticSearch
         $abstract = $this->getField('abstract');
         $localizedAbstract = $this->getValueByLanguagePriority($abstract);
         return is_array($localizedAbstract) && count($localizedAbstract) > 0
-            ? $localizedAbstract[0] : null;
+            ? $localizedAbstract[0] : $localizedAbstract;
     }
 
     /**
@@ -178,28 +174,6 @@ class ESPerson extends ElasticSearch
     {
         $pseudonym = $this->getField("pseudonym");
         return $this->getValueByLanguagePriority($pseudonym);
-    }
-
-    /**
-     * Gets the BirthPlaceDisplayField
-     *
-     * @return array|null
-     */
-    public function getBirthPlaceDisplayField()
-    {
-        $place = $this->getField("dbpBirthPlaceAsLiteral", "lsb");
-        return $this->getValueByLanguagePriority($place);
-    }
-
-    /**
-     * Gets the DeathPlaceDisplayField
-     *
-     * @return array|null
-     */
-    public function getDeathPlaceDisplayField()
-    {
-        $place = $this->getField("dbpDeathPlaceAsLiteral", "lsb");
-        return $this->getValueByLanguagePriority($place);
     }
 
     /**
@@ -219,7 +193,47 @@ class ESPerson extends ElasticSearch
      */
     public function getSameAs()
     {
-        return $this->getField("sameAs", "owl");
+        $sameAs = $this->getField("sameAs", "owl");
+
+        //multiple GND identifiers are present, we only keep the
+        //most recent which is in the gnd:gndIdentifier field
+        return array_filter($sameAs, [$this, 'isObsoleteGndId']);
+    }
+
+    /**
+     * Check if an uri is an obsolete GND id
+     *
+     * @param string $uri The uri to test, for example http://d-nb.info/gnd/12162692X
+     *
+     * @return bool
+     */
+    protected function isObsoleteGndId($uri)
+    {
+        if ($this->isGndUri($uri)) {
+            $currentGndId = $this->getField('gndIdentifier', 'gnd');
+            $gndIdToTest = substr($uri, strrpos($uri, '/') + 1);
+            if ($currentGndId === $gndIdToTest) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Check if an uri is a GND uri
+     *
+     * @param string $uri The uri to test, for example
+     *                    http://www.wikidata.org/entity/Q220340
+     *
+     * @return bool
+     */
+    protected function isGndUri(string $uri)
+    {
+        $gndRegExp = "/^https{0,1}:\\/\\/d-nb.info\\/gnd\\/.*$/";
+        return preg_match($gndRegExp, $uri) === 1 ? true : false;
     }
 
     /**
@@ -241,15 +255,14 @@ class ESPerson extends ElasticSearch
     public function hasSufficientData(): bool
     {
         $fields = [
-            "dbp:thumbnail",
-            "dbp:abstract",
-            "dbp:birthDate",
-            "lsb:dbpBirthPlaceAsLiteral",
-            "dbp:deathDate",
-            "lsb:dbpDeathPlaceAsLiteral",
-            "dbp:abstract",
-            "lsb:dbpNationalityAsLiteral",
-            "lsb:dbpOccupationAsLiteral"
+            "dbo:thumbnail",
+            "dbo:abstract",
+            "dbo:birthDate",
+            "dbo:birthPlace",
+            "dbo:deathDate",
+            "dbo:deathPlace",
+            "dbo:nationality",
+            "dbo:occcupation"
         ];
 
         foreach ($fields as $field) {
@@ -301,6 +314,45 @@ class ESPerson extends ElasticSearch
     }
 
     /**
+     * Gets the field labels in the locale language
+     *
+     * @param string $name   field name
+     * @param string $prefix prefix
+     *
+     * @return array|null
+     */
+    protected function getLocalizedField(string $name, string $prefix='dbo')
+    {
+        $field = $this->getField($name, $prefix);
+        if ($field !== null) {
+            $localizedField = $this->getArrayOfValuesByLanguagePriority(
+                $field
+            );
+            return $localizedField;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get an Array of all the values in the locale language
+     *
+     * @param array|null  $content    the content
+     * @param string|null $userLocale the locale
+     *
+     * @return array
+     */
+    protected function getArrayOfValuesByLanguagePriority(
+        array $content = null, string $userLocale = null
+    ) {
+        $results = [];
+        foreach ($content as $value) {
+            $results[] = $this->getValueByLanguagePriority($value);
+        }
+        return $results;
+    }
+
+    /**
      * Gets the ValueByLanguagePriority
      *
      * @param array  $content    The content
@@ -319,18 +371,10 @@ class ESPerson extends ElasticSearch
             $locales = $this->getPrioritizedLocaleList($userLocale);
 
             foreach ($locales as $locale) {
-                $results = [];
-
-                foreach ($content as $valueArray) {
-                    if (isset($valueArray[$locale])
-                        && null !== $valueArray[$locale]
-                    ) {
-                        $results[] = $valueArray[$locale];
-                    }
-                }
-
-                if (count($results) > 0) {
-                    return $results;
+                if (isset($content[$locale])
+                    && null !== $content[$locale]
+                ) {
+                    return $content[$locale];
                 }
             }
         }
@@ -371,7 +415,7 @@ class ESPerson extends ElasticSearch
      * @return array|null
      */
     protected function getField(
-        string $name, string $prefix = "dbp", string $delimiter = ":"
+        string $name, string $prefix = "dbo", string $delimiter = ":"
     ) {
         return parent::getField($name, $prefix, $delimiter);
     }

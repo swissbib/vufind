@@ -78,6 +78,7 @@ class Bootstrap
      */
     public static function init()
     {
+
         // Load the user-defined test configuration file, if it exists;
         // otherwise, load
         if (is_readable(SWISSBIB_TESTS_PATH . '/TestConfig.php')) {

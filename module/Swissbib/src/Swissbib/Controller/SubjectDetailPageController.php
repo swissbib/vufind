@@ -121,7 +121,12 @@ class SubjectDetailPageController extends AbstractSubjectController
         }
 
         $relatedTermsIds = $this->driver->getRelatedTerm();
-        if (isset($relatedTermsIds)) {
+
+        //Todo - id-issue:
+        //we have to check if there are IDS available send to ES -
+        // otherwise empty ID lists will throw an error
+        if (isset($relatedTermsIds) && is_array($relatedTermsIds)
+            && count($relatedTermsIds) > 0) {
             $relatedTermsIds = is_array($relatedTermsIds)
                 ? $this->arrayToSearchString($relatedTermsIds) : $relatedTermsIds;
             $relatedTerms = $this->serviceLocator->get('elasticsearchsearch')
@@ -129,9 +134,11 @@ class SubjectDetailPageController extends AbstractSubjectController
                     $relatedTermsIds, "id", "gnd", "DEFAULT", 100
                 )->getResults();
             $viewModel->setVariable("relatedTerms", $relatedTerms);
+        } else {
+            $viewModel->setVariable("relatedTerms", []);
         }
         $personIds = $this->getContributorsIdsFrom();
-        if (isset($personIds)) {
+        if (isset($personIds) && is_array($personIds) && count($personIds) > 0) {
             $viewModel->setVariable("subjectAuthorsTotal", count($personIds));
         }
     }

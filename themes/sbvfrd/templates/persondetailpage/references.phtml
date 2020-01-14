@@ -7,7 +7,9 @@
     <div class="list">
         <ul id="detailpage-section-references-<?= $this->index ?>">
             <?php foreach ($this->esperson()->getSameAs() as $link): ?>
-            <li><?= $this->render($template, $this->esperson()->getRecordReference($link, $configuredReferences)) ?></li>
+              <?php if (!empty($this->esperson()->getRecordReference($link, $configuredReferences)["label"])): ?>
+                <li><?= $this->render($template, $this->esperson()->getRecordReference($link, $configuredReferences)) ?></li>
+              <?php endif; ?>
             <?php endforeach; ?>
         </ul>
     </div>

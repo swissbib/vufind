@@ -100,7 +100,57 @@ class LocationMap extends LocationMapBase
             $mapLinkPattern, $signature
         );
     }
+    /**
+     * Custom validation check for B410
+     *
+     * @param Array    $item           Item
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return Boolean
+     */
+    protected function isItemValidForLocationMapB410(array $item,
+        HoldingsHelper $holdingsHelper
+    ) {
+        //Implement availability check with holdings helper
+        $isItemAvailable = true;
+        $hasSignature = isset($item['signature']) && !empty($item['signature'])
+            && $item['signature'] !== '-';
+        $accessibleConfigKey = $item['institution'] . '_codes';
+        $isAccessible = isset($item['location_code'])
+            && $this->isValueInConfigList(
+                $accessibleConfigKey, $item['location_code']
+            );
+        $circulatingConfigKey = $item['institution'] . '_status';
+        $isCirculating = true;
 
+        // Compare holding/item status if set
+        if (isset($item['holding_status'])) {
+            $isCirculating = $this->isValueInConfigList(
+                $circulatingConfigKey, $item['holding_status']
+            );
+        }
+
+        return $isItemAvailable && $hasSignature && $isAccessible && $isCirculating;
+    }
+
+    /**
+     * Build location map link for B410
+     *
+     * @param Array    $item           Item
+     * @param Holdings $holdingsHelper HoldingsHelper
+     *
+     * @return String
+     */
+    protected function buildLocationMapLinkB410(array $item,
+        HoldingsHelper $holdingsHelper
+    ) {
+        $mapLinkPattern  = $this->config->get('B410');
+        $signature = $item['signature'];
+
+        return $this->buildSimpleLocationMapLink(
+            $mapLinkPattern, $signature
+        );
+    }
     /**
      * Custom validation check for B410
      *
