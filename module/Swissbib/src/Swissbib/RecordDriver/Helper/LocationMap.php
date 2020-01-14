@@ -154,25 +154,6 @@ class LocationMap extends LocationMapBase
     }
 
     /**
-     * Build location map link for B410
-     *
-     * @param Array    $item           Item
-     * @param Holdings $holdingsHelper HoldingsHelper
-     *
-     * @return String
-     */
-    protected function buildLocationMapLinkB410(array $item,
-        HoldingsHelper $holdingsHelper
-    ) {
-        $mapLinkPattern  = $this->config->get('B410');
-        $signature = $item['signature'];
-
-        return $this->buildSimpleLocationMapLink(
-            $mapLinkPattern, $signature
-        );
-    }
-
-    /**
      * Custom validation check for B500
      *
      * @param Array    $item           Item
