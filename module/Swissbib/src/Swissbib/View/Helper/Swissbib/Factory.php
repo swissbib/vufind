@@ -29,6 +29,7 @@
 namespace Swissbib\View\Helper\Swissbib;
 
 use Swissbib\View\Helper\AutoSuggestConfig;
+use Swissbib\View\Helper\DisplayNameSorter;
 use Swissbib\View\Helper\FormatRelatedEntries;
 use Swissbib\View\Helper\IncludeTemplate;
 
@@ -210,5 +211,17 @@ class Factory
     public static function getAutoSuggestConfig(ServiceManager $sm)
     {
         return new AutoSuggestConfig($sm);
+    }
+
+    /**
+     * Construct DisplayNameSorter
+     *
+     * @param ServiceManager $sm Service manager.
+     *
+     * @return array
+     */
+    public static function getDisplayNameSorter(ServiceManager $sm)
+    {
+        return new DisplayNameSorter($sm);
     }
 }
