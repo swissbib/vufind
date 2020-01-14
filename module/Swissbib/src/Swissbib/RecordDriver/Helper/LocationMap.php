@@ -100,6 +100,7 @@ class LocationMap extends LocationMapBase
             $mapLinkPattern, $signature
         );
     }
+
     /**
      * Custom validation check for B410
      *
@@ -151,6 +152,7 @@ class LocationMap extends LocationMapBase
             $mapLinkPattern, $signature
         );
     }
+
     /**
      * Custom validation check for B500
      *
