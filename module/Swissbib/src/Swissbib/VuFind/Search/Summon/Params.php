@@ -284,10 +284,12 @@ class Params extends VFSummonParams
     /**
      * Set filterList
      *
-     * @param $filterArray
+     * @param array $filterArray the filter array
+     *
+     * @return void
      */
-    public function setFilterList($filterArray) {
+    public function setFilterList($filterArray)
+    {
         $this->filterList = $filterArray;
     }
-
 }

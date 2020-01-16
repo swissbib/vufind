@@ -198,13 +198,13 @@ class ESPerson extends AbstractHelper
         //Potter
         //https://test.swissbib.ch/Page/Detail/Person/76364cb3-54cb-3d49-ba6e-06ff0e20a42c
 
-        if (is_null($dateString)) {
+        if (null === $dateString) {
             return null;
         }
 
         //before Christus (display year only with BC)
         if (preg_match('/-\d\d\d\d.*/', $dateString)) {
-            return substr($dateString, 1, 4). " BC";
+            return substr($dateString, 1, 4) . " BC";
         }
 
         //wikidata style : 1929-12-06T00:00:00Z (with leading 0 for days and months)

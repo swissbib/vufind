@@ -87,26 +87,29 @@ class GetSubjects extends VFAjax implements AjaxHandlerInterface
             }
         }
         if ($isIdInQuery) {
-
             $content = $this->search();
 
-            $spec = $this->getSpec();
+            $spec = $this->_getSpec();
 
             $response = $this->buildResponse($content, $spec);
             return $this->formatResponse($response->getContent());
         } else {
             $content = [];
 
-            $spec = $this->getSpec();
+            $spec = $this->_getSpec();
 
             $response = $this->buildResponse($content, $spec);
             return $this->formatResponse($response->getContent());
-
         }
     }
 
-    private function getSpec() {
-
+    /**
+     * Gets the spec
+     *
+     * @return array
+     */
+    private function _getSpec()
+    {
         // TODO externalize spec
         $specBuilder = new RecordDataFormatter\SpecBuilder();
         $specBuilder->setLine(
@@ -124,7 +127,5 @@ class GetSubjects extends VFAjax implements AjaxHandlerInterface
         );
         $spec = $specBuilder->getArray();
         return $spec;
-
     }
-
 }
