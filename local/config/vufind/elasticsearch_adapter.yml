@@ -1,26 +1,16 @@
 parameters:
-#  POST _aliases
-#  {
-#    "actions": [
-#    {"add" : { "index" : "bibr20190605", "alias" : "BibliographicResource-linked" }},
-#    {"add" : { "index" : "sb-persons-enriched-2019-10-28", "alias" : "Person-linked" }},
-#    {"add" : { "index" : "sb-organisations-2019-31-10", "alias" : "Organisation-linked" }},
-#    {"add" : { "index" : "sb-items-2019-31-10", "alias" : "Item-linked" }},
-#    {"add" : { "index" : "gnd20180309", "alias" : "Subject-linked" }},
-#    {"add" : { "index" : "sb-documents-2019-10-01", "alias" : "Document-linked" }}
-#    ]
-#  }
+#to update elastic search aliases, use cli/update-elastic-search-aliases.sh
 
   mappings:
     type_2_index_mapping:
       #map former doc types (ES5) to ES 7 indices (in fact alias names)
-      bibliographicResource: 'BibliographicResource-linked'
-      document: 'Document-Linked'
-      work: 'work'
-      person: 'Person-linked'
-      organisation: 'Organisation-linked'
-      item: 'Item-linked'
-      DEFAULT: 'Subject-linked'
+      bibliographicResource: 'sb-resources'
+      document: 'sb-documents'
+      work: 'sb-works'
+      person: 'sb-persons'
+      organisation: 'sb-organisations'
+      item: 'sb-items'
+      DEFAULT: 'gnd-dnb'
 
     index_2_driver_mapping:
       #map json-ld @types to VuFind RecordDrivers
