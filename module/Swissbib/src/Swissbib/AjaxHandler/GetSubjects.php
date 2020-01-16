@@ -104,7 +104,7 @@ class GetSubjects extends VFAjax implements AjaxHandlerInterface
     }
 
     /**
-     * gets the spec
+     * Gets the spec
      *
      * @return array
      */

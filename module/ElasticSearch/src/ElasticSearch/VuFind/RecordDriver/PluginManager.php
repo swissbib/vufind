@@ -98,9 +98,9 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
     }
 
     /**
-     * maps the type to the record driver
+     * Maps the type to the record driver
      *
-     * @param  string $sourceType the source type
+     * @param string $sourceType the source type
      *
      * @return string
      */
