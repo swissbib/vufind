@@ -50,4 +50,5 @@ class Params extends VuFindMixedListParams
      */
     public function setFilterList($filterArray) {
         $this->filterList = $filterArray;
-    }}
+    }
+}
