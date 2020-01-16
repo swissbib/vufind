@@ -78,15 +78,16 @@ abstract class AbstractSubjectController extends AbstractDetailsController
             // otherwise empty ID lists will throw an error
             $this->subSubjects = $this->getSubSubjects($info->id);
             $tParentSubj = $this->driver->getParentSubjects();
-            if (!is_null($tParentSubj) && is_array($tParentSubj) && count($tParentSubj) > 0) {
+            if (null !== $tParentSubj
+                && is_array($tParentSubj)
+                && count($tParentSubj) > 0
+            ) {
                 $this->parentSubjects = $this->getParentSubjects(
                     $tParentSubj
                 );
             } else {
                 $this->parentSubjects = [];
             }
-
-
 
             return $this->createViewModel(
                 [

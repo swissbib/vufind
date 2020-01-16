@@ -28,9 +28,9 @@
 namespace ElasticSearchTest\VuFind\RecordDriver;
 
 use ElasticSearch\VuFind\RecordDriver\ESPerson;
-use Swissbib\Services\NationalLicence;
 use ElasticSearchTest\Bootstrap;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
+
 /**
  * Class ESPersonTest
  *

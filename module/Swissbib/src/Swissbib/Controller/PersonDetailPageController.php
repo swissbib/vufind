@@ -131,7 +131,6 @@ class PersonDetailPageController extends AbstractPersonController
      */
     protected function getSubjectsOf(): array
     {
-
         $subjects = parent::getSubjectsOf();
 
         if (count($subjects) > 0) {
