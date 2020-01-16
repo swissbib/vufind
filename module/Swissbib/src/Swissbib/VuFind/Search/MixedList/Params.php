@@ -43,4 +43,11 @@ use VuFind\Search\MixedList\Params as VuFindMixedListParams;
  */
 class Params extends VuFindMixedListParams
 {
-}
+    /**
+     * Set filterList
+     *
+     * @param $filterArray
+     */
+    public function setFilterList($filterArray) {
+        $this->filterList = $filterArray;
+    }}
