@@ -584,7 +584,6 @@ $config = [
 
 // Define record view routes -- route name => controller
 $recordRoutes = [
-    'vufindrecord' => 'Record',
     'record' => 'Record',
     'collection' => 'Collection',
     'edsrecord' => 'EdsRecord',
