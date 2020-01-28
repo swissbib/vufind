@@ -173,7 +173,11 @@ class ESPerson extends ElasticSearch
     public function getPseudonym()
     {
         $pseudonym = $this->getField("pseudonym");
-        return $this->getValueByLanguagePriority($pseudonym);
+        if (is_array($pseudonym)) {
+            return $this->getValueByLanguagePriority($pseudonym);
+        } else {
+            return $pseudonym;
+        }
     }
 
     /**

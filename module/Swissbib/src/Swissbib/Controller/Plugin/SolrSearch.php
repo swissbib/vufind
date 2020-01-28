@@ -94,6 +94,12 @@ class SolrSearch extends AbstractPlugin
             $query = $input->getName();
         }
 
+        //when there is a : in the solr search, it generates a solr error
+        //some gnd subjects have : in their name (for example conferences)
+        //for example https://lobid.org/gnd/1113781610
+        //see also https://github.com/swissbib/vufind/issues/737
+        $query = str_replace(":", " ", $query);
+
         if (isset($query)) {
             $results = $this->searchSolr($query, $type, $limit);
             return $results;

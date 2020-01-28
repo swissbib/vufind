@@ -285,6 +285,20 @@ class QueryGroup extends AbstractQuery
     }
 
     /**
+     * Get a concatenated list of all normalized query strings within the object.
+     *
+     * @return string
+     */
+    public function getNormalizedString()
+    {
+        $parts = [];
+        foreach ($this->getQueries() as $q) {
+            $parts[] = $q->getNormalizedString();
+        }
+        return implode(' ', $parts);
+    }
+
+    /**
      * Replace a term.
      *
      * @param string  $from      Search term to find

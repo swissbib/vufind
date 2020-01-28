@@ -88,7 +88,7 @@ class DisplayNameSorter extends AbstractHelper
      *
      * @return string The input text with diacritics removed
      */
-    private function stripDiacritics($string)
+    protected function stripDiacritics($string)
     {
         // See http://userguide.icu-project.org/transforms/general for
         // an explanation of this.
