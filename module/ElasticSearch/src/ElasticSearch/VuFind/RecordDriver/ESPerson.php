@@ -266,7 +266,7 @@ class ESPerson extends ElasticSearch
             "dbo:deathDate",
             "dbo:deathPlace",
             "dbo:nationality",
-            "dbo:occcupation"
+            "dbo:occupation"
         ];
 
         foreach ($fields as $field) {
