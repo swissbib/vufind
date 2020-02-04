@@ -23,7 +23,9 @@
         $params = $this->searchMemory()->getLastSearchParams($this->searchClassId);
     }
     $params->removeAllFilters();
-    $params->setFilterList($filterList);
+    foreach ($filterList as $filter) {
+        $params->addFilter($filter);
+    }
 
 // Extend swissbib global object by autocomplete configuration
 $autoSuggestConfig = json_encode($this->autoSuggestConfig($this->searchClassId)->toArray());

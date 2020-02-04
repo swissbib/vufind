@@ -280,16 +280,4 @@ class Params extends VFSummonParams
 
         return parent::buildDateRangeFilter($field, $from, $to);
     }
-
-    /**
-     * Set filterList
-     *
-     * @param array $filterArray the filter array
-     *
-     * @return void
-     */
-    public function setFilterList($filterArray)
-    {
-        $this->filterList = $filterArray;
-    }
 }

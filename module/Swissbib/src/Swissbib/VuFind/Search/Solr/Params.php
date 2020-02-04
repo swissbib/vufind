@@ -284,16 +284,4 @@ class Params extends VuFindSolrParams
             return parent::getFacetLabel($field, $value, $default);
         }
     }
-
-    /**
-     * Set filterList
-     *
-     * @param array $filterArray the filter array
-     *
-     * @return void
-     */
-    public function setFilterList($filterArray)
-    {
-        $this->filterList = $filterArray;
-    }
 }
