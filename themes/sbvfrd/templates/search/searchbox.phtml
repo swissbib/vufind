@@ -24,7 +24,7 @@
     }
     $params->removeAllFilters();
     foreach ($filterList as $filter) {
-        $params->addFilter($filter);
+        $params->addFilter(key($filter) . ':' . $filter[0]);
     }
 
 // Extend swissbib global object by autocomplete configuration
