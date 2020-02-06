@@ -23,8 +23,10 @@
         $params = $this->searchMemory()->getLastSearchParams($this->searchClassId);
     }
     $params->removeAllFilters();
-    foreach ($filterList as $filter) {
-        $params->addFilter(key($filter) . ':' . $filter[0]);
+    foreach ($filterList as $filterName => $filterItems) {
+        foreach ($filterItems as $filterValue) {
+            $params->addFilter($filterName . ':' . $filterValue);
+        }
     }
 
 // Extend swissbib global object by autocomplete configuration
