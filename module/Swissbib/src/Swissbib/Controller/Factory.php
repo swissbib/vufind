@@ -207,4 +207,28 @@ class Factory extends AbstractBaseFactory
             $sm->get('VuFind\Session\Settings')
         );
     }
+
+    /**
+     * Get Institution Detail Page Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\InstitutionDetailPageController
+     */
+    public static function getInstitutionDetailPageController(ServiceManager $sm)
+    {
+        return new InstitutionDetailPageController($sm);
+    }
+
+    /**
+     * Get Institution Search Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\InstitutionSearchController
+     */
+    public static function getInstitutionSearchController(ServiceManager $sm)
+    {
+        return new InstitutionSearchController($sm);
+    }
 }
