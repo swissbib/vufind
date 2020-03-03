@@ -1,6 +1,6 @@
 <?php
 /**
- * AbstractInstitutionController.php
+ * AbstractOrganisationController.php
  *
  * PHP Version 7
  *
@@ -33,7 +33,7 @@ use Zend\Config\Config as ZendConfig;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class AbstractInstitutionAction
+ * Class AbstractOrganisationAction
  *
  * @category VuFind
  * @package  Swissbib\Controller
@@ -41,7 +41,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-abstract class AbstractInstitutionController extends AbstractDetailsController
+abstract class AbstractOrganisationController extends AbstractDetailsController
 {
     protected $driver;
     protected $bibliographicResources;
@@ -59,13 +59,13 @@ abstract class AbstractInstitutionController extends AbstractDetailsController
     }
 
     /**
-     * The institution action
+     * The organisation action
      *
      * @return \Zend\View\Model\ViewModel
      */
-    public function institutionAction()
+    public function organisationAction()
     {
-        $info = $this->getInstitutionInfo();
+        $info = $this->getOrganisationInfo();
 
         try {
             $this->driver = $this->getRecordDriver(
@@ -81,7 +81,7 @@ abstract class AbstractInstitutionController extends AbstractDetailsController
                 [
                     "driver" => $this->driver, "subjects" => $this->subjects,
                     "books" => $this->bibliographicResources,
-                    "references" => $this->getInstitutionRecordReferencesConfig()
+                    "references" => $this->getOrganisationRecordReferencesConfig()
                 ]
             );
 
@@ -96,14 +96,14 @@ abstract class AbstractInstitutionController extends AbstractDetailsController
     }
 
     /**
-     * Provides an object with index, type and id for a institution.
+     * Provides an object with index, type and id for a organisation.
      *
      * @return \stdClass
      */
-    protected function getInstitutionInfo(): \stdClass
+    protected function getOrganisationInfo(): \stdClass
     {
         return (object)[
-            'index' => 'lsb', 'type' => 'institution',
+            'index' => 'lsb', 'type' => 'organisation',
             'id' => $this->params()->fromRoute('id', [])
         ];
     }
@@ -113,7 +113,7 @@ abstract class AbstractInstitutionController extends AbstractDetailsController
      *
      * @return \Zend\Config\Config
      */
-    protected function getInstitutionRecordReferencesConfig(): ZendConfig
+    protected function getOrganisationRecordReferencesConfig(): ZendConfig
     {
         $flatArrayConverter = new FlatArrayConverter();
         $valueConverter = new ValueConverter();
@@ -141,8 +141,11 @@ abstract class AbstractInstitutionController extends AbstractDetailsController
      */
     protected function getBibliographicResourcesOf(string $id): array
     {
+        return [];
+        /*
         $searchSize = $this->config->searchSize;
         return $this->serviceLocator->get('elasticsearchsearch')
-            ->searchBibliographiResourcesOfInstitution($id, $searchSize);
+            ->searchBibliographiResourcesOfOrganisation($id, $searchSize);
+        */
     }
 }

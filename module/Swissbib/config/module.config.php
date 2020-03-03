@@ -228,6 +228,14 @@ return [
                         'controller' => 'person-knowledge-card', 'action' => 'person',
                     ],
                 ]
+            ], 'card-knowledge-organisation' => [
+                'type' => 'segment', 'options' => [
+                    'route' => '/Card/Knowledge/Organisation/:id', 'constraints' => [
+                        'id' => '[a-fA-F0-9-{}]+',
+                    ], 'defaults' => [
+                        'controller' => 'organisation-knowledge-card', 'action' => 'organisation',
+                    ],
+                ]
             ], 'card-knowledge-subject' => [
                 'type' => 'segment', 'options' => [
                     'route' => '/Card/Knowledge/Subject/:id', 'constraints' => [
@@ -242,6 +250,14 @@ return [
                         'id' => '[a-fA-F0-9-{}]+',
                     ], 'defaults' => [
                         'controller' => 'person-detail-page', 'action' => 'person',
+                    ],
+                ]
+            ], 'page-detail-organisation' => [
+                'type' => 'segment', 'options' => [
+                    'route' => '/Page/Detail/Organisation/:id', 'constraints' => [
+                        'id' => '[a-fA-F0-9-{}]+',
+                    ], 'defaults' => [
+                        'controller' => 'organisation-detail-page', 'action' => 'organisation',
                     ],
                 ]
             ], 'page-detail-subject' => [
@@ -407,9 +423,11 @@ return [
             'install'                                => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             'console'                                => 'Swissbib\Controller\Factory::getConsoleController',
             'person-knowledge-card'                  => 'Swissbib\Controller\Factory::getPersonKnowledgeCardController',
+            'organisation-knowledge-card'            => 'Swissbib\Controller\Factory::getOrganisationKnowledgeCardController',
             'subject-knowledge-card'                 => 'Swissbib\Controller\Factory::getSubjectKnowledgeCardController',
             'institution-knowledge-card'             => 'Swissbib\Controller\Factory::getInstitutionKnowledgeCardController',
             'person-detail-page'                     => 'Swissbib\Controller\Factory::getPersonDetailPageController',
+            'organisation-detail-page'               => 'Swissbib\Controller\Factory::getOrganisationDetailPageController',
             'subject-detail-page'                    => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
             'institution-detail-page'                => 'Swissbib\Controller\Factory::getInstitutionDetailPageController',
             'person-search'                          => 'Swissbib\Controller\Factory::getPersonSearchController',

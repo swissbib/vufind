@@ -48,7 +48,7 @@ class OrganisationsDetailPageController extends AbstractPersonController
      */
     public function organisationAction()
     {
-        $viewModel = parent::personAction();
+        $viewModel = parent::organisationAction();
         $viewModel->setVariable(
             "references", $this->getRecordReferencesConfig()
         );
@@ -146,6 +146,7 @@ class OrganisationsDetailPageController extends AbstractPersonController
      *
      * @return Results
      */
+    /*
     protected function getCoContributors(string $id): Results
     {
         return $this->serviceLocator->get('elasticsearchsearch')
@@ -153,6 +154,7 @@ class OrganisationsDetailPageController extends AbstractPersonController
                 $this->bibliographicResources, $id, $this->config->coAuthorsSize
             );
     }
+    */
 
     /**
      * Adds organisation of same genre as author

@@ -41,7 +41,7 @@ use Zend\View\Model\ViewModel;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class OrganisationKnowledgeCardController extends AbstractPersonController
+class OrganisationKnowledgeCardController extends AbstractOrganisationController
 {
     /**
      * KnowledgeCardController constructor.
@@ -62,6 +62,7 @@ class OrganisationKnowledgeCardController extends AbstractPersonController
     public function organisationAction()
     {
         return parent::organisationAction();
+        //return parent::personAction();
     }
 
     /**

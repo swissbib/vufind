@@ -121,6 +121,18 @@ class Factory extends AbstractBaseFactory
     }
 
     /**
+     * Get Organisation Knowledge Card Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\OrganisationKnowledgeCardController
+     */
+    public static function getOrganisationKnowledgeCardController(ServiceManager $sm)
+    {
+        return new OrganisationKnowledgeCardController($sm);
+    }
+
+    /**
      * Get Subject Knowledge Card Controller
      *
      * @param \Zend\ServiceManager\ServiceManager $sm Service manager
