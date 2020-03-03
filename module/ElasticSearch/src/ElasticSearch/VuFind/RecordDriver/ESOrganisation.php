@@ -78,7 +78,8 @@ class ESOrganisation extends ElasticSearch
     public function hasSufficientData(): bool
     {
         $fields = [
-            "rdfs:label"
+            "rdfs:label",
+            "foaf:name"
         ];
 
         foreach ($fields as $field) {

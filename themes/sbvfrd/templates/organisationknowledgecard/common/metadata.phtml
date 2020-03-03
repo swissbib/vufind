@@ -1,0 +1,18 @@
+<ul class="metadata">
+    <?= $this->context($this)->renderInContext(
+        '/knowledgecard/common/metadata/list.phtml', ['list' => $this->esorganisation()->getMetadata()->getList('job', 'birth', 'death', 'nationality')]
+    )
+    ?>
+
+    <?= $this->render('common/metadata/abstract.phtml') ?>
+
+    <?php if ($this->essubjectcollection()->hasSubjectsInCollection()): ?>
+        <li class="entry section-start">
+            <span class="entry-label"><?= $this->esorganisation()->getRelatedSubjectsLabel(); ?></span>
+            <span class="entry-value">
+                <?= $this->essubjectcollection()->getSubjectCollectionLinkList('<a class="ref" href="%s">%s</a>', 'card-knowledge'); ?>
+            </span>
+        </li>
+    <?php endif; ?>
+    <li class="entry section-start"><span class="work"><?= $this->esorganisation()->getMoreMediasLink('<a class="ref inline" data-lightbox-ignore href="%s">%s</a>') ?></span></li>
+</ul>

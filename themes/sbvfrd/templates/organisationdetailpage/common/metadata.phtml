@@ -1,0 +1,7 @@
+<?= $this->render('/detailpage/common/metadata/list.phtml',
+    ['list' => $this->esorganisation()->getMetadata()->getList('job', 'birth', 'death', 'nationality')]) ?>
+
+<?= $this->render('common/metadata/abstract.phtml') ?>
+
+<?= $this->render('/detailpage/common/metadata/list.phtml',
+    ['list' => $this->esorganisation()->getMetadata()->getList('notable.work', 'genre', 'movement', 'names', 'pseudonym', 'spouse', 'influencers', 'influenced')]) ?>

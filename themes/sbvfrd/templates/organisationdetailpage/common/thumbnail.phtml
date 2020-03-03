@@ -1,0 +1,8 @@
+<div>
+    <?php if ($this->esorganisation()->hasThumbnail()): ?>
+        <?= $this->render('/organisation/common/thumbnail.phtml', [
+            'id' => $this->driver->getUniqueID(),
+            'paths' => $this->esorganisation()->getAvailableThumbnails()
+        ]); ?>
+    <?php endif; ?>
+</div>
