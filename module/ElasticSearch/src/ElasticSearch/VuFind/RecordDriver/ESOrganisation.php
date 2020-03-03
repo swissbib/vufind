@@ -71,12 +71,21 @@ class ESOrganisation extends ElasticSearch
     }
 
     /**
-     * Never true
+     * Has sufficient data
      *
      * @return bool
      */
     public function hasSufficientData(): bool
     {
+        $fields = [
+            "rdfs:label"
+        ];
+
+        foreach ($fields as $field) {
+            if (array_key_exists($field, $this->fields["_source"])) {
+                return true;
+            }
+        }
         return false;
     }
 }
