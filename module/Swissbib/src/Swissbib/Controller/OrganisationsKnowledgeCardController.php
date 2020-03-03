@@ -1,6 +1,6 @@
 <?php
 /**
- * InstitutionKnowledgeCardController.php
+ * OrganisationKnowledgeCardController.php
  *
  * PHP Version 7
  *
@@ -31,7 +31,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
 
 /**
- * Class InstitutionKnowledgeCardController
+ * Class OrganisationKnowledgeCardController
  *
  * Provides information to be rendered in knowledge cards (light-boxes).
  *
@@ -41,7 +41,7 @@ use Zend\View\Model\ViewModel;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class InstitutionKnowledgeCardController extends AbstractPersonController
+class OrganisationKnowledgeCardController extends AbstractPersonController
 {
     /**
      * KnowledgeCardController constructor.
@@ -55,13 +55,13 @@ class InstitutionKnowledgeCardController extends AbstractPersonController
     }
 
     /**
-     * /Page/Detail/Institution/:id
+     * /Page/Detail/Organisation/:id
      *
      * @return \Zend\View\Model\ViewModel
      */
-    public function institutionAction()
+    public function organisationAction()
     {
-        return parent::institutionAction();
+        return parent::organisationAction();
     }
 
     /**

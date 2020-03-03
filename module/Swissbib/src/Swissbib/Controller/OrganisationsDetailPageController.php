@@ -1,6 +1,6 @@
 <?php
 /**
- * InstitutionDetailPageController.php
+ * OrganisationsDetailPageController.php
  *
  * PHP Version 7
  *
@@ -31,7 +31,7 @@ use ElasticSearch\VuFind\Search\ElasticSearch\Results;
 use Zend\View\Model\ViewModel;
 
 /**
- * Class InstitutionDetailPageController
+ * Class OrganisationsDetailPageController
  *
  * @category VuFind
  * @package  Swissbib\Controller
@@ -39,14 +39,14 @@ use Zend\View\Model\ViewModel;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class InstitutionDetailPageController extends AbstractPersonController
+class OrganisationsDetailPageController extends AbstractPersonController
 {
     /**
-     * /Page/Detail/Institution/:id
+     * /Page/Detail/Organisation/:id
      *
      * @return \Zend\View\Model\ViewModel
      */
-    public function institutionAction()
+    public function organisationAction()
     {
         $viewModel = parent::personAction();
         $viewModel->setVariable(
@@ -97,29 +97,29 @@ class InstitutionDetailPageController extends AbstractPersonController
                 "coContributorsTotal", $contributors->getResultTotal()
             );
         }
-        $institutionOfSameGenre = $this->getInstitutionOfSameGenre($this->driver);
+        $organisationOfSameGenre = $this->getOrganisationOfSameGenre($this->driver);
         //GH: I think we can make this request without the risk of ES searches having
         //empty parameter values which throws often an exception because
         //checks if there are genres available
-        if (isset($institutionOfSameGenre)) {
+        if (isset($organisationOfSameGenre)) {
             $viewModel->setVariable(
-                "authorsOfSameGenre", $institutionOfSameGenre->getResults()
+                "authorsOfSameGenre", $organisationOfSameGenre->getResults()
             );
             $viewModel->setVariable(
-                "authorsOfSameGenreTotal", $institutionOfSameGenre->getResultTotal()
+                "authorsOfSameGenreTotal", $organisationOfSameGenre->getResultTotal()
             );
         }
 
         //GH: same reason as argued for PersonsOfSameGenre - an ES request is
         //only done if movements are available
-        $institutionOfSameMovement = $this->getInstitutionOfSameMovement($this->driver);
-        if (isset($institutionOfSameMovement)) {
+        $organisationOfSameMovement = $this->getOrganisationOfSameMovement($this->driver);
+        if (isset($organisationOfSameMovement)) {
             $viewModel->setVariable(
-                "institutionOfSameMovement", $institutionOfSameMovement->getResults()
+                "organisationOfSameMovement", $organisationOfSameMovement->getResults()
             );
             $viewModel->setVariable(
-                "institutionOfSameMovementTotal",
-                $institutionOfSameMovement->getResultTotal()
+                "organisationOfSameMovementTotal",
+                $organisationOfSameMovement->getResultTotal()
             );
         }
     }
@@ -155,11 +155,11 @@ class InstitutionDetailPageController extends AbstractPersonController
     }
 
     /**
-     * Adds institution of same genre as author
+     * Adds organisation of same genre as author
      *
      * @return Results|null
      */
-    protected function getInstitutionOfSameGenre()
+    protected function getOrganisationOfSameGenre()
     {
         $genres = $this->driver->getGenre();
 
@@ -180,11 +180,11 @@ class InstitutionDetailPageController extends AbstractPersonController
     }
 
     /**
-     * Adds institutions of same movement as author
+     * Adds organisation of same movement as author
      *
      * @return Results|null
      */
-    protected function getInstitutionOfSameMovement()
+    protected function getOrganisationOfSameMovement()
     {
         $movements = $this->driver->getMovement();
 
