@@ -1,6 +1,6 @@
 <?php
 /**
- * OrganisationsDetailPageController.php
+ * OrganisationDetailPageController.php
  *
  * PHP Version 7
  *
@@ -31,7 +31,7 @@ use ElasticSearch\VuFind\Search\ElasticSearch\Results;
 use Zend\View\Model\ViewModel;
 
 /**
- * Class OrganisationsDetailPageController
+ * Class OrganisationDetailPageController
  *
  * @category VuFind
  * @package  Swissbib\Controller
@@ -39,7 +39,7 @@ use Zend\View\Model\ViewModel;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class OrganisationsDetailPageController extends AbstractPersonController
+class OrganisationDetailPageController extends AbstractPersonController
 {
     /**
      * /Page/Detail/Organisation/:id
@@ -48,7 +48,7 @@ class OrganisationsDetailPageController extends AbstractPersonController
      */
     public function organisationAction()
     {
-        $viewModel = parent::organisationAction();
+        $viewModel = parent::personAction('organisation');
         $viewModel->setVariable(
             "references", $this->getRecordReferencesConfig()
         );

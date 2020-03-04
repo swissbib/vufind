@@ -62,18 +62,9 @@ class ESOrganisation extends AbstractHelper
     protected function getMetadataMethodMap(): array
     {
         return [
-            'job'          => 'getJobInfo',
-            'birth'        => 'getBirthInfo',
-            'death'        => 'getDeathInfo',
-            'nationality'  => 'getNationalityInfo',
-            'notable.work' => 'getNotableWorkList',
             'genre'        => 'getGenreList',
             'movement'     => 'getMovementList',
-            'names'        => 'getAlternateNames',
-            'pseudonym'    => 'getPseudonym',
-            'spouse'       => 'getSpouse',
-            'influencers'  => 'getInfluencedBy',
-            'influenced'   => 'getInfluenced'
+            'names'        => 'getAlternateNames'
         ];
     }
 

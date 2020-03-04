@@ -221,26 +221,28 @@ class Factory extends AbstractBaseFactory
     }
 
     /**
-     * Get Institution Detail Page Controller
+     * Get Organisation Detail Page Controller
      *
      * @param \Zend\ServiceManager\ServiceManager $sm Service manager
      *
-     * @return \Swissbib\Controller\InstitutionDetailPageController
+     * @return \Swissbib\Controller\OrganisationDetailPageController
      */
-    public static function getInstitutionDetailPageController(ServiceManager $sm)
+    public static function getOrganisationDetailPageController(ServiceManager $sm)
     {
-        return new InstitutionDetailPageController($sm);
+        return new OrganisationDetailPageController($sm);
     }
 
     /**
-     * Get Institution Search Controller
+     * Get Organisation Search Controller
      *
      * @param \Zend\ServiceManager\ServiceManager $sm Service manager
      *
-     * @return \Swissbib\Controller\InstitutionSearchController
+     * @return \Swissbib\Controller\OrganisationSearchController
      */
+    /*
     public static function getInstitutionSearchController(ServiceManager $sm)
     {
-        return new InstitutionSearchController($sm);
+        return new OrganisationSearchController($sm);
     }
+    */
 }

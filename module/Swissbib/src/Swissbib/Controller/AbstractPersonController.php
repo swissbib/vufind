@@ -63,9 +63,12 @@ abstract class AbstractPersonController extends AbstractDetailsController
      *
      * @return \Zend\View\Model\ViewModel
      */
-    public function personAction()
+    public function personAction($type = 'organisation')
     {
         $info = $this->getPersonInfo();
+        if ($type == 'organisation') {
+            $info->type = 'organisation';
+        }
 
         try {
             $this->driver = $this->getRecordDriver(
