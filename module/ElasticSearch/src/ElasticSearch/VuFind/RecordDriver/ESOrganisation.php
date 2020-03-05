@@ -44,17 +44,35 @@ class ESOrganisation extends ElasticSearch
      * @param string $name      Name of the field
      * @param array  $arguments Unused but required
      *
-     * @method getHomepage()
-     * @method getMbox()
-     * @method getPhone()
+     * @method getDateOfEstablishment()
+     * @method getDateOfTermination()
+     * @method getDateOfConferenceOrEvent()
+     * @method getStartDate()
+     * @method getEndDate()
+     * @method getPreceedingCorporateBody()
+     * @method getPreceedingConferenceOrEvent()
+     * @method getSuceedingCorporateBody()
+     * @method geSuceedingConferenceOrEvent()
      *
      * @return array|null
      */
     public function __call(string $name, $arguments)
     {
         $fieldName = lcfirst(substr($name, 3));
-        return $this->getField($fieldName, "foaf");
+        return $this->getField($fieldName, 'gnd');
     }
+
+
+    /**
+     * Gets the DisplayName
+     *
+     * @return array|null
+     */
+    public function getDisplayName()
+    {
+        return $this->getName();
+    }
+
 
     /**
      * Gets the Name
@@ -64,10 +82,13 @@ class ESOrganisation extends ElasticSearch
     public function getName()
     {
         $name = $this->getField('name', 'foaf');
-        if (isset($name)) {
-            return $name;
+        if (!isset($name)) {
+            $name = $this->getField('label', 'rdfs');
         }
-        return $this->getField('label', 'rdfs');
+        if (isset($name) && is_array($name)) {
+            return array_shift($name);
+        }
+        return $name;
     }
 
     /**

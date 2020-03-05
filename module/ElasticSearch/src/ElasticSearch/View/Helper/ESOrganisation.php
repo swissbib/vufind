@@ -62,9 +62,8 @@ class ESOrganisation extends AbstractHelper
     protected function getMetadataMethodMap(): array
     {
         return [
-            'genre'        => 'getGenreList',
-            'movement'     => 'getMovementList',
-            'names'        => 'getAlternateNames'
+            'dateOfEstablishment'   => 'getDateOfEstablishment',
+            'dateOfTermination'     => 'getDateOfTermination'
         ];
     }
 
@@ -127,8 +126,7 @@ class ESOrganisation extends AbstractHelper
      */
     public function getDisplayName()
     {
-        $recordHelper = $this->getView()->record($this->getDriver());
-        return $recordHelper->getDisplayName();
+        return $this->getOrganisation()->getName();
     }
 
     /**
@@ -180,6 +178,104 @@ class ESOrganisation extends AbstractHelper
         }
 
         return $info;
+    }
+
+    /**
+     * Gets the DateOfEstablishment
+     *
+     * @return null|string
+     */
+    public function getDateOfEstablishment()
+    {
+        return $this->getOrganisation()->getDateOfEstablishment();
+    }
+
+    /**
+     * Gets the DateOfTermination
+     *
+     * @return null|string
+     */
+    public function getDateOfTermination()
+    {
+        return $this->getOrganisation()->getDateOfTermination();
+    }
+
+    /**
+     * Gets the DateOfConferenceOrEvent
+     *
+     * @return null|string
+     */
+    public function getDateOfConferenceOrEvent()
+    {
+        $ret = $this->getOrganisation()->getDateOfConferenceOrEvent();
+        if (null == $ret) {
+            $sd = $this->getOrganisation()->getStartDate();
+            $ed = $this->getOrganisation()->getEndDate();
+            if (null !== $sd && null != $ed) {
+                $ret = $sd . '-' . $ed;
+            }
+        }
+        return $ret;
+    }
+
+    /**
+     * Gets the StartDate
+     *
+     * @return null|string
+     */
+    public function getStartDate()
+    {
+        return $this->getOrganisation()->getStartDate();
+    }
+
+    /**
+     * Gets the EndDate
+     *
+     * @return null|string
+     */
+    public function getEndDate()
+    {
+        return $this->getOrganisation()->getEndDate();
+    }
+
+    /**
+     * Gets the PreceedingCorporateBody
+     *
+     * @return null|string
+     */
+    public function getPreceedingCorporateBody()
+    {
+        return $this->getOrganisation()->getPreceedingCorporateBody();
+    }
+
+    /**
+     * Gets the PreceedingConferenceOrEvent
+     *
+     * @return null|string
+     */
+    public function getPreceedingConferenceOrEvent()
+    {
+        return $this->getOrganisation()->getPreceedingConferenceOrEvent();
+    }
+
+    /**
+     * Gets the SuceedingCorporateBody
+     *
+     * @return null|string
+     */
+    public function getSuceedingCorporateBody()
+    {
+        return $this->getOrganisation()->getSuceedingCorporateBody();
+    }
+
+    /**
+     * Gets the ConferenceOrEvent
+     *
+     * @return null|string
+     */
+    public function getConferenceOrEvent()
+    {
+        return $this->getOrganisation()->getConferenceOrEvent();
     }
 
     /**

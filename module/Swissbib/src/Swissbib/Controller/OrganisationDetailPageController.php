@@ -39,7 +39,7 @@ use Zend\View\Model\ViewModel;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class OrganisationDetailPageController extends AbstractPersonController
+class OrganisationDetailPageController extends AbstractOrganisationController
 {
     /**
      * /Page/Detail/Organisation/:id
@@ -48,7 +48,7 @@ class OrganisationDetailPageController extends AbstractPersonController
      */
     public function organisationAction()
     {
-        $viewModel = parent::personAction('organisation');
+        $viewModel = parent::organisationAction();
         $viewModel->setVariable(
             "references", $this->getRecordReferencesConfig()
         );
