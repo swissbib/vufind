@@ -181,6 +181,9 @@ class ESSubject extends ElasticSearch
 
     /**
      * Generic function to get field content
+     * If the field contains id, we only return an array of these id's
+     * (broader terms, related terms, ...)
+     * else we return an array of the values
      *
      * @param string $fieldName Name of the field
      *
@@ -216,7 +219,7 @@ class ESSubject extends ElasticSearch
      *
      * @param string $fieldName Name of the field
      *
-     * @return string|null
+     * @return array|null
      */
     protected function getRawField(
         string $fieldName

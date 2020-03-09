@@ -54,7 +54,7 @@ class ESSubjectTest extends VuFindTestCase
     }
 
     /**
-     * Tests getOccupation
+     * Tests getName
      *
      * @return void
      */
@@ -70,5 +70,30 @@ class ESSubjectTest extends VuFindTestCase
         $cut->setRawData($data);
         $actual = $cut->getName();
         static::assertEquals("Fernsehsendung", $actual);
+    }
+
+    /**
+     * Tests getBroaderTermGeneral
+     *
+     * @return void
+     */
+    public function testGetBroaderTermGeneral()
+    {
+        $cut = new ESSubject();
+
+        $data
+            = ["_source"  =>
+                ["broaderTermGeneral" =>
+                  [
+                      "id" => "https://d-nb.info/gnd/4057342-4",
+                    "label" => "Stern"
+                  ]
+                ]
+            ];
+
+
+        $cut->setRawData($data);
+        $actual = $cut->getBroaderTermGeneral();
+        static::assertEquals("https://d-nb.info/gnd/4057342-4", $actual);
     }
 }
