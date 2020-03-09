@@ -196,7 +196,7 @@ class ElasticSearchSearch
     public function searchBibliographiResourcesOfSubject(string $id, int $resultSize
     ): array {
         return $bibliographicResources = $this->searchElasticSearch(
-            "http://d-nb.info/gnd/" . $id,
+            "https://d-nb.info/gnd/" . $id,
             "bibliographicResources_by_subject", "lsb", "bibliographicResource",
             $resultSize
         )->getResults();

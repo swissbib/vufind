@@ -1,6 +1,6 @@
 <?php
 /**
- * ESPersonTest.php
+ * ESSubjectTest.php
  *
  * PHP Version 7
  *
@@ -27,7 +27,7 @@
  */
 namespace ElasticSearchTest\VuFind\RecordDriver;
 
-use ElasticSearch\VuFind\RecordDriver\ESPerson;
+use ElasticSearch\VuFind\RecordDriver\ESSubject;
 use ElasticSearchTest\Bootstrap;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
 
@@ -40,7 +40,7 @@ use VuFindTest\Unit\TestCase as VuFindTestCase;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class ESPersonTest extends VuFindTestCase
+class ESSubjectTest extends VuFindTestCase
 {
     /**
      * Set up service manager and National Licence Service.
@@ -58,32 +58,17 @@ class ESPersonTest extends VuFindTestCase
      *
      * @return void
      */
-    public function testGetOccupationDisplayField()
+    public function testGetName()
     {
-        $cut = new ESPerson();
+        $cut = new ESSubject();
 
         $data
             = ["_source" =>
-                ["dbo:occupation" =>
-                    [
-                        [
-                            "en" => "pianist",
-                            "de" => "klavierspieler",
-                            "fr" => "pianiste",
-                            "@id" => "https://d-nb.info/gnd/4131406-2",
-                        ],
-                        [
-                            "@id" => "https://d-nb.info/gnd/1234",
-                            "de" => "komponist",
-                            "en" => "composer",
-                            "fr" => "compositeur",
-                        ]
-                    ]
-                ]
+                ["preferredName" => "Fernsehsendung"]
             ];
 
         $cut->setRawData($data);
-        $actual = $cut->getOccupationDisplayField();
-        static::assertEquals(["pianist", "composer"], $actual);
+        $actual = $cut->getName();
+        static::assertEquals("Fernsehsendung", $actual);
     }
 }

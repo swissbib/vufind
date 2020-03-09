@@ -38,8 +38,6 @@ namespace ElasticSearch\VuFind\RecordDriver;
  */
 class ESSubject extends ElasticSearch
 {
-    const GND_FIELD_PREFIX = 'http://d-nb_info/standards/elementset/gnd';
-
     /**
      * Magic function to access all fields
      *
@@ -80,8 +78,8 @@ class ESSubject extends ElasticSearch
     public function getUniqueID()
     {
         // actual record id is stored in the gndIdentifier field,
-        // while _id is prefixed with 'http://d-nb.info/gnd/'
-        return $this->getGndIdentifier()[0];
+        // while _id is prefixed with 'https://d-nb.info/gnd/'
+        return $this->getGndIdentifier();
     }
 
     /**
@@ -112,42 +110,10 @@ class ESSubject extends ElasticSearch
      */
     public function getName(): string
     {
-        $field = "SubjectHeading";
-        $name = $this->getPreferredName($field);
+        $name = $this->getPreferredName();
 
-        if (!isset($name)) {
-            $type = parent::getField("@type", "", "")[0];
-            $field = substr($type, strpos($type, "#") + 1);
 
-            $name = $this->getPreferredName($field);
-        }
-
-        return $name ?? "";
-    }
-
-    /**
-     * Returns preferred name for $field
-     *
-     * @param string $field Field for which the name is searched
-     *
-     * @return mixed|null
-     */
-    protected function getPreferredName(string $field)
-    {
-        $name = $this->getField('preferredNameForThe' . $field);
-        if (isset($name) && is_array($name) && count($name) > 0) {
-            return $name[0];
-        }
-        $keys = array_keys($this->fields["_source"]);
-        foreach ($keys as $key) {
-            $found = preg_match("/preferredNameForThe(.+)/", $key, $matches);
-            if ($found) {
-                $name = $matches[1];
-                return $this->getPreferredName($name);
-            }
-        }
-
-        return null;
+        return $name[0] ?? "";
     }
 
     /**
@@ -196,16 +162,14 @@ class ESSubject extends ElasticSearch
     /**
      * Returns localized name for $fieldName
      *
-     * @param string      $fieldName Name of the field
-     * @param string|null $prefix    Optional prefix
-     * @param string      $delimiter Optional delimiter
+     * @param string $fieldName Name of the field
      *
      * @return string|null
      */
     protected function getDisplayField(
-        string $fieldName, string $prefix = null, string $delimiter = '#'
+        string $fieldName
     ) {
-        $field = $this->getRawField($fieldName, $prefix, $delimiter);
+        $field = $this->getRawField($fieldName);
         $value = null;
 
         if (null !== $field && is_array($field)) {
@@ -218,16 +182,14 @@ class ESSubject extends ElasticSearch
     /**
      * Generic function to get field content
      *
-     * @param string      $fieldName Name of the field
-     * @param string|null $prefix    Optional prefix
-     * @param string      $delimiter Optional delimiter
+     * @param string $fieldName Name of the field
      *
      * @return array|null
      */
     protected function getField(
-        string $fieldName, string $prefix = null, string $delimiter = '#'
+        string $fieldName, string $prefix = null, string $delimiter = null
     ) {
-        $field = $this->getRawField($fieldName, $prefix, $delimiter);
+        $field = $this->getRawField($fieldName);
 
         // TODO Can we have fields with id and values? How to return this values?
         $ids = [];
@@ -236,41 +198,31 @@ class ESSubject extends ElasticSearch
         if (isset($field) && is_array($field) && count($field) > 0) {
             // TODO: Is this structure correct?
             foreach ($field as $entry) {
-                if (array_key_exists("@id", $entry)) {
-                    $ids[] = $entry["@id"];
+                if (array_key_exists("id", $entry)) {
+                    $ids[] = $entry["id"];
                 }
-                if (array_key_exists("@value", $entry)) {
-                    $values[] = $entry["@value"];
+                if (array_key_exists("label", $entry)) {
+                    $values[] = $entry["label"];
                 }
             }
             return array_merge($ids, $values);
+        } else {
+            return [$field];
         }
-
-        return null;
     }
 
     /**
      * Get Raw Field
      *
-     * @param string      $fieldName Name of the field
-     * @param string|null $prefix    Optional prefix
-     * @param string      $delimiter Optional delimiter
+     * @param string $fieldName Name of the field
      *
      * @return string|null
      */
     protected function getRawField(
-        string $fieldName, string $prefix = null, string $delimiter = '#'
+        string $fieldName
     ) {
-        $prefix = $prefix ?? self::GND_FIELD_PREFIX;
-
-        if (strpos($fieldName, $prefix) === 0) {
-            $key = $fieldName;
-        } else {
-            $key = $prefix . $delimiter . $fieldName;
-        }
-
         $fields = $this->fields["_source"];
 
-        return array_key_exists($key, $fields) ? $fields[$key] : null;
+        return array_key_exists($fieldName, $fields) ? $fields[$fieldName] : null;
     }
 }

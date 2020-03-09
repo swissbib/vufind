@@ -107,7 +107,7 @@ abstract class AbstractSubjectController extends AbstractDetailsController
      */
     protected function getSubjectInfo(): \stdClass
     {
-        $prefix = 'http://d-nb.info/gnd/';
+        $prefix = 'https://d-nb.info/gnd/';
 
         return (object)[
             'index' => "gnd", 'type' => "DEFAULT",

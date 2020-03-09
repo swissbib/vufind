@@ -161,7 +161,7 @@ class PersonDetailPageController extends AbstractPersonController
      */
     protected function getPersonsOfSameGenre()
     {
-        $genres = $this->driver->getGenre();
+        $genres = $this->driver->getGenreDisplayField();
 
         if (is_array($genres)) {
             $genres = $this->arrayToSearchString($genres);

@@ -10,7 +10,7 @@ parameters:
       person: 'sb-persons'
       organisation: 'sb-organisations'
       item: 'sb-items'
-      DEFAULT: 'gnd-dnb'
+      DEFAULT: 'sb-subjects'
 
     index_2_driver_mapping:
       #map json-ld @types to VuFind RecordDrivers
@@ -18,8 +18,8 @@ parameters:
       ESBibliographicResource:
         - 'http://purl.org/dc/terms/BibliographicResource'
       ESDefault:
-        - 'http://d-nb.info/standards/elementset/gnd#DifferentiatedPerson'
-        - 'http://d-nb.info/standards/elementset/gnd'
+        - 'https://d-nb.info/standards/elementset/gnd#DifferentiatedPerson'
+        - 'https://d-nb.info/standards/elementset/gnd'
       ESPerson:
         - 'http://xmlns.com/foaf/0.1/Person'
         - 'http://schema.org/Person'

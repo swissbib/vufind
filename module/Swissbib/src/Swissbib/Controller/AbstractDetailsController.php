@@ -145,6 +145,13 @@ abstract class AbstractDetailsController extends AbstractBase
                 $ids = array_merge($ids, $subjects);
             }
         }
+        
+        $ids = array_map(
+            function ($str) {
+                return str_replace('https://', 'http://', $str);
+            },
+            $ids
+        );
         return $ids;
     }
 
