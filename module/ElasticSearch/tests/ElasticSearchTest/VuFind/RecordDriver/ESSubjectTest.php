@@ -82,18 +82,27 @@ class ESSubjectTest extends VuFindTestCase
         $cut = new ESSubject();
 
         $data
-            = ["_source"  =>
-                ["broaderTermGeneral" =>
-                  [
-                      "id" => "https://d-nb.info/gnd/4057342-4",
-                    "label" => "Stern"
-                  ]
+            = [
+            "_source" =>
+                [
+                    "broaderTermGeneral" =>
+                        [
+                            [
+                                "id" => "https://d-nb.info/gnd/4057342-4",
+                                "label" => "Stern"
+                            ],
+                            [
+                                "id" => "https://d-nb.info/gnd/4057342-5",
+                                "label" => "Stern2"
+                            ]
+                        ]
                 ]
             ];
 
 
         $cut->setRawData($data);
         $actual = $cut->getBroaderTermGeneral();
-        static::assertEquals("https://d-nb.info/gnd/4057342-4", $actual);
+        static::assertEquals("https://d-nb.info/gnd/4057342-4", $actual[0]);
+        static::assertEquals("https://d-nb.info/gnd/4057342-5", $actual[1]);
     }
 }

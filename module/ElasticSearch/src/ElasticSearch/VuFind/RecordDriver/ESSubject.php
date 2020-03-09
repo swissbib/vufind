@@ -79,7 +79,7 @@ class ESSubject extends ElasticSearch
     {
         // actual record id is stored in the gndIdentifier field,
         // while _id is prefixed with 'https://d-nb.info/gnd/'
-        return $this->getGndIdentifier();
+        return $this->getGndIdentifier()[0];
     }
 
     /**
@@ -90,17 +90,6 @@ class ESSubject extends ElasticSearch
     public function getFullUniqueID()
     {
         return $this->fields["_id"];
-    }
-
-    /**
-     * Provides a list of external links in the same way as in ESPerson record
-     * driver.
-     *
-     * @return array
-     */
-    public function getSameAs()
-    {
-        return [$this->getFullUniqueID()];
     }
 
     /**
@@ -123,13 +112,17 @@ class ESSubject extends ElasticSearch
      */
     public function getParentSubjects(): array
     {
+        $test1=$this->getField("broaderTermGeneral");
+        $test2=$this->getField("broaderTermGeneral");
+        $test3=$this->getField("broaderTermInstantial");
+        $test4=$this->getField("broaderTermInstantial");
         return array_unique(
             array_merge(
                 [],
                 $this->getField("broaderTermGeneral") ?? [],
-                $this->getField("broaderTermGeneric") ?? [],
+                $this->getField("broaderTermGeneral") ?? [],
                 $this->getField("broaderTermInstantial") ?? [],
-                $this->getField("broaderTermPartitive") ?? []
+                $this->getField("broaderTermInstantial") ?? []
             )
         );
     }
@@ -144,8 +137,8 @@ class ESSubject extends ElasticSearch
         $fields = [
             // TODO Is this the only variant?
             // @codingStandardsIgnoreLineuse
-            "http://d-nb_info/standards/elementset/gnd#variantNameForTheSubjectHeading",
-            "http://d-nb_info/standards/elementset/gnd#definition",
+            "variantName",
+            "definition",
         ];
 
         foreach ($fields as $field) {
@@ -198,20 +191,22 @@ class ESSubject extends ElasticSearch
         $ids = [];
         $values = [];
 
-        if (isset($field) && is_array($field) && count($field) > 0) {
-            // TODO: Is this structure correct?
+        if (isset($field) && is_array($field) && count($field) > 0 && is_array($field[0])) {
             foreach ($field as $entry) {
                 if (array_key_exists("id", $entry)) {
                     $ids[] = $entry["id"];
-                }
-                if (array_key_exists("label", $entry)) {
-                    $values[] = $entry["label"];
+                } else {
+                    $values[] = $entry;
                 }
             }
             return array_merge($ids, $values);
-        } else {
+        } else if (isset($field) && is_array($field) && count($field) > 0) {
+            return $field;
+        } else if (isset($field)) {
             return [$field];
         }
+
+        return null;
     }
 
     /**
