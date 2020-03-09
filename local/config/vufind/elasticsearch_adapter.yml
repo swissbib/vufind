@@ -221,7 +221,7 @@ parameters:
       from: '{from}'
       query:
         terms:
-          'gnd:gndIdentifier': '118553615'
+          'dbo:genre.@id': 'http://www.wikidata.org/entity/Q858330'
 
     person_by_movement:
       type: 'person'
