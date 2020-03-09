@@ -536,6 +536,6 @@ class ESPerson extends AbstractHelper
      */
     public function getSameGenreSearchLink(): string
     {
-        return $this->getPersonSearchLink('samegenre', 'getGenre');
+        return $this->getPersonSearchLink('samegenre', 'getGenreDisplayField');
     }
 }

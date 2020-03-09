@@ -98,6 +98,16 @@ class ESPerson extends ElasticSearch
     }
 
     /**
+     * Gets the GenreId
+     *
+     * @return array|null
+     */
+    public function getGenreId()
+    {
+        return $this->getField('dbo:genre.@id', '', '');
+    }
+
+    /**
      * Gets the FirstName
      *
      * @return array|null

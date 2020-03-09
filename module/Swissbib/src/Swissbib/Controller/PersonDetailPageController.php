@@ -162,6 +162,7 @@ class PersonDetailPageController extends AbstractPersonController
     protected function getPersonsOfSameGenre()
     {
         $genres = $this->driver->getGenreDisplayField();
+        $genres="http://www.wikidata.org/entity/Q858330";
 
         if (is_array($genres)) {
             $genres = $this->arrayToSearchString($genres);
