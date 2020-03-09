@@ -220,8 +220,8 @@ parameters:
       size: '{size}'
       from: '{from}'
       query:
-        terms:
-          'dbo:genre.@id': 'http://www.wikidata.org/entity/Q858330'
+        match:
+          'dbo:genre.@id': '{q}'
 
     person_by_movement:
       type: 'person'
