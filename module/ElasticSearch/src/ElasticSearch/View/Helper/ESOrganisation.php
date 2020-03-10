@@ -62,8 +62,25 @@ class ESOrganisation extends AbstractHelper
     protected function getMetadataMethodMap(): array
     {
         return [
-            'dateOfEstablishment'   => 'getDateOfEstablishment',
-            'dateOfTermination'     => 'getDateOfTermination'
+            'dateOfEstablishment'                   => 'getDateOfEstablishment',
+            'dateOfTermination'                     => 'getDateOfTermination',
+            'dateOfConferenceOrEvent'               => 'getDateOfConferenceOrEvent',
+            'startDate'                             => 'getStartDate',
+            'endDate'                               => 'getEndDate',
+            'precedingCorporateBody'                => 'getPrecedingCorporateBody',
+            'precedingConferenceOrEvent'            => 'getPrecedingConferenceOrEvent',
+            'suceedingCorporateBody'                => 'getSuceedingCorporateBody',
+            'suceedingConferenceOrEvent'            => 'getSuceedingConferenceOrEvent',
+            'abbreviatedNameForTheCorporateBody'    => 'getAbbreviatedNameForTheCorporateBody',
+            'temporaryNameOfTheCorporateBody'       => 'getTemporaryNameOfTheCorporateBody',
+            'temporaryNameOfConferenceOrEvent'      => 'getTemporaryNameOfConferenceOrEvent',
+            'biographicalOrHistoricalInformation'   => 'getBiographicalOrHistoricalInformation',
+            'definition'                            => 'getDefinition',
+            'hierarchicalSuperiorOfTheCorporateBody'        => 'getHierarchicalSuperiorOfTheCorporateBody',
+            'hierarchicalSuperiorOfTheConferenceOrEvent'    => 'getHierarchicalSuperiorOfTheConferenceOrEvent',
+            'relatedCorporateBody'                  => 'getRelatedCorporateBody',
+            'relatedConferenceOrEvent'              => 'getRelatedConferenceOrEvent',
+            'corporateBodyIsMember'                 => 'getCorporateBodyIsMember',
         ];
     }
 
@@ -239,23 +256,23 @@ class ESOrganisation extends AbstractHelper
     }
 
     /**
-     * Gets the PreceedingCorporateBody
+     * Gets the PrecedingCorporateBody
      *
      * @return null|string
      */
-    public function getPreceedingCorporateBody()
+    public function getPrecedingCorporateBody()
     {
-        return $this->getOrganisation()->getPreceedingCorporateBody();
+        return $this->getOrganisation()->getPrecedingCorporateBody();
     }
 
     /**
-     * Gets the PreceedingConferenceOrEvent
+     * Gets the PrecedingConferenceOrEvent
      *
      * @return null|string
      */
-    public function getPreceedingConferenceOrEvent()
+    public function getPrecedingConferenceOrEvent()
     {
-        return $this->getOrganisation()->getPreceedingConferenceOrEvent();
+        return $this->getOrganisation()->getPrecedingConferenceOrEvent();
     }
 
     /**
@@ -420,7 +437,7 @@ class ESOrganisation extends AbstractHelper
     public function getDetailPageLinkLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'person.page.link'
+            'organisation.page.link'
         );
     }
 

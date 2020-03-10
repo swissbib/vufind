@@ -49,10 +49,20 @@ class ESOrganisation extends ElasticSearch
      * @method getDateOfConferenceOrEvent()
      * @method getStartDate()
      * @method getEndDate()
-     * @method getPreceedingCorporateBody()
-     * @method getPreceedingConferenceOrEvent()
+     * @method getPrecedingCorporateBody()
+     * @method getPrecedingConferenceOrEvent()
      * @method getSuceedingCorporateBody()
-     * @method geSuceedingConferenceOrEvent()
+     * @method getSuceedingConferenceOrEvent()
+     * @method getAbbreviatedNameForTheCorporateBody()
+     * @method getTemporaryNameOfTheCorporateBody()
+     * @method getTemporaryNameOfConferenceOrEvent()
+     * @method getBiographicalOrHistoricalInformation()
+     * @method getDefinition()
+     * @method getHierarchicalSuperiorOfTheCorporateBody()
+     * @method getHierarchicalSuperiorOfTheConferenceOrEvent()
+     * @method getRelatedCorporateBody()
+     * @method getRelatedConferenceOrEvent()
+     * @method getCorporateBodyIsMember()
      *
      * @return array|null
      */
@@ -89,6 +99,108 @@ class ESOrganisation extends ElasticSearch
             return array_shift($name);
         }
         return $name;
+    }
+
+    /**
+     * Gets the AlternateNames
+     *
+     * @return array|null
+     */
+    public function getAlternateNames()
+    {
+        return $this->getField('alternateNames', 'schema');
+    }
+
+    /**
+     * Gets the Location
+     *
+     * @return array|null
+     */
+    public function getLocation()
+    {
+        $location = $this->getField('location', 'schema');
+        if (!isset($location)) {
+            $location = $this->getField('P131', 'wdt');
+        }
+        return $location;
+    }
+
+    /**
+     * Gets the Country
+     *
+     * @return array|null
+     */
+    public function getCountry()
+    {
+        $country = $this->getField('country', 'dbo');
+        if (!isset($country)) {
+            $country = $this->getField('P131', 'P495');
+        }
+        return $country;
+    }
+
+    /**
+     * Gets the LegalForm
+     *
+     * @return array|null
+     */
+    public function getLegalForm()
+    {
+        return $this->getField('P1454', 'wdt');
+    }
+
+    /**
+     * Gets the DirectorManager
+     *
+     * @return array|null
+     */
+    public function getDirectorManager()
+    {
+        return $this->getField('P1037', 'wdt');
+    }
+
+    /**
+     * Gets the NotableWork
+     *
+     * @return array|null
+     */
+    public function getNotableWork()
+    {
+        $notableWork = $this->getField('notableWork', 'dbo');
+        if (!isset($notableWork)) {
+            $notableWork = $this->getField('gnd', 'publication');
+        }
+        return $notableWork;
+    }
+
+    /**
+     * Gets the Inception
+     *
+     * @return array|null
+     */
+    public function getInception()
+    {
+        return $this->getField('P571', 'wdt');
+    }
+
+    /**
+     * Gets the DissolvedAbolishedDemolished
+     *
+     * @return array|null
+     */
+    public function getDissolvedAbolishedDemolished()
+    {
+        return $this->getField('P576', 'wdt');
+    }
+
+    /**
+     * Gets the Description
+     *
+     * @return array|null
+     */
+    public function getDescription()
+    {
+        return $this->getField('description', 'schema');
     }
 
     /**
