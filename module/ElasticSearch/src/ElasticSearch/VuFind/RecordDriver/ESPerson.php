@@ -357,36 +357,6 @@ class ESPerson extends ElasticSearch
     }
 
     /**
-     * Gets the ValueByLanguagePriority
-     *
-     * @param array  $content    The content
-     * @param string $userLocale The (optional) locale
-     *
-     * @return array|null
-     */
-    protected function getValueByLanguagePriority(
-        array $content = null, string $userLocale = null
-    ) {
-        $results = null;
-
-        if ($content !== null && is_array($content) && count($content) > 0) {
-            $userLocale = null === $userLocale ? $this->getTranslatorLocale()
-                : $userLocale;
-            $locales = $this->getPrioritizedLocaleList($userLocale);
-
-            foreach ($locales as $locale) {
-                if (isset($content[$locale])
-                    && null !== $content[$locale]
-                ) {
-                    return $content[$locale];
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Gets the PrioritizedLocaleList
      *
      * @param string $userLocale The user locale
@@ -433,4 +403,35 @@ class ESPerson extends ElasticSearch
     {
         return $this->fields;
     }
+
+    /**
+     * Gets the ValueByLanguagePriority
+     *
+     * @param array  $content    The content
+     * @param string $userLocale The (optional) locale
+     *
+     * @return array|null
+     */
+    protected function getValueByLanguagePriority(
+        array $content = null, string $userLocale = null
+    ) {
+        $results = null;
+
+        if ($content !== null && is_array($content) && count($content) > 0) {
+            $userLocale = null === $userLocale ? $this->getTranslatorLocale()
+                : $userLocale;
+            $locales = $this->getPrioritizedLocaleList($userLocale);
+
+            foreach ($locales as $locale) {
+                if (isset($content[$locale])
+                    && null !== $content[$locale]
+                ) {
+                    return $content[$locale];
+                }
+            }
+        }
+
+        return null;
+    }
+
 }

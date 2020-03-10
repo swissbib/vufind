@@ -73,9 +73,14 @@ class ESOrganisation extends AbstractHelper
             'suceedingConferenceOrEvent'            => 'getSuceedingConferenceOrEvent',
             'abbreviatedNameForTheCorporateBody'    => 'getAbbreviatedNameForTheCorporateBody',
             'temporaryNameOfTheCorporateBody'       => 'getTemporaryNameOfTheCorporateBody',
-            'temporaryNameOfConferenceOrEvent'      => 'getTemporaryNameOfConferenceOrEvent',
+            'temporaryNameOfTheConferenceOrEvent'   => 'getTemporaryNameOfTheConferenceOrEvent',
             'biographicalOrHistoricalInformation'   => 'getBiographicalOrHistoricalInformation',
             'definition'                            => 'getDefinition',
+            'location'                              => 'getLocation',
+            'country'                               => 'getCountry',
+            'legalForm'                             => 'getlegalForm',
+            'directorManager'                       => 'getDirectorManager',
+            'genre'                                 => 'getGenre',
             'hierarchicalSuperiorOfTheCorporateBody'        => 'getHierarchicalSuperiorOfTheCorporateBody',
             'hierarchicalSuperiorOfTheConferenceOrEvent'    => 'getHierarchicalSuperiorOfTheConferenceOrEvent',
             'relatedCorporateBody'                  => 'getRelatedCorporateBody',
@@ -185,7 +190,7 @@ class ESOrganisation extends AbstractHelper
                 ? $splitter->split($abstract, $limits[0])
                 : $splitter->splitMultiple($abstract, ...$limits);
 
-            $info->label = $this->getView()->translate('person.metadata.abstract');
+            $info->label = $this->getView()->translate('organisation.metadata.abstract');
 
             $info->text = $this->escape($info->text);
 
@@ -303,7 +308,7 @@ class ESOrganisation extends AbstractHelper
     public function getRelatedSubjectsLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'person.metadata.related.subjects'
+            'organisation.metadata.related.subjects'
         );
     }
 
@@ -326,7 +331,7 @@ class ESOrganisation extends AbstractHelper
     public function getNotableWorkLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'person.medias'
+            'organisation.medias'
         );
     }
 
@@ -338,7 +343,7 @@ class ESOrganisation extends AbstractHelper
     public function getMoreMediasLabel()
     {
         return $this->resolveLabelWithDisplayName(
-            'person.medias.more'
+            'organisation.medias.more'
         );
     }
 
@@ -391,6 +396,127 @@ class ESOrganisation extends AbstractHelper
     public function getMovementList(string $delimiter = ', ')
     {
         return $this->fieldToString('movementDisplayField', $delimiter);
+    }
+
+    /**
+     * Provides the abbreviated name for the corporate body.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getAbbreviatedNameForTheCorporateBody(string $delimiter = ', ')
+    {
+        return $this->fieldToString('abbreviatedNameForTheCorporateBody', $delimiter);
+    }
+
+    /**
+     * Provides the temporary name of the corporate body.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getTemporaryNameOfTheCorporateBody(string $delimiter = ', ')
+    {
+        return $this->fieldToString('temporaryNameOfTheCorporateBody', $delimiter);
+    }
+
+    /**
+     * Provides the temporary name of the conference or event.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getTemporaryNameOfTheConferenceOrEvent(string $delimiter = ', ')
+    {
+        return $this->fieldToString('temporaryNameOfTheConferenceOrEvent', $delimiter);
+    }
+
+    /**
+     * Provides the biographical or historical information.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getBiographicalOrHistoricalInformation(string $delimiter = ', ')
+    {
+        return $this->fieldToString('biographicalOrHistoricalInformation', $delimiter);
+    }
+
+    /**
+     * Provides the definition.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getDefinition(string $delimiter = ', ')
+    {
+        return $this->fieldToString('definition', $delimiter);
+    }
+
+    /**
+     * Provides the location.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getLocation(string $delimiter = ', ')
+    {
+        return $this->getOrganisation()->getLocation();
+    }
+
+    /**
+     * Provides the country.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getCountry(string $delimiter = ', ')
+    {
+        return $this->getOrganisation()->getCountry();
+    }
+
+    /**
+     * Provides the legalForm.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getLegalForm(string $delimiter = ', ')
+    {
+        return $this->getOrganisation()->getLegalForm();
+    }
+
+    /**
+     * Provides the legalForm.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getDirectorManager(string $delimiter = ', ')
+    {
+        return $this->getOrganisation()->getDirectorManager();
+    }
+
+
+    /**
+     * Provides the genre.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getGenre(string $delimiter = ', ')
+    {
+        return $this->getOrganisation()->getGenre();
     }
 
     /**

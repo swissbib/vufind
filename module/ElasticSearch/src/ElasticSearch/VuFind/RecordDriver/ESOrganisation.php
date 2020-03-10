@@ -55,7 +55,7 @@ class ESOrganisation extends ElasticSearch
      * @method getSuceedingConferenceOrEvent()
      * @method getAbbreviatedNameForTheCorporateBody()
      * @method getTemporaryNameOfTheCorporateBody()
-     * @method getTemporaryNameOfConferenceOrEvent()
+     * @method getTemporaryNameOfTheConferenceOrEvent()
      * @method getBiographicalOrHistoricalInformation()
      * @method getDefinition()
      * @method getHierarchicalSuperiorOfTheCorporateBody()
@@ -68,10 +68,35 @@ class ESOrganisation extends ElasticSearch
      */
     public function __call(string $name, $arguments)
     {
+        if ($pos = strpos($name, "DisplayField")) {
+            $fieldName = lcfirst(substr(substr($name, 0, $pos), 3));
+            $field = $this->getLocalizedField($fieldName);
+            return $field;
+        }
         $fieldName = lcfirst(substr($name, 3));
         return $this->getField($fieldName, 'gnd');
     }
 
+    /**
+     * Gets the field labels in the locale language
+     *
+     * @param string $name   field name
+     * @param string $prefix prefix
+     *
+     * @return array|null
+     */
+    protected function getLocalizedField(string $name, string $prefix='dbo')
+    {
+        $field = $this->getField($name, $prefix);
+        if ($field !== null) {
+            $localizedField = $this->getArrayOfValuesByLanguagePriority(
+                $field
+            );
+            return $localizedField;
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Gets the DisplayName
@@ -102,6 +127,23 @@ class ESOrganisation extends ElasticSearch
     }
 
     /**
+     * Gets the notable works
+     *
+     * @return array|null
+     */
+    public function getNotableWorks()
+    {
+        $name = $this->getField('notableWork', 'dbo');
+        if (!isset($name)) {
+            $name = $this->getField('publication', 'gnd');
+        }
+        if (isset($name) && is_array($name)) {
+            return array_shift($name);
+        }
+        return $name;
+    }
+
+    /**
      * Gets the AlternateNames
      *
      * @return array|null
@@ -109,6 +151,16 @@ class ESOrganisation extends ElasticSearch
     public function getAlternateNames()
     {
         return $this->getField('alternateNames', 'schema');
+    }
+
+    /**
+     * Gets the genre
+     *
+     * @return array|null
+     */
+    public function getGenre()
+    {
+        return $this->getField('wdt', 'P136');
     }
 
     /**
@@ -122,7 +174,7 @@ class ESOrganisation extends ElasticSearch
         if (!isset($location)) {
             $location = $this->getField('P131', 'wdt');
         }
-        return $location;
+        return $this->getValueByLanguagePriority($location);
     }
 
     /**
@@ -133,8 +185,11 @@ class ESOrganisation extends ElasticSearch
     public function getCountry()
     {
         $country = $this->getField('country', 'dbo');
-        if (!isset($country)) {
-            $country = $this->getField('P131', 'P495');
+        if (isset($country)) {
+            $country = $this->getValueByLanguagePriority($country);
+        }
+        else if (!isset($country)) {
+            $country = $this->getField('P131', 'wdt');
         }
         return $country;
     }
@@ -146,7 +201,11 @@ class ESOrganisation extends ElasticSearch
      */
     public function getLegalForm()
     {
-        return $this->getField('P1454', 'wdt');
+        $legalForm =  $this->getField('P1454', 'wdt');
+        if (isset($legalForm)) {
+            $legalForm = $this->getValueByLanguagePriority($legalForm);
+        }
+        return $legalForm;
     }
 
     /**
@@ -156,7 +215,11 @@ class ESOrganisation extends ElasticSearch
      */
     public function getDirectorManager()
     {
-        return $this->getField('P1037', 'wdt');
+        $legalForm =  $this->getField('P1037', 'wdt');
+        if (isset($legalForm)) {
+            $legalForm = $this->getValueByLanguagePriority($legalForm);
+        }
+        return $legalForm;
     }
 
     /**
@@ -221,5 +284,37 @@ class ESOrganisation extends ElasticSearch
             }
         }
         return false;
+    }
+
+    /**
+     * Gets the ValueByLanguagePriority
+     *
+     * @param array  $content    The content
+     * @param string $userLocale The (optional) locale
+     *
+     * @return array|null
+     */
+    protected function getValueByLanguagePriority(
+        array $content = null, string $userLocale = null
+    ) {
+        $results = null;
+
+        if ($content !== null && is_array($content) && count($content) > 0) {
+            $userLocale = null === $userLocale ? $this->getTranslatorLocale()
+                : $userLocale;
+            $locales = $this->getPrioritizedLocaleList($userLocale);
+
+            foreach ($content as $contentEntry) {
+                foreach ($locales as $locale) {
+                    if (isset($contentEntry[$locale])
+                        && null !== $contentEntry[$locale]
+                    ) {
+                        return $contentEntry[$locale];
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 }
