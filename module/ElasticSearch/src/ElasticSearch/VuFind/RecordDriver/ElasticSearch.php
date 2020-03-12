@@ -160,8 +160,7 @@ abstract class ElasticSearch extends AbstractBase
      */
     protected function getValueByLanguagePriority(
         array $content = null, string $userLocale = null
-    )
-    {
+    ) {
         $results = null;
 
         if ($content !== null && is_array($content) && count($content) > 0) {
@@ -191,5 +190,4 @@ abstract class ElasticSearch extends AbstractBase
         }
         return null;
     }
-
 }

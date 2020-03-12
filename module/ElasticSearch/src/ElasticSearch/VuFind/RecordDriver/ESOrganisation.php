@@ -108,7 +108,6 @@ class ESOrganisation extends ElasticSearch
         return $this->getName();
     }
 
-
     /**
      * Gets the Name
      *
@@ -188,8 +187,7 @@ class ESOrganisation extends ElasticSearch
         $country = $this->getField('country', 'dbo');
         if (isset($country)) {
             $country = $this->getValueByLanguagePriority($country);
-        }
-        else if (!isset($country)) {
+        } elseif (!isset($country)) {
             $country = $this->getField('P131', 'wdt');
         }
         return $country;
@@ -233,8 +231,7 @@ class ESOrganisation extends ElasticSearch
         $notableWork = $this->getField('notableWork', 'dbo');
         if (isset($notableWork)) {
             $notableWork = $this->getValueByLanguagePriority($notableWork);
-        }
-        else if (!isset($notableWork)) {
+        } elseif (!isset($notableWork)) {
             $notableWork = $this->getField('publication', 'gnd');
         }
         return $notableWork;
@@ -293,5 +290,4 @@ class ESOrganisation extends ElasticSearch
         }
         return false;
     }
-
 }

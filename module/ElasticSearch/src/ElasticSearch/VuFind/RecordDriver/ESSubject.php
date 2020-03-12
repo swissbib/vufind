@@ -318,5 +318,4 @@ class ESSubject extends ElasticSearch
 
         return null;
     }
-
 }

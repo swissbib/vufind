@@ -550,7 +550,6 @@ class ESOrganisation extends AbstractHelper
         return $this->getOrganisation()->getDirectorManager();
     }
 
-
     /**
      * Provides the genre.
      *
