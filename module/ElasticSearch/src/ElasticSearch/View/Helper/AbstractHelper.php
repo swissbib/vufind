@@ -194,6 +194,52 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     }
 
     /**
+     * Render the date in a better format (based on GND Date or Wikidata Dates)
+     *
+     * @param null|string $dateString a string corresponding to a date
+     *
+     * @return string
+     */
+    protected function formatDate($dateString)
+    {
+        //Julius Cesar
+        //https://test.swissbib.ch/Page/Detail/Person/e399d061-eed6-3861-bfee-04ee705e482f
+
+        //Euclides
+        //https://test.swissbib.ch/Page/Detail/Person/e5ff3fe0-2e85-3eca-8501-d61e11dc9d00
+
+        //Bach
+        //https://test.swissbib.ch/Page/Detail/Person/21517b2f-21d1-34ad-b089-c69fed0f25d4
+
+        //Potter
+        //https://test.swissbib.ch/Page/Detail/Person/76364cb3-54cb-3d49-ba6e-06ff0e20a42c
+
+        if (null === $dateString) {
+            return null;
+        }
+
+        //before Christus (display year only with BC)
+        if (preg_match('/-\d\d\d\d.*/', $dateString)) {
+            return substr($dateString, 1, 4) . " BC";
+        }
+
+        //wikidata style : 1929-12-06T00:00:00Z (with leading 0 for days and months)
+        $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $dateString);
+        if ($date) {
+            return $date->format('j.n.Y');
+        } else {
+            //gnd style is often 2012-07-25
+            $date = \DateTime::createFromFormat('Y-m-d', $dateString);
+            if ($date) {
+                return $date->format('j.n.Y');
+            } else {
+                //otherwise we just return the input string
+                return $dateString;
+            }
+        }
+    }
+
+    /**
      * Provides the localized label for the link on the detail page of the
      * underlying managed record driver. The method is used by the
      * getDetailPageLink() method for link generation.

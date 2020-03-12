@@ -344,7 +344,7 @@ class ESOrganisation extends AbstractHelper
      */
     public function getInception()
     {
-        return $this->getOrganisation()->getInception();
+        return $this->formatDate($this->getOrganisation()->getInception());
     }
 
     /**
@@ -354,7 +354,7 @@ class ESOrganisation extends AbstractHelper
      */
     public function getDissolvedAbolishedDemolished()
     {
-        return $this->getOrganisation()->getDissolvedAbolishedDemolished();
+        return $this->formatDate($this->getOrganisation()->getDissolvedAbolishedDemolished());
     }
 
     /**
