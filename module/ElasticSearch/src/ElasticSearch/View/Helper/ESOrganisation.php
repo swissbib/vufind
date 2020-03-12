@@ -81,6 +81,10 @@ class ESOrganisation extends AbstractHelper
             'legalForm'                             => 'getlegalForm',
             'directorManager'                       => 'getDirectorManager',
             'genre'                                 => 'getGenre',
+            'notableWork'                           => 'getNotableWork',
+            'inception'                             => 'getInception',
+            'description'                           => 'getDescription',
+            'dissolvedAbolishedDemolished'          => 'getDissolvedAbolishedDemolished',
             'hierarchicalSuperiorOfTheCorporateBody'        => 'getHierarchicalSuperiorOfTheCorporateBody',
             'hierarchicalSuperiorOfTheConferenceOrEvent'    => 'getHierarchicalSuperiorOfTheConferenceOrEvent',
             'relatedCorporateBody'                  => 'getRelatedCorporateBody',
@@ -321,6 +325,46 @@ class ESOrganisation extends AbstractHelper
     {
         $notableWork = $this->getOrganisation()->getNotableWork();
         return null !== $notableWork && count($notableWork) > 0;
+    }
+
+    /**
+     * Gets the notable works
+     *
+     * @return null|string
+     */
+    public function getNotableWork()
+    {
+        return $this->getOrganisation()->getNotableWork();
+    }
+
+    /**
+     * Gets the notable works
+     *
+     * @return null|string
+     */
+    public function getInception()
+    {
+        return $this->getOrganisation()->getInception();
+    }
+
+    /**
+     * Gets the DissolvedAbolishedDemolished
+     *
+     * @return null|string
+     */
+    public function getDissolvedAbolishedDemolished()
+    {
+        return $this->getOrganisation()->getDissolvedAbolishedDemolished();
+    }
+
+    /**
+     * Gets the description
+     *
+     * @return null|string
+     */
+    public function getDescription()
+    {
+        return $this->getOrganisation()->getDescription();
     }
 
     /**

@@ -160,7 +160,8 @@ class ESOrganisation extends ElasticSearch
      */
     public function getGenre()
     {
-        return $this->getField('wdt', 'P136');
+        $genre = $this->getField('P136', 'wdt');
+        return $this->getValueByLanguagePriority($genre);
     }
 
     /**
@@ -230,8 +231,11 @@ class ESOrganisation extends ElasticSearch
     public function getNotableWork()
     {
         $notableWork = $this->getField('notableWork', 'dbo');
-        if (!isset($notableWork)) {
-            $notableWork = $this->getField('gnd', 'publication');
+        if (isset($notableWork)) {
+            $notableWork = $this->getValueByLanguagePriority($notableWork);
+        }
+        else if (!isset($notableWork)) {
+            $notableWork = $this->getField('publication', 'gnd');
         }
         return $notableWork;
     }
@@ -257,13 +261,17 @@ class ESOrganisation extends ElasticSearch
     }
 
     /**
-     * Gets the Description
+     * Gets the description
      *
      * @return array|null
      */
     public function getDescription()
     {
-        return $this->getField('description', 'schema');
+        $description =  $this->getField('description', 'schema');
+        $description =  $this->getValueByLanguagePriority($description);
+        if (isset($description) && is_array($description)) {
+            return array_shift($description);
+        }
     }
 
     /**
@@ -286,35 +294,4 @@ class ESOrganisation extends ElasticSearch
         return false;
     }
 
-    /**
-     * Gets the ValueByLanguagePriority
-     *
-     * @param array  $content    The content
-     * @param string $userLocale The (optional) locale
-     *
-     * @return array|null
-     */
-    protected function getValueByLanguagePriority(
-        array $content = null, string $userLocale = null
-    ) {
-        $results = null;
-
-        if ($content !== null && is_array($content) && count($content) > 0) {
-            $userLocale = null === $userLocale ? $this->getTranslatorLocale()
-                : $userLocale;
-            $locales = $this->getPrioritizedLocaleList($userLocale);
-
-            foreach ($content as $contentEntry) {
-                foreach ($locales as $locale) {
-                    if (isset($contentEntry[$locale])
-                        && null !== $contentEntry[$locale]
-                    ) {
-                        return $contentEntry[$locale];
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
 }

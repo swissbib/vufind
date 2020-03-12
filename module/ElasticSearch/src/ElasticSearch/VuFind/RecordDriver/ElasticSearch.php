@@ -149,4 +149,47 @@ abstract class ElasticSearch extends AbstractBase
 
         return $locales;
     }
+
+    /**
+     * Gets the ValueByLanguagePriority
+     *
+     * @param array  $content    The content
+     * @param string $userLocale The (optional) locale
+     *
+     * @return array|null
+     */
+    protected function getValueByLanguagePriority(
+        array $content = null, string $userLocale = null
+    )
+    {
+        $results = null;
+
+        if ($content !== null && is_array($content) && count($content) > 0) {
+            $userLocale = null === $userLocale ? $this->getTranslatorLocale()
+                : $userLocale;
+            $locales = $this->getPrioritizedLocaleList($userLocale);
+
+            if (array_intersect_key(array_flip($locales), $content)) {
+                foreach ($locales as $locale) {
+                    if (isset($content[$locale])
+                        && null !== $content[$locale]
+                    ) {
+                        return $content[$locale];
+                    }
+                }
+            } else {
+                foreach ($content as $contentEntry) {
+                    foreach ($locales as $locale) {
+                        if (isset($contentEntry[$locale])
+                            && null !== $contentEntry[$locale]
+                        ) {
+                            return $contentEntry[$locale];
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
 }
