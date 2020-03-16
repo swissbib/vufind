@@ -1,6 +1,6 @@
 <ul class="metadata">
     <?= $this->context($this)->renderInContext(
-        '/knowledgecard/common/metadata/list.phtml', ['list' => $this->esorganisation()->getMetadata()->getList('dateOfEstablishment', 'dateOfTermination', 'dateOfConferenceOrEvent')]
+        '/knowledgecard/common/metadata/list.phtml', ['list' => $this->esorganisation()->getMetadata()->getList('dateOfEstablishment', 'dateOfTermination', 'dateOfConferenceOrEvent', 'precedingCorporateBody', 'precedingConferenceOrEvent', 'succeedingCorporateBody', 'succeedingConferenceOrEvent')]
     )
     ?>
 

@@ -51,8 +51,8 @@ class ESOrganisation extends ElasticSearch
      * @method getEndDate()
      * @method getPrecedingCorporateBody()
      * @method getPrecedingConferenceOrEvent()
-     * @method getSuceedingCorporateBody()
-     * @method getSuceedingConferenceOrEvent()
+     * @method getSucceedingCorporateBody()
+     * @method getSucceedingConferenceOrEvent()
      * @method getAbbreviatedNameForTheCorporateBody()
      * @method getTemporaryNameOfTheCorporateBody()
      * @method getTemporaryNameOfTheConferenceOrEvent()
@@ -161,6 +161,105 @@ class ESOrganisation extends ElasticSearch
     {
         $genre = $this->getField('P136', 'wdt');
         return $this->getValueByLanguagePriority($genre);
+    }
+
+    /**
+     * Gets the PrecedingCorporateBody
+     *
+     * @return array|null
+     */
+    public function getPrecedingCorporateBody()
+    {
+        $val = $this->getField('precedingCorporateBody', 'gnd');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the precedingConferenceOrEvent
+     *
+     * @return array|null
+     */
+    public function getPrecedingConferenceOrEvent()
+    {
+        $val = $this->getField('precedingConferenceOrEvent', 'gnd');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the succeedingCorporateBody
+     *
+     * @return array|null
+     */
+    public function getSucceedingCorporateBody()
+    {
+        $val = $this->getField('succeedingCorporateBody', 'gnd');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the succeedingConferenceOrEvent
+     *
+     * @return array|null
+     */
+    public function getSucceedingConferenceOrEvent()
+    {
+        $val = $this->getField('succeedingConferenceOrEvent', 'gnd');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the HierarchicalSuperiorOfTheCorporateBody
+     *
+     * @return array|null
+     */
+    public function getHierarchicalSuperiorOfTheCorporateBody()
+    {
+        $val = $this->getField('hierarchicalSuperiorOfTheCorporateBody', 'gnd');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the RelatedConferenceOrEvent
+     *
+     * @return array|null
+     */
+    public function getRelatedConferenceOrEvent()
+    {
+        $val = $this->getField('relatedConferenceOrEvent', 'gnd');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the HierarchicalSuperiorOfTheConferenceOrEvent
+     *
+     * @return array|null
+     */
+    public function getRelatedCorporateBody()
+    {
+        $val = $this->getField('relatedCorporateBody', 'gnd');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the HierarchicalSuperiorOfTheConferenceOrEvent
+     *
+     * @return array|null
+     */
+    public function getHierarchicalSuperiorOfTheConferenceOrEvent()
+    {
+        $val = $this->getField('hierarchicalSuperiorOfTheConferenceOrEvent', 'gnd');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the corporateBodyIsMember
+     *
+     * @return array|null
+     */
+    public function getCorporateBodyIsMember()
+    {
+        $val = $this->getField('corporateBodyIsMember', 'gnd');
+        return $this->getValueByLanguagePriority($val);
     }
 
     /**

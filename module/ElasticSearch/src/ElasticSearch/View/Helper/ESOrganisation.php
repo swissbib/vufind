@@ -69,8 +69,8 @@ class ESOrganisation extends AbstractHelper
             'endDate'                               => 'getEndDate',
             'precedingCorporateBody'                => 'getPrecedingCorporateBody',
             'precedingConferenceOrEvent'            => 'getPrecedingConferenceOrEvent',
-            'suceedingCorporateBody'                => 'getSuceedingCorporateBody',
-            'suceedingConferenceOrEvent'            => 'getSuceedingConferenceOrEvent',
+            'succeedingCorporateBody'                => 'getSucceedingCorporateBody',
+            'succeedingConferenceOrEvent'            => 'getSucceedingConferenceOrEvent',
             'abbreviatedNameForTheCorporateBody'    => 'getAbbreviatedNameForTheCorporateBody',
             'temporaryNameOfTheCorporateBody'       => 'getTemporaryNameOfTheCorporateBody',
             'temporaryNameOfTheConferenceOrEvent'   => 'getTemporaryNameOfTheConferenceOrEvent',
@@ -289,9 +289,69 @@ class ESOrganisation extends AbstractHelper
      *
      * @return null|string
      */
-    public function getSuceedingCorporateBody()
+    public function getSucceedingCorporateBody()
     {
-        return $this->getOrganisation()->getSuceedingCorporateBody();
+        return $this->getOrganisation()->getSucceedingCorporateBody();
+    }
+
+    /**
+     * Gets the HierarchicalSuperiorOfTheCorporateBody
+     *
+     * @return null|string
+     */
+    public function getHierarchicalSuperiorOfTheCorporateBody()
+    {
+        return $this->getOrganisation()->getHierarchicalSuperiorOfTheCorporateBody();
+    }
+
+    /**
+     * Gets the HierarchicalSuperiorOfTheConferenceOrEvent
+     *
+     * @return null|string
+     */
+    public function getHierarchicalSuperiorOfTheConferenceOrEvent()
+    {
+        return $this->getOrganisation()->getHierarchicalSuperiorOfTheConferenceOrEvent();
+    }
+
+    /**
+     * Gets the SuceedingConferenceOrEvent
+     *
+     * @return null|string
+     */
+    public function getSucceedingConferenceOrEvent()
+    {
+        return $this->getOrganisation()->getSucceedingConferenceOrEvent();
+    }
+
+    /**
+     * Gets the RelatedCorporateBody
+     *
+     * @return null|string
+     */
+    public function getRelatedCorporateBody()
+    {
+        return $this->getOrganisation()->getRelatedCorporateBody();
+    }
+
+    /**
+     * Gets the RelatedConferenceOrEvent
+     *
+     * @return null|string
+     */
+    public function getRelatedConferenceOrEvent()
+    {
+        return $this->getOrganisation()->getRelatedConferenceOrEvent();
+    }
+
+    /**
+     * Gets the corporateBodyIsMember
+     *
+     * @return null|string
+     */
+    public function getCorporateBodyIsMember()
+    {
+        return $this->getOrganisation()->getcorporateBodyIsMember();
     }
 
     /**
