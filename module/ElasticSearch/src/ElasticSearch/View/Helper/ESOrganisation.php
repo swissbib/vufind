@@ -75,6 +75,7 @@ class ESOrganisation extends AbstractHelper
             'temporaryNameOfTheCorporateBody'       => 'getTemporaryNameOfTheCorporateBody',
             'temporaryNameOfTheConferenceOrEvent'   => 'getTemporaryNameOfTheConferenceOrEvent',
             'biographicalOrHistoricalInformation'   => 'getBiographicalOrHistoricalInformation',
+            'alternateName'                         => 'getAlternateName',
             'definition'                            => 'getDefinition',
             'location'                              => 'getLocation',
             'country'                               => 'getCountry',
@@ -629,9 +630,9 @@ class ESOrganisation extends AbstractHelper
      *
      * @return string|null
      */
-    public function getAlternateNames(string $delimiter = ', ')
+    public function getAlternateName(string $delimiter = ', ')
     {
-        return $this->fieldToString('alternateNames', $delimiter);
+        return $this->fieldToString('alternateName', $delimiter);
     }
 
     /**

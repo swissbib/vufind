@@ -143,13 +143,13 @@ class ESOrganisation extends ElasticSearch
     }
 
     /**
-     * Gets the AlternateNames
+     * Gets the AlternateName
      *
      * @return array|null
      */
-    public function getAlternateNames()
+    public function getAlternateName()
     {
-        return $this->getField('alternateNames', 'schema');
+        return $this->getField('alternateName', 'schema');
     }
 
     /**
