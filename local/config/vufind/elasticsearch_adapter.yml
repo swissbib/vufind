@@ -182,7 +182,7 @@ parameters:
         multi_match:
           query: '{q}'
           # Should rather be an Array but is not parsed correctly at ElasticsearchAdapter/Query/TemplateQuery.php:241
-          fields: 'https://d-nb_info/standards/elementset/gnd#broaderTermGeneral.@id,https://d-nb_info/standards/elementset/gnd#broaderTermGeneric.@id'
+          fields: 'broaderTermGeneral.id,broaderTermGeneric.id'
           # This is required to avoid search for the last digit only "-[09]"
           operator: 'and'
 
