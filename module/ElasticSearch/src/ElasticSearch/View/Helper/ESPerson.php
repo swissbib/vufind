@@ -224,6 +224,16 @@ class ESPerson extends AbstractHelper
     }
 
     /**
+     * Gets the Person Id
+     *
+     * @return string
+     */
+    public function getPersonId()
+    {
+        return $this->getPerson()->getPersonId();
+    }
+
+    /**
      * Gets the DeathInfo
      *
      * @param string $separator The separator
