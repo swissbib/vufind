@@ -51,7 +51,7 @@ class ESPerson extends ElasticSearch
      * @method getDeathPlace()
      * TODO Possibly rather date than string
      * @method getDeathYear()
-     * @method getGenre()
+     * @method getPeriodOfActivity()
      * @method getInfluenced()
      * @method getInfluencedBy()
      * @method getMovement()
@@ -62,6 +62,7 @@ class ESPerson extends ElasticSearch
      * @method getSpouse()
      * @method getThumbnail()
      * @method getBirthPlaceDisplayField()
+     * @method getGenre()
      * @method getGenreDisplayField()
      * @method getInfluencedDisplayField()
      * @method getInfluencedByDisplayField()
@@ -72,6 +73,15 @@ class ESPerson extends ElasticSearch
      * @method getPartnerDisplayField()
      * @method getSpouseDisplayField()
      * @method getOccupationDisplayField()
+     * @method getRelatedCorporateBody()
+     * @method getEmployer()
+     * @method getChild()
+     * @method getChildDisplayField()
+     * @method getParent()
+     * @method getParentDisplayField()
+     * @method getSibling()
+     * @method getSiblingDisplayField()
+     * @method getProfessionalRelationship()
      *
      * @return array|null
      */
@@ -153,6 +163,20 @@ class ESPerson extends ElasticSearch
     }
 
     /**
+     * Gets the getPeriodOfActivity
+     *
+     * @return string|null
+     */
+    public function getPeriodOfActivity()
+    {
+        $val = $this->getField('periodOfActivity', 'gnd');
+        if (!isset($val)) {
+            $val = $this->getField('P1317', 'wdt');
+        }
+        return $val;
+    }
+
+    /**
      * Gets the Abstract
      *
      * @return mixed|null
@@ -160,9 +184,16 @@ class ESPerson extends ElasticSearch
     public function getAbstract()
     {
         $abstract = $this->getField('abstract');
-        $localizedAbstract = $this->getValueByLanguagePriority($abstract);
-        return is_array($localizedAbstract) && count($localizedAbstract) > 0
-            ? $localizedAbstract[0] : $localizedAbstract;
+        $abstract = $this->getValueByLanguagePriority($abstract);
+        if (!isset($abstract)) {
+            $abstract = $this->getField('description', 'schema');
+            $abstract = $this->getValueByLanguagePriority($abstract);
+        }
+        if (!isset($abstract)) {
+            $abstract = $this->getField('biographicalOrHistoricalInformation', 'gnd');
+        }
+        return is_array($abstract) && count($abstract) > 0
+            ? $abstract[0] : $abstract;
     }
 
     /**
@@ -312,9 +343,191 @@ class ESPerson extends ElasticSearch
      *
      * @return array|null
      */
-    public function getAlternateNames()
+    public function getAlternateName()
     {
         return $this->getField('alternateName', 'schema');
+    }
+
+    /**
+     * Gets the award received.
+     *
+     * @return array|null
+     */
+    public function getAwardReceived()
+    {
+        $val = $this->getField('P166', 'wdt');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the position held.
+     *
+     * @return array|null
+     */
+    public function getPositionHeld()
+    {
+        $val = $this->getField('P39', 'wdt');
+        if (!isset($val)) {
+            $val = $this->getField('functionOrRole', 'gnd');
+        }
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the played instrument.
+     *
+     * @return array|null
+     */
+    public function getPlayedInstrument()
+    {
+        $val = $this->getField('playedInstrument', 'gnd');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the award received.
+     *
+     * @return array|null
+     */
+    public function getReligion()
+    {
+        $val = $this->getField('P140', 'wdt');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the award received.
+     *
+     * @return array|null
+     */
+    public function getNativeLanguage()
+    {
+        $val = $this->getField('P103', 'wdt');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the award received.
+     *
+     * @return array|null
+     */
+    public function getLanguageSpoken()
+    {
+        $val = $this->getField('P1412', 'wdt');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the award received.
+     *
+     * @return array|null
+     */
+    public function getFieldOfStudy()
+    {
+        $val = $this->getField('fieldOfStudy', 'gnd');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the realIdentity.
+     *
+     * @return array|null
+     */
+    public function getRealIdentity()
+    {
+        $val = $this->getField('realIdentity', 'gnd');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the genre.
+     *
+     * @return array|null
+     */
+    public function getGenre()
+    {
+        $val = $this->getField('genre', 'dbo');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the affiliation.
+     *
+     * @return array|null
+     */
+    public function getAffiliation()
+    {
+        $val1 = $this->getField('affiliation', 'gnd');
+        $val1 = $this->getValueByLanguagePriority($val1);
+        $val2 = $this->getField('affiliationAsLiteral', 'gnd');
+        $val = array_merge((array)$val1, (array)$val2);
+        return $val;
+    }
+
+    /**
+     * Gets the relatedCorporateBody.
+     *
+     * @return array|null
+     */
+    public function getRelatedCorporateBody()
+    {
+        $val = $this->getField('relatedCorporateBody', 'gnd');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the employer.
+     *
+     * @return array|null
+     */
+    public function getEmployer()
+    {
+        $val = $this->getField('P108', 'wdt');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the memberOfPoliticalParty.
+     *
+     * @return array|null
+     */
+    public function getMemberOfPoliticalParty()
+    {
+        $val = $this->getField('P102', 'wdt');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the participantOf.
+     *
+     * @return array|null
+     */
+    public function getParticipantOf()
+    {
+        $val = $this->getField('P1344', 'wdt');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the educatedAt.
+     *
+     * @return array|null
+     */
+    public function getEducatedAt()
+    {
+        $val = $this->getField('P69', 'wdt');
+        return $this->getValueByLanguagePriority($val);
+    }
+
+    /**
+     * Gets the professionalRelationship.
+     *
+     * @return array|null
+     */
+    public function getProfessionalRelationship()
+    {
+        $val = $this->getField('professionalRelationship', 'gnd');
+        return $this->getValueByLanguagePriority($val);
     }
 
     /**

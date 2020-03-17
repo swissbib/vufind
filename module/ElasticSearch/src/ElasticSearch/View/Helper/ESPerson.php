@@ -62,18 +62,37 @@ class ESPerson extends AbstractHelper
     protected function getMetadataMethodMap(): array
     {
         return [
-            'job'          => 'getJobInfo',
-            'birth'        => 'getBirthInfo',
-            'death'        => 'getDeathInfo',
-            'nationality'  => 'getNationalityInfo',
-            'notable.work' => 'getNotableWorkList',
-            'genre'        => 'getGenreList',
-            'movement'     => 'getMovementList',
-            'names'        => 'getAlternateNames',
-            'pseudonym'    => 'getPseudonym',
-            'spouse'       => 'getSpouse',
-            'influencers'  => 'getInfluencedBy',
-            'influenced'   => 'getInfluenced'
+            'job'                       => 'getJobInfo',
+            'birth'                     => 'getBirthInfo',
+            'death'                     => 'getDeathInfo',
+            'periodOfActivity'          => 'getPeriodOfActivity',
+            'nationality'               => 'getNationalityInfo',
+            'notable.work'              => 'getNotableWorkList',
+            'genre'                     => 'getGenreList',
+            'movement'                  => 'getMovementList',
+            'names'                     => 'getAlternateName',
+            'pseudonym'                 => 'getPseudonym',
+            'influencers'               => 'getInfluencedBy',
+            'influenced'                => 'getInfluenced',
+            'awardReceived'             => 'getAwardReceived',
+            'positionHeld'              => 'getpositionHeld',
+            'playedInstrument'          => 'getPlayedInstrument',
+            'fieldOfStudy'              => 'getFieldOfStudy',
+            'religion'                  => 'getReligion',
+            'nativeLanguage'            => 'getNativeLanguage',
+            'languageSpoken'            => 'getLanguageSpoken',
+            'realIdentity'              => 'getRealIdentity',
+            'affiliation'               => 'getAffiliation',
+            'relatedCorporateBody'      => 'getRelatedCorporateBody',
+            'employer'                  => 'getEmployer',
+            'memberOfPoliticalParty'    => 'getMemberOfPoliticalParty',
+            'educatedAt'                => 'getEducatedAt',
+            'participantOf'             => 'getParticipantOf',
+            'spouse'                    => 'getSpouse',
+            'child'                     => 'getChild',
+            'parent'                    => 'getParent',
+            'sibling'                   => 'getSibling',
+            'professionalRelationship'  => 'getProfessionalRelationship',
         ];
     }
 
@@ -216,6 +235,17 @@ class ESPerson extends AbstractHelper
         }
 
         return $this->escape($result);
+    }
+
+    /**
+     * Gets the PeriodOfActivity
+     *
+     * @return null|string
+     */
+    public function getPeriodOfActivity()
+    {
+        $val = $this->getPerson()->getPeriodOfActivity();
+        return $val;
     }
 
     /**
@@ -398,9 +428,9 @@ class ESPerson extends AbstractHelper
      *
      * @return string|null
      */
-    public function getAlternateNames(string $delimiter = ', ')
+    public function getAlternateName(string $delimiter = ', ')
     {
-        return $this->fieldToString('alternateNames', $delimiter);
+        return $this->fieldToString('alternateName', $delimiter);
     }
 
     /**
@@ -449,6 +479,231 @@ class ESPerson extends AbstractHelper
     public function getInfluenced(string $delimiter = ', ')
     {
         return $this->fieldToString('influencedDisplayField', $delimiter);
+    }
+
+    /**
+     * Provides the award received.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getAwardReceived(string $delimiter = ', ')
+    {
+        return $this->fieldToString('awardReceived', $delimiter);
+    }
+
+    /**
+     * Provides the positionHeld.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getPositionHeld(string $delimiter = ', ')
+    {
+        return $this->fieldToString('positionHeld', $delimiter);
+    }
+
+    /**
+     * Provides the fieldOfStudy.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getFieldOfStudy(string $delimiter = ', ')
+    {
+        return $this->fieldToString('fieldOfStudy', $delimiter);
+    }
+
+    /**
+     * Provides the playedInstrument.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getPlayedInstrument(string $delimiter = ', ')
+    {
+        return $this->fieldToString('playedInstrument', $delimiter);
+    }
+
+    /**
+     * Provides the religion.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getReligion(string $delimiter = ', ')
+    {
+        return $this->fieldToString('religion', $delimiter);
+    }
+
+    /**
+     * Provides the nativeLanguage.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getNativeLanguage(string $delimiter = ', ')
+    {
+        return $this->fieldToString('nativeLanguage', $delimiter);
+    }
+
+    /**
+     * Provides the languageSpoken.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getLanguageSpoken(string $delimiter = ', ')
+    {
+        return $this->fieldToString('languageSpoken', $delimiter);
+    }
+
+    /**
+     * Provides the realIdentity.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getRealIdentity(string $delimiter = ', ')
+    {
+        return $this->fieldToString('realIdentity', $delimiter);
+    }
+
+    /**
+     * Provides the affiliation.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getAffiliation(string $delimiter = ', ')
+    {
+        $val = $this->fieldToString('affiliation', $delimiter);
+        return $val;
+    }
+
+    /**
+     * Provides the relatedCorporateBody.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getRelatedCorporateBody(string $delimiter = ', ')
+    {
+        $val = $this->fieldToString('relatedCorporateBody', $delimiter);
+        return $val;
+    }
+
+    /**
+     * Provides the employer.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getEmployer(string $delimiter = ', ')
+    {
+        $val = $this->fieldToString('employer', $delimiter);
+        return $val;
+    }
+
+    /**
+     * Provides the memberOfPoliticalParty.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getMemberOfPoliticalParty(string $delimiter = ', ')
+    {
+        $val = $this->fieldToString('memberOfPoliticalParty', $delimiter);
+        return $val;
+    }
+
+    /**
+     * Provides the participantOf.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getParticipantOf(string $delimiter = ', ')
+    {
+        $val = $this->fieldToString('participantOf', $delimiter);
+        return $val;
+    }
+
+    /**
+     * Provides the educatedAt.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getEducatedAt(string $delimiter = ', ')
+    {
+        $val = $this->fieldToString('educatedAt', $delimiter);
+        return $val;
+    }
+
+    /**
+     * Provides the child value for the underlying person.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getChild(string $delimiter = ', ')
+    {
+        return $this->fieldToString('childDisplayField', $delimiter);
+    }
+
+    /**
+     * Provides the parent.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getParent(string $delimiter = ', ')
+    {
+        $val = $this->fieldToString('parentDisplayField', $delimiter);
+        return $val;
+    }
+
+    /**
+     * Provides the sibling.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getSibling(string $delimiter = ', ')
+    {
+        $val = $this->fieldToString('siblingDisplayField', $delimiter);
+        return $val;
+    }
+
+    /**
+     * Provides the professionalRelationship.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getProfessionalRelationship(string $delimiter = ', ')
+    {
+        $val = $this->getPerson()->getProfessionalRelationship();
+        return $val;
     }
 
     /**
