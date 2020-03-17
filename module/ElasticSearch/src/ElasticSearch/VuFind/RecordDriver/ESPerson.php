@@ -211,7 +211,10 @@ class ESPerson extends ElasticSearch
 
         //multiple GND identifiers are present, we only keep the
         //most recent which is in the gnd:gndIdentifier field
-        return array_filter($sameAs, [$this, 'isObsoleteGndId']);
+        if (is_array($sameAs)) {
+            return array_filter($sameAs, [$this, 'isObsoleteGndId']);
+        }
+        return null;
     }
 
     /**
