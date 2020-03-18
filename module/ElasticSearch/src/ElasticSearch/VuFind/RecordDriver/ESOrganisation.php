@@ -164,6 +164,34 @@ class ESOrganisation extends ElasticSearch
     }
 
     /**
+     * Gets the dateOfEstablishment
+     *
+     * @return array|null
+     */
+    public function getDateOfEstablishment()
+    {
+        $val = $this->getField('dateOfEstablishment', 'gnd');
+        if (!isset($val)) {
+            $val = $this->getField('P571', 'wdt');
+        }
+        return $val;
+    }
+
+    /**
+     * Gets the genre
+     *
+     * @return array|null
+     */
+    public function getDateOfTermination()
+    {
+        $val = $this->getField('dateOfTermination', 'gnd');
+        if (!isset($val)) {
+            $val = $this->getDissolvedAbolishedDemolished();
+        }
+        return $val;
+    }
+
+    /**
      * Gets the PrecedingCorporateBody
      *
      * @return array|null
@@ -368,6 +396,19 @@ class ESOrganisation extends ElasticSearch
         if (isset($description) && is_array($description)) {
             return array_shift($description);
         }
+    }
+
+    /**
+     * Gets the biographicalOrHistoricalInformation and/or definition.
+     *
+     * @return array|null
+     */
+    public function getbiographicalOrHistoricalInformation()
+    {
+        $val1 = $this->getField('biographicalOrHistoricalInformation', 'gnd');
+        $val2 = $this->getField('definition', 'gnd');
+        $val = array_merge((array)$val1, (array)$val2);
+        return $val;
     }
 
     /**
