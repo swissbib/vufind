@@ -62,37 +62,38 @@ class ESPerson extends AbstractHelper
     protected function getMetadataMethodMap(): array
     {
         return [
-            'job'                       => 'getJobInfo',
-            'birth'                     => 'getBirthInfo',
-            'death'                     => 'getDeathInfo',
-            'periodOfActivity'          => 'getPeriodOfActivity',
-            'nationality'               => 'getNationalityInfo',
-            'notable.work'              => 'getNotableWorkList',
-            'genre'                     => 'getGenreList',
-            'movement'                  => 'getMovementList',
-            'names'                     => 'getAlternateName',
-            'pseudonym'                 => 'getPseudonym',
-            'influencers'               => 'getInfluencedBy',
-            'influenced'                => 'getInfluenced',
-            'awardReceived'             => 'getAwardReceived',
-            'positionHeld'              => 'getpositionHeld',
-            'playedInstrument'          => 'getPlayedInstrument',
-            'fieldOfStudy'              => 'getFieldOfStudy',
-            'religion'                  => 'getReligion',
-            'nativeLanguage'            => 'getNativeLanguage',
-            'languageSpoken'            => 'getLanguageSpoken',
-            'realIdentity'              => 'getRealIdentity',
-            'affiliation'               => 'getAffiliation',
-            'relatedCorporateBody'      => 'getRelatedCorporateBody',
-            'employer'                  => 'getEmployer',
-            'memberOfPoliticalParty'    => 'getMemberOfPoliticalParty',
-            'educatedAt'                => 'getEducatedAt',
-            'participantOf'             => 'getParticipantOf',
-            'spouse'                    => 'getSpouse',
-            'child'                     => 'getChild',
-            'parent'                    => 'getParent',
-            'sibling'                   => 'getSibling',
-            'professionalRelationship'  => 'getProfessionalRelationship',
+            'job'                           => 'getJobInfo',
+            'birth'                         => 'getBirthInfo',
+            'death'                         => 'getDeathInfo',
+            'periodOfActivity'              => 'getPeriodOfActivity',
+            'nationality'                   => 'getNationalityInfo',
+            'notable.work'                  => 'getNotableWorkList',
+            'genre'                         => 'getGenreList',
+            'movement'                      => 'getMovementList',
+            'names'                         => 'getAlternateName',
+            'pseudonym'                     => 'getPseudonym',
+            'influencers'                   => 'getInfluencedBy',
+            'influenced'                    => 'getInfluenced',
+            'awardReceived'                 => 'getAwardReceived',
+            'positionHeld'                  => 'getpositionHeld',
+            'playedInstrument'              => 'getPlayedInstrument',
+            'fieldOfStudy'                  => 'getFieldOfStudy',
+            'religion'                      => 'getReligion',
+            'nativeLanguage'                => 'getNativeLanguage',
+            'languageSpoken'                => 'getLanguageSpoken',
+            'realIdentity'                  => 'getRealIdentity',
+            'affiliation'                   => 'getAffiliation',
+            'relatedCorporateBody'          => 'getRelatedCorporateBody',
+            'employer'                      => 'getEmployer',
+            'memberOfPoliticalParty'        => 'getMemberOfPoliticalParty',
+            'educatedAt'                    => 'getEducatedAt',
+            'participantOf'                 => 'getParticipantOf',
+            'spouse'                        => 'getSpouse',
+            'child'                         => 'getChild',
+            'parent'                        => 'getParent',
+            'sibling'                       => 'getSibling',
+            'professionalRelationship'      => 'getProfessionalRelationship',
+            'acquaintanceshipOrFriendship'  => 'getAcquaintanceshipOrFriendship',
         ];
     }
 
@@ -703,6 +704,20 @@ class ESPerson extends AbstractHelper
     public function getProfessionalRelationship(string $delimiter = ', ')
     {
         $val = $this->getPerson()->getProfessionalRelationship();
+        return $val;
+    }
+
+
+    /**
+     * Provides the acquaintanceshipOrFriendship.
+     *
+     * @param string $delimiter The delimiter to join multiple values with.
+     *
+     * @return string|null
+     */
+    public function getAcquaintanceshipOrFriendship(string $delimiter = ', ')
+    {
+        $val = $this->fieldToString('acquaintanceshipOrFriendshipDisplayField', $delimiter);
         return $val;
     }
 

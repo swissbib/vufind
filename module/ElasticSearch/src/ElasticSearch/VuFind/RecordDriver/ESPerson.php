@@ -531,6 +531,17 @@ class ESPerson extends ElasticSearch
     }
 
     /**
+     * Gets the acquaintanceshipOrFriendship.
+     *
+     * @return array|null
+     */
+    public function getAcquaintanceshipOrFriendshipDisplayField()
+    {
+        $val = $this->getLocalizedField('acquaintanceshipOrFriendship', 'gnd');
+        return $val;
+    }
+
+    /**
      * Gets the field labels in the locale language
      *
      * @param string $name   field name
