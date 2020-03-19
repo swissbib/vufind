@@ -183,7 +183,7 @@ class ESSubject extends ElasticSearch
      * @return array|null
      */
     protected function getField(
-        string $fieldName, string $prefix = null, string $delimiter = null
+        string $fieldName
     ) {
         $field = $this->getRawField($fieldName);
 
@@ -191,7 +191,11 @@ class ESSubject extends ElasticSearch
         $ids = [];
         $values = [];
 
-        if (isset($field) && is_array($field) && count($field) > 0 && is_array($field[0])) {
+        if (isset($field)
+            && is_array($field)
+            && count($field) > 0
+            && is_array($field[0])
+        ) {
             foreach ($field as $entry) {
                 if (array_key_exists("id", $entry)) {
                     $ids[] = $entry["id"];
