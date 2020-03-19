@@ -93,6 +93,20 @@ class ESSubject extends ElasticSearch
     }
 
     /**
+     * Provides a list of external links in the same way as in ESPerson record
+     * driver.
+     *
+     * @return array
+     */
+    public function getSameAsIdentifiers()
+    {
+        $sameAs = $this->getSameAs();
+        $sameAs[] = $this->getFullUniqueID();
+
+        return array_reverse($sameAs);
+    }
+
+    /**
      * Returns name of subject
      *
      * @return string

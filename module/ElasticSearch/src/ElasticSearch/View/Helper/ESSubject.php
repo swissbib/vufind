@@ -186,6 +186,17 @@ class ESSubject extends AbstractHelper
     }
 
     /**
+     * Normalizes access to record references on the underlying record driver.
+     *
+     * @return array|null
+     */
+    public function getSameAs()
+    {
+        return $this->getDriver()->getSameAsIdentifiers();
+
+    }
+
+    /**
      * Gets the  DetailPageLinkLabel
      *
      * @return string
