@@ -4,4 +4,4 @@
 <?= $this->render('common/metadata/abstract.phtml') ?>
 
 <?= $this->render('/detailpage/common/metadata/list.phtml',
-    ['list' => $this->esperson()->getMetadata()->getList('notable.work', 'genre', 'movement', 'names', 'pseudonym', 'spouse', 'influencers', 'influenced')]) ?>
+    ['list' => $this->esperson()->getMetadata()->getList('notable.work', 'genre', 'names', 'pseudonym', 'spouse', 'influencers', 'influenced')]) ?>
