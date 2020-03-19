@@ -193,7 +193,6 @@ class ESSubject extends AbstractHelper
     public function getSameAs()
     {
         return $this->getDriver()->getSameAsIdentifiers();
-
     }
 
     /**
