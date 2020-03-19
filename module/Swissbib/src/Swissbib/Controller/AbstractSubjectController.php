@@ -107,10 +107,10 @@ abstract class AbstractSubjectController extends AbstractDetailsController
      */
     protected function getSubjectInfo(): \stdClass
     {
-        $prefix = 'http://d-nb.info/gnd/';
+        $prefix = 'https://d-nb.info/gnd/';
 
         return (object)[
-            'index' => "gnd", 'type' => "DEFAULT",
+            'index' => "sb-subjects", 'type' => "DEFAULT",
             'id' => $prefix . $this->params()->fromRoute('id', [])
         ];
     }
@@ -143,7 +143,7 @@ abstract class AbstractSubjectController extends AbstractDetailsController
             ->searchElasticSearch(
                 $this->arrayToSearchString($ids),
                 "id",
-                "gnd",
+                "sb-subjects",
                 "DEFAULT",
                 $this->config->subjectsSize
             )->getResults();

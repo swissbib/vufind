@@ -122,7 +122,7 @@ abstract class AbstractDetailsController extends AbstractBase
                 ->searchElasticSearch(
                     $this->arrayToSearchString(array_unique($this->subjectIds)),
                     "id",
-                    "gnd",
+                    "sb-subjects",
                     "DEFAULT", $this->config->subjectsSize
                 )->getResults();
         } else {

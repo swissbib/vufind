@@ -92,7 +92,7 @@ export default class Hydra {
             ...this.axiosConfig,
             method: "get",
             params: {
-                "index": "gnd",
+                "index": "sb-subjects",
                 // lookfor: "[" + contributorIds + "]",
                 "method": "getSubjects",
                 "overrideIds[]": subjectIds,

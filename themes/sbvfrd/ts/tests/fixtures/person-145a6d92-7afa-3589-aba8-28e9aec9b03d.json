@@ -32,7 +32,7 @@
   "occupation": "http://dbpedia.org/resource/Colin_Firth__1",
   "partner": "http://dbpedia.org/resource/Meg_Tilly",
   "sameAs": [
-    "http://d-nb.info/gnd/130442887",
+    "https://d-nb.info/gnd/130442887",
     "http://dbpedia.org/resource/Colin_Firth"
   ],
   "thumbnail": [

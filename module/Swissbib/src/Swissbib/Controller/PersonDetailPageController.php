@@ -161,17 +161,22 @@ class PersonDetailPageController extends AbstractPersonController
      */
     protected function getPersonsOfSameGenre()
     {
-        $genres = $this->driver->getGenre();
+        $genresIds = $this->driver->getWikidataIdentifiersForField('genre');
 
-        if (is_array($genres)) {
-            $genres = $this->arrayToSearchString($genres);
+        if (is_array($genresIds)) {
+            $genresIds = implode(',', $genresIds);
         }
 
+        //only search the q number as this field is now indexed as text instead of keyword
+        //should be adapted when https://gitlab.com/swissbib/linked/workflows/-/issues/29
+        //is fixed
+        $genresIds=str_replace("http://www.wikidata.org/entity/", "", $genresIds);
+
         $authors = null;
-        if (isset($genres)) {
+        if (isset($genresIds)) {
             $authors = $this->serviceLocator->get('elasticsearchsearch')
                 ->searchElasticSearch(
-                    $genres, "person_by_genre", null, null,
+                    $genresIds, "person_by_genre", null, null,
                     $this->config->sameGenreAuthorsSize
                 );
         }

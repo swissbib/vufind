@@ -160,7 +160,7 @@ class ESSubject extends AbstractHelper
      */
     public function getVariantNames(string $delimiter = ', ')
     {
-        $variants = $this->getSubject()->getVariantNameForTheSubjectHeading();
+        $variants = $this->getSubject()->getVariantName();
 
         if (is_array($variants)) {
             $variants = implode($delimiter, $variants);

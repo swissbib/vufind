@@ -132,7 +132,8 @@ class SubjectDetailPageController extends AbstractSubjectController
                 ? $this->arrayToSearchString($relatedTermsIds) : $relatedTermsIds;
             $relatedTerms = $this->serviceLocator->get('elasticsearchsearch')
                 ->searchElasticSearch(
-                    $relatedTermsIds, "id", "gnd", "DEFAULT", 100
+                    //todo don't hardcode subject index!
+                    $relatedTermsIds, "id", "sb-subjects", "DEFAULT", 100
                 )->getResults();
             $viewModel->setVariable("relatedTerms", $relatedTerms);
         } else {

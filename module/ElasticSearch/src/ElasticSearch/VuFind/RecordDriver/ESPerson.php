@@ -108,6 +108,44 @@ class ESPerson extends ElasticSearch
     }
 
     /**
+     * Gets the GenreId
+     *
+     * @return array|null
+     */
+    public function getGenreIds()
+    {
+        return $this->getField('dbo:genre.@id', '', '');
+    }
+
+    /**
+     * Gets an array of all [wikidata] identifiers for a specific field
+     *
+     * @param string $name   field name
+     * @param string $prefix prefix
+     *
+     * @return array|null
+     */
+    public function getWikidataIdentifiersForField(
+        string $name, string $prefix='dbo'
+    ) {
+        $field = $this->getField($name, $prefix);
+
+        $ids = [];
+
+        if (isset($field) && is_array($field) && count($field) > 0
+            && is_array($field[0])
+        ) {
+            foreach ($field as $entry) {
+                if (array_key_exists("@id", $entry)) {
+                    $ids[] = $entry["@id"];
+                }
+            }
+            return array_merge($ids);
+        }
+        return null;
+    }
+
+    /**
      * Gets the FirstName
      *
      * @return array|null
@@ -232,7 +270,10 @@ class ESPerson extends ElasticSearch
 
         //multiple GND identifiers are present, we only keep the
         //most recent which is in the gnd:gndIdentifier field
-        return array_filter($sameAs, [$this, 'isObsoleteGndId']);
+        if (is_array($sameAs)) {
+            return array_filter($sameAs, [$this, 'isObsoleteGndId']);
+        }
+        return null;
     }
 
     /**
