@@ -101,7 +101,6 @@ class ESSubject extends ElasticSearch
     {
         $name = $this->getPreferredName();
 
-
         return $name[0] ?? "";
     }
 

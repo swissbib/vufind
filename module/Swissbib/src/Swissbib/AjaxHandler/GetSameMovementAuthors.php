@@ -30,7 +30,6 @@ namespace Swissbib\AjaxHandler;
 use Interop\Container\ContainerInterface;
 use VuFind\AjaxHandler\AbstractBase as VFAjax;
 use VuFind\AjaxHandler\AjaxHandlerInterface;
-use VuFind\View\Helper\Root\RecordDataFormatter;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\Controller\Plugin\Params;
 
