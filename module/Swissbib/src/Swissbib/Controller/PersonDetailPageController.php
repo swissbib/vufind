@@ -186,7 +186,7 @@ class PersonDetailPageController extends AbstractPersonController
      */
     protected function getPersonsOfSameMovement()
     {
-        $movementsIds = $this->driver->getWikidataIdentifiersForField('genre');
+        $movementsIds = $this->driver->getWikidataIdentifiersForField('movement');
 
         if (is_array($movementsIds)) {
             $movementsIds = $movementsIds[0];
