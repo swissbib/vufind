@@ -536,7 +536,11 @@ class ESPerson extends AbstractHelper
      */
     public function getSameMovementSearchLink(): string
     {
-        return $this->getPersonSearchLink('samemovement', 'getMovement');
+        return $this->getPersonSearchLink(
+            'samemovement',
+            'getWikidataIdentifiersForField',
+            'genre'
+        );
     }
 
     /**

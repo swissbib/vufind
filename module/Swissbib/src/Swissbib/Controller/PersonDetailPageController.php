@@ -186,17 +186,17 @@ class PersonDetailPageController extends AbstractPersonController
      */
     protected function getPersonsOfSameMovement()
     {
-        $movements = $this->driver->getMovement();
+        $movementsIds = $this->driver->getWikidataIdentifiersForField('genre');
 
-        if (is_array($movements)) {
-            $movements = $this->arrayToSearchString($movements);
+        if (is_array($movementsIds)) {
+            $movementsIds = $movementsIds[0];
         }
 
         $authors = null;
-        if (isset($movements)) {
+        if (isset($movementsIds)) {
             $authors = $this->serviceLocator->get('elasticsearchsearch')
                 ->searchElasticSearch(
-                    $movements, "person_by_movement", null, null,
+                    $movementsIds, "person_by_movement", null, null,
                     $this->config->sameMovementAuthorsSize
                 );
         }
