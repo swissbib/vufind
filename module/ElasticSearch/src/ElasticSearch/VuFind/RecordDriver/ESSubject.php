@@ -203,9 +203,9 @@ class ESSubject extends ElasticSearch
                 }
             }
             return array_merge($ids, $values);
-        } else if (isset($field) && is_array($field) && count($field) > 0) {
+        } elseif (isset($field) && is_array($field) && count($field) > 0) {
             return $field;
-        } else if (isset($field)) {
+        } elseif (isset($field)) {
             return [$field];
         }
 

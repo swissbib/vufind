@@ -89,7 +89,7 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
             $recordType = $this->_mapType2RecordDriver(
                 $data["_source"]["@type"]
             );
-        } else if (is_array($data) && array_key_exists("_source", $data)
+        } elseif (is_array($data) && array_key_exists("_source", $data)
             && array_key_exists("type", $data["_source"])
         ) {
             //for subjects the type is in type field instead of @type
