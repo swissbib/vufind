@@ -86,7 +86,14 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
         if (is_array($data) && array_key_exists("_source", $data)
             && array_key_exists("@type", $data["_source"])
         ) {
-            $recordType =  $this->_mapType2RecordDriver($data["_source"]["@type"]);
+            $recordType = $this->_mapType2RecordDriver(
+                $data["_source"]["@type"]
+            );
+        } elseif (is_array($data) && array_key_exists("_source", $data)
+            && array_key_exists("type", $data["_source"])
+        ) {
+            //for subjects the type is in type field instead of @type
+            $recordType =  $this->_mapType2RecordDriver($data["_source"]["type"]);
         } else {
             $recordType = self::DEFAULT_RECORD;
         }

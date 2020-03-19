@@ -21,7 +21,7 @@
             'templates' => [
                 'ajax' => $this->ajax([
                     'method' => 'getSameMovementAuthors',
-                    'movement' => $this->esperson()->escapeUrl($this->driver->getMovement()),
+                    'movement' => $this->escapeUrl(is_array($this->driver->getWikidataIdentifiersForField('movement')) ? $this->driver->getWikidataIdentifiersForField('movement')[0] : $this->driver->getWikidataIdentifiersForField('movement')),
                     'page' => '{page}',
                     'size' => '{size}'
                 ], '{}'),

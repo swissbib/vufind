@@ -224,6 +224,16 @@ class ESPerson extends AbstractHelper
     }
 
     /**
+     * Gets the Person Id
+     *
+     * @return string
+     */
+    public function getPersonId()
+    {
+        return $this->getPerson()->getPersonId();
+    }
+
+    /**
      * Gets the DeathInfo
      *
      * @param string $separator The separator
@@ -526,7 +536,11 @@ class ESPerson extends AbstractHelper
      */
     public function getSameMovementSearchLink(): string
     {
-        return $this->getPersonSearchLink('samemovement', 'getMovement');
+        return $this->getPersonSearchLink(
+            'samemovement',
+            'getWikidataIdentifiersForField',
+            'genre'
+        );
     }
 
     /**
@@ -536,6 +550,10 @@ class ESPerson extends AbstractHelper
      */
     public function getSameGenreSearchLink(): string
     {
-        return $this->getPersonSearchLink('samegenre', 'getGenre');
+        return $this->getPersonSearchLink(
+            'samegenre',
+            'getWikidataIdentifiersForField',
+            'genre'
+        );
     }
 }

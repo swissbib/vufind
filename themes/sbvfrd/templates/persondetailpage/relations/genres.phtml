@@ -21,7 +21,7 @@
             'templates' => [
                 'ajax' => $this->ajax([
                     'method' => 'getSameGenreAuthors',
-                    'genre' => $this->escapeUrl(is_array($this->driver->getGenre()) ?implode(",", $this->driver->getGenre()) : $this->driver->getGenre()),
+                    'genre' => $this->escapeUrl(is_array($this->driver->getWikidataIdentifiersForField('genre')) ? $this->driver->getWikidataIdentifiersForField('genre')[0] : $this->driver->getWikidataIdentifiersForField('genre')),
                     'page' => '{page}',
                     'size' => '{size}'
                 ], '{}'),
