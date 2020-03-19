@@ -112,17 +112,13 @@ class ESSubject extends ElasticSearch
      */
     public function getParentSubjects(): array
     {
-        $test1=$this->getField("broaderTermGeneral");
-        $test2=$this->getField("broaderTermGeneral");
-        $test3=$this->getField("broaderTermInstantial");
-        $test4=$this->getField("broaderTermInstantial");
         return array_unique(
             array_merge(
                 [],
                 $this->getField("broaderTermGeneral") ?? [],
-                $this->getField("broaderTermGeneral") ?? [],
+                $this->getField("broaderTermGeneric") ?? [],
                 $this->getField("broaderTermInstantial") ?? [],
-                $this->getField("broaderTermInstantial") ?? []
+                $this->getField("broaderTermPartitive") ?? []
             )
         );
     }
@@ -187,7 +183,6 @@ class ESSubject extends ElasticSearch
     ) {
         $field = $this->getRawField($fieldName);
 
-        // TODO Can we have fields with id and values? How to return this values?
         $ids = [];
         $values = [];
 
