@@ -69,7 +69,7 @@ class ESPerson extends AbstractHelper
             'nationality'                   => 'getNationalityInfo',
             'notable.work'                  => 'getNotableWorkList',
             'genre'                         => 'getGenreList',
-            'movement'                      => 'getMovementList',
+            'movement'                      => 'getMovement',
             'names'                         => 'getAlternateName',
             'pseudonym'                     => 'getPseudonym',
             'influencers'                   => 'getInfluencedBy',
@@ -417,7 +417,7 @@ class ESPerson extends AbstractHelper
      *
      * @return string|null
      */
-    public function getMovementList(string $delimiter = ', ')
+    public function getMovement(string $delimiter = ', ')
     {
         return $this->fieldToString('movementDisplayField', $delimiter);
     }

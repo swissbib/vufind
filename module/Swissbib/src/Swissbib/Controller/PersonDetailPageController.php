@@ -186,7 +186,7 @@ class PersonDetailPageController extends AbstractPersonController
      */
     protected function getPersonsOfSameMovement()
     {
-        $movements = $this->driver->getMovement();
+        $movements = $this->driver->getMovementDisplayField();
 
         if (is_array($movements)) {
             $movements = $this->arrayToSearchString($movements);
