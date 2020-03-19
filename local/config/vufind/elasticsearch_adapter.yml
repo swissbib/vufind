@@ -7,7 +7,7 @@ parameters:
       bibliographicResource: 'sb-resources'
       document: 'sb-documents'
       work: 'sb-works'
-      person: 'sb-persons-2020-03-17'
+      person: 'sb-persons'
       organisation: 'sb-organisations'
       item: 'sb-items'
       subject: 'sb-subjects'
