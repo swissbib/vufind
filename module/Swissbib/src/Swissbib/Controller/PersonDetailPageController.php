@@ -164,13 +164,8 @@ class PersonDetailPageController extends AbstractPersonController
         $genresIds = $this->driver->getWikidataIdentifiersForField('genre');
 
         if (is_array($genresIds)) {
-            $genresIds = implode(',', $genresIds);
+            $genresIds = $genresIds[0];
         }
-
-        //only search the q number as this field is now indexed as text instead of keyword
-        //should be adapted when https://gitlab.com/swissbib/linked/workflows/-/issues/29
-        //is fixed
-        $genresIds=str_replace("http://www.wikidata.org/entity/", "", $genresIds);
 
         $authors = null;
         if (isset($genresIds)) {

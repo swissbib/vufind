@@ -493,9 +493,13 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      *
      * @return string
      */
-    protected function getPersonSearchLink(string $search, string $accessor): string
+    protected function getPersonSearchLink(string $search, string $accessor, string $parameter=null): string
     {
-        $value = $this->getDriver()->{$accessor}();
+        if($parameter) {
+            $value = $this->getDriver()->{$accessor}($parameter);
+        } else {
+            $value = $this->getDriver()->{$accessor}();
+        }
         $value = is_array($value) ? $value[0] : $value;
         $lookfor = urlencode($value);
         $route = sprintf('persons-search-%s', $search);

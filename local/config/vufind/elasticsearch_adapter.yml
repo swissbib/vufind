@@ -221,7 +221,7 @@ parameters:
       from: '{from}'
       query:
         match:
-          'dbo:genre.@id': '{q}'
+          'dbo:genre.@id.keyword': '{q}'
 
     person_by_movement:
       type: 'person'
