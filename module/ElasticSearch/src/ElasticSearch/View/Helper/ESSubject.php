@@ -176,7 +176,7 @@ class ESSubject extends AbstractHelper
      */
     public function getDefinition()
     {
-        $definition = $this->getSubject()->getDefinitionDisplayField();
+        $definition = $this->getSubject()->getDefinition();
 
         if (is_array($definition)) {
             $definition = count($definition) > 0 ? $definition[0] : null;
