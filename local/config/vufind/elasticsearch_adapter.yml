@@ -10,7 +10,7 @@ parameters:
       person: 'sb-persons'
       organisation: 'sb-organisations'
       item: 'sb-items'
-      DEFAULT: 'sb-subjects'
+      subject: 'sb-subjects'
 
     index_2_driver_mapping:
       #map json-ld @types to VuFind RecordDrivers
@@ -173,9 +173,9 @@ parameters:
 
     sub_subjects:
       type:
-        - DEFAULT
+        - 'subject'
       index:
-        - gnd
+        - 'lsb'
       size: '{size}'
       from: '{from}'
       query:

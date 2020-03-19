@@ -110,7 +110,7 @@ abstract class AbstractSubjectController extends AbstractDetailsController
         $prefix = 'https://d-nb.info/gnd/';
 
         return (object)[
-            'index' => "sb-subjects", 'type' => "DEFAULT",
+            'index' => "lsb", 'type' => "subject",
             'id' => $prefix . $this->params()->fromRoute('id', [])
         ];
     }
@@ -126,7 +126,11 @@ abstract class AbstractSubjectController extends AbstractDetailsController
     {
         return $this->serviceLocator->get('elasticsearchsearch')
             ->searchElasticSearch(
-                $id, "sub_subjects", $this->config->subjectsSize
+                $id,
+                "sub_subjects",
+                null,
+                "subject",
+                $this->config->subjectsSize
             )->getResults();
     }
 
@@ -143,8 +147,8 @@ abstract class AbstractSubjectController extends AbstractDetailsController
             ->searchElasticSearch(
                 $this->arrayToSearchString($ids),
                 "id",
-                "sb-subjects",
-                "DEFAULT",
+                null,
+                "subject",
                 $this->config->subjectsSize
             )->getResults();
     }
