@@ -174,12 +174,16 @@ class ESSubject extends ElasticSearch
      * (broader terms, related terms, ...)
      * else we return an array of the values
      *
-     * @param string $fieldName Name of the field
+     * @param string      $fieldName Name of the field
+     * @param string|null $prefix    Optional prefix
+     * @param string      $delimiter Optional delimiter
      *
      * @return array|null
      */
     protected function getField(
-        string $fieldName
+        string $fieldName,
+        string $prefix=null,
+        string $delimiter = ':'
     ) {
         $field = $this->getRawField($fieldName);
 
