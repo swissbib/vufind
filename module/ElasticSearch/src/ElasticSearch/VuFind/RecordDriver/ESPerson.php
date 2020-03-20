@@ -386,7 +386,7 @@ class ESPerson extends ElasticSearch
      */
     public function getAlternateName()
     {
-        return $this->getField('alternateName', 'schema');
+        return $this->getArrayOfValues('alternateName', 'schema');
     }
 
     /**
@@ -601,24 +601,6 @@ class ESPerson extends ElasticSearch
         } else {
             return null;
         }
-    }
-
-    /**
-     * Get an Array of all the values in the locale language
-     *
-     * @param array|null  $content    the content
-     * @param string|null $userLocale the locale
-     *
-     * @return array
-     */
-    protected function getArrayOfValuesByLanguagePriority(
-        array $content = null, string $userLocale = null
-    ) {
-        $results = [];
-        foreach ($content as $value) {
-            $results[] = $this->getValueByLanguagePriority($value);
-        }
-        return $results;
     }
 
     /**

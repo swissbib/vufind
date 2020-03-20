@@ -199,7 +199,8 @@ class ESOrganisation extends ElasticSearch
     public function getPrecedingCorporateBody()
     {
         $val = $this->getField('precedingCorporateBody', 'gnd');
-        return $this->getValueByLanguagePriority($val);
+        if (isset($val)) $val = $this->localizedArrayToString($val);
+        return $val;
     }
 
     /**
@@ -210,7 +211,8 @@ class ESOrganisation extends ElasticSearch
     public function getPrecedingConferenceOrEvent()
     {
         $val = $this->getField('precedingConferenceOrEvent', 'gnd');
-        return $this->getValueByLanguagePriority($val);
+        if (isset($val)) $val = $this->localizedArrayToString($val);
+        return $val;
     }
 
     /**
@@ -221,7 +223,8 @@ class ESOrganisation extends ElasticSearch
     public function getSucceedingCorporateBody()
     {
         $val = $this->getField('succeedingCorporateBody', 'gnd');
-        return $this->getValueByLanguagePriority($val);
+        if (isset($val)) $val = $this->localizedArrayToString($val);
+        return $val;
     }
 
     /**
@@ -232,7 +235,8 @@ class ESOrganisation extends ElasticSearch
     public function getSucceedingConferenceOrEvent()
     {
         $val = $this->getField('succeedingConferenceOrEvent', 'gnd');
-        return $this->getValueByLanguagePriority($val);
+        if (isset($val)) $val = $this->localizedArrayToString($val);
+        return $val;
     }
 
     /**
@@ -243,7 +247,8 @@ class ESOrganisation extends ElasticSearch
     public function getHierarchicalSuperiorOfTheCorporateBody()
     {
         $val = $this->getField('hierarchicalSuperiorOfTheCorporateBody', 'gnd');
-        return $this->getValueByLanguagePriority($val);
+        if (isset($val)) $val = $this->localizedArrayToString($val);
+        return $val;
     }
 
     /**
@@ -254,18 +259,20 @@ class ESOrganisation extends ElasticSearch
     public function getRelatedConferenceOrEvent()
     {
         $val = $this->getField('relatedConferenceOrEvent', 'gnd');
-        return $this->getValueByLanguagePriority($val);
+        if (isset($val)) $val = $this->localizedArrayToString($val);
+        return $val;
     }
 
     /**
-     * Gets the HierarchicalSuperiorOfTheConferenceOrEvent
+     * Gets the RelatedCorporateBody
      *
      * @return array|null
      */
     public function getRelatedCorporateBody()
     {
         $val = $this->getField('relatedCorporateBody', 'gnd');
-        return $this->getValueByLanguagePriority($val);
+        if (isset($val)) $val = $this->localizedArrayToString($val);
+        return $val;
     }
 
     /**
@@ -276,7 +283,8 @@ class ESOrganisation extends ElasticSearch
     public function getHierarchicalSuperiorOfTheConferenceOrEvent()
     {
         $val = $this->getField('hierarchicalSuperiorOfTheConferenceOrEvent', 'gnd');
-        return $this->getValueByLanguagePriority($val);
+        if (isset($val)) $val = $this->localizedArrayToString($val);
+        return $val;
     }
 
     /**
@@ -287,7 +295,8 @@ class ESOrganisation extends ElasticSearch
     public function getCorporateBodyIsMember()
     {
         $val = $this->getField('corporateBodyIsMember', 'gnd');
-        return $this->getValueByLanguagePriority($val);
+        if (isset($val)) $val = $this->localizedArrayToString($val);
+        return $val;
     }
 
     /**
@@ -301,7 +310,8 @@ class ESOrganisation extends ElasticSearch
         if (!isset($location)) {
             $location = $this->getField('P131', 'wdt');
         }
-        return $this->getValueByLanguagePriority($location);
+        if (isset($location)) $location = $this->localizedArrayToString($location);
+        return $location;
     }
 
     /**
@@ -312,11 +322,10 @@ class ESOrganisation extends ElasticSearch
     public function getCountry()
     {
         $country = $this->getField('country', 'dbo');
-        if (isset($country)) {
-            $country = $this->getValueByLanguagePriority($country);
-        } elseif (!isset($country)) {
+        if (!isset($country)) {
             $country = $this->getField('P131', 'wdt');
         }
+        if (isset($country)) $country = $this->localizedArrayToString($country);
         return $country;
     }
 
@@ -327,9 +336,9 @@ class ESOrganisation extends ElasticSearch
      */
     public function getLegalForm()
     {
-        $legalForm =  $this->getField('P1454', 'wdt');
+        $legalForm = $this->getField('P1454', 'wdt');
         if (isset($legalForm)) {
-            $legalForm = $this->getValueByLanguagePriority($legalForm);
+            $legalForm = $this->localizedArrayToString($legalForm);
         }
         return $legalForm;
     }
@@ -343,7 +352,7 @@ class ESOrganisation extends ElasticSearch
     {
         $legalForm =  $this->getField('P1037', 'wdt');
         if (isset($legalForm)) {
-            $legalForm = $this->getValueByLanguagePriority($legalForm);
+            $legalForm = $this->localizedArrayToString($legalForm);
         }
         return $legalForm;
     }
@@ -357,9 +366,10 @@ class ESOrganisation extends ElasticSearch
     {
         $notableWork = $this->getField('notableWork', 'dbo');
         if (isset($notableWork)) {
-            $notableWork = $this->getValueByLanguagePriority($notableWork);
+            $notableWork = $this->localizedArrayToString($notableWork);
         } elseif (!isset($notableWork)) {
             $notableWork = $this->getField('publication', 'gnd');
+            if (isset($notableWork))$notableWork = $this->arrayToString($notableWork);
         }
         return $notableWork;
     }

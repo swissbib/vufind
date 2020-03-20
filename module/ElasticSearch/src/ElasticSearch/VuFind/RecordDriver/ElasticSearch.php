@@ -151,6 +151,31 @@ abstract class ElasticSearch extends AbstractBase
     }
 
     /**
+     * Returns a localized array field from the index as a string
+     *
+     * @param string $value     The value found in the index.
+     * @param string $delimiter The delimiter join elements in the field's array.
+     *
+     * @return string
+     */
+    protected function localizedArrayToString(array $values, string $delimiter = ', ') {
+        $value = $this->getArrayOfValuesByLanguagePriority($values);
+        return implode($delimiter, $value);
+    }
+
+    /**
+     * Returns a non localized array field from the index as a string
+     *
+     * @param string $value     The value found in the index.
+     * @param string $delimiter The delimiter join elements in the field's array.
+     *
+     * @return string
+     */
+    protected function arrayToString(array $value, string $delimiter = ', ') {
+        return implode($delimiter, $value);
+    }
+
+    /**
      * Gets the ValueByLanguagePriority
      *
      * @param array  $content    The content
@@ -190,4 +215,23 @@ abstract class ElasticSearch extends AbstractBase
         }
         return null;
     }
+
+    /**
+     * Get an Array of all the values in the locale language
+     *
+     * @param array|null  $content    the content
+     * @param string|null $userLocale the locale
+     *
+     * @return array
+     */
+    protected function getArrayOfValuesByLanguagePriority(
+        array $content = null, string $userLocale = null
+    ) {
+        $results = [];
+        foreach ($content as $value) {
+            $results[] = $this->getValueByLanguagePriority($value);
+        }
+        return $results;
+    }
+
 }
