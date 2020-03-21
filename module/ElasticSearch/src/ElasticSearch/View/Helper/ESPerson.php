@@ -67,7 +67,7 @@ class ESPerson extends AbstractHelper
             'death'                         => 'getDeathInfo',
             'periodOfActivity'              => 'getPeriodOfActivity',
             'nationality'                   => 'getNationalityInfo',
-            'notable.work'                  => 'getNotableWorkList',
+            'notable.work'                  => 'getNotableWork',
             'genre'                         => 'getGenreList',
             'movement'                      => 'getMovement',
             'names'                         => 'getAlternateName',
@@ -393,9 +393,9 @@ class ESPerson extends AbstractHelper
      *
      * @return string|null
      */
-    public function getNotableWorkList(string $delimiter = ', ')
+    public function getNotableWork(string $delimiter = ', ')
     {
-        return $this->fieldToString('notableWorkDisplayField', $delimiter);
+        return $this->fieldToString('notableWork', $delimiter);
     }
 
     /**
@@ -587,7 +587,7 @@ class ESPerson extends AbstractHelper
      */
     public function getAffiliation(string $delimiter = ', ')
     {
-        $val = $this->fieldToString('affiliation', $delimiter);
+        $val = $this->getPerson()->getAffiliation($delimiter);
         return $val;
     }
 
@@ -717,7 +717,7 @@ class ESPerson extends AbstractHelper
      */
     public function getAcquaintanceshipOrFriendship(string $delimiter = ', ')
     {
-        $val = $this->fieldToString('acquaintanceshipOrFriendshipDisplayField', $delimiter);
+        $val = $this->fieldToString('acquaintanceshipOrFriendship', $delimiter);
         return $val;
     }
 
