@@ -3,8 +3,9 @@
 
 HOST=localhost
 PORT=9201
-OLD_TIMESTAMP=2019-11-22
-NEW_TIMESTAMP=2020-02-03
+OLD_TIMESTAMP=2020-02-12
+NEW_TIMESTAMP=2020-03-17
+#don't forget the timestamps for subjects which is different
 
 PERSONS_INDEX=sb-persons
 ORGANISATIONS_INDEX=sb-organisations
@@ -24,11 +25,12 @@ do
 done
 
 
-#the gnd index is different
-#in kibana, use
-#POST _aliases
-#  {
-#    "actions": [
-#    {"add" : { "index" : "gnd20180309", "alias" : "gnd-dnb" }}
-#    ]
-#  }
+#the subject index is different (has different timestamps and prefixes
+
+curl -XPOST "http://${HOST}:${PORT}/_aliases" -H "Content-Type: application/json" -d"
+  {
+      \"actions\" : [
+          { \"add\" : { \"index\" : \"gnd-subjects-2020-03-16\", \"alias\" : \"sb-subjects\" } },
+          { \"remove\" : { \"index\" : \"gnd-subjects-2020-02-20\", \"alias\" : \"sb-subjects\" } }
+      ]
+  }"
