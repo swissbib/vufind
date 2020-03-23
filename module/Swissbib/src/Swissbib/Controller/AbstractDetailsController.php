@@ -122,8 +122,8 @@ abstract class AbstractDetailsController extends AbstractBase
                 ->searchElasticSearch(
                     $this->arrayToSearchString(array_unique($this->subjectIds)),
                     "id",
-                    "sb-subjects",
-                    "DEFAULT", $this->config->subjectsSize
+                    null,
+                    "subject", $this->config->subjectsSize
                 )->getResults();
         } else {
             return [];

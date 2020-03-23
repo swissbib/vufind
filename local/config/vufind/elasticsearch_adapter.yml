@@ -10,7 +10,7 @@ parameters:
       person: 'sb-persons'
       organisation: 'sb-organisations'
       item: 'sb-items'
-      DEFAULT: 'gnd-dnb'
+      subject: 'sb-subjects'
 
     index_2_driver_mapping:
       #map json-ld @types to VuFind RecordDrivers
@@ -18,8 +18,8 @@ parameters:
       ESBibliographicResource:
         - 'http://purl.org/dc/terms/BibliographicResource'
       ESDefault:
-        - 'http://d-nb.info/standards/elementset/gnd#DifferentiatedPerson'
-        - 'http://d-nb.info/standards/elementset/gnd'
+        - 'https://d-nb.info/standards/elementset/gnd#DifferentiatedPerson'
+        - 'https://d-nb.info/standards/elementset/gnd'
       ESPerson:
         - 'http://xmlns.com/foaf/0.1/Person'
         - 'http://schema.org/Person'
@@ -173,16 +173,16 @@ parameters:
 
     sub_subjects:
       type:
-        - DEFAULT
+        - 'subject'
       index:
-        - gnd
+        - 'lsb'
       size: '{size}'
       from: '{from}'
       query:
         multi_match:
           query: '{q}'
           # Should rather be an Array but is not parsed correctly at ElasticsearchAdapter/Query/TemplateQuery.php:241
-          fields: 'http://d-nb_info/standards/elementset/gnd#broaderTermGeneral.@id,http://d-nb_info/standards/elementset/gnd#broaderTermGeneric.@id'
+          fields: 'broaderTermGeneral.id,broaderTermGeneric.id,broaderTermInstantial.id,broaderTermPartitive.id'
           # This is required to avoid search for the last digit only "-[09]"
           operator: 'and'
 
@@ -220,8 +220,8 @@ parameters:
       size: '{size}'
       from: '{from}'
       query:
-        terms:
-          'dbo:genre': '{q}'
+        match:
+          'dbo:genre.@id.keyword': '{q}'
 
     person_by_movement:
       type: 'person'
@@ -229,6 +229,6 @@ parameters:
       size: '{size}'
       from: '{from}'
       query:
-        terms:
-          'dbo:movement': '{q}'
+        match:
+          'dbo:movement.@id.keyword': '{q}'
 

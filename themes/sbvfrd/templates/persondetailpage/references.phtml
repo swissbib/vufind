@@ -11,6 +11,7 @@
                 <li><?= $this->render($template, $this->esperson()->getRecordReference($link, $configuredReferences)) ?></li>
               <?php endif; ?>
             <?php endforeach; ?>
+            <li><a class="icon-arrow-external-link" href="<?= $this->esperson()->getPersonId() ?>">swissbib Linked Open Data</a></li>
         </ul>
     </div>
 </div>

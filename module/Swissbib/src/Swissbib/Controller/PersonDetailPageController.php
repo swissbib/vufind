@@ -164,13 +164,8 @@ class PersonDetailPageController extends AbstractPersonController
         $genresIds = $this->driver->getWikidataIdentifiersForField('genre');
 
         if (is_array($genresIds)) {
-            $genresIds = implode(',', $genresIds);
+            $genresIds = $genresIds[0];
         }
-
-        //only search the q number as this field is now indexed as text instead of keyword
-        //should be adapted when https://gitlab.com/swissbib/linked/workflows/-/issues/29
-        //is fixed
-        $genresIds=str_replace("http://www.wikidata.org/entity/", "", $genresIds);
 
         $authors = null;
         if (isset($genresIds)) {
@@ -191,17 +186,18 @@ class PersonDetailPageController extends AbstractPersonController
      */
     protected function getPersonsOfSameMovement()
     {
-        $movements = $this->driver->getMovementDisplayField();
+        $movementsIds = $this->driver->getWikidataIdentifiersForField('movement');
+        //$movements = $this->driver->getMovementDisplayField();
 
-        if (is_array($movements)) {
-            $movements = $this->arrayToSearchString($movements);
+        if (is_array($movementsIds)) {
+            $movementsIds = $movementsIds[0];
         }
 
         $authors = null;
-        if (isset($movements)) {
+        if (isset($movementsIds)) {
             $authors = $this->serviceLocator->get('elasticsearchsearch')
                 ->searchElasticSearch(
-                    $movements, "person_by_movement", null, null,
+                    $movementsIds, "person_by_movement", null, null,
                     $this->config->sameMovementAuthorsSize
                 );
         }

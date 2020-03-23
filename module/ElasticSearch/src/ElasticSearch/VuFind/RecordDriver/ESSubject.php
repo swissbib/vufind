@@ -93,6 +93,20 @@ class ESSubject extends ElasticSearch
     }
 
     /**
+     * Provides a list of external links in the same way as in ESPerson record
+     * driver.
+     *
+     * @return array
+     */
+    public function getSameAsIdentifiers()
+    {
+        $sameAs = $this->getSameAs();
+        $sameAs[] = $this->getFullUniqueID();
+
+        return array_reverse($sameAs);
+    }
+
+    /**
      * Returns name of subject
      *
      * @return string
@@ -100,7 +114,6 @@ class ESSubject extends ElasticSearch
     public function getName(): string
     {
         $name = $this->getPreferredName();
-
 
         return $name[0] ?? "";
     }
@@ -112,17 +125,13 @@ class ESSubject extends ElasticSearch
      */
     public function getParentSubjects(): array
     {
-        $test1=$this->getField("broaderTermGeneral");
-        $test2=$this->getField("broaderTermGeneral");
-        $test3=$this->getField("broaderTermInstantial");
-        $test4=$this->getField("broaderTermInstantial");
         return array_unique(
             array_merge(
                 [],
                 $this->getField("broaderTermGeneral") ?? [],
-                $this->getField("broaderTermGeneral") ?? [],
+                $this->getField("broaderTermGeneric") ?? [],
                 $this->getField("broaderTermInstantial") ?? [],
-                $this->getField("broaderTermInstantial") ?? []
+                $this->getField("broaderTermPartitive") ?? []
             )
         );
     }
@@ -178,20 +187,27 @@ class ESSubject extends ElasticSearch
      * (broader terms, related terms, ...)
      * else we return an array of the values
      *
-     * @param string $fieldName Name of the field
+     * @param string      $fieldName Name of the field
+     * @param string|null $prefix    Optional prefix
+     * @param string      $delimiter Optional delimiter
      *
      * @return array|null
      */
     protected function getField(
-        string $fieldName, string $prefix = null, string $delimiter = null
+        string $fieldName,
+        string $prefix=null,
+        string $delimiter = ':'
     ) {
         $field = $this->getRawField($fieldName);
 
-        // TODO Can we have fields with id and values? How to return this values?
         $ids = [];
         $values = [];
 
-        if (isset($field) && is_array($field) && count($field) > 0 && is_array($field[0])) {
+        if (isset($field)
+            && is_array($field)
+            && count($field) > 0
+            && is_array($field[0])
+        ) {
             foreach ($field as $entry) {
                 if (array_key_exists("id", $entry)) {
                     $ids[] = $entry["id"];
@@ -200,9 +216,9 @@ class ESSubject extends ElasticSearch
                 }
             }
             return array_merge($ids, $values);
-        } else if (isset($field) && is_array($field) && count($field) > 0) {
+        } elseif (isset($field) && is_array($field) && count($field) > 0) {
             return $field;
-        } else if (isset($field)) {
+        } elseif (isset($field)) {
             return [$field];
         }
 
@@ -220,7 +236,6 @@ class ESSubject extends ElasticSearch
         string $fieldName
     ) {
         $fields = $this->fields["_source"];
-
         return array_key_exists($fieldName, $fields) ? $fields[$fieldName] : null;
     }
 
