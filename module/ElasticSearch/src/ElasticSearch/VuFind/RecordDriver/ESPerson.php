@@ -207,7 +207,7 @@ class ESPerson extends ElasticSearch
     {
         $val = $this->getField('periodOfActivity', 'gnd');
         if (!isset($val)) {
-            $val = $this->getField('P1317', 'wdt');
+            $val = $this->formatDate($this->getField('P1317', 'wdt'));
         }
         return $val;
     }

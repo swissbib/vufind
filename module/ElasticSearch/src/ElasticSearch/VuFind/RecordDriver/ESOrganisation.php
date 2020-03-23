@@ -381,7 +381,7 @@ class ESOrganisation extends ElasticSearch
      */
     public function getInception()
     {
-        return $this->getField('P571', 'wdt');
+        return $this->formatDate($this->getField('P571', 'wdt'));
     }
 
     /**
@@ -391,7 +391,7 @@ class ESOrganisation extends ElasticSearch
      */
     public function getDissolvedAbolishedDemolished()
     {
-        return $this->getField('P576', 'wdt');
+        return $this->formatDate($this->getField('P576', 'wdt'));
     }
 
     /**
