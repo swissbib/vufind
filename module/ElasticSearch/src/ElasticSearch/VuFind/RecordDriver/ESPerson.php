@@ -258,59 +258,6 @@ class ESPerson extends ElasticSearch
     }
 
     /**
-     * Gets the SameAs
-     *
-     * @return array|null
-     */
-    public function getSameAs()
-    {
-        $sameAs = $this->getField("sameAs", "owl");
-
-        //multiple GND identifiers are present, we only keep the
-        //most recent which is in the gnd:gndIdentifier field
-        if (is_array($sameAs)) {
-            return array_filter($sameAs, [$this, 'isObsoleteGndId']);
-        }
-        return null;
-    }
-
-    /**
-     * Check if an uri is an obsolete GND id
-     *
-     * @param string $uri The uri to test, for example http://d-nb.info/gnd/12162692X
-     *
-     * @return bool
-     */
-    protected function isObsoleteGndId($uri)
-    {
-        if ($this->isGndUri($uri)) {
-            $currentGndId = $this->getField('gndIdentifier', 'gnd');
-            $gndIdToTest = substr($uri, strrpos($uri, '/') + 1);
-            if ($currentGndId === $gndIdToTest) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * Check if an uri is a GND uri
-     *
-     * @param string $uri The uri to test, for example
-     *                    http://www.wikidata.org/entity/Q220340
-     *
-     * @return bool
-     */
-    protected function isGndUri(string $uri)
-    {
-        $gndRegExp = "/^https{0,1}:\\/\\/d-nb.info\\/gnd\\/.*$/";
-        return preg_match($gndRegExp, $uri) === 1 ? true : false;
-    }
-
-    /**
      * Gets the RdfType
      *
      * @return array|null
