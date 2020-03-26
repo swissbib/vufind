@@ -66,10 +66,6 @@ class OrganisationDetailPageController extends AbstractOrganisationController
     protected function addData(
         ViewModel &$viewModel
     ) {
-        $medias = $this->solrsearch()->getMedias(
-            "Author", $this->driver, $this->config->mediaLimit
-        );
-        $viewModel->setVariable("medias", $medias);
         $es = $this->serviceLocator->get('elasticsearchsearch');
         //issue: https://github.com/swissbib/vufind/issues/719
         //The ElasticSearchSearch Type is responsible for the check if there
@@ -82,34 +78,20 @@ class OrganisationDetailPageController extends AbstractOrganisationController
         //ElasticSearch Type to get the number of available CoContributors
         //so we do not duplicate the code for this
 
-        if ($es->hasCoContributors(
-            $this->bibliographicResources,
-            $this->driver->getUniqueID()
-        )
-        ) {
-            $contributors = $this->getCoContributors(
-                $this->driver->getUniqueID()
-            );
-        }
-        if (isset($contributors)) {
-            $viewModel->setVariable("coContributors", $contributors->getResults());
-            $viewModel->setVariable(
-                "coContributorsTotal", $contributors->getResultTotal()
-            );
-        }
-        $organisationOfSameGenre = $this->getOrganisationOfSameGenre($this->driver);
+        $sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($this->getOrganisationInfo()->id);
         //GH: I think we can make this request without the risk of ES searches having
         //empty parameter values which throws often an exception because
         //checks if there are genres available
-        if (isset($organisationOfSameGenre)) {
+        if (isset($sameHierarchicalSuperiorOrganisations)) {
             $viewModel->setVariable(
-                "authorsOfSameGenre", $organisationOfSameGenre->getResults()
+                "sameHierarchicalSuperiorOrganisations", $sameHierarchicalSuperiorOrganisations->getResults()
             );
             $viewModel->setVariable(
-                "authorsOfSameGenreTotal", $organisationOfSameGenre->getResultTotal()
+                "sameHierarchicalSuperiorOrganisationsTotal", $sameHierarchicalSuperiorOrganisations->getResultTotal()
             );
         }
 
+        /*
         //GH: same reason as argued for PersonsOfSameGenre - an ES request is
         //only done if movements are available
         $organisationOfSameMovement = $this->getOrganisationOfSameMovement($this->driver);
@@ -122,6 +104,7 @@ class OrganisationDetailPageController extends AbstractOrganisationController
                 $organisationOfSameMovement->getResultTotal()
             );
         }
+        */
     }
 
     /**

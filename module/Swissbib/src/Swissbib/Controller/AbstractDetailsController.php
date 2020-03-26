@@ -102,15 +102,6 @@ abstract class AbstractDetailsController extends AbstractBase
     }
 
     /**
-     * Gets the  BibliographicResources
-     *
-     * @param string $id The id
-     *
-     * @return array
-     */
-    abstract protected function getBibliographicResourcesOf(string $id): array;
-
-    /**
      * Gets the Subjects of the bibliographic resources
      *
      * @return array

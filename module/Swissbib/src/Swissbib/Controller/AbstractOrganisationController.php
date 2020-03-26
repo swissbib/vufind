@@ -44,8 +44,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 abstract class AbstractOrganisationController extends AbstractDetailsController
 {
     protected $driver;
-    protected $bibliographicResources;
-    protected $subjects;
+    protected $sameHierarchicalSuperiorOrganisations;
 
     /**
      * DetailPageController constructor.
@@ -55,7 +54,6 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
     public function __construct(ServiceLocatorInterface $sm)
     {
         parent::__construct($sm);
-        $this->config = $this->getConfig()->DetailPage;
     }
 
     /**
@@ -71,16 +69,12 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
             $this->driver = $this->getRecordDriver(
                 $info->id, $info->index, $info->type
             );
-            $this->bibliographicResources = $this->getBibliographicResourcesOf(
-                $info->id
-            );
 
-            $this->subjectIds = $this->getSubjectIdsFrom();
-            $this->subjects = $this->getSubjectsOf();
+            $this->sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($info->id);
             $viewModel = $this->createViewModel(
                 [
-                    "driver" => $this->driver, "subjects" => $this->subjects,
-                    "books" => $this->bibliographicResources,
+                    "driver" => $this->driver,
+                    "sameHierarchicalSuperiorOrganisations" => $this->sameHierarchicalSuperiorOrganisations,
                     "references" => $this->getOrganisationRecordReferencesConfig()
                 ]
             );
@@ -102,9 +96,11 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
      */
     protected function getOrganisationInfo(): \stdClass
     {
+        $prefix = 'https://d-nb.info/gnd/';
+        //$prefix = '';
         return (object)[
             'index' => 'lsb', 'type' => 'organisation',
-            'id' => $this->params()->fromRoute('id', [])
+            'id' => $prefix . $this->params()->fromRoute('id', [])
         ];
     }
 
@@ -133,19 +129,23 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
     }
 
     /**
-     * Gets the  BibliographicResources
+     * Gets the sameHierarchicalSuperiorOrganisations
      *
-     * @param string $id The id of the author
+     * @param string $id The id
      *
      * @return array
      */
-    protected function getBibliographicResourcesOf(string $id): array
+    protected function getSameHierarchicalSuperiorOrganisations(string $id)
     {
-        return [];
-        /*
-        $searchSize = $this->config->searchSize;
         return $this->serviceLocator->get('elasticsearchsearch')
-            ->searchBibliographiResourcesOfOrganisation($id, $searchSize);
-        */
+            ->searchElasticSearch(
+                $id,
+                "sameHierarchicalSuperior_organisations",
+                null,
+                "organisation",
+                $this->getConfig()->DetailPage->sameHierarchicalOrganisationsSize
+            )->getResults();
     }
+
+
 }
