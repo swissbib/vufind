@@ -57,6 +57,19 @@ class OrganisationDetailPageController extends AbstractOrganisationController
     }
 
     /**
+     * Adds additional data
+     *
+     * @param ViewModel $viewModel necessary ids
+     *
+     * @return void
+     */
+    protected function addDataForCarousel(
+        $sameHierarchicalSuperiorOrganisationIds
+    ) {
+        $this->sameHierarchicalSuperiorOrganisationIds = $sameHierarchicalSuperiorOrganisationIds;
+    }
+
+    /**
      * Adds additional data to view model
      *
      * @param ViewModel $viewModel The view model
@@ -67,44 +80,19 @@ class OrganisationDetailPageController extends AbstractOrganisationController
         ViewModel &$viewModel
     ) {
         $es = $this->serviceLocator->get('elasticsearchsearch');
-        //issue: https://github.com/swissbib/vufind/issues/719
-        //The ElasticSearchSearch Type is responsible for the check if there
-        // are CoContributors available. But this methods returns a result type as
-        //the last expression value which is created via a search engine request
-        //so we can't return just an e.g. empty array expression.
-        //The method responsible for checking the co-authors is implemented as
-        // protected so not usable just out of the box. For me the most reasonable
-        //implementation is to provide an additional helper function on the
-        //ElasticSearch Type to get the number of available CoContributors
-        //so we do not duplicate the code for this
 
-        $sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($this->getOrganisationInfo()->id);
-        //GH: I think we can make this request without the risk of ES searches having
-        //empty parameter values which throws often an exception because
-        //checks if there are genres available
-        if (isset($sameHierarchicalSuperiorOrganisations)) {
-            $viewModel->setVariable(
-                "sameHierarchicalSuperiorOrganisations", $sameHierarchicalSuperiorOrganisations->getResults()
-            );
-            $viewModel->setVariable(
-                "sameHierarchicalSuperiorOrganisationsTotal", $sameHierarchicalSuperiorOrganisations->getResultTotal()
-            );
+        foreach ($this->sameHierarchicalSuperiorOrganisationIds as $superiorOrgId) {
+            $sameHierarchicalSuperiorOrganisations[$superiorOrgId] = $this->getSameHierarchicalSuperiorOrganisations($superiorOrgId);
         }
 
-        /*
-        //GH: same reason as argued for PersonsOfSameGenre - an ES request is
-        //only done if movements are available
-        $organisationOfSameMovement = $this->getOrganisationOfSameMovement($this->driver);
-        if (isset($organisationOfSameMovement)) {
+        if (isset($sameHierarchicalSuperiorOrganisations) && sizeOf($sameHierarchicalSuperiorOrganisations) > 0) {
             $viewModel->setVariable(
-                "organisationOfSameMovement", $organisationOfSameMovement->getResults()
+                "sameHierarchicalSuperiorOrganisations", $sameHierarchicalSuperiorOrganisations
             );
             $viewModel->setVariable(
-                "organisationOfSameMovementTotal",
-                $organisationOfSameMovement->getResultTotal()
+                "sameHierarchicalSuperiorOrganisationsTotal", $this->sameHierarchicalSuperiorOrganisationsTotalCount
             );
         }
-        */
     }
 
     /**

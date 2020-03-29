@@ -43,8 +43,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 abstract class AbstractOrganisationController extends AbstractDetailsController
 {
-    protected $driver;
-    protected $sameHierarchicalSuperiorOrganisations;
+    /*
+     * @var ElasticSearch\VuFind\RecordDriver\ESOrganisation
+     */
+    protected  $driver;
+
+    protected $sameHierarchicalSuperiorOrganisationIds;
+    protected $sameHierarchicalSuperiorOrganisationsTotalCount;
 
     /**
      * DetailPageController constructor.
@@ -70,14 +75,16 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
                 $info->id, $info->index, $info->type
             );
 
-            $this->sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($info->id);
+            $superiorOrgIds = $this->driver->getHierarchicalSuperiorOrganisationIds();
             $viewModel = $this->createViewModel(
                 [
                     "driver" => $this->driver,
-                    "sameHierarchicalSuperiorOrganisations" => $this->sameHierarchicalSuperiorOrganisations,
+                    "sameHierarchicalSuperiorOrganisations" => $superiorOrgIds,
                     "references" => $this->getOrganisationRecordReferencesConfig()
                 ]
             );
+
+            $this->addDataForCarousel($superiorOrgIds);
 
             $this->addData(
                 $viewModel
@@ -96,11 +103,9 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
      */
     protected function getOrganisationInfo(): \stdClass
     {
-        $prefix = 'https://d-nb.info/gnd/';
-        //$prefix = '';
         return (object)[
             'index' => 'lsb', 'type' => 'organisation',
-            'id' => $prefix . $this->params()->fromRoute('id', [])
+            'id' => $this->params()->fromRoute('id', [])
         ];
     }
 
@@ -137,14 +142,16 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
      */
     protected function getSameHierarchicalSuperiorOrganisations(string $id)
     {
-        return $this->serviceLocator->get('elasticsearchsearch')
+        $val =  $this->serviceLocator->get('elasticsearchsearch')
             ->searchElasticSearch(
                 $id,
                 "sameHierarchicalSuperior_organisations",
                 null,
                 "organisation",
                 $this->getConfig()->DetailPage->sameHierarchicalOrganisationsSize
-            )->getResults();
+            );
+        $this->sameHierarchicalSuperiorOrganisationsTotalCount = $val->getResultTotal();
+        return $val->getResults();
     }
 
 

@@ -1,16 +1,16 @@
-<?php if ($this->organisationOfSameGenreTotal > 0): ?>
+<?php if ($this->sameHierarchicalSuperiorOrganisationsTotal > 0): ?>
 <div class="carousel-container">
-    <a id="detailpage-coauthors"></a>
+    <a id="detailpage-sameHierarchicalSuperiorOrganisations"></a>
     <div class="separator"></div>
     <div class="row">
         <div class="col-xs-8">
-            <h2><?= $this->esorganisation()->getSearchResultHeadline('page.detail.authors.coauthors', $this->organisationOfSameGenreTotal, true) ?></h2>
+            <h2><?= $this->esorganisation()->getSearchResultHeadline('page.detail.organisation.sameHierarchicalSuperiorOrganisations', $this->sameHierarchicalSuperiorOrganisationsTotal, true) ?></h2>
         </div>
-        <div class="col-xs-4">
+        <!--div class="col-xs-4">
             <span class="all-results-link">
-                <a href="<?= $this->esorganisation()->getCoauthorsSearchLink() ?>"><?= $this->translate('common.show.results.all') ?></a>
+                <a href="<X?= $this->esorganisation()->getCoauthorsSearchLink() ?>"><X?= $this->translate('common.show.results.all') ?></a>
             </span>
-        </div>
+        </div-->
     </div>
 
     <div class="row">
@@ -20,11 +20,11 @@
                     'id' => 'coauthors',
                     'pagination' => ['xs' => 2, 'sm' => 4, 'md' => 6, 'lg' => 6],
                     'thumbnail' => $this->imageLink('person-placeholder.png'),
-                    'total' => $this->organisationOfSameGenreTotal,
+                    'total' => $this->sameHierarchicalSuperiorOrganisationsTotal,
                     'templates' => [
                         'ajax' => $this->ajax([
-                            'method' => 'getCoAuthors',
-                            'person' => $this->page.detail.authors.coauthors()->escapeUrl($this->driver->getUniqueId()),
+                            'method' => 'getSameHierarchicalSuperiorOrganisations',
+                            'organisation' => $this->esorganisation()->escapeUrl($this->driver->getUniqueId()),
                             'page' => '{page}',
                             'size' => '{size}'
                         ], '{}'),
