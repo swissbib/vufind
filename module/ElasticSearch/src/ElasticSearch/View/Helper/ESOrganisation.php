@@ -453,20 +453,6 @@ class ESOrganisation extends AbstractHelper
     }
 
     /**
-     * Gets the RelatedMediasLink
-     *
-     * @param string $template The template
-     *
-     * @return string
-     */
-    public function getMoreMediasLink(string $template): string
-    {
-        return $this->getMediaSearchLink(
-            $template, $this->getMoreMediasLabel()
-        );
-    }
-
-    /**
      * Gets the NotableWork
      *
      * @param string $delimiter The notable work item delimiter to join all items
@@ -660,6 +646,16 @@ class ESOrganisation extends AbstractHelper
     }
 
     /**
+     * Provides the superior organisation ids.
+     *
+     * @return string|null
+     */
+    public function getHierarchicalSuperiorOrganisationIds()
+    {
+        return $this->getOrganisation()->getHierarchicalSuperiorOrganisationIds();
+    }
+
+    /**
      * Gets the DetailPageLinkLabel
      *
      * @return string
@@ -672,32 +668,54 @@ class ESOrganisation extends AbstractHelper
     }
 
     /**
+     * Gets the RelatedMediasLink
+     *
+     * @param string $template The template
+     *
+     * @return string
+     */
+    /*
+    public function getMoreMediasLink(string $template): string
+    {
+        return $this->getMediaSearchLink(
+            $template, $this->getMoreMediasLabel()
+        );
+    }
+     */
+
+    /**
      * Provides a link to the search for coauthors of the underlying person record.
      *
      * @return string
      */
+    /*
     public function getCoauthorsSearchLink(): string
     {
         return $this->getPersonSearchLink('coauthor', 'getUniqueID');
     }
+    */
 
     /**
      * Provides a link to the search for authors of the same movement.
      *
      * @return string
      */
+    /*
     public function getSameMovementSearchLink(): string
     {
         return $this->getPersonSearchLink('samemovement', 'getMovement');
     }
+    */
 
     /**
      * Provides a link to the search for authors of the same genre.
      *
      * @return string
      */
+    /*
     public function getSameGenreSearchLink(): string
     {
         return $this->getPersonSearchLink('samegenre', 'getGenre');
     }
+    */
 }

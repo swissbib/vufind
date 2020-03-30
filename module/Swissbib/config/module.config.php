@@ -739,6 +739,7 @@ return [
                     'Swissbib\AjaxHandler\GetSubjectAuthors'          => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
                     'Swissbib\AjaxHandler\GetOrganisations'           => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
                     \Swissbib\AjaxHandler\GetACSuggestions::class     => \VuFind\AjaxHandler\GetACSuggestionsFactory::class,
+                    'Swissbib\AjaxHandler\GetSameHierarchicalSuperiorOrganisations' => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
                 ],
                 'aliases' =>  [
                     'getSubjects'                 => 'Swissbib\AjaxHandler\GetSubjects',
@@ -749,6 +750,7 @@ return [
                     'getSameMovementAuthors'      => 'Swissbib\AjaxHandler\GetSameMovementAuthors',
                     'getSubjectAuthors'           => 'Swissbib\AjaxHandler\GetSubjectAuthors',
                     'getOrganisations'            => 'Swissbib\AjaxHandler\GetOrganisations',
+                    'getSameHierarchicalSuperiorOrganisations' => 'Swissbib\AjaxHandler\GetSameHierarchicalSuperiorOrganisations',
                     'getACSuggestions'            => \Swissbib\AjaxHandler\GetACSuggestions::class,
                 ]
             ],

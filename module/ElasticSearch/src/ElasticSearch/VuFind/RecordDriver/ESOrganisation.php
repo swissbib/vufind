@@ -288,6 +288,27 @@ class ESOrganisation extends ElasticSearch
     }
 
     /**
+     * Gets the HierarchicalSuperiorOrganisation ids
+     *
+     * @return array|null
+     */
+    public function  getHierarchicalSuperiorOrganisationIds()
+    {
+        $ids = null;
+        $total = null;
+        $supOrgsFields = ['gnd:hierarchicalSuperiorOfTheConferenceOrEvent','gnd:hierarchicalSuperiorOfTheCorporateBody'];
+        foreach ($supOrgsFields as $supOrgsField) {
+            if (array_key_exists($supOrgsField, $this->fields["_source"])) {
+                $supOrgs = $this->fields["_source"][$supOrgsField];
+                foreach ($supOrgs as $id) {
+                    $ids[] = $id['@id'];
+                }
+            }
+        }
+        return implode(",", $ids);
+    }
+
+    /**
      * Gets the corporateBodyIsMember
      *
      * @return array|null

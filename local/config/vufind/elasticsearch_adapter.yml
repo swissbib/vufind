@@ -186,6 +186,21 @@ parameters:
           # This is required to avoid search for the last digit only "-[09]"
           operator: 'and'
 
+    sameHierarchicalSuperior_organisations:
+      type:
+        - 'organisation'
+      index:
+        - 'lsb'
+      size: '{size}'
+      from: '{from}'
+      query:
+        multi_match:
+          query: '{q}'
+          # Should rather be an Array but is not parsed correctly at ElasticsearchAdapter/Query/TemplateQuery.php:241
+          fields: 'gnd:hierarchicalSuperiorOfTheCorporateBody.@id,gnd:hierarchicalSuperiorOfTheConferenceOrEvent.@id'
+          # This is required to avoid search for the last digit only "-[09]"
+          operator: 'and'
+
     bibliographicResources_by_author:
       type: 'bibliographicResource'
       index: 'lsb'
