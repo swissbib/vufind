@@ -211,4 +211,14 @@ trait AjaxTrait
         );
         return $specBuilder->getArray();
     }
+
+    /**
+     * Get the spec for organisation pagination
+     *
+     * @return array
+     */
+    protected function getOrganisationPaginationSpec(): array
+    {
+        return $this->getAuthorPaginationSpec();
+    }
 }

@@ -140,11 +140,11 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
      *
      * @return array
      */
-    protected function getSameHierarchicalSuperiorOrganisations(string $id)
+    protected function getSameHierarchicalSuperiorOrganisations(string $ids)
     {
         $val =  $this->serviceLocator->get('elasticsearchsearch')
             ->searchElasticSearch(
-                $id,
+                $ids,
                 "sameHierarchicalSuperior_organisations",
                 null,
                 "organisation",

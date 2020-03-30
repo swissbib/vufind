@@ -70,31 +70,26 @@ class GetSameHierarchicalSuperiorOrganisations extends VFAjax implements AjaxHan
      */
     public function handleRequest(Params $params)
     {
-        $x = 0;
-        //$genre = $this->getRequest()->getQuery()['genre'] ?? "";
-        //$genre =  urldecode($genre);
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
         $pageSize = $this->getRequest()->getQuery()['size'] ??
-            $this->getConfig()->DetailPage->sameGenreAuthorsSize;
-
-        foreach ($this->sameHierarchicalSuperiorOrganisationIds as $superiorOrgId) {
-            $sameHierarchicalSuperiorOrganisations[$superiorOrgId] = $this->getSameHierarchicalSuperiorOrganisations($superiorOrgId, $page, $pageSize);
-        }
-
-        $response = $this->buildResponse($sameHierarchicalSuperiorOrganisations, $this->getAuthorPaginationSpec());
+            $this->getConfig()->DetailPage->sameHierarchicalOrganisationsSize;
+        $sameHierarchicalSuperiorOrganisationIds = $this->getRequest()->getQuery()['superiorOrgIds'];
+        $sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($sameHierarchicalSuperiorOrganisationIds, $page, $pageSize);
+        $response = $this->buildResponse($sameHierarchicalSuperiorOrganisations, $this->getOrganisationPaginationSpec());
         return $this->formatResponse($response->getContent());
     }
 
-    private function getSameHierarchicalSuperiorOrganisations($superiorOrgId, $page, $pageSize)
+    private function getSameHierarchicalSuperiorOrganisations($superiorOrgIds, $page, $pageSize)
     {
-        $authors = $this->serviceLocator->get('elasticsearchsearch')
+        $orgs = $this->serviceLocator->get('elasticsearchsearch')
             ->searchElasticSearch(
-                $superiorOrgId,
+                $superiorOrgIds,
                 "sameHierarchicalSuperior_organisations",
                 null,
                 null,
                 $pageSize,
                 $page ?? 1
             )->getResults();
+        return $orgs;
     }
 }

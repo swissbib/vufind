@@ -79,11 +79,7 @@ class OrganisationDetailPageController extends AbstractOrganisationController
     protected function addData(
         ViewModel &$viewModel
     ) {
-        $es = $this->serviceLocator->get('elasticsearchsearch');
-
-        foreach ($this->sameHierarchicalSuperiorOrganisationIds as $superiorOrgId) {
-            $sameHierarchicalSuperiorOrganisations[$superiorOrgId] = $this->getSameHierarchicalSuperiorOrganisations($superiorOrgId);
-        }
+        $sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($this->sameHierarchicalSuperiorOrganisationIds);
 
         if (isset($sameHierarchicalSuperiorOrganisations) && sizeOf($sameHierarchicalSuperiorOrganisations) > 0) {
             $viewModel->setVariable(
