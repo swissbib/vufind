@@ -66,7 +66,7 @@ class OrganisationDetailPageController extends AbstractOrganisationController
     protected function addData(
         ViewModel &$viewModel
     ) {
-        $sameHierarchicalSuperiorOrganisations = $this->sameHierarchicalSuperiorOrganisationIds;
+        $sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($this->sameHierarchicalSuperiorOrganisationIds);
         if (!isset($sameHierarchicalSuperiorOrganisations)) {
             $sameHierarchicalSuperiorOrganisations = '';
         }
