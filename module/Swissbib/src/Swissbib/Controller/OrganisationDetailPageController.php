@@ -66,7 +66,10 @@ class OrganisationDetailPageController extends AbstractOrganisationController
     protected function addData(
         ViewModel &$viewModel
     ) {
-        $sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($this->sameHierarchicalSuperiorOrganisationIds);
+        $sameHierarchicalSuperiorOrganisations = $this->sameHierarchicalSuperiorOrganisationIds;
+        if (!isset($sameHierarchicalSuperiorOrganisations)) {
+            $sameHierarchicalSuperiorOrganisations = '';
+        }
 
         if (isset($sameHierarchicalSuperiorOrganisations) && sizeOf($sameHierarchicalSuperiorOrganisations) > 0) {
             $viewModel->setVariable(
@@ -92,23 +95,6 @@ class OrganisationDetailPageController extends AbstractOrganisationController
         }
         return [];
     }
-
-    /**
-     * Adds co contributors of author
-     *
-     * @param string $id The id
-     *
-     * @return Results
-     */
-    /*
-    protected function getCoContributors(string $id): Results
-    {
-        return $this->serviceLocator->get('elasticsearchsearch')
-            ->searchCoContributorsFrom(
-                $this->bibliographicResources, $id, $this->config->coAuthorsSize
-            );
-    }
-    */
 
     /**
      * Adds organisation of same genre as author
