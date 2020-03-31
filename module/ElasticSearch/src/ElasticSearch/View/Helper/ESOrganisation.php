@@ -656,7 +656,19 @@ class ESOrganisation extends AbstractHelper
     }
 
     /**
-     * Gets the DetailPageLinkLabel
+     * Gets the SuperiorOrganisationsSearchLink
+     *
+     * @return string
+     */
+    public function getSuperiorOrganisationsSearchLink()
+    {
+        return $this->resolveLabelWithDisplayName(
+            'organisation.superiororganisation.link'
+        );
+    }
+
+    /**
+     * Gets the  DetailPageLinkLabel
      *
      * @return string
      */
@@ -674,48 +686,10 @@ class ESOrganisation extends AbstractHelper
      *
      * @return string
      */
-    /*
     public function getMoreMediasLink(string $template): string
     {
         return $this->getMediaSearchLink(
             $template, $this->getMoreMediasLabel()
         );
     }
-     */
-
-    /**
-     * Provides a link to the search for coauthors of the underlying person record.
-     *
-     * @return string
-     */
-    /*
-    public function getCoauthorsSearchLink(): string
-    {
-        return $this->getPersonSearchLink('coauthor', 'getUniqueID');
-    }
-    */
-
-    /**
-     * Provides a link to the search for authors of the same movement.
-     *
-     * @return string
-     */
-    /*
-    public function getSameMovementSearchLink(): string
-    {
-        return $this->getPersonSearchLink('samemovement', 'getMovement');
-    }
-    */
-
-    /**
-     * Provides a link to the search for authors of the same genre.
-     *
-     * @return string
-     */
-    /*
-    public function getSameGenreSearchLink(): string
-    {
-        return $this->getPersonSearchLink('samegenre', 'getGenre');
-    }
-    */
 }

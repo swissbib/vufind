@@ -31,6 +31,7 @@ use Swissbib\Util\Config\FlatArrayConverter;
 use Swissbib\Util\Config\ValueConverter;
 use Zend\Config\Config as ZendConfig;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\Model\ViewModel;
 
 /**
  * Class AbstractOrganisationAction
@@ -154,5 +155,17 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
         return $val->getResults();
     }
 
+    /**
+     * Adds additional data
+     *
+     * @param ViewModel $viewModel necessary ids
+     *
+     * @return void
+     */
+    protected function addDataForCarousel(
+        $sameHierarchicalSuperiorOrganisationIds
+    ) {
+        $this->sameHierarchicalSuperiorOrganisationIds = $sameHierarchicalSuperiorOrganisationIds;
+    }
 
 }

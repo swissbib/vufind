@@ -57,19 +57,6 @@ class OrganisationDetailPageController extends AbstractOrganisationController
     }
 
     /**
-     * Adds additional data
-     *
-     * @param ViewModel $viewModel necessary ids
-     *
-     * @return void
-     */
-    protected function addDataForCarousel(
-        $sameHierarchicalSuperiorOrganisationIds
-    ) {
-        $this->sameHierarchicalSuperiorOrganisationIds = $sameHierarchicalSuperiorOrganisationIds;
-    }
-
-    /**
      * Adds additional data to view model
      *
      * @param ViewModel $viewModel The view model
