@@ -149,7 +149,9 @@ class ESOrganisation extends ElasticSearch
      */
     public function getAlternateName()
     {
-        return $this->getField('alternateName', 'schema');
+        $val = $this->getField('alternateName', 'schema');
+        $val = implode(",", $val);
+        return $val;
     }
 
     /**
@@ -172,7 +174,7 @@ class ESOrganisation extends ElasticSearch
     {
         $val = $this->getField('dateOfEstablishment', 'gnd');
         if (!isset($val)) {
-            $val = $this->getField('P571', 'wdt');
+            $val =  $this->formatDate($this->getField('P571', 'wdt'));
         }
         return $val;
     }
@@ -434,7 +436,7 @@ class ESOrganisation extends ElasticSearch
      *
      * @return array|null
      */
-    public function getbiographicalOrHistoricalInformation()
+    public function getBiographicalOrHistoricalInformation()
     {
         $val1 = $this->getField('biographicalOrHistoricalInformation', 'gnd');
         $val2 = $this->getField('definition', 'gnd');

@@ -2,7 +2,7 @@
 <?php $template = '/detailpage/common/reference.phtml' ?>
 <?php if ($this->esorganisation()->hasMatchingRecordReferences($configuredReferences)): ?>
 <div class="record-references <?= $this->visibility ?>">
-    <h1 class="title"><?= $this->translate('page.detail.person.more') ?></h1>
+    <h1 class="title"><?= $this->translate('page.detail.organisation.more') ?></h1>
     <button class="accordion-collapse icon-arrow-accordion hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-section-references-<?= $this->index ?>"></button>
     <div class="list">
         <ul id="detailpage-section-references-<?= $this->index ?>">

@@ -1,4 +1,2 @@
 <?= $this->render('/detailpage/common/metadata/list.phtml',
     ['list' => $this->esorganisation()->getMetadata()->getList('abbreviatedNameForTheCorporateBody', 'alternateName', 'temporaryNameOfTheCorporateBody', 'temporaryNameOfTheConferenceOrEvent', 'dateOfEstablishment', 'dateOfTermination', 'dateOfConferenceOrEvent', 'location', 'country', 'description', 'legalForm', 'directorManager', 'biographicalOrHistoricalInformation', 'genre', 'notableWork', 'inception', 'dissolvedAbolishedDemolished', 'precedingCorporateBody', 'precedingConferenceOrEvent', 'succeedingCorporateBody', 'succeedingConferenceOrEvent', 'hierarchicalSuperiorOfTheCorporateBody', 'hierarchicalSuperiorOfTheConferenceOrEvent', 'relatedCorporateBody', 'relatedConferenceOrEvent', 'corporateBodyIsMember')]) ?>
-
-<?= $this->render('common/metadata/abstract.phtml') ?>

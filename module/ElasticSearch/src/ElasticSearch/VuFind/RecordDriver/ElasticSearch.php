@@ -160,7 +160,9 @@ abstract class ElasticSearch extends AbstractBase
      */
     protected function localizedArrayToString(array $values, string $delimiter = ', ') {
         $value = $this->getArrayOfValuesByLanguagePriority($values);
-        return implode($delimiter, $value);
+        $value =  implode($delimiter, $value);
+        if ($value == '') $value = null;
+        return $value;
     }
 
     /**
@@ -292,7 +294,10 @@ abstract class ElasticSearch extends AbstractBase
         //multiple GND identifiers are present, we only keep the
         //most recent which is in the gnd:gndIdentifier field
         if (is_array($sameAs)) {
-            return array_filter($sameAs, [$this, 'isObsoleteGndId']);
+            $uris = array_filter($sameAs, [$this, 'isObsoleteGndId']);
+            // remove URI which are the same except for the protocol (http/https)
+            $uris = $this->removeDuplicateUrisWithDifferentProtocol($uris);
+            return $uris;
         }
         return null;
     }
@@ -329,8 +334,42 @@ abstract class ElasticSearch extends AbstractBase
      */
     protected function isGndUri(string $uri)
     {
-        $gndRegExp = "/^https{0,1}:\\/\\/d-nb.info\\/gnd\\/.*$/";
+        $gndRegExp = "/^(https{0,1}|http{0,1}):\\/\\/d-nb.info\\/gnd\\/.*$/";
         return preg_match($gndRegExp, $uri) === 1 ? true : false;
+    }
+
+    /**
+     * Remove URIs which are duplicates but with just another protocol
+     *
+     * @param array $allUris array of URIs
+     *
+     * @return bool
+     */
+    protected function removeDuplicateUrisWithDifferentProtocol($uris)
+    {
+        $filteredUris = [];
+        $urisWithoutProtocol = array_map([$this, removeProtocolFromUri], $uris);
+        $urisWithoutProtocol = array_unique($urisWithoutProtocol);
+        foreach ($uris as $index => $uri) {
+            $uriWithoutProtocol = substr($uri, strrpos($uri, '://') + 3);
+            if (in_array($uriWithoutProtocol, $urisWithoutProtocol)) {
+                array_push($filteredUris, $uri);
+                unset($urisWithoutProtocol[$index]);
+            }
+        }
+        return $filteredUris;
+   }
+
+    /**
+     * remove Protocol From Uri
+     *
+     * @param string $uri The uri
+     *
+     * @return bool
+     */
+    protected function removeProtocolFromUri(string $uri)
+    {
+        return substr($uri, strrpos($uri, '://') + 3);
     }
 
 }

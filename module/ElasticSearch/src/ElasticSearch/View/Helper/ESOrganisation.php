@@ -157,57 +157,6 @@ class ESOrganisation extends AbstractHelper
     }
 
     /**
-     * Has Abstract
-     *
-     * @return bool
-     */
-    public function hasAbstract()
-    {
-        return null !== $this->getOrganisation()->getAbstract();
-    }
-
-    /**
-     * Gets the AbstractInfo
-     *
-     * @param bool $countWords Indicates whether $splitPoint expresses the number of
-     *                         words (true) or characters (false) after which
-     *                         truncation has to be performed.
-     * @param int  ...$limits  Indicates after how many words (or characters) to
-     *                         split. Can be any number of integer values. If not
-     *                         specified then the default split point will be at 30
-     *                         characters/words.
-     *
-     * @return \stdClass
-     */
-    public function getAbstractInfo(bool $countWords = true, ...$limits)
-    {
-        $info = null;
-
-        if ($this->hasAbstract()) {
-            $limits = count($limits) === 0 ? [30] : $limits;
-
-            $abstract = $this->getPerson()->getAbstract();
-            // ignore surrounding whitespace at all
-            $abstract = trim($abstract);
-
-            $splitter = new Splitter($countWords);
-            $info = count($limits) === 1
-                ? $splitter->split($abstract, $limits[0])
-                : $splitter->splitMultiple($abstract, ...$limits);
-
-            $info->label = $this->getView()->translate('organisation.metadata.abstract');
-
-            $info->text = $this->escape($info->text);
-
-            if ($info->truncated) {
-                $info->overflow = $this->escape($info->overflow);
-            }
-        }
-
-        return $info;
-    }
-
-    /**
      * Gets the DateOfEstablishment
      *
      * @return null|string
@@ -610,6 +559,16 @@ class ESOrganisation extends AbstractHelper
     }
 
     /**
+     * Has AlternateName
+     *
+     * @return bool
+     */
+    public function hasAlternateName()
+    {
+        return null !== $this->getOrganisation()->getAlternateName();
+    }
+
+    /**
      * Provides the alternate names for the underlying organisation.
      *
      * @param string $delimiter The delimiter to join multiple values with.
@@ -619,6 +578,46 @@ class ESOrganisation extends AbstractHelper
     public function getAlternateName(string $delimiter = ', ')
     {
         return $this->fieldToString('alternateName', $delimiter);
+    }
+
+    /**
+     * Provides the alternate names for the underlying organisation.
+     *
+     * @param bool $countWords Indicates whether $splitPoint expresses the number of
+     *                         words (true) or characters (false) after which
+     *                         truncation has to be performed.
+     * @param int  ...$limits  Indicates after how many words (or characters) to
+     *                         split. Can be any number of integer values. If not
+     *                         specified then the default split point will be at 30
+     *                         characters/words.
+     *
+     * @return string|null
+     */
+    public function getAlternateNameInfo(bool $countWords = true, ...$limits)
+    {
+        $info = null;
+
+        if ($this->hasAlternateName()) {
+            $limits = count($limits) === 0 ? [30] : $limits;
+
+            $abstract = $this->getOrganisation()->getAlternateName();
+            // ignore surrounding whitespace at all
+            $abstract = trim($abstract);
+
+            $splitter = new Splitter($countWords);
+            $info = count($limits) === 1
+                ? $splitter->split($abstract, $limits[0])
+                : $splitter->splitMultiple($abstract, ...$limits);
+
+            $info->label = $this->getView()->translate('organisation.metadata.alternateName');
+            $info->text = $this->escape($info->text);
+
+            if ($info->truncated) {
+                $info->overflow = $this->escape($info->overflow);
+            }
+        }
+
+        return $info;
     }
 
     /**

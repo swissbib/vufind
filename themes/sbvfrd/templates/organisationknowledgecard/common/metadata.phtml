@@ -4,8 +4,6 @@
     )
     ?>
 
-    <?= $this->render('common/metadata/abstract.phtml') ?>
-
     <?php if ($this->essubjectcollection()->hasSubjectsInCollection()): ?>
         <li class="entry section-start">
             <span class="entry-label"><?= $this->esorganisation()->getRelatedSubjectsLabel(); ?></span>

@@ -1,0 +1,9 @@
+<?php if ($this->esorganisation()->hasAlternateName()): ?>
+    <?php $alternateName = $this->esorganisation()->getAlternateName(true, 30); ?>
+    <span class="entry-label"><?= $alternateName->label ?></span>
+    <span class="entry-value"><?= $alternateName->text ?></span>
+    <?php if ($alternateName->truncated): ?>
+        <?= $this->esorganisation()->getDetailPageLink('<a class="ref external more" href="%s">%s</a>', 'common.more') ?>
+    <?php endif; ?>
+    </li>
+<?php endif; ?>
