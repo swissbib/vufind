@@ -309,6 +309,17 @@ return [
                     ]
                 ]
             ],
+            'organisations-search-hierarchicalsuperiors' => [
+                'type'    => 'segment',
+                'options' => [
+                    'route'    => '/Search/Organisations/HierarchicalSuperiors/:id', 'constraints' => [
+                        'id' => '[0-9A-Z\--{}]+',
+                    ], 'defaults' => [
+                        'controller' => 'organisation-search',
+                        'action'     => 'hierarchicalsuperiors'
+                    ]
+                ]
+            ],
         ]
     ],
     'console' => [
@@ -429,6 +440,7 @@ return [
             'organisation-detail-page'               => 'Swissbib\Controller\Factory::getOrganisationDetailPageController',
             'subject-detail-page'                    => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
             'person-search'                          => 'Swissbib\Controller\Factory::getPersonSearchController',
+            'organisation-search'                    => 'Swissbib\Controller\Factory::getOrganisationSearchController',
             'Swissbib\Controller\ShibtestController' => 'Zend\ServiceManager\Factory\InvokableFactory',
         ],
         'aliases' => [

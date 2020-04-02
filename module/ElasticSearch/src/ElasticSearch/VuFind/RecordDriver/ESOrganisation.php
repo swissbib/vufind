@@ -292,7 +292,7 @@ class ESOrganisation extends ElasticSearch
      *
      * @return array|null
      */
-    public function  getHierarchicalSuperiorOrganisationIds()
+    public function getHierarchicalSuperiorOrganisationIds()
     {
         $ids = null;
         $total = null;

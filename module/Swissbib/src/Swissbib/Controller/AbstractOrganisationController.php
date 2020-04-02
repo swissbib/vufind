@@ -168,4 +168,16 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
         $this->sameHierarchicalSuperiorOrganisationIds = $sameHierarchicalSuperiorOrganisationIds;
     }
 
+    /**
+     * Adds additional data to view model
+     *
+     * @param ViewModel $viewModel The view model
+     *
+     * @return void
+     */
+    protected function addData(
+        ViewModel &$viewModel
+    ) {
+        // Not used right now
+    }
 }

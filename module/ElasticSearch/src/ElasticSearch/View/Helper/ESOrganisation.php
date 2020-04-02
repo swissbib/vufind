@@ -662,9 +662,9 @@ class ESOrganisation extends AbstractHelper
      */
     public function getSuperiorOrganisationsSearchLink()
     {
-        return $this->resolveLabelWithDisplayName(
-            'organisation.superiororganisation.link'
-        );
+        $route = 'organisations-search-hierarchicalsuperiors';
+        $url = $this->getView()->url($route, ['id' => $this->getOrganisation()->getUniqueID()]);
+        return $url;
     }
 
     /**

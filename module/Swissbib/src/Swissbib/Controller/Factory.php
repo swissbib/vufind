@@ -169,6 +169,18 @@ class Factory extends AbstractBaseFactory
     }
 
     /**
+     * Get Organisation Search Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\OrganisationSearchController
+     */
+    public static function getOrganisationSearchController(ServiceManager $sm)
+    {
+        return new OrganisationSearchController($sm);
+    }
+
+    /**
      * Get Subject Detail Page Controller
      *
      * @param \Zend\ServiceManager\ServiceManager $sm Service manager
