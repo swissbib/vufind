@@ -66,6 +66,11 @@ class OrganisationDetailPageController extends AbstractOrganisationController
     protected function addData(
         ViewModel &$viewModel
     ) {
+        $medias = $this->solrsearch()->getMedias(
+            "Author", $this->driver, $this->config->mediaLimit
+        );
+        $viewModel->setVariable("medias", $medias);
+
         if (!isset($this->sameHierarchicalSuperiorOrganisationIds)) {
             $sameHierarchicalSuperiorOrganisations = '';
         }

@@ -60,6 +60,7 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
     public function __construct(ServiceLocatorInterface $sm)
     {
         parent::__construct($sm);
+        $this->config = $this->getConfig()->DetailPage;
     }
 
     /**
