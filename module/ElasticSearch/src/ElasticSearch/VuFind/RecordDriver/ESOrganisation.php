@@ -398,16 +398,6 @@ class ESOrganisation extends ElasticSearch
     }
 
     /**
-     * Gets the Inception
-     *
-     * @return array|null
-     */
-    public function getInception()
-    {
-        return $this->formatDate($this->getField('P571', 'wdt'));
-    }
-
-    /**
      * Gets the DissolvedAbolishedDemolished
      *
      * @return array|null

@@ -83,7 +83,6 @@ class ESOrganisation extends AbstractHelper
             'directorManager'                       => 'getDirectorManager',
             'genre'                                 => 'getGenre',
             'notableWork'                           => 'getNotableWork',
-            'inception'                             => 'getInception',
             'description'                           => 'getDescription',
             'dissolvedAbolishedDemolished'          => 'getDissolvedAbolishedDemolished',
             'hierarchicalSuperiorOfTheCorporateBody'        => 'getHierarchicalSuperiorOfTheCorporateBody',
@@ -345,16 +344,6 @@ class ESOrganisation extends AbstractHelper
     public function getNotableWork()
     {
         return $this->getOrganisation()->getNotableWork();
-    }
-
-    /**
-     * Gets the notable works
-     *
-     * @return null|string
-     */
-    public function getInception()
-    {
-        return $this->getOrganisation()->getInception();
     }
 
     /**
