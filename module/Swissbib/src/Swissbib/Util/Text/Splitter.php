@@ -128,7 +128,8 @@ class Splitter
         $numSplitPoints = count($splitPoints);
         $result = $this->createEmptySplitResult();
 
-        if ($numSplitPoints === 0 || $splitPoints[0] <= strlen($text)) {
+        //if ($numSplitPoints === 0 || $splitPoints[0] <= strlen($text)) {
+        if ($numSplitPoints === 0) {
             $result->text = $text;
         } else {
             // extend split points by text length for proper sequence calculation

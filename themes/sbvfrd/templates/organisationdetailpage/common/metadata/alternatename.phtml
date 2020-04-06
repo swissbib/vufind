@@ -1,9 +1,12 @@
 <?php if ($this->esorganisation()->hasAlternateName()): ?>
-    <?php $alternateName = $this->esorganisation()->getAlternateName(true, 30); ?>
-    <span class="entry-label"><?= $alternateName->label ?></span>
-    <span class="entry-value"><?= $alternateName->text ?></span>
-    <?php if ($alternateName->truncated): ?>
-        <?= $this->esorganisation()->getDetailPageLink('<a class="ref external more" href="%s">%s</a>', 'common.more') ?>
-    <?php endif; ?>
-    </li>
+    <?php $alternateName = $this->esorganisation()->getAlternateNameInfo(false, 100, 2000); ?>
+    <div class="row metadata">
+        <div class="col-sm-3"><?= $alternateName->label ?></div>
+        <div class="col-sm-9">
+            <span class="abstract-text"><?= $alternateName->text ?></span>
+            <?php if ($alternateName->truncated): ?>
+                <?= $this->render('/organisationdetailpage/common/metadata/alternatename-overflow.phtml', ['overflow' => $alternateName->overflow]) ?>
+            <?php endif; ?>
+        </div>
+    </div>
 <?php endif; ?>
