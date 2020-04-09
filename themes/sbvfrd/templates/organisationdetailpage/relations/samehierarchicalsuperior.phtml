@@ -1,10 +1,10 @@
-<?php if ($this->sameHierarchicalSuperiorOrganisationsTotal > 0): ?>
+<?php if ($this->sameHierarchicalSuperiorOrganisationsTotal > 1): ?>
 <div class="carousel-container">
     <a id="detailpage-sameHierarchicalSuperiorOrganisations"></a>
     <div class="separator"></div>
     <div class="row">
         <div class="col-xs-8">
-            <h2><?= $this->esorganisation()->getSearchResultHeadline('page.detail.organisation.sameHierarchicalSuperiorOrganisations', $this->sameHierarchicalSuperiorOrganisationsTotal, true) ?></h2>
+            <h2><?= $this->esorganisation()->getSearchResultHeadline('page.detail.organisation.sameHierarchicalSuperiorOrganisations', $this->sameHierarchicalSuperiorOrganisationsTotal-1, true) ?></h2>
         </div>
         <div class="col-xs-4">
             <span class="all-results-link">
@@ -16,7 +16,6 @@
     <div class="row">
         <div class="col-xs-12">
             <?php
-            $superiorOrgIds = $this->esorganisation()->escapeUrl($this->driver->getHierarchicalSuperiorOrganisationIds());
             $superiorOrgIds = $this->esorganisation()->getHierarchicalSuperiorOrganisationIds();
             ?>
             <?= $this->render(
@@ -24,12 +23,13 @@
                     'id' => 'sameHierarchicalSuperiorOrganisations',
                     'pagination' => ['xs' => 2, 'sm' => 4, 'md' => 6, 'lg' => 6],
                     'thumbnail' => $this->imageLink('organisation-placeholder.png'),
-                    'total' => $this->sameHierarchicalSuperiorOrganisationsTotal,
+                    'total' => $this->sameHierarchicalSuperiorOrganisationsTotal-1,
                     'superiorOrgIds' => $superiorOrgIds,
                     'templates' => [
                         'ajax' => $this->ajax([
                             'method' => 'getSameHierarchicalSuperiorOrganisations',
                             'superiorOrgIds' => $superiorOrgIds,
+                            'organisationId' => $this->esorganisation()->getOrganisation()->getUniqueId(),
                             'page' => '{page}',
                             'size' => '{size}'
                         ], '{}'),

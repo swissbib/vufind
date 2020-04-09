@@ -73,10 +73,16 @@ class GetSameHierarchicalSuperiorOrganisations extends VFAjax implements AjaxHan
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
         $pageSize = $this->getRequest()->getQuery()['size'] ??
             $this->getConfig()->DetailPage->sameHierarchicalOrganisationsSize;
+        $organisationId = $this->getRequest()->getQuery()['organisationId'];
         $sameHierarchicalSuperiorOrganisationIds = $this->getRequest()->getQuery()['superiorOrgIds'];
         $sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($sameHierarchicalSuperiorOrganisationIds, $page, $pageSize);
         $response = $this->buildResponse($sameHierarchicalSuperiorOrganisations, $this->getOrganisationPaginationSpec());
-        return $this->formatResponse($response->getContent());
+        // filter out own ID
+        $response = $response->getContent();
+        $r = array_filter($response, function($data) use ($organisationId) {
+            return $data['id'] != $organisationId;
+        });
+        return $this->formatResponse($r);
     }
 
     private function getSameHierarchicalSuperiorOrganisations($superiorOrgIds, $page, $pageSize)
