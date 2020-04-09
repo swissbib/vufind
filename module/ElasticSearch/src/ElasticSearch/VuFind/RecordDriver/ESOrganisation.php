@@ -150,7 +150,7 @@ class ESOrganisation extends ElasticSearch
     public function getAlternateName()
     {
         $val = $this->getField('alternateName', 'schema');
-        $val = implode(",", $val);
+        $val = implode(", ", $val);
         return $val;
     }
 
