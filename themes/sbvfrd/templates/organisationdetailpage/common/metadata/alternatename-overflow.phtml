@@ -1,0 +1,4 @@
+<?php foreach($this->overflow as $overflow): ?>
+    <span class="abstract-overflow hidden"><?= $overflow ?></span>
+<?php endforeach; ?>
+<?= $this->esorganisation()->getDetailPageLink('<a class="abstract-overflow-more ref external more" href="%s">%s</a>', 'common.more') ?>

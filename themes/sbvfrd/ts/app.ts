@@ -18,7 +18,7 @@ $(document).ready(() => {
     const recordRenderer = new RecordRenderer(window.location.origin + VuFind.path + "/AJAX/Json");
     const recordIdEl: HTMLInputElement = $("input#record_id")[0] as HTMLInputElement;
     const contributorsList: HTMLElement = $(".sidebar .list-group.author")[0];
-    const contributorsTemplate: any = (p: any) => {
+    const authorContributorsTemplate: any = (p: any) => {
         if (!p.name) {
             return "";
         }
@@ -26,16 +26,29 @@ $(document).ready(() => {
 <span ${ p.hasSufficientData === "1" ? ' class="fa icon-info fa-lg"' : "" } style="display: inline;"
 authorid="${p.id}"></span></a></li>`;
     };
-
+    const organisationContributorsTemplate: any = (p: any) => {
+        if (!p.name) {
+            return "";
+        }
+        return `<li class="list-group-item"><a href="${VuFind.path}/Search/Results?lookfor=%22${p.name}%22&amp;type=Author" title="${p.name}">${p.name}</a><a href="${VuFind.path}/Card/Knowledge/Organisation/${p.id}" data-lightbox>
+<span ${ p.hasSufficientData === "1" ? ' class="fa icon-info fa-lg"' : "" } style="display: inline;"
+authorid="${p.id}"></span></a></li>`;
+    };
     const subjects: JQuery<HTMLElement> = $(".subject [subjectid]");
     const subjectsTemplate: any = (s: any) => {
         return `<a href="${VuFind.path}/Card/Knowledge/Subject/${s.id}" data-lightbox>
 <span ${ s.hasSufficientData === "1" ? ' class="fa icon-info fa-lg"' : "" } style="display: inline;"</span></a>`;
     };
     if (recordIdEl) {
-        recordRenderer.renderContributors(recordIdEl.value, contributorsTemplate, contributorsList)
+        recordRenderer.renderContributors(recordIdEl.value, 'author', authorContributorsTemplate, contributorsList)
             .then(() => {
-                $(contributorsList).parent("div").toggleClass("hidden");
+                $(contributorsList).parent("div").removeClass("hidden");
+                // TODO Required to bind lightbox. Is this the correct way?
+                VuFind.lightbox.init();
+            });
+        recordRenderer.renderContributors(recordIdEl.value, 'organisation', organisationContributorsTemplate, contributorsList)
+            .then(() => {
+                $(contributorsList).parent("div").removeClass("hidden");
                 // TODO Required to bind lightbox. Is this the correct way?
                 VuFind.lightbox.init();
             });

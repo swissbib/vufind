@@ -99,6 +99,7 @@ class ESSubjectTest extends VuFindTestCase
                 ]
             ];
 
+
         $cut->setRawData($data);
         $actual = $cut->getBroaderTermGeneral();
         static::assertEquals("https://d-nb.info/gnd/4057342-4", $actual[0]);

@@ -1,0 +1,14 @@
+<?php $template = '/detailpage/common/anchor.phtml' ?>
+<div class="page-anchors">
+    <h1 class="title"><?= $this->translate('page.detail.anchors.title') ?></h1>
+    <button class="accordion-collapse icon-arrow-accordion hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-section-anchors"></button>
+    <div class="list">
+        <ul id="detailpage-section-anchors">
+            <li><?= $this->render($template, ['name' => 'common', 'label' => $this->esorganisation()->resolveLabelWithDisplayName('page.detail.organisation.common')]) ?></li>
+            <li><?= $this->render($template, ['name' => 'medias', 'label' => $this->esorganisation()->resolveLabelWithDisplayName('page.detail.organisation.media.list.title')]) ?></li>
+            <?php if ($this->sameHierarchicalSuperiorOrganisation > 0): ?>
+            <li><?= $this->render($template, ['name' => 'coauthors', 'label' => $this->esorganisation()->resolveLabelWithDisplayName('page.detail.organisation.sameHierarchicalSuperiorOrganisation')]) ?></li>
+            <?php endif; ?>
+        </ul>
+    </div>
+</div>

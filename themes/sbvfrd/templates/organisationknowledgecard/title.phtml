@@ -1,0 +1,4 @@
+<?php if (null !== $this->esorganisation()->getDisplayName()): ?>
+    <?php $this->headTitle($this->esorganisation()->getDisplayName()); ?>
+        <h1 class="title"><?= $this->esorganisation()->getDisplayName(); ?></h1>
+<?php endif; ?>

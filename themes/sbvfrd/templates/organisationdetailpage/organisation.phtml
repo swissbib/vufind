@@ -1,0 +1,20 @@
+<?php $this->esorganisation()->setOrganisation($this->driver) ?>
+<!--php $this->essubjectcollection()->setCollection($this->subjects) ?-->
+<?php $this->headTitle(
+    $this->translate("page.detail.organisation.title",
+        ['%%organisation%%' => $this->escapeHtml($this->driver->getName())]
+    )
+) ?>
+
+<div id="detailpage" class="organisation">
+    <div class="row">
+        <div class="col-md-3 col-md-push-9">
+            <?= $this->render('navigation.phtml') ?>
+        </div>
+        <div class="col-md-9 col-md-pull-3">
+            <?= $this->render('common.phtml') ?>
+        </div>
+    </div>
+
+    <?= $this->render('relations.phtml') ?>
+</div>
