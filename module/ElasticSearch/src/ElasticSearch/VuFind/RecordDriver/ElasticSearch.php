@@ -348,7 +348,7 @@ abstract class ElasticSearch extends AbstractBase
     protected function removeDuplicateUrisWithDifferentProtocol($uris)
     {
         $filteredUris = [];
-        $urisWithoutProtocol = array_map([$this, removeProtocolFromUri], $uris);
+        $urisWithoutProtocol = array_map([$this, 'removeProtocolFromUri'], $uris);
         $urisWithoutProtocol = array_unique($urisWithoutProtocol);
         foreach ($uris as $index => $uri) {
             $uriWithoutProtocol = substr($uri, strrpos($uri, '://') + 3);
