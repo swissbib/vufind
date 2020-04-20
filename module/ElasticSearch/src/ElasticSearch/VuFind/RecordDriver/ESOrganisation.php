@@ -453,8 +453,7 @@ class ESOrganisation extends ElasticSearch
     {
         $fields = [
             "rdfs:label",
-            "foaf:name",
-            "schema:location"
+            "foaf:name"
         ];
 
         foreach ($fields as $field) {
