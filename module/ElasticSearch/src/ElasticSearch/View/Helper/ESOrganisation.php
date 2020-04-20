@@ -115,20 +115,30 @@ class ESOrganisation extends AbstractHelper
     }
 
     /**
-     * The person
+     * The organisation
      *
      * @var \ElasticSearch\VuFind\RecordDriver\ESOrganisation
      */
     private $_organisation;
 
     /**
-     * Gets the Person
+     * Gets the Organisation
      *
      * @return \ElasticSearch\VuFind\RecordDriver\ESOrganisation
      */
     public function getOrganisation()
     {
         return $this->_organisation;
+    }
+
+    /**
+     * Gets the Organisation Id
+     *
+     * @return string
+     */
+    public function getOrganisationId()
+    {
+        return $this->getOrganisation()->getOrganisationId();
     }
 
     /**
@@ -610,7 +620,7 @@ class ESOrganisation extends AbstractHelper
     }
 
     /**
-     * Provides the influencers for the underlying person.
+     * Provides the influencers for the underlying organisation.
      *
      * @param string $delimiter The delimiter to join multiple values with.
      *
@@ -622,7 +632,7 @@ class ESOrganisation extends AbstractHelper
     }
 
     /**
-     * Provides the influenced value for the underlying person.
+     * Provides the influenced value for the underlying organisation.
      *
      * @param string $delimiter The delimiter to join multiple values with.
      *

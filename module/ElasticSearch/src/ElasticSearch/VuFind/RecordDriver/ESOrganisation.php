@@ -435,6 +435,16 @@ class ESOrganisation extends ElasticSearch
     }
 
     /**
+     * Gets the OrganisationId
+     *
+     * @return array|null
+     */
+    public function getOrganisationId()
+    {
+        return $this->getField('id', '@', '');
+    }
+
+    /**
      * Has sufficient data
      *
      * @return bool
@@ -443,7 +453,8 @@ class ESOrganisation extends ElasticSearch
     {
         $fields = [
             "rdfs:label",
-            "foaf:name"
+            "foaf:name",
+            "schema:location"
         ];
 
         foreach ($fields as $field) {
