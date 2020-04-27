@@ -78,7 +78,7 @@ class OrganisationDetailPageController extends AbstractOrganisationController
             $sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($this->sameHierarchicalSuperiorOrganisationIds);
         }
 
-        if (isset($sameHierarchicalSuperiorOrganisations) && sizeOf($sameHierarchicalSuperiorOrganisations) > 0) {
+        if (!empty($sameHierarchicalSuperiorOrganisations) && sizeOf($sameHierarchicalSuperiorOrganisations) > 0) {
             $viewModel->setVariable(
                 "sameHierarchicalSuperiorOrganisations", $sameHierarchicalSuperiorOrganisations
             );

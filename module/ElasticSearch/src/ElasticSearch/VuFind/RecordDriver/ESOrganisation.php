@@ -307,7 +307,7 @@ class ESOrganisation extends ElasticSearch
                 }
             }
         }
-        return implode(",", $ids);
+        return $ids == null ? null : implode(",", $ids);
     }
 
     /**
