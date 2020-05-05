@@ -33,6 +33,8 @@ return [
     'swissbib/Accordion.js',
     'swissbib/Settings.js',
     'swissbib/OffCanvas.js',
+
+    'lib/autocomplete.js',
   ],
   'favicon' => 'favicon.ico',
   'helpers' => [

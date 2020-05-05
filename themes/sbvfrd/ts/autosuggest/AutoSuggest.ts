@@ -148,7 +148,8 @@ export default class AutoSuggest {
         if (this.configuration.enabled) {
             this.autocompleteInstance = this.searchInputElement.autocomplete({
                 handler: this.autoCompleteHandler,
-                loadingString: this.configuration.translate('autosuggest.loading')
+                loadingString: this.configuration.translate('autosuggest.loading'),
+                cache: false,
             });
         }
     }
