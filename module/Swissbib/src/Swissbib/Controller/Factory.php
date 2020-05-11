@@ -121,6 +121,18 @@ class Factory extends AbstractBaseFactory
     }
 
     /**
+     * Get Organisation Knowledge Card Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\OrganisationKnowledgeCardController
+     */
+    public static function getOrganisationKnowledgeCardController(ServiceManager $sm)
+    {
+        return new OrganisationKnowledgeCardController($sm);
+    }
+
+    /**
      * Get Subject Knowledge Card Controller
      *
      * @param \Zend\ServiceManager\ServiceManager $sm Service manager
@@ -154,6 +166,18 @@ class Factory extends AbstractBaseFactory
     public static function getPersonSearchController(ServiceManager $sm)
     {
         return new PersonSearchController($sm);
+    }
+
+    /**
+     * Get Organisation Search Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\OrganisationSearchController
+     */
+    public static function getOrganisationSearchController(ServiceManager $sm)
+    {
+        return new OrganisationSearchController($sm);
     }
 
     /**
@@ -207,4 +231,30 @@ class Factory extends AbstractBaseFactory
             $sm->get('VuFind\Session\Settings')
         );
     }
+
+    /**
+     * Get Organisation Detail Page Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\OrganisationDetailPageController
+     */
+    public static function getOrganisationDetailPageController(ServiceManager $sm)
+    {
+        return new OrganisationDetailPageController($sm);
+    }
+
+    /**
+     * Get Organisation Search Controller
+     *
+     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     *
+     * @return \Swissbib\Controller\OrganisationSearchController
+     */
+    /*
+    public static function getInstitutionSearchController(ServiceManager $sm)
+    {
+        return new OrganisationSearchController($sm);
+    }
+    */
 }

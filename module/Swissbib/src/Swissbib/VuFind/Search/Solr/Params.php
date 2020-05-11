@@ -269,8 +269,8 @@ class Params extends VuFindSolrParams
     /**
      * GetFacetLabel
      *
-     * @param string $field Facet field name.
-     * @param string $value Facet value.
+     * @param string $field   Facet field name.
+     * @param string $value   Facet value.
      * @param string $default Default field name (null for default behavior).
      *
      * @return string Human-readable description of field.
@@ -283,14 +283,5 @@ class Params extends VuFindSolrParams
         default:
             return parent::getFacetLabel($field, $value, $default);
         }
-    }
-
-    /**
-     * Set filterList
-     *
-     * @param $filterArray
-     */
-    public function setFilterList($filterArray) {
-        $this->filterList = $filterArray;
     }
 }

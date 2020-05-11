@@ -208,6 +208,13 @@ class Params extends VFSummonParams
                             'holdings',
                             strtolower(trim($safeValue)) == 'true'
                         );
+                    } elseif ($filt['field'] == 'openAccessFilter') {
+                        // Special case -- "open access filter" is a separate
+                        // parameter from other facets.
+                        $params->set(
+                            'openAccessFilter',
+                            strtolower(trim($safeValue)) == 'true'
+                        );
                     } elseif ($filt['field'] == 'excludeNewspapers') {
                         // support a checkbox for excluding newspapers:
                         // this is now the default behaviour.
@@ -280,14 +287,4 @@ class Params extends VFSummonParams
 
         return parent::buildDateRangeFilter($field, $from, $to);
     }
-
-    /**
-     * Set filterList
-     *
-     * @param $filterArray
-     */
-    public function setFilterList($filterArray) {
-        $this->filterList = $filterArray;
-    }
-
 }

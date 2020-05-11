@@ -100,6 +100,16 @@ Author:
   DismaxParams:
     - [mm, '100%']
 
+#author gnd, or rero id
+AuthorById:
+  DismaxHandler: edismax
+  DismaxFields:
+    - from_gnd_isn_mv
+    - from_rero_isn_mv
+  DismaxParams:
+    - [mm, '100%']
+
+
 
 ISN:
   DismaxHandler: edismax

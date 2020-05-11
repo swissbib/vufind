@@ -1,8 +1,8 @@
 <?php if ($this->esperson()->hasAbstract()): ?>
     <?php $abstractInfo = $this->esperson()->getAbstractInfo(false, 100, 2000); ?>
     <div class="row metadata">
-        <div class="col-sm-2"><?= $abstractInfo->label ?></div>
-        <div class="col-sm-10">
+        <div class="col-sm-3"><?= $abstractInfo->label ?></div>
+        <div class="col-sm-9">
             <span class="abstract-text"><?= $abstractInfo->text ?></span>
             <?php if ($abstractInfo->truncated): ?>
                 <?= $this->render('/persondetailpage/common/metadata/abstract-overflow.phtml', ['overflow' => $abstractInfo->overflow]) ?>

@@ -45,7 +45,6 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
 
     protected $searchYaml = 'elasticsearch_adapter.yml';
 
-
     /**
      * PluginManager constructor.
      *
@@ -84,10 +83,17 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
     {
         //preg_replace('[0-9]','',$data['_index']);
 
-        if (is_array($data) && array_key_exists("_source", $data) &&
-          array_key_exists("@type", $data["_source"])) {
-            $recordType =  $this->mapType2RecordDriver($data["_source"]["@type"]);
-
+        if (is_array($data) && array_key_exists("_source", $data)
+            && array_key_exists("@type", $data["_source"])
+        ) {
+            $recordType = $this->_mapType2RecordDriver(
+                $data["_source"]["@type"]
+            );
+        } elseif (is_array($data) && array_key_exists("_source", $data)
+            && array_key_exists("type", $data["_source"])
+        ) {
+            //for subjects the type is in type field instead of @type
+            $recordType =  $this->_mapType2RecordDriver($data["_source"]["type"]);
         } else {
             $recordType = self::DEFAULT_RECORD;
         }
@@ -99,14 +105,18 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
     }
 
     /**
-     * @param $sourceType
+     * Maps the type to the record driver
+     *
+     * @param string $sourceType the source type
+     *
      * @return string
      */
-    private function mapType2RecordDriver($sourceType) {
-
+    private function _mapType2RecordDriver($sourceType)
+    {
         $specReader = $this->creationContext->get('VuFind\SearchSpecsReader');
         $yaml = $specReader->get($this->searchYaml);
-        $index_2_driver_mapping = $yaml['parameters']['mappings']['index_2_driver_mapping'];
+        $index_2_driver_mapping
+            = $yaml['parameters']['mappings']['index_2_driver_mapping'];
 
         if (!is_array($sourceType)) {
             $sourceType = [$sourceType];
@@ -114,11 +124,10 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
 
         $recordType = self::DEFAULT_RECORD;
 
-        $callable = function ($st) use ($index_2_driver_mapping, &$recordType){
-
-            if (self::DEFAULT_RECORD != $recordType)
+        $callable = function ($st) use ($index_2_driver_mapping, &$recordType) {
+            if (self::DEFAULT_RECORD != $recordType) {
                 return;
-
+            }
 
             foreach ($index_2_driver_mapping as $key => $definedTypes) {
                 foreach ($definedTypes as $definedType) {
@@ -129,14 +138,10 @@ class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
                     }
                 }
             }
-
         };
 
         array_map($callable, $sourceType);
 
         return $recordType;
-
     }
-
-
 }

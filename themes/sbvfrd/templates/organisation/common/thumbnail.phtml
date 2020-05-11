@@ -1,0 +1,4 @@
+<img class="record-thumbnail" data-organisation-thumbnail-id="<?= $this->id ?>" alt="<?= $this->esorganisation()->getDisplayName() ?>" />
+<script>
+    swissbib.imageSequence.register($('*[data-organisation-thumbnail-id="<?= $this->id ?>"]'), <?= json_encode($this->paths) ?>).process();
+</script>

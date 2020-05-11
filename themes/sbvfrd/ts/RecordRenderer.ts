@@ -13,7 +13,7 @@ export default class RecordRenderer {
         this.client = new Hydra(dataUrl);
     }
 
-    public renderContributors(id: string, template: any, htmlList: HTMLElement): Promise<HTMLElement[]> {
+    public renderContributors(id: string, type: string, template: any, htmlList: HTMLElement): Promise<HTMLElement[]> {
         return this.client.getBibliographicDetails(id)
             .then((bibliographicDetails: BibliographicDetails) => {
                 const personIds = bibliographicDetails.persons;
@@ -23,10 +23,10 @@ export default class RecordRenderer {
                 }
                 $(htmlList).empty();
                 const promises: Array<Promise<Detail[]>> = [];
-                if (personIds) {
+                if (type == 'author' && personIds) {
                     promises.push(this.client.getPersonDetails(personIds));
                 }
-                if (organisationIds) {
+                if (type == 'organisation' && organisationIds) {
                     promises.push(this.client.getOrganisationDetails(organisationIds));
                 }
                 return Promise.all(promises)
@@ -60,7 +60,7 @@ export default class RecordRenderer {
     public renderSubjects(subjects: JQuery<HTMLElement>, template: any): Promise<void> {
         let subjectIds: string = "";
         subjects.each((i, el) => {
-            subjectIds += "http://d-nb.info/gnd/" + $(el).attr("subjectid") + ",";
+            subjectIds += "https://d-nb.info/gnd/" + $(el).attr("subjectid") + ",";
         });
         subjectIds = subjectIds.slice(0, -1);
         const subjectDetails: Promise<Subject[]> = this.client.getSubjectDetails(subjectIds);

@@ -131,7 +131,6 @@ class PersonDetailPageController extends AbstractPersonController
      */
     protected function getSubjectsOf(): array
     {
-
         $subjects = parent::getSubjectsOf();
 
         if (count($subjects) > 0) {
@@ -162,17 +161,17 @@ class PersonDetailPageController extends AbstractPersonController
      */
     protected function getPersonsOfSameGenre()
     {
-        $genres = $this->driver->getGenre();
+        $genresIds = $this->driver->getWikidataIdentifiersForField('genre');
 
-        if (is_array($genres)) {
-            $genres = $this->arrayToSearchString($genres);
+        if (is_array($genresIds)) {
+            $genresIds = $genresIds[0];
         }
 
         $authors = null;
-        if (isset($genres)) {
+        if (isset($genresIds)) {
             $authors = $this->serviceLocator->get('elasticsearchsearch')
                 ->searchElasticSearch(
-                    $genres, "person_by_genre", null, null,
+                    $genresIds, "person_by_genre", null, null,
                     $this->config->sameGenreAuthorsSize
                 );
         }
@@ -187,17 +186,18 @@ class PersonDetailPageController extends AbstractPersonController
      */
     protected function getPersonsOfSameMovement()
     {
-        $movements = $this->driver->getMovement();
+        $movementsIds = $this->driver->getWikidataIdentifiersForField('movement');
+        //$movements = $this->driver->getMovementDisplayField();
 
-        if (is_array($movements)) {
-            $movements = $this->arrayToSearchString($movements);
+        if (is_array($movementsIds)) {
+            $movementsIds = $movementsIds[0];
         }
 
         $authors = null;
-        if (isset($movements)) {
+        if (isset($movementsIds)) {
             $authors = $this->serviceLocator->get('elasticsearchsearch')
                 ->searchElasticSearch(
-                    $movements, "person_by_movement", null, null,
+                    $movementsIds, "person_by_movement", null, null,
                     $this->config->sameMovementAuthorsSize
                 );
         }

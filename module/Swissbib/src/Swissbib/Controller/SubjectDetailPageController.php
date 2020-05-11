@@ -126,12 +126,13 @@ class SubjectDetailPageController extends AbstractSubjectController
         //we have to check if there are IDS available send to ES -
         // otherwise empty ID lists will throw an error
         if (isset($relatedTermsIds) && is_array($relatedTermsIds)
-            && count($relatedTermsIds) > 0) {
+            && count($relatedTermsIds) > 0
+        ) {
             $relatedTermsIds = is_array($relatedTermsIds)
                 ? $this->arrayToSearchString($relatedTermsIds) : $relatedTermsIds;
             $relatedTerms = $this->serviceLocator->get('elasticsearchsearch')
                 ->searchElasticSearch(
-                    $relatedTermsIds, "id", "gnd", "DEFAULT", 100
+                    $relatedTermsIds, "id", null, "subject", 100
                 )->getResults();
             $viewModel->setVariable("relatedTerms", $relatedTerms);
         } else {

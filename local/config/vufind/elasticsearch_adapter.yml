@@ -1,26 +1,16 @@
 parameters:
-#  POST _aliases
-#  {
-#    "actions": [
-#    {"add" : { "index" : "bibr20190605", "alias" : "BibliographicResource-linked" }},
-#    {"add" : { "index" : "sb-persons-enriched-2019-10-28", "alias" : "Person-linked" }},
-#    {"add" : { "index" : "sb-organisations-2019-31-10", "alias" : "Organisation-linked" }},
-#    {"add" : { "index" : "sb-items-2019-31-10", "alias" : "Item-linked" }},
-#    {"add" : { "index" : "gnd20180309", "alias" : "Subject-linked" }},
-#    {"add" : { "index" : "sb-documents-2019-10-01", "alias" : "Document-linked" }}
-#    ]
-#  }
+#to update elastic search aliases, use cli/update-elastic-search-aliases.sh
 
   mappings:
     type_2_index_mapping:
       #map former doc types (ES5) to ES 7 indices (in fact alias names)
-      bibliographicResource: 'BibliographicResource-linked'
-      document: 'Document-Linked'
-      work: 'work'
-      person: 'Person-linked'
-      organisation: 'Organisation-linked'
-      item: 'Item-linked'
-      DEFAULT: 'Subject-linked'
+      bibliographicResource: 'sb-resources'
+      document: 'sb-documents'
+      work: 'sb-works'
+      person: 'sb-persons'
+      organisation: 'sb-organisations'
+      item: 'sb-items'
+      subject: 'sb-subjects'
 
     index_2_driver_mapping:
       #map json-ld @types to VuFind RecordDrivers
@@ -28,8 +18,8 @@ parameters:
       ESBibliographicResource:
         - 'http://purl.org/dc/terms/BibliographicResource'
       ESDefault:
-        - 'http://d-nb.info/standards/elementset/gnd#DifferentiatedPerson'
-        - 'http://d-nb.info/standards/elementset/gnd'
+        - 'https://d-nb.info/standards/elementset/gnd#DifferentiatedPerson'
+        - 'https://d-nb.info/standards/elementset/gnd'
       ESPerson:
         - 'http://xmlns.com/foaf/0.1/Person'
         - 'http://schema.org/Person'
@@ -183,16 +173,31 @@ parameters:
 
     sub_subjects:
       type:
-        - DEFAULT
+        - 'subject'
       index:
-        - gnd
+        - 'lsb'
       size: '{size}'
       from: '{from}'
       query:
         multi_match:
           query: '{q}'
           # Should rather be an Array but is not parsed correctly at ElasticsearchAdapter/Query/TemplateQuery.php:241
-          fields: 'http://d-nb_info/standards/elementset/gnd#broaderTermGeneral.@id,http://d-nb_info/standards/elementset/gnd#broaderTermGeneric.@id'
+          fields: 'broaderTermGeneral.id,broaderTermGeneric.id,broaderTermInstantial.id,broaderTermPartitive.id'
+          # This is required to avoid search for the last digit only "-[09]"
+          operator: 'and'
+
+    sameHierarchicalSuperior_organisations:
+      type:
+        - 'organisation'
+      index:
+        - 'lsb'
+      size: '{size}'
+      from: '{from}'
+      query:
+        multi_match:
+          query: '{q}'
+          # Should rather be an Array but is not parsed correctly at ElasticsearchAdapter/Query/TemplateQuery.php:241
+          fields: 'gnd:hierarchicalSuperiorOfTheCorporateBody.@id,gnd:hierarchicalSuperiorOfTheConferenceOrEvent.@id'
           # This is required to avoid search for the last digit only "-[09]"
           operator: 'and'
 
@@ -230,8 +235,8 @@ parameters:
       size: '{size}'
       from: '{from}'
       query:
-        terms:
-          'dbo:genre': '{q}'
+        match:
+          'dbo:genre.@id.keyword': '{q}'
 
     person_by_movement:
       type: 'person'
@@ -239,6 +244,6 @@ parameters:
       size: '{size}'
       from: '{from}'
       query:
-        terms:
-          'dbo:movement': '{q}'
+        match:
+          'dbo:movement.@id.keyword': '{q}'
 

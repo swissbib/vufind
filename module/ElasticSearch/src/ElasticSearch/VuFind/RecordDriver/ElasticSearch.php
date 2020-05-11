@@ -128,51 +128,6 @@ abstract class ElasticSearch extends AbstractBase
     }
 
     /**
-     * Gets the ValueByLanguagePriority
-     *
-     * @param array  $content    The content
-     * @param string $userLocale The user locale
-     *
-     * @return null
-     */
-    protected function getValueByLanguagePriority(
-        array $content, string $userLocale = null
-    ) {
-        $results = null;
-
-        if ($content !== null && is_array($content) && count($content) > 0) {
-            $userLocale = null === $userLocale ? $this->getTranslatorLocale()
-                : $userLocale;
-            $locales = $this->getPrioritizedLocaleList($userLocale);
-
-            foreach ($locales as $locale) {
-                $results = [];
-
-                foreach ($content as $valueArray) {
-                    if (isset($valueArray[$locale])
-                        && null !== $valueArray[$locale]
-                    ) {
-                        $results[] = $valueArray[$locale];
-                    } else {
-                        if (isset($valueArray['@language'])
-                            && $valueArray['@language'] === $locale
-                            && isset($valueArray['@value'])
-                        ) {
-                            $results[] = $valueArray['@value'];
-                        }
-                    }
-                }
-
-                if (count($results) > 0) {
-                    return $results;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Gets the PrioritizedLocaleList
      *
      * @param string $userLocale The user locale
@@ -194,4 +149,227 @@ abstract class ElasticSearch extends AbstractBase
 
         return $locales;
     }
+
+    /**
+     * Returns a localized array field from the index as a string
+     *
+     * @param string $value     The value found in the index.
+     * @param string $delimiter The delimiter join elements in the field's array.
+     *
+     * @return string
+     */
+    protected function localizedArrayToString(array $values, string $delimiter = ', ') {
+        $value = $this->getArrayOfValuesByLanguagePriority($values);
+        $value =  implode($delimiter, $value);
+        if ($value == '') $value = null;
+        return $value;
+    }
+
+    /**
+     * Returns a non localized array field from the index as a string
+     *
+     * @param string $value     The value found in the index.
+     * @param string $delimiter The delimiter join elements in the field's array.
+     *
+     * @return string
+     */
+    protected function arrayToString(array $value, string $delimiter = ', ') {
+        return implode($delimiter, $value);
+    }
+
+    /**
+     * Gets the ValueByLanguagePriority
+     *
+     * @param array  $content    The content
+     * @param string $userLocale The (optional) locale
+     *
+     * @return array|null
+     */
+    protected function getValueByLanguagePriority(
+        array $content = null, string $userLocale = null
+    ) {
+        $results = null;
+
+        if ($content !== null && is_array($content) && count($content) > 0) {
+            $userLocale = null === $userLocale ? $this->getTranslatorLocale()
+                : $userLocale;
+            $locales = $this->getPrioritizedLocaleList($userLocale);
+
+            if (array_intersect_key(array_flip($locales), $content)) {
+                foreach ($locales as $locale) {
+                    if (isset($content[$locale])
+                        && null !== $content[$locale]
+                    ) {
+                        return $content[$locale];
+                    }
+                }
+            } else {
+                foreach ($content as $contentEntry) {
+                    foreach ($locales as $locale) {
+                        if (isset($contentEntry[$locale])
+                            && null !== $contentEntry[$locale]
+                        ) {
+                            return $contentEntry[$locale];
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get an Array of all the values in the locale language
+     *
+     * @param array|null  $content    the content
+     * @param string|null $userLocale the locale
+     *
+     * @return array
+     */
+    protected function getArrayOfValuesByLanguagePriority(
+        array $content = null, string $userLocale = null
+    ) {
+        $results = [];
+        foreach ($content as $value) {
+            $results[] = $this->getValueByLanguagePriority($value);
+        }
+        return $results;
+    }
+
+    /**
+     * Render the date in a better format (based on GND Date or Wikidata Dates)
+     *
+     * @param null|string $dateString a string corresponding to a date
+     *
+     * @return string
+     */
+    protected function formatDate($dateString)
+    {
+        //Julius Cesar
+        //https://test.swissbib.ch/Page/Detail/Person/e399d061-eed6-3861-bfee-04ee705e482f
+
+        //Euclides
+        //https://test.swissbib.ch/Page/Detail/Person/e5ff3fe0-2e85-3eca-8501-d61e11dc9d00
+
+        //Bach
+        //https://test.swissbib.ch/Page/Detail/Person/21517b2f-21d1-34ad-b089-c69fed0f25d4
+
+        //Potter
+        //https://test.swissbib.ch/Page/Detail/Person/76364cb3-54cb-3d49-ba6e-06ff0e20a42c
+
+        if (null === $dateString) {
+            return null;
+        }
+
+        //before Christus (display year only with BC)
+        if (preg_match('/-\d\d\d\d.*/', $dateString)) {
+            return substr($dateString, 1, 4) . " BC";
+        }
+
+        //wikidata style : 1929-12-06T00:00:00Z (with leading 0 for days and months)
+        $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $dateString);
+        if ($date) {
+            return $date->format('j.n.Y');
+        } else {
+            //gnd style is often 2012-07-25
+            $date = \DateTime::createFromFormat('Y-m-d', $dateString);
+            if ($date) {
+                return $date->format('j.n.Y');
+            } else {
+                //otherwise we just return the input string
+                return $dateString;
+            }
+        }
+    }
+
+    /**
+     * Gets the SameAs
+     *
+     * @return array|null
+     */
+    public function getSameAs()
+    {
+        $sameAs = $this->getField("sameAs", "owl");
+
+        //multiple GND identifiers are present, we only keep the
+        //most recent which is in the gnd:gndIdentifier field
+        if (is_array($sameAs)) {
+            $uris = array_filter($sameAs, [$this, 'isObsoleteGndId']);
+            // remove URI which are the same except for the protocol (http/https)
+            $uris = $this->removeDuplicateUrisWithDifferentProtocol($uris);
+            return $uris;
+        }
+        return null;
+    }
+
+    /**
+     * Check if an uri is an obsolete GND id
+     *
+     * @param string $uri The uri to test, for example http://d-nb.info/gnd/12162692X
+     *
+     * @return bool
+     */
+    protected function isObsoleteGndId($uri)
+    {
+        if ($this->isGndUri($uri)) {
+            $currentGndId = $this->getField('gndIdentifier', 'gnd');
+            $gndIdToTest = substr($uri, strrpos($uri, '/') + 1);
+            if ($currentGndId === $gndIdToTest) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Check if an uri is a GND uri
+     *
+     * @param string $uri The uri to test, for example
+     *                    http://www.wikidata.org/entity/Q220340
+     *
+     * @return bool
+     */
+    protected function isGndUri(string $uri)
+    {
+        $gndRegExp = "/^(https{0,1}|http{0,1}):\\/\\/d-nb.info\\/gnd\\/.*$/";
+        return preg_match($gndRegExp, $uri) === 1 ? true : false;
+    }
+
+    /**
+     * Remove URIs which are duplicates but with just another protocol
+     *
+     * @param array $allUris array of URIs
+     *
+     * @return bool
+     */
+    protected function removeDuplicateUrisWithDifferentProtocol($uris)
+    {
+        $filteredUris = [];
+        $urisWithoutProtocol = array_map([$this, 'removeProtocolFromUri'], $uris);
+        $urisWithoutProtocol = array_unique($urisWithoutProtocol);
+        foreach ($uris as $index => $uri) {
+            $uriWithoutProtocol = substr($uri, strrpos($uri, '://') + 3);
+            if (in_array($uriWithoutProtocol, $urisWithoutProtocol)) {
+                array_push($filteredUris, $uri);
+                unset($urisWithoutProtocol[$index]);
+            }
+        }
+        return $filteredUris;
+   }
+
+    /**
+     * remove Protocol From Uri
+     *
+     * @param string $uri The uri
+     *
+     * @return bool
+     */
+    protected function removeProtocolFromUri(string $uri)
+    {
+        return substr($uri, strrpos($uri, '://') + 3);
+    }
+
 }

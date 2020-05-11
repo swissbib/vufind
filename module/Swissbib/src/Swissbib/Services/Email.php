@@ -292,7 +292,7 @@ class Email
             'bitten wir Sie, ' .
             '<a href="' . $link . '" ' .
             'target="_blank" rel="noreferrer">Ihre Einschreibung</a> nun zu ' .
-            'erneuern in dem Sie sich am Schalter der Bibliothek (' .
+            'erneuern indem Sie sich in der Bibliothek (' .
             $institutionInfo['name']['de'] .
             ') freischalten lassen. ' .
             'Andernfalls wird Ihr Konto demnächst deaktiviert. ' .

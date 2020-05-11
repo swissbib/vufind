@@ -802,7 +802,7 @@ ul[aria-labelledby=dropdownLibraries] {
     align-items: baseline;
   }
 
-  .facet .text .description {
+  .facet .text .facet-value {
     white-space: normal !important;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -828,6 +828,10 @@ ul[aria-labelledby=dropdownLibraries] {
   }
   .facet:hover{
     background-color: @list-group-hover-bg;
+  }
+
+  .jstree-anchor .facet:hover{
+    background-color: inherit;
   }
 
   li.active > a > .facet:hover{

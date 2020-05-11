@@ -2330,7 +2330,9 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                         if (!array_key_exists($F[0], $konkordanzTabelle949)) {
                             $konkordanzTabelle949[$F[0]] = [];
                         }
-                        array_push($konkordanzTabelle949[$F[0]], $b[0]);
+                        if (isset($b[0])) {
+                            array_push($konkordanzTabelle949[$F[0]], $b[0]);
+                        }
                     }
                 }
                 foreach ($institutions as $key => $institution) {

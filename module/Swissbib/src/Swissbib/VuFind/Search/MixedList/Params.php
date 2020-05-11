@@ -41,6 +41,16 @@ use VuFind\Search\MixedList\Params as VuFindMixedListParams;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org Main Site
  */
+
+/**
+ * Class Params
+ *
+ * @category Swissbib_VuFind
+ * @package  Swissbib\VuFind\Search\MixedList
+ * @author   Matthias Edel <matthias.edel@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     https://vufind.org Main Site
+ */
 class Params extends VuFindMixedListParams
 {
 }

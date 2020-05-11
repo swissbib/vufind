@@ -78,15 +78,16 @@ abstract class AbstractSubjectController extends AbstractDetailsController
             // otherwise empty ID lists will throw an error
             $this->subSubjects = $this->getSubSubjects($info->id);
             $tParentSubj = $this->driver->getParentSubjects();
-            if (!is_null($tParentSubj) && is_array($tParentSubj) && count($tParentSubj) > 0) {
+            if (null !== $tParentSubj
+                && is_array($tParentSubj)
+                && count($tParentSubj) > 0
+            ) {
                 $this->parentSubjects = $this->getParentSubjects(
                     $tParentSubj
                 );
             } else {
                 $this->parentSubjects = [];
             }
-
-
 
             return $this->createViewModel(
                 [
@@ -106,10 +107,10 @@ abstract class AbstractSubjectController extends AbstractDetailsController
      */
     protected function getSubjectInfo(): \stdClass
     {
-        $prefix = 'http://d-nb.info/gnd/';
+        $prefix = 'https://d-nb.info/gnd/';
 
         return (object)[
-            'index' => "gnd", 'type' => "DEFAULT",
+            'index' => "lsb", 'type' => "subject",
             'id' => $prefix . $this->params()->fromRoute('id', [])
         ];
     }
@@ -125,7 +126,11 @@ abstract class AbstractSubjectController extends AbstractDetailsController
     {
         return $this->serviceLocator->get('elasticsearchsearch')
             ->searchElasticSearch(
-                $id, "sub_subjects", $this->config->subjectsSize
+                $id,
+                "sub_subjects",
+                null,
+                "subject",
+                $this->config->subjectsSize
             )->getResults();
     }
 
@@ -142,8 +147,8 @@ abstract class AbstractSubjectController extends AbstractDetailsController
             ->searchElasticSearch(
                 $this->arrayToSearchString($ids),
                 "id",
-                "gnd",
-                "DEFAULT",
+                null,
+                "subject",
                 $this->config->subjectsSize
             )->getResults();
     }

@@ -28,9 +28,9 @@
 namespace ElasticSearchTest\VuFind\RecordDriver;
 
 use ElasticSearch\VuFind\RecordDriver\ESPerson;
-use Swissbib\Services\NationalLicence;
 use ElasticSearchTest\Bootstrap;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
+
 /**
  * Class ESPersonTest
  *
@@ -70,10 +70,10 @@ class ESPersonTest extends VuFindTestCase
                             "en" => "pianist",
                             "de" => "klavierspieler",
                             "fr" => "pianiste",
-                            "@id" => "http://d-nb.info/gnd/4131406-2",
+                            "@id" => "https://d-nb.info/gnd/4131406-2",
                         ],
                         [
-                            "@id" => "http://d-nb.info/gnd/1234",
+                            "@id" => "https://d-nb.info/gnd/1234",
                             "de" => "komponist",
                             "en" => "composer",
                             "fr" => "compositeur",

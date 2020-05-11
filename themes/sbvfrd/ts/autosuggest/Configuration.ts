@@ -93,7 +93,18 @@ export default class Configuration implements Translator {
      */
     public getRecordLink(item: Item, section: Section): string {
         let template: string = VuFind.path + this.settings.templates.search.record;
-        return this.templates.resolve(template, {query: item[section.field], type: section.type});
+        template = this.templates.resolve(template, {query: item[section.field], type: section.type});
+
+        if (this.getRetainFilterState()) {
+            let filter = this.getFilterOfCurrentUrl();
+            let searchDelimiter = '?';
+            if ( template.indexOf('?') > -1 ) {
+                searchDelimiter = '&';
+            }
+            template += searchDelimiter + 'filter=' + filter
+        }
+
+        return template;
     }
 
     /**
@@ -101,5 +112,38 @@ export default class Configuration implements Translator {
      */
     public translate(key: string, replacements?: Array<any>): string {
         return this.translator.translate(key, replacements);
+    }
+
+    /**
+     * Get filter search parameter of current url
+     */
+    private getFilterOfCurrentUrl(): string {
+        var filter = window.location.search;
+        var filterPos = filter.indexOf('filter[]=');
+        if (filterPos > -1 ) {
+            filterPos += 9;
+            filter = filter.substring( filterPos );
+        } else {
+            filterPos = filter.indexOf('filter%5B%5D=');
+            if (filterPos > -1 ) {
+                filterPos += 13;
+                filter = filter.substring( filterPos );
+            } else {
+                filter = '';
+            }
+        }
+        return filter;
+    }
+
+    /**
+     * Get "retain filter" checbox status
+     */
+    private getRetainFilterState(): boolean {
+        let isChecked = false;
+        let retainFilterCheckbox = $('#searchFormKeepFilters');
+        if (retainFilterCheckbox && retainFilterCheckbox.is(':checked')) {
+            isChecked = true;
+        }
+        return isChecked;
     }
 }

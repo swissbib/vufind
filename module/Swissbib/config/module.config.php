@@ -228,6 +228,14 @@ return [
                         'controller' => 'person-knowledge-card', 'action' => 'person',
                     ],
                 ]
+            ], 'card-knowledge-organisation' => [
+                'type' => 'segment', 'options' => [
+                    'route' => '/Card/Knowledge/Organisation/:id', 'constraints' => [
+                        'id' => '[a-fA-F0-9-{}]+',
+                    ], 'defaults' => [
+                        'controller' => 'organisation-knowledge-card', 'action' => 'organisation',
+                    ],
+                ]
             ], 'card-knowledge-subject' => [
                 'type' => 'segment', 'options' => [
                     'route' => '/Card/Knowledge/Subject/:id', 'constraints' => [
@@ -242,6 +250,14 @@ return [
                         'id' => '[a-fA-F0-9-{}]+',
                     ], 'defaults' => [
                         'controller' => 'person-detail-page', 'action' => 'person',
+                    ],
+                ]
+            ], 'page-detail-organisation' => [
+                'type' => 'segment', 'options' => [
+                    'route' => '/Page/Detail/Organisation/:id', 'constraints' => [
+                        'id' => '[a-fA-F0-9-{}]+',
+                    ], 'defaults' => [
+                        'controller' => 'organisation-detail-page', 'action' => 'organisation',
                     ],
                 ]
             ], 'page-detail-subject' => [
@@ -290,6 +306,17 @@ return [
                     'defaults' => [
                         'controller' => 'person-search',
                         'action'     => 'subject'
+                    ]
+                ]
+            ],
+            'organisations-search-hierarchicalsuperiors' => [
+                'type'    => 'segment',
+                'options' => [
+                    'route'    => '/Search/Organisations/HierarchicalSuperiors/:id', 'constraints' => [
+                        'id' => '[0-9A-Z\--{}]+',
+                    ], 'defaults' => [
+                        'controller' => 'organisation-search',
+                        'action'     => 'hierarchicalsuperiors'
                     ]
                 ]
             ],
@@ -407,10 +434,13 @@ return [
             'install'                                => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             'console'                                => 'Swissbib\Controller\Factory::getConsoleController',
             'person-knowledge-card'                  => 'Swissbib\Controller\Factory::getPersonKnowledgeCardController',
+            'organisation-knowledge-card'            => 'Swissbib\Controller\Factory::getOrganisationKnowledgeCardController',
             'subject-knowledge-card'                 => 'Swissbib\Controller\Factory::getSubjectKnowledgeCardController',
             'person-detail-page'                     => 'Swissbib\Controller\Factory::getPersonDetailPageController',
+            'organisation-detail-page'               => 'Swissbib\Controller\Factory::getOrganisationDetailPageController',
             'subject-detail-page'                    => 'Swissbib\Controller\Factory::getSubjectDetailPageController',
             'person-search'                          => 'Swissbib\Controller\Factory::getPersonSearchController',
+            'organisation-search'                    => 'Swissbib\Controller\Factory::getOrganisationSearchController',
             'Swissbib\Controller\ShibtestController' => 'Zend\ServiceManager\Factory\InvokableFactory',
         ],
         'aliases' => [
@@ -721,6 +751,7 @@ return [
                     'Swissbib\AjaxHandler\GetSubjectAuthors'          => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
                     'Swissbib\AjaxHandler\GetOrganisations'           => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
                     \Swissbib\AjaxHandler\GetACSuggestions::class     => \VuFind\AjaxHandler\GetACSuggestionsFactory::class,
+                    'Swissbib\AjaxHandler\GetSameHierarchicalSuperiorOrganisations' => 'Swissbib\AjaxHandler\AbstractAjaxFactory',
                 ],
                 'aliases' =>  [
                     'getSubjects'                 => 'Swissbib\AjaxHandler\GetSubjects',
@@ -731,6 +762,7 @@ return [
                     'getSameMovementAuthors'      => 'Swissbib\AjaxHandler\GetSameMovementAuthors',
                     'getSubjectAuthors'           => 'Swissbib\AjaxHandler\GetSubjectAuthors',
                     'getOrganisations'            => 'Swissbib\AjaxHandler\GetOrganisations',
+                    'getSameHierarchicalSuperiorOrganisations' => 'Swissbib\AjaxHandler\GetSameHierarchicalSuperiorOrganisations',
                     'getACSuggestions'            => \Swissbib\AjaxHandler\GetACSuggestions::class,
                 ]
             ],

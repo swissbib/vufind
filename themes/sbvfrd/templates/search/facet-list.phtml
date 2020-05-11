@@ -1,58 +1,57 @@
 <?php
-  $options = $this->results->getParams()->getOptions();
-  $facetLightbox = $options->getFacetListAction();
-  if (empty($this->sortOptions)) {
+$options = $this->results->getParams()->getOptions();
+$facetLightbox = $options->getFacetListAction();
+if (empty($this->sortOptions)) {
     $this->sort = 'default';
     $this->sortOptions = [ 'default' => 'default' ];
-  }
-  $urlBase = $this->url($facetLightbox) . $results->getUrlQuery()->getParams() . '&amp;facet=' . urlencode($this->facet) . '&amp;facetexclude=' . $this->exclude . '&amp;facetop=' . $this->operator;
-  $searchAction = $this->url($options->getSearchAction());
-  if (!empty($this->baseUriExtra)) {
+}
+$urlBase = $this->url($facetLightbox) . $results->getUrlQuery()->getParams() . '&amp;facet=' . urlencode($this->facet) . '&amp;facetexclude=' . urlencode($this->exclude) . '&amp;facetop=' . urlencode($this->operator);
+$searchAction = $this->url($options->getSearchAction());
+if (!empty($this->baseUriExtra)) {
     $searchAction .= urlencode($this->baseUriExtra);
     $urlBase .= '&amp;baseUriExtra=' . urlencode($this->baseUriExtra);
-  }
+}
+$this->headTitle($this->translate('facet_list_for', ['%%field%%' => $this->facetLabel]));
 ?>
 <h2><?=$this->transEsc($this->facetLabel) ?></h2>
 <?php if (count($this->sortOptions) > 1): ?>
-  <div class="full-facet-sort-options">
-    <label><?=$this->translate('Sort') ?></label>
-    <div class="btn-group">
-      <?php foreach ($this->sortOptions as $key => $sort): ?>
-        <?php if (!($sort == "sort_alphabetic" && ($facet == "language" || $facet == "navSubform" || $facet == "institution" || $facet == "navDrsys"))): ?>
-          <a href="<?=$urlBase . '&amp;facetpage=1&amp;facetsort=' . urlencode($key) ?>" class="btn btn-default js-facet-sort<?php if($this->sort == $key): ?> active<?php endif; ?>" data-sort="<?=$key ?>" data-lightbox-ignore><?=$this->translate($sort) ?></a>
-        <?php endif; ?>
-      <?php endforeach; ?>
+    <div class="full-facet-sort-options">
+        <label><?=$this->translate('Sort') ?></label>
+        <div class="btn-group">
+            <?php foreach ($this->sortOptions as $key => $sort): ?>
+                <a href="<?=$urlBase . '&amp;facetpage=1&amp;facetsort=' . urlencode($key) ?>" class="btn btn-default js-facet-sort<?php if($this->sort == $key): ?> active<?php endif; ?>" data-sort="<?=$key ?>" data-lightbox-ignore><?=$this->translate($sort) ?></a>
+            <?php endforeach; ?>
+        </div>
     </div>
-  </div>
 <?php endif; ?>
 <div class="lightbox-scroll full-facets">
-  <?php foreach ($this->sortOptions as $key => $sort): ?>
-    <?php $active = $this->sort == $key; ?>
-    <div class="full-facet-list facet-group<?php if(!$active): ?> hidden<?php endif; ?>" id="facet-list-<?=$this->escapeHtmlAttr($key) ?>">
-      <?php if ($active): ?>
-        <?php if ($this->page > 1): ?>
-          <a href="<?=$urlBase . '&amp;facetpage=' . ($this->page - 1) . '&amp;facetsort=' . $this->sort ?>" class="facet js-facet-prev-page" data-page="<?=($this->page + 1) ?>" data-sort="<?=$this->sort ?>" data-limit="<?=count($this->data) ?>" data-lightbox-ignore><?=$this->translate('prev') ?> ...</a>
-        <?php endif; ?>
-        <?php if ($sort == 'sort_alphabetic'): ?>
-          <?php $this->data = $this->displayNameSorter($this->data, "displayText"); ?>
-        <?php endif; ?>
-        <?php foreach ($this->data as $item): ?>
-          <?=$this->render('Recommend/SideFacets/single-facet.phtml', [
-            'exclude' => $this->exclude,
-            'facet' => $item,
-            'group' => $this->facet,
-            'url' => $this->results->getUrlQuery(),
-            'urlBase' => $searchAction
-          ]) ?>
-        <?php endforeach; ?>
-      <?php endif; ?>
-      <?php if ($this->anotherPage): ?>
-        <a href="<?=$urlBase . '&amp;facetpage=' . ($this->page + 1) . '&amp;facetsort=' . urlencode($key) ?>" class="facet js-facet-next-page" data-page="<?=($this->page + 1) ?>" data-sort="<?=$this->escapeHtmlAttr($key) ?>" data-lightbox-ignore>
-          <span class="text"><?=$this->translate('more') ?> ...</span>
-        </a>
-      <?php endif; ?>
-    </div>
-  <?php endforeach; ?>
+    <?php foreach ($this->sortOptions as $key => $sort): ?>
+        <?php $active = $this->sort == $key; ?>
+        <div class="full-facet-list facet-group<?php if(!$active): ?> hidden<?php endif; ?>" id="facet-list-<?=$this->escapeHtmlAttr($key) ?>">
+            <?php if ($active): ?>
+                <?php if ($this->page > 1): ?>
+                    <a href="<?=$urlBase . '&amp;facetpage=' . ($this->page - 1) . '&amp;facetsort=' . $this->sort ?>" class="facet js-facet-prev-page" data-page="<?=($this->page + 1) ?>" data-sort="<?=$this->sort ?>" data-limit="<?=count($this->data) ?>" data-lightbox-ignore><?=$this->translate('prev') ?> ...</a>
+                <?php endif; ?>
+                <?php if ($sort == 'sort_alphabetic'): ?>
+                    <?php $this->data = $this->displayNameSorter($this->data, "displayText"); ?>
+                <?php endif; ?>
+                <?php foreach ($this->data as $item): ?>
+                    <?=$this->render('Recommend/SideFacets/single-facet.phtml', [
+                        'exclude' => $this->exclude,
+                        'facet' => $item,
+                        'group' => $this->facet,
+                        'url' => $this->results->getUrlQuery(),
+                        'urlBase' => $searchAction
+                    ]) ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <?php if ($this->anotherPage): ?>
+                <a href="<?=$urlBase . '&amp;facetpage=' . ($this->page + 1) . '&amp;facetsort=' . urlencode($key) ?>" class="facet js-facet-next-page" data-page="<?=($this->page + 1) ?>" data-sort="<?=$this->escapeHtmlAttr($key) ?>" data-lightbox-ignore>
+                    <span class="text"><?=$this->translate('more') ?> ...</span>
+                </a>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
 </div>
 <button class="btn btn-default lightbox-only" data-dismiss="modal"><?=$this->translate('close') ?></button>
 <?=$this->inlineScript(\Zend\View\Helper\HeadScript::SCRIPT, '(typeof VuFind.lightbox_facets !== "undefined") && VuFind.lightbox_facets.setup();', 'SET'); ?>

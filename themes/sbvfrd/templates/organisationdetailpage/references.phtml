@@ -1,0 +1,18 @@
+<?php $configuredReferences = $this->references->record->references ?>
+<?php $template = '/detailpage/common/reference.phtml' ?>
+<?php if ($this->esorganisation()->hasMatchingRecordReferences($configuredReferences)): ?>
+<div class="record-references <?= $this->visibility ?>">
+    <h1 class="title"><?= $this->translate('page.detail.organisation.more') ?></h1>
+    <button class="accordion-collapse icon-arrow-accordion hidden-md hidden-lg" data-toggle="collapse" data-target="#detailpage-section-references-<?= $this->index ?>"></button>
+    <div class="list">
+        <ul id="detailpage-section-references-<?= $this->index ?>">
+            <?php foreach ($this->esorganisation()->getSameAs() as $link): ?>
+              <?php if (!empty($this->esorganisation()->getRecordReference($link, $configuredReferences)["label"])): ?>
+                <li><?= $this->render($template, $this->esorganisation()->getRecordReference($link, $configuredReferences)) ?></li>
+              <?php endif; ?>
+            <?php endforeach; ?>
+            <li><a class="icon-arrow-external-link" href="<?= $this->esorganisation()->getOrganisationId() ?>">swissbib Linked Open Data</a></li>
+        </ul>
+    </div>
+</div>
+<?php endif; ?>

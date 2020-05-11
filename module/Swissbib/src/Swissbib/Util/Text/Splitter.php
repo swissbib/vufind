@@ -198,7 +198,7 @@ class Splitter
 
         foreach ($limits as $limit) {
             $splitPoint = $this->calculateSplitPoint($text, $limit);
-            if ($splitPoint !== 0) {
+            if ($splitPoint !== 0 && $splitPoint < strlen($text)) {
                 $splitPoints[] = $splitPoint;
             }
         }

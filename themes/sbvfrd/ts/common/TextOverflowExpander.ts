@@ -72,7 +72,7 @@ export default class TextOverflowExpander {
      * @private
      */
     private observerCallback = (query: string): void => {
-        if (this.trigger.parent().length !== 0) { 
+        if (this.trigger.parent().length !== 0) {
             // trigger was not removed from DOM, which implies it was not clicked
             if (query === Breakpoints.BOOTSTRAP.xs) {
                 // handle xs case

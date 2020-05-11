@@ -73,11 +73,29 @@ class DisplayNameSorter extends AbstractHelper
      */
     private function _sortByDisplayName($a, $b)
     {
-        $a = strtoupper($a[$this->sortIndex]);
-        $b = strtoupper($b[$this->sortIndex]);
+        $a = $this->stripDiacritics(strtoupper($a[$this->sortIndex]));
+        $b = $this->stripDiacritics(strtoupper($b[$this->sortIndex]));
         if ($a == $b) {
             return 0;
         }
         return ($a < $b) ? -1 : 1;
+    }
+
+    /**
+     * Remove diacritics (accents, umlauts, etc.) from a string
+     *
+     * @param string $string The text where we would like to remove diacritics
+     *
+     * @return string The input text with diacritics removed
+     */
+    protected function stripDiacritics($string)
+    {
+        // See http://userguide.icu-project.org/transforms/general for
+        // an explanation of this.
+        $transliterator = \Transliterator::createFromRules(
+            ':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;',
+            \Transliterator::FORWARD
+        );
+        return $transliterator->transliterate($string);
     }
 }

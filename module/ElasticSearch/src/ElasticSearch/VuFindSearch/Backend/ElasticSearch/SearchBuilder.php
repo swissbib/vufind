@@ -51,7 +51,6 @@ class SearchBuilder
      */
     private $_templates;
 
-
     private $_type_2_index_mapping;
 
     /**

@@ -102,15 +102,6 @@ abstract class AbstractDetailsController extends AbstractBase
     }
 
     /**
-     * Gets the  BibliographicResources
-     *
-     * @param string $id The id
-     *
-     * @return array
-     */
-    abstract protected function getBibliographicResourcesOf(string $id): array;
-
-    /**
      * Gets the Subjects of the bibliographic resources
      *
      * @return array
@@ -122,8 +113,8 @@ abstract class AbstractDetailsController extends AbstractBase
                 ->searchElasticSearch(
                     $this->arrayToSearchString(array_unique($this->subjectIds)),
                     "id",
-                    "gnd",
-                    "DEFAULT", $this->config->subjectsSize
+                    null,
+                    "subject", $this->config->subjectsSize
                 )->getResults();
         } else {
             return [];

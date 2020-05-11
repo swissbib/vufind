@@ -71,7 +71,7 @@ class GetSameGenreAuthors extends VFAjax implements AjaxHandlerInterface
     public function handleRequest(Params $params)
     {
         $genre = $this->getRequest()->getQuery()['genre'] ?? "";
-        $genre =  "[" . urldecode($genre) . "]";
+        $genre =  urldecode($genre);
         $page = $this->getRequest()->getQuery()['page'] ?? 1;
         $pageSize = $this->getRequest()->getQuery()['size'] ??
             $this->getConfig()->DetailPage->sameGenreAuthorsSize;
