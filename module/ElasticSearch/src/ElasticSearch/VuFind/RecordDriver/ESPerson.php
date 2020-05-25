@@ -460,12 +460,13 @@ class ESPerson extends ElasticSearch
         if (isset($val1)) $val1 = $this->localizedArrayToString($val1);
         $val2 = $this->getField('affiliationAsLiteral', 'gnd');
         if (isset($val2)) {
-            $val2 = $this->arrayToString($val2);
+            if (is_array($val2)) {
+                $val2 = $this->arrayToString($val2);
+            }
             if (isset($val1)) {
                 $val1 = $val1 . $delimiter . $val2;
-            }
-            else {
-                $val1  = $val2;
+            } else {
+                $val1 = $val2;
             }
         }
         return $val1;

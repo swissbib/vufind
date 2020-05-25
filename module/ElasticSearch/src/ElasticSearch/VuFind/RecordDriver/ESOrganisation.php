@@ -150,7 +150,9 @@ class ESOrganisation extends ElasticSearch
     public function getAlternateName()
     {
         $val = $this->getField('alternateName', 'schema');
-        $val = implode(", ", $val);
+        if (!empty($val) ) {
+            $val = implode(", ", $val);
+        }
         return $val;
     }
 
@@ -307,7 +309,7 @@ class ESOrganisation extends ElasticSearch
                 }
             }
         }
-        return implode(",", $ids);
+        return $ids == null ? null : implode(",", $ids);
     }
 
     /**
