@@ -1,0 +1,45 @@
+### install ubuntu ###
+FROM ubuntu:18.04 AS systembase
+MAINTAINER guenter.hipler@unibas.ch
+EXPOSE 80 443
+#VOLUME ["/var/lib/mysql", "/var/run/mysqld", "/app", "/var/lib/xdebug"]
+#ENTRYPOINT ["/docker/entrypoint"]
+#CMD ["run"]
+
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y wget less vim  graphviz locales ssh rsync graphicsmagick-imagemagick-compat  \
+        apache2 apache2-utils openssl ca-certificates  libcurl4 apt-utils tzdata \
+#        libshibsp-plugins shibboleth-sp2-utils libshibsp7  libxmltooling7 \
+#        libapache2-mod-shib2 git \
+        git make curl unzip build-essential \
+        libapache2-mod-php7.2 php7.2-bcmath php7.2-bz2 php7.2-cli php7.2-common php7.2-curl php7.2-dba php7.2-dev \
+        php7.2-fpm php7.2-gd php7.2-intl php7.2-json php7.2-mbstring php7.2-mysql php7.2-opcache \
+        php7.2-readline php7.2-soap php7.2-xml php7.2-zip php7.2-xdebug
+
+
+RUN curl -sL https://deb.nodesource.com/setup_10.x |  bash -
+RUN apt-get install -y nodejs
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y yarn
+
+RUN curl -sS https://getcomposer.org/installer \
+    | php -- --install-dir=/usr/local/bin --filename=composer \
+    && chmod +x /usr/local/bin/composer
+RUN DEBIAN_FRONTEND=noninteractive  npm install -g npm-install-cache
+
+FROM systembase AS appbase
+COPY --chown=www-data:www-data . /var/www/html
+
+WORKDIR /var/www/html
+
+RUN composer install  --no-dev
+
+RUN npm-install-cache
+RUN npm run build
+
+RUN chown -R www-data:www-data .
+
+
+
+FROM appbase
+CMD ["apachectl", "-D", "FOREGROUND"]
