@@ -1,0 +1,57 @@
+<?php
+// Set page title.
+$this->headTitle("swissbib : " . $this->translate('Search Home') . " | " . $this->translate('home.titlepart'));
+
+// Set default value if necessary:
+if (!isset($this->searchClassId)) {
+  $this->searchClassId = 'Solr';
+}
+
+/*
+// Load search actions and settings (if any):
+$options = $this->searchOptions($this->searchClassId);
+$basicSearch = $options->getSearchAction();
+$advSearch = $options->getAdvancedSearchAction();
+*/
+
+$this->layout()->breadcrumbs = false;
+
+if (!isset($this->layout()->searchbox)) {
+  $this->layout()->searchbox = $this->render('search/searchbox.phtml');
+}
+?>
+<?php if ($this->ils()->getOfflineMode() == "ils-offline"): ?>
+  <div class="searchHomeContent">
+    <div class="alert alert-warning">
+      <h2><?= $this->transEsc('ils_offline_title') ?></h2>
+
+      <p><strong><?= $this->transEsc('ils_offline_status') ?></strong></p>
+
+      <p><?= $this->transEsc('ils_offline_home_message') ?></p>
+      <?php $supportEmail = $this->escapeHtmlAttr($this->systemEmail()); ?>
+      <p><a href="mailto:<?= $supportEmail ?>"><?= $supportEmail ?></a></p>
+    </div>
+  </div>
+<?php endif; ?>
+
+<div class="col-md-12">
+  <div class="container">
+    <div class="row searchHomeContent">
+      <div class="col-sm-6 col-md-4 swissbibCustom">
+        <div class="row">
+        <?= $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_1'); ?>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 swissbibCustom">
+        <div class="row">
+          <?= $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_2'); ?>
+        </div>
+      </div>
+        <div class="col-sm-6 col-md-4 swissbibCustom">
+            <div class="row">
+                <?= $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_3'); ?>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

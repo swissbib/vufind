@@ -522,6 +522,13 @@ DDC:
     classif_ddc:
          - [onephrase, ~]
 
+DDC15:
+  DismaxFields:
+    - classif_ddc_15
+  QueryFields:
+    classif_ddc_15:
+      - [onephrase, ~]
+
 SDNB:
   DismaxFields:
     - sdnb_str_mv

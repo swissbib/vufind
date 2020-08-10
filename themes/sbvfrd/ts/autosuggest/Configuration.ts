@@ -101,7 +101,7 @@ export default class Configuration implements Translator {
             if ( template.indexOf('?') > -1 ) {
                 searchDelimiter = '&';
             }
-            template += searchDelimiter + 'filter=' + filter
+            template += searchDelimiter + 'filter[]=' + filter
         }
 
         return template;
