@@ -35,6 +35,7 @@ if [ "$UID"  -eq 0 ]; then
         rm -rf $VUFIND_CACHE/searchspecs/*
         rm -rf $VUFIND_CACHE/objects/*
         rm -rf $VUFIND_CACHE/languages/*
+        rm -rf $VUFIND_CACHE/cli
     done
 
     echo "now restart apache ..."
