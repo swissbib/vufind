@@ -570,7 +570,7 @@ return [
             'subjectHeadingFormatter'        => 'Swissbib\View\Helper\SubjectHeadings',
             'SortAndPrepareFacetList'        => 'Swissbib\View\Helper\SortAndPrepareFacetList',
             'tabTemplate'                    => 'Swissbib\View\Helper\TabTemplate',
-            'LaminasTranslate'                  => 'Laminas\I18n\View\Helper\Translate',
+            'laminasTranslate'                  => 'Laminas\I18n\View\Helper\Translate',
             'getVersion'                     => 'Swissbib\View\Helper\GetVersion',
             'holdingActions'                 => 'Swissbib\View\Helper\HoldingActions',
             'availabilityInfo'               => 'Swissbib\View\Helper\AvailabilityInfo',

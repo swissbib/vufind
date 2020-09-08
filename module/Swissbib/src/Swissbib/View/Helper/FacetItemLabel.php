@@ -97,7 +97,7 @@ class FacetItemLabel extends AbstractHelper
 
         if (isset($this->customTranslations[$facetType])) {
             if (!isset($this->translator)) {
-                $this->translator = $this->getView()->plugin('LaminasTranslate');
+                $this->translator = $this->getView()->plugin('laminasTranslate');
             }
             $translator  = $this->translator;
             $textDomain  = $this->customTranslations[$facetType];
