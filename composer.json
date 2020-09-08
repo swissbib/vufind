@@ -115,7 +115,7 @@
         "elasticsearch/elasticsearch": "7.3.0",
         "ongr/elasticsearch-dsl": "7.0.0",
         "swissbib/switchSharedAttributesAPIClient": "dev-master",
-        "zendframework/zend-i18n-resources": "^2.5",
+        "laminas/laminas-i18n-resources": "^2.5",
         "doctrine/common": "^2.7",
         "laminas/laminas-hydrator": "^2.4",
         "laminas/laminas-barcode": "^2.7",
