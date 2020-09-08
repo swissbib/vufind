@@ -29,6 +29,16 @@
         }
     }
 
+    $filterDetails = $this->searchbox()->getFilterDetails(
+        isset($this->filterList) && is_array($this->filterList) ? $this->filterList
+            : [],
+        isset($this->checkboxFilters) && is_array($this->checkboxFilters)
+            ? $this->checkboxFilters : []
+    );
+    $showFilters = $filterDetails
+        && (isset($results)
+            || $options->getRetainFilterSetting());
+
 // Extend swissbib global object by autocomplete configuration
 $autoSuggestConfig = json_encode($this->autoSuggestConfig($this->searchClassId)->toArray());
 $swissbibObjectExtension = <<<JS
@@ -73,11 +83,18 @@ $this->inlineScript()->appendScript($swissbibObjectExtension);
         </div>-->
       </div>
     </div>
+
+
+
       <?=$this->context($this)->renderInContext(
           'search/filters.phtml',
           [
               'params' => $params ?? null,
-              'urlQuery' => isset($results) ? $results->getUrlQuery() : null
+              'urlQuery' => isset($results) ? $results->getUrlQuery() : null,
+              'filterList' => $showFilters ? $filterList : [],
+              'checkboxFilters' => $showFilters ? $checkboxFilters : [],
+              'searchClassId' => $this->searchClassId,
+              'searchType' => $this->searchType,
           ]
       );?>
   </div>
@@ -123,12 +140,6 @@ $this->inlineScript()->appendScript($swissbibObjectExtension);
           <input type="checkbox" <?=$isSelected ? 'checked="checked" ' : ''?>name="shard[]" value='<?=$this->escapeHtmlAttr($shard)?>' /> <?=$this->transEsc($shard)?>
       <?php endforeach; ?>
     <?php endif; ?>
-    <?php
-      $filterDetails = $this->searchbox()->getFilterDetails(
-          isset($this->filterList) && is_array($this->filterList) ? $this->filterList : [],
-          isset($this->checkboxFilters) && is_array($this->checkboxFilters) ? $this->checkboxFilters : []
-      );
-    ?>
     <?php if ((isset($hasDefaultsApplied) && $hasDefaultsApplied) || !empty($filterDetails)): ?>
       <?php $defaultFilterState = $options->getRetainFilterSetting() ? ' checked="checked"' : ''; ?>
       <label class="checkbox">
@@ -164,7 +175,11 @@ $this->inlineScript()->appendScript($swissbibObjectExtension);
         'search/filters.phtml',
         [
             'params' => $params ?? null,
-            'urlQuery' => isset($results) ? $results->getUrlQuery() : null
+            'urlQuery' => isset($results) ? $results->getUrlQuery() : null,
+            'filterList' => $showFilters ? $filterList : [],
+            'checkboxFilters' => $showFilters ? $checkboxFilters : [],
+            'searchClassId' => $this->searchClassId,
+            'searchType' => $this->searchType,
         ]
     );?>
   </form>
