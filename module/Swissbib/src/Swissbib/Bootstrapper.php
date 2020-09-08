@@ -32,15 +32,15 @@ namespace Swissbib;
 
 use Swissbib\Filter\TemplateFilenameFilter;
 use VuFind\Auth\Manager;
-use Zend\Config\Config;
-use Zend\Console\Console;
-use Zend\Console\Request as ConsoleRequest;
-use Zend\EventManager\Event;
-use Zend\I18n\Translator\Translator as TranslatorImpl;
+use Laminas\Config\Config;
+use Laminas\Console\Console;
+use Laminas\Console\Request as ConsoleRequest;
+use Laminas\EventManager\Event;
+use Laminas\I18n\Translator\Translator as TranslatorImpl;
 
-use Zend\Mvc\MvcEvent;
+use Laminas\Mvc\MvcEvent;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Bootstraper
@@ -70,21 +70,21 @@ class Bootstrapper
     /**
      * Events
      *
-     * @var \Zend\EventManager\EventManagerInterface
+     * @var \Laminas\EventManager\EventManagerInterface
      */
     protected $events;
 
     /**
      * Application
      *
-     * @var \Zend\Mvc\ApplicationInterface
+     * @var \Laminas\Mvc\ApplicationInterface
      */
     protected $application;
 
     /**
      * ServiceManager
      *
-     * @var \Zend\ServiceManager\ServiceLocatorInterface
+     * @var \Laminas\ServiceManager\ServiceLocatorInterface
      */
     protected $serviceManager;
 
@@ -226,7 +226,7 @@ class Bootstrapper
                  *
                  * @var TranslatorImpl $translator
                  */
-                $translator = $this->serviceManager->get('Zend\Mvc\I18n\Translator');
+                $translator = $this->serviceManager->get('Laminas\Mvc\I18n\Translator');
                 $viewModel = $serviceLocator->get('ViewManager')->getViewModel();
 
                 $callback = function ($event) use ($locale, $translator,
@@ -328,7 +328,7 @@ class Bootstrapper
          *
          * @var TranslatorImpl $translator
          */
-        $translator = $serviceLocator->get('Zend\Mvc\I18n\Translator');
+        $translator = $serviceLocator->get('Laminas\Mvc\I18n\Translator');
 
         /**
          * Logging untranslated institutions
@@ -352,16 +352,16 @@ class Bootstrapper
      *
      * @return void
      */
-    protected function initZendValidatorTranslations()
+    protected function initLaminasValidatorTranslations()
     {
         $callback = function ($event) {
             $translator = $event->getApplication()->getServiceManager()
-                ->get('Zend\Mvc\I18n\Translator');
+                ->get('Laminas\Mvc\I18n\Translator');
 
             $translator->addTranslationFile(
                 'phparray',
-                'vendor/zendframework/zend-i18n-resources/languages/' .
-                $translator->getLocale() . '/Zend_Validate.php',
+                'vendor/laminas/laminas-i18n-resources/languages/' .
+                $translator->getLocale() . '/Laminas_Validate.php',
                 'default',
                 $translator->getLocale()
             );

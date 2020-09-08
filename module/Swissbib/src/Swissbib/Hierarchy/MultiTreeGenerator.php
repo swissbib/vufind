@@ -30,7 +30,7 @@
  */
 namespace Swissbib\Hierarchy;
 
-use Zend\Config\Config;
+use Laminas\Config\Config;
 
 /**
  * Swissbib MultiTreeGenerator

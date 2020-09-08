@@ -31,7 +31,7 @@ namespace Jusbib\VuFind\Search;
 
 use Jusbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
 use VuFind\View\Helper\Root\SearchOptions;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Jusbib Factory

@@ -18,7 +18,7 @@ $this->layout()->breadcrumbs = '<li>' . $this->searchMemory()->getLastSearchLink
 
 $loginlink = 'http://aleph.unibas.ch/F/?func=file&file_name=login-session';
 
-/** @var \Zend\Form\Form $form */
+/** @var \Laminas\Form\Form $form */
 if (isset($form)) {
     $form->setAttribute('action', '');
     $form->setAttribute('method', 'post');

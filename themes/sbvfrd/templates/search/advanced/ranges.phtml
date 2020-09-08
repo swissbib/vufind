@@ -42,7 +42,7 @@ $(document).ready(function() {
 });
 JS;
           ?>
-          <?=$this->inlineScript(\Zend\View\Helper\HeadScript::SCRIPT, $script, 'SET'); ?>
+          <?=$this->inlineScript(\Laminas\View\Helper\HeadScript::SCRIPT, $script, 'SET'); ?>
         <?php endif; ?>
         <div class="col-xs-6">
           <label class="rangeSub" for="<?=$escField?>from"><?=$this->transEsc('date_from')?>:</label>

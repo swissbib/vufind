@@ -27,7 +27,7 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\View\Model\ViewModel;
+use Laminas\View\Model\ViewModel;
 
 /**
  * Class SubjectDetailPageController
@@ -43,7 +43,7 @@ class SubjectDetailPageController extends AbstractSubjectController
     /**
      * /Page/Detail/Subject/:id
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function subjectAction()
     {
@@ -63,9 +63,9 @@ class SubjectDetailPageController extends AbstractSubjectController
     /**
      * Extends the view model by media data if possible.
      *
-     * @param \Zend\View\Model\ViewModel $viewModel The view model to extend.
+     * @param \Laminas\View\Model\ViewModel $viewModel The view model to extend.
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      * Either the extended model or a new view model in case an exception occurred.
      */
     protected function extendViewModel(ViewModel $viewModel): ViewModel

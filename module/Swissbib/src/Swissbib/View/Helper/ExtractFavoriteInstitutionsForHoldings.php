@@ -28,7 +28,7 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\I18n\View\Helper\AbstractTranslatorHelper;
+use Laminas\I18n\View\Helper\AbstractTranslatorHelper;
 
 /**
  * Search favorite institutions in holding list and add as a new group as first group

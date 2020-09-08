@@ -29,7 +29,7 @@
 namespace Swissbib\VuFind\Search\Helper;
 
 use VuFind\Auth\Manager;
-use Zend\Stdlib\Parameters;
+use Laminas\Stdlib\Parameters;
 
 /**
  * Helper to control the application behaviour related to some personal settings

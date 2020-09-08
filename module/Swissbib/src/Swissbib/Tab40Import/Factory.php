@@ -29,7 +29,7 @@
 namespace Swissbib\Tab40Import;
 
 use Swissbib\Tab40Import\Importer as Tab40Importer;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory for Types used for communication with the Libadmin web application.

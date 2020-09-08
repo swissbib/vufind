@@ -30,7 +30,7 @@
  */
 namespace Swissbib\MyResearch\Form;
 
-use Zend\Form\Annotation;
+use Laminas\Form\Annotation;
 
 /**
  * AddressForm
@@ -42,7 +42,7 @@ use Zend\Form\Annotation;
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  *
  * @Annotation\Name("address")
- * @Annotation\Hydrator("Zend\Hydrator\ObjectProperty")
+ * @Annotation\Hydrator("Laminas\Hydrator\ObjectProperty")
  */
 class AddressForm
 {
@@ -151,7 +151,7 @@ class AddressForm
      * @Annotation\Name("z304-email-address")
      * @Annotation\Options({"label":"Email"})
      * @Annotation\AllowEmpty(true)
-     * @Annotation\Type("Zend\Form\Element\Email")
+     * @Annotation\Type("Laminas\Form\Element\Email")
      * @Annotation\Validator({"name":"StringLength", "options":{"min":0, "max":60}})
      * @Annotation\Validator({"name":"EmailAddress"})
      * @Annotation\ErrorMessage("Email address is invalid")

@@ -33,9 +33,9 @@ namespace Swissbib\View\Helper;
 use Swissbib\Services\NationalLicence;
 use Swissbib\TargetsProxy\IpMatcher;
 use VuFind\RecordDriver\SolrDefault;
-use Zend\Http\PhpEnvironment\RemoteAddress;
-use Zend\ServiceManager\ServiceManager;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\Http\PhpEnvironment\RemoteAddress;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * Return URL for NationalLicence online access if applicable. Otherwise 'false'.

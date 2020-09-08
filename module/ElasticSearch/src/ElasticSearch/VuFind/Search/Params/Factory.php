@@ -27,7 +27,7 @@
  */
 namespace ElasticSearch\VuFind\Search\Params;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Class Factory

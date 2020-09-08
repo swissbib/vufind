@@ -29,7 +29,7 @@
 namespace Swissbib\View\Helper;
 
 use Vufind\Search\Base\Results;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * Improved version of VuFind\View\Helper\Root\SortFacetList

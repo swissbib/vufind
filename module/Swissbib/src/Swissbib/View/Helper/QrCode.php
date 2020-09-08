@@ -29,7 +29,7 @@
 namespace Swissbib\View\Helper;
 
 use Swissbib\CRCode\QrCodeService;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * Build a qr code link or image

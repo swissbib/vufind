@@ -28,8 +28,8 @@
 namespace Swissbib\AjaxHandler;
 
 use VuFind\View\Helper\Root\RecordDataFormatter;
-use Zend\Http\Request;
-use Zend\Http\Response;
+use Laminas\Http\Request;
+use Laminas\Http\Response;
 
 /**
  * Trait AjaxTrait
@@ -79,9 +79,9 @@ trait AjaxTrait
      * @param array $content Content
      * @param array $spec    Specification
      *
-     * @return \Zend\Stdlib\ResponseInterface
+     * @return \Laminas\Stdlib\ResponseInterface
      */
-    protected function buildResponse($content, $spec): \Zend\Stdlib\ResponseInterface
+    protected function buildResponse($content, $spec): \Laminas\Stdlib\ResponseInterface
     {
         $data = [];
         // @var RecordDataFormatter $recordFormatter
@@ -170,7 +170,7 @@ trait AjaxTrait
 
         // Send both GET and POST variables to search class:
         $params->initFromRequest(
-            new \Zend\Stdlib\Parameters(
+            new \Laminas\Stdlib\Parameters(
                 $this->request->getQuery()->toArray() + $this->request
                     ->getPost()->toArray()
             )

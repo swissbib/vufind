@@ -32,15 +32,15 @@ namespace Swissbib\Libadmin;
 
 use Swissbib\Libadmin\Exception as Exceptions;
 use Swissbib\Libadmin\Writer as LibadminWriter;
-use Zend\Cache\Storage\Adapter\Filesystem as FileSystemCache;
-use Zend\Cache\Storage\StorageInterface;
-use Zend\Config\Config;
-use Zend\Di\ServiceLocator;
-use Zend\Http\Client\Adapter\Exception\RuntimeException as HttpException;
-use Zend\Http\Client as HttpClient;
+use Laminas\Cache\Storage\Adapter\Filesystem as FileSystemCache;
+use Laminas\Cache\Storage\StorageInterface;
+use Laminas\Config\Config;
+use Laminas\Di\ServiceLocator;
+use Laminas\Http\Client\Adapter\Exception\RuntimeException as HttpException;
+use Laminas\Http\Client as HttpClient;
 
-use Zend\Http\Response;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Http\Response;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Libadmin data importer

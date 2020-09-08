@@ -28,9 +28,9 @@
  */
 namespace Jusbib;
 
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface as Autoloadable;
-use Zend\ModuleManager\Feature\ConfigProviderInterface as Configurable;
-use Zend\Mvc\MvcEvent;
+use Laminas\ModuleManager\Feature\AutoloaderProviderInterface as Autoloadable;
+use Laminas\ModuleManager\Feature\ConfigProviderInterface as Configurable;
+use Laminas\Mvc\MvcEvent;
 
 /**
  * ZF2 module definition for the VuFind application
@@ -74,7 +74,7 @@ class Module implements Autoloadable, Configurable
     public function getAutoloaderConfig()
     {
         return [
-            'Zend\Loader\StandardAutoloader' => [
+            'Laminas\Loader\StandardAutoloader' => [
                 'namespaces' => [
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ],

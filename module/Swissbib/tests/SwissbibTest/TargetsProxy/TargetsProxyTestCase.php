@@ -32,11 +32,11 @@ namespace SwissbibTest\TargetsProxy;
 
 use Swissbib\TargetsProxy\TargetsProxy;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
-use Zend\Config\Config;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\Log\Logger;
+use Laminas\Config\Config;
+use Laminas\Http\PhpEnvironment\Request;
+use Laminas\Log\Logger;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * TargetsProxyTestCase
@@ -67,7 +67,7 @@ class TargetsProxyTestCase extends VuFindTestCase
     {
         if (!$this->targetsProxy) {
             $_SERVER['REMOTE_ADDR'] = '1.1.1.1';
-            $iniReader = new \Zend\Config\Reader\Ini();
+            $iniReader = new \Laminas\Config\Reader\Ini();
             $serviceLocator = new ServiceManager();
             $targetsProxyConfig = new Config($iniReader->fromFile($configFile));
             $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/TargetsProxy';

@@ -33,7 +33,7 @@ use SimpleXMLElement;
 use VuFind\Exception\ILS as ILSException;
 use VuFind\ILS\Driver\Aleph as VuFindDriver;
 use VuFind\ILS\Driver\AlephRestfulException;
-use Zend\Http\Request;
+use Laminas\Http\Request;
 
 /**
  * Aleph

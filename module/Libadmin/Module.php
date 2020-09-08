@@ -28,8 +28,8 @@
  */
 namespace Libadmin;
 
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface as Autoloadable;
-use Zend\ModuleManager\Feature\ConfigProviderInterface as Configurable;
+use Laminas\ModuleManager\Feature\AutoloaderProviderInterface as Autoloadable;
+use Laminas\ModuleManager\Feature\ConfigProviderInterface as Configurable;
 
 /**
  * Libadmin Module
@@ -60,7 +60,7 @@ class Module implements Autoloadable, Configurable
     public function getAutoloaderConfig()
     {
         return [
-            'Zend\Loader\StandardAutoloader' => [
+            'Laminas\Loader\StandardAutoloader' => [
                 'namespaces' => [
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ],

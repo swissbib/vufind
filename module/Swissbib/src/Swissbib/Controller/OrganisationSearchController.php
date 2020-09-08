@@ -28,8 +28,8 @@
 namespace Swissbib\Controller;
 
 use VuFind\Controller\AbstractBase;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Model\ViewModel;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\Model\ViewModel;
 
 /**
  * Class OrganisationSearchController
@@ -56,7 +56,7 @@ class OrganisationSearchController extends AbstractOrganisationController
     /**
      * The action for hierarchicalSuperiors
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function hierarchicalSuperiorsAction()
     {

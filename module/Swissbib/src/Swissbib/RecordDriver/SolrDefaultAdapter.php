@@ -30,7 +30,7 @@
  */
 namespace Swissbib\RecordDriver;
 
-use Zend\Config\Config;
+use Laminas\Config\Config;
 
 /**
  * SolrDefaultAdapter

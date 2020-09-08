@@ -28,7 +28,7 @@
  */
 namespace Swissbib\VuFind\ILS\Driver;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * ILS Driver Factory Class

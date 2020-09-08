@@ -30,7 +30,7 @@
  */
 namespace Swissbib\Log;
 
-use Zend\Log\Logger as ZendLogger;
+use Laminas\Log\Logger as LaminasLogger;
 
 /**
  * Log special events
@@ -41,7 +41,7 @@ use Zend\Log\Logger as ZendLogger;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class Logger extends ZendLogger
+class Logger extends LaminasLogger
 {
     /**
      * UntranslatedInstitutions

@@ -3,7 +3,7 @@
     <?php $i = 0; ?>
     <?php foreach ($classificationTrees as $facetKey => $tree): ?>
       <li <?= $i++ === 0 ? 'class="active"' : '' ?> >
-        <a href="#tab-tree-<?= $facetKey ?>"><?= $this->zendTranslate($facetKey, 'drsys') ?></a>
+        <a href="#tab-tree-<?= $facetKey ?>"><?= $this->laminasTranslate($facetKey, 'drsys') ?></a>
       </li>
     <?php endforeach ?>
   </ul>

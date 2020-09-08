@@ -33,7 +33,7 @@ use Swissbib\Log\Logger;
 use Swissbib\VuFind\Recommend\FavoriteFacets;
 use SwitchSharedAttributesAPIClient\PublishersList;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory for Services.

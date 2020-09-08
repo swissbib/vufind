@@ -28,9 +28,9 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\I18n\View\Helper\Translate;
-use Zend\View\Helper\AbstractHelper;
-use Zend\View\Helper\EscapeHtml;
+use Laminas\I18n\View\Helper\Translate;
+use Laminas\View\Helper\AbstractHelper;
+use Laminas\View\Helper\EscapeHtml;
 
 /**
  * Renders a facet item label
@@ -51,7 +51,7 @@ class FacetItemLabel extends AbstractHelper
     protected $escaper;
 
     /**
-     * Zend translate view helper
+     * Laminas translate view helper
      *
      * @var Translate
      */
@@ -97,7 +97,7 @@ class FacetItemLabel extends AbstractHelper
 
         if (isset($this->customTranslations[$facetType])) {
             if (!isset($this->translator)) {
-                $this->translator = $this->getView()->plugin('zendTranslate');
+                $this->translator = $this->getView()->plugin('LaminasTranslate');
             }
             $translator  = $this->translator;
             $textDomain  = $this->customTranslations[$facetType];

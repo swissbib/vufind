@@ -33,7 +33,7 @@ namespace Swissbib\Controller;
 use Swissbib\Services\NationalLicence;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use VuFind\Exception\Auth as AuthException;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Swissbib MyResearchNationalLicensesController

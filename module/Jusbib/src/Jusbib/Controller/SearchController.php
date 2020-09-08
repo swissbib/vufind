@@ -29,7 +29,7 @@
 namespace Jusbib\Controller;
 
 use Swissbib\Controller\SearchController as SwissbibSearchController;
-use Zend\View\Model\ViewModel;
+use Laminas\View\Model\ViewModel;
 
 /**
  * ZF2 module definition for the VuFind application

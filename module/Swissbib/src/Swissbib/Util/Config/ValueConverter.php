@@ -27,7 +27,7 @@
  */
 namespace Swissbib\Util\Config;
 
-use Zend\Config\Config;
+use Laminas\Config\Config;
 
 /**
  * Class ValueConverter

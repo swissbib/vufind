@@ -28,7 +28,7 @@
 namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\Search\ElasticSearch\Results;
-use Zend\View\Model\ViewModel;
+use Laminas\View\Model\ViewModel;
 
 /**
  * Class OrganisationDetailPageController
@@ -44,7 +44,7 @@ class OrganisationDetailPageController extends AbstractOrganisationController
     /**
      * /Page/Detail/Organisation/:id
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function organisationAction()
     {

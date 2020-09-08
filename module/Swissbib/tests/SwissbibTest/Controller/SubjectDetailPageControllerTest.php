@@ -29,8 +29,8 @@ namespace SwissbibTest\Controller;
 
 use Swissbib\Controller\SubjectDetailPageController;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
-use Zend\Config\Config;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Config\Config;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class SubjectDetailPageControllerTest

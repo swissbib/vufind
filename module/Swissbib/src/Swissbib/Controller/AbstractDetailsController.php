@@ -31,9 +31,9 @@ use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use Swissbib\Util\Config\FlatArrayConverter;
 use Swissbib\Util\Config\ValueConverter;
 use VuFind\Controller\AbstractBase;
-use Zend\Config\Config as ZendConfig;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Model\ViewModel;
+use Laminas\Config\Config as LaminasConfig;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\Model\ViewModel;
 
 /**
  * Class AbstractDetailsController
@@ -52,7 +52,7 @@ abstract class AbstractDetailsController extends AbstractBase
     /**
      * The config.
      *
-     * @var \Zend\Config\Config $config The Config
+     * @var \Laminas\Config\Config $config The Config
      */
     protected $config;
 
@@ -145,7 +145,7 @@ abstract class AbstractDetailsController extends AbstractBase
      * @param string     $id The id
      * @param \Exception $e  The exception
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     protected function createErrorView(string $id, \Exception $e): ViewModel
     {
@@ -182,9 +182,9 @@ abstract class AbstractDetailsController extends AbstractBase
     /**
      * Provides the record references configuration section.
      *
-     * @return \Zend\Config\Config
+     * @return \Laminas\Config\Config
      */
-    protected function getRecordReferencesConfig(): ZendConfig
+    protected function getRecordReferencesConfig(): LaminasConfig
     {
         $flatArrayConverter = new FlatArrayConverter();
         $valueConverter = new ValueConverter();
@@ -199,7 +199,7 @@ abstract class AbstractDetailsController extends AbstractBase
             = $recordReferencesConfig->get('RecordReferences')->toArray();
 
         return $valueConverter->convert(
-            new ZendConfig($recordReferencesConfig)
+            new LaminasConfig($recordReferencesConfig)
         );
     }
 }

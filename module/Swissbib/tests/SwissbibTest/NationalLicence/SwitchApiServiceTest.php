@@ -30,9 +30,9 @@ use ReflectionClass;
 use SwissbibTest\Bootstrap;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
-use Zend\Config\Config;
-use Zend\Config\Reader\Ini as IniReader;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\Config\Config;
+use Laminas\Config\Reader\Ini as IniReader;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Class SwitchApiServiceTest.

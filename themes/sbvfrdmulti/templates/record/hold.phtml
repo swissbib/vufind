@@ -80,7 +80,7 @@ endif;
                     <div class="col-sm-9">
                         <select id="pickUpLocation" name="gatheredDetails[pickUpLocation]" class="form-control" onchange="handleChange();">
                             <option value="" selected="selected">[<?=$this->transEsc('select pickup location')?>:]</option>
-                            <?php if (!$institutionIsPresent): ?><option value="DUMMY"><?= $this->zendTranslate($institutionOfItem, 'institution') ?></option><?php endif; ?>
+                            <?php if (!$institutionIsPresent): ?><option value="DUMMY"><?= $this->laminasTranslate($institutionOfItem, 'institution') ?></option><?php endif; ?>
                             <?php foreach ($this->pickup as $lib): ?>
                                 <?php if(in_array($lib['locationID'], $unsetPickup)): ?>
                                     <?php unset($lib); ?>

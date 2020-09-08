@@ -28,9 +28,9 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
-use Zend\View\Resolver\AggregateResolver;
-use Zend\View\Resolver\TemplateMapResolver;
+use Laminas\View\Helper\AbstractHelper;
+use Laminas\View\Resolver\AggregateResolver;
+use Laminas\View\Resolver\TemplateMapResolver;
 
 /**
  * IncludeTemplate

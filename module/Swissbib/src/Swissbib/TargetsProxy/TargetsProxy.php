@@ -28,12 +28,12 @@
  */
 namespace Swissbib\TargetsProxy;
 
-use Zend\Config\Config;
-use Zend\Di\ServiceLocator;
-use Zend\Http\PhpEnvironment\RemoteAddress;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\Log\Logger as ZendLogger;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Config\Config;
+use Laminas\Di\ServiceLocator;
+use Laminas\Http\PhpEnvironment\RemoteAddress;
+use Laminas\Http\PhpEnvironment\Request;
+use Laminas\Log\Logger as LaminasLogger;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Targets proxy
@@ -65,7 +65,7 @@ class TargetsProxy
     /**
      * ClientUri
      *
-     * @var \Zend\Uri\Http
+     * @var \Laminas\Uri\Http
      */
     protected $clientUri;
 
@@ -111,11 +111,11 @@ class TargetsProxy
      *
      * @param Config     $config             Config
      * @param Config     $targetsProxyConfig Config
-     * @param ZendLogger $logger             ZendLogger
+     * @param LaminasLogger $logger             LaminasLogger
      * @param Request    $request            Request
      */
     public function __construct($config, $targetsProxyConfig,
-        ZendLogger $logger, Request $request
+        LaminasLogger $logger, Request $request
     ) {
         $this->config = $config;
         $this->targetsProxyConfig = $targetsProxyConfig;
@@ -197,7 +197,7 @@ class TargetsProxy
     /**
      * GetClientUrl
      *
-     * @return \Zend\Uri\Http
+     * @return \Laminas\Uri\Http
      */
     public function getClientUrl()
     {
@@ -207,7 +207,7 @@ class TargetsProxy
     /**
      * GetConfig
      *
-     * @return \Zend\Config\Config
+     * @return \Laminas\Config\Config
      */
     public function getConfig()
     {
@@ -243,7 +243,7 @@ class TargetsProxy
         if (empty($overrideHost)) {
             $url = $this->getClientUrl();
         } else {
-            $url = new \Zend\Uri\Http();
+            $url = new \Laminas\Uri\Http();
             $url->setHost($overrideHost);
         }
 
@@ -257,7 +257,7 @@ class TargetsProxy
             /**
              * Config
              *
-             * @var \Zend\Config\Config $targetConfig
+             * @var \Laminas\Config\Config $targetConfig
              */
             $targetConfig = $this->targetsProxyConfig->get($targetKey);
             $patternsIP = '';

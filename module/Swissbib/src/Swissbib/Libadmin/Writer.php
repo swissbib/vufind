@@ -30,8 +30,8 @@
  */
 namespace Swissbib\Libadmin;
 
-use Zend\Config\Config;
-use Zend\Config\Writer\Ini as IniWriter;
+use Laminas\Config\Config;
+use Laminas\Config\Writer\Ini as IniWriter;
 
 /**
  * Write imported data to local system
@@ -100,7 +100,7 @@ class Writer
             throw new \Exception('Cannot create language folder ' . $type);
         }
 
-        // Replace double quotes, because they're invalid for ini format in zend
+        // Replace double quotes, because they're invalid for ini format in Laminas
         $data    = $this->cleanData($data);
         $config    = new Config($data, false);
         $writer    = new IniWriter();

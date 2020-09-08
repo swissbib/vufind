@@ -28,7 +28,7 @@
 namespace ElasticSearch\VuFind\Service;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Class Factory

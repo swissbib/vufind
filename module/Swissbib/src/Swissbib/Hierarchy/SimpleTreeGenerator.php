@@ -30,7 +30,7 @@
  */
 namespace Swissbib\Hierarchy;
 
-use Zend\Cache\Storage\Adapter\Filesystem as ObjectCache;
+use Laminas\Cache\Storage\Adapter\Filesystem as ObjectCache;
 
 /**
  * Swissbib SimpleTreeGenerator
@@ -44,7 +44,7 @@ use Zend\Cache\Storage\Adapter\Filesystem as ObjectCache;
 class SimpleTreeGenerator
 {
     /**
-     * Zend object cache
+     * Laminas object cache
      *
      * @var ObjectCache
      */

@@ -28,7 +28,7 @@
 namespace Swissbib\Controller;
 
 use VuFind\Controller\AbstractBase;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class PersonSearchController
@@ -55,7 +55,7 @@ class PersonSearchController extends AbstractBase
     /**
      * The action for co authors
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function coAuthorAction()
     {
@@ -77,7 +77,7 @@ class PersonSearchController extends AbstractBase
     /**
      * The action for same genre authors
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function sameGenreAction()
     {
@@ -96,7 +96,7 @@ class PersonSearchController extends AbstractBase
     /**
      * The action for same movement authors
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function sameMovementAction()
     {
@@ -115,7 +115,7 @@ class PersonSearchController extends AbstractBase
     /**
      * The action for same subject authors
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function subjectAction()
     {

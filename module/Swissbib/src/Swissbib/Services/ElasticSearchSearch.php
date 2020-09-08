@@ -30,7 +30,7 @@ namespace Swissbib\Services;
 use ElasticSearch\VuFind\Search\ElasticSearch\Params;
 use ElasticSearch\VuFind\Search\ElasticSearch\Results;
 use VuFindSearch\Query\Query;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class SolrSearch

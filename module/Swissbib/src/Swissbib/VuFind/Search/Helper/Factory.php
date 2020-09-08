@@ -28,7 +28,7 @@
  */
 namespace Swissbib\VuFind\Search\Helper;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory

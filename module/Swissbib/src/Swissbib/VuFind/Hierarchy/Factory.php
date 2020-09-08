@@ -29,7 +29,7 @@
 namespace Swissbib\VuFind\Hierarchy;
 
 use Swissbib\VuFind\Hierarchy\TreeRenderer\JSTree as SwissbibJsTree;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Hierarchy Data Source Factory Class

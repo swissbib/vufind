@@ -29,7 +29,7 @@ namespace Swissbib\VuFind\Search\Results;
 
 use Swissbib\VuFind\Search\Favorites\Results;
 use VuFind\Search\Solr\SpellingProcessor;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Search Results Object Factory Class

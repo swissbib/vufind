@@ -28,8 +28,8 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\Http\Request;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\Http\Request;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * Get the basic domain for view script

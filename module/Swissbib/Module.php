@@ -28,13 +28,13 @@
  */
 namespace Swissbib;
 
-use Zend\Console\Adapter\AdapterInterface as Console;
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface as Autoloadable;
-use Zend\ModuleManager\Feature\ConfigProviderInterface as Configurable;
-use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface as Consolable;
-use Zend\ModuleManager\Feature\InitProviderInterface as Initializable;
-use Zend\ModuleManager\ModuleManagerInterface;
-use Zend\Mvc\MvcEvent;
+use Laminas\Console\Adapter\AdapterInterface as Console;
+use Laminas\ModuleManager\Feature\AutoloaderProviderInterface as Autoloadable;
+use Laminas\ModuleManager\Feature\ConfigProviderInterface as Configurable;
+use Laminas\ModuleManager\Feature\ConsoleUsageProviderInterface as Consolable;
+use Laminas\ModuleManager\Feature\InitProviderInterface as Initializable;
+use Laminas\ModuleManager\ModuleManagerInterface;
+use Laminas\Mvc\MvcEvent;
 
 /**
  * ZF2 module definition for the VuFind application
@@ -78,7 +78,7 @@ class Module implements Autoloadable, Configurable, Initializable, Consolable
     public function getAutoloaderConfig()
     {
         return [
-            'Zend\Loader\StandardAutoloader' => [
+            'Laminas\Loader\StandardAutoloader' => [
                 'namespaces' => [
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ],

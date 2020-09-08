@@ -33,9 +33,9 @@ namespace Swissbib\Controller;
 use Swissbib\VuFind\Hierarchy\TreeDataSource\Solr as TreeDataSourceSolr;
 use VuFind\Search\Solr\Results as SolrResults;
 
-use Zend\Console\Request as ConsoleRequest;
+use Laminas\Console\Request as ConsoleRequest;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Laminas\Mvc\Controller\AbstractActionController;
 
 /**
  * Swissbib HierarchyCacheController

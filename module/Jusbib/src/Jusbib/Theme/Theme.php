@@ -28,7 +28,7 @@
  */
 namespace Jusbib\Theme;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Factory for Jusbib Theme.

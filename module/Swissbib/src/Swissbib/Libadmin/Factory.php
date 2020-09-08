@@ -31,7 +31,7 @@
 namespace Swissbib\Libadmin;
 
 use Swissbib\Libadmin\Importer as LibadminImporter;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory for Types used for communication with the Libadmin web application.

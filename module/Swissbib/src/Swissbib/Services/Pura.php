@@ -28,8 +28,8 @@ use Exception;
 use Libadmin\Institution\InstitutionLoader;
 use Swissbib\VuFind\Db\Row\PuraUser;
 use SwitchSharedAttributesAPIClient\PublishersList;
-use Zend\Config\Config;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Config\Config;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class Pura.
@@ -207,7 +207,7 @@ class Pura
      *
      * @return array Institution information
      * @throws Exception
-     * @throws \Zend\Json\Server\Exception\ErrorException
+     * @throws \Laminas\Json\Server\Exception\ErrorException
      */
     public function getInstitutionInfo($libraryCode)
     {

@@ -27,8 +27,8 @@
  */
 namespace Swissbib\AjaxHandler;
 
-use Zend\Mvc\Controller\Plugin\Params;
-use Zend\Stdlib\Parameters;
+use Laminas\Mvc\Controller\Plugin\Params;
+use Laminas\Stdlib\Parameters;
 
 /**
  * "GetACSuggestions" AJAX handler

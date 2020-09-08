@@ -100,7 +100,7 @@ class ConsoleController extends BaseController
         $event = $this->getEvent();
         $http = $this->serviceLocator->get('HttpRouter');
         $router = $event->setRouter($http);
-        $request = new \Zend\Http\Request();
+        $request = new \Laminas\Http\Request();
         $request->setUri('');
         $router = $event->getRouter();
         $routeMatch = $router->match($request);
@@ -136,7 +136,7 @@ class ConsoleController extends BaseController
         $event = $this->getEvent();
         $http = $this->serviceLocator->get('HttpRouter');
         $router = $event->setRouter($http);
-        $request = new \Zend\Http\Request();
+        $request = new \Laminas\Http\Request();
         $request->setUri('');
         $router = $event->getRouter();
         $routeMatch = $router->match($request);

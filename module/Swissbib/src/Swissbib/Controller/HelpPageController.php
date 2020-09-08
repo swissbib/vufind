@@ -31,8 +31,8 @@
 namespace Swissbib\Controller;
 
 use VuFind\Controller\AbstractBase as BaseController;
-use Zend\View\Model\ViewModel;
-use Zend\View\Resolver\ResolverInterface;
+use Laminas\View\Model\ViewModel;
+use Laminas\View\Resolver\ResolverInterface;
 
 /**
  * Swissbib HelpPageController
@@ -105,10 +105,10 @@ class HelpPageController extends BaseController
          *
          * @var ResolverInterface $resolver
          */
-        $resolver    = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer')
+        $resolver    = $this->serviceLocator->get('Laminas\View\Renderer\PhpRenderer')
             ->resolver();
         $language    = $this->serviceLocator
-            ->get('Zend\Mvc\I18n\Translator')->getLocale();
+            ->get('Laminas\Mvc\I18n\Translator')->getLocale();
         $template    = null;
         $activeTopic = null;
         $firstMatch  = true;
@@ -158,7 +158,7 @@ class HelpPageController extends BaseController
      */
     protected function getLanguage()
     {
-        return $this->serviceLocator->get('Zend\Mvc\I18n\Translator')->getLocale();
+        return $this->serviceLocator->get('Laminas\Mvc\I18n\Translator')->getLocale();
     }
 
     /**

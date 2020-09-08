@@ -27,7 +27,7 @@
  */
 namespace Swissbib\Controller\Plugin;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class Factory

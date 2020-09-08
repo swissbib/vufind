@@ -116,7 +116,7 @@ class Params extends VuFindSolrParams
     /**
      * Pull the page size parameter or set to default
      *
-     * @param \Zend\StdLib\Parameters $request Parameter object representing user
+     * @param \Laminas\StdLib\Parameters $request Parameter object representing user
      *                                         request.
      *
      * @return void
@@ -139,7 +139,7 @@ class Params extends VuFindSolrParams
      * of hacks relaed to silly personal settings (although is possible in the
      * current PHP version)
      *
-     * @param \Zend\StdLib\Parameters $request Request
+     * @param \Laminas\StdLib\Parameters $request Request
      *
      * @return void
      */
@@ -151,7 +151,7 @@ class Params extends VuFindSolrParams
     /**
      * Get the value for which type of sorting to use
      *
-     * @param \Zend\StdLib\Parameters $request Parameter object representing user
+     * @param \Laminas\StdLib\Parameters $request Parameter object representing user
      *                                         request.
      *
      * @return string

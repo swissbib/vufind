@@ -25,11 +25,11 @@
 namespace Swissbib\Services;
 
 use Swissbib\VuFind\Db\Row\PuraUser;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\Sendmail as SendmailTransport;
-use Zend\Mail\Transport\Smtp as SmtpTransport;
-use Zend\Mime;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Sendmail as SendmailTransport;
+use Laminas\Mail\Transport\Smtp as SmtpTransport;
+use Laminas\Mime;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class Email.

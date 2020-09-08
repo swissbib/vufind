@@ -30,7 +30,7 @@ namespace Swissbib\VuFind\Auth;
 
 use VuFind\Auth\AbstractBase;
 use VuFind\Exception\Auth as AuthException;
-use Zend\Crypt\Password\Bcrypt;
+use Laminas\Crypt\Password\Bcrypt;
 
 /**
  * Class ShibbolethMock
@@ -72,7 +72,7 @@ class ShibbolethMock extends AbstractBase
     /**
      * Attempt to authenticate the current user.  Throws exception if login fails.
      *
-     * @param \Zend\Http\PhpEnvironment\Request $request Request object containing
+     * @param \Laminas\Http\PhpEnvironment\Request $request Request object containing
      *                                                   account credentials.
      *
      * @throws AuthException

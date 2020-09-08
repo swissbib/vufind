@@ -11,7 +11,7 @@ if (count($userInstitutionsList) > 0) {
 
     <tr class="favorites-group">
         <th colspan="2">
-            <?= $this->escapeHtml($this->zendTranslate($groupCode, 'group')) ?>
+            <?= $this->escapeHtml($this->laminasTranslate($groupCode, 'group')) ?>
         </th>
     </tr>
 
@@ -19,8 +19,8 @@ if (count($userInstitutionsList) > 0) {
 
     <tr class="<?= ($iKey % 2 == 0 ? 'odd' : 'even')?>">
       <td class="nodivider">
-        <?= $this->escapeHtml($this->zendTranslate($institutionCode, 'institution')) ?>
-        <a href="<?= $this->escapeHtml($this->zendTranslate($institutionCode, 'bibinfo')) ?>"
+        <?= $this->escapeHtml($this->laminasTranslate($institutionCode, 'institution')) ?>
+        <a href="<?= $this->escapeHtml($this->laminasTranslate($institutionCode, 'bibinfo')) ?>"
            class="externallink" title="<?= $this->transEsc('Library_Information') ?>" target="_blank"></a>
       </td>
       <td class="action">

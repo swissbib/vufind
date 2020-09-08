@@ -30,7 +30,7 @@
  */
 namespace Swissbib\Services;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class Theme

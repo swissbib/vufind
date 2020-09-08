@@ -28,9 +28,9 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\Config\Config as ZendConfig;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\Config\Config as LaminasConfig;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * Config
@@ -51,9 +51,9 @@ class Config extends AbstractHelper
     protected $serviceLocator;
 
     /**
-     * ZendConfig
+     * LaminasConfig
      *
-     * @var ZendConfig
+     * @var LaminasConfig
      */
     protected $config;
 
@@ -70,7 +70,7 @@ class Config extends AbstractHelper
     /**
      * GetConfig
      *
-     * @return ZendConfig
+     * @return LaminasConfig
      */
     protected function getConfig()
     {
@@ -85,7 +85,7 @@ class Config extends AbstractHelper
     /**
      * Get Config
      *
-     * @return ZendConfig
+     * @return LaminasConfig
      */
     public function __invoke()
     {

@@ -30,8 +30,8 @@ namespace Swissbib\Controller\Plugin;
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
 use VuFind\Search\Results\PluginManager;
 use VuFind\Search\Solr\Results;
-use Zend\Mvc\Controller\Plugin\AbstractPlugin;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class SolrSearch

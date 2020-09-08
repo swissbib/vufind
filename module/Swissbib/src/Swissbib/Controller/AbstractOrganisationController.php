@@ -29,9 +29,9 @@ namespace Swissbib\Controller;
 
 use Swissbib\Util\Config\FlatArrayConverter;
 use Swissbib\Util\Config\ValueConverter;
-use Zend\Config\Config as ZendConfig;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Model\ViewModel;
+use Laminas\Config\Config as LaminasConfig;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\Model\ViewModel;
 
 /**
  * Class AbstractOrganisationAction
@@ -55,7 +55,7 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
     /**
      * DetailPageController constructor.
      *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service locator
+     * @param \Laminas\ServiceManager\ServiceLocatorInterface $sm Service locator
      */
     public function __construct(ServiceLocatorInterface $sm)
     {
@@ -66,7 +66,7 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
     /**
      * The organisation action
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function organisationAction()
     {
@@ -114,9 +114,9 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
     /**
      * Provides the record references configuration section.
      *
-     * @return \Zend\Config\Config
+     * @return \Laminas\Config\Config
      */
-    protected function getOrganisationRecordReferencesConfig(): ZendConfig
+    protected function getOrganisationRecordReferencesConfig(): LaminasConfig
     {
         $flatArrayConverter = new FlatArrayConverter();
         $valueConverter = new ValueConverter();
@@ -131,7 +131,7 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
             = $recordReferencesConfig->get('RecordReferences')->toArray();
 
         return $valueConverter->convert(
-            new ZendConfig($recordReferencesConfig)
+            new LaminasConfig($recordReferencesConfig)
         );
     }
 

@@ -39,8 +39,8 @@ use VuFind\Config\PluginManager as ConfigManager;
 use VuFind\Crypt\HMAC;
 
 use VuFind\ILS\Connection as IlsConnection;
-use Zend\Config\Config;
-use Zend\I18n\Translator\TranslatorInterface as Translator;
+use Laminas\Config\Config;
+use Laminas\I18n\Translator\TranslatorInterface as Translator;
 
 /**
  * Probably Holdings should be a subtype of ZF2 AbstractHelper at first I need a

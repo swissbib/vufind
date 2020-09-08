@@ -33,7 +33,7 @@ namespace Swissbib\VuFind\Search\Solr;
 use VuFind\Search\Solr\InjectSpellingListener as VFSpellingListener;
 use VuFindSearch\Backend\Solr\Response\Json\Spellcheck;
 use VuFindSearch\Query\Query;
-use Zend\EventManager\EventInterface;
+use Laminas\EventManager\EventInterface;
 
 /**
  * InjectSwissbibSpellingListener

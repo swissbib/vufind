@@ -31,10 +31,10 @@
 namespace Swissbib\Controller;
 
 use Swissbib\Libadmin\Importer;
-use Zend\Console\Request as ConsoleRequest;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\Console\Request as ConsoleRequest;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Synchronize VuFind with LibAdmin

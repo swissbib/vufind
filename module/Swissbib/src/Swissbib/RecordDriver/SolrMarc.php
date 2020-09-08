@@ -35,7 +35,7 @@ namespace Swissbib\RecordDriver;
 use Swissbib\RecordDriver\Helper\Holdings as HoldingsHelper;
 use VuFind\Log\Logger;
 use VuFind\RecordDriver\SolrMarc as VuFindSolrMarc;
-use Zend\I18n\Translator\TranslatorInterface as Translator;
+use Laminas\I18n\Translator\TranslatorInterface as Translator;
 
 /**
  * SolrDefaultAdapter
@@ -214,13 +214,13 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     /**
      * Constructor
      *
-     * @param \Zend\Config\Config $mainConfig           VuFind main configuration
+     * @param \Laminas\Config\Config $mainConfig           VuFind main configuration
      *                                                  (omit for built-in defaults)
-     * @param \Zend\Config\Config $recordConfig         Record-specific configu-
+     * @param \Laminas\Config\Config $recordConfig         Record-specific configu-
      *                                                  ration file
      *                                                  (omit to use $mainConfig as
      *                                                  $recordConfig)
-     * @param \Zend\Config\Config $searchSettings       Search-specific configu-
+     * @param \Laminas\Config\Config $searchSettings       Search-specific configu-
      *                                                  ration file
      * @param HoldingsHelper      $holdingsHelper       Holdings helper
      * @param HoldingsHelper      $solrDefaultAdapter   SOLR adapter
