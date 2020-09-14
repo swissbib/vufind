@@ -64,6 +64,9 @@ class Factory
         $solr->setSpellingProcessor(
             new SpellingProcessor($config->Spelling ?? null)
         );
+        $solr->setHierarchicalFacetHelper(
+            $sm->get(\VuFind\Search\Solr\HierarchicalFacetHelper::class)
+        );
 
         return $solr;
     }
