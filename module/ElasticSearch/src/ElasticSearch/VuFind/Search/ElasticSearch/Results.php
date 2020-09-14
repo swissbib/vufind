@@ -92,7 +92,7 @@ class Results extends BaseResults
         $params = new ParamBag();
         $params->add(
             "filter", array_merge(
-                $this->getParams()->getFilters(),
+                $this->getParams()->getFilterList(),
                 $this->getParams()->getHiddenFilters()
             )
         );
