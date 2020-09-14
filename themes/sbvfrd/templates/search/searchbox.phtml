@@ -25,7 +25,7 @@
     $params->removeAllFilters();
     foreach ($filterList as $filterName => $filterItems) {
         foreach ($filterItems as $filterValue) {
-            $params->addFilter($filterName . ':' . $filterValue);
+            $params->addFilter($filterName . ':' . $filterValue['displayText']);
         }
     }
 
