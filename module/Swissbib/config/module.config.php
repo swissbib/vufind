@@ -766,6 +766,14 @@ return [
                     'getACSuggestions'            => \Swissbib\AjaxHandler\GetACSuggestions::class,
                 ]
             ],
+            'command' => [
+                'factories' => [
+                    'Swissbib\\Command\\LibAdminSync' => 'Swissbib\\Command\\LibAdminSyncFactory',
+                ],
+                'aliases' => [
+                    'libadminsync' => 'Swissbib\\Command\\LibAdminSync',
+                ]
+            ],
         ]
     ],
     'swissbib' => [
