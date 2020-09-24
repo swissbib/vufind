@@ -16,21 +16,20 @@ ALTER TABLE user
 --
 
 ALTER TABLE search
-  modify id bigint;
-
+  modify id bigint unsigned NOT NULL AUTO_INCREMENT;
 --
 -- Modifications to table `session`
 --
 
 ALTER TABLE session
-  modify id bigint;
+  modify id bigint unsigned NOT NULL AUTO_INCREMENT;
 
 --
 -- Modifications to table `external_session`
 --
 
 ALTER TABLE external_session
-  modify id bigint;
+  modify id bigint unsigned NOT NULL AUTO_INCREMENT;
 
 
 --
