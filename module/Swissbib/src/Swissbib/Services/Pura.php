@@ -472,7 +472,7 @@ class Pura
             'Pura Monthly Report',
             $this->getReportTextEmail($libraryCode),
             "",
-            true
+            false
         );
     }
 

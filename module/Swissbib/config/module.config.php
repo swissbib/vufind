@@ -16,6 +16,8 @@ use Swissbib\Controller\RecordController;
 use Swissbib\Controller\SearchController;
 use Swissbib\Controller\SummonController;
 use Swissbib\Controller\Tab40ImportController;
+use Swissbib\Command\Pura\SendPuraReport;
+use Swissbib\Command\Pura\SendPuraReportFactory;
 use Swissbib\RecordDriver\Summon;
 use Swissbib\VuFind\Search\SearchRunnerFactory;
 use VuFind\Controller\AbstractBaseFactory;
@@ -397,16 +399,7 @@ return [
                             'action'     => 'updatePuraUser'
                         ]
                     ]
-                ],
-                'send-pura-report' => [
-                    'options' => [
-                        'route'    => 'send-pura-report',
-                        'defaults' => [
-                            'controller' => 'console',
-                            'action'     => 'sendPuraReport'
-                        ]
-                    ]
-                ],
+                ]
             ]
         ]
     ],
@@ -768,10 +761,13 @@ return [
             ],
             'command' => [
                 'factories' => [
+                    SendPuraReport::class => SendPuraReportFactory::class,
                     'Swissbib\\Command\\LibAdminSync' => 'Swissbib\\Command\\LibAdminSyncFactory',
+
                 ],
                 'aliases' => [
-                    'libadminsync' => 'Swissbib\\Command\\LibAdminSync',
+                    'send-pura-report' => SendPuraReport::class,
+                    'libadminsync' => 'Swissbib\\Command\\LibAdminSync'
                 ]
             ],
         ]
