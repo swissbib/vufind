@@ -111,21 +111,6 @@ class Module implements Autoloadable, Configurable, Initializable, Consolable
     public function getConsoleUsage(Console $console)
     {
         return [
-            '# Libadmin VuFind Synchronisation',
-            '# Import library and group data from libadmin API and save as' .
-                ' local files',
-            'libadmin sync [--verbose|-v] [--dry|-d] [--result|-r]',
-            [
-                '--verbose|-v', 'Print informations about actions on console output'
-            ],
-            [
-                '--dry|-d', 'Don\'t replace local files with new data ' .
-                    '(check if new data is available/reachable)'
-            ],
-            [
-                '--result|-r', 'Print out a single result info at the end.' .
-                    ' This is included in the verbose flag'
-            ],
             '# Tab40 Location Import',
             '# Extract label information from a tab40 file and convert to vufind' .
                 ' language format',

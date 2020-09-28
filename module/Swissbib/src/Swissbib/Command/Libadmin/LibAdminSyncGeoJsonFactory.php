@@ -1,8 +1,8 @@
 <?php
 
-namespace Swissbib\Command;
+namespace Swissbib\Command\Libadmin;
 
-class LibAdminSyncFactory implements \Laminas\ServiceManager\Factory\FactoryInterface
+class LibAdminSyncGeoJsonFactory implements \Laminas\ServiceManager\Factory\FactoryInterface
 {
 
     /**
@@ -21,7 +21,8 @@ class LibAdminSyncFactory implements \Laminas\ServiceManager\Factory\FactoryInte
      */
     public function __invoke(\Interop\Container\ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new $requestedName();
+        $importer = $container->get('Swissbib\Libadmin\Importer');
+        return new $requestedName($importer);
     }
 
 

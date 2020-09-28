@@ -296,7 +296,7 @@ class Holdings
             $this->groupSorting = $relationConfig->groups->toArray();
         } elseif (APPLICATION_ENV == 'development') {
             throw new \Exception(
-                'Missing config file libadmin-groups.ini. Run libadmin sync ' .
+                'Missing config file libadmin-groups.ini. Run libadmin/sync ' .
                 'to solve this problem'
             );
         }

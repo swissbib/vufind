@@ -193,18 +193,6 @@ class Factory extends AbstractBaseFactory
     }
 
     /**
-     * Method annotation wasn't available
-     *
-     * @param ServiceManager $sm ServiceManaegr
-     *
-     * @return LibadminSyncController
-     */
-    public function getLibadminSyncController(ServiceManager $sm)
-    {
-        return new LibadminSyncController($sm);
-    }
-
-    /**
      * Get Tab40Import Controller
      *
      * @param ServiceManager $sm ServiceManager

@@ -1,6 +1,12 @@
 <?php
 namespace Swissbib\Module\Config;
 
+use Swissbib\Command\Libadmin\LibAdminSync;
+use Swissbib\Command\Libadmin\LibAdminSyncFactory;
+use Swissbib\Command\Libadmin\LibAdminSyncGeoJson;
+use Swissbib\Command\Libadmin\LibAdminSyncGeoJsonFactory;
+use Swissbib\Command\Libadmin\LibAdminSyncMapPortal;
+use Swissbib\Command\Libadmin\LibAdminSyncMapPortalFactory;
 use Swissbib\Controller\CoverController;
 use Swissbib\Controller\FavoritesController;
 use Swissbib\Controller\FeedbackController;
@@ -328,33 +334,6 @@ return [
         'router' => [
             'router_class'  => '',
             'routes' => [
-                'libadmin-sync' => [
-                    'options' => [
-                        'route'    => 'libadmin sync [--verbose|-v] [--dry|-d] [--result|-r]',
-                        'defaults' => [
-                            'controller' => LibadminSyncController::class,
-                            'action'     => 'sync'
-                        ]
-                    ]
-                ],
-                'libadmin-sync-mapportal' => [
-                    'options' => [
-                        'route'    => 'libadmin syncMapPortal [--verbose|-v] [--result|-r] [<path>] ',
-                        'defaults' => [
-                            'controller' => LibadminSyncController::class,
-                            'action'     => 'syncMapPortal'
-                        ]
-                    ]
-                ],
-                'libadmin-sync-geojson' => [
-                    'options' => [
-                        'route'    => 'libadmin syncGeoJson [--verbose|-v] [--result|-r] [<path>]',
-                        'defaults' => [
-                            'controller' => LibadminSyncController::class,
-                            'action'     => 'syncGeoJson'
-                        ]
-                    ]
-                ],
                 'tab40-import' => [ // Importer for aleph tab40 files
                     'options' => [
                         'route'    => 'tab40import <network> <locale> <source>',
@@ -412,7 +391,6 @@ return [
             HelpPageController::class => AbstractBaseFactory::class,
             HierarchyCacheController::class => 'Swissbib\Controller\Factory::getHierarchyCacheController',
             HoldingsController::class => AbstractBaseFactory::class,
-            LibadminSyncController::class => 'Swissbib\Controller\Factory::getLibadminSyncController',
             MyResearchController::class => AbstractBaseFactory::class,
             MyResearchNationalLicensesController::class => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
             NationalLicencesController::class => AbstractBaseFactory::class,
@@ -762,12 +740,9 @@ return [
             'command' => [
                 'factories' => [
                     SendPuraReport::class => SendPuraReportFactory::class,
-                    'Swissbib\\Command\\LibAdminSync' => 'Swissbib\\Command\\LibAdminSyncFactory',
-
-                ],
-                'aliases' => [
-                    'send-pura-report' => SendPuraReport::class,
-                    'libadminsync' => 'Swissbib\\Command\\LibAdminSync'
+                    LibAdminSync::class => LibAdminSyncFactory::class,
+                    LibAdminSyncGeoJson::class => LibAdminSyncGeoJsonFactory::class,
+                    LibAdminSyncMapPortal::class => LibAdminSyncMapPortalFactory::class,
                 ]
             ],
         ]
