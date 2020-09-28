@@ -7,6 +7,8 @@ use Swissbib\Command\Libadmin\LibAdminSyncGeoJson;
 use Swissbib\Command\Libadmin\LibAdminSyncGeoJsonFactory;
 use Swissbib\Command\Libadmin\LibAdminSyncMapPortal;
 use Swissbib\Command\Libadmin\LibAdminSyncMapPortalFactory;
+use Swissbib\Command\Tab40Import\Tab40Import;
+use Swissbib\Command\Tab40Import\Tab40ImportFactory;
 use Swissbib\Controller\CoverController;
 use Swissbib\Controller\FavoritesController;
 use Swissbib\Controller\FeedbackController;
@@ -21,7 +23,6 @@ use Swissbib\Controller\PuraController;
 use Swissbib\Controller\RecordController;
 use Swissbib\Controller\SearchController;
 use Swissbib\Controller\SummonController;
-use Swissbib\Controller\Tab40ImportController;
 use Swissbib\Command\Pura\SendPuraReport;
 use Swissbib\Command\Pura\SendPuraReportFactory;
 use Swissbib\RecordDriver\Summon;
@@ -334,15 +335,6 @@ return [
         'router' => [
             'router_class'  => '',
             'routes' => [
-                'tab40-import' => [ // Importer for aleph tab40 files
-                    'options' => [
-                        'route'    => 'tab40import <network> <locale> <source>',
-                        'defaults' => [
-                            'controller' => Tab40ImportController::class,
-                            'action'     => 'import'
-                        ]
-                    ]
-                ],
                 'hierarchy' => [
                     'options' => [
                         'route'    => 'hierarchy [<limit>] [--verbose|-v]',
@@ -398,7 +390,6 @@ return [
             RecordController::class => 'Swissbib\Controller\Factory::getRecordController',
             SearchController::class => AbstractBaseFactory::class,
             SummonController::class => AbstractBaseFactory::class,
-            Tab40ImportController::class   => 'Swissbib\Controller\Factory::getTab40ImportController',
 
             //TODO : update these keys to ZF3 style keys (with ::class)
             'upgrade'                                => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
@@ -743,6 +734,7 @@ return [
                     LibAdminSync::class => LibAdminSyncFactory::class,
                     LibAdminSyncGeoJson::class => LibAdminSyncGeoJsonFactory::class,
                     LibAdminSyncMapPortal::class => LibAdminSyncMapPortalFactory::class,
+                    Tab40Import::class => Tab40ImportFactory::class,
                 ]
             ],
         ]

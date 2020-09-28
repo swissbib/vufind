@@ -193,18 +193,6 @@ class Factory extends AbstractBaseFactory
     }
 
     /**
-     * Get Tab40Import Controller
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return Tab40ImportController
-     */
-    public function getTab40ImportController(ServiceManager $sm)
-    {
-        return new Tab40ImportController($sm);
-    }
-
-    /**
      * Cover Controller Factory
      *
      * @param ServiceManager $sm ServiceManaegr

@@ -110,18 +110,7 @@ class Module implements Autoloadable, Configurable, Initializable, Consolable
      */
     public function getConsoleUsage(Console $console)
     {
-        return [
-            '# Tab40 Location Import',
-            '# Extract label information from a tab40 file and convert to vufind' .
-                ' language format',
-            'tab40import <network> <locale> <source>',
-            [
-                'network',
-                'Network key the file contains informatino about. Ex: idsbb'
-            ],
-            ['locale', 'Locale key: de, en, fr, etc'],
-            ['source', 'Path to input file. Ex: ~/myalephdata/tab40.ger']
-        ];
+        return [];
     }
 
     /**
