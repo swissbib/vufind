@@ -28,7 +28,7 @@
  */
 namespace Swissbib\VuFind\Search\Factory;
 
-use SerialsSolutions\Summon\Zend2 as Connector;
+use SerialsSolutions\Summon\Laminas as Connector;
 use VuFind\Search\Factory\SummonBackendFactory as SummonBackendFactoryBase;
 use Laminas\Config\Config;
 
