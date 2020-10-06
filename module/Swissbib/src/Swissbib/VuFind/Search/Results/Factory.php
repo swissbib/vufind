@@ -27,6 +27,7 @@
  */
 namespace Swissbib\VuFind\Search\Results;
 
+use LmcRbacMvc\Initializer\AuthorizationServiceInitializer;
 use Swissbib\VuFind\Search\Favorites\Results;
 use VuFind\Search\Solr\SpellingProcessor;
 use Laminas\ServiceManager\ServiceManager;
@@ -149,7 +150,7 @@ class Factory
             [$tm->get('Resource'), $tm->get('UserList')]
         );
 
-        $init = new \ZfcRbac\Initializer\AuthorizationServiceInitializer();
+        $init = new AuthorizationServiceInitializer();
         $init->initialize($obj, $sm);
         return $obj;
     }
