@@ -228,21 +228,6 @@ class Factory
      */
     public static function getPuraService(ServiceManager $sm)
     {
-        //$dataDir = realpath(APPLICATION_PATH . '/data');
-        //$filePath = $dataDir . '/pura/publishers-libraries.json';
-
-        $filePath = $sm->get('VuFind\Config')->get('Pura')['Publishers']['url'];
-
-        //$filePath = 'http://pura.swissbib.ch/publishers-libraries.json';
-
-        $publishersJsonData = file_get_contents($filePath);
-
-        if ($publishersJsonData === false) {
-            throw new \Exception(
-                'Error when reading ' . $filePath . '.'
-            );
-        }
-
         /**
          * Publishers List
          *
@@ -250,7 +235,13 @@ class Factory
          */
         $publishersList = new PublishersList();
 
-        $publishersList->loadPublishersFromJsonFile($publishersJsonData);
+        $filePath = $sm->get('VuFind\Config')->get('Pura')['Publishers']['url'];
+        //$filePath = 'http://pura.swissbib.ch/publishers-libraries.json';
+
+        if (!is_null($filePath)) {
+            $publishersJsonData = file_get_contents($filePath);
+            $publishersList->loadPublishersFromJsonFile($publishersJsonData);
+        }
 
         $groupMapping = $sm->get('VuFind\Config')->get('libadmin-groups')
             ->institutions;
