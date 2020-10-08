@@ -28,6 +28,7 @@
  */
 namespace Swissbib\Services;
 
+use Laminas\Config\Config;
 use Swissbib\Export;
 use Swissbib\Log\Logger;
 use Swissbib\VuFind\Recommend\FavoriteFacets;
@@ -246,10 +247,24 @@ class Factory
         $groupMapping = $sm->get('VuFind\Config')->get('libadmin-groups')
             ->institutions;
 
+        if (is_null($groupMapping)) {
+            //happens when libadmin-groups.ini is not present
+            $groupMapping = new Config([]);
+        }
+
         $groups = $sm->get('VuFind\Config')->get('libadmin-groups')
             ->groups;
 
+        if (is_null($groups)) {
+            //happens when libadmin-groups.ini is not present
+            $groups = new Config([]);
+        }
+
         $puraConfig = $sm->get('VuFind\Config')->get('Pura');
+        if (is_null($puraConfig)) {
+            //happens when Pura.ini is not present
+            $puraConfig = new Config([]);
+        }
 
         return new Pura(
             $publishersList,
