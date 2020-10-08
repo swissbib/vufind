@@ -57,7 +57,7 @@ it("Html should contain list element with contributors", () => {
     };
     const contributorsList = $(list)[0];
 
-    return cut.renderContributors("023426233", contributorsTemplate, contributorsList)
+    return cut.renderContributors("023426233", "author", contributorsTemplate, contributorsList)
         .then((html: HTMLElement[]) => {
             const actual: JQuery<HTMLElement> = $(html[0]);
             expect(actual.children("li").length).toBe(10);
