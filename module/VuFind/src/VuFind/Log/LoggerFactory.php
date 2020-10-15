@@ -373,23 +373,8 @@ class LoggerFactory implements FactoryInterface
         if (!empty($options)) {
             throw new \Exception('Unexpected options passed to factory.');
         }
-        // Construct the logger as a lazy loading value holder so that
-        // the object is not instantiated until it is called. This helps break
-        // potential circular dependencies with other services.
-        $callback = function (& $wrapped, $proxy) use ($container, $requestedName) {
-            // Indicate that initialization is complete to avoid reinitialization:
-            $proxy->setProxyInitializer(null);
-
-            // Now build the actual service:
-            $loggerOptions = [
-                'vufind_ip_reader' =>
-                    $container->get(\VuFind\Net\UserIpReader::class)
-            ];
-            $wrapped = new $requestedName($loggerOptions);
-            $this->configureLogger($container, $wrapped);
-        };
-        $cfg = $container->get(\ProxyManager\Configuration::class);
-        $factory = new \ProxyManager\Factory\LazyLoadingValueHolderFactory($cfg);
-        return $factory->createProxy($requestedName, $callback);
+        $logger = new $requestedName();
+        $this->configureLogger($container, $logger);
+        return $logger;
     }
 }
