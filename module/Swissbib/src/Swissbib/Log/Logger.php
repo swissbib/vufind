@@ -55,7 +55,7 @@ class Logger extends LaminasLogger
      *
      * @var String[]
      */
-    protected $ungroupedInstitutinos = [];
+    protected $ungroupedInstitutions = [];
 
     /**
      * Log an untranslated institution
@@ -82,12 +82,12 @@ class Logger extends LaminasLogger
      */
     public function logUngroupedInstitution($institutionCode)
     {
-        if (!isset($this->ungroupedInstitutinos[$institutionCode])) {
+        if (!isset($this->ungroupedInstitutions[$institutionCode])) {
             $this->info(
                 'No group found for institution: "' . $institutionCode . '"'
             );
 
-            $this->ungroupedInstitutinos[$institutionCode] = $institutionCode;
+            $this->ungroupedInstitutions[$institutionCode] = $institutionCode;
         }
     }
 }
