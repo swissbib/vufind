@@ -1,0 +1,89 @@
+<div class="row">
+  <div class="col-sm-12">
+    <input type="hidden" name="sort" value="relevance">
+
+    <div class="clearfix">
+      <p class="lead pull-left"><?=$this->transEsc('Advanced Search')?></p>
+      <div id="groupJoin" class="form-inline pull-right">
+        <label for="join"><?=$this->transEsc("search_match")?>:</label>
+        <select id="search_bool0" name="join" class="form-control">
+          <option value="AND"<?php if(isset($searchDetails) && $searchDetails && $searchDetails->getOperator() == 'ALL'):?> selected<?php endif; ?>><?= $this->transEsc('group_AND') ?></option>
+          <option value="OR"<?php if(isset($searchDetails) && $searchDetails && $searchDetails->getOperator() == 'OR'):?> selected<?php endif; ?>><?= $this->transEsc('group_OR') ?></option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row" id="groupPlaceHolder">
+      <div class="col-sm-6">
+        <a href="#" onClick="swissbib.AdvancedSearch.addGroup()">
+          <i  class="fa fa-plus-circle"></i>
+          <?= $this->transEsc('add_search_group') ?>
+        </a>
+      </div>
+
+      <div class="col-sm-6 pull-right">
+        <input class="btn btn-primary pull-right" type="submit" value="<?= $this->transEsc('Find')?>">
+      </div>
+    </div>
+
+  </div>
+</div>
+<?php if (!empty($this->facetList) || !empty($this->checkboxFacets)): ?>
+  <div class="row">
+    <fieldset class="col-sm-12">
+      <legend><?=$this->transEsc('Limit To')?></legend>
+      <?php if (!empty($this->checkboxFacets)): ?>
+        <?=$this->render('search/advanced/checkbox-filters.phtml')?>
+      <?php endif; ?>
+      <div class="row">
+        <?php foreach ($this->facetList as $field => $list): ?>
+          <?php if ($field === 'navDrsys_Gen' || $field === 'navDrsys_D') continue; ?>
+          <div class="col-sm-6">
+            <label for="limit_<?=$this->escapeHtmlAttr(str_replace(' ', '', $field))?>"><?=$this->transEsc($list['label'])?></label>
+            <select class="form-control" id="limit_<?=$this->escapeHtmlAttr(str_replace(' ', '', $field))?>" name="filter[]" multiple="multiple" size="10">
+              <?php
+              // Sort the current facet list alphabetically; we'll use this data
+              // along with the foreach below to display facet options in the
+              // correct order.
+              $sorted = [];
+              foreach ($list['list'] as $i => $value) {
+                if (!empty($value['displayText'])) {
+                  $sorted[$i] = $value['displayText'];
+                }
+              }
+              natcasesort($sorted);
+              ?>
+              <?php foreach ($sorted as $i => $display): ?>
+                <?php $value = $list['list'][$i]; ?>
+                <option value="<?=$this->escapeHtmlAttr(($value['operator'] == 'OR' ? '~' : '') . $field . ':"' . $value['value'] . '"')?>"<?=(isset($value['selected']) && $value['selected'])?' selected="selected"':''?>><?=$this->escapeHtml($display)?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        <?php endforeach; ?>
+          <?php endif; ?>
+          <div class="col-sm-6">
+            <?php if (isset($this->illustratedLimit)): ?>
+              <div class="row">
+                  <fieldset>
+                      <legend><?=$this->transEsc("Illustrated")?>:</legend>
+                      <?php foreach ($this->illustratedLimit as $current): ?>
+                          <input class="form-control" id="illustrated_<?=$this->escapeHtmlAttr($current['value'])?>" type="radio" name="illustration" value="<?=$this->escapeHtmlAttr($current['value'])?>"<?=$current['selected']?' checked="checked"':''?>/>
+                          <label for="illustrated_<?=$this->escapeHtmlAttr($current['value'])?>"><?=$this->transEsc($current['text'])?></label><br/>
+                      <?php endforeach; ?>
+                  </fieldset>
+              </div>
+
+            <?php endif; ?>
+              <?=$this->render('search/advanced/ranges.phtml')?>
+              <?=$this->render('search/advanced/limit.phtml')?>
+          </div>
+      </div>
+    </fieldset>
+  </div>
+
+<div class="row">
+  <div class="col-sm-12 pull-right">
+    <input class="btn btn-primary pull-right" type="submit" value="<?= $this->transEsc('Find')?>"/>
+  </div>
+</div>
+

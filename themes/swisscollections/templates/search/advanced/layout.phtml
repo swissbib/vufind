@@ -1,0 +1,100 @@
+<?php
+  // Set page title.
+  $this->headTitle($this->translate('Advanced Search'));
+
+  // Disable top search box -- this page has a special layout.
+  $this->layout()->searchbox = false;
+
+  // Set up breadcrumbs:
+  $lastSearchLink = $this->searchMemory()->getLastSearchLink($this->transEsc('Search'), '', '</li>');
+
+  $this->layout()->breadcrumbs = ($lastSearchLink ? $lastSearchLink : '')
+  . '<li class="active">' . $this->transEsc('Advanced') . '</li>';
+
+  // Set up saved search details:
+  if (isset($this->saved) && is_object($this->saved)) {
+    $searchDetails = $this->saved->getParams()->getQuery();
+    if ($searchDetails instanceof \VuFindSearch\Query\Query) {
+        // Not an advanced query -- ignore it.
+        $searchDetails = $groups = false;
+    } else {
+        $groups = $searchDetails->getQueries();
+    }
+    $hasDefaultsApplied = $this->saved->getParams()->hasDefaultsApplied();
+    $searchFilters = $this->saved->getParams()->getFilterList();
+  } else {
+    $hasDefaultsApplied = $searchDetails = $searchFilters = $groups = false;
+  }
+
+  // Set up Javascript:
+  // Step 1: Define our search arrays so they are usuable in the javascript
+  $this->headScript()->appendScript($this->render('search/advanced/globals.phtml'));
+  // Step 2: Call the javascript to make use of the above
+  $this->headScript()->appendFile(
+    isset($this->advancedSearchJsOverride) ? $this->advancedSearchJsOverride : 'advanced_search.js'
+  );
+  // Step 3: Build the page
+  $this->headScript()->appendScript(
+    $this->partial(
+      isset($this->buildPageOverride) ? $this->buildPageOverride : 'search/advanced/build_page.phtml',
+      ['searchDetails' => $searchDetails]
+    )
+  );
+
+  $activeTab = '';
+?>
+
+<?= $this->render('search/advanced/templates-handlebars') ?>
+
+
+<?=$this->flashmessages()?>
+<div class="<?=$this->layoutClass('mainbody') ?>">
+  <?php $searchTabs = $this->searchtabs()->getTabConfig($this->searchClassId, $this->lookfor, $this->searchIndex, 'advanced', [], 'advanced'); ?>
+  <?php if (count($searchTabs) > 0): ?>
+    <ul class="nav nav-tabs jus">
+      <?php foreach ($searchTabs['tabs'] as $tab): ?>
+        <?php if ($tab['selected']) $activeTab = $tab['class']; ?>
+        <li<?=$tab['selected'] ? ' class="active"' : ''?>>
+          <a href="<?=$tab['selected'] ? '' : $this->escapeHtmlAttr($tab['url'])?>"><?=$this->transEsc($tab['label']); ?></a>
+        </li>
+      <?php endforeach; ?>
+    </ul>
+  <?php endif; ?>
+
+  <form role="search" name="searchForm" id="advSearchForm" method="get" action="<?=$this->url($this->options->getSearchAction())?>">
+    <?= $this->render('search/advanced/' . lcfirst($activeTab)) ?>
+  </form>
+</div>
+<div class="<?=$this->layoutClass('sidebar')?>">
+  <?php if ($hasDefaultsApplied): ?>
+    <input type="hidden" name="dfApplied" value="1" />
+  <?php endif ?>
+  <?php if (!empty($searchFilters)): ?>
+    <h4><?=$this->transEsc("adv_search_filters")?></h4>
+    <ul class="list-group">
+      <label class="list-group-item checkbox"><input type="checkbox" checked="checked" class="checkbox-select-all"/><?=$this->transEsc("adv_search_select_all")?></label>
+    </ul>
+    <?php foreach ($searchFilters as $field => $data): ?>
+      <ul class="list-group">
+        <li class="list-group-item title"><?=$this->transEsc($field)?></li>
+        <?php foreach ($data as $value): ?>
+          <label class="list-group-item checkbox"><input class="checkbox-select-item" type="checkbox" checked="checked" name="filter[]" value='<?=$this->escapeHtmlAttr($value['field'])?>:"<?=$this->escapeHtmlAttr($value['value'])?>"' /> <?=$this->escapeHtml($value['displayText'])?></label>
+        <?php endforeach; ?>
+      </ul>
+    <?php endforeach; ?>
+  <?php endif; ?>
+  <div class="sidegroup">
+    <h4><?=$this->transEsc("Search Tips")?></h4>
+    <ul class="list-group">
+      <a class="list-group-item help-link" data-lightbox href="<?=$this->url('help-home')?>?topic=advsearch" title="<?=$this->transEsc('Help with Advanced Search')?>"><?=$this->transEsc("Help with Advanced Search")?></a>
+      <a class="list-group-item help-link" data-lightbox href="<?=$this->url('help-home')?>?topic=search" title="<?=$this->transEsc('Help with Search Operators')?>"><?=$this->transEsc("Help with Search Operators")?></a>
+    </ul>
+  </div>
+  <div class="sidegroup">
+    <h4><?=$this->transEsc('Your Account')?></h4>
+    <ul class="list-group">
+      <a class="list-group-item" href="<?= $this->url('search-history')?>" title="<?= $this->transEsc('Search History')?>"><?=$this->transEsc('Search History')?></a>
+      <a class="list-group-item" href="<?=$this->url('myresearch-settings')?>" title="<?=$this->transEsc('My_Search_Settings')?>"><?=$this->transEsc('My_Search_Settings')?></a>
+    </ul>
+  </div>
+</div>

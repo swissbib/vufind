@@ -62,6 +62,7 @@ abstract class HttpErrorException extends BackendException
      */
     public static function createFromResponse(Response $response)
     {
+      var_dump($response);
         $status = $response->getStatusCode();
         $phrase = $response->getReasonPhrase();
         if ($status >= 500) {

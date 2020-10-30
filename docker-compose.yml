@@ -1,0 +1,59 @@
+version: '2'
+services:
+  swisscollections-php:
+    build:
+      context: .
+      dockerfile: docker/development/Dockerfile
+    depends_on:
+      - swisscollections-db
+    environment:
+      VUFIND_ENV: development
+      APPLICATION_ENV: development
+      VUFIND_HOME: /usr/local/vufind;
+      VUFIND_LOCAL_DIR: /usr/local/vufind/local/classic/swisscollections
+      VUFIND_LOCAL_MODULES: SwissCollections,Swissbib,Libadmin,Jusbib
+    volumes:
+      - "./themes/swisscollections:/usr/local/vufind/themes/swisscollections"
+      - "./module/SwissCollections:/usr/local/vufind/module/SwissCollections"
+      - "./local/classic/swisscollections:/usr/local/vufind/local/classic/swisscollections"
+    networks:
+      - swisscollections
+    extra_hosts:
+    # IP of the Docker host. Required for xdebug: ip route | grep docker0 | awk '{print $9}'
+      - host.docker.internal:$DOCKER_HOST_IP
+  swisscollections-db:
+    image: mariadb:10
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: vufind
+      MYSQL_PASSWORD: vufind
+      MYSQL_DATABASE: vufind
+    volumes:
+      - "swisscollections-db:/var/lib/mysql"
+      - "./module/Swissbib/sql/mysql.sql:/docker-entrypoint-initdb.d/init.sql"
+    networks:
+      - swisscollections
+  swisscollections-http:
+    image: nginx:alpine
+    depends_on:
+      - swisscollections-php
+    labels:
+      - "traefik.backend=swisscollections-http"
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:swisscollections.localhost"
+      - "traefik.port=80"
+    volumes:
+      - ./docker/conf/nginx.conf:/etc/nginx/conf.d/default.conf
+    volumes_from:
+      - swisscollections-php
+    networks:
+      - traefik_default
+      - swisscollections
+
+volumes:
+  swisscollections-db:
+
+networks:
+  swisscollections:
+  traefik_default:
+    external: true

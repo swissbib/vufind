@@ -46,7 +46,7 @@
     "require": "^2.4.20",
     "requirejs": "^2.3.5",
     "ts-promise": "^0.3.4",
-    "typescript": "^2.6.1"
+    "typescript": "^3.5.1"
   },
   "devDependencies": {
     "@types/jest": "^21.1.6",
@@ -60,7 +60,7 @@
     "ts-jest": "^21.2.2",
     "ts-loader": "^3.1.1",
     "tslint": "^5.8.0",
-    "typescript": "^2.6.1",
+    "typescript": "^3.5.1",
     "webpack": "^3.8.1"
   }
 }

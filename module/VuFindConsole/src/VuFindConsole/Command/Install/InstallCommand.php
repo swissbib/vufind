@@ -606,6 +606,7 @@ class InstallCommand extends Command
      */
     protected function buildImportConfig(OutputInterface $output, $filename)
     {
+      return TRUE;
         $target = $this->overrideDir . '/import/' . $filename;
         if (file_exists($target)) {
             $output->writeln(
