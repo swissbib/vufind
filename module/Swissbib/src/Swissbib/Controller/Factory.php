@@ -58,18 +58,6 @@ class Factory extends AbstractBaseFactory
     }
 
     /**
-     * Construct the ConsoleController
-     *
-     * @param ServiceManager $sm Service manager.
-     *
-     * @return ConsoleController
-     */
-    public function getConsoleController(ServiceManager $sm)
-    {
-        return new ConsoleController($sm);
-    }
-
-    /**
      * Construct the NationalLicenceController by injecting the
      * NationalLicence service.
      *
