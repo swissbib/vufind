@@ -22,7 +22,7 @@
     {
       "type": "package",
       "package": {
-        "name": "linked-swissbib/adapterES",
+        "name": "linked-swissbib/adapter-es",
         "version": "dev-updateES7",
         "source": {
           "url": "https://github.com/linked-swissbib/adapterElasticsearch.git",
@@ -39,12 +39,12 @@
     {
       "type": "package",
       "package": {
-        "name": "swissbib/switchSharedAttributesAPIClient",
-        "version": "dev-master",
+        "name": "swissbib/switch-shared-attributes-api-client",
+        "version": "0.9",
         "source": {
           "url": "https://github.com/swissbib/switchSharedAttributesAPIClient.git",
           "type": "git",
-          "reference": "master"
+          "reference": "0.9"
         },
         "autoload": {
           "psr-0" : {
@@ -111,10 +111,10 @@
         "swagger-api/swagger-ui": "3.31.1",
         "vufind-org/vufindcode": "1.2",
         "vufind-org/vufinddate": "1.0.0",
-        "linked-swissbib/adapterES": "dev-updateES7",
+        "linked-swissbib/adapter-es": "dev-updateES7",
         "elasticsearch/elasticsearch": "7.3.0",
         "ongr/elasticsearch-dsl": "7.0.0",
-        "swissbib/switchSharedAttributesAPIClient": "dev-master",
+        "swissbib/switch-shared-attributes-api-client": "0.9",
         "laminas/laminas-i18n-resources": "^2.5",
         "doctrine/common": "^2.7",
         "laminas/laminas-hydrator": "^2.4",
