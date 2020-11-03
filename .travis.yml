@@ -12,6 +12,7 @@ env:
 before_script:
   - phpenv config-rm xdebug.ini
   - phpenv rehash
+  - composer selfupdate --1
   - composer install
   - npm install
   - npm install -g eslint@"<5.0.0"
