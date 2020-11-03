@@ -1,10 +1,6 @@
 <?php
-
 namespace Swissbib\Command\HierarchyCache;
 
-
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -70,9 +66,7 @@ class HierarchyCache extends \Symfony\Component\Console\Command\Command
             InputArgument::OPTIONAL,
             'maximum number of child element to consider'
         );
-
     }
-
 
     /**
      * Build cache for hierarchies
@@ -133,7 +127,4 @@ class HierarchyCache extends \Symfony\Component\Console\Command\Command
 
         return 0;
     }
-
-
 }
-

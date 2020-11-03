@@ -1,10 +1,7 @@
 <?php
-
 namespace Swissbib\Command\Tab40Import;
 
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Swissbib\Tab40Import\Importer;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -44,7 +41,6 @@ class Tab40Import extends \Symfony\Component\Console\Command\Command
      */
     public function __construct(Importer $tab40Importer)
     {
-
         $this->tab40Importer = $tab40Importer;
         parent::__construct();
     }
@@ -74,7 +70,6 @@ class Tab40Import extends \Symfony\Component\Console\Command\Command
                 InputArgument::REQUIRED,
                 'Path to input file. Ex: ~/myalephdata/tab40.ger'
             );
-
     }
 
     /**
@@ -105,7 +100,4 @@ class Tab40Import extends \Symfony\Component\Console\Command\Command
 
         return 0;
     }
-
-
 }
-

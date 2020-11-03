@@ -30,11 +30,11 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
-use Swissbib\RecordDriver\Helper\BibCode as BibCodeHelper;
-use VuFind\Log\Logger;
 use Laminas\Config\Config;
 use Laminas\Http\Client as HttpClient;
 use Laminas\Http\Response as HttpResponse;
+use Swissbib\RecordDriver\Helper\BibCode as BibCodeHelper;
+use VuFind\Log\Logger;
 
 /**
  * Get availability for items

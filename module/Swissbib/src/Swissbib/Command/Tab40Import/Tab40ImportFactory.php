@@ -1,10 +1,8 @@
 <?php
-
 namespace Swissbib\Command\Tab40Import;
 
 class Tab40ImportFactory implements \Laminas\ServiceManager\Factory\FactoryInterface
 {
-
     /**
      * Create an object
      *
@@ -24,7 +22,4 @@ class Tab40ImportFactory implements \Laminas\ServiceManager\Factory\FactoryInter
         $tab40Importer = $container->get('Swissbib\Tab40Importer');
         return new $requestedName($tab40Importer);
     }
-
-
 }
-

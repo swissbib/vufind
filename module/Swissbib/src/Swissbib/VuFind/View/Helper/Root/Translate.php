@@ -30,8 +30,8 @@
  */
 namespace Swissbib\VuFind\View\Helper\Root;
 
-use VuFind\View\Helper\Root\Translate as VFTranslate;
 use Laminas\I18n\Exception\RuntimeException;
+use VuFind\View\Helper\Root\Translate as VFTranslate;
 
 /**
  * Translate view helper

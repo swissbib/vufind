@@ -29,18 +29,18 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
+use Laminas\Config\Config;
+use Laminas\I18n\Translator\TranslatorInterface as Translator;
+
 use Swissbib\Log\Logger;
 use Swissbib\RecordDriver\SolrMarc;
-
 use Swissbib\VuFind\ILS\Driver\Aleph;
 use VuFind\Auth\ILSAuthenticator as IlsAuth;
 use VuFind\Auth\Manager as AuthManager;
+
 use VuFind\Config\PluginManager as ConfigManager;
 use VuFind\Crypt\HMAC;
-
 use VuFind\ILS\Connection as IlsConnection;
-use Laminas\Config\Config;
-use Laminas\I18n\Translator\TranslatorInterface as Translator;
 
 /**
  * Probably Holdings should be a subtype of ZF2 AbstractHelper at first I need a

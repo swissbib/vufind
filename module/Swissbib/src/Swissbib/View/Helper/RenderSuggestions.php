@@ -28,9 +28,9 @@
  */
 namespace Swissbib\View\Helper;
 
+use Laminas\View\Helper\AbstractHelper;
 use VuFind\Search\UrlQueryHelper;
 use VuFindSearch\Query\Query;
-use Laminas\View\Helper\AbstractHelper;
 
 /**
  * Render suggestions
@@ -47,7 +47,7 @@ class RenderSuggestions extends AbstractHelper
     /**
      * Render suggestions
      *
-     * @param \VuFind\Search\Base\Results     $results Results object
+     * @param \VuFind\Search\Base\Results        $results Results object
      * @param \Laminas\View\Renderer\PhpRenderer $view    View renderer object
      *
      * @return string

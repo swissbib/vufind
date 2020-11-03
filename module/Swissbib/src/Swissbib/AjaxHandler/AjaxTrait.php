@@ -27,9 +27,9 @@
  */
 namespace Swissbib\AjaxHandler;
 
-use VuFind\View\Helper\Root\RecordDataFormatter;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
+use VuFind\View\Helper\Root\RecordDataFormatter;
 
 /**
  * Trait AjaxTrait

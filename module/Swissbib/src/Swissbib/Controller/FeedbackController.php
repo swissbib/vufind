@@ -30,10 +30,10 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\FeedbackController as VuFindFeedbackController;
 use Laminas\Form\Element;
 use Laminas\Form\Form;
 use Laminas\Mail as Mail;
+use VuFind\Controller\FeedbackController as VuFindFeedbackController;
 
 /**
  * FeedbackController

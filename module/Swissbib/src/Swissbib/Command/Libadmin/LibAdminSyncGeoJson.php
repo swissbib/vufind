@@ -1,12 +1,10 @@
 <?php
-
 namespace Swissbib\Command\Libadmin;
 
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Swissbib\Libadmin\Importer;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class LibAdminSyncGeoJson extends \Symfony\Component\Console\Command\Command
@@ -32,7 +30,6 @@ class LibAdminSyncGeoJson extends \Symfony\Component\Console\Command\Command
      */
     public function __construct(Importer $importer)
     {
-
         $this->importer = $importer;
         parent::__construct();
     }
@@ -52,7 +49,6 @@ class LibAdminSyncGeoJson extends \Symfony\Component\Console\Command\Command
                 'show result',
                 false
             );
-
     }
 
     /**
@@ -97,9 +93,5 @@ class LibAdminSyncGeoJson extends \Symfony\Component\Console\Command\Command
         }
 
         return 0;
-        
     }
-
-
 }
-

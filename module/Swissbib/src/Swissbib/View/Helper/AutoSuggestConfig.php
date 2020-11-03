@@ -28,11 +28,11 @@
  */
 namespace Swissbib\View\Helper;
 
-use Swissbib\Util\Config\FlatArrayConverter;
-use Swissbib\Util\Config\ValueConverter;
 use Laminas\Config\Config as LaminasConfig;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\Helper\AbstractHelper;
+use Swissbib\Util\Config\FlatArrayConverter;
+use Swissbib\Util\Config\ValueConverter;
 
 /**
  * AutoSuggestConfig
@@ -140,7 +140,7 @@ class AutoSuggestConfig extends AbstractHelper
     /**
      * Is auto suggest enabled in config?
      *
-     * @param LaminasConfig     $searchesConfig Config
+     * @param LaminasConfig  $searchesConfig Config
      * @param ValueConverter $converter      Converter
      *
      * @return bool

@@ -30,9 +30,9 @@
  */
 namespace Swissbib\Favorites;
 
-use VuFind\Auth\Manager as AuthManager;
 use Laminas\Config\Config;
 use Laminas\Session\Storage\StorageInterface as SessionStorageInterface;
+use VuFind\Auth\Manager as AuthManager;
 
 /**
  * Manage user favorites

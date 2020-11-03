@@ -28,8 +28,8 @@
  */
 namespace Swissbib\VuFind\Hierarchy;
 
-use Swissbib\VuFind\Hierarchy\TreeRenderer\JSTree as SwissbibJsTree;
 use Laminas\ServiceManager\ServiceManager;
+use Swissbib\VuFind\Hierarchy\TreeRenderer\JSTree as SwissbibJsTree;
 
 /**
  * Hierarchy Data Source Factory Class

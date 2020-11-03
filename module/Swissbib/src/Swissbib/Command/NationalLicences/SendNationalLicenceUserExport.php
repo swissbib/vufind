@@ -1,12 +1,10 @@
 <?php
-
 namespace Swissbib\Command\NationalLicences;
 
 use Swissbib\Services\NationalLicence;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
 
 /**
  * Class SendNationalLicenceUserExport
@@ -35,7 +33,6 @@ class SendNationalLicenceUserExport extends Command
      */
     public function __construct(NationalLicence $nationalLicenceService)
     {
-
         $this->nationalLicenceService = $nationalLicenceService;
         parent::__construct();
     }
@@ -55,7 +52,4 @@ class SendNationalLicenceUserExport extends Command
         $this->nationalLicenceService->sendExportEmail();
         return 0;
     }
-
-
 }
-

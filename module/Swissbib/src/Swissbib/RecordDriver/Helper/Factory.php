@@ -29,9 +29,9 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
+use Laminas\ServiceManager\ServiceManager;
 use Swissbib\RecordDriver\Helper\Availability as AvailabilityHelper;
 use Swissbib\RecordDriver\Helper\Holdings as HoldingsHelper;
-use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory for helpers.

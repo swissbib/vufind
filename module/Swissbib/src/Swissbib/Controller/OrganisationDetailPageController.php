@@ -27,7 +27,6 @@
  */
 namespace Swissbib\Controller;
 
-use ElasticSearch\VuFind\Search\ElasticSearch\Results;
 use Laminas\View\Model\ViewModel;
 
 /**
@@ -73,12 +72,11 @@ class OrganisationDetailPageController extends AbstractOrganisationController
 
         if (!isset($this->sameHierarchicalSuperiorOrganisationIds)) {
             $sameHierarchicalSuperiorOrganisations = '';
-        }
-        else {
+        } else {
             $sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($this->sameHierarchicalSuperiorOrganisationIds);
         }
 
-        if (!empty($sameHierarchicalSuperiorOrganisations) && sizeOf($sameHierarchicalSuperiorOrganisations) > 0) {
+        if (!empty($sameHierarchicalSuperiorOrganisations) && sizeof($sameHierarchicalSuperiorOrganisations) > 0) {
             $viewModel->setVariable(
                 "sameHierarchicalSuperiorOrganisations", $sameHierarchicalSuperiorOrganisations
             );
@@ -87,5 +85,4 @@ class OrganisationDetailPageController extends AbstractOrganisationController
             );
         }
     }
-
 }

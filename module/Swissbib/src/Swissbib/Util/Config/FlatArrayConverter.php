@@ -103,10 +103,10 @@ final class FlatArrayConverter
      * object.
      *
      * @param \Laminas\Config\Config $config       The config
-     * @param string|array        $sectionNames A string or an array of strings
-     *                                          holding the names of the
-     *                                          sections in the config to
-     *                                          process.
+     * @param string|array           $sectionNames A string or an array of strings
+     *                                             holding the names of the
+     *                                             sections in the config to
+     *                                             process.
      *
      * @return \Laminas\Config\Config The array will contain only the sections
      *                             specified.
@@ -123,7 +123,7 @@ final class FlatArrayConverter
      * Process sections
      *
      * @param \Laminas\Config\Config $config       The config
-     * @param array               $sectionNames The section names
+     * @param array                  $sectionNames The section names
      *
      * @return array
      */
@@ -146,7 +146,7 @@ final class FlatArrayConverter
      * From Section
      *
      * @param \Laminas\Config\Config $config      The config
-     * @param string              $sectionName The section name
+     * @param string                 $sectionName The section name
      *
      * @return array|null
      */

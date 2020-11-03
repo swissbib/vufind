@@ -27,11 +27,11 @@
  */
 namespace Swissbib\Controller;
 
-use Swissbib\Util\Config\FlatArrayConverter;
-use Swissbib\Util\Config\ValueConverter;
 use Laminas\Config\Config as LaminasConfig;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\Model\ViewModel;
+use Swissbib\Util\Config\FlatArrayConverter;
+use Swissbib\Util\Config\ValueConverter;
 
 /**
  * Class AbstractOrganisationAction
@@ -47,7 +47,7 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
     /*
      * @var ElasticSearch\VuFind\RecordDriver\ESOrganisation
      */
-    protected  $driver;
+    protected $driver;
 
     protected $sameHierarchicalSuperiorOrganisationIds;
     protected $sameHierarchicalSuperiorOrganisationsTotalCount;

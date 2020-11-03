@@ -28,10 +28,10 @@
 namespace Swissbib\AjaxHandler;
 
 use Interop\Container\ContainerInterface;
-use VuFind\AjaxHandler\AbstractBase as VFAjax;
-use VuFind\AjaxHandler\AjaxHandlerInterface;
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Mvc\Controller\Plugin\Params;
+use VuFind\AjaxHandler\AbstractBase as VFAjax;
+use VuFind\AjaxHandler\AjaxHandlerInterface;
 
 /**
  * "SameHierarchicalSuperiorOrganisations" AJAX handler
@@ -79,9 +79,11 @@ class GetSameHierarchicalSuperiorOrganisations extends VFAjax implements AjaxHan
         $response = $this->buildResponse($sameHierarchicalSuperiorOrganisations, $this->getOrganisationPaginationSpec());
         // filter out own ID
         $response = $response->getContent();
-        $r = array_filter($response, function($data) use ($organisationId) {
-            return $data['id'] != $organisationId;
-        });
+        $r = array_filter(
+            $response, function ($data) use ($organisationId) {
+                return $data['id'] != $organisationId;
+            }
+        );
         return $this->formatResponse($r);
     }
 

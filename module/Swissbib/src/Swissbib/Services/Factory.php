@@ -29,12 +29,12 @@
 namespace Swissbib\Services;
 
 use Laminas\Config\Config;
+use Laminas\ServiceManager\ServiceManager;
 use Swissbib\Export;
 use Swissbib\Log\Logger;
 use Swissbib\VuFind\Recommend\FavoriteFacets;
 use SwitchSharedAttributesAPIClient\PublishersList;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient;
-use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory for Services.
@@ -239,7 +239,7 @@ class Factory
         $filePath = $sm->get('VuFind\Config')->get('Pura')['Publishers']['url'];
         //$filePath = 'http://pura.swissbib.ch/publishers-libraries.json';
 
-        if (!is_null($filePath)) {
+        if (null !== $filePath) {
             $publishersJsonData = file_get_contents($filePath);
             $publishersList->loadPublishersFromJsonFile($publishersJsonData);
         }
@@ -247,7 +247,7 @@ class Factory
         $groupMapping = $sm->get('VuFind\Config')->get('libadmin-groups')
             ->institutions;
 
-        if (is_null($groupMapping)) {
+        if (null === $groupMapping) {
             //happens when libadmin-groups.ini is not present
             $groupMapping = new Config([]);
         }
@@ -255,13 +255,13 @@ class Factory
         $groups = $sm->get('VuFind\Config')->get('libadmin-groups')
             ->groups;
 
-        if (is_null($groups)) {
+        if (null === $groups) {
             //happens when libadmin-groups.ini is not present
             $groups = new Config([]);
         }
 
         $puraConfig = $sm->get('VuFind\Config')->get('Pura');
-        if (is_null($puraConfig)) {
+        if (null === $puraConfig) {
             //happens when Pura.ini is not present
             $puraConfig = new Config([]);
         }

@@ -30,12 +30,12 @@
  */
 namespace Swissbib\Highlight;
 
-use VuFind\Search\Memory as VFMemory;
-use VuFindSearch\Backend\Solr\Backend;
 use Laminas\Config\Config;
-
 use Laminas\EventManager\EventInterface;
 use Laminas\EventManager\SharedEventManagerInterface;
+
+use VuFind\Search\Memory as VFMemory;
+use VuFindSearch\Backend\Solr\Backend;
 
 /**
  * Allow configuration of solr highlighting mechanism

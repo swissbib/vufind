@@ -30,12 +30,12 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\RecordController as VuFindRecordController;
-use VuFind\Exception\ILS;
-use VuFind\Exception\RecordMissing as RecordMissingException;
 use Laminas\Form\Form;
 use Laminas\Session\Container as SessionContainer;
 use Laminas\View\Model\ViewModel;
+use VuFind\Controller\RecordController as VuFindRecordController;
+use VuFind\Exception\ILS;
+use VuFind\Exception\RecordMissing as RecordMissingException;
 
 /**
  * Swissbib RecordController

@@ -30,17 +30,17 @@
  */
 namespace Swissbib;
 
-use Swissbib\Filter\TemplateFilenameFilter;
-use VuFind\Auth\Manager;
 use Laminas\Config\Config;
 use Laminas\Console\Console;
 use Laminas\Console\Request as ConsoleRequest;
 use Laminas\EventManager\Event;
 use Laminas\I18n\Translator\Translator as TranslatorImpl;
-
 use Laminas\Mvc\MvcEvent;
-
 use Laminas\ServiceManager\ServiceManager;
+
+use Swissbib\Filter\TemplateFilenameFilter;
+
+use VuFind\Auth\Manager;
 
 /**
  * Bootstraper

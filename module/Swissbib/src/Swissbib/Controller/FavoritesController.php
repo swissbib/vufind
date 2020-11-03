@@ -30,9 +30,9 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\View\Model\ViewModel;
 use Swissbib\Favorites\DataSource as FavoriteDataSource;
 use Swissbib\Favorites\Manager as FavoriteManager;
-use Laminas\View\Model\ViewModel;
 
 /**
  * Swissbib FavoritesController

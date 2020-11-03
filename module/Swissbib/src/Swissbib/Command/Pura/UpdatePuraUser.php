@@ -1,9 +1,7 @@
 <?php
-
-namespace Swissbib\Command\Pura ;
+namespace Swissbib\Command\Pura;
 
 use Swissbib\Services\Pura;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -25,7 +23,6 @@ class UpdatePuraUser extends \Symfony\Component\Console\Command\Command
      */
     public function __construct(Pura $puraService)
     {
-
         $this->puraService = $puraService;
         parent::__construct();
     }
@@ -50,7 +47,4 @@ class UpdatePuraUser extends \Symfony\Component\Console\Command\Command
 
         $this->puraService->checkValidityPuraUsers();
     }
-
-
 }
-

@@ -1,10 +1,8 @@
 <?php
-
 namespace Swissbib\Command\Pura;
 
 class UpdatePuraUserFactory implements \Laminas\ServiceManager\Factory\FactoryInterface
 {
-
     /**
      * Create an object
      *
@@ -25,7 +23,4 @@ class UpdatePuraUserFactory implements \Laminas\ServiceManager\Factory\FactoryIn
         $router = $container->get('HttpRouter');
         return new $requestedName($puraService, $router);
     }
-
-
 }
-

@@ -28,8 +28,8 @@
 namespace ElasticSearch\View\Helper;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch as ElasticSearch;
-use VuFind\Search\Base\Results as Results;
 use Laminas\Config\Config as LaminasConfig;
+use VuFind\Search\Base\Results as Results;
 
 /**
  * Class AbstractHelper

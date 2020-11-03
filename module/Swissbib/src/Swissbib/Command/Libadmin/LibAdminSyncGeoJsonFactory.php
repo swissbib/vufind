@@ -1,10 +1,8 @@
 <?php
-
 namespace Swissbib\Command\Libadmin;
 
 class LibAdminSyncGeoJsonFactory implements \Laminas\ServiceManager\Factory\FactoryInterface
 {
-
     /**
      * Create an object
      *
@@ -24,7 +22,4 @@ class LibAdminSyncGeoJsonFactory implements \Laminas\ServiceManager\Factory\Fact
         $importer = $container->get('Swissbib\Libadmin\Importer');
         return new $requestedName($importer);
     }
-
-
 }
-

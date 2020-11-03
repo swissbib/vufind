@@ -24,12 +24,12 @@
  */
 namespace Swissbib\Services;
 
-use Swissbib\VuFind\Db\Row\PuraUser;
 use Laminas\Mail\Message;
 use Laminas\Mail\Transport\Sendmail as SendmailTransport;
 use Laminas\Mail\Transport\Smtp as SmtpTransport;
 use Laminas\Mime;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Swissbib\VuFind\Db\Row\PuraUser;
 
 /**
  * Class Email.

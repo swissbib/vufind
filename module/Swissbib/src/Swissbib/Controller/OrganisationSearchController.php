@@ -27,9 +27,7 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\AbstractBase;
 use Laminas\ServiceManager\ServiceLocatorInterface;
-use Laminas\View\Model\ViewModel;
 
 /**
  * Class OrganisationSearchController
@@ -77,5 +75,4 @@ class OrganisationSearchController extends AbstractOrganisationController
 
         return $this->createViewModel(["results" => $orgs]);
     }
-
 }

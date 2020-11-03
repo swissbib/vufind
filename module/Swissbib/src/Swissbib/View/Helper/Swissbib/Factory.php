@@ -28,17 +28,17 @@
  */
 namespace Swissbib\View\Helper\Swissbib;
 
+use Laminas\ServiceManager\ServiceManager;
 use Swissbib\View\Helper\AutoSuggestConfig;
 use Swissbib\View\Helper\DisplayNameSorter;
 use Swissbib\View\Helper\FormatRelatedEntries;
-use Swissbib\View\Helper\IncludeTemplate;
 
+use Swissbib\View\Helper\IncludeTemplate;
 use Swissbib\View\Helper\NationalLicences;
 use Swissbib\View\Helper\TranslateFacets;
 use Swissbib\VuFind\Search\Helper\SearchTabsHelper;
 use Swissbib\VuFind\View\Helper\Root\Auth;
 use Swissbib\VuFind\View\Helper\Root\SearchTabs;
-use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory for swissbib specific view helpers related to the Swissbib Theme.

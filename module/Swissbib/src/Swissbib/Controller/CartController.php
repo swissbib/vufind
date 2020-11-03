@@ -30,8 +30,8 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\CartController as VuFindCartController;
 use Laminas\Http\Response;
+use VuFind\Controller\CartController as VuFindCartController;
 
 /**
  * Swissbib CartController

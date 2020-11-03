@@ -24,10 +24,10 @@
  */
 namespace Swissbib\Services;
 
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Swissbib\Libadmin\Exception\Exception;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class NationalLicence.

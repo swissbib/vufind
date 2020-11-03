@@ -763,7 +763,6 @@ class ESPerson extends AbstractHelper
         return $val;
     }
 
-
     /**
      * Provides the acquaintanceshipOrFriendship.
      *

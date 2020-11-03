@@ -158,10 +158,13 @@ abstract class ElasticSearch extends AbstractBase
      *
      * @return string
      */
-    protected function localizedArrayToString(array $values, string $delimiter = ', ') {
+    protected function localizedArrayToString(array $values, string $delimiter = ', ')
+    {
         $value = $this->getArrayOfValuesByLanguagePriority($values);
         $value =  implode($delimiter, $value);
-        if ($value == '') $value = null;
+        if ($value == '') {
+            $value = null;
+        }
         return $value;
     }
 
@@ -173,7 +176,8 @@ abstract class ElasticSearch extends AbstractBase
      *
      * @return string
      */
-    protected function arrayToString(array $value, string $delimiter = ', ') {
+    protected function arrayToString(array $value, string $delimiter = ', ')
+    {
         return implode($delimiter, $value);
     }
 
@@ -358,7 +362,7 @@ abstract class ElasticSearch extends AbstractBase
             }
         }
         return $filteredUris;
-   }
+    }
 
     /**
      * remove Protocol From Uri
@@ -371,5 +375,4 @@ abstract class ElasticSearch extends AbstractBase
     {
         return substr($uri, strrpos($uri, '://') + 3);
     }
-
 }

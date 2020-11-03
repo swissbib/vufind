@@ -30,9 +30,9 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\AbstractBase as BaseController;
 use Laminas\View\Model\ViewModel;
 use Laminas\View\Resolver\ResolverInterface;
+use VuFind\Controller\AbstractBase as BaseController;
 
 /**
  * Swissbib HelpPageController

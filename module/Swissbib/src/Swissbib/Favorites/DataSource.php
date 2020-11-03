@@ -30,10 +30,10 @@
  */
 namespace Swissbib\Favorites;
 
-use VuFind\Config\PluginManager as ConfigManager;
 use Laminas\Cache\Storage\StorageInterface;
-
 use Laminas\Config\Config;
+
+use VuFind\Config\PluginManager as ConfigManager;
 
 /**
  * Helper for favorite institutions

@@ -1,5 +1,4 @@
 <?php
-
 namespace Swissbib\Command\NationalLicences;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -15,7 +14,6 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
  */
 class SendNationalLicenceUserExportFactory implements FactoryInterface
 {
-
     /**
      * Create an object
      *
@@ -38,7 +36,4 @@ class SendNationalLicenceUserExportFactory implements FactoryInterface
         $nationalLicenceService = $container->get('Swissbib\NationalLicenceService');
         return new $requestedName($nationalLicenceService);
     }
-
-
 }
-

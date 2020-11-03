@@ -30,8 +30,8 @@
  */
 namespace Swissbib\Libadmin;
 
-use Swissbib\Libadmin\Importer as LibadminImporter;
 use Laminas\ServiceManager\ServiceManager;
+use Swissbib\Libadmin\Importer as LibadminImporter;
 
 /**
  * Factory for Types used for communication with the Libadmin web application.

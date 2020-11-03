@@ -1,10 +1,8 @@
 <?php
-
 namespace Swissbib\Command\Pura;
 
 class SendPuraReportFactory implements \Laminas\ServiceManager\Factory\FactoryInterface
 {
-
     /**
      * Create an object
      *
@@ -24,7 +22,4 @@ class SendPuraReportFactory implements \Laminas\ServiceManager\Factory\FactoryIn
         $puraService = $container->get('Swissbib\PuraService');
         return new $requestedName($puraService);
     }
-
-
 }
-

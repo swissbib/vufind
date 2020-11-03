@@ -1,12 +1,10 @@
 <?php
-
 namespace Swissbib\Command\Libadmin;
 
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Swissbib\Libadmin\Importer;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class LibAdminSync extends \Symfony\Component\Console\Command\Command
@@ -32,7 +30,6 @@ class LibAdminSync extends \Symfony\Component\Console\Command\Command
      */
     public function __construct(Importer $importer)
     {
-
         $this->importer = $importer;
         parent::__construct();
     }
@@ -46,7 +43,7 @@ class LibAdminSync extends \Symfony\Component\Console\Command\Command
     {
         $this
             ->setDescription(
-                'Import library and group data from libadmin API and '.
+                'Import library and group data from libadmin API and ' .
                 'save as local files'
             )
             ->addOption(
@@ -64,7 +61,6 @@ class LibAdminSync extends \Symfony\Component\Console\Command\Command
                 '(check if new data is available/reachable)',
                 false
             );
-
     }
 
     /**
@@ -111,7 +107,4 @@ class LibAdminSync extends \Symfony\Component\Console\Command\Command
 
         return 0;
     }
-
-
 }
-

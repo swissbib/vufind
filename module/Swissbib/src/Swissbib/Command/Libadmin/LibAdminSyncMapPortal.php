@@ -1,12 +1,10 @@
 <?php
-
 namespace Swissbib\Command\Libadmin;
 
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Swissbib\Libadmin\Importer;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class LibAdminSyncMapPortal extends \Symfony\Component\Console\Command\Command
@@ -32,7 +30,6 @@ class LibAdminSyncMapPortal extends \Symfony\Component\Console\Command\Command
      */
     public function __construct(Importer $importer)
     {
-
         $this->importer = $importer;
         parent::__construct();
     }
@@ -58,7 +55,6 @@ class LibAdminSyncMapPortal extends \Symfony\Component\Console\Command\Command
                 'mapportal/green.json, orange.json, ...',
                 'mapportal/green.json'
             );
-
     }
 
     /**
@@ -105,7 +101,4 @@ class LibAdminSyncMapPortal extends \Symfony\Component\Console\Command\Command
 
         return 0;
     }
-
-
 }
-

@@ -1,10 +1,8 @@
 <?php
-
 namespace Swissbib\Command\HierarchyCache;
 
 class HierarchyCacheFactory implements \Laminas\ServiceManager\Factory\FactoryInterface
 {
-
     /**
      * Create an object
      *
@@ -27,4 +25,3 @@ class HierarchyCacheFactory implements \Laminas\ServiceManager\Factory\FactoryIn
         return new $requestedName($solrResults, $recordLoader);
     }
 }
-

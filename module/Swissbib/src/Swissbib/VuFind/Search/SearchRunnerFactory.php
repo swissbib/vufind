@@ -29,9 +29,9 @@
 namespace Swissbib\VuFind\Search;
 
 use Interop\Container\ContainerInterface;
-use VuFind\Search\SearchRunner as VFSearchRunner;
 use Laminas\EventManager\EventManager;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use VuFind\Search\SearchRunner as VFSearchRunner;
 
 /**
  * SearchRunnerFactory

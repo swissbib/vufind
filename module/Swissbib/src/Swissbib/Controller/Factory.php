@@ -28,8 +28,8 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\AbstractBaseFactory;
 use Laminas\ServiceManager\ServiceManager;
+use VuFind\Controller\AbstractBaseFactory;
 
 /**
  * Factory for controllers.
