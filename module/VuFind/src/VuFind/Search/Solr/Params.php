@@ -225,13 +225,6 @@ class Params extends \VuFind\Search\Base\Params
             if ($this->facetPrefix != null) {
                 $facetSet['prefix'] = $this->facetPrefix;
             }
-            if ($this->facetContains != null) {
-                $facetSet['contains'] = $this->facetContains;
-            }
-            if ($this->facetContainsIgnoreCase != null) {
-                $facetSet['contains.ignoreCase']
-                    = $this->facetContainsIgnoreCase ? 'true' : 'false';
-            }
             $facetSet['sort'] = $this->facetSort ?: 'count';
             if ($this->indexSortedFacets != null) {
                 foreach ($this->indexSortedFacets as $field) {
