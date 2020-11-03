@@ -121,8 +121,10 @@ class AjaxController extends VFAjaxController
      *
      * @return \Laminas\Stdlib\ResponseInterface
      */
-    protected function buildResponse($content, $spec): \Laminas\Stdlib\ResponseInterface
-    {
+    protected function buildResponse(
+        $content,
+        $spec
+    ): \Laminas\Stdlib\ResponseInterface {
         $data = [];
         // @var RecordDataFormatter $recordFormatter
         $recordFormatter = $this->getViewRenderer()->plugin(

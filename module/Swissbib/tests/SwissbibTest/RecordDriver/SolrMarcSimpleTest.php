@@ -196,10 +196,12 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     public function testGetTitle()
     {
         $title = $this->driver->getTitle();
-        $expect = 'Konzert e-Moll, für Blockflöte, Querflöte, zwei Violinen, Viola und Basso continuo, [TWV 52 e 1] :' .
-        ' Concerto in e minor, for recorder, flute, two violins, viola and basso continuo';
+        $expect = 'Konzert e-Moll, für Blockflöte, Querflöte, zwei Violinen, ' .
+            'Viola und Basso continuo, [TWV 52 e 1] :' .
+        ' Concerto in e minor, for recorder, flute, two violins, ' .
+            'viola and basso continuo';
 
-        $this->assertIsString( $title);
+        $this->assertIsString($title);
         $this->assertEquals($expect, $title);
     }
 
@@ -211,9 +213,10 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     public function testGetShortTitle()
     {
         $title = $this->driver->getShortTitle();
-        $expect = 'Konzert e-Moll, für Blockflöte, Querflöte, zwei Violinen, Viola und Basso continuo, [TWV 52 e 1]';
+        $expect = 'Konzert e-Moll, für Blockflöte, Querflöte, ' .
+        'zwei Violinen, Viola und Basso continuo, [TWV 52 e 1]';
 
-        $this->assertIsString( $title);
+        $this->assertIsString($title);
         $this->assertEquals($expect, $title);
     }
 
@@ -239,9 +242,10 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     public function testGetTitleStatementSimple()
     {
         $titleSimple = $this->driver->getTitleStatement();
-        $expectSimple = 'Georg Philipp Telemann ; hrsg. von Herbert Kölbel ; Generalbass-Bearb. von Otto Kiel';
+        $expectSimple = 'Georg Philipp Telemann ; hrsg. von ' .
+        'Herbert Kölbel ; Generalbass-Bearb. von Otto Kiel';
 
-        $this->assertIsString( $titleSimple);
+        $this->assertIsString($titleSimple);
         $this->assertEquals($expectSimple, $titleSimple);
     }
 
@@ -256,7 +260,8 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
 
         $this->assertIsArray($titleFull);
 
-        $expect = 'Konzert e-Moll, für Blockflöte, Querflöte, zwei Violinen, Viola und Basso continuo, [TWV 52 e 1]';
+        $expect = 'Konzert e-Moll, für Blockflöte, Querflöte, zwei Violinen, ' .
+            'Viola und Basso continuo, [TWV 52 e 1]';
 
         $this->assertEquals($expect, $titleFull['title']);
     }

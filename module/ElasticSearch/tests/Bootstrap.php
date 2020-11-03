@@ -30,10 +30,10 @@
  */
 namespace ElasticSearchTest;
 
-use RuntimeException;
 use Laminas\Mvc\Service\ServiceManagerConfig;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
+use RuntimeException;
 
 define('APPLICATION_PATH', realpath(dirname(__DIR__) . '/../..'));
 define('ELASTICSEARCH_TESTS_PATH', __DIR__);
@@ -98,7 +98,8 @@ class Bootstrap
         }
 
         $zf2ModulePaths = implode(PATH_SEPARATOR, $zf2ModulePaths) . PATH_SEPARATOR;
-        $zf2ModulePaths .= getenv('ZF2_MODULES_TEST_PATHS') ?: (defined('ZF2_MODULES_TEST_PATHS') ? ZF2_MODULES_TEST_PATHS : '');
+        $zf2ModulePaths .= getenv('ZF2_MODULES_TEST_PATHS')
+            ?: (defined('ZF2_MODULES_TEST_PATHS') ? ZF2_MODULES_TEST_PATHS : '');
 
         static::initAutoloader();
 
@@ -131,7 +132,10 @@ class Bootstrap
     public static function initEnvironment()
     {
         define('APPLICATION_ENV', 'development');
-        define('SWISSBIB_TEST_FIXTURES', realpath(ELASTICSEARCH_TESTS_PATH . '/fixtures'));
+        define(
+            'SWISSBIB_TEST_FIXTURES',
+            realpath(ELASTICSEARCH_TESTS_PATH . '/fixtures')
+        );
     }
 
     /**
@@ -167,10 +171,16 @@ class Bootstrap
             include $vendorPath . '/autoload.php';
 
             $loader = new \Composer\Autoload\ClassLoader();
-            $loader->add('VuFindTest', APPLICATION_PATH . '/module/VuFind/tests/unit-tests/src');
+            $loader->add(
+                'VuFindTest',
+                APPLICATION_PATH . '/module/VuFind/tests/unit-tests/src'
+            );
             $loader->add('VuFindTest', APPLICATION_PATH . '/module/VuFind/src');
             $loader->add('ElasticSearchTest', ELASTICSEARCH_TESTS_PATH . '/');
-            $loader->add('VuFindTest', APPLICATION_PATH . '/module/VuFind/src/VuFindTest');
+            $loader->add(
+                'VuFindTest',
+                APPLICATION_PATH . '/module/VuFind/src/VuFindTest'
+            );
 
             $loader->register();
         } else {

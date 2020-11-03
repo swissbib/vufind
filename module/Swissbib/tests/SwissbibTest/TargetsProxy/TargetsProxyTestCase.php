@@ -30,13 +30,13 @@
  */
 namespace SwissbibTest\TargetsProxy;
 
-use Swissbib\TargetsProxy\TargetsProxy;
-use VuFindTest\Unit\TestCase as VuFindTestCase;
 use Laminas\Config\Config;
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Log\Logger;
-
 use Laminas\ServiceManager\ServiceManager;
+use Swissbib\TargetsProxy\TargetsProxy;
+
+use VuFindTest\Unit\TestCase as VuFindTestCase;
 
 /**
  * TargetsProxyTestCase
@@ -71,7 +71,8 @@ class TargetsProxyTestCase extends VuFindTestCase
             $serviceLocator = new ServiceManager();
             $targetsProxyConfig = new Config($iniReader->fromFile($configFile));
             $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/TargetsProxy';
-            $config = new Config($iniReader->fromFile($path . '/config.ini')
+            $config = new Config(
+                $iniReader->fromFile($path . '/config.ini')
             );
             $serviceLocator->setService('VuFind\Config\PluginManager', $config);
 

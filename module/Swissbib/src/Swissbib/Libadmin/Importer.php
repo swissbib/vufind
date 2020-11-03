@@ -131,7 +131,8 @@ class Importer
 
         try {
             $importData = $this->getData();
-            $importDataFull = $this->downloadAndStoreAllInstitutionData(); //libadmin_all.json
+            $importDataFull
+                = $this->downloadAndStoreAllInstitutionData(); //libadmin_all.json
 
             $this->result->addSuccess('Data fetched from libadmin');
         } catch (Exceptions\Exception $e) {

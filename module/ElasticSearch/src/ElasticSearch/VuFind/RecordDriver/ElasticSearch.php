@@ -27,6 +27,7 @@
  */
 namespace ElasticSearch\VuFind\RecordDriver;
 
+use DateTime;
 use VuFind\RecordDriver\AbstractBase;
 
 /**
@@ -153,13 +154,15 @@ abstract class ElasticSearch extends AbstractBase
     /**
      * Returns a localized array field from the index as a string
      *
-     * @param string $value     The value found in the index.
+     * @param array  $values    The value found in the index.
      * @param string $delimiter The delimiter join elements in the field's array.
      *
      * @return string
      */
-    protected function localizedArrayToString(array $values, string $delimiter = ', ')
-    {
+    protected function localizedArrayToString(
+        array $values,
+        string $delimiter = ', '
+    ) {
         $value = $this->getArrayOfValuesByLanguagePriority($values);
         $value =  implode($delimiter, $value);
         if ($value == '') {
@@ -271,12 +274,12 @@ abstract class ElasticSearch extends AbstractBase
         }
 
         //wikidata style : 1929-12-06T00:00:00Z (with leading 0 for days and months)
-        $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $dateString);
+        $date = DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $dateString);
         if ($date) {
             return $date->format('j.n.Y');
         } else {
             //gnd style is often 2012-07-25
-            $date = \DateTime::createFromFormat('Y-m-d', $dateString);
+            $date = DateTime::createFromFormat('Y-m-d', $dateString);
             if ($date) {
                 return $date->format('j.n.Y');
             } else {
@@ -345,7 +348,7 @@ abstract class ElasticSearch extends AbstractBase
     /**
      * Remove URIs which are duplicates but with just another protocol
      *
-     * @param array $allUris array of URIs
+     * @param array $uris array of URIs
      *
      * @return bool
      */
@@ -365,7 +368,7 @@ abstract class ElasticSearch extends AbstractBase
     }
 
     /**
-     * remove Protocol From Uri
+     * Remove Protocol From Uri
      *
      * @param string $uri The uri
      *

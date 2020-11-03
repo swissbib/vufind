@@ -64,7 +64,7 @@ class IpMatcherTest extends TargetsProxyTestCase
             'xxx.xxx.xx'
         );
 
-        $this->assertIsBool( $proxyDetected);
+        $this->assertIsBool($proxyDetected);
         $this->assertFalse($proxyDetected);
     }
 
@@ -80,7 +80,7 @@ class IpMatcherTest extends TargetsProxyTestCase
             'unibas.swissbib.ch'
         );
 
-        $this->assertIsBool( $proxyDetected);
+        $this->assertIsBool($proxyDetected);
         $this->assertTrue($proxyDetected);
         $this->assertEquals('Target_Ip_Single', $this->targetsProxy->getTargetKey());
         $this->assertEquals(
@@ -101,7 +101,7 @@ class IpMatcherTest extends TargetsProxyTestCase
             'unibas.swissbib.ch'
         );
 
-        $this->assertIsBool( $proxyDetected);
+        $this->assertIsBool($proxyDetected);
         $this->assertTrue($proxyDetected);
         $this->assertEquals(
             'Target_Ip_Wildcard',
@@ -125,7 +125,7 @@ class IpMatcherTest extends TargetsProxyTestCase
             'unibas.swissbib.ch'
         );
 
-        $this->assertIsBool( $proxyDetected);
+        $this->assertIsBool($proxyDetected);
         $this->assertTrue($proxyDetected);
         $this->assertEquals(
             'Target_Ip_Section',
@@ -149,7 +149,7 @@ class IpMatcherTest extends TargetsProxyTestCase
             'unibas.swissbib.ch'
         );
 
-        $this->assertIsBool( $proxyDetected);
+        $this->assertIsBool($proxyDetected);
         $this->assertTrue($proxyDetected);
         $this->assertEquals(
             'Target_Ip_Single_CSV',
@@ -173,7 +173,7 @@ class IpMatcherTest extends TargetsProxyTestCase
             'unibas.swissbib.ch'
         );
 
-        $this->assertIsBool( $proxyDetected);
+        $this->assertIsBool($proxyDetected);
         $this->assertTrue($proxyDetected);
         $this->assertEquals(
             'Target_Ip_Wildcard_CSV',
@@ -197,7 +197,7 @@ class IpMatcherTest extends TargetsProxyTestCase
             'unibas.swissbib.ch'
         );
 
-        $this->assertIsBool( $proxyDetected);
+        $this->assertIsBool($proxyDetected);
         $this->assertTrue($proxyDetected);
         $this->assertEquals(
             'Target_Ip_Section_CSV',

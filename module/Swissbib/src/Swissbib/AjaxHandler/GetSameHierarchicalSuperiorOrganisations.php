@@ -44,7 +44,8 @@ use VuFind\AjaxHandler\AjaxHandlerInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class GetSameHierarchicalSuperiorOrganisations extends VFAjax implements AjaxHandlerInterface
+class GetSameHierarchicalSuperiorOrganisations
+    extends VFAjax implements AjaxHandlerInterface
 {
     use \Swissbib\AjaxHandler\AjaxTrait;
 
@@ -74,9 +75,19 @@ class GetSameHierarchicalSuperiorOrganisations extends VFAjax implements AjaxHan
         $pageSize = $this->getRequest()->getQuery()['size'] ??
             $this->getConfig()->DetailPage->sameHierarchicalOrganisationsSize;
         $organisationId = $this->getRequest()->getQuery()['organisationId'];
-        $sameHierarchicalSuperiorOrganisationIds = $this->getRequest()->getQuery()['superiorOrgIds'];
-        $sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($sameHierarchicalSuperiorOrganisationIds, $page, $pageSize);
-        $response = $this->buildResponse($sameHierarchicalSuperiorOrganisations, $this->getOrganisationPaginationSpec());
+        $sameHierarchicalSuperiorOrganisationIds
+            = $this->getRequest()->getQuery()['superiorOrgIds'];
+        $sameHierarchicalSuperiorOrganisations
+            = $this->getSameHierarchicalSuperiorOrganisations(
+                $sameHierarchicalSuperiorOrganisationIds,
+                $page,
+                $pageSize
+            );
+        $response
+            = $this->buildResponse(
+                $sameHierarchicalSuperiorOrganisations,
+                $this->getOrganisationPaginationSpec()
+            );
         // filter out own ID
         $response = $response->getContent();
         $r = array_filter(
@@ -87,8 +98,20 @@ class GetSameHierarchicalSuperiorOrganisations extends VFAjax implements AjaxHan
         return $this->formatResponse($r);
     }
 
-    private function getSameHierarchicalSuperiorOrganisations($superiorOrgIds, $page, $pageSize)
-    {
+    /**
+     * Gets Superior Organisations
+     *
+     * @param array $superiorOrgIds Ids of superior organizations
+     * @param int   $page           Page
+     * @param int   $pageSize       Size of the Page
+     *
+     * @return mixed
+     */
+    private function getSameHierarchicalSuperiorOrganisations(
+        $superiorOrgIds,
+        $page,
+        $pageSize
+    ) {
         $orgs = $this->serviceLocator->get('elasticsearchsearch')
             ->searchElasticSearch(
                 $superiorOrgIds,

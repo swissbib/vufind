@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":307:{a:2:{s:7:"defects";a:0:{}s:5:"times";a:3:{s:81:"ElasticSearchTest\VuFind\RecordDriver\ESPersonTest::testGetOccupationDisplayField";d:0.006;s:64:"ElasticSearchTest\VuFind\RecordDriver\ESSubjectTest::testGetName";d:0;s:78:"ElasticSearchTest\VuFind\RecordDriver\ESSubjectTest::testGetBroaderTermGeneral";d:0;}}}

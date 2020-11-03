@@ -27,6 +27,8 @@
  */
 namespace ElasticSearch\View\Helper;
 
+use DateTime;
+use stdClass;
 use Swissbib\Util\Text\Splitter;
 
 /**
@@ -228,12 +230,12 @@ class ESPerson extends AbstractHelper
         }
 
         //wikidata style : 1929-12-06T00:00:00Z (with leading 0 for days and months)
-        $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $dateString);
+        $date = DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $dateString);
         if ($date) {
             return $date->format('j.n.Y');
         } else {
             //gnd style is often 2012-07-25
-            $date = \DateTime::createFromFormat('Y-m-d', $dateString);
+            $date = DateTime::createFromFormat('Y-m-d', $dateString);
             if ($date) {
                 return $date->format('j.n.Y');
             } else {
@@ -350,7 +352,7 @@ class ESPerson extends AbstractHelper
      *                         specified then the default split point will be at 30
      *                         characters/words.
      *
-     * @return \stdClass
+     * @return stdClass
      */
     public function getAbstractInfo(bool $countWords = true, ...$limits)
     {

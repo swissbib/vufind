@@ -26,13 +26,13 @@
  */
 namespace SwissbibTest\NationalLicence;
 
+use Laminas\Config\Config;
+use Laminas\Config\Reader\Ini as IniReader;
+use Laminas\ServiceManager\ServiceManager;
 use ReflectionClass;
 use SwissbibTest\Bootstrap;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
-use Laminas\Config\Config;
-use Laminas\Config\Reader\Ini as IniReader;
-use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Class SwitchApiServiceTest.

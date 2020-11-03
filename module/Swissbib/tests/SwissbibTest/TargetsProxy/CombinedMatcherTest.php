@@ -64,7 +64,7 @@ class CombinedMatcherTest extends TargetsProxyTestCase
             'swiishbiib.ch'
         );
 
-        $this->assertIsBool( $proxyDetected);
+        $this->assertIsBool($proxyDetected);
         $this->assertFalse($proxyDetected);
     }
 
@@ -77,7 +77,7 @@ class CombinedMatcherTest extends TargetsProxyTestCase
     {
         $proxyDetected = $this->targetsProxy->detectTarget('200.20.0.4', 'swsb');
 
-        $this->assertIsBool( $proxyDetected);
+        $this->assertIsBool($proxyDetected);
         $this->assertTrue($proxyDetected);
         $this->assertEquals(
             'Target_Both_Match',

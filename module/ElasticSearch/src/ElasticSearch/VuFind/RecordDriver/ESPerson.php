@@ -226,7 +226,10 @@ class ESPerson extends ElasticSearch
             $abstract = $this->getValueByLanguagePriority($abstract);
         }
         if (!isset($abstract)) {
-            $abstract = $this->getField('biographicalOrHistoricalInformation', 'gnd');
+            $abstract = $this->getField(
+                'biographicalOrHistoricalInformation',
+                'gnd'
+            );
         }
         return is_array($abstract) && count($abstract) > 0
             ? $abstract[0] : $abstract;
@@ -467,9 +470,11 @@ class ESPerson extends ElasticSearch
     }
 
     /**
-     * Gets the affiliation.
+     * Gets the affiliation
      *
-     * @return array|null
+     * @param string $delimiter The delimiter
+     *
+     * @return string
      */
     public function getAffiliation($delimiter)
     {

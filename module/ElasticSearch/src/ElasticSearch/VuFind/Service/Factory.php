@@ -27,6 +27,7 @@
  */
 namespace ElasticSearch\VuFind\Service;
 
+use ElasticSearch\VuFind\RecordDriver\PluginManager;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\ServiceManager;
 
@@ -101,7 +102,7 @@ class Factory
      *
      * @param ServiceManager $sm Service manager.
      *
-     * @return \ElasticSearch\VuFind\RecordDriver\PluginManager
+     * @return PluginManager
      */
     public static function getRecordDriverPluginManager(ContainerInterface $sm)
     {

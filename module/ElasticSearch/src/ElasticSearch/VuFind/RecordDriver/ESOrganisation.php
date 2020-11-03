@@ -316,7 +316,10 @@ class ESOrganisation extends ElasticSearch
     {
         $ids = null;
         $total = null;
-        $supOrgsFields = ['gnd:hierarchicalSuperiorOfTheConferenceOrEvent','gnd:hierarchicalSuperiorOfTheCorporateBody'];
+        $supOrgsFields = [
+            'gnd:hierarchicalSuperiorOfTheConferenceOrEvent',
+            'gnd:hierarchicalSuperiorOfTheCorporateBody'
+        ];
         foreach ($supOrgsFields as $supOrgsField) {
             if (array_key_exists($supOrgsField, $this->fields["_source"])) {
                 $supOrgs = $this->fields["_source"][$supOrgsField];

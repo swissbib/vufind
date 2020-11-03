@@ -77,7 +77,8 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
                 $info->id, $info->index, $info->type
             );
 
-            $superiorOrgIds = $this->driver->getHierarchicalSuperiorOrganisationIds();
+            $superiorOrgIds
+                = $this->driver->getHierarchicalSuperiorOrganisationIds();
             $viewModel = $this->createViewModel(
                 [
                     "driver" => $this->driver,
@@ -138,9 +139,9 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
     /**
      * Gets the sameHierarchicalSuperiorOrganisations
      *
-     * @param string $id The id
+     * @param string $ids The ids
      *
-     * @return array
+     * @return mixed
      */
     protected function getSameHierarchicalSuperiorOrganisations(string $ids)
     {
@@ -152,21 +153,23 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
                 "organisation",
                 $this->getConfig()->DetailPage->sameHierarchicalOrganisationsSize
             );
-        $this->sameHierarchicalSuperiorOrganisationsTotalCount = $val->getResultTotal();
+        $this->sameHierarchicalSuperiorOrganisationsTotalCount
+            = $val->getResultTotal();
         return $val->getResults();
     }
 
     /**
      * Adds additional data
      *
-     * @param ViewModel $viewModel necessary ids
+     * @param $sameHierarchicalSuperiorOrganisationIds Necessary ids
      *
      * @return void
      */
     protected function addDataForCarousel(
         $sameHierarchicalSuperiorOrganisationIds
     ) {
-        $this->sameHierarchicalSuperiorOrganisationIds = $sameHierarchicalSuperiorOrganisationIds;
+        $this->sameHierarchicalSuperiorOrganisationIds
+            = $sameHierarchicalSuperiorOrganisationIds;
     }
 
     /**

@@ -27,6 +27,7 @@
  */
 namespace ElasticSearch\View\Helper;
 
+use DateTime;
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch as ElasticSearch;
 use Laminas\Config\Config as LaminasConfig;
 use VuFind\Search\Base\Results as Results;
@@ -224,12 +225,12 @@ abstract class AbstractHelper extends \Laminas\View\Helper\AbstractHelper
         }
 
         //wikidata style : 1929-12-06T00:00:00Z (with leading 0 for days and months)
-        $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $dateString);
+        $date = DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $dateString);
         if ($date) {
             return $date->format('j.n.Y');
         } else {
             //gnd style is often 2012-07-25
-            $date = \DateTime::createFromFormat('Y-m-d', $dateString);
+            $date = DateTime::createFromFormat('Y-m-d', $dateString);
             if ($date) {
                 return $date->format('j.n.Y');
             } else {
@@ -438,7 +439,8 @@ abstract class AbstractHelper extends \Laminas\View\Helper\AbstractHelper
      * Checks whether the underlying driver has matching record references based on
      * the references defined in the searches.ini configuration.
      *
-     * @param LaminasConfig $references The available record reference configurations.
+     * @param LaminasConfig $references The available record reference
+     *                                  configurations.
      *
      * @return bool
      */
@@ -461,9 +463,10 @@ abstract class AbstractHelper extends \Laminas\View\Helper\AbstractHelper
     /**
      * Checks whether the given link matches one of the configured record references.
      *
-     * @param LaminasConfig $references The available record reference configurations.
-     * @param string     $link       An array or string representing the available
-     *                               references.
+     * @param LaminasConfig $references The available record reference
+     *                                  configurations.
+     * @param string        $link       An array or string representing the
+     *                                  available references.
      *
      * @return bool
      */
@@ -485,7 +488,8 @@ abstract class AbstractHelper extends \Laminas\View\Helper\AbstractHelper
      * one configured for the reference the link matched on and the link will be the
      * link parameter value passed in to the method.
      *
-     * @param string     $link       The link to match against the record references.
+     * @param string        $link       The link to match against the record
+     *                                  references.
      * @param LaminasConfig $references All configured record references.
      *
      * @return string

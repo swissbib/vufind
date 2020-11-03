@@ -55,7 +55,7 @@ class PhysicalDescriptionsTest extends \PHPUnit\Framework\TestCase
 
         $result = $desc($data);
 
-        $this->assertIsString( $result);
+        $this->assertIsString($result);
         $this->assertEmpty($result);
     }
 
@@ -76,7 +76,7 @@ class PhysicalDescriptionsTest extends \PHPUnit\Framework\TestCase
 
         $result = $desc($data);
 
-        $this->assertIsString( $result);
+        $this->assertIsString($result);
         $this->assertEquals(' : c + x', $result);
     }
 }

@@ -64,6 +64,5 @@ class SolrMarcZeroFieldTest extends SolrMarcTestCase
         $testItem = $subjectHeadings[5];
 
         $this->assertEquals('Indianer', $testItem[0]);
-        //		$this->assertEquals('(DE-588)4026718-0', $testItem['6500']);
     }
 }

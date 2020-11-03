@@ -32,6 +32,7 @@
  */
 namespace Swissbib\RecordDriver;
 
+use Laminas\Config\Config;
 use Laminas\I18n\Translator\TranslatorInterface as Translator;
 use Swissbib\RecordDriver\Helper\Holdings as HoldingsHelper;
 use VuFind\Log\Logger;
@@ -214,19 +215,19 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
     /**
      * Constructor
      *
-     * @param \Laminas\Config\Config $mainConfig           VuFind main configuration
-     *                                                     (omit for built-in defaults)
-     * @param \Laminas\Config\Config $recordConfig         Record-specific configu-
-     *                                                     ration file
-     *                                                     (omit to use $mainConfig as
-     *                                                     $recordConfig)
-     * @param \Laminas\Config\Config $searchSettings       Search-specific configu-
-     *                                                     ration file
-     * @param HoldingsHelper         $holdingsHelper       Holdings helper
-     * @param HoldingsHelper         $solrDefaultAdapter   SOLR adapter
-     * @param AvailabilityHelper     $availabilityHelper   Availability helper
-     * @param Array                  $libraryNetworkLookup lookuptable for unions
-     * @param Logger                 $logger               Logger
+     * @param Config             $mainConfig           VuFind main configuration
+     *                                                 (omit for built-in defaults)
+     * @param Config             $recordConfig         Record-specific configu-
+     *                                                 ration file
+     *                                                 (omit to use $mainConfig as
+     *                                                 $recordConfig)
+     * @param Config             $searchSettings       Search-specific configu-
+     *                                                 ration file
+     * @param HoldingsHelper     $holdingsHelper       Holdings helper
+     * @param HoldingsHelper     $solrDefaultAdapter   SOLR adapter
+     * @param AvailabilityHelper $availabilityHelper   Availability helper
+     * @param Array              $libraryNetworkLookup lookuptable for unions
+     * @param Logger             $logger               Logger
      */
     public function __construct($mainConfig = null, $recordConfig = null,
         $searchSettings = null, $holdingsHelper = null, $solrDefaultAdapter = null,

@@ -226,7 +226,9 @@ class Bootstrapper
                  *
                  * @var TranslatorImpl $translator
                  */
-                $translator = $this->serviceManager->get('Laminas\Mvc\I18n\Translator');
+                $translator = $this->serviceManager->get(
+                    'Laminas\Mvc\I18n\Translator'
+                );
                 $viewModel = $serviceLocator->get('ViewManager')->getViewModel();
 
                 $callback = function ($event) use ($locale, $translator,

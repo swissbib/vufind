@@ -27,6 +27,8 @@
  */
 namespace ElasticSearch\VuFind\RecordDriver;
 
+use VuFind\ServiceManager\AbstractPluginFactory;
+
 /**
  * Class PluginFactory
  *
@@ -36,7 +38,7 @@ namespace ElasticSearch\VuFind\RecordDriver;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class PluginFactory extends \VuFind\ServiceManager\AbstractPluginFactory
+class PluginFactory extends AbstractPluginFactory
 {
     /**
      * Constructor
