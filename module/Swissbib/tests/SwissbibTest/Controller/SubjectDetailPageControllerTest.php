@@ -48,9 +48,9 @@ class SubjectDetailPageControllerTest extends VuFindTestCase
      */
     private $cut;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
+        parent::setUp(): void;
         $config = new Config(["config" => new Config(["DetailPage" => ""])]);
         $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
         $serviceLocator->method("get")->willReturn($config);

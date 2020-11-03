@@ -46,7 +46,7 @@ class SolrMarcZeroFieldTest extends SolrMarcTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->initialize('marc-zero-field-bug.json');
     }

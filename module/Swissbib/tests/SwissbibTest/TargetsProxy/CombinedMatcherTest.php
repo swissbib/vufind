@@ -46,7 +46,7 @@ class CombinedMatcherTest extends TargetsProxyTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/TargetsProxy';
         $this->initialize($path . '/config_detect_combined.ini');
@@ -64,7 +64,7 @@ class CombinedMatcherTest extends TargetsProxyTestCase
             'swiishbiib.ch'
         );
 
-        $this->assertInternalType('bool', $proxyDetected);
+        $this->assertIsBool( $proxyDetected);
         $this->assertFalse($proxyDetected);
     }
 
@@ -77,7 +77,7 @@ class CombinedMatcherTest extends TargetsProxyTestCase
     {
         $proxyDetected = $this->targetsProxy->detectTarget('200.20.0.4', 'swsb');
 
-        $this->assertInternalType('bool', $proxyDetected);
+        $this->assertIsBool( $proxyDetected);
         $this->assertTrue($proxyDetected);
         $this->assertEquals(
             'Target_Both_Match',
