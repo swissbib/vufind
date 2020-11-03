@@ -125,7 +125,7 @@
           </div>
         <?php endif; ?>
 
-        <?php if (count($this->lists) > 0): ?>
+          <?php if (count($this->lists ?? []) > 0): ?>
             <div class="col-sm-4"><?=$this->transEsc('Saved in')?>:</div>
             <div class="col-sm-8">
                 <?php $i = 0;foreach($this->lists as $current): ?>

@@ -35,8 +35,9 @@ use Swissbib\Command\Pura\SendPuraReportFactory;
 use Swissbib\RecordDriver\Summon;
 use Swissbib\VuFind\Search\SearchRunnerFactory;
 use VuFind\Controller\AbstractBaseFactory;
+use VuFind\Route\RouteGenerator;
 
-return [
+$config = [
     'router' => [
         'routes' => [
             // ILS location, e.g. baselbern
@@ -774,3 +775,13 @@ return [
         ]
     ]
 ];
+
+//legacy column in resource table, for lists with removed records
+$recordRoutes = [
+    'vufindrecord' => 'Record',
+];
+
+$routeGenerator = new RouteGenerator();
+$routeGenerator->addRecordRoutes($config, $recordRoutes);
+
+return $config;
