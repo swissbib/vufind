@@ -40,11 +40,11 @@
       "type": "package",
       "package": {
         "name": "swissbib/switch-shared-attributes-api-client",
-        "version": "0.9",
+        "version": "dev-master",
         "source": {
           "url": "https://github.com/swissbib/switchSharedAttributesAPIClient.git",
           "type": "git",
-          "reference": "0.9"
+          "reference": "master"
         },
         "autoload": {
           "psr-0" : {
@@ -114,7 +114,7 @@
         "linked-swissbib/adapter-es": "dev-updateES7",
         "elasticsearch/elasticsearch": "7.3.0",
         "ongr/elasticsearch-dsl": "7.0.0",
-        "swissbib/switch-shared-attributes-api-client": "0.9",
+        "swissbib/switch-shared-attributes-api-client": "dev-master",
         "laminas/laminas-i18n-resources": "^2.5",
         "doctrine/common": "^2.7",
         "laminas/laminas-hydrator": "^2.4",

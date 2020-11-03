@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e1d201a83b64f2aff3d39a9b5f192a7",
+    "content-hash": "479f6db53dbfc9ae69bb816a0ea9479f",
     "packages": [
         {
             "name": "ahand/mobileesp",
@@ -5833,18 +5833,19 @@
         },
         {
             "name": "swissbib/switch-shared-attributes-api-client",
-            "version": "0.9",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swissbib/switchSharedAttributesAPIClient.git",
-                "reference": "0.9"
+                "reference": "master"
             },
             "type": "library",
             "autoload": {
                 "psr-0": {
                     "SwitchSharedAttributesAPIClient": "src"
                 }
-            }
+            },
+            "time": "2020-11-02T21:13:28+00:00"
         },
         {
             "name": "symfony/console",
@@ -10318,7 +10319,8 @@
     "stability-flags": {
         "ahand/mobileesp": 20,
         "pear/validate_ispn": 20,
-        "linked-swissbib/adapter-es": 20
+        "linked-swissbib/adapter-es": 20,
+        "swissbib/switch-shared-attributes-api-client": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
