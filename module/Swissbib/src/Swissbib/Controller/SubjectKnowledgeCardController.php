@@ -27,8 +27,8 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Model\ViewModel;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\Model\ViewModel;
 
 /**
  * Class SubjectKnowledgeCardController
@@ -57,7 +57,7 @@ class SubjectKnowledgeCardController extends AbstractSubjectController
     /**
      * /Page/Detail/Subject/:id
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function subjectAction()
     {

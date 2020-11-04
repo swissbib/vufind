@@ -28,8 +28,8 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\ServiceManager\ServiceManager;
 use VuFind\Controller\AbstractBaseFactory;
-use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory for controllers.
@@ -55,18 +55,6 @@ class Factory extends AbstractBaseFactory
             $sm,
             $sm->get('VuFind\Config\PluginManager')->get('config')
         );
-    }
-
-    /**
-     * Construct the ConsoleController
-     *
-     * @param ServiceManager $sm Service manager.
-     *
-     * @return ConsoleController
-     */
-    public function getConsoleController(ServiceManager $sm)
-    {
-        return new ConsoleController($sm);
     }
 
     /**
@@ -111,7 +99,7 @@ class Factory extends AbstractBaseFactory
     /**
      * Get Person Knowledge Card Controller
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm Service manager
      *
      * @return \Swissbib\Controller\PersonKnowledgeCardController
      */
@@ -123,7 +111,7 @@ class Factory extends AbstractBaseFactory
     /**
      * Get Organisation Knowledge Card Controller
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm Service manager
      *
      * @return \Swissbib\Controller\OrganisationKnowledgeCardController
      */
@@ -135,7 +123,7 @@ class Factory extends AbstractBaseFactory
     /**
      * Get Subject Knowledge Card Controller
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm Service manager
      *
      * @return \Swissbib\Controller\SubjectKnowledgeCardController
      */
@@ -147,7 +135,7 @@ class Factory extends AbstractBaseFactory
     /**
      * Get Person Detail Page Controller
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm Service manager
      *
      * @return \Swissbib\Controller\PersonDetailPageController
      */
@@ -159,7 +147,7 @@ class Factory extends AbstractBaseFactory
     /**
      * Get Person Search Controller
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm Service manager
      *
      * @return \Swissbib\Controller\PersonSearchController
      */
@@ -171,7 +159,7 @@ class Factory extends AbstractBaseFactory
     /**
      * Get Organisation Search Controller
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm Service manager
      *
      * @return \Swissbib\Controller\OrganisationSearchController
      */
@@ -183,37 +171,13 @@ class Factory extends AbstractBaseFactory
     /**
      * Get Subject Detail Page Controller
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm Service manager
      *
      * @return \Swissbib\Controller\PersonDetailPageController
      */
     public static function getSubjectDetailPageController(ServiceManager $sm)
     {
         return new SubjectDetailPageController($sm);
-    }
-
-    /**
-     * Method annotation wasn't available
-     *
-     * @param ServiceManager $sm ServiceManaegr
-     *
-     * @return LibadminSyncController
-     */
-    public function getLibadminSyncController(ServiceManager $sm)
-    {
-        return new LibadminSyncController($sm);
-    }
-
-    /**
-     * Get Tab40Import Controller
-     *
-     * @param ServiceManager $sm ServiceManager
-     *
-     * @return Tab40ImportController
-     */
-    public function getTab40ImportController(ServiceManager $sm)
-    {
-        return new Tab40ImportController($sm);
     }
 
     /**
@@ -235,7 +199,7 @@ class Factory extends AbstractBaseFactory
     /**
      * Get Organisation Detail Page Controller
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm Service manager
      *
      * @return \Swissbib\Controller\OrganisationDetailPageController
      */
@@ -247,7 +211,7 @@ class Factory extends AbstractBaseFactory
     /**
      * Get Organisation Search Controller
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm Service manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm Service manager
      *
      * @return \Swissbib\Controller\OrganisationSearchController
      */

@@ -27,10 +27,10 @@
  */
 namespace SwissbibTest\Controller;
 
+use Laminas\Config\Config;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Swissbib\Controller\SubjectDetailPageController;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
-use Zend\Config\Config;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class SubjectDetailPageControllerTest
@@ -44,19 +44,31 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class SubjectDetailPageControllerTest extends VuFindTestCase
 {
     /**
+     * Cut
+     *
      * @var SubjectDetailPageController $cut
      */
-    private $cut;
+    private $_cut;
 
-    protected function setUp()
+    /**
+     * Set Up
+     *
+     * @return void
+     */
+    protected function setUp(): void
     {
         parent::setUp();
         $config = new Config(["config" => new Config(["DetailPage" => ""])]);
         $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
         $serviceLocator->method("get")->willReturn($config);
-        $this->cut = new SubjectDetailPageController($serviceLocator);
+        $this->_cut = new SubjectDetailPageController($serviceLocator);
     }
 
+    /**
+     * Test AddData
+     *
+     * @return void
+     */
     public function testAddData()
     {
         $method = self::getMethod('addData');

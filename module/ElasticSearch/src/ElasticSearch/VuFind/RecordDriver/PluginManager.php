@@ -29,6 +29,7 @@ namespace ElasticSearch\VuFind\RecordDriver;
 
 use Interop\Container\ContainerInterface;
 use VuFind\RecordDriver\AbstractBase;
+use VuFind\ServiceManager\AbstractPluginManager;
 
 /**
  * Class PluginManager
@@ -39,7 +40,7 @@ use VuFind\RecordDriver\AbstractBase;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-class PluginManager extends \VuFind\ServiceManager\AbstractPluginManager
+class PluginManager extends AbstractPluginManager
 {
     const DEFAULT_RECORD = 'ElasticSearch';
 

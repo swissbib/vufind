@@ -30,12 +30,12 @@
  */
 namespace Swissbib\Controller;
 
-use Swissbib\Helper\BibCode;
+use Laminas\View\Model\ViewModel;
 
+use Swissbib\Helper\BibCode;
 use Swissbib\RecordDriver\Helper\Holdings;
 use Swissbib\RecordDriver\SolrMarc;
 use Swissbib\VuFind\ILS\Driver\Aleph;
-use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib HoldingsController

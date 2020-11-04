@@ -28,7 +28,7 @@
  */
 namespace Swissbib\VuFind\Db\Table;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory for DB tables.
@@ -119,7 +119,7 @@ class Factory
     public static function getNationalLicenceUser(ServiceManager $sm)
     {
         $sessionManager = $sm->get('VuFind\SessionManager');
-        $session = new \Zend\Session\Container('List', $sessionManager);
+        $session = new \Laminas\Session\Container('List', $sessionManager);
         return static::getGenericTable(
             'NationalLicenceUser', $sm, 'nationallicence', [$session]
         );
@@ -135,7 +135,7 @@ class Factory
     public static function getPuraUser(ServiceManager $sm)
     {
         $sessionManager = $sm->getServiceLocator()->get('VuFind\SessionManager');
-        $session = new \Zend\Session\Container('List', $sessionManager);
+        $session = new \Laminas\Session\Container('List', $sessionManager);
         return static::getGenericTable(
             'PuraUser', $sm, 'pura', [$session]
         );

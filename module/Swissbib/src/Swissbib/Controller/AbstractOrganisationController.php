@@ -27,11 +27,11 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\Config\Config as LaminasConfig;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\Model\ViewModel;
 use Swissbib\Util\Config\FlatArrayConverter;
 use Swissbib\Util\Config\ValueConverter;
-use Zend\Config\Config as ZendConfig;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Model\ViewModel;
 
 /**
  * Class AbstractOrganisationAction
@@ -47,7 +47,7 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
     /*
      * @var ElasticSearch\VuFind\RecordDriver\ESOrganisation
      */
-    protected  $driver;
+    protected $driver;
 
     protected $sameHierarchicalSuperiorOrganisationIds;
     protected $sameHierarchicalSuperiorOrganisationsTotalCount;
@@ -55,7 +55,7 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
     /**
      * DetailPageController constructor.
      *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service locator
+     * @param \Laminas\ServiceManager\ServiceLocatorInterface $sm Service locator
      */
     public function __construct(ServiceLocatorInterface $sm)
     {
@@ -66,7 +66,7 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
     /**
      * The organisation action
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function organisationAction()
     {
@@ -77,7 +77,8 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
                 $info->id, $info->index, $info->type
             );
 
-            $superiorOrgIds = $this->driver->getHierarchicalSuperiorOrganisationIds();
+            $superiorOrgIds
+                = $this->driver->getHierarchicalSuperiorOrganisationIds();
             $viewModel = $this->createViewModel(
                 [
                     "driver" => $this->driver,
@@ -114,9 +115,9 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
     /**
      * Provides the record references configuration section.
      *
-     * @return \Zend\Config\Config
+     * @return \Laminas\Config\Config
      */
-    protected function getOrganisationRecordReferencesConfig(): ZendConfig
+    protected function getOrganisationRecordReferencesConfig(): LaminasConfig
     {
         $flatArrayConverter = new FlatArrayConverter();
         $valueConverter = new ValueConverter();
@@ -131,16 +132,16 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
             = $recordReferencesConfig->get('RecordReferences')->toArray();
 
         return $valueConverter->convert(
-            new ZendConfig($recordReferencesConfig)
+            new LaminasConfig($recordReferencesConfig)
         );
     }
 
     /**
      * Gets the sameHierarchicalSuperiorOrganisations
      *
-     * @param string $id The id
+     * @param string $ids The ids
      *
-     * @return array
+     * @return mixed
      */
     protected function getSameHierarchicalSuperiorOrganisations(string $ids)
     {
@@ -152,21 +153,23 @@ abstract class AbstractOrganisationController extends AbstractDetailsController
                 "organisation",
                 $this->getConfig()->DetailPage->sameHierarchicalOrganisationsSize
             );
-        $this->sameHierarchicalSuperiorOrganisationsTotalCount = $val->getResultTotal();
+        $this->sameHierarchicalSuperiorOrganisationsTotalCount
+            = $val->getResultTotal();
         return $val->getResults();
     }
 
     /**
      * Adds additional data
      *
-     * @param ViewModel $viewModel necessary ids
+     * @param $sameHierarchicalSuperiorOrganisationIds Necessary ids
      *
      * @return void
      */
     protected function addDataForCarousel(
         $sameHierarchicalSuperiorOrganisationIds
     ) {
-        $this->sameHierarchicalSuperiorOrganisationIds = $sameHierarchicalSuperiorOrganisationIds;
+        $this->sameHierarchicalSuperiorOrganisationIds
+            = $sameHierarchicalSuperiorOrganisationIds;
     }
 
     /**

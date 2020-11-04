@@ -28,6 +28,7 @@
 namespace ElasticSearch\VuFind\Search\ElasticSearch;
 
 use VuFind\Search\Base\Results as BaseResults;
+use VuFindSearch\Backend\Exception\BackendException;
 use VuFindSearch\ParamBag;
 
 /**
@@ -92,7 +93,7 @@ class Results extends BaseResults
         $params = new ParamBag();
         $params->add(
             "filter", array_merge(
-                $this->getParams()->getFilters(),
+                $this->getParams()->getFilterList(),
                 $this->getParams()->getHiddenFilters()
             )
         );
@@ -108,7 +109,7 @@ class Results extends BaseResults
             $collection = $searchService->search(
                 $this->backendId, $query, $offset, $limit, $params
             );
-        } catch (\VuFindSearch\Backend\Exception\BackendException $e) {
+        } catch (BackendException $e) {
             throw $e;
         }
 

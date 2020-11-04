@@ -45,11 +45,11 @@ class AccountActionsTest extends \VuFindTest\Unit\MinkTestCase
     /**
      * Standard setup method.
      *
-     * @return mixed
+     * @return void
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
-        return static::failIfUsersExist();
+        static::failIfUsersExist();
     }
 
     /**
@@ -57,11 +57,12 @@ class AccountActionsTest extends \VuFindTest\Unit\MinkTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         // Give up if we're not running in CI:
         if (!$this->continuousIntegrationRunning()) {
-            return $this->markTestSkipped('Continuous integration not running.');
+            $this->markTestSkipped('Continuous integration not running.');
+            return;
         }
     }
 
@@ -144,11 +145,88 @@ class AccountActionsTest extends \VuFindTest\Unit\MinkTestCase
     }
 
     /**
+     * Test that changing email is disabled by default.
+     *
+     * @depends testChangePassword
+     *
+     * @return void
+     */
+    public function testChangeEmailDisabledByDefault()
+    {
+        // Go to profile page:
+        $session = $this->getMinkSession();
+        $session->visit($this->getVuFindUrl('/MyResearch/Profile'));
+        $page = $session->getPage();
+
+        // Log in
+        $this->clickCss($page, '#loginOptions a');
+        $this->fillInLoginForm($page, 'username1', 'good');
+        $this->clickCss($page, '.modal-body .btn.btn-primary');
+        $this->snooze();
+
+        // Now confirm that email button is absent:
+        $link = $page->findLink('Change Email Address');
+        $this->assertFalse(is_object($link));
+    }
+
+    /**
+     * Test changing an email.
+     *
+     * @depends testChangePassword
+     *
+     * @return void
+     */
+    public function testChangeEmail()
+    {
+        // Turn on email change option:
+        $this->changeConfigs(
+            [
+                'config' => [
+                    'Authentication' => [
+                        'change_email' => true,
+                    ]
+                ]
+            ]
+        );
+
+        // Go to profile page:
+        $session = $this->getMinkSession();
+        $session->visit($this->getVuFindUrl('/MyResearch/Profile'));
+        $page = $session->getPage();
+
+        // Log in
+        $this->clickCss($page, '#loginOptions a');
+        $this->fillInLoginForm($page, 'username1', 'good');
+        $this->clickCss($page, '.modal-body .btn.btn-primary');
+        $this->snooze();
+
+        // Now click change email button:
+        $this->findAndAssertLink($page, 'Change Email Address')->click();
+        $this->snooze();
+
+        // Change the email:
+        $this->findCssAndSetValue($page, '[name="email"]', 'new@email.com');
+        $this->clickCss($page, '[name="submit"]');
+        $this->snooze();
+        $this->assertEquals(
+            'Your email address has been changed successfully',
+            $this->findCss($page, '.alert-success')->getText()
+        );
+
+        // Now go to profile page and confirm that email has changed:
+        $session->visit($this->getVuFindUrl('/MyResearch/Profile'));
+        $this->assertEquals(
+            'First Name: Tester Last Name: McTestenson Email: new@email.com',
+            $this->findCss($page, '.table-striped')->getText()
+        );
+    }
+
+    /**
      * Standard teardown method.
      *
      * @return void
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         static::removeUsers(['username1']);
     }

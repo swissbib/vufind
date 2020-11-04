@@ -24,11 +24,15 @@ $showFRBR = $this->configAccess()->Site->displayFrbr;
 $groupID = $this->driver->getGroup(true);
 
 $urls = $viewRecord->getExtendedLinkDetails();
-try {
-    $nl = $this->nationalLicences()->getUrl($record);
-} catch (\Exception $e) {
-    //this is the case for swissbib orange and jusbib
-    $nl = null;
+
+$nl = null;
+if($searchClassId != "Summon") {
+    try {
+        $nl = $this->nationalLicences()->getUrl($record);
+    } catch (\Exception $e) {
+        //this is the case for swissbib orange and jusbib
+        $nl = null;
+    }
 }
 if ($nl) {
     $linkNL = ['url' => $nl['url'], 'desc' => "Get it Online (National Licence)"];
@@ -155,7 +159,7 @@ $linkSFX = $viewRecord->getLinkSFX();
       <?php if (!empty($hierarchicalLevel)): ?>
         <div class="row">
           <div class="col-sm-4"><?=$this->transEsc('hierarchical_level')?>: </div>
-          <div class="col-sm-8"><?= $this->zendTranslate($hierarchicalLevel, 'formats') ?></div>
+          <div class="col-sm-8"><?= $this->laminasTranslate($hierarchicalLevel, 'formats') ?></div>
         </div>
       <?php endif; ?>
 

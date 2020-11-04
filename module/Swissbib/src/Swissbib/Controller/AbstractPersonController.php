@@ -27,10 +27,10 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\Config\Config as LaminasConfig;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Swissbib\Util\Config\FlatArrayConverter;
 use Swissbib\Util\Config\ValueConverter;
-use Zend\Config\Config as ZendConfig;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class AbstractPersonAction
@@ -50,7 +50,7 @@ abstract class AbstractPersonController extends AbstractDetailsController
     /**
      * DetailPageController constructor.
      *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service locator
+     * @param \Laminas\ServiceManager\ServiceLocatorInterface $sm Service locator
      */
     public function __construct(ServiceLocatorInterface $sm)
     {
@@ -61,7 +61,7 @@ abstract class AbstractPersonController extends AbstractDetailsController
     /**
      * The person action
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function personAction()
     {
@@ -111,9 +111,9 @@ abstract class AbstractPersonController extends AbstractDetailsController
     /**
      * Provides the record references configuration section.
      *
-     * @return \Zend\Config\Config
+     * @return \Laminas\Config\Config
      */
-    protected function getPersonRecordReferencesConfig(): ZendConfig
+    protected function getPersonRecordReferencesConfig(): LaminasConfig
     {
         $flatArrayConverter = new FlatArrayConverter();
         $valueConverter = new ValueConverter();
@@ -128,7 +128,7 @@ abstract class AbstractPersonController extends AbstractDetailsController
             = $recordReferencesConfig->get('RecordReferences')->toArray();
 
         return $valueConverter->convert(
-            new ZendConfig($recordReferencesConfig)
+            new LaminasConfig($recordReferencesConfig)
         );
     }
 

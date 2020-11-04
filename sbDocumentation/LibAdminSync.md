@@ -20,7 +20,7 @@ to be started manualy or by a cron job.
 
 To start the sync, run the following command on the server in the application (root) directory.
 
-	php public/index.php libadmin sync
+	php public/index.php libadmin/sync
 
 This will start the sync process. There will be **NO output** printed on the shell, except in case of problems.
 

@@ -28,7 +28,7 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View script for rendering subject headings of all vocabulairies,

@@ -30,7 +30,7 @@
  */
 namespace Swissbib\Record\Form;
 
-use Zend\Form\Annotation;
+use Laminas\Form\Annotation;
 
 /**
  * AddressForm
@@ -42,7 +42,7 @@ use Zend\Form\Annotation;
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  *
  * @Annotation\Name("copy")
- * @Annotation\Hydrator("Zend\Hydrator\ObjectProperty")
+ * @Annotation\Hydrator("Laminas\Hydrator\ObjectProperty")
  */
 class CopyForm
 {
@@ -53,7 +53,7 @@ class CopyForm
      *
      * @Annotation\Name("pickup-location")
      * @Annotation\Options({"label":"pick_up_location"})
-     * @Annotation\Type("Zend\Form\Element\Select")
+     * @Annotation\Type("Laminas\Form\Element\Select")
      */
     public $pickup_location;
 

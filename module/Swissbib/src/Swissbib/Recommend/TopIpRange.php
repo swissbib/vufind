@@ -58,7 +58,7 @@ class TopIpRange implements RecommendInterface
      * Init
      *
      * @param \VuFind\Search\Base\Params $params  params
-     * @param \Zend\StdLib\Parameters    $request request
+     * @param \Laminas\StdLib\Parameters $request request
      *
      * @return void
      */

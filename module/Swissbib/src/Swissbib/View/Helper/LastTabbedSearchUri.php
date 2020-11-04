@@ -28,8 +28,8 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\Session\Container as SessionContainer;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\Session\Container as SessionContainer;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * Get last tabbed search URL

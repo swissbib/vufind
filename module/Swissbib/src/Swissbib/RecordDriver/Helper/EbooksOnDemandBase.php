@@ -30,10 +30,10 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
-use Swissbib\RecordDriver\SolrMarc;
-use Zend\Config\Config;
+use Laminas\Config\Config;
+use Laminas\I18n\Translator\TranslatorInterface as Translator;
 
-use Zend\I18n\Translator\TranslatorInterface as Translator;
+use Swissbib\RecordDriver\SolrMarc;
 
 /**
  * Contains all general base methods for ebooks on demand handlings

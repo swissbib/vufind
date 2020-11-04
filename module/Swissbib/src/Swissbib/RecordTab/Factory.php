@@ -27,7 +27,7 @@
  */
 namespace Swissbib\RecordTab;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Record Tab Factory Class

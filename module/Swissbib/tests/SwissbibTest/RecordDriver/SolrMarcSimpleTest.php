@@ -46,7 +46,7 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->initialize('marc-simple.json');
     }
@@ -60,7 +60,7 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     {
         $primaryAuthor = $this->driver->getPrimaryAuthor(false);
 
-        $this->assertInternalType('array', $primaryAuthor);
+        $this->assertIsArray($primaryAuthor);
         $this->assertEquals('Telemann', $primaryAuthor['name']);
         $this->assertEquals('Georg Philipp', $primaryAuthor['forename']);
     }
@@ -88,7 +88,7 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     {
         $dates = $this->driver->getPublicationDates();
 
-        $this->assertInternalType('array', $dates);
+        $this->assertIsArray($dates);
         $this->assertEquals(1954, $dates[1]);
     }
 
@@ -101,7 +101,7 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     {
         $authors = $this->driver->getSecondaryAuthors(false);
 
-        $this->assertInternalType('array', $authors);
+        $this->assertIsArray($authors);
         $this->assertEquals(2, sizeof($authors));
 
         $this->assertEquals('Kölbel', $authors[0]['name']);
@@ -129,7 +129,7 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     {
         $group = $this->driver->getGroup();
 
-        $this->assertInternalType('string', $group);
+        $this->assertIsString($group);
         $this->assertEquals('005378974', $group);
     }
 
@@ -142,7 +142,7 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     {
         $institutions = $this->driver->getInstitutions();
 
-        $this->assertInternalType('array', $institutions);
+        $this->assertIsArray($institutions);
         $this->assertEquals('LUMH1', $institutions[0]);
     }
 
@@ -155,7 +155,7 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     {
         $entry = $this->driver->getHostItemEntry();
 
-        $this->assertInternalType('array', $entry);
+        $this->assertIsArray($entry);
         $this->assertEquals(0, sizeof($entry));
     }
 
@@ -168,7 +168,7 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     {
         $publishers = $this->driver->getPublishers(false);
 
-        $this->assertInternalType('array', $publishers);
+        $this->assertIsArray($publishers);
         $this->assertEquals(1, sizeof($publishers));
         $this->assertEquals('Bärenreiter', $publishers[0]);
     }
@@ -182,7 +182,7 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     {
         $physicalDescriptions = $this->driver->getPhysicalDescriptions(false);
 
-        $this->assertInternalType('array', $physicalDescriptions);
+        $this->assertIsArray($physicalDescriptions);
         $this->assertEquals(1, sizeof($physicalDescriptions));
         $this->assertArrayHasKey('1extent', $physicalDescriptions[0]);
         $this->assertEquals('1 Partitur', $physicalDescriptions[0]['1extent']);
@@ -196,10 +196,12 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     public function testGetTitle()
     {
         $title = $this->driver->getTitle();
-        $expect = 'Konzert e-Moll, für Blockflöte, Querflöte, zwei Violinen, Viola und Basso continuo, [TWV 52 e 1] :' .
-        ' Concerto in e minor, for recorder, flute, two violins, viola and basso continuo';
+        $expect = 'Konzert e-Moll, für Blockflöte, Querflöte, zwei Violinen, ' .
+            'Viola und Basso continuo, [TWV 52 e 1] :' .
+        ' Concerto in e minor, for recorder, flute, two violins, ' .
+            'viola and basso continuo';
 
-        $this->assertInternalType('string', $title);
+        $this->assertIsString($title);
         $this->assertEquals($expect, $title);
     }
 
@@ -211,9 +213,10 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     public function testGetShortTitle()
     {
         $title = $this->driver->getShortTitle();
-        $expect = 'Konzert e-Moll, für Blockflöte, Querflöte, zwei Violinen, Viola und Basso continuo, [TWV 52 e 1]';
+        $expect = 'Konzert e-Moll, für Blockflöte, Querflöte, ' .
+        'zwei Violinen, Viola und Basso continuo, [TWV 52 e 1]';
 
-        $this->assertInternalType('string', $title);
+        $this->assertIsString($title);
         $this->assertEquals($expect, $title);
     }
 
@@ -226,7 +229,7 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     {
         $unions = $this->driver->getUnions();
 
-        $this->assertInternalType('array', $unions);
+        $this->assertIsArray($unions);
         $this->assertEquals(2, sizeof($unions));
         $this->assertEquals('IDSLU', $unions[0]);
     }
@@ -239,9 +242,10 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     public function testGetTitleStatementSimple()
     {
         $titleSimple = $this->driver->getTitleStatement();
-        $expectSimple = 'Georg Philipp Telemann ; hrsg. von Herbert Kölbel ; Generalbass-Bearb. von Otto Kiel';
+        $expectSimple = 'Georg Philipp Telemann ; hrsg. von ' .
+        'Herbert Kölbel ; Generalbass-Bearb. von Otto Kiel';
 
-        $this->assertInternalType('string', $titleSimple);
+        $this->assertIsString($titleSimple);
         $this->assertEquals($expectSimple, $titleSimple);
     }
 
@@ -254,9 +258,10 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     {
         $titleFull = $this->driver->getTitleStatement(true);
 
-        $this->assertInternalType('array', $titleFull);
+        $this->assertIsArray($titleFull);
 
-        $expect = 'Konzert e-Moll, für Blockflöte, Querflöte, zwei Violinen, Viola und Basso continuo, [TWV 52 e 1]';
+        $expect = 'Konzert e-Moll, für Blockflöte, Querflöte, zwei Violinen, ' .
+            'Viola und Basso continuo, [TWV 52 e 1]';
 
         $this->assertEquals($expect, $titleFull['title']);
     }
@@ -270,6 +275,6 @@ class SolrMarcSimpleTest extends SolrMarcTestCase
     {
         $corporateName = $this->driver->getAddedCorporateNames();
 
-        $this->assertInternalType('array', $corporateName);
+        $this->assertIsArray($corporateName);
     }
 }

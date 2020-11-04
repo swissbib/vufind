@@ -28,12 +28,13 @@
  */
 namespace Swissbib\Services;
 
+use Laminas\Config\Config;
+use Laminas\ServiceManager\ServiceManager;
 use Swissbib\Export;
 use Swissbib\Log\Logger;
 use Swissbib\VuFind\Recommend\FavoriteFacets;
 use SwitchSharedAttributesAPIClient\PublishersList;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient;
-use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory for Services.
@@ -228,21 +229,6 @@ class Factory
      */
     public static function getPuraService(ServiceManager $sm)
     {
-        //$dataDir = realpath(APPLICATION_PATH . '/data');
-        //$filePath = $dataDir . '/pura/publishers-libraries.json';
-
-        $filePath = $sm->get('VuFind\Config')->get('Pura')['Publishers']['url'];
-
-        //$filePath = 'http://pura.swissbib.ch/publishers-libraries.json';
-
-        $publishersJsonData = file_get_contents($filePath);
-
-        if ($publishersJsonData === false) {
-            throw new \Exception(
-                'Error when reading ' . $filePath . '.'
-            );
-        }
-
         /**
          * Publishers List
          *
@@ -250,15 +236,35 @@ class Factory
          */
         $publishersList = new PublishersList();
 
-        $publishersList->loadPublishersFromJsonFile($publishersJsonData);
+        $filePath = $sm->get('VuFind\Config')->get('Pura')['Publishers']['url'];
+        //$filePath = 'http://pura.swissbib.ch/publishers-libraries.json';
+
+        if (null !== $filePath) {
+            $publishersJsonData = file_get_contents($filePath);
+            $publishersList->loadPublishersFromJsonFile($publishersJsonData);
+        }
 
         $groupMapping = $sm->get('VuFind\Config')->get('libadmin-groups')
             ->institutions;
 
+        if (null === $groupMapping) {
+            //happens when libadmin-groups.ini is not present
+            $groupMapping = new Config([]);
+        }
+
         $groups = $sm->get('VuFind\Config')->get('libadmin-groups')
             ->groups;
 
+        if (null === $groups) {
+            //happens when libadmin-groups.ini is not present
+            $groups = new Config([]);
+        }
+
         $puraConfig = $sm->get('VuFind\Config')->get('Pura');
+        if (null === $puraConfig) {
+            //happens when Pura.ini is not present
+            $puraConfig = new Config([]);
+        }
 
         return new Pura(
             $publishersList,

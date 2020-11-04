@@ -17,7 +17,7 @@
         'searchId' => $this->results->getSearchId(),
         'searchClassId' => $this->params->getsearchClassId(),
         'checkboxFilters' => $this->params->getCheckboxFacets(),
-        'filterList' => $this->params->getFilters(),
+        'filterList' => $this->params->getFilterList(true),
         'hasDefaultsApplied' => $this->params->hasDefaultsApplied(),
         'selectedShards' => $this->params->getSelectedShards()
       ]
@@ -58,9 +58,7 @@
 
   $recordTotal = $this->recordTotal = $this->results->getResultTotal();
 
-  $exportFormats = ['EndNote', 'BibTeX'];
-  // $exportFormats = $this->export()->getBulkOptions(); @todo: konfigurierbar machen, MARCXML aktivieren (funktioniert aktuell nicht)
-  /* href="<?=$this->url('cart-doexport')?>?f=<?=$format?>"*/
+  $exportFormats = $this->export()->getActiveFormats('bulk');
 ?>
 
 <div class="<?=$this->layoutClass('mainbody')?>">

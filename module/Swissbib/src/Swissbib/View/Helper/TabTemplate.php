@@ -28,9 +28,9 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Helper\AbstractHelper;
-use Zend\View\Resolver\ResolverInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\Helper\AbstractHelper;
+use Laminas\View\Resolver\ResolverInterface;
 
 /**
  * Search for templates with current tab postfix
@@ -92,7 +92,7 @@ class TabTemplate extends AbstractHelper
     {
         $this->serviceLocator = $serviceLocator;
         $this->resolver = $this->serviceLocator
-            ->get('Zend\View\Renderer\PhpRenderer')->resolver();
+            ->get('Laminas\View\Renderer\PhpRenderer')->resolver();
     }
 
     /**

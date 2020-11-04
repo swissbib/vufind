@@ -28,8 +28,8 @@
  */
 namespace Swissbib\Tab40Import;
 
-use Zend\Config\Config;
-use Zend\Config\Writer\Ini as IniWriter;
+use Laminas\Config\Config;
+use Laminas\Config\Writer\Ini as IniWriter;
 
 /**
  * Write tab40 data to label file

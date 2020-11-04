@@ -28,7 +28,7 @@
  */
 namespace Swissbib\TargetsProxy;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory for TargetsProxies

@@ -27,7 +27,7 @@
  */
 namespace Swissbib\VuFind\Search\Params;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Search Params Object Factory Class

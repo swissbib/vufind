@@ -29,9 +29,9 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
+use Laminas\ServiceManager\ServiceManager;
 use Swissbib\RecordDriver\Helper\Availability as AvailabilityHelper;
 use Swissbib\RecordDriver\Helper\Holdings as HoldingsHelper;
-use Zend\ServiceManager\ServiceManager;
 
 /**
  * Factory for helpers.
@@ -58,7 +58,7 @@ class Factory
         $authManager = $sm->get('VuFind\Auth\Manager');
         $ilsAuth = $sm->get('VuFind\ILSAuthenticator');
         $config = $sm->get('VuFind\Config\PluginManager');
-        $translator = $sm->get('Zend\Mvc\I18n\Translator');
+        $translator = $sm->get('Laminas\Mvc\I18n\Translator');
         $locationMap = $sm->get('Swissbib\LocationMap');
         $eBooksOnDemand = $sm->get('Swissbib\EbooksOnDemand');
         $availability = $sm->get('Swissbib\Availability');
@@ -105,7 +105,7 @@ class Factory
     {
         $eBooksOnDemandConfig = $sm->get('VuFind\Config\PluginManager')
             ->get('config')->eBooksOnDemand;
-        $translator = $sm->get('Zend\Mvc\I18n\Translator');
+        $translator = $sm->get('Laminas\Mvc\I18n\Translator');
 
         return new EbooksOnDemand($eBooksOnDemandConfig, $translator);
     }
@@ -134,7 +134,7 @@ class Factory
      *
      * @return BibCode
      *
-     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
+     * @throws \Laminas\ServiceManager\Exception\ServiceNotFoundException
      */
     public static function getBibCodeHelper(ServiceManager $sm)
     {

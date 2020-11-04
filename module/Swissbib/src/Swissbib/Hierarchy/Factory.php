@@ -30,7 +30,7 @@
  */
 namespace Swissbib\Hierarchy;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Swissbib Factory

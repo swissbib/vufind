@@ -30,10 +30,10 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\SummonController as VuFindSummonController;
+use Laminas\Http\PhpEnvironment\Response;
 
-use Zend\Http\PhpEnvironment\Response;
-use Zend\Stdlib\Parameters;
+use Laminas\Stdlib\Parameters;
+use VuFind\Controller\SummonController as VuFindSummonController;
 
 /**
  * Swissbib SummonController
@@ -197,7 +197,7 @@ class SummonController extends VuFindSummonController
      * @throws \Exception
      * @throws \VuFindSearch\Backend\Exception\BackendException
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function resultsAction()
     {

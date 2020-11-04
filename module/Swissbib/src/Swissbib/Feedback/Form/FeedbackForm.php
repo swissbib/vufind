@@ -30,7 +30,7 @@
  */
 namespace Swissbib\Feedback\Form;
 
-use Zend\Form\Annotation;
+use Laminas\Form\Annotation;
 
 /**
  * FeedbackForm
@@ -111,7 +111,7 @@ class FeedbackForm
      *
      * @Annotation\Name("email")
      * @Annotation\Options({"label":"feedback.form.email"})
-     * @Annotation\Type("Zend\Form\Element\Email")
+     * @Annotation\Type("Laminas\Form\Element\Email")
      * @Annotation\Validator({"name":"StringLength", "options":{"min":0, "max":60}})
      * @Annotation\Validator({"name":"EmailAddress"})
      * @Annotation\ErrorMessage("Email address is invalid")

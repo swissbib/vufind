@@ -3,20 +3,19 @@
 @import "vendor/font-awesome/font-awesome";
 <#LESS */
 /* #SCSS> */
-$fa-font-path: "../../bootstrap3/css/fonts" !default;
+$fa-font-path: "../../bootstrap3/css/fonts";
 @import "vendor/bootstrap";
 @import "vendor/font-awesome/font-awesome";
 /* <#SCSS */
 
-@import "vendor/bootstrap-accessibility/bootstrap-accessibility";
-@import "vendor/a11y";
-
+@import "components/accessibility";
 @import "components/variables";
 
 @import "components/advanced-search";
 @import "components/alphabrowse";
 @import "components/autocomplete";
 @import "components/channels";
+@import "components/devtools";
 @import "components/form";
 @import "components/icons";
 @import "components/js-tree";
@@ -225,18 +224,6 @@ footer {
   font-family: $font-family-monospace;
   font-size: 12px;
   white-space: pre;
-}
-
-/* ------ Facets ------ */
-.date-fields {
-  display: flex;
-
-  .date-from { padding-right: .25rem; }
-  .date-to   { padding-left:  .25rem; }
-}
-@media (min-width: 768px) {
-  .author-facets { display: flex; }
-  .author-list { flex: 0 1 100%; }
 }
 
 /* ------ MyResearch ------ */

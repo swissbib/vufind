@@ -28,11 +28,11 @@
  */
 namespace Swissbib\View\Helper;
 
+use Laminas\Config\Config as LaminasConfig;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\Helper\AbstractHelper;
 use Swissbib\Util\Config\FlatArrayConverter;
 use Swissbib\Util\Config\ValueConverter;
-use Zend\Config\Config as ZendConfig;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Helper\AbstractHelper;
 
 /**
  * AutoSuggestConfig
@@ -53,9 +53,9 @@ class AutoSuggestConfig extends AbstractHelper
     protected $serviceLocator;
 
     /**
-     * ZendConfig
+     * LaminasConfig
      *
-     * @var ZendConfig
+     * @var LaminasConfig
      */
     protected $config;
 
@@ -74,7 +74,7 @@ class AutoSuggestConfig extends AbstractHelper
      *
      * @param String $searchClassId searchClassId
      *
-     * @return ZendConfig
+     * @return LaminasConfig
      */
     protected function getConfig(String $searchClassId = '')
     {
@@ -90,7 +90,7 @@ class AutoSuggestConfig extends AbstractHelper
      *
      * @param String $searchClassId searchClassId
      *
-     * @return ZendConfig
+     * @return LaminasConfig
      */
     public function __invoke(String $searchClassId = '')
     {
@@ -133,20 +133,20 @@ class AutoSuggestConfig extends AbstractHelper
         $autoSuggestConfig['enabled'] = $autoSuggestEnabled;
 
         $this->config = $valueConverter->convert(
-            new ZendConfig($autoSuggestConfig)
+            new LaminasConfig($autoSuggestConfig)
         );
     }
 
     /**
      * Is auto suggest enabled in config?
      *
-     * @param ZendConfig     $searchesConfig Config
+     * @param LaminasConfig  $searchesConfig Config
      * @param ValueConverter $converter      Converter
      *
      * @return bool
      */
     private function _isAutoSuggestEnabled(
-        \Zend\Config\Config $searchesConfig, ValueConverter $converter
+        \Laminas\Config\Config $searchesConfig, ValueConverter $converter
     ) {
         // Note: VuFind autocomplete already provides an enabled state information,
         // but unfortunately switching it on

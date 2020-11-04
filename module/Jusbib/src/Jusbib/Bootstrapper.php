@@ -29,7 +29,7 @@
  */
 namespace Jusbib;
 
-use Zend\Mvc\MvcEvent;
+use Laminas\Mvc\MvcEvent;
 
 /**
  * Jusbib Bootstrapper
@@ -103,7 +103,7 @@ class Bootstrapper
             $pluginManagerFactoryService
                 = function ($sm) use ($className, $serviceConfig) {
                     return new $className(
-                        new \Zend\ServiceManager\Config($serviceConfig)
+                        new \Laminas\ServiceManager\Config($serviceConfig)
                     );
                 };
 

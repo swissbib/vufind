@@ -27,7 +27,7 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class AbstractPersonAction
@@ -51,7 +51,7 @@ abstract class AbstractSubjectController extends AbstractDetailsController
     /**
      * DetailPageController constructor.
      *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service locator
+     * @param \Laminas\ServiceManager\ServiceLocatorInterface $sm Service locator
      */
     public function __construct(ServiceLocatorInterface $sm)
     {
@@ -62,7 +62,7 @@ abstract class AbstractSubjectController extends AbstractDetailsController
     /**
      * The subject action
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function subjectAction()
     {

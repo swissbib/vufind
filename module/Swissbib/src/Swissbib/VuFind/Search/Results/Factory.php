@@ -27,9 +27,10 @@
  */
 namespace Swissbib\VuFind\Search\Results;
 
+use Laminas\ServiceManager\ServiceManager;
+use LmcRbacMvc\Initializer\AuthorizationServiceInitializer;
 use Swissbib\VuFind\Search\Favorites\Results;
 use VuFind\Search\Solr\SpellingProcessor;
-use Zend\ServiceManager\ServiceManager;
 
 /**
  * Search Results Object Factory Class
@@ -63,6 +64,9 @@ class Factory
         $config = $sm->get('VuFind\Config\PluginManager')->get('config');
         $solr->setSpellingProcessor(
             new SpellingProcessor($config->Spelling ?? null)
+        );
+        $solr->setHierarchicalFacetHelper(
+            $sm->get(\VuFind\Search\Solr\HierarchicalFacetHelper::class)
         );
 
         return $solr;
@@ -146,7 +150,7 @@ class Factory
             [$tm->get('Resource'), $tm->get('UserList')]
         );
 
-        $init = new \ZfcRbac\Initializer\AuthorizationServiceInitializer();
+        $init = new AuthorizationServiceInitializer();
         $init->initialize($obj, $sm);
         return $obj;
     }

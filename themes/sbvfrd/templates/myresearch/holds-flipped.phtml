@@ -28,7 +28,7 @@
         <th><?=$headers['library_callno']?></th>
         <td>
             <?php if (!empty($ilsDetails['institution'])): ?>
-                <?=$this->escapeHtml($this->zendTranslate($ilsDetails['institution'], 'institution'))?>,
+                <?=$this->escapeHtml($this->laminasTranslate($ilsDetails['institution'], 'institution'))?>,
             <?php endif; ?>
 
             <?php if (!empty($ilsDetails['signature'])): ?>

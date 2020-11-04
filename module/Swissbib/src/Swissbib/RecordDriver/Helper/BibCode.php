@@ -30,7 +30,7 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
-use Zend\Config\Config;
+use Laminas\Config\Config;
 
 /**
  * Convert network code into bib code

@@ -49,7 +49,7 @@ class AjaxController extends VFAjaxController
      * login we can't login in popup dialogs (makes it to complex if at all
      * possible)
      *
-     * @return \Zend\Http\Response
+     * @return \Laminas\Http\Response
      */
     public function shibloginAction()
     {
@@ -100,7 +100,7 @@ class AjaxController extends VFAjaxController
 
         // Send both GET and POST variables to search class:
         $params->initFromRequest(
-            new \Zend\Stdlib\Parameters(
+            new \Laminas\Stdlib\Parameters(
                 $this->getRequest()->getQuery()->toArray() + $this->getRequest()
                     ->getPost()->toArray()
             )
@@ -119,10 +119,12 @@ class AjaxController extends VFAjaxController
      * @param array $content Content
      * @param array $spec    Specification
      *
-     * @return \Zend\Stdlib\ResponseInterface
+     * @return \Laminas\Stdlib\ResponseInterface
      */
-    protected function buildResponse($content, $spec): \Zend\Stdlib\ResponseInterface
-    {
+    protected function buildResponse(
+        $content,
+        $spec
+    ): \Laminas\Stdlib\ResponseInterface {
         $data = [];
         // @var RecordDataFormatter $recordFormatter
         $recordFormatter = $this->getViewRenderer()->plugin(

@@ -44,7 +44,7 @@ class ShibtestController extends BaseController
     /**
      * Shib action
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function shibAction()
     {

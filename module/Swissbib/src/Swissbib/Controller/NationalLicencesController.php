@@ -24,11 +24,11 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\Mvc\MvcEvent;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\View\Model\ViewModel;
 use Swissbib\Services\NationalLicence;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
-use Zend\Mvc\MvcEvent;
-use Zend\ServiceManager\ServiceManager;
-use Zend\View\Model\ViewModel;
 
 /**
  * Class NationalLicencesController.
@@ -247,7 +247,7 @@ class NationalLicencesController extends BaseController
      *
      * @param MvcEvent $e MvcEvent.
      *
-     * @return mixed|\Zend\Http\Response
+     * @return mixed|\Laminas\Http\Response
      * @throws \Exception
      */
     public function onDispatch(MvcEvent $e)

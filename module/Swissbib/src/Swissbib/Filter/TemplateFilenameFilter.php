@@ -30,8 +30,8 @@
  */
 namespace Swissbib\Filter;
 
-use Zend\Filter\AbstractFilter;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Filter\AbstractFilter;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class SbTemplateFilenameFilter
@@ -72,9 +72,9 @@ class TemplateFilenameFilter extends AbstractFilter
         /**
          * PhpRenderer
          *
-         * @var $phpRenderer \Zend\View\Renderer\PhpRenderer
+         * @var $phpRenderer \Laminas\View\Renderer\PhpRenderer
          */
-        $phpRenderer = $sm->get('Zend\View\Renderer\PhpRenderer');
+        $phpRenderer = $sm->get('Laminas\View\Renderer\PhpRenderer');
 
         // Fetch private property PhpRenderer::__file via reflection
         $rendererReflection = new \ReflectionObject($phpRenderer);

@@ -17,6 +17,6 @@ export VUFIND_LOCAL_MODULES=Swissbib
 export VUFIND_LOCAL_DIR
 #export APPLICATION_ENV=development
 
-php $INDEX libadmin syncMapPortal $@
+php $INDEX libadmin/syncMapPortal $@
 
 #please do not delete a directory with options -rf as root based on a relative directory! GH

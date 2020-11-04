@@ -46,7 +46,7 @@ class SolrMarcCorpAuthorsTest extends SolrMarcTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->initialize('marc-withcorpauthors.json');
     }
@@ -60,7 +60,7 @@ class SolrMarcCorpAuthorsTest extends SolrMarcTestCase
     {
         $corpNames = $this->driver->getAddedCorporateNames();
 
-        $this->assertInternalType('array', $corpNames);
+        $this->assertIsArray($corpNames);
         $this->assertEquals(1, sizeof($corpNames));
 
         $this->assertArrayHasKey('@ind1', $corpNames[0]);

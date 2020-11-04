@@ -55,7 +55,7 @@ class Loader extends \VuFind\ImageLoader
     /**
      * Constructor
      *
-     * @param \Zend\Config\Config    $config VuFind configuration
+     * @param \Laminas\Config\Config $config VuFind configuration
      * @param \VuFindTheme\ThemeInfo $theme  VuFind theme tools
      */
     public function __construct($config, \VuFindTheme\ThemeInfo $theme)
@@ -173,6 +173,7 @@ class Loader extends \VuFind\ImageLoader
         $code->setErrorCorrectionLevel(new ErrorCorrectionLevel($level));
         $code->setSize($size);
         $code->setEncoding('UTF-8');
+        $code->setRoundBlockSize(false);
 
         // Save the values.
         $this->contentType = $code->getContentType();

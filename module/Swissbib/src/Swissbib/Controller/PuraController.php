@@ -24,12 +24,12 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\Barcode\Barcode;
+use Laminas\Mvc\MvcEvent;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\View\Model\ViewModel;
 use Swissbib\Services\Pura;
 use SwitchSharedAttributesAPIClient\PublishersList;
-use Zend\Barcode\Barcode;
-use Zend\Mvc\MvcEvent;
-use Zend\ServiceManager\ServiceManager;
-use Zend\View\Model\ViewModel;
 
 /**
  * Class NationalLicencesController.
@@ -202,7 +202,7 @@ class PuraController extends BaseController
      * $factor is the size : 1 is small, 2 is larger
      *
      * @return bool
-     * @throws \Zend\Barcode\Exception\ExceptionInterface
+     * @throws \Laminas\Barcode\Exception\ExceptionInterface
      */
     public function barcodeAction()
     {
@@ -239,7 +239,7 @@ class PuraController extends BaseController
      *
      * @param MvcEvent $e MvcEvent.
      *
-     * @return mixed|\Zend\Http\Response
+     * @return mixed|\Laminas\Http\Response
      */
     public function onDispatch(MvcEvent $e)
     {

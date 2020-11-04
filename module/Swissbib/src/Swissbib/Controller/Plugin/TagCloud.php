@@ -28,8 +28,8 @@
 namespace Swissbib\Controller\Plugin;
 
 use ElasticSearch\VuFind\RecordDriver\ESSubject;
-use Zend\Config\Config;
-use Zend\Mvc\Controller\Plugin\AbstractPlugin;
+use Laminas\Config\Config;
+use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
  * Class TagCloud

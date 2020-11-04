@@ -28,7 +28,7 @@
  */
 namespace Swissbib\Tab40Import;
 
-use Zend\Config\Config;
+use Laminas\Config\Config;
 
 /**
  * Import and convert a tab40 file into a vufind language file

@@ -30,7 +30,7 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
-use Zend\Config\Config;
+use Laminas\Config\Config;
 
 /**
  * Base class for customizable method calls

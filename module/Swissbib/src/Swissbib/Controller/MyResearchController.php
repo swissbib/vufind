@@ -30,21 +30,21 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\Form\Form;
+use Laminas\Http\Response as HttpResponse;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\Session\Container as SessionContainer;
+use Laminas\Stdlib\Parameters;
+use Laminas\Uri\UriFactory;
+use Laminas\View\Model\ViewModel;
 use Swissbib\VuFind\ILS\Driver\Aleph;
 use VuFind\Controller\MyResearchController as VuFindMyResearchController;
 use VuFind\Db\Row\User;
 use VuFind\Exception\ILS;
+
 use VuFind\ILS\Driver\AlephRestfulException;
+
 use VuFindSearch\Service;
-use Zend\Form\Form;
-use Zend\Http\Response as HttpResponse;
-use Zend\ServiceManager\ServiceManager;
-use Zend\Session\Container as SessionContainer;
-use Zend\Stdlib\Parameters;
-
-use Zend\Uri\UriFactory;
-
-use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib MyResearchController

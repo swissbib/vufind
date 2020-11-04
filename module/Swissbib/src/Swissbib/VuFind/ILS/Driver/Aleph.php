@@ -29,11 +29,11 @@
 namespace Swissbib\VuFind\ILS\Driver;
 
 use DateTime;
+use Laminas\Http\Request;
 use SimpleXMLElement;
 use VuFind\Exception\ILS as ILSException;
 use VuFind\ILS\Driver\Aleph as VuFindDriver;
 use VuFind\ILS\Driver\AlephRestfulException;
-use Zend\Http\Request;
 
 /**
  * Aleph

@@ -30,9 +30,9 @@
  */
 namespace Swissbib\VuFind;
 
+use Laminas\Config\Config;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use VuFindTheme\ResourceContainer as VfResourceContainer;
-use Zend\Config\Config;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * ResourceContainer

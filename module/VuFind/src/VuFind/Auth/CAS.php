@@ -107,7 +107,7 @@ class CAS extends AbstractBase
     /**
      * Attempt to authenticate the current user.  Throws exception if login fails.
      *
-     * @param \Zend\Http\PhpEnvironment\Request $request Request object containing
+     * @param \Laminas\Http\PhpEnvironment\Request $request Request object containing
      * account credentials.
      *
      * @throws AuthException
@@ -142,7 +142,9 @@ class CAS extends AbstractBase
         foreach ($attribsToCheck as $attribute) {
             if (isset($cas->$attribute)) {
                 $value = $casauth->getAttribute($cas->$attribute);
-                if ($attribute != 'cat_password') {
+                if ($attribute == 'email') {
+                    $user->updateEmail($value);
+                } elseif ($attribute != 'cat_password') {
                     $user->$attribute = ($value === null) ? '' : $value;
                 } else {
                     $catPassword = $value;

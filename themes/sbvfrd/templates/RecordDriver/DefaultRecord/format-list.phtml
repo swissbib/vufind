@@ -3,6 +3,6 @@
 } ?>
 <?php foreach ($this->driver->getFormats() as $format): ?>
   <span class="iconlabel <?= $this->record($this->driver)->getFormatClass($format) ?>">
-    <?= $this->zendTranslate($format, 'formats') ?>
+    <?= $this->laminasTranslate($format, 'formats') ?>
   </span>
 <?php endforeach; ?>

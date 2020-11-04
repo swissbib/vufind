@@ -27,8 +27,8 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Model\ViewModel;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\Model\ViewModel;
 
 /**
  * Class PersonKnowledgeCardController
@@ -57,7 +57,7 @@ class PersonKnowledgeCardController extends AbstractPersonController
     /**
      * /Page/Detail/Person/:id
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function personAction()
     {

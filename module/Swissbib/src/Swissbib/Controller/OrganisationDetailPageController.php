@@ -27,8 +27,7 @@
  */
 namespace Swissbib\Controller;
 
-use ElasticSearch\VuFind\Search\ElasticSearch\Results;
-use Zend\View\Model\ViewModel;
+use Laminas\View\Model\ViewModel;
 
 /**
  * Class OrganisationDetailPageController
@@ -44,7 +43,7 @@ class OrganisationDetailPageController extends AbstractOrganisationController
     /**
      * /Page/Detail/Organisation/:id
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function organisationAction()
     {
@@ -73,19 +72,24 @@ class OrganisationDetailPageController extends AbstractOrganisationController
 
         if (!isset($this->sameHierarchicalSuperiorOrganisationIds)) {
             $sameHierarchicalSuperiorOrganisations = '';
-        }
-        else {
-            $sameHierarchicalSuperiorOrganisations = $this->getSameHierarchicalSuperiorOrganisations($this->sameHierarchicalSuperiorOrganisationIds);
+        } else {
+            $sameHierarchicalSuperiorOrganisations
+                = $this->getSameHierarchicalSuperiorOrganisations(
+                    $this->sameHierarchicalSuperiorOrganisationIds
+                );
         }
 
-        if (!empty($sameHierarchicalSuperiorOrganisations) && sizeOf($sameHierarchicalSuperiorOrganisations) > 0) {
+        if (!empty($sameHierarchicalSuperiorOrganisations)
+            && sizeof($sameHierarchicalSuperiorOrganisations) > 0
+        ) {
             $viewModel->setVariable(
-                "sameHierarchicalSuperiorOrganisations", $sameHierarchicalSuperiorOrganisations
+                "sameHierarchicalSuperiorOrganisations",
+                $sameHierarchicalSuperiorOrganisations
             );
             $viewModel->setVariable(
-                "sameHierarchicalSuperiorOrganisationsTotal", $this->sameHierarchicalSuperiorOrganisationsTotalCount
+                "sameHierarchicalSuperiorOrganisationsTotal",
+                $this->sameHierarchicalSuperiorOrganisationsTotalCount
             );
         }
     }
-
 }

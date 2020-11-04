@@ -27,7 +27,7 @@
  */
 namespace ElasticSearch\VuFind\Search\Results;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Search Results Object Factory Class

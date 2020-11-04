@@ -68,13 +68,19 @@ class ESOrganisation extends AbstractHelper
             'startDate'                             => 'getStartDate',
             'endDate'                               => 'getEndDate',
             'precedingCorporateBody'                => 'getPrecedingCorporateBody',
-            'precedingConferenceOrEvent'            => 'getPrecedingConferenceOrEvent',
-            'succeedingCorporateBody'                => 'getSucceedingCorporateBody',
-            'succeedingConferenceOrEvent'            => 'getSucceedingConferenceOrEvent',
-            'abbreviatedNameForTheCorporateBody'    => 'getAbbreviatedNameForTheCorporateBody',
-            'temporaryNameOfTheCorporateBody'       => 'getTemporaryNameOfTheCorporateBody',
-            'temporaryNameOfTheConferenceOrEvent'   => 'getTemporaryNameOfTheConferenceOrEvent',
-            'biographicalOrHistoricalInformation'   => 'getBiographicalOrHistoricalInformation',
+            'precedingConferenceOrEvent'
+                        => 'getPrecedingConferenceOrEvent',
+            'succeedingCorporateBody'               => 'getSucceedingCorporateBody',
+            'succeedingConferenceOrEvent'
+                        => 'getSucceedingConferenceOrEvent',
+            'abbreviatedNameForTheCorporateBody'
+                        => 'getAbbreviatedNameForTheCorporateBody',
+            'temporaryNameOfTheCorporateBody'
+                        => 'getTemporaryNameOfTheCorporateBody',
+            'temporaryNameOfTheConferenceOrEvent'
+                        => 'getTemporaryNameOfTheConferenceOrEvent',
+            'biographicalOrHistoricalInformation'
+                        => 'getBiographicalOrHistoricalInformation',
             'alternateName'                         => 'getAlternateName',
             'definition'                            => 'getDefinition',
             'location'                              => 'getLocation',
@@ -84,9 +90,12 @@ class ESOrganisation extends AbstractHelper
             'genre'                                 => 'getGenre',
             'notableWork'                           => 'getNotableWork',
             'description'                           => 'getDescription',
-            'dissolvedAbolishedDemolished'          => 'getDissolvedAbolishedDemolished',
-            'hierarchicalSuperiorOfTheCorporateBody'        => 'getHierarchicalSuperiorOfTheCorporateBody',
-            'hierarchicalSuperiorOfTheConferenceOrEvent'    => 'getHierarchicalSuperiorOfTheConferenceOrEvent',
+            'dissolvedAbolishedDemolished'
+                       => 'getDissolvedAbolishedDemolished',
+            'hierarchicalSuperiorOfTheCorporateBody'
+                       => 'getHierarchicalSuperiorOfTheCorporateBody',
+            'hierarchicalSuperiorOfTheConferenceOrEvent'
+                       => 'getHierarchicalSuperiorOfTheConferenceOrEvent',
             'relatedCorporateBody'                  => 'getRelatedCorporateBody',
             'relatedConferenceOrEvent'              => 'getRelatedConferenceOrEvent',
             'corporateBodyIsMember'                 => 'getCorporateBodyIsMember',
@@ -144,7 +153,7 @@ class ESOrganisation extends AbstractHelper
     /**
      * Sets the Organisation
      *
-     * @param \ElasticSearch\VuFind\RecordDriver\ESOrganisation $_organisation The organisation
+     * @param RecordDriver\ESOrganisation $_organisation The organisation
      *
      * @return void
      */
@@ -270,7 +279,8 @@ class ESOrganisation extends AbstractHelper
      */
     public function getHierarchicalSuperiorOfTheConferenceOrEvent()
     {
-        return $this->getOrganisation()->getHierarchicalSuperiorOfTheConferenceOrEvent();
+        return $this->getOrganisation()
+            ->getHierarchicalSuperiorOfTheConferenceOrEvent();
     }
 
     /**
@@ -446,7 +456,10 @@ class ESOrganisation extends AbstractHelper
      */
     public function getAbbreviatedNameForTheCorporateBody(string $delimiter = ', ')
     {
-        return $this->fieldToString('abbreviatedNameForTheCorporateBody', $delimiter);
+        return $this->fieldToString(
+            'abbreviatedNameForTheCorporateBody',
+            $delimiter
+        );
     }
 
     /**
@@ -470,7 +483,10 @@ class ESOrganisation extends AbstractHelper
      */
     public function getTemporaryNameOfTheConferenceOrEvent(string $delimiter = ', ')
     {
-        return $this->fieldToString('temporaryNameOfTheConferenceOrEvent', $delimiter);
+        return $this->fieldToString(
+            'temporaryNameOfTheConferenceOrEvent',
+            $delimiter
+        );
     }
 
     /**
@@ -482,7 +498,10 @@ class ESOrganisation extends AbstractHelper
      */
     public function getBiographicalOrHistoricalInformation(string $delimiter = ', ')
     {
-        return $this->fieldToString('biographicalOrHistoricalInformation', $delimiter);
+        return $this->fieldToString(
+            'biographicalOrHistoricalInformation',
+            $delimiter
+        );
     }
 
     /**
@@ -608,7 +627,8 @@ class ESOrganisation extends AbstractHelper
                 ? $splitter->split($abstract, $limits[0])
                 : $splitter->splitMultiple($abstract, ...$limits);
 
-            $info->label = $this->getView()->translate('organisation.metadata.alternateName');
+            $info->label = $this->getView()
+                ->translate('organisation.metadata.alternateName');
             $info->text = $this->escape($info->text);
 
             if ($info->truncated) {
@@ -661,7 +681,10 @@ class ESOrganisation extends AbstractHelper
     public function getSuperiorOrganisationsSearchLink()
     {
         $route = 'organisations-search-hierarchicalsuperiors';
-        $url = $this->getView()->url($route, ['id' => $this->getOrganisation()->getUniqueID()]);
+        $url = $this->getView()->url(
+            $route,
+            ['id' => $this->getOrganisation()->getUniqueID()]
+        );
         return $url;
     }
 
