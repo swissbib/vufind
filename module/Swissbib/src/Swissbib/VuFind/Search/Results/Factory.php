@@ -27,10 +27,10 @@
  */
 namespace Swissbib\VuFind\Search\Results;
 
+use Laminas\ServiceManager\ServiceManager;
 use LmcRbacMvc\Initializer\AuthorizationServiceInitializer;
 use Swissbib\VuFind\Search\Favorites\Results;
 use VuFind\Search\Solr\SpellingProcessor;
-use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Search Results Object Factory Class

@@ -27,8 +27,8 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\AbstractBase;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use VuFind\Controller\AbstractBase;
 
 /**
  * Class PersonSearchController

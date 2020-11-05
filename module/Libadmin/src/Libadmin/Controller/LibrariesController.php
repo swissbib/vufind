@@ -28,9 +28,9 @@
  */
 namespace Libadmin\Controller;
 
-use Libadmin\Institution\InstitutionLoader;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
+use Libadmin\Institution\InstitutionLoader;
 
 /**
  * LibrariesController

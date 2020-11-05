@@ -109,10 +109,10 @@ class TargetsProxy
     /**
      * Initialize proxy with config
      *
-     * @param Config     $config             Config
-     * @param Config     $targetsProxyConfig Config
+     * @param Config        $config             Config
+     * @param Config        $targetsProxyConfig Config
      * @param LaminasLogger $logger             LaminasLogger
-     * @param Request    $request            Request
+     * @param Request       $request            Request
      */
     public function __construct($config, $targetsProxyConfig,
         LaminasLogger $logger, Request $request

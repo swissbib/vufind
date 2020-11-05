@@ -150,7 +150,7 @@ class ESOrganisation extends ElasticSearch
     public function getAlternateName()
     {
         $val = $this->getField('alternateName', 'schema');
-        if (!empty($val) ) {
+        if (!empty($val)) {
             $val = implode(", ", $val);
         }
         return $val;
@@ -203,7 +203,9 @@ class ESOrganisation extends ElasticSearch
     public function getPrecedingCorporateBody()
     {
         $val = $this->getField('precedingCorporateBody', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -215,7 +217,9 @@ class ESOrganisation extends ElasticSearch
     public function getPrecedingConferenceOrEvent()
     {
         $val = $this->getField('precedingConferenceOrEvent', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -227,7 +231,9 @@ class ESOrganisation extends ElasticSearch
     public function getSucceedingCorporateBody()
     {
         $val = $this->getField('succeedingCorporateBody', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -239,7 +245,9 @@ class ESOrganisation extends ElasticSearch
     public function getSucceedingConferenceOrEvent()
     {
         $val = $this->getField('succeedingConferenceOrEvent', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -251,7 +259,9 @@ class ESOrganisation extends ElasticSearch
     public function getHierarchicalSuperiorOfTheCorporateBody()
     {
         $val = $this->getField('hierarchicalSuperiorOfTheCorporateBody', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -263,7 +273,9 @@ class ESOrganisation extends ElasticSearch
     public function getRelatedConferenceOrEvent()
     {
         $val = $this->getField('relatedConferenceOrEvent', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -275,7 +287,9 @@ class ESOrganisation extends ElasticSearch
     public function getRelatedCorporateBody()
     {
         $val = $this->getField('relatedCorporateBody', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -287,7 +301,9 @@ class ESOrganisation extends ElasticSearch
     public function getHierarchicalSuperiorOfTheConferenceOrEvent()
     {
         $val = $this->getField('hierarchicalSuperiorOfTheConferenceOrEvent', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -300,7 +316,10 @@ class ESOrganisation extends ElasticSearch
     {
         $ids = null;
         $total = null;
-        $supOrgsFields = ['gnd:hierarchicalSuperiorOfTheConferenceOrEvent','gnd:hierarchicalSuperiorOfTheCorporateBody'];
+        $supOrgsFields = [
+            'gnd:hierarchicalSuperiorOfTheConferenceOrEvent',
+            'gnd:hierarchicalSuperiorOfTheCorporateBody'
+        ];
         foreach ($supOrgsFields as $supOrgsField) {
             if (array_key_exists($supOrgsField, $this->fields["_source"])) {
                 $supOrgs = $this->fields["_source"][$supOrgsField];
@@ -320,7 +339,9 @@ class ESOrganisation extends ElasticSearch
     public function getCorporateBodyIsMember()
     {
         $val = $this->getField('corporateBodyIsMember', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -335,7 +356,9 @@ class ESOrganisation extends ElasticSearch
         if (!isset($location)) {
             $location = $this->getField('P131', 'wdt');
         }
-        if (isset($location)) $location = $this->localizedArrayToString($location);
+        if (isset($location)) {
+            $location = $this->localizedArrayToString($location);
+        }
         return $location;
     }
 
@@ -350,7 +373,9 @@ class ESOrganisation extends ElasticSearch
         if (!isset($country)) {
             $country = $this->getField('P131', 'wdt');
         }
-        if (isset($country)) $country = $this->localizedArrayToString($country);
+        if (isset($country)) {
+            $country = $this->localizedArrayToString($country);
+        }
         return $country;
     }
 
@@ -394,7 +419,9 @@ class ESOrganisation extends ElasticSearch
             $notableWork = $this->localizedArrayToString($notableWork);
         } elseif (!isset($notableWork)) {
             $notableWork = $this->getField('publication', 'gnd');
-            if (isset($notableWork))$notableWork = $this->arrayToString($notableWork);
+            if (isset($notableWork)) {
+                $notableWork = $this->arrayToString($notableWork);
+            }
         }
         return $notableWork;
     }

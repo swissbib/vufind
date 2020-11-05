@@ -25,11 +25,11 @@
 namespace Swissbib\Services;
 
 use Exception;
+use Laminas\Config\Config;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Libadmin\Institution\InstitutionLoader;
 use Swissbib\VuFind\Db\Row\PuraUser;
 use SwitchSharedAttributesAPIClient\PublishersList;
-use Laminas\Config\Config;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class Pura.

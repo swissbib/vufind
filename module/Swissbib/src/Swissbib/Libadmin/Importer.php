@@ -30,17 +30,17 @@
  */
 namespace Swissbib\Libadmin;
 
-use Swissbib\Libadmin\Exception as Exceptions;
-use Swissbib\Libadmin\Writer as LibadminWriter;
 use Laminas\Cache\Storage\Adapter\Filesystem as FileSystemCache;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Config\Config;
 use Laminas\Di\ServiceLocator;
 use Laminas\Http\Client\Adapter\Exception\RuntimeException as HttpException;
 use Laminas\Http\Client as HttpClient;
-
 use Laminas\Http\Response;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+
+use Swissbib\Libadmin\Exception as Exceptions;
+use Swissbib\Libadmin\Writer as LibadminWriter;
 
 /**
  * Libadmin data importer
@@ -131,7 +131,8 @@ class Importer
 
         try {
             $importData = $this->getData();
-            $importDataFull = $this->downloadAndStoreAllInstitutionData(); //libadmin_all.json
+            $importDataFull
+                = $this->downloadAndStoreAllInstitutionData(); //libadmin_all.json
 
             $this->result->addSuccess('Data fetched from libadmin');
         } catch (Exceptions\Exception $e) {

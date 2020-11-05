@@ -22,11 +22,11 @@
  */
 namespace Swissbib\VuFind\Db\Table;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Select;
 use VuFind\Db\Table\Gateway;
 use VuFind\Db\Table\PluginManager;
 use VuFind\Db\Table\User;
-use Laminas\Db\Adapter\Adapter;
-use Laminas\Db\Sql\Select;
 
 /**
  * Class NationalLicenceUser.

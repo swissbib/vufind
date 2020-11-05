@@ -24,11 +24,11 @@
  */
 namespace Swissbib\Controller;
 
-use Swissbib\Services\NationalLicence;
-use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use Laminas\Mvc\MvcEvent;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\View\Model\ViewModel;
+use Swissbib\Services\NationalLicence;
+use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 
 /**
  * Class NationalLicencesController.

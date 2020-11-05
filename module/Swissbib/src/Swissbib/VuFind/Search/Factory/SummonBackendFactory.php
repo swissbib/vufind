@@ -28,12 +28,12 @@
  */
 namespace Swissbib\VuFind\Search\Factory;
 
-use SerialsSolutions\Summon\Laminas as Connector;
-use VuFind\Search\Factory\SummonBackendFactory as SummonBackendFactoryBase;
 use Laminas\Config\Config;
-
 use Laminas\Http\Client as HttpClient;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+
+use SerialsSolutions\Summon\Laminas as Connector;
+use VuFind\Search\Factory\SummonBackendFactory as SummonBackendFactoryBase;
 
 /**
  * Factory for Summon backends.

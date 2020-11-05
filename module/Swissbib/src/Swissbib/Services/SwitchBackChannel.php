@@ -34,11 +34,11 @@
  */
 namespace Swissbib\Services;
 
-use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use Laminas\Http\Client;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 
 /**
  * SwitchBackChannel

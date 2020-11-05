@@ -24,12 +24,12 @@
  */
 namespace Swissbib\Controller;
 
-use Swissbib\Services\Pura;
-use SwitchSharedAttributesAPIClient\PublishersList;
 use Laminas\Barcode\Barcode;
 use Laminas\Mvc\MvcEvent;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\View\Model\ViewModel;
+use Swissbib\Services\Pura;
+use SwitchSharedAttributesAPIClient\PublishersList;
 
 /**
  * Class NationalLicencesController.

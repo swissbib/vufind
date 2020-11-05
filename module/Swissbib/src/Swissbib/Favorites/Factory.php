@@ -30,9 +30,9 @@
  */
 namespace Swissbib\Favorites;
 
+use Laminas\ServiceManager\ServiceManager;
 use Swissbib\Favorites\DataSource as FavoritesDataSource;
 use Swissbib\Favorites\Manager as FavoritesManager;
-use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory for Favorites types.

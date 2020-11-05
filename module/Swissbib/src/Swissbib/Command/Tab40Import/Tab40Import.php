@@ -1,10 +1,34 @@
 <?php
-
+/**
+ * A console command or factory
+ *
+ * PHP Version 7
+ *
+ * Copyright (C) swissbib 2020
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * @category VuFind
+ * @package  Swissbib\Command
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.vufind.org  Main Page
+ */
 namespace Swissbib\Command\Tab40Import;
 
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Swissbib\Tab40Import\Importer;
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,7 +45,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org
  */
-class Tab40Import extends \Symfony\Component\Console\Command\Command
+class Tab40Import extends Command
 {
     /**
      * The name of the command (the part after "public/index.php")
@@ -44,7 +68,6 @@ class Tab40Import extends \Symfony\Component\Console\Command\Command
      */
     public function __construct(Importer $tab40Importer)
     {
-
         $this->tab40Importer = $tab40Importer;
         parent::__construct();
     }
@@ -74,7 +97,6 @@ class Tab40Import extends \Symfony\Component\Console\Command\Command
                 InputArgument::REQUIRED,
                 'Path to input file. Ex: ~/myalephdata/tab40.ger'
             );
-
     }
 
     /**
@@ -105,7 +127,4 @@ class Tab40Import extends \Symfony\Component\Console\Command\Command
 
         return 0;
     }
-
-
 }
-

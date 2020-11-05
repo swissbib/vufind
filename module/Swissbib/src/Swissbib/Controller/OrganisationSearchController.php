@@ -27,9 +27,7 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\AbstractBase;
 use Laminas\ServiceManager\ServiceLocatorInterface;
-use Laminas\View\Model\ViewModel;
 
 /**
  * Class OrganisationSearchController
@@ -72,10 +70,14 @@ class OrganisationSearchController extends AbstractOrganisationController
         $superiorOrgIds = $this->driver->getHierarchicalSuperiorOrganisationIds();
         $orgs = $this->serviceLocator->get('elasticsearchsearch')
             ->searchElasticSearch(
-                $superiorOrgIds, "sameHierarchicalSuperior_organisations", null, null, $limit, $page
+                $superiorOrgIds,
+                "sameHierarchicalSuperior_organisations",
+                null,
+                null,
+                $limit,
+                $page
             );
 
         return $this->createViewModel(["results" => $orgs]);
     }
-
 }

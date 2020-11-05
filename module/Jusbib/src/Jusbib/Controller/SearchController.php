@@ -28,8 +28,8 @@
  */
 namespace Jusbib\Controller;
 
-use Swissbib\Controller\SearchController as SwissbibSearchController;
 use Laminas\View\Model\ViewModel;
+use Swissbib\Controller\SearchController as SwissbibSearchController;
 
 /**
  * ZF2 module definition for the VuFind application

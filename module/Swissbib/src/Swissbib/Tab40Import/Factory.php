@@ -28,8 +28,8 @@
  */
 namespace Swissbib\Tab40Import;
 
-use Swissbib\Tab40Import\Importer as Tab40Importer;
 use Laminas\ServiceManager\ServiceManager;
+use Swissbib\Tab40Import\Importer as Tab40Importer;
 
 /**
  * Factory for Types used for communication with the Libadmin web application.

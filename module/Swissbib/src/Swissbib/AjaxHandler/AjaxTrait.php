@@ -27,9 +27,9 @@
  */
 namespace Swissbib\AjaxHandler;
 
-use VuFind\View\Helper\Root\RecordDataFormatter;
 use Laminas\Http\Request;
 use Laminas\Http\Response;
+use VuFind\View\Helper\Root\RecordDataFormatter;
 
 /**
  * Trait AjaxTrait
@@ -81,8 +81,10 @@ trait AjaxTrait
      *
      * @return \Laminas\Stdlib\ResponseInterface
      */
-    protected function buildResponse($content, $spec): \Laminas\Stdlib\ResponseInterface
-    {
+    protected function buildResponse(
+        $content,
+        $spec
+    ): \Laminas\Stdlib\ResponseInterface {
         $data = [];
         // @var RecordDataFormatter $recordFormatter
         $recordFormatter = $this->renderer->plugin(

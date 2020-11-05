@@ -26,15 +26,15 @@
  */
 namespace SwissbibTest\NationalLicence;
 
+use Laminas\Config\Config;
+use Laminas\Config\Reader\Ini as IniReader;
+use Laminas\ServiceManager\ServiceManager;
 use ReflectionClass;
 use Swissbib\Services\NationalLicence;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use SwissbibTest\Bootstrap;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
 use VuFindTest\Unit\TestCase as VuFindTestCase;
-use Laminas\Config\Config;
-use Laminas\Config\Reader\Ini as IniReader;
-use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Class NationalLicenceServiceTest.
@@ -87,7 +87,7 @@ class NationalLicenceServiceTest extends VuFindTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->sm = Bootstrap::getServiceManager();
@@ -317,8 +317,8 @@ class NationalLicenceServiceTest extends VuFindTestCase
                 'condition_accepted' => true,
                 'request_temporary_access' => false,
                 'request_permanent_access' => true,
-                'date_expiration' => (new \DateTime())->modify('+14 days')
-                                                      ->format('Y-m-d H:i:s'),
+                'date_expiration' => (new \DateTime())
+                    ->modify('+14 days')->format('Y-m-d H:i:s'),
                 'blocked' => false,
                 'active_last_12_month' => true,
             ]

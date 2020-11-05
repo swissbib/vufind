@@ -28,12 +28,12 @@
 namespace Swissbib\Controller;
 
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch;
-use Swissbib\Util\Config\FlatArrayConverter;
-use Swissbib\Util\Config\ValueConverter;
-use VuFind\Controller\AbstractBase;
 use Laminas\Config\Config as LaminasConfig;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\Model\ViewModel;
+use Swissbib\Util\Config\FlatArrayConverter;
+use Swissbib\Util\Config\ValueConverter;
+use VuFind\Controller\AbstractBase;
 
 /**
  * Class AbstractDetailsController

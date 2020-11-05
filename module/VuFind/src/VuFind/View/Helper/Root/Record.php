@@ -198,10 +198,10 @@ class Record extends AbstractClassBasedTemplateRenderer
     }
 
     /**
-     * Render an entry in a Merklisten list.
+     * Render an entry in a favorite list.
      *
      * @param \VuFind\Db\Row\UserList $list Currently selected list (null for
-     * combined Merklisten)
+     * combined favorites)
      * @param \VuFind\Db\Row\User     $user Current logged in user (false if none)
      *
      * @return string

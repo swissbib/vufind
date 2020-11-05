@@ -30,10 +30,10 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Swissbib\Services\NationalLicence;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use VuFind\Exception\Auth as AuthException;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Swissbib MyResearchNationalLicensesController

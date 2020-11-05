@@ -30,10 +30,10 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\SummonController as VuFindSummonController;
-
 use Laminas\Http\PhpEnvironment\Response;
+
 use Laminas\Stdlib\Parameters;
+use VuFind\Controller\SummonController as VuFindSummonController;
 
 /**
  * Swissbib SummonController

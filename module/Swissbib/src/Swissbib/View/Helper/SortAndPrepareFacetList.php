@@ -28,8 +28,8 @@
  */
 namespace Swissbib\View\Helper;
 
-use Vufind\Search\Base\Results;
 use Laminas\View\Helper\AbstractHelper;
+use Vufind\Search\Base\Results;
 
 /**
  * Improved version of VuFind\View\Helper\Root\SortFacetList

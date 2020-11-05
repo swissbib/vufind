@@ -27,10 +27,10 @@
  */
 namespace Swissbib\Controller;
 
-use Swissbib\Util\Config\FlatArrayConverter;
-use Swissbib\Util\Config\ValueConverter;
 use Laminas\Config\Config as LaminasConfig;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Swissbib\Util\Config\FlatArrayConverter;
+use Swissbib\Util\Config\ValueConverter;
 
 /**
  * Class AbstractPersonAction

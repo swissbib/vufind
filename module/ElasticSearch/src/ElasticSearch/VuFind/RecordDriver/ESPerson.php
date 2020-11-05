@@ -226,7 +226,10 @@ class ESPerson extends ElasticSearch
             $abstract = $this->getValueByLanguagePriority($abstract);
         }
         if (!isset($abstract)) {
-            $abstract = $this->getField('biographicalOrHistoricalInformation', 'gnd');
+            $abstract = $this->getField(
+                'biographicalOrHistoricalInformation',
+                'gnd'
+            );
         }
         return is_array($abstract) && count($abstract) > 0
             ? $abstract[0] : $abstract;
@@ -332,7 +335,9 @@ class ESPerson extends ElasticSearch
     public function getAwardReceived()
     {
         $val = $this->getField('P166', 'wdt');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -347,7 +352,9 @@ class ESPerson extends ElasticSearch
         if (!isset($val)) {
             $val = $this->getField('functionOrRole', 'gnd');
         }
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -359,7 +366,9 @@ class ESPerson extends ElasticSearch
     public function getPlayedInstrument()
     {
         $val = $this->getField('playedInstrument', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -371,7 +380,9 @@ class ESPerson extends ElasticSearch
     public function getReligion()
     {
         $val = $this->getField('P140', 'wdt');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -383,8 +394,9 @@ class ESPerson extends ElasticSearch
     public function getNotableWork()
     {
         $val = $this->getField('notableWork', 'dbo');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
-        else if (!isset($val)) {
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        } elseif (!isset($val)) {
             $val = $this->getField('publication', 'gnd');
         }
         return $val;
@@ -398,7 +410,9 @@ class ESPerson extends ElasticSearch
     public function getNativeLanguage()
     {
         $val = $this->getField('P103', 'wdt');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -410,7 +424,9 @@ class ESPerson extends ElasticSearch
     public function getLanguageSpoken()
     {
         $val = $this->getField('P1412', 'wdt');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -422,7 +438,9 @@ class ESPerson extends ElasticSearch
     public function getFieldOfStudy()
     {
         $val = $this->getField('fieldOfStudy', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -434,7 +452,9 @@ class ESPerson extends ElasticSearch
     public function getRealIdentity()
     {
         $val = $this->getField('realIdentity', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -450,14 +470,18 @@ class ESPerson extends ElasticSearch
     }
 
     /**
-     * Gets the affiliation.
+     * Gets the affiliation
      *
-     * @return array|null
+     * @param string $delimiter The delimiter
+     *
+     * @return string
      */
     public function getAffiliation($delimiter)
     {
         $val1 = $this->getField('affiliation', 'gnd');
-        if (isset($val1)) $val1 = $this->localizedArrayToString($val1);
+        if (isset($val1)) {
+            $val1 = $this->localizedArrayToString($val1);
+        }
         $val2 = $this->getField('affiliationAsLiteral', 'gnd');
         if (isset($val2)) {
             if (is_array($val2)) {
@@ -480,7 +504,9 @@ class ESPerson extends ElasticSearch
     public function getRelatedCorporateBody()
     {
         $val = $this->getField('relatedCorporateBody', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -492,7 +518,9 @@ class ESPerson extends ElasticSearch
     public function getEmployer()
     {
         $val = $this->getField('P108', 'wdt');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -504,7 +532,9 @@ class ESPerson extends ElasticSearch
     public function getMemberOfPoliticalParty()
     {
         $val = $this->getField('P102', 'wdt');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -516,7 +546,9 @@ class ESPerson extends ElasticSearch
     public function getParticipantOf()
     {
         $val = $this->getField('P1344', 'wdt');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -528,7 +560,9 @@ class ESPerson extends ElasticSearch
     public function getEducatedAt()
     {
         $val = $this->getField('P69', 'wdt');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 
@@ -540,7 +574,9 @@ class ESPerson extends ElasticSearch
     public function getProfessionalRelationship()
     {
         $val = $this->getField('professionalRelationship', 'gnd');
-        if (isset($val)) $val = $this->localizedArrayToString($val);
+        if (isset($val)) {
+            $val = $this->localizedArrayToString($val);
+        }
         return $val;
     }
 

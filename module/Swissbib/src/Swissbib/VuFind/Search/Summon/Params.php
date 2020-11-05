@@ -109,7 +109,7 @@ class Params extends VFSummonParams
      * Pull the page size parameter or set to default
      *
      * @param \Laminas\StdLib\Parameters $request Parameter object representing user
-     *                                         request.
+     *                                            request.
      *
      * @return void
      */
@@ -130,7 +130,7 @@ class Params extends VFSummonParams
      * Get the value for which type of sorting to use
      *
      * @param \Laminas\StdLib\Parameters $request Parameter object representing user
-     *                                         request.
+     *                                            request.
      *
      * @return string
      */

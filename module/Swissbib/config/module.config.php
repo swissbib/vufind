@@ -1,21 +1,29 @@
 <?php
 namespace Swissbib\Module\Config;
 
+use Swissbib\Command\HierarchyCache\HierarchyCache;
+use Swissbib\Command\HierarchyCache\HierarchyCacheFactory;
 use Swissbib\Command\Libadmin\LibAdminSync;
 use Swissbib\Command\Libadmin\LibAdminSyncFactory;
 use Swissbib\Command\Libadmin\LibAdminSyncGeoJson;
 use Swissbib\Command\Libadmin\LibAdminSyncGeoJsonFactory;
 use Swissbib\Command\Libadmin\LibAdminSyncMapPortal;
 use Swissbib\Command\Libadmin\LibAdminSyncMapPortalFactory;
+use Swissbib\Command\NationalLicences\SendNationalLicenceUserExport;
+use Swissbib\Command\NationalLicences\SendNationalLicenceUserExportFactory;
+use Swissbib\Command\NationalLicences\UpdateNationalLicenceUserInfo;
+use Swissbib\Command\NationalLicences\UpdateNationalLicenceUserInfoFactory;
+use Swissbib\Command\Pura\SendPuraReport;
+use Swissbib\Command\Pura\SendPuraReportFactory;
+use Swissbib\Command\Pura\UpdatePuraUser;
+use Swissbib\Command\Pura\UpdatePuraUserFactory;
 use Swissbib\Command\Tab40Import\Tab40Import;
 use Swissbib\Command\Tab40Import\Tab40ImportFactory;
 use Swissbib\Controller\CoverController;
 use Swissbib\Controller\FavoritesController;
 use Swissbib\Controller\FeedbackController;
 use Swissbib\Controller\HelpPageController;
-use Swissbib\Controller\HierarchyCacheController;
 use Swissbib\Controller\HoldingsController;
-use Swissbib\Controller\LibadminSyncController;
 use Swissbib\Controller\MyResearchController;
 use Swissbib\Controller\MyResearchNationalLicensesController;
 use Swissbib\Controller\NationalLicencesController;
@@ -23,13 +31,12 @@ use Swissbib\Controller\PuraController;
 use Swissbib\Controller\RecordController;
 use Swissbib\Controller\SearchController;
 use Swissbib\Controller\SummonController;
-use Swissbib\Command\Pura\SendPuraReport;
-use Swissbib\Command\Pura\SendPuraReportFactory;
 use Swissbib\RecordDriver\Summon;
 use Swissbib\VuFind\Search\SearchRunnerFactory;
 use VuFind\Controller\AbstractBaseFactory;
+use VuFind\Route\RouteGenerator;
 
-return [
+$config = [
     'router' => [
         'routes' => [
             // ILS location, e.g. baselbern
@@ -331,49 +338,6 @@ return [
             ],
         ]
     ],
-    'console' => [
-        'router' => [
-            'router_class'  => '',
-            'routes' => [
-                'hierarchy' => [
-                    'options' => [
-                        'route'    => 'hierarchy [<limit>] [--verbose|-v]',
-                        'defaults' => [
-                            'controller' => HierarchyCacheController::class,
-                            'action'     => 'buildCache'
-                        ]
-                    ]
-                ],
-                'send-national-licence-users-export' => [
-                    'options' => [
-                        'route'    => 'send-national-licence-users-export',
-                        'defaults' => [
-                            'controller' => 'console',
-                            'action'     => 'sendNationalLicenceUsersExport'
-                        ]
-                    ]
-                ],
-                'update-national-licence-user-info' => [
-                    'options' => [
-                        'route'    => 'update-national-licence-user-info',
-                        'defaults' => [
-                            'controller' => 'console',
-                            'action'     => 'updateNationalLicenceUserInfo'
-                        ]
-                    ]
-                ],
-                'update-pura-user' => [
-                    'options' => [
-                        'route'    => 'update-pura-user',
-                        'defaults' => [
-                            'controller' => 'console',
-                            'action'     => 'updatePuraUser'
-                        ]
-                    ]
-                ]
-            ]
-        ]
-    ],
     'controllers' => [
         'factories'  => [
             'Swissbib\Controller\AjaxController' => 'VuFind\Controller\AjaxControllerFactory',
@@ -381,7 +345,6 @@ return [
             FavoritesController::class => AbstractBaseFactory::class,
             FeedbackController::class  => AbstractBaseFactory::class,
             HelpPageController::class => AbstractBaseFactory::class,
-            HierarchyCacheController::class => 'Swissbib\Controller\Factory::getHierarchyCacheController',
             HoldingsController::class => AbstractBaseFactory::class,
             MyResearchController::class => AbstractBaseFactory::class,
             MyResearchNationalLicensesController::class => 'Swissbib\Controller\Factory::getMyResearchNationalLicenceController',
@@ -394,7 +357,6 @@ return [
             //TODO : update these keys to ZF3 style keys (with ::class)
             'upgrade'                                => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
             'install'                                => 'Swissbib\Controller\Factory::getNoProductiveSupportController',
-            'console'                                => 'Swissbib\Controller\Factory::getConsoleController',
             'person-knowledge-card'                  => 'Swissbib\Controller\Factory::getPersonKnowledgeCardController',
             'organisation-knowledge-card'            => 'Swissbib\Controller\Factory::getOrganisationKnowledgeCardController',
             'subject-knowledge-card'                 => 'Swissbib\Controller\Factory::getSubjectKnowledgeCardController',
@@ -730,10 +692,14 @@ return [
             ],
             'command' => [
                 'factories' => [
+                    SendNationalLicenceUserExport::class => SendNationalLicenceUserExportFactory::class,
+                    UpdateNationalLicenceUserInfo::class => UpdateNationalLicenceUserInfoFactory::class,
                     SendPuraReport::class => SendPuraReportFactory::class,
+                    UpdatePuraUser::class => UpdatePuraUserFactory::class,
                     LibAdminSync::class => LibAdminSyncFactory::class,
                     LibAdminSyncGeoJson::class => LibAdminSyncGeoJsonFactory::class,
                     LibAdminSyncMapPortal::class => LibAdminSyncMapPortalFactory::class,
+                    HierarchyCache::class => HierarchyCacheFactory::class,
                     Tab40Import::class => Tab40ImportFactory::class,
                 ]
             ],
@@ -808,3 +774,13 @@ return [
         ]
     ]
 ];
+
+//legacy column in resource table, for lists with removed records
+$recordRoutes = [
+    'vufindrecord' => 'Record',
+];
+
+$routeGenerator = new RouteGenerator();
+$routeGenerator->addRecordRoutes($config, $recordRoutes);
+
+return $config;

@@ -27,8 +27,8 @@
  */
 namespace Swissbib\Content\Covers;
 
-use VuFind\Content\Covers\PluginManager as VFPluginManager;
 use Laminas\ServiceManager\ServiceManager;
+use VuFind\Content\Covers\PluginManager as VFPluginManager;
 
 /**
  * Factory for instantiating content loaders

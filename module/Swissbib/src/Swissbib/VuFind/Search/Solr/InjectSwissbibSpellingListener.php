@@ -30,10 +30,10 @@
  */
 namespace Swissbib\VuFind\Search\Solr;
 
+use Laminas\EventManager\EventInterface;
 use VuFind\Search\Solr\InjectSpellingListener as VFSpellingListener;
 use VuFindSearch\Backend\Solr\Response\Json\Spellcheck;
 use VuFindSearch\Query\Query;
-use Laminas\EventManager\EventInterface;
 
 /**
  * InjectSwissbibSpellingListener

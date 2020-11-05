@@ -29,6 +29,7 @@
 namespace ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResult;
 
 use ElasticsearchAdapter\Result\ElasticsearchClientResult;
+use Exception;
 use VuFindSearch\Exception\InvalidArgumentException;
 use VuFindSearch\Response\AbstractRecordCollection;
 
@@ -105,7 +106,7 @@ class RecordCollection extends AbstractRecordCollection
      */
     public function getFacets()
     {
-        throw new \Exception('method currently not supported');
+        throw new Exception('method currently not supported');
     }
 
     /**

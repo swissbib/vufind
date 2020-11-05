@@ -28,8 +28,8 @@
  */
 namespace Swissbib\Controller;
 
-use VuFind\Controller\AbstractBaseFactory;
 use Laminas\ServiceManager\ServiceManager;
+use VuFind\Controller\AbstractBaseFactory;
 
 /**
  * Factory for controllers.
@@ -55,18 +55,6 @@ class Factory extends AbstractBaseFactory
             $sm,
             $sm->get('VuFind\Config\PluginManager')->get('config')
         );
-    }
-
-    /**
-     * Construct the ConsoleController
-     *
-     * @param ServiceManager $sm Service manager.
-     *
-     * @return ConsoleController
-     */
-    public function getConsoleController(ServiceManager $sm)
-    {
-        return new ConsoleController($sm);
     }
 
     /**

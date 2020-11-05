@@ -46,7 +46,7 @@ class UrlMatcherTest extends TargetsProxyTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $path = SWISSBIB_TESTS_PATH . '/SwissbibTest/TargetsProxy';
         $this->initialize($path . '/config_detect_url.ini');
@@ -59,10 +59,12 @@ class UrlMatcherTest extends TargetsProxyTestCase
      */
     public function testUrlFalse()
     {
-        $proxyDetected = $this->targetsProxy->detectTarget('99.1.99.1', 'thiswillnotmat.ch');
-        //		$k=$this->targetsProxy->getTargetKey();
+        $proxyDetected = $this->targetsProxy->detectTarget(
+            '99.1.99.1',
+            'thiswillnotmat.ch'
+        );
 
-        $this->assertInternalType('bool', $proxyDetected);
+        $this->assertIsBool($proxyDetected);
         $this->assertFalse($proxyDetected);
     }
 
@@ -73,9 +75,12 @@ class UrlMatcherTest extends TargetsProxyTestCase
      */
     public function testUrlSb()
     {
-        $proxyDetected = $this->targetsProxy->detectTarget('192.128.0.1', 'swissbib');
+        $proxyDetected = $this->targetsProxy->detectTarget(
+            '192.128.0.1',
+            'swissbib'
+        );
 
-        $this->assertInternalType('bool', $proxyDetected);
+        $this->assertIsBool($proxyDetected);
         $this->assertTrue($proxyDetected);
         $this->assertEquals('Target_URL_SBch', $this->targetsProxy->getTargetKey());
         $this->assertEquals('apiKeyUrlSbch', $this->targetsProxy->getTargetApiKey());
@@ -88,11 +93,20 @@ class UrlMatcherTest extends TargetsProxyTestCase
      */
     public function testUrlBobCSV()
     {
-        $proxyDetected = $this->targetsProxy->detectTarget('192.128.0.1', 'swissbob');
+        $proxyDetected = $this->targetsProxy->detectTarget(
+            '192.128.0.1',
+            'swissbob'
+        );
 
-        $this->assertInternalType('bool', $proxyDetected);
+        $this->assertIsBool($proxyDetected);
         $this->assertTrue($proxyDetected);
-        $this->assertEquals('Target_URL_Bobch_CSV', $this->targetsProxy->getTargetKey());
-        $this->assertEquals('apiKeyUrlBobchCSV', $this->targetsProxy->getTargetApiKey());
+        $this->assertEquals(
+            'Target_URL_Bobch_CSV',
+            $this->targetsProxy->getTargetKey()
+        );
+        $this->assertEquals(
+            'apiKeyUrlBobchCSV',
+            $this->targetsProxy->getTargetApiKey()
+        );
     }
 }

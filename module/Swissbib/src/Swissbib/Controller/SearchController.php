@@ -30,17 +30,17 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\Config\Config;
+use Laminas\Http\PhpEnvironment\Response;
+use Laminas\Stdlib\Parameters;
+use Laminas\View\Model\ViewModel;
+
 use Swissbib\RecordDriver\SolrMarc;
 use Swissbib\VuFind\Search\Results\PluginManager
     as SwissbibSearchResultsPluginManager;
+
 use VuFind\Controller\SearchController as VuFindSearchController;
 use VuFind\Search\Results\PluginManager as VuFindSearchResultsPluginManager;
-
-use Laminas\Config\Config;
-use Laminas\Http\PhpEnvironment\Response;
-
-use Laminas\Stdlib\Parameters;
-use Laminas\View\Model\ViewModel;
 
 /**
  * Swissbib SearchController

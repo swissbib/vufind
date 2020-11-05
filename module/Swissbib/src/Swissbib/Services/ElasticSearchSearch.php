@@ -29,8 +29,8 @@ namespace Swissbib\Services;
 
 use ElasticSearch\VuFind\Search\ElasticSearch\Params;
 use ElasticSearch\VuFind\Search\ElasticSearch\Results;
-use VuFindSearch\Query\Query;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use VuFindSearch\Query\Query;
 
 /**
  * Class SolrSearch

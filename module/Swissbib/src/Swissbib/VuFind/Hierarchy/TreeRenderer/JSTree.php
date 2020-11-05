@@ -28,11 +28,11 @@
  */
 namespace Swissbib\VuFind\Hierarchy\TreeRenderer;
 
+use Laminas\Mvc\Controller\Plugin\Url;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use VuFind\Hierarchy\TreeRenderer\JSTree as VfJsTree;
 use VuFindSearch\Query\Query;
 use VuFindSearch\Service as VFSearchService;
-use Laminas\Mvc\Controller\Plugin\Url;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Temporary override to fix problem with invalid solr data
