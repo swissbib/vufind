@@ -82,21 +82,21 @@ SHOW GRANTS FOR 'pura-back-end-u18'@'%';
 ORANGE
 
 
-- [ ] update private config database in deployrep
+- [x] update private config database in deployrep
 
 sb-udb8
-- [ ] sudo mysqldump v6orangeprod > v6orangeprod.sql
+- [x] sudo mysqldump v6orangeprod > v6orangeprod.sql
 
 sb-udb8 as root
-- [ ] mysql v7orangeprod < v6orangeprod.sql
-- [ ] mysql v7orangeprod < vf7sb_mariadb_migrate_6.0_to_7.0.sql
+- [x] mysql v7orangeprod < v6orangeprod.sql
+- [x] mysql v7orangeprod < vf7sb_mariadb_migrate_6.0_to_7.0.sql
 
 x2go2
-- [ ] vufind deploy
+- [x] vufind deploy
 
 sb-udb8
 
-- [ ] REVOKE ALL ON `v6orangeprod`.* FROM  'vfuser_orange_prod'@'%'
+- [x] REVOKE ALL ON `v6orangeprod`.* FROM  'vfuser_orange_prod'@'%'
 SHOW GRANTS FOR 'vfuser_orange_prod'@'%';
 
 
