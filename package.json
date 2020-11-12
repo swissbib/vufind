@@ -45,8 +45,7 @@
     "jquery": "^3.2.1",
     "require": "^2.4.20",
     "requirejs": "^2.3.5",
-    "ts-promise": "^0.3.4",
-    "typescript": "^3.5.1"
+    "ts-promise": "^0.3.4"
   },
   "devDependencies": {
     "@types/jest": "^21.1.6",

@@ -1,0 +1,5 @@
+FROM node:10.18.1-alpine3.9
+RUN mkdir /app-helper
+COPY ./wait-endless.sh /app-helper/
+RUN apk add --no-cache python2 make g++ autoconf automake libtool nasm build-base zlib-dev pkgconfig libpng-dev libnotify git
+CMD /app-helper/wait-endless.sh

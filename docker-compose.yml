@@ -1,6 +1,8 @@
 version: '2'
 services:
+
   swisscollections-php:
+    container_name: swisscollections-php
     build:
       context: .
       dockerfile: docker/development/Dockerfile
@@ -16,12 +18,12 @@ services:
       - "./themes/swisscollections:/usr/local/vufind/themes/swisscollections"
       - "./module/SwissCollections:/usr/local/vufind/module/SwissCollections"
       - "./local/classic/swisscollections:/usr/local/vufind/local/classic/swisscollections"
-    networks:
-      - swisscollections
     extra_hosts:
     # IP of the Docker host. Required for xdebug: ip route | grep docker0 | awk '{print $9}'
       - host.docker.internal:$DOCKER_HOST_IP
+
   swisscollections-db:
+    container_name: swisscollections-db
     image: mariadb:10
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -31,29 +33,33 @@ services:
     volumes:
       - "swisscollections-db:/var/lib/mysql"
       - "./module/Swissbib/sql/mysql.sql:/docker-entrypoint-initdb.d/init.sql"
-    networks:
-      - swisscollections
+
   swisscollections-http:
+    container_name: swisscollections-http
     image: nginx:alpine
     depends_on:
       - swisscollections-php
-    labels:
-      - "traefik.backend=swisscollections-http"
-      - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:swisscollections.localhost"
-      - "traefik.port=80"
     volumes:
       - ./docker/conf/nginx.conf:/etc/nginx/conf.d/default.conf
     volumes_from:
       - swisscollections-php
-    networks:
-      - traefik_default
-      - swisscollections
+    ports:
+      - "80:80"
+
+# after docker-compose up, call e.g.
+#   docker exec -it node npm install
+#   docker exec -it node npm run start
+# to run your commands inside the node env
+  node:
+    # custom image, run at first: docker-compose -f docker-compose-custom-node.yml build
+    image: node:10.18.1-alpine3.9-om
+    container_name: "node"
+    volumes:
+      - ./:/app
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
 
 volumes:
   swisscollections-db:
 
-networks:
-  swisscollections:
-  traefik_default:
-    external: true

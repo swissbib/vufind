@@ -1,16 +1,19 @@
 # Installation
 ## Docker
 ```
+docker-compose -f docker/development/docker-compose-custom-node.yml build
 touch local/private_config_values/private_config_base_content.conf
-npm install
-npm run build
-composer install
 export DOCKER_HOST_IP=$(ip route | grep docker0 | awk '{print $9}')
-docker-compose up
+docker-compose up -d node
+./in-node.sh npm install
+./in-node.sh npm run build
+docker-compose down
+# composer install
+docker-compose -f docker/development/docker-compose-php.yml up
+docker-compose up -d 
 ```
-Assumes traefik 1.7 with network `traefik_default` 
 
-http://swisscollections.localhost
+http://127.0.0.1
 
 ## Customization 
 - Theme: `themes/swisscollections`

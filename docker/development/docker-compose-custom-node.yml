@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+
+  node:
+    container_name: node-10.18.1-alpine3.9-om
+    build:
+      context: .
+      dockerfile: node-10.18.1-alpine3.9-om.df
+    image: node:10.18.1-alpine3.9-om # 'node' must be equal to service name "node"
+
+# To rebuild this image you must use
+#   docker-compose -f docker-compose-custom-node.yml build
