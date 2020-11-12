@@ -5,6 +5,27 @@
   <?php $displayTestSystem = !empty($displayTestSystem) && ($displayTestSystem == "true" || $displayTestSystem == "1") ? "1" : 0; ?>
   <?php if (!isset($this->layout()->renderingError)): ?>
     <div class="col-md-12">
+      <div class="row">
+        <div class="row">
+          <div style="background-color:#C56614;padding:5px;text-align:center;border-radius:3px">
+            <div style="background-color:#C56614;padding:5px;text-align:center;border-radius:3px; color:white;">
+              <span><i class="fa fa-exclamation-circle"></i></span>
+              <span>
+              <?php if ($this->layout()->userLang == "de"): ?>
+                Deutsch Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam bibendum dui ut gravida condimentum. Aenean purus felis, euismod sed convallis et, semper vestibulum lectus. Vestibulum luctus dui eget lectus dapibus euismod. Pellentesque faucibus enim sem, a feugiat neque posuere id. Etiam id lobortis dui, et condimentum orci. Ut interdum orci nec elit viverra volutpat. Pellentesque porta, quam id finibus hendrerit, sapien tortor pulvinar dolor, eu mollis ante lacus eu risus.
+              <?php elseif ($this->layout()->userLang == "fr"): ?>
+                français
+              <?php elseif ($this->layout()->userLang == "it"): ?>
+                italien
+              <?php else: ?>
+                english
+              <?php endif; ?>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="collapse navbar-collapse" id="header-collapse">
 
 
