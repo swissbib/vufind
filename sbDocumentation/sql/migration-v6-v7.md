@@ -103,7 +103,7 @@ SHOW GRANTS FOR 'vfuser_orange_prod'@'%';
 
 CLEAN-UP
 
-- [ ] UPDATE DB backup scripts in deploy_rep (udb3, udb8, x2go4)
+- [x] UPDATE DB backup scripts in deploy_rep (udb3, udb8, x2go4)
 
-- [ ] REMOVE v6 databases
+- [x] REMOVE v6 databases
 
