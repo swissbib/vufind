@@ -1,0 +1,29 @@
+version: "3.1"
+
+# from the project's root call:
+#   docker-compose -f docker/development/docker-compose-php.yml up
+
+services:
+
+# dependencies are from docker/development/Dockerfile
+
+  php:
+    image: php:7.4-fpm-alpine
+    container_name: "php"
+    volumes:
+      - ../..:/var/www/html
+    ports:
+      - 9000:9000
+    command:
+      - sh
+      - -c
+      - |
+        apk add --no-cache --update --virtual .build-deps icu-dev freetype-dev libjpeg-turbo-dev libpng-dev libxslt-dev zlib-dev bzip2-dev libzip-dev oniguruma-dev autoconf
+        apk add --no-cache --update libpng libjpeg-turbo freetype icu-libs libxslt libzip
+        apk add --no-cache --update libcurl curl-dev
+        apk add --no-cache git
+        docker-php-ext-configure gd --with-freetype --with-jpeg
+        docker-php-ext-install -j$$(nproc) mbstring intl json mysqli pdo_mysql pdo gd xsl xml curl zip bz2 soap
+        apk del .build-deps
+        curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.17
+        /usr/local/bin/composer install
