@@ -31,55 +31,79 @@ justest uses v7greentest
 
 JUS
 
-update private config database in deployrep
+- [x] update private config database in deployrep
 
 sb-udb3
-sudo mysqldump v6jusprod > v6jusprod.sql
+- [x] sudo mysqldump v6jusprod > v6jusprod.sql
 
 sb-udb3 as root
-mysql v7jusprod < v6jusprod.sql
-mysql v7jusprod < vf7sb_mariadb_migrate_6.0_to_7.0.sql
+- [x] mysql v7jusprod < v6jusprod.sql
+- [x] mysql v7jusprod < vf7sb_mariadb_migrate_6.0_to_7.0.sql
 
 x2go4
-deploy
+- [x] deploy
+
+sb-udb3
+- [x] REVOKE ALL ON `v6jusprod`.* FROM  'vfuser_jus_prod'@'%'
 
 GREEN
 
-update private config database in deployrep
+- [x] update private config database in deployrep
 
 sb-udb3
-sudo mysqldump v6greenprod > v6greenprod.sql
+- [x] mysqldump v6greenprod > v6greenprod.sql
 
 
 sb-udb3 as root
-mysql v7greenprod < v6greenprod.sql
-mysql v7greenprod < vf7sb_mariadb_migrate_6.0_to_7.0.sql
+- [x] mysql v7greenprod < v6greenprod.sql
+- [x] mysql v7greenprod < vf7sb_mariadb_migrate_6.0_to_7.0.sql
 
-update pura db (with pura.sql)
-
-x2go4
-vufind deploy
+- [x] update rights pura db (with pura.sql)
 
 x2go4
-pura deploy
+- [x] vufind deploy
+
+sb-udb3
+- [x] REVOKE ALL ON `v6greenprod`.* FROM  'vfuser_green_prod'@'%'
+SHOW GRANTS FOR 'vfuser_green_prod'@'%';
+
+PURA 
+
+x2go4
+- [x] update db for pura prod
+- [x] pura deploy
+
+sb-udb3
+- [x] REVOKE ALL ON `v6greenprod`.`pura_user` FROM  'pura-back-end-u18'@'%';
+- [x] REVOKE ALL ON `v6greenprod`.`user` FROM  'pura-back-end-u18'@'%';
+SHOW GRANTS FOR 'pura-back-end-u18'@'%';
+
 
 ORANGE
 
 
-update private config database in deployrep
+- [x] update private config database in deployrep
 
 sb-udb8
-sudo mysqldump v6orangeprod > v6orangeprod.sql
+- [x] sudo mysqldump v6orangeprod > v6orangeprod.sql
 
 sb-udb8 as root
-mysql v7orangeprod < v6orangeprod.sql
-mysql v7orangeprod < vf7sb_mariadb_migrate_6.0_to_7.0.sql
+- [x] mysql v7orangeprod < v6orangeprod.sql
+- [x] mysql v7orangeprod < vf7sb_mariadb_migrate_6.0_to_7.0.sql
 
 x2go2
-vufind deploy
+- [x] vufind deploy
+
+sb-udb8
+
+- [x] REVOKE ALL ON `v6orangeprod`.* FROM  'vfuser_orange_prod'@'%'
+SHOW GRANTS FOR 'vfuser_orange_prod'@'%';
 
 
+
+CLEAN-UP
 
 - [ ] UPDATE DB backup scripts in deploy_rep (udb3, udb8, x2go4)
 
 - [ ] REMOVE v6 databases
+
