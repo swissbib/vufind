@@ -11,7 +11,7 @@ services:
       APPLICATION_ENV: development
       VUFIND_HOME: /usr/local/vufind;
       VUFIND_LOCAL_DIR: /usr/local/vufind/local/classic/swisscollections
-      VUFIND_LOCAL_MODULES: SwissCollections,Swissbib,Libadmin,Jusbib
+      VUFIND_LOCAL_MODULES: Swissbib,Libadmin,Jusbib,SwissCollections
     volumes:
       - "./themes/swisscollections:/usr/local/vufind/themes/swisscollections"
       - "./module/SwissCollections:/usr/local/vufind/module/SwissCollections"
