@@ -52,7 +52,7 @@ class Results extends VFSummonResults
     /**
      * Configuration for QueryFacets for swissbib MyLibraries
      *
-     * @var \Zend\Config\Config
+     * @var \Laminas\Config\Config
      */
     protected $facetsConfig;
 
@@ -94,11 +94,11 @@ class Results extends VFSummonResults
     /**
      * Facets Configuration
      *
-     * @param \Zend\Config\Config $facetsConfig facet config
+     * @param \Laminas\Config\Config $facetsConfig facet config
      *
      * @return void
      */
-    public function setFacetsConfig(\Zend\Config\Config $facetsConfig)
+    public function setFacetsConfig(\Laminas\Config\Config $facetsConfig)
     {
         $this->facetsConfig = $facetsConfig;
     }

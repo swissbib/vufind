@@ -6,7 +6,7 @@ $institutions = $this->filterUntranslatedInstitutions($institutions, true);
 
 $translatedInstitutions = [];
 foreach ($institutions as $index => $institution) {
-    $institution['translatedInstitution'] = $this->escapeHtml($this->zendTranslate($institution['institution'], 'institution'));
+    $institution['translatedInstitution'] = $this->escapeHtml($this->laminasTranslate($institution['institution'], 'institution'));
     $translatedInstitutions[$index] = $institution;
 }
 $institutions = $this->displayNameSorter($translatedInstitutions, "translatedInstitution");

@@ -27,7 +27,7 @@
  */
 namespace Swissbib\Controller;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class DetailPageController
@@ -43,7 +43,7 @@ abstract class DetailPageController extends AbstractDetailsController
     /**
      * DetailPageController constructor.
      *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $sm Service locator
+     * @param \Laminas\ServiceManager\ServiceLocatorInterface $sm Service locator
      */
     public function __construct(ServiceLocatorInterface $sm)
     {

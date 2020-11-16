@@ -28,7 +28,7 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory for swissbib specific view helpers.

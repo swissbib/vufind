@@ -4,7 +4,7 @@ $this->headTitle($this->translate('changeaddress'));
 $this->layout()->breadcrumbs = '<li><a href="' . $this->url('myresearch-home') . '">' . $this->transEsc('Your Account') . '</a></li>'
     . '<li class="active">' . $this->transEsc('changeaddress') . '</li>';
 
-/** @var \Zend\Form\Form $form */
+/** @var \Laminas\Form\Form $form */
 if (isset($form)) {
     $form->setAttribute('action', '');
     $form->setAttribute('method', 'post');

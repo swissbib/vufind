@@ -27,7 +27,7 @@
  */
 namespace ElasticSearch\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * Class MetadataHelper
@@ -60,7 +60,7 @@ class MetadataHelper extends AbstractHelper
     /**
      * Sets Source
      *
-     * @param \Zend\View\Helper\AbstractHelper $_source The source
+     * @param \Laminas\View\Helper\AbstractHelper $_source The source
      *
      * @return void
      */

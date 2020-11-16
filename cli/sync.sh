@@ -17,9 +17,9 @@ fi
 export VUFIND_CACHE=$VUFIND_LOCAL_DIR/cache
 export VUFIND_LOCAL_MODULES=Swissbib
 
-su -c "php $INDEX libadmin sync $@" swissbib
+su -c "php $INDEX libadmin/sync $@" swissbib
 
-su -c "php $INDEX libadmin syncGeoJson $@" swissbib
+su -c "php $INDEX libadmin/syncGeoJson $@" swissbib
 #symbolic link so that geojson.json is reachable for libraries_map.js
 su -c "ln -s ../data/cache/geojson.json $BASEDIR/../public/geojson.json" swissbib
 

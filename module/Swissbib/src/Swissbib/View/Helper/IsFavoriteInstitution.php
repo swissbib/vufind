@@ -28,7 +28,7 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * Check whether an institution code is a user favorite

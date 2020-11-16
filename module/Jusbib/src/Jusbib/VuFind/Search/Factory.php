@@ -30,8 +30,8 @@
 namespace Jusbib\VuFind\Search;
 
 use Jusbib\VuFind\Search\Helper\ExtendedSolrFactoryHelper;
+use Laminas\ServiceManager\ServiceManager;
 use VuFind\View\Helper\Root\SearchOptions;
-use Zend\ServiceManager\ServiceManager;
 
 /**
  * Jusbib Factory

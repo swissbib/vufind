@@ -27,7 +27,7 @@
  */
 namespace Swissbib\Util\Config;
 
-use Zend\Config\Config;
+use Laminas\Config\Config;
 
 /**
  * Class FlatArrayConverter
@@ -102,13 +102,13 @@ final class FlatArrayConverter
      * Converts the content of the specified sections in the given Config
      * object.
      *
-     * @param \Zend\Config\Config $config       The config
-     * @param string|array        $sectionNames A string or an array of strings
-     *                                          holding the names of the
-     *                                          sections in the config to
-     *                                          process.
+     * @param \Laminas\Config\Config $config       The config
+     * @param string|array           $sectionNames A string or an array of strings
+     *                                             holding the names of the
+     *                                             sections in the config to
+     *                                             process.
      *
-     * @return \Zend\Config\Config The array will contain only the sections
+     * @return \Laminas\Config\Config The array will contain only the sections
      *                             specified.
      */
     public function fromConfigSections(Config $config, $sectionNames)
@@ -122,8 +122,8 @@ final class FlatArrayConverter
     /**
      * Process sections
      *
-     * @param \Zend\Config\Config $config       The config
-     * @param array               $sectionNames The section names
+     * @param \Laminas\Config\Config $config       The config
+     * @param array                  $sectionNames The section names
      *
      * @return array
      */
@@ -145,8 +145,8 @@ final class FlatArrayConverter
     /**
      * From Section
      *
-     * @param \Zend\Config\Config $config      The config
-     * @param string              $sectionName The section name
+     * @param \Laminas\Config\Config $config      The config
+     * @param string                 $sectionName The section name
      *
      * @return array|null
      */

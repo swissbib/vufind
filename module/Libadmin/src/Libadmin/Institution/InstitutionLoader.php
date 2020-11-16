@@ -28,7 +28,7 @@
  */
 namespace Libadmin\Institution;
 
-use Zend\Json\Server\Exception\ErrorException;
+use Laminas\Json\Server\Exception\ErrorException;
 
 /**
  * InstitutionLoader

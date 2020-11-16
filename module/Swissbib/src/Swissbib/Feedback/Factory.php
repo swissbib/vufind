@@ -30,10 +30,10 @@
  */
 namespace Swissbib\Feedback;
 
-use Zend\Form\Annotation\AnnotationBuilder;
-use Zend\Form\Element\Csrf;
-use Zend\Form\Form;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\Form\Annotation\AnnotationBuilder;
+use Laminas\Form\Element\Csrf;
+use Laminas\Form\Form;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory

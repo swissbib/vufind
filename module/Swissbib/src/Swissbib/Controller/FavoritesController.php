@@ -30,9 +30,9 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\View\Model\ViewModel;
 use Swissbib\Favorites\DataSource as FavoriteDataSource;
 use Swissbib\Favorites\Manager as FavoriteManager;
-use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib FavoritesController
@@ -189,7 +189,7 @@ class FavoritesController extends BaseController
     {
         $availableInstitutions = $this->getAvailableInstitutions();
         $data = [];
-        $translator = $this->serviceLocator->get('Zend\Mvc\I18n\Translator');
+        $translator = $this->serviceLocator->get('Laminas\Mvc\I18n\Translator');
 
         $i = 0;
         foreach ($availableInstitutions as $institutionCode => $additionalInfo) {

@@ -30,8 +30,8 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\View\Model\ViewModel;
 use VuFind\Controller\AbstractBase as VuFindController;
-use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib BaseController

@@ -27,7 +27,7 @@
  */
 namespace ElasticSearch\VuFind\RecordDriver;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Class Factory
@@ -43,7 +43,7 @@ class Factory
     /**
      * Creates an ElasticSearchRecord
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm The Service Manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm The Service Manager
      *
      * @return \ElasticSearch\VuFind\RecordDriver\ElasticSearch
      */
@@ -61,7 +61,7 @@ class Factory
     /**
      * Creates a PersonRecord
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm The Service Manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm The Service Manager
      *
      * @return \ElasticSearch\VuFind\RecordDriver\ESPerson
      */
@@ -79,7 +79,7 @@ class Factory
     /**
      * Creates a BibliographicResourceRecord
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm The Service Manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm The Service Manager
      *
      * @return \ElasticSearch\VuFind\RecordDriver\ESBibliographicResource
      */
@@ -91,7 +91,7 @@ class Factory
     /**
      * Creates a SubjectRecord
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm The Service Manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm The Service Manager
      *
      * @return \ElasticSearch\VuFind\RecordDriver\ESSubject
      */
@@ -103,7 +103,7 @@ class Factory
     /**
      * Creates a OrganisationRecord
      *
-     * @param \Zend\ServiceManager\ServiceManager $sm The Service Manager
+     * @param \Laminas\ServiceManager\ServiceManager $sm The Service Manager
      *
      * @return \ElasticSearch\VuFind\RecordDriver\ESOrganisation
      */

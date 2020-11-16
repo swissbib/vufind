@@ -33,9 +33,9 @@
 namespace VuFind\ILS\Driver;
 
 use DOMDocument;
+use Laminas\Log\LoggerAwareInterface as LoggerAwareInterface;
 use VuFind\Exception\ILS as ILSException;
 use VuFindHttp\HttpServiceAwareInterface as HttpServiceAwareInterface;
-use Zend\Log\LoggerAwareInterface as LoggerAwareInterface;
 
 /**
  * ILS Driver for VuFind to query availability information via DAIA.
@@ -496,7 +496,7 @@ class DAIA extends AbstractBase implements
                 list($responseMediaType) = array_pad(
                     explode(
                         ';',
-                        $result->getHeaders()->get('ContentType')->getFieldValue(),
+                        $result->getHeaders()->get('Content-type')->getFieldValue(),
                         2
                     ),
                     2,

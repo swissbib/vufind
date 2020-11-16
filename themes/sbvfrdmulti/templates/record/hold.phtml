@@ -21,9 +21,8 @@ $today = strtotime('now');
 $unsetPickup[] = 'POPA';
 
 // unterdrückt Pickup locations während Schliesszeiten
-if ($today > strtotime('2017-07-13') && $today < strtotime('2017-08-21')):
-    $unsetPickup[] = 'B415';
-    $unsetPickup[] = 'UBSOB';
+if ($today > strtotime('2020-06-29') && $today < strtotime('2020-08-28')):
+    $unsetPickup[] = 'LUMHS';
 endif;
 
 ?>
@@ -81,7 +80,7 @@ endif;
                     <div class="col-sm-9">
                         <select id="pickUpLocation" name="gatheredDetails[pickUpLocation]" class="form-control" onchange="handleChange();">
                             <option value="" selected="selected">[<?=$this->transEsc('select pickup location')?>:]</option>
-                            <?php if (!$institutionIsPresent): ?><option value="DUMMY"><?= $this->zendTranslate($institutionOfItem, 'institution') ?></option><?php endif; ?>
+                            <?php if (!$institutionIsPresent): ?><option value="DUMMY"><?= $this->laminasTranslate($institutionOfItem, 'institution') ?></option><?php endif; ?>
                             <?php foreach ($this->pickup as $lib): ?>
                                 <?php if(in_array($lib['locationID'], $unsetPickup)): ?>
                                     <?php unset($lib); ?>

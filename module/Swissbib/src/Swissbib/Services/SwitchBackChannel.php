@@ -34,11 +34,11 @@
  */
 namespace Swissbib\Services;
 
+use Laminas\Http\Client;
+use Laminas\Http\Request;
+use Laminas\Http\Response;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
-use Zend\Http\Client;
-use Zend\Http\Request;
-use Zend\Http\Response;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * SwitchBackChannel
@@ -181,7 +181,7 @@ class SwitchBackChannel
             $this->configNL['back_channel_endpoint_path'], [
                 'maxredirects' => 0,
                 'timeout' => 30,
-                'adapter'   => 'Zend\Http\Client\Adapter\Curl',
+                'adapter'   => 'Laminas\Http\Client\Adapter\Curl',
                 'curloptions' => [
                     CURLOPT_SSL_VERIFYHOST => false,
                     CURLOPT_SSL_VERIFYPEER => false

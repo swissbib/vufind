@@ -28,7 +28,7 @@
  */
 namespace Swissbib\VuFind\Auth;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Class Factory

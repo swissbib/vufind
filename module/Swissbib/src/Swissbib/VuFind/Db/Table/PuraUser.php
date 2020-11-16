@@ -22,11 +22,11 @@
  */
 namespace Swissbib\VuFind\Db\Table;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Select;
 use VuFind\Db\Table\Gateway;
 use VuFind\Db\Table\PluginManager;
 use VuFind\Db\Table\User;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Select;
 
 /**
  * Class NationalLicenceUser.
@@ -44,7 +44,7 @@ class PuraUser extends Gateway
      *
      * @param Adapter       $adapter Database adapter
      * @param PluginManager $tm      Table manager
-     * @param array         $cfg     Zend Framework configuration
+     * @param array         $cfg     Laminas Framework configuration
      * @param Row           $row     row object
      */
     public function __construct(Adapter $adapter, PluginManager $tm, $cfg, $row)

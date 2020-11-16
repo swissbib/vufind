@@ -28,7 +28,7 @@
  */
 namespace Jusbib\Theme;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Factory for Jusbib Theme.

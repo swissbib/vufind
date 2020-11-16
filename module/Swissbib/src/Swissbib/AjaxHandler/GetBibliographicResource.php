@@ -28,12 +28,12 @@
 namespace Swissbib\AjaxHandler;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Http\PhpEnvironment\Request;
+use Laminas\Http\Response;
+use Laminas\Mvc\Controller\Plugin\Params;
 use VuFind\AjaxHandler\AbstractBase as VFAjax;
 use VuFind\AjaxHandler\AjaxHandlerInterface;
 use VuFind\View\Helper\Root\RecordDataFormatter;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\Http\Response;
-use Zend\Mvc\Controller\Plugin\Params;
 
 /**
  * "GetBibliographicResource" AJAX handler
@@ -96,10 +96,12 @@ class GetBibliographicResource extends VFAjax implements AjaxHandlerInterface
      * @param array $content Content
      * @param array $spec    Specification
      *
-     * @return \Zend\Stdlib\ResponseInterface
+     * @return \Laminas\Stdlib\ResponseInterface
      */
-    protected function buildResponse($content, $spec): \Zend\Stdlib\ResponseInterface
-    {
+    protected function buildResponse(
+        $content,
+        $spec
+    ): \Laminas\Stdlib\ResponseInterface {
         $data = [];
         // @var RecordDataFormatter $recordFormatter
         $recordFormatter = $this->renderer->plugin(

@@ -28,8 +28,8 @@
  */
 namespace Swissbib\VuFind\Search\Helper;
 
+use Laminas\Stdlib\Parameters;
 use VuFind\Auth\Manager;
-use Zend\Stdlib\Parameters;
 
 /**
  * Helper to control the application behaviour related to some personal settings

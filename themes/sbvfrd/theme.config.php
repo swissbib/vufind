@@ -33,6 +33,8 @@ return [
     'swissbib/Accordion.js',
     'swissbib/Settings.js',
     'swissbib/OffCanvas.js',
+
+    'lib/autocomplete.js',
   ],
   'favicon' => 'favicon.ico',
   'helpers' => [
@@ -49,9 +51,9 @@ return [
       'includeTemplate' => 'Swissbib\View\Helper\Swissbib\Factory::getIncludeTemplate',
       'translateFacets' => 'Swissbib\View\Helper\Swissbib\Factory::getFacetTranslator',
       'formatRelatedEntries' => 'Swissbib\View\Helper\Swissbib\Factory::getFormatRelatedEntries',
-      \Swissbib\VuFind\View\Helper\Root\Translate::class => 'Zend\ServiceManager\Factory\InvokableFactory',
-      'Swissbib\View\Helper\RenderSuggestions' => 'Zend\ServiceManager\Factory\InvokableFactory',
-      //'Swissbib\View\Helper\Facet2ListSorter' => 'Zend\ServiceManager\Factory\InvokableFactory',
+      \Swissbib\VuFind\View\Helper\Root\Translate::class => 'Laminas\ServiceManager\Factory\InvokableFactory',
+      'Swissbib\View\Helper\RenderSuggestions' => 'Laminas\ServiceManager\Factory\InvokableFactory',
+      //'Swissbib\View\Helper\Facet2ListSorter' => 'Laminas\ServiceManager\Factory\InvokableFactory',
       //\Swissbib\View\Helper\Facet2ListSorter::class => 'Swissbib\View\Helper\Factory::getFacet2ListSorter',
       //'Swissbib\View\Helper\Facet2ListSorter' => 'Swissbib\View\Helper\Factory::getFacet2ListSorter',
       'displayNameSorter' => 'Swissbib\View\Helper\Swissbib\Factory::getDisplayNameSorter',

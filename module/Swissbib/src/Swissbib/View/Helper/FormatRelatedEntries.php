@@ -30,8 +30,8 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\I18n\Translator\TranslatorInterface;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * FormatRelatedEntry

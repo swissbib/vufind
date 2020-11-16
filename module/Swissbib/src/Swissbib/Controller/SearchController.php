@@ -30,17 +30,17 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\Config\Config;
+use Laminas\Http\PhpEnvironment\Response;
+use Laminas\Stdlib\Parameters;
+use Laminas\View\Model\ViewModel;
+
 use Swissbib\RecordDriver\SolrMarc;
 use Swissbib\VuFind\Search\Results\PluginManager
     as SwissbibSearchResultsPluginManager;
+
 use VuFind\Controller\SearchController as VuFindSearchController;
 use VuFind\Search\Results\PluginManager as VuFindSearchResultsPluginManager;
-
-use Zend\Config\Config;
-use Zend\Http\PhpEnvironment\Response;
-
-use Zend\Stdlib\Parameters;
-use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib SearchController
@@ -63,7 +63,7 @@ class SearchController extends VuFindSearchController
     /**
      * Get model for general results view (all tabs, content of active tab only)
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function resultsAction()
     {
@@ -120,7 +120,7 @@ class SearchController extends VuFindSearchController
     /**
      * Returns availability by library network
      *
-     * @return \Zend\Stdlib\ResponseInterface
+     * @return \Laminas\Stdlib\ResponseInterface
      */
     public function availabilityByLibraryNetworkAction()
     {

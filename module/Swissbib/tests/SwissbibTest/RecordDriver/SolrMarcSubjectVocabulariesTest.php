@@ -46,7 +46,7 @@ class SolrMarcSubjectVocabulariesTest extends SolrMarcTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->initialize('marc-subjectheadings.json');
     }
@@ -60,7 +60,7 @@ class SolrMarcSubjectVocabulariesTest extends SolrMarcTestCase
     {
         $subjectVocabularies = $this->driver->getAllSubjectVocabularies();
 
-        $this->assertInternalType('array', $subjectVocabularies);
+        $this->assertIsArray($subjectVocabularies);
 
         $this->assertEquals(2, sizeof($subjectVocabularies));
         $this->assertArrayHasKey('gnd', $subjectVocabularies);
@@ -71,7 +71,7 @@ class SolrMarcSubjectVocabulariesTest extends SolrMarcTestCase
 
         //  $this->assertEquals(0, $subjectVocabularies['lcsh']['650'][0]['@ind2']);
 
-        $this->assertInternalType('array', $subjectVocabularies['gnd']);
+        $this->assertIsArray($subjectVocabularies['gnd']);
         $this->assertArrayHasKey('650', $subjectVocabularies['gnd']);
     }
 }

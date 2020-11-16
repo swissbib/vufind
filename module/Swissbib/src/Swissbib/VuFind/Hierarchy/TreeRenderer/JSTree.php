@@ -28,11 +28,11 @@
  */
 namespace Swissbib\VuFind\Hierarchy\TreeRenderer;
 
+use Laminas\Mvc\Controller\Plugin\Url;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use VuFind\Hierarchy\TreeRenderer\JSTree as VfJsTree;
 use VuFindSearch\Query\Query;
 use VuFindSearch\Service as VFSearchService;
-use Zend\Mvc\Controller\Plugin\Url;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Temporary override to fix problem with invalid solr data
@@ -207,7 +207,7 @@ class JSTree extends VfJsTree
      */
     protected function buildNodeArray($node, $context, $hierarchyID, $idPath = 0)
     {
-        $escaper = new \Zend\Escaper\Escaper('utf-8');
+        $escaper = new \Laminas\Escaper\Escaper('utf-8');
         $htmlID = $idPath . '_' . preg_replace('/\W/', '-', $node->id);
         $ret = [
             'id' => $htmlID,

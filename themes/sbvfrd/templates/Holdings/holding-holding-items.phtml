@@ -9,7 +9,7 @@
 /** @var String $institution */
 $baseUrl = $this->url('holdings-holding-items', $baseUrlParams) . '?';
 
-$institutionLabel = $this->zendTranslate($institution, 'institution');
+$institutionLabel = $this->laminasTranslate($institution, 'institution');
 
 ?>
     <form id="holdings-items-filter-form" action="<?= $this->escapeHtml($baseUrl) ?>">

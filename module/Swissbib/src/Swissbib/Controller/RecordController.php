@@ -30,12 +30,12 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\Form\Form;
+use Laminas\Session\Container as SessionContainer;
+use Laminas\View\Model\ViewModel;
 use VuFind\Controller\RecordController as VuFindRecordController;
 use VuFind\Exception\ILS;
 use VuFind\Exception\RecordMissing as RecordMissingException;
-use Zend\Form\Form;
-use Zend\Session\Container as SessionContainer;
-use Zend\View\Model\ViewModel;
 
 /**
  * Swissbib RecordController

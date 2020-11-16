@@ -29,18 +29,18 @@
  */
 namespace Swissbib\RecordDriver\Helper;
 
+use Laminas\Config\Config;
+use Laminas\I18n\Translator\TranslatorInterface as Translator;
+
 use Swissbib\Log\Logger;
 use Swissbib\RecordDriver\SolrMarc;
-
 use Swissbib\VuFind\ILS\Driver\Aleph;
 use VuFind\Auth\ILSAuthenticator as IlsAuth;
 use VuFind\Auth\Manager as AuthManager;
+
 use VuFind\Config\PluginManager as ConfigManager;
 use VuFind\Crypt\HMAC;
-
 use VuFind\ILS\Connection as IlsConnection;
-use Zend\Config\Config;
-use Zend\I18n\Translator\TranslatorInterface as Translator;
 
 /**
  * Probably Holdings should be a subtype of ZF2 AbstractHelper at first I need a
@@ -296,7 +296,7 @@ class Holdings
             $this->groupSorting = $relationConfig->groups->toArray();
         } elseif (APPLICATION_ENV == 'development') {
             throw new \Exception(
-                'Missing config file libadmin-groups.ini. Run libadmin sync ' .
+                'Missing config file libadmin-groups.ini. Run libadmin/sync ' .
                 'to solve this problem'
             );
         }

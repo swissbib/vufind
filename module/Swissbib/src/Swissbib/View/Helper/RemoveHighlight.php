@@ -28,7 +28,7 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View script for formatting Summon record short titles

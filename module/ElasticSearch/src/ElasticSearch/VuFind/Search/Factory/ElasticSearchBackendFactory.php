@@ -33,8 +33,8 @@ use ElasticSearch\VuFindSearch\Backend\ElasticSearch\Response\AdapterClientResul
 use ElasticsearchAdapter\Adapter;
 use ElasticsearchAdapter\Connector\ElasticsearchClientConnector;
 use Interop\Container\ContainerInterface;
-use Zend\Config\Config;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\Config\Config;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Class ElasticSearchBackendFactory
@@ -132,7 +132,7 @@ class ElasticSearchBackendFactory implements FactoryInterface
     /**
      * Sets the Config
      *
-     * @param \Zend\Config\Config $_config The config
+     * @param \Laminas\Config\Config $_config The config
      *
      * @return void
      */

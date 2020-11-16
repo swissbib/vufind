@@ -24,10 +24,10 @@
  */
 namespace Swissbib\Services;
 
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Swissbib\Libadmin\Exception\Exception;
 use Swissbib\VuFind\Db\Row\NationalLicenceUser;
 use SwitchSharedAttributesAPIClient\SwitchSharedAttributesAPIClient as SwitchApi;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class NationalLicence.
@@ -653,7 +653,7 @@ class NationalLicence
     /**
      * Get list of all national licence users and their related vufind user.
      *
-     * @return \Zend\Db\ResultSet\ResultSet
+     * @return \Laminas\Db\ResultSet\ResultSet
      * @throws \Exception
      */
     public function getListNationalLicenceUserWithVuFindUsers()

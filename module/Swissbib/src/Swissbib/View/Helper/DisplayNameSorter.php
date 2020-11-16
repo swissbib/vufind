@@ -28,7 +28,7 @@
  */
 namespace Swissbib\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * Sorter for facet- and library-datastructures by displayName/label

@@ -30,10 +30,10 @@
  */
 namespace Swissbib\Controller;
 
+use Laminas\Form\Element;
+use Laminas\Form\Form;
+use Laminas\Mail as Mail;
 use VuFind\Controller\FeedbackController as VuFindFeedbackController;
-use Zend\Form\Element;
-use Zend\Form\Form;
-use Zend\Mail as Mail;
 
 /**
  * FeedbackController
@@ -49,7 +49,7 @@ class FeedbackController extends VuFindFeedbackController
     /**
      * Display Feedback home form.
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function homeAction()
     {
@@ -105,7 +105,7 @@ class FeedbackController extends VuFindFeedbackController
      * Resetting the values of the form passed. Unfortunately there is  no other way
      * in ZF2 to achieve this.
      *
-     * @param Form $form Zend form to be reset
+     * @param Form $form Laminas form to be reset
      *
      * @return void
      */

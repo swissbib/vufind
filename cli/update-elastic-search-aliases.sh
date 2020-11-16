@@ -1,10 +1,10 @@
 #!/bin/bash
-#to execute this script, you first need to establish a tunnel to one of the elasticsearch hosts (currently ues5 for example)
+#to execute this script, you first need to establish a tunnel with port 9201 to one of the elasticsearch hosts (currently ues5 for example)
 
 HOST=localhost
 PORT=9201
-OLD_TIMESTAMP=2020-02-12
-NEW_TIMESTAMP=2020-03-17
+OLD_TIMESTAMP=2020-03-17
+NEW_TIMESTAMP=2020-06-26
 #don't forget the timestamps for subjects which is different
 
 PERSONS_INDEX=sb-persons
@@ -30,7 +30,7 @@ done
 curl -XPOST "http://${HOST}:${PORT}/_aliases" -H "Content-Type: application/json" -d"
   {
       \"actions\" : [
-          { \"add\" : { \"index\" : \"gnd-subjects-2020-03-16\", \"alias\" : \"sb-subjects\" } },
-          { \"remove\" : { \"index\" : \"gnd-subjects-2020-02-20\", \"alias\" : \"sb-subjects\" } }
+          { \"add\" : { \"index\" : \"gnd-subjects-2020-04-08\", \"alias\" : \"sb-subjects\" } },
+          { \"remove\" : { \"index\" : \"gnd-subjects-2020-03-16\", \"alias\" : \"sb-subjects\" } }
       ]
   }"

@@ -27,6 +27,7 @@
  */
 namespace ElasticSearch\VuFind\Search\ElasticSearch;
 
+use Laminas\StdLib\Parameters;
 use VuFind\Search\Base\Params as BaseParams;
 use VuFindSearch\Query\Query;
 
@@ -104,8 +105,8 @@ class Params extends BaseParams
      *
      * Initialize the object's search settings from a request object.
      *
-     * @param \Zend\StdLib\Parameters $request Parameter object representing user
-     *                                         request.
+     * @param Parameters $request Parameter object representing user
+     *                            request.
      *
      * @return void
      */

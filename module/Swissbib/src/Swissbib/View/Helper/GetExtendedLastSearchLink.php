@@ -28,8 +28,8 @@
   */
 namespace Swissbib\View\Helper;
 
+use Laminas\View\Helper\AbstractHelper;
 use VuFind\Search\Memory;
-use Zend\View\Helper\AbstractHelper;
 
 /**
  * GetExtendedLastSearchLink

@@ -17,7 +17,7 @@ if (!empty($responsible)) {
 }
 
 if (isset($formats) and isset($formats[0])) {
-    $extendedTitle .= ' (' . $this->zendTranslate($formats[0], 'formats') . ')';
+    $extendedTitle .= ' (' . $this->laminasTranslate($formats[0], 'formats') . ')';
 }
 
 $extendedTitle .= '. ';
@@ -46,9 +46,9 @@ $this->headTitle('swissbib : ' . $this->driver->getBreadcrumb() . $extendedTitle
               <?php $group['label'] = implode('', array_unique($group['label'])); ?>
             <?php endif; ?>
             <?php if ($group['label'] == 'mylibraries'): ?>
-              <span><?= $this->zendTranslate($group['label']) ?></span>
+              <span><?= $this->laminasTranslate($group['label']) ?></span>
             <?php else: ?>
-              <span><?= $this->zendTranslate($group['label'], 'group') ?></span>
+              <span><?= $this->laminasTranslate($group['label'], 'group') ?></span>
             <?php endif; ?>
           </a>
         </h3>
@@ -60,7 +60,7 @@ $this->headTitle('swissbib : ' . $this->driver->getBreadcrumb() . $extendedTitle
             <?php
             $translatedInstitutions = [];
             foreach ($group['institutions'] as $index => $institution) {
-                $institution['translatedInstitution'] = $this->escapeHtml($this->zendTranslate($institution['label'], 'institution'));
+                $institution['translatedInstitution'] = $this->escapeHtml($this->laminasTranslate($institution['label'], 'institution'));
                 $translatedInstitutions[$index] = $institution;
             }
             $translatedInstitutions = $this->displayNameSorter($translatedInstitutions, "translatedInstitution");
@@ -80,7 +80,7 @@ $this->headTitle('swissbib : ' . $this->driver->getBreadcrumb() . $extendedTitle
                   </div>
                   <a data-toggle="collapse" href="#collapse-<?= $groupCode ?>-<?= $institutionCode ?>" aria-expanded="false" aria-controls="collapse-<?= $groupCode ?>-<?= $institutionCode ?>"
                      id="holding-institution-<?= $groupCode ?>-<?= $institutionCode ?>" data-expandlibGroup="<?= $groupNetworkCode . '-' . $institutionCode ?>" class="toggler institutionToggler">
-                    <?= $this->escapeHtml($this->zendTranslate($institution['label'], 'institution')) ?>
+                    <?= $this->escapeHtml($this->laminasTranslate($institution['label'], 'institution')) ?>
                   </a>
                 </h4>
               </div>

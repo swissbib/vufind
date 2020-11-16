@@ -27,9 +27,10 @@
  */
 namespace ElasticSearch\View\Helper;
 
+use DateTime;
 use ElasticSearch\VuFind\RecordDriver\ElasticSearch as ElasticSearch;
+use Laminas\Config\Config as LaminasConfig;
 use VuFind\Search\Base\Results as Results;
-use Zend\Config\Config as ZendConfig;
 
 /**
  * Class AbstractHelper
@@ -43,7 +44,7 @@ use Zend\Config\Config as ZendConfig;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.vufind.org  Main Page
  */
-abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
+abstract class AbstractHelper extends \Laminas\View\Helper\AbstractHelper
 {
     private $_driver;
 
@@ -224,12 +225,12 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
         }
 
         //wikidata style : 1929-12-06T00:00:00Z (with leading 0 for days and months)
-        $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $dateString);
+        $date = DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $dateString);
         if ($date) {
             return $date->format('j.n.Y');
         } else {
             //gnd style is often 2012-07-25
-            $date = \DateTime::createFromFormat('Y-m-d', $dateString);
+            $date = DateTime::createFromFormat('Y-m-d', $dateString);
             if ($date) {
                 return $date->format('j.n.Y');
             } else {
@@ -438,12 +439,13 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      * Checks whether the underlying driver has matching record references based on
      * the references defined in the searches.ini configuration.
      *
-     * @param ZendConfig $references The available record reference configurations.
+     * @param LaminasConfig $references The available record reference
+     *                                  configurations.
      *
      * @return bool
      */
     public function hasMatchingRecordReferences(
-        ZendConfig $references
+        LaminasConfig $references
     ): bool {
         $source = $this->getSameAs();
 
@@ -461,14 +463,15 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
     /**
      * Checks whether the given link matches one of the configured record references.
      *
-     * @param ZendConfig $references The available record reference configurations.
-     * @param string     $link       An array or string representing the available
-     *                               references.
+     * @param LaminasConfig $references The available record reference
+     *                                  configurations.
+     * @param string        $link       An array or string representing the
+     *                                  available references.
      *
      * @return bool
      */
     protected function hasMatchingRecordReference(
-        ZendConfig $references, string $link
+        LaminasConfig $references, string $link
     ): bool {
         foreach ($references as $id => $reference) {
             if (preg_match($reference->pattern, $link) === 1) {
@@ -485,15 +488,16 @@ abstract class AbstractHelper extends \Zend\View\Helper\AbstractHelper
      * one configured for the reference the link matched on and the link will be the
      * link parameter value passed in to the method.
      *
-     * @param string     $link       The link to match against the record references.
-     * @param ZendConfig $references All configured record references.
+     * @param string        $link       The link to match against the record
+     *                                  references.
+     * @param LaminasConfig $references All configured record references.
      *
      * @return string
      * In case the given link does not match on one of the record reference patterns,
      * then a NullObject pattern is returned which represents an empty labeled link
      * on the '#'.
      */
-    public function getRecordReference(string $link, ZendConfig $references)
+    public function getRecordReference(string $link, LaminasConfig $references)
     {
         foreach ($references as $id => $reference) {
             if (preg_match($reference->pattern, $link) === 1) {
