@@ -42,7 +42,7 @@
   </xsl:template>
 
   <xsl:template match="marc:subfield">
-      <strong>|<xsl:value-of select="@code"/></strong>&#160;<xsl:value-of disable-output-escaping="yes" select="php:function('\Swissbib\XSLT\MARCFormatter::compileSubfield', .)"/>&#160;
+      <strong>|<xsl:value-of select="@code"/></strong>&#160;<xsl:value-of select="php:function('\Swissbib\XSLT\MARCFormatter::compileSubfield', .)"/>&#160;
   </xsl:template>
 
 </xsl:stylesheet>
