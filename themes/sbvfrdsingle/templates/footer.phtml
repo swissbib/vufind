@@ -1,68 +1,7 @@
 <div class="row">
     <div class="col-sm-4">
         <div class="row">
-            <h2><?= $this->transEsc('menu.swissbib') ?></h2>
-            <ul>
-                <li>
-                    <a href="<?= $this->url('myresearch-favorite-institutions') ?>"><?= $this->transEsc('mylibraries') ?></a>
-                </li>
-                <li>
-                    <a href="<?= $this->url('national-licences')?>"><?= $this->transEsc('snl.myAccess') ?></a>
-                </li>
-                <li>
-                    <a href="<?= $this->url('myresearch-favorites')?>"><?= $this->transEsc('memorizelist') ?></a>
-                </li>
-                <li>
-                    <a href="<?= $this->url('myresearch-settings'); ?>"><?= $this->transEsc('My_Search_Settings') ?></a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="row">
-            <h2><?= $this->transEsc('Search Options') ?></h2>
-            <ul>
-                <li>
-                    <a href="<?= $this->url('search-advanced') ?>"><?= $this->transEsc('Advanced Search') ?></a>
-                </li>
-                <li>
-                    <a href="<?= $this->url('search-history') ?>"><?= $this->transEsc('History') ?></a>
-                </li>
-                <!--
-              <li><a href="<//?= $this->url('browse-home') ?>"><//?= $this->transEsc('Browse the Catalog') ?></a></li>
-              <li><a href="<//?= $this->url('alphabrowse-home') ?>"><//?= $this->transEsc('Browse Alphabetically') ?></a></li>
-              <li><a href="<//?= $this->url('search-reserves') ?>"><//?= $this->transEsc('Course Reserves') ?></a></li>
-              <li><a href="<//?= $this->url('search-newitem') ?>"><//?= $this->transEsc('New Items') ?></a></li>
-              -->
-            </ul>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="row">
-            <h2><?= $this->transEsc('information') ?></h2>
-            <ul>
-                <?= $this->render('HelpPage/menulinks') ?>
-                <!--  <li><a href="--><?php //=$this->url('help-home')?><!--?topic=search" class="help-link" title="-->
-                <?php //=$this->transEsc('Search Tips')?><!--">--><?php //=$this->transEsc('Search Tips')?><!--</a></li>-->
-                <!--
-              <li><a href="#"><//?= $this->transEsc('Ask a Librarian') ?></a></li>
-              <li><a href="#"><//?= $this->transEsc('FAQs') ?></a></li>
-              -->
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-4">
-        <div class="row">
             <span class=""><?= $this->getVersion(); ?> on <?= $_SERVER['SERVER_ADDR'] ?></span>
-        </div>
-    </div>
-    <div class="col-sm-4 swissuniversities">
-        <div class="row">
-            <a target="_blank" href="http://www.swissuniversities.ch/isci" title="swissuniversities">
-                mandated by <img src="<?= $this->basePath('themes/sbvfrd/images/swissuniversities.svg') ?>">
-            </a>
         </div>
     </div>
     <div class="col-sm-4 powered-by">
