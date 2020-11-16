@@ -5,6 +5,27 @@
   <?php $displayTestSystem = !empty($displayTestSystem) && ($displayTestSystem == "true" || $displayTestSystem == "1") ? "1" : 0; ?>
   <?php if (!isset($this->layout()->renderingError)): ?>
     <div class="col-md-12">
+      <div class="row">
+        <div class="row" style="border-top-width: 10px;border-top-style: solid;color: #f99d50;">
+          <div style="background-color:#B71010;padding:5px;text-align:center;border-radius:3px">
+            <div style="background-color:#B71010;padding:5px;text-align:center;border-radius:3px;color:white">
+              <span><i class="fa fa-exclamation-circle"></i></span>
+              <span>
+              <?php if ($this->layout()->userLang == "de"): ?>
+                  Wegen der Migration auf swisscovery gibt es ab 15.11.2020 Einschränkungen im Ausleihbetrieb, mehr <a href="http://swissbib-baselbern.blogspot.com/2020/11/auf-einschrankungen-folgen-zahlreiche.html" style="text-decoration: underline">Informationen im Blog</a>.
+              <?php elseif ($this->layout()->userLang == "fr"): ?>
+                  Wegen der Migration auf swisscovery gibt es ab 15.11.2020 Einschränkungen im Ausleihbetrieb, mehr <a href="http://swissbib-baselbern.blogspot.com/2020/11/auf-einschrankungen-folgen-zahlreiche.html" style="text-decoration: underline">Informationen im Blog</a>.
+              <?php elseif ($this->layout()->userLang == "it"): ?>
+                  Wegen der Migration auf swisscovery gibt es ab 15.11.2020 Einschränkungen im Ausleihbetrieb, mehr <a href="http://swissbib-baselbern.blogspot.com/2020/11/auf-einschrankungen-folgen-zahlreiche.html" style="text-decoration: underline">Informationen im Blog</a>.
+              <?php else: ?>
+                  Due to the migration to swisscovery restrictions in borrowing and returning of media occur as of November 15th, more <a href="http://swissbib-baselbern.blogspot.com/2020/11/auf-einschrankungen-folgen-zahlreiche.html" style="text-decoration: underline">information in the blog</a>.
+              <?php endif; ?>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="collapse navbar-collapse" id="header-collapse">
 
 
