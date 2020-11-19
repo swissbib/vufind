@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker exec -u node -it node  $*
+docker exec -it node  $*
