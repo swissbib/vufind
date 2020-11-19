@@ -91,19 +91,21 @@ $linkSFX = $viewRecord->getLinkSFX();
          */
         $renderer = function ($subMap, $field, $renderConfig, $isFirst, $isLast) {
             if ($renderConfig->isLineRenderMode()) {
-                echo "\t\t<div>";
+                echo "\t\t<div class='field-value field-value-" . $renderConfig->labelKey . "'>";
             } else if ($renderConfig->isInlineRenderMode()) {
                 if ($isFirst) {
-                    echo "\t\t<div>";
+                    echo "\t\t<div class='field-value field-value-compound field-value-" . $renderConfig->labelKey . "'>\n";
                 } else {
                     echo ", ";
                 }
+                echo "\t\t\t<span class='field-entry field-entry-" . $renderConfig->labelKey . "'>";
             }
             echo "\t\t<!-- marcInfo=" . $renderConfig->info() . " -->";
             echo $this->escapeHtml($subMap['value']);
             if ($renderConfig->isLineRenderMode()) {
                 echo "\t\t</div>\n";
             } else if ($renderConfig->isInlineRenderMode()) {
+                echo "</span>\n";
                 if ($isLast) {
                     echo "\t\t</div>\n";
                 }
@@ -114,7 +116,7 @@ $linkSFX = $viewRecord->getLinkSFX();
          */
         foreach ($renderConfigList as $renderConfig) {
             echo "\n<div class='row'>\n";
-            echo "\t<div class='detail-" . $renderConfig->labelKey . "-label col-md-3'>";
+            echo "\t<div class='field-label field-label-" . $renderConfig->labelKey . " col-md-3'>";
             echo $renderConfig->labelKey; // TODO i18n
             echo "\t</div>\n";
             echo "\t<div class='col-md-9'>\n";
