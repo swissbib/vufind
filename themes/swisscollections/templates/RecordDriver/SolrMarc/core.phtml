@@ -8,8 +8,11 @@ $record = $this->driver;
 /** @var Swissbib\View\Helper\Record $viewRecord */
 $viewRecord = $this->record($record);
 
-$marcIndex = 245;
-$renderConfig = $record->getRenderConfig($marcIndex);
+$marcIndexList = [245, 949];
+$renderConfigList = [];
+foreach ($marcIndexList as $marcIndex) {
+    $renderConfigList[] = $record->getRenderConfig($marcIndex);
+}
 
 $id = $record->getUniqueId();
 $shortTitle = $record->getShortTitle();
@@ -79,20 +82,46 @@ $linkSFX = $viewRecord->getLinkSFX();
 
     <div style="border: 1px solid black"></div>
     <?php
-    if ($renderConfig) {
-        echo "<div class='row'>";
-        echo "\t<div class='detail-" . $renderConfig->labelKey . "-label col-md-3'>";
-        echo $renderConfig->labelKey; // TODO i18n
-        echo "\t</div>";
-        echo "\t<div class='col-md-9'>";
-        $renderer = function ($subMap) {
-            echo "\t\t<div>";
+    if ($renderConfigList) {
+        /**
+         * @var File_MARC_Data_Field $field
+         * @var \SwissCollections\RenderConfig\GroupEntry|\SwissCollections\RenderConfig\SingleEntry $renderConfig
+         * @var bool isFirst
+         * @var bool isLast
+         */
+        $renderer = function ($subMap, $field, $renderConfig, $isFirst, $isLast) {
+            if ($renderConfig->isLineRenderMode()) {
+                echo "\t\t<div>";
+            } else if ($renderConfig->isInlineRenderMode()) {
+                if ($isFirst) {
+                    echo "\t\t<div>";
+                } else {
+                    echo ", ";
+                }
+            }
+            echo "\t\t<!-- marcInfo=" . $renderConfig->info() . " -->";
             echo $this->escapeHtml($subMap['value']);
-            echo "\t\t</div>";
+            if ($renderConfig->isLineRenderMode()) {
+                echo "\t\t</div>\n";
+            } else if ($renderConfig->isInlineRenderMode()) {
+                if ($isLast) {
+                    echo "\t\t</div>\n";
+                }
+            }
         };
-        $record->applyRenderer($marcIndex, $renderer);
-        echo "\t</div>";
-        echo "</div>";
+        /**
+         * @var \SwissCollections\RenderConfig\GroupEntry|\SwissCollections\RenderConfig\SingleEntry $renderConfig
+         */
+        foreach ($renderConfigList as $renderConfig) {
+            echo "\n<div class='row'>\n";
+            echo "\t<div class='detail-" . $renderConfig->labelKey . "-label col-md-3'>";
+            echo $renderConfig->labelKey; // TODO i18n
+            echo "\t</div>\n";
+            echo "\t<div class='col-md-9'>\n";
+            $record->applyRenderer($renderConfig->marcIndex, $renderer);
+            echo "\t</div>\n";
+            echo "</div>\n";
+        }
     }
     ?>
     <div style="border: 1px solid black"></div>
