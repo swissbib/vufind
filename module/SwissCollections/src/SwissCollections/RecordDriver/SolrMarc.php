@@ -43,6 +43,9 @@ class SolrMarc extends SwissbibSolrMarc {
         $signatureGroup->addElement("signature1", "j");
         $signatureGroup->addElement("signature2", "h");
         $this->renderConfig->addGroup($signatureGroup);
+
+        $this->renderConfig->addSingle(new SingleEntry("resourcetype", 7));
+
         // $this->logger->log(Logger::ERR, "RC: " . print_r($this->renderConfig, true));
     }
 
@@ -69,7 +72,11 @@ class SolrMarc extends SwissbibSolrMarc {
         $field = $this->getMarcField($marcIndex);
         if ($field) {
             if ($rc instanceof SingleEntry) {
-                // TODO
+                $map = $rc->buildMap();
+                $subMap = $this->getMappedFieldData($field, $map, true);
+                if (!empty($subMap['value'])) {
+                    $renderer($subMap['value'], $field, $rc, true, true);
+                }
             } else if ($rc instanceof GroupEntry) {
                 $array = $rc->elements;
                 $values = [];

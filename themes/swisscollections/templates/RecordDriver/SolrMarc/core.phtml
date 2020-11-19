@@ -95,18 +95,18 @@ $linkSFX = $viewRecord->getLinkSFX();
                 if ($isFirst) {
                     echo "\t\t<div class='field-value field-value-compound field-value-" . $renderConfig->labelKey . "'>\n";
                 } else {
-                    echo ", ";
+                    echo ",\n";
                 }
                 echo "\t\t\t<span class='field-entry field-entry-" . $renderConfig->labelKey . "'>";
             }
-            echo "\t\t<!-- marcInfo=" . $renderConfig->info() . " -->";
+            // echo "\t\t<!-- marcInfo=" . $renderConfig->info() . " -->";
             echo $this->escapeHtml($subMap['value']);
             if ($renderConfig->isLineRenderMode()) {
                 echo "\t\t</div>\n";
             } else if ($renderConfig->isInlineRenderMode()) {
-                echo "</span>\n";
+                echo "</span>";
                 if ($isLast) {
-                    echo "\t\t</div>\n";
+                    echo "\n\t\t</div>\n";
                 }
             }
         };
