@@ -1,9 +1,8 @@
 <?php // Proof of Concept: Copied from themes/sbvfrd/templates/RecordDriver/DefaultRecord/core.phtml ?>
 <h1>SwissCollections</h1>
-
+<!-- <?php echo APPLICATION_ENV; ?>-->
 <?php
 /** @var SwissCollections\RecordDriver\SolrMarc $record */
-
 $record = $this->driver;
 /** @var Swissbib\View\Helper\Record $viewRecord */
 $viewRecord = $this->record($record);
@@ -117,7 +116,7 @@ $linkSFX = $viewRecord->getLinkSFX();
         foreach ($renderConfigList as $renderConfig) {
             echo "\n<div class='row'>\n";
             echo "\t<div class='field-label field-label-" . $renderConfig->labelKey . " col-md-3'>";
-            echo $renderConfig->labelKey; // TODO i18n
+            echo $this->translate('page.detail.field.label.' . $renderConfig->labelKey);
             echo "\t</div>\n";
             echo "\t<div class='col-md-9'>\n";
             $record->applyRenderer($renderConfig->marcIndex, $renderer);
