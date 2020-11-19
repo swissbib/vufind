@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker exec -it swisscollections-php php $*
+docker exec -it swisscollections-php $*
