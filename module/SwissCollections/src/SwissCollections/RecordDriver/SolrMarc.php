@@ -66,11 +66,11 @@ class SolrMarc extends SwissbibSolrMarc {
      */
     public function applyRenderer($marcIndex, $renderer) {
         $rc = $this->renderConfig->getEntry($marcIndex);
-        $fieldList = $this->getMarcFields($marcIndex);
-        if ($rc instanceof SingleEntry) {
-            // TODO
-        } else if ($rc instanceof GroupEntry) {
-            foreach ($fieldList as $field) {
+        $field = $this->getMarcField($marcIndex);
+        if ($field) {
+            if ($rc instanceof SingleEntry) {
+                // TODO
+            } else if ($rc instanceof GroupEntry) {
                 $array = $rc->elements;
                 $values = [];
                 // filter out empty values
