@@ -38,11 +38,11 @@ abstract class RenderConfigEntry {
     }
 
     public function setLineRenderMode() {
-        $this->renderMode = GroupEntry::$RENDER_MODE_LINE;
+        $this->renderMode = CompoundEntry::$RENDER_MODE_LINE;
     }
 
     public function setInlineRenderMode() {
-        $this->renderMode = GroupEntry::$RENDER_MODE_INLINE;
+        $this->renderMode = CompoundEntry::$RENDER_MODE_INLINE;
     }
 
     /**
@@ -50,7 +50,7 @@ abstract class RenderConfigEntry {
      * @return bool
      */
     public function isLineRenderMode() {
-        return $this->renderMode == GroupEntry::$RENDER_MODE_LINE;
+        return $this->renderMode == CompoundEntry::$RENDER_MODE_LINE;
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class RenderConfigEntry {
      * @return bool
      */
     public function isInlineRenderMode() {
-        return $this->renderMode == GroupEntry::$RENDER_MODE_INLINE;
+        return $this->renderMode == CompoundEntry::$RENDER_MODE_INLINE;
     }
 }
 
@@ -91,7 +91,7 @@ class SingleEntry extends RenderConfigEntry {
     }
 }
 
-class GroupEntry extends RenderConfigEntry {
+class CompoundEntry extends RenderConfigEntry {
 
     /**
      * @var SingleEntry[]
@@ -117,33 +117,70 @@ class GroupEntry extends RenderConfigEntry {
     }
 }
 
-class RenderConfig {
+class RenderGroupConfig {
     protected $info = [];
+    protected $infoOrder = [];
+    protected $name;
 
     public static $IGNORE_INDICATOR = -1;
+
+    public function __construct(String $name) {
+        $this->name = $name;
+    }
 
     protected function buildKey(int $marcIndex, int $indicator1, int $indicator2) {
         return $marcIndex . "-" . $indicator1 . "-" . $indicator2;
     }
 
-    public function addGroup(GroupEntry $groupEntry) {
+    public function addCompound(CompoundEntry $groupEntry) {
         $key = $this->buildKey($groupEntry->marcIndex, $groupEntry->indicator1, $groupEntry->indicator2);
         $this->info[$key] = $groupEntry;
+        $this->infoOrder[] = $groupEntry;
     }
 
     public function addSingle(SingleEntry $entry) {
         $key = $this->buildKey($entry->marcIndex, $entry->indicator1, $entry->indicator2);
         $this->info[$key] = $entry;
+        $this->infoOrder[] = $entry;
     }
 
     /**
      * @param int $marcIndex
      * @param int $indicator1 set to -1 if not relevant
      * @param int $indicator2 set to -1 if not relevant
-     * @return GroupEntry | SingleEntry
+     * @return CompoundEntry | SingleEntry
      */
     public function getEntry(int $marcIndex, int $indicator1 = -1, int $indicator2 = -1) {
         $key = $this->buildKey($marcIndex, $indicator1, $indicator2);
         return $this->info[$key];
+    }
+
+    /**
+     * @return (SingleEntry|CompoundEntry)[]
+     */
+    public function entries() {
+        return $this->infoOrder;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+}
+
+class RenderConfig {
+    /**
+     * @var RenderGroupConfig[]
+     */
+    protected $info = [];
+
+    public function add(RenderGroupConfig $entry) {
+        $this->info[] = $entry;
+    }
+
+    /**
+     * @return RenderGroupConfig[]
+     */
+    public function entries() {
+        return $this->info;
     }
 }

@@ -8,10 +8,10 @@ $record = $this->driver;
 $viewRecord = $this->record($record);
 
 $marcIndexList = [245, 949];
-$renderConfigList = [];
-foreach ($marcIndexList as $marcIndex) {
-    $renderConfigList[] = $record->getRenderConfig($marcIndex);
-}
+/**
+ * @var \SwissCollections\RenderConfig\RenderGroupConfig[]
+ */
+$renderConfig = $record->getRenderConfig();
 
 $id = $record->getUniqueId();
 $shortTitle = $record->getShortTitle();
@@ -78,12 +78,12 @@ $linkSFX = $viewRecord->getLinkSFX();
         <?= $viewRecord->getPreviews() ?>
     </div>
 
-    <div style="border: 1px solid black; margin-top: 1rem; margin-bottom: 1rem;"></div>
+    <div style="border-top: 1px solid #bbbbbb; margin-top: 1rem; margin-bottom: 1rem;"></div>
     <?php
-    if ($renderConfigList) {
+    if ($renderConfig) {
         /**
          * @var File_MARC_Data_Field $field
-         * @var \SwissCollections\RenderConfig\GroupEntry|\SwissCollections\RenderConfig\SingleEntry $renderConfig
+         * @var \SwissCollections\RenderConfig\CompoundEntry|\SwissCollections\RenderConfig\SingleEntry $renderConfig
          * @var bool isFirst
          * @var bool isLast
          */
@@ -98,7 +98,8 @@ $linkSFX = $viewRecord->getLinkSFX();
                 }
                 echo "\t\t\t<span class='field-entry field-entry-" . $renderConfig->labelKey . "'>";
             }
-            // echo "\t\t<!-- marcInfo=" . $renderConfig->info() . " -->";
+            echo "\t\t<!-- marcInfo=" . $renderConfig->info() . " -->";
+            echo "\t\t<!-- subMap=" . $subMap . " -->";
             echo $this->escapeHtml($subMap['value']);
             if ($renderConfig->isLineRenderMode()) {
                 echo "\t\t</div>\n";
@@ -110,19 +111,26 @@ $linkSFX = $viewRecord->getLinkSFX();
             }
         };
         /**
-         * @var \SwissCollections\RenderConfig\GroupEntry|\SwissCollections\RenderConfig\SingleEntry $renderConfig
+         * @var \SwissCollections\RenderConfig\RenderGroupConfig $renderGroupConfig
          */
-        foreach ($renderConfigList as $renderConfig) {
-            echo "\n<div class='row'>\n";
-            echo "\t<div class='field-label field-label-" . $renderConfig->labelKey . " col-md-3'>";
-            echo $this->translate('page.detail.field.label.' . $renderConfig->labelKey);
-            echo "\t</div>\n";
-            echo "\t<div class='col-md-9'>\n";
-            $record->applyRenderer($renderConfig->marcIndex, $renderer);
-            echo "\t</div>\n";
-            echo "</div>\n";
+        foreach ($renderConfig as $renderGroupConfig) {
+            echo "<h2>" . $this->translate('page.detail.group.label.' . $renderGroupConfig->getName()) . "</h2>";
+            /**
+             * @var \SwissCollections\RenderConfig\CompoundEntry|\SwissCollections\RenderConfig\SingleEntry $renderElem
+             */
+            foreach ($renderGroupConfig->entries() as $renderElem) {
+                // TODO if not empty
+                echo "\n<div class='row'>\n";
+                echo "\t<div class='field-label field-label-" . $renderElem->labelKey . " col-md-3'>";
+                echo $this->translate('page.detail.field.label.' . $renderElem->labelKey);
+                echo "\t</div>\n";
+                echo "\t<div class='col-md-9'>\n";
+                $record->applyRenderer($renderElem->marcIndex, $renderElem, $renderer);
+                echo "\t</div>\n";
+                echo "</div>\n";
+            }
+            echo "<div style=\"border-top: 1px solid #bbbbbb; margin-top: 1rem; margin-bottom: 1rem;\"></div>";
         }
     }
     ?>
-    <div style="border: 1px solid black; margin-top: 1rem; margin-bottom: 1rem;"></div>
 </div>
