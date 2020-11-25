@@ -14,10 +14,12 @@ body {
   font-size: 14px;
   color: #333;
 }
+
 header {
   font-size: 16px;
   color: @dark-green;
 }
+
 .container {
   padding-left: 2rem;
   padding-right: 2rem;
@@ -26,8 +28,26 @@ header {
   background-color: #fff;
   border-radius: 0;
 }
-footer .container { border-bottom: 2px solid #137752; }
-.alert { padding: 8px; }
+
+footer .container {
+  border-bottom: 2px solid #137752;
+}
+
+.alert {
+  padding: 8px;
+}
+
+footer {
+  padding: 0;
+  border: 0 none;
+}
+
+#content {
+  .searchHomeContent {
+    margin-left: 0;
+    margin-right: 0
+  }
+}
 
 /* You can also organize these styles in separate files and @import them */
 @import "home-page";
