@@ -3393,6 +3393,9 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
         // Make sure that there is a t field to be displayed:
         if ($title = $field->getSubfield('t')) {
             $title = $title->getData();
+        }
+        else if ($title = $field->getSubfield('a')) {
+            $title = $title->getData();
         } else {
             return false;
         }
@@ -3402,6 +3405,7 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
             : 'id,oclc,dlc,isbn,issn,title';
         $linkTypes = explode(',', $linkTypeSetting);
         $linkFields = $field->getSubfields('w');
+        $link035 = $field->getSubfields('a');
 
         // Run through the link types specified in the config.
         // For each type, check field for reference
@@ -3446,6 +3450,19 @@ class SolrMarc extends VuFindSolrMarc implements SwissbibRecordDriver
                             'type' => 'ctrlnum',
                             'value' => $matches[1] . $matches[2],
                             ];
+                    }
+                }
+                foreach ($link035 as $current) {
+                    if (preg_match(
+                        '/\(([^)]+)\)(.+)/',
+                        $current->getData(),
+                        $matches
+                    )
+                    ) {
+                        $link = [
+                            'type' => 'ctrlnum',
+                            'value' => $matches[1] . $matches[2],
+                        ];
                     }
                 }
                 break;

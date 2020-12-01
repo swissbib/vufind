@@ -5,6 +5,19 @@
   <?php $displayTestSystem = !empty($displayTestSystem) && ($displayTestSystem == "true" || $displayTestSystem == "1") ? "1" : 0; ?>
   <?php if (!isset($this->layout()->renderingError)): ?>
     <div class="col-md-12">
+        <div class="row">
+            <div class="row" style="border-top-width: 10px;border-top-style: solid;color: #50BF9E;">
+                <div style="background-color:#E7981E;padding:5px;text-align:center;border-radius:3px">
+                    <div style="background-color:#E7981E;padding:5px;text-align:center;border-radius:3px;color:white">
+                        <span><i class="fa fa-exclamation-circle"></i></span>
+                        <span>
+                            This is an internal testing tool for library staff only. If you are looking for library resources, please refer to <a href="https://swisscovery.slsp.ch/discovery/search?vid=41SLSP_NETWORK:VU1_UNION" style="text-decoration: underline" target="_blank">swisscovery</a>.
+              </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
       <?php if (isset($this->configAccess()->Survey)): ?>
         <?php
           if ($this->layout()->userLang == "en") $surveyUrl = $this->configAccess()->Survey->url_en;
