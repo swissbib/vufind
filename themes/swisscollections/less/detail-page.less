@@ -2,6 +2,11 @@
 .field {
   &-label {
     font-weight: bold;
+    // ellipsis at left side
+    direction: rtl;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   &-value {
     &-title {
