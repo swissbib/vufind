@@ -25,6 +25,8 @@ abstract class RenderConfigEntry {
     public static $RENDER_MODE_LINE = "line";
     public static $RENDER_MODE_INLINE = "inline";
 
+    public static $UNKNOWN_INDICATOR = -1;
+
     public function __construct(String $labelKey, int $marcIndex, int $indicator1, int $indicator2) {
         $this->labelKey = $labelKey;
         $this->marcIndex = $marcIndex;
@@ -60,6 +62,11 @@ abstract class RenderConfigEntry {
     public function isInlineRenderMode() {
         return $this->renderMode == CompoundEntry::$RENDER_MODE_INLINE;
     }
+
+    public function __toString() {
+        return "RenderConfigEntry{" . $this->labelKey . ","
+            . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2 . "}";
+    }
 }
 
 class SingleEntry extends RenderConfigEntry {
@@ -89,6 +96,10 @@ class SingleEntry extends RenderConfigEntry {
         return $this->labelKey . "[" . $this->marcIndex
             . "," . $this->indicator1 . "," . $this->indicator2 . "," . $this->subfieldName . "]";
     }
+
+    public function __toString() {
+        return "SingleEntry{" . parent::__toString() . "," . $this->subfieldName . "}";
+    }
 }
 
 class CompoundEntry extends RenderConfigEntry {
@@ -115,6 +126,14 @@ class CompoundEntry extends RenderConfigEntry {
         $singleEntry->renderMode = $this->renderMode;
         array_push($this->elements, $singleEntry);
     }
+
+    public function __toString() {
+        $s = "CompoundEntry{[\n";
+        foreach ($this->elements as $e) {
+            $s = $s . "\t\t\t" . $e . ",\n";
+        }
+        return $s . "]}";
+    }
 }
 
 class RenderGroupConfig {
@@ -132,16 +151,24 @@ class RenderGroupConfig {
         return $marcIndex . "-" . $indicator1 . "-" . $indicator2;
     }
 
-    public function addCompound(CompoundEntry $groupEntry) {
+    public function addCompound(CompoundEntry &$groupEntry) {
         $key = $this->buildKey($groupEntry->marcIndex, $groupEntry->indicator1, $groupEntry->indicator2);
         $this->info[$key] = $groupEntry;
         $this->infoOrder[] = $groupEntry;
     }
 
-    public function addSingle(SingleEntry $entry) {
+    public function addSingle(SingleEntry &$entry) {
         $key = $this->buildKey($entry->marcIndex, $entry->indicator1, $entry->indicator2);
         $this->info[$key] = $entry;
         $this->infoOrder[] = $entry;
+    }
+
+    public function addEntry(RenderConfigEntry &$entry) {
+        if ($entry instanceof CompoundEntry) {
+            $this->addCompound($entry);
+        } else if ($entry instanceof SingleEntry) {
+            $this->addSingle($entry);
+        }
     }
 
     /**
@@ -165,6 +192,14 @@ class RenderGroupConfig {
     public function getName() {
         return $this->name;
     }
+
+    public function __toString() {
+        $s = "RenderGroupConfig{" . $this->name . ",[\n";
+        foreach ($this->infoOrder as $e) {
+            $s = $s . "\t\t" . $e . ",\n";
+        }
+        return $s . "]}";
+    }
 }
 
 class RenderConfig {
@@ -182,5 +217,13 @@ class RenderConfig {
      */
     public function entries() {
         return $this->info;
+    }
+
+    public function __toString() {
+        $s = "RenderConfig{[\n";
+        foreach ($this->info as $e) {
+            $s = $s . "\t" . $e . ",\n";
+        }
+        return $s . "]}";
     }
 }
