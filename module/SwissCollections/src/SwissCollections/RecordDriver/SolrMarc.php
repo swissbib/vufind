@@ -229,8 +229,21 @@ class SolrMarc extends SwissbibSolrMarc {
         }
         $this->finishGroup($renderGroup, $renderGroupEntry);
 
+        $this->orderGroups();
         // $this->logger->log(Logger::ERR, "RC: " . $this->renderConfig);
         // echo "<!-- RC:\n " . $this->renderConfig . "-->\n";
+    }
+
+    protected function orderGroups() {
+        $groupOrder = array_keys($this->detailViewFieldInfo['structure']);
+        $fieldOrderProvider = function (String $groupName) {
+            $fields = $this->detailViewFieldInfo['structure'][$groupName];
+            if (empty($fields)) {
+                return [];
+            }
+            return array_keys($fields);
+        };
+        $this->renderConfig->orderGroups($groupOrder, $fieldOrderProvider);
     }
 
     /**

@@ -137,8 +137,10 @@ class CompoundEntry extends RenderConfigEntry {
 }
 
 class RenderGroupConfig {
+    /**
+     * @var RenderConfigEntry[]
+     */
     protected $info = [];
-    protected $infoOrder = [];
     protected $name;
 
     public static $IGNORE_INDICATOR = -1;
@@ -154,13 +156,11 @@ class RenderGroupConfig {
     public function addCompound(CompoundEntry &$groupEntry) {
         $key = $this->buildKey($groupEntry->marcIndex, $groupEntry->indicator1, $groupEntry->indicator2);
         $this->info[$key] = $groupEntry;
-        $this->infoOrder[] = $groupEntry;
     }
 
     public function addSingle(SingleEntry &$entry) {
         $key = $this->buildKey($entry->marcIndex, $entry->indicator1, $entry->indicator2);
         $this->info[$key] = $entry;
-        $this->infoOrder[] = $entry;
     }
 
     public function addEntry(RenderConfigEntry &$entry) {
@@ -175,7 +175,7 @@ class RenderGroupConfig {
      * @param int $marcIndex
      * @param int $indicator1 set to -1 if not relevant
      * @param int $indicator2 set to -1 if not relevant
-     * @return CompoundEntry | SingleEntry
+     * @return RenderConfigEntry
      */
     public function getEntry(int $marcIndex, int $indicator1 = -1, int $indicator2 = -1) {
         $key = $this->buildKey($marcIndex, $indicator1, $indicator2);
@@ -186,7 +186,7 @@ class RenderGroupConfig {
      * @return (SingleEntry|CompoundEntry)[]
      */
     public function entries() {
-        return $this->infoOrder;
+        return $this->info;
     }
 
     public function getName() {
@@ -195,10 +195,42 @@ class RenderGroupConfig {
 
     public function __toString() {
         $s = "RenderGroupConfig{" . $this->name . ",[\n";
-        foreach ($this->infoOrder as $e) {
+        foreach ($this->info as $key => $e) {
             $s = $s . "\t\t" . $e . ",\n";
         }
         return $s . "]}";
+    }
+
+    /**
+     * @param String $name
+     * @return null|RenderConfigEntry
+     */
+    public function getField(String $name) {
+        foreach ($this->info as $key => $field) {
+            if ($name === $field->labelKey) {
+                return $field;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param String[] $fieldOrder
+     */
+    public function orderFields($fieldOrder) {
+        $newFields = [];
+        foreach ($fieldOrder as $key => $fieldName) {
+            $gc = $this->getField($fieldName);
+            if ($gc) {
+                $newFields[$key] = $gc;
+            }
+        }
+        foreach ($this->info as $key => $field) {
+            if (!in_array($field->labelKey, $fieldOrder)) {
+                $newFields[$key] = $field;
+            }
+        }
+        $this->info = $newFields;
     }
 }
 
@@ -225,5 +257,40 @@ class RenderConfig {
             $s = $s . "\t" . $e . ",\n";
         }
         return $s . "]}";
+    }
+
+    /**
+     * @param String $groupName
+     * @return null|RenderGroupConfig
+     */
+    public function get(String $groupName) {
+        foreach ($this->info as $renderGroupConfig) {
+            if ($groupName === $renderGroupConfig->getName()) {
+                return $renderGroupConfig;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param String[] $groupOrder
+     * @param Callable $fieldOrderProvider with $groupName
+     */
+    public function orderGroups($groupOrder, $fieldOrderProvider) {
+        $newGroups = [];
+        foreach ($groupOrder as $groupName) {
+            $gc = $this->get($groupName);
+            if ($gc) {
+                $newGroups[] = $gc;
+                $gc->orderFields($fieldOrderProvider($groupName));
+            }
+        }
+        foreach ($this->info as $renderGroupConfig) {
+            if (!in_array($renderGroupConfig->getName(), $groupOrder)) {
+                $newGroups[] = $renderGroupConfig;
+                $renderGroupConfig->orderFields($fieldOrderProvider($groupName));
+            }
+        }
+        $this->info = $newGroups;
     }
 }
