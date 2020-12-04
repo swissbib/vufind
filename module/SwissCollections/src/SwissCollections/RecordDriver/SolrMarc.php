@@ -72,7 +72,7 @@ class SolrMarc extends SwissbibSolrMarc {
 //            echo "<!-- FIELD CLASS " . get_class($field) . " -->\n";
             if ($rc instanceof SingleEntry) {
                 $subMap = $this->renderField($field, $rc);
-                if (!empty($subMap) && !empty($subMap['value'])) {
+                if (!empty($subMap)) {
                     $renderer($subMap, $field, $rc, true, true);
                 }
             } else if ($rc instanceof CompoundEntry) {
@@ -81,7 +81,7 @@ class SolrMarc extends SwissbibSolrMarc {
                 // filter out empty values
                 foreach ($array as $elem) {
                     $subMap = $this->renderField($field, $elem);
-                    if (!empty($subMap) && !empty($subMap['value'])) {
+                    if (!empty($subMap)) {
                         $values[] = ['subMap' => $subMap, 'renderConfig' => $elem];
                     }
                 }
@@ -95,12 +95,28 @@ class SolrMarc extends SwissbibSolrMarc {
     }
 
     /**
+     * Quite similar to applyRenderer() except final html creation.
      * @param $marcIndex
+     * @param CompoundEntry|SingleEntry $rc
      * @return bool
      */
-    public function isEmptyField($marcIndex) {
+    public function isEmptyField($marcIndex, $rc) {
         $field = $this->getMarcField($marcIndex);
-        return empty($field);
+        $subMap = null;
+        if (!empty($field)) {
+            if ($rc instanceof SingleEntry) {
+                $subMap = $this->renderField($field, $rc);
+            } else if ($rc instanceof CompoundEntry) {
+                foreach ($rc->elements as $elem) {
+                    $sm = $this->renderField($field, $elem);
+                    if (!empty($sm)) {
+                        $subMap = $sm;
+                        break;
+                    }
+                }
+            }
+        }
+        return empty($subMap);
     }
 
     public function setDetailViewFieldInfo($detailViewFieldInfo) {
@@ -301,7 +317,6 @@ class SolrMarc extends SwissbibSolrMarc {
                 $subMap = null;
             }
             if (!$this->isEmptyValue($subMap)) {
-                echo "<!-- VALUE: " . $subMap['value'] . " " . $elem . " -->";
                 return $subMap;
             }
             return null;
