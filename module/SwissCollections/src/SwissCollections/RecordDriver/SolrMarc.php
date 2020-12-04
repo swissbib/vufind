@@ -97,7 +97,7 @@ class SolrMarc extends SwissbibSolrMarc {
     /**
      * Quite similar to applyRenderer() except final html creation.
      * @param $marcIndex
-     * @param CompoundEntry|SingleEntry $rc
+     * @param (\SwissCollections\RenderConfig\CompoundEntry|\SwissCollections\RenderConfig\SingleEntry)[] $rc
      * @return bool
      */
     public function isEmptyField($marcIndex, $rc) {

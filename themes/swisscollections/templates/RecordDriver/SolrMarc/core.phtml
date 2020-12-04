@@ -114,23 +114,33 @@ $linkSFX = $viewRecord->getLinkSFX();
          * @var \SwissCollections\RenderConfig\RenderGroupConfig $renderGroupConfig
          */
         foreach ($renderConfig as $renderGroupConfig) {
-            echo "<h2>" . $this->translate('page.detail.group.label.' . $renderGroupConfig->getName()) . "</h2>";
-            /**
-             * @var \SwissCollections\RenderConfig\CompoundEntry|\SwissCollections\RenderConfig\SingleEntry $renderElem
-             */
+            $groupIsEmpty = true;
             foreach ($renderGroupConfig->entries() as $renderElem) {
                 if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
-                    echo "\n<div class='row'>\n";
-                    echo "\t<div class='field-label field-label-" . $renderElem->labelKey . " col-md-3'>";
-                    echo $this->translate('page.detail.field.label.' . $renderElem->labelKey);
-                    echo "\t</div>\n";
-                    echo "\t<div class='col-md-9'>\n";
-                    $record->applyRenderer($renderElem->marcIndex, $renderElem, $renderer);
-                    echo "\t</div>\n";
-                    echo "</div>\n";
+                    $groupIsEmpty = false;
+                    break;
                 }
             }
-            echo "<div style=\"border-top: 1px solid #bbbbbb; margin-top: 1rem; margin-bottom: 1rem;\"></div>";
+
+            if (!$groupIsEmpty) {
+                echo "<h2>" . $this->translate('page.detail.group.label.' . $renderGroupConfig->getName()) . "</h2>";
+                /**
+                 * @var \SwissCollections\RenderConfig\CompoundEntry|\SwissCollections\RenderConfig\SingleEntry $renderElem
+                 */
+                foreach ($renderGroupConfig->entries() as $renderElem) {
+                    if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
+                        echo "\n<div class='row'>\n";
+                        echo "\t<div class='field-label field-label-" . $renderElem->labelKey . " col-md-3'>";
+                        echo $this->translate('page.detail.field.label.' . $renderElem->labelKey);
+                        echo "\t</div>\n";
+                        echo "\t<div class='col-md-9'>\n";
+                        $record->applyRenderer($renderElem->marcIndex, $renderElem, $renderer);
+                        echo "\t</div>\n";
+                        echo "</div>\n";
+                    }
+                }
+                echo "<div style=\"border-top: 1px solid #bbbbbb; margin-top: 1rem; margin-bottom: 1rem;\"></div>";
+            }
         }
     }
     ?>
