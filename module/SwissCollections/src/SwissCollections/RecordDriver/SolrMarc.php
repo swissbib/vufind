@@ -7,7 +7,7 @@ use Laminas\Log\Logger;
 use Swissbib\RecordDriver\SolrMarc as SwissbibSolrMarc;
 use SwissCollections\RenderConfig\CompoundEntry;
 use SwissCollections\RenderConfig\RenderConfig;
-use SwissCollections\RenderConfig\RenderConfigEntry;
+use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 use SwissCollections\RenderConfig\RenderGroupConfig;
 use SwissCollections\RenderConfig\SingleEntry;
 
@@ -203,7 +203,7 @@ class SolrMarc extends SwissbibSolrMarc {
             // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex|$marcIndicator1|$marcIndicator2|$marcSubfieldName -->\n";
             if (!$renderGroupEntry && $renderType === 'compound') {
                 $renderGroupEntry = new CompoundEntry($subFieldName, $marcIndex, $marcIndicator1, $marcIndicator2);
-                if ($renderMode === RenderConfigEntry::$RENDER_MODE_INLINE) {
+                if ($renderMode === AbstractRenderConfigEntry::$RENDER_MODE_INLINE) {
                     $renderGroupEntry->setInlineRenderMode();
                 } else {
                     // default render mode
@@ -243,12 +243,27 @@ class SolrMarc extends SwissbibSolrMarc {
             }
             return array_keys($fields);
         };
-        $this->renderConfig->orderGroups($groupOrder, $fieldOrderProvider);
+        $subfieldOrderProvider = function (String $groupName, String $fieldName) {
+            $fields = $this->detailViewFieldInfo['structure'][$groupName];
+            if (empty($fields)) {
+                return [];
+            }
+            $subfield = $fields[$fieldName];
+            if (empty($subfield)) {
+                return [];
+            }
+            $entries = $subfield['entries'];
+            if (empty($subfield)) {
+                return [];
+            }
+            return $entries;
+        };
+        $this->renderConfig->orderGroups($groupOrder, $fieldOrderProvider, $subfieldOrderProvider);
     }
 
     /**
      * @param RenderGroupConfig|null $renderGroup
-     * @param RenderConfigEntry|null $renderGroupEntry
+     * @param AbstractRenderConfigEntry|null $renderGroupEntry
      */
     public function finishGroup(&$renderGroup, &$renderGroupEntry): void {
         if ($renderGroup) {
@@ -259,7 +274,7 @@ class SolrMarc extends SwissbibSolrMarc {
 
     /**
      * @param RenderGroupConfig $renderGroup
-     * @param RenderConfigEntry|null $renderGroupEntry
+     * @param AbstractRenderConfigEntry|null $renderGroupEntry
      */
     public function finishField(&$renderGroup, &$renderGroupEntry): void {
         if ($renderGroupEntry) {
@@ -270,11 +285,11 @@ class SolrMarc extends SwissbibSolrMarc {
 
     protected function parseIndicator(String $s, $groupName, $fieldName) {
         if (empty($s)) {
-            return RenderConfigEntry::$UNKNOWN_INDICATOR;
+            return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
         }
         if (!is_numeric($s)) {
             echo "<!-- SKIPPING BAD MARC INDICATOR: $groupName > $fieldName: '$s' -->\n";
-            return RenderConfigEntry::$UNKNOWN_INDICATOR;
+            return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
         }
         return intval($s);
     }
