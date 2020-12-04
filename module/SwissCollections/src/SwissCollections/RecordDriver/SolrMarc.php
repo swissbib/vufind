@@ -69,30 +69,20 @@ class SolrMarc extends SwissbibSolrMarc {
         $field = $this->getMarcField($marcIndex);
         // echo "<!-- AR:\n " . $marcIndex . "\n" . print_r($field, true) . " -->\n";
         if (!empty($field)) {
+//            echo "<!-- FIELD CLASS " . get_class($field) . " -->\n";
             if ($rc instanceof SingleEntry) {
-                $map = $rc->buildMap();
-                try {
-                    $subMap = $this->getMappedFieldData($field, $map, true);
-                    if (!empty($subMap['value'])) {
-                        $renderer($subMap, $field, $rc, true, true);
-                    }
-                } catch (\Throwable $exception) {
-                    echo "<!-- FAIL1 " . $exception->getMessage() . "\n" . $exception->getTraceAsString() . " -->\n";
+                $subMap = $this->renderField($field, $rc);
+                if (!empty($subMap) && !empty($subMap['value'])) {
+                    $renderer($subMap, $field, $rc, true, true);
                 }
             } else if ($rc instanceof CompoundEntry) {
                 $array = $rc->elements;
                 $values = [];
                 // filter out empty values
                 foreach ($array as $elem) {
-                    $map = $elem->buildMap();
-                    try {
-                        $subMap = $this->getMappedFieldData($field, $map, true);
-                        // echo "<!-- MIV: $marcIndex: " . print_r($subMap, true) . " -->\n";
-                        if (!empty($subMap['value'])) {
-                            $values[] = ['subMap' => $subMap, 'renderConfig' => $elem];
-                        }
-                    } catch (\Throwable $exception) {
-                        echo "<!-- FAIL2 " . $exception->getMessage() . "\n" . $exception->getTraceAsString() . " -->\n";
+                    $subMap = $this->renderField($field, $elem);
+                    if (!empty($subMap) && !empty($subMap['value'])) {
+                        $values[] = ['subMap' => $subMap, 'renderConfig' => $elem];
                     }
                 }
                 foreach ($values as $key => $v) {
@@ -292,5 +282,43 @@ class SolrMarc extends SwissbibSolrMarc {
             return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
         }
         return intval($s);
+    }
+
+    /**
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field
+     * @param SingleEntry $elem
+     * @return null|array
+     */
+    public function renderField($field, $elem) {
+        try {
+            $getIndicatorsAndSubfields = $field instanceof \File_MARC_Data_Field;
+            if ($getIndicatorsAndSubfields) {
+                $subMap = $this->getMappedFieldData($field, $elem->buildMap(), $getIndicatorsAndSubfields);
+            } else if ($field instanceof \File_MARC_Control_Field) {
+                $subMap = ['value' => $field->getData()];
+            } else {
+                echo "<!-- UNKNOWN: Can't handle field type: " . get_class($field) . " of " . $elem . " -->\n";
+                $subMap = null;
+            }
+            if (!$this->isEmptyValue($subMap)) {
+                echo "<!-- VALUE: " . $subMap['value'] . " " . $elem . " -->";
+                return $subMap;
+            }
+            return null;
+        } catch (\Throwable $exception) {
+            echo "<!-- FAIL: " . $exception->getMessage() . "\n" . $exception->getTraceAsString() . " -->\n";
+        }
+        return null;
+    }
+
+    protected function isEmptyValue($subMap): bool {
+        if (empty($subMap)) {
+            return true;
+        }
+        $v = $subMap['value'];
+        if (empty($v)) {
+            return true;
+        }
+        return empty(trim("" . $v));
     }
 }
