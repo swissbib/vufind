@@ -332,20 +332,36 @@ class SolrMarc extends SwissbibSolrMarc {
             $getIndicatorsAndSubfields = $field instanceof \File_MARC_Data_Field;
             if ($getIndicatorsAndSubfields) {
                 $subMap = $this->getMappedFieldData($field, $elem->buildMap(), $getIndicatorsAndSubfields);
+                $subMap['@ind1'] = $this->normalizeIndicator($subMap['@ind1']);
+                $subMap['@ind2'] = $this->normalizeIndicator($subMap['@ind2']);
             } else if ($field instanceof \File_MARC_Control_Field) {
-                $subMap = ['value' => $field->getData()];
+                $subMap = ['value' => $field->getData(),
+                    '@ind1' => AbstractRenderConfigEntry::$UNKNOWN_INDICATOR,
+                    '@ind2' => AbstractRenderConfigEntry::$UNKNOWN_INDICATOR];
             } else {
                 echo "<!-- UNKNOWN: Can't handle field type: " . get_class($field) . " of " . $elem . " -->\n";
                 $subMap = null;
             }
             if (!$this->isEmptyValue($subMap)) {
-                return $subMap;
+                if ($subMap['@ind1'] === $elem->indicator1 && $subMap['@ind2'] === $elem->indicator2) {
+                    return $subMap;
+                } else {
+                    echo "<!-- INDICATOR MISMATCH: $elem, " . $subMap['@ind1'] . "/" . $subMap['@ind2'] . " -->\n";
+                }
             }
             return null;
         } catch (\Throwable $exception) {
             echo "<!-- FAIL: " . $exception->getMessage() . "\n" . $exception->getTraceAsString() . " -->\n";
         }
         return null;
+    }
+
+    protected function normalizeIndicator(String $ind): int {
+        $ind = trim($ind);
+        if (strlen($ind) === 0 || !is_int($ind)) {
+            return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
+        }
+        return intval($ind);
     }
 
     protected function isEmptyValue($subMap): bool {
