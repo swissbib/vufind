@@ -30,6 +30,7 @@ class CompoundEntry extends AbstractRenderConfigEntry {
     public function addElement(String $labelKey, String $subfieldName) {
         $singleEntry = new SingleEntry($labelKey, $this->marcIndex, $subfieldName, $this->indicator1, $this->indicator2);
         $singleEntry->renderMode = $this->renderMode;
+        $singleEntry->repeated = $this->repeated;
         array_push($this->elements, $singleEntry);
     }
 
@@ -38,7 +39,7 @@ class CompoundEntry extends AbstractRenderConfigEntry {
         foreach ($this->elements as $e) {
             $s = $s . "\t\t\t" . $e . ",\n";
         }
-        return $s . "]}";
+        return $s . "] ," . $this->repeated . "}";
     }
 
     public function get(String $name) {

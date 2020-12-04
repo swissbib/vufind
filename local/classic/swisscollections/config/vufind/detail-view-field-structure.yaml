@@ -16,6 +16,7 @@ structure:
     "Signatur":
       type: compound
       mode: inline
+      repeated: true
       entries:
         - "institution-code"
         - "standort code"
@@ -28,3 +29,5 @@ structure:
   "Thema":
     "Formschlagwort":
     "Alternativtitel":
+    "Sachbegriff":
+      repeated: true

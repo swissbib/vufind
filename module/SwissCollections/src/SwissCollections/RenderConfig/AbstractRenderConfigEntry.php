@@ -27,6 +27,11 @@ abstract class AbstractRenderConfigEntry {
     public $indicator2;
 
     /**
+     * @var bool
+     */
+    public $repeated;
+
+    /**
      * @var String $renderMode is either 'line' (default) or 'inline'
      */
     public $renderMode;
@@ -41,6 +46,7 @@ abstract class AbstractRenderConfigEntry {
         $this->indicator1 = $indicator1;
         $this->indicator2 = $indicator2;
         $this->setLineRenderMode();
+        $this->repeated = false;
     }
 
     public function info() {
@@ -73,7 +79,8 @@ abstract class AbstractRenderConfigEntry {
 
     public function __toString() {
         return "RenderConfigEntry{" . $this->labelKey . ","
-            . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2 . "}";
+            . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2
+            . "," . $this->repeated . "}";
     }
 
     /**

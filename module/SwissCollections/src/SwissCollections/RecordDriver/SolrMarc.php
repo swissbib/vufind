@@ -37,6 +37,7 @@ class SolrMarc extends SwissbibSolrMarc {
 
     public static $RENDER_INFO_FIELD_TYPE = "type";
     public static $RENDER_INFO_FIELD_MODE = "mode";
+    public static $RENDER_INFO_FIELD_REPEATED = "repeated";
     public static $RENDER_INFO_FIELD_SUBFIELDS = "entries";
 
     public function __construct($mainConfig = null, $recordConfig = null,
@@ -45,12 +46,6 @@ class SolrMarc extends SwissbibSolrMarc {
     ) {
         parent::__construct($mainConfig, $recordConfig, $searchSettings, $holdingsHelper, $solrDefaultAdapter,
             $availabilityHelper, $libraryNetworkLookup, $logger);
-    }
-
-    public function getShortTitle() {
-        // $this->logger->log(Logger::ERR, "Hallo1!");
-        // TODO Remove (proof of concept)
-        return parent::getShortTitle();
     }
 
     /**
@@ -63,19 +58,20 @@ class SolrMarc extends SwissbibSolrMarc {
     /**
      * @param int $marcIndex
      * @param CompoundEntry|SingleEntry $rc
-     * @param Callable $renderer called with $subMap, $marcField, CompoundEntry|SingleEntry, $isFirst, $isLast
+     * @param Callable $renderer called with $subMap, $marcField, CompoundEntry|SingleEntry, $isFirst, $isLast, $firstListEntry, $lastListEntry
      */
     public function applyRenderer($marcIndex, $rc, $renderer) {
         $fields = $this->getMarcFields($marcIndex);
         if (!empty($fields)) {
-            // echo "<!-- AR:\n " . $marcIndex . "\n" . print_r($field, true) . " -->\n";
             $processedSubMaps = [];
-            foreach ($fields as $field) {
-                // echo "<!-- FIELD CLASS " . get_class($field) . " -->\n";
+            foreach ($fields as $fieldIndex => $field) {
+                $firstListEntry = $fieldIndex === 0;
+                $lastListEntry = ($fieldIndex + 1) === count($fields);
+                // echo "<!-- FIELD CLASS " . get_class($field) . " fl=$firstListEntry ll=$lastListEntry rc=$rc -->\n";
                 if ($rc instanceof SingleEntry) {
                     $subMap = $this->renderField($field, $rc);
                     if (!empty($subMap) && !$this->alreadyProcessed($processedSubMaps, $subMap)) {
-                        $renderer($subMap, $field, $rc, true, true);
+                        $renderer($subMap, $field, $rc, true, true, $firstListEntry, $lastListEntry);
                         $processedSubMaps[] = $subMap;
                     }
                 } else if ($rc instanceof CompoundEntry) {
@@ -94,7 +90,7 @@ class SolrMarc extends SwissbibSolrMarc {
                         foreach ($values as $key => $v) {
                             $isFirst = $key === array_key_first($values);
                             $isLast = $key === array_key_last($values);
-                            $renderer($v['subMap'], $field, $v['renderConfig'], $isFirst, $isLast);
+                            $renderer($v['subMap'], $field, $v['renderConfig'], $isFirst, $isLast, $firstListEntry, $lastListEntry);
                         }
                         $processedSubMaps[] = $subMaps;
                     }
@@ -199,13 +195,22 @@ class SolrMarc extends SwissbibSolrMarc {
             $groupViewInfo = $this->detailViewFieldInfo['structure'][$groupName];
             $renderType = 'single';
             $renderMode = '';
+            $repeated = false;
             if ($groupViewInfo) {
                 $fieldViewInfo = $groupViewInfo[$fieldName];
-                if ($fieldViewInfo && in_array($subFieldName, $fieldViewInfo[SolrMarc::$RENDER_INFO_FIELD_SUBFIELDS])) {
-                    $renderType = $fieldViewInfo[SolrMarc::$RENDER_INFO_FIELD_TYPE];
-                    $renderMode = $fieldViewInfo[SolrMarc::$RENDER_INFO_FIELD_MODE];
+                if ($fieldViewInfo) {
+                    if (array_key_exists(SolrMarc::$RENDER_INFO_FIELD_TYPE, $fieldViewInfo)) {
+                        $renderType = $fieldViewInfo[SolrMarc::$RENDER_INFO_FIELD_TYPE];
+                    }
+                    if (array_key_exists(SolrMarc::$RENDER_INFO_FIELD_MODE, $fieldViewInfo)) {
+                        $renderMode = $fieldViewInfo[SolrMarc::$RENDER_INFO_FIELD_MODE];
+                    }
+                    if (array_key_exists(SolrMarc::$RENDER_INFO_FIELD_REPEATED, $fieldViewInfo)) {
+                        $repeated = $fieldViewInfo[SolrMarc::$RENDER_INFO_FIELD_REPEATED];
+                    }
                 }
             }
+            // echo "<!-- SPECIAL: $groupName > $fieldName: rt=$renderType rm=$renderMode rep=$repeated -->\n";
 
             $marcIndex = $field[SolrMarc::$MARC_MAPPING_MARC_INDEX];
             $marcSubfieldName = $field[SolrMarc::$MARC_MAPPING_MARC_SUBFIELD];
@@ -230,6 +235,7 @@ class SolrMarc extends SwissbibSolrMarc {
                     // default render mode
                     $renderGroupEntry->setLineRenderMode();
                 }
+                $renderGroupEntry->repeated = $repeated;
             }
             if ($renderType === 'single') {
                 if ($renderGroupEntry) {
@@ -241,6 +247,7 @@ class SolrMarc extends SwissbibSolrMarc {
                     $marcSubfieldName,
                     $marcIndicator1,
                     $marcIndicator2);
+                $renderGroupEntry->repeated = $repeated;
                 $renderGroup->addSingle($renderGroupEntry);
                 $renderGroupEntry = null;
             } else if ($renderType === 'compound') {

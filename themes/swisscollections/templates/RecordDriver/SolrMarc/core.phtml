@@ -82,12 +82,23 @@ $linkSFX = $viewRecord->getLinkSFX();
     <?php
     if ($renderConfig) {
         /**
+         * @var array $subMap
          * @var File_MARC_Data_Field $field
          * @var \SwissCollections\RenderConfig\CompoundEntry|\SwissCollections\RenderConfig\SingleEntry $renderConfig
-         * @var bool isFirst
-         * @var bool isLast
+         * @var bool $isFirst compound entry
+         * @var bool $isLast compound entry
+         * @var bool $firstListEntry
+         * @var bool $lastListEntry
          */
-        $renderer = function ($subMap, $field, $renderConfig, $isFirst, $isLast) {
+        $renderer = function ($subMap, $field, $renderConfig, $isFirst, $isLast, $firstListEntry, $lastListEntry) {
+            if ($renderConfig->repeated && $firstListEntry && $isFirst) {
+                echo "\t\t<ul>\n";
+                echo "\t\t<li>\n";
+            }
+            if ($renderConfig->repeated && !$firstListEntry && $isFirst) {
+                echo "\t\t</li>\n";
+                echo "\t\t<li>\n";
+            }
             if ($renderConfig->isLineRenderMode()) {
                 echo "\t\t<div class='field-value field-value-" . $renderConfig->labelKey . "'>";
             } else if ($renderConfig->isInlineRenderMode()) {
@@ -99,7 +110,6 @@ $linkSFX = $viewRecord->getLinkSFX();
                 echo "\t\t\t<span class='field-entry field-entry-" . $renderConfig->labelKey . "'>";
             }
             echo "\t\t<!-- marcInfo=" . $renderConfig->info() . " -->";
-            echo "\t\t<!-- subMap=" . $subMap . " -->";
             echo $this->escapeHtml($subMap['value']);
             if ($renderConfig->isLineRenderMode()) {
                 echo "\t\t</div>\n";
@@ -108,6 +118,10 @@ $linkSFX = $viewRecord->getLinkSFX();
                 if ($isLast) {
                     echo "\n\t\t</div>\n";
                 }
+            }
+            if ($renderConfig->repeated && $lastListEntry && $isLast) {
+                echo "\t\t</li>\n";
+                echo "\t\t</ul>\n";
             }
         };
         /**
