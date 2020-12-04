@@ -119,7 +119,7 @@ $linkSFX = $viewRecord->getLinkSFX();
              * @var \SwissCollections\RenderConfig\CompoundEntry|\SwissCollections\RenderConfig\SingleEntry $renderElem
              */
             foreach ($renderGroupConfig->entries() as $renderElem) {
-                if (!$record->isEmptyField($renderElem->marcIndex)) {
+                if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
                     echo "\n<div class='row'>\n";
                     echo "\t<div class='field-label field-label-" . $renderElem->labelKey . " col-md-3'>";
                     echo $this->translate('page.detail.field.label.' . $renderElem->labelKey);
