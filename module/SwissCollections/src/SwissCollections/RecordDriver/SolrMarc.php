@@ -66,32 +66,45 @@ class SolrMarc extends SwissbibSolrMarc {
      * @param Callable $renderer called with $subMap, $marcField, CompoundEntry|SingleEntry, $isFirst, $isLast
      */
     public function applyRenderer($marcIndex, $rc, $renderer) {
-        $field = $this->getMarcField($marcIndex);
-        // echo "<!-- AR:\n " . $marcIndex . "\n" . print_r($field, true) . " -->\n";
-        if (!empty($field)) {
-//            echo "<!-- FIELD CLASS " . get_class($field) . " -->\n";
-            if ($rc instanceof SingleEntry) {
-                $subMap = $this->renderField($field, $rc);
-                if (!empty($subMap)) {
-                    $renderer($subMap, $field, $rc, true, true);
-                }
-            } else if ($rc instanceof CompoundEntry) {
-                $array = $rc->elements;
-                $values = [];
-                // filter out empty values
-                foreach ($array as $elem) {
-                    $subMap = $this->renderField($field, $elem);
-                    if (!empty($subMap)) {
-                        $values[] = ['subMap' => $subMap, 'renderConfig' => $elem];
+        $fields = $this->getMarcFields($marcIndex);
+        if (!empty($fields)) {
+            // echo "<!-- AR:\n " . $marcIndex . "\n" . print_r($field, true) . " -->\n";
+            $processedSubMaps = [];
+            foreach ($fields as $field) {
+                // echo "<!-- FIELD CLASS " . get_class($field) . " -->\n";
+                if ($rc instanceof SingleEntry) {
+                    $subMap = $this->renderField($field, $rc);
+                    if (!empty($subMap) && !$this->alreadyProcessed($processedSubMaps, $subMap)) {
+                        $renderer($subMap, $field, $rc, true, true);
+                        $processedSubMaps[] = $subMap;
                     }
-                }
-                foreach ($values as $key => $v) {
-                    $isFirst = $key === array_key_first($values);
-                    $isLast = $key === array_key_last($values);
-                    $renderer($v['subMap'], $field, $v['renderConfig'], $isFirst, $isLast);
+                } else if ($rc instanceof CompoundEntry) {
+                    $array = $rc->elements;
+                    $values = [];
+                    $subMaps = [];
+                    // filter out empty values
+                    foreach ($array as $elem) {
+                        $subMap = $this->renderField($field, $elem);
+                        if (!empty($subMap)) {
+                            $values[] = ['subMap' => $subMap, 'renderConfig' => $elem];
+                            $subMaps[] = $subMap;
+                        }
+                    }
+                    if (!$this->alreadyProcessed($processedSubMaps, $subMaps)) {
+                        foreach ($values as $key => $v) {
+                            $isFirst = $key === array_key_first($values);
+                            $isLast = $key === array_key_last($values);
+                            $renderer($v['subMap'], $field, $v['renderConfig'], $isFirst, $isLast);
+                        }
+                        $processedSubMaps[] = $subMaps;
+                    }
                 }
             }
         }
+    }
+
+    protected function alreadyProcessed(&$processed, $candidate): bool {
+        return in_array($candidate, $processed, true);
     }
 
     /**
@@ -101,17 +114,19 @@ class SolrMarc extends SwissbibSolrMarc {
      * @return bool
      */
     public function isEmptyField($marcIndex, $rc) {
-        $field = $this->getMarcField($marcIndex);
+        $fields = $this->getMarcFields($marcIndex);
         $subMap = null;
-        if (!empty($field)) {
-            if ($rc instanceof SingleEntry) {
-                $subMap = $this->renderField($field, $rc);
-            } else if ($rc instanceof CompoundEntry) {
-                foreach ($rc->elements as $elem) {
-                    $sm = $this->renderField($field, $elem);
-                    if (!empty($sm)) {
-                        $subMap = $sm;
-                        break;
+        if (!empty($fields)) {
+            foreach ($fields as $field) {
+                if ($rc instanceof SingleEntry) {
+                    $subMap = $this->renderField($field, $rc);
+                } else if ($rc instanceof CompoundEntry) {
+                    foreach ($rc->elements as $elem) {
+                        $sm = $this->renderField($field, $elem);
+                        if (!empty($sm)) {
+                            $subMap = $sm;
+                            break 2;
+                        }
                     }
                 }
             }
