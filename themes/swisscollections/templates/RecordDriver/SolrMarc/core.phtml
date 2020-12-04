@@ -54,30 +54,6 @@ $linkSFX = $viewRecord->getLinkSFX();
 <div class="" vocab="http://schema.org/" resource="#record"
      typeof="<?= $this->driver->getSchemaOrgFormats() ?> Product">
 
-    <div class="hidden-xs">
-        <div class="thumbDetailView hidden-print">
-            <?php /* Display thumbnail if appropriate: */ ?>
-            <?php $mediumThumb = $viewRecord->getThumbnail('medium'); ?>
-            <img alt="<?= $this->transEsc('Cover Image') ?>" class="recordcover"
-                 src="<?= $this->escapeHtmlAttr($mediumThumb); ?>"/>
-
-            <?php /* Display qrcode if appropriate: */ ?>
-            <?php $QRCode = $viewRecord->getQRCode("core"); ?>
-            <?php if ($QRCode): ?>
-                <span class="hidden-xs">
-          <br/><img alt="<?= $this->transEsc('QR Code') ?>" class="qrcode"
-                    src="<?= $this->escapeHtmlAttr($QRCode); ?>"/>
-        </span>
-            <?php endif; ?>
-        </div>
-
-        <?php // if you have a preview tab but want to move or remove the preview link
-        // from this area of the record view, this can be split into
-        // getPreviewData() (should stay here) and
-        // getPreviewLink() (can go in your desired tab) ?>
-        <?= $viewRecord->getPreviews() ?>
-    </div>
-
     <div style="border-top: 1px solid #bbbbbb; margin-top: 1rem; margin-bottom: 1rem;"></div>
     <?php
     if ($renderConfig) {
