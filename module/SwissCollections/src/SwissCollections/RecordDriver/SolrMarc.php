@@ -374,4 +374,15 @@ class SolrMarc extends SwissbibSolrMarc {
         }
         return empty(trim("" . $v));
     }
+
+    public function isEmptyGroup(RenderGroupConfig $renderGroupConfig): bool {
+        $groupIsEmpty = true;
+        foreach ($renderGroupConfig->entries() as $renderElem) {
+            if (!$this->isEmptyField($renderElem->marcIndex, $renderElem)) {
+                $groupIsEmpty = false;
+                break;
+            }
+        }
+        return $groupIsEmpty;
+    }
 }

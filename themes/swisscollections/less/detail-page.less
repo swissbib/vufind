@@ -14,3 +14,26 @@
     }
   }
 }
+
+.mixin-theme-icon(@width, @height, @content) {
+  content: "";
+  display: inline-block;
+  width: @width;
+  height: @height;
+  background: transparent no-repeat url("data:image/svg+xml,@{content}");
+  background-size: @width @height;
+}
+
+.icon-arrow-accordion {
+  .mixin-theme-icon(12px, 9px, "%3Csvg width='12px' height='9px' viewBox='0 0 12 9' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='arrow-accordion' transform='translate(-6.000000, -8.000000)'%3E%3Cpolygon fill='%23000000' points='7.41 8.84 12 13.42 16.59 8.84 18 10.25 12 16.25 6 10.25'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.anchor {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  &-label {
+    display: inline-block;
+    padding-left: 10px;
+  }
+}

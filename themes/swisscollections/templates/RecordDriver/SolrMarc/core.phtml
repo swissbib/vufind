@@ -6,8 +6,6 @@
 $record = $this->driver;
 /** @var Swissbib\View\Helper\Record $viewRecord */
 $viewRecord = $this->record($record);
-
-$marcIndexList = [245, 949];
 /**
  * @var \SwissCollections\RenderConfig\RenderGroupConfig[]
  */
@@ -104,23 +102,19 @@ $linkSFX = $viewRecord->getLinkSFX();
          * @var \SwissCollections\RenderConfig\RenderGroupConfig $renderGroupConfig
          */
         foreach ($renderConfig as $renderGroupConfig) {
-            $groupIsEmpty = true;
-            foreach ($renderGroupConfig->entries() as $renderElem) {
-                if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
-                    $groupIsEmpty = false;
-                    break;
-                }
-            }
-
-            if (!$groupIsEmpty) {
-                echo "<h2>" . $this->translate('page.detail.group.label.' . $renderGroupConfig->getName()) . "</h2>";
+            if (!$record->isEmptyGroup($renderGroupConfig)) {
+                $groupName = $renderGroupConfig->getName();
+                $groupAnchor = str_replace(' ', '_', $groupName);
+                echo "<a name='$groupAnchor'>";
+                echo "<h2>" . $this->translate('page.detail.group.label.' . $groupName) . "</h2>";
+                echo "</a>";
                 /**
                  * @var \SwissCollections\RenderConfig\CompoundEntry|\SwissCollections\RenderConfig\SingleEntry $renderElem
                  */
                 foreach ($renderGroupConfig->entries() as $renderElem) {
                     if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
                         echo "\n<div class='row'>\n";
-                        echo "\t<div class='field-label field-label-" . $renderElem->labelKey . " col-md-3'>";
+                        echo "\t<div class='field-label field-label-" . $renderElem->labelKey . " col-md-3'>\n";
                         echo $this->translate('page.detail.field.label.' . $renderElem->labelKey);
                         echo "\t</div>\n";
                         echo "\t<div class='col-md-9'>\n";
