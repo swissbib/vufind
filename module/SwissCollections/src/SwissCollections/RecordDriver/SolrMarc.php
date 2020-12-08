@@ -404,7 +404,7 @@ class SolrMarc extends SwissbibSolrMarc {
                 $subfieldName = $innerEntry['tag'];
                 $subfieldValue = $innerEntry['data'];
                 if (!empty($subfieldValue)) {
-                    $result .= "<li><b>" . $subfieldName . "</b>: " . htmlspecialchars($subfieldValue) . ";</li>";
+                    $result .= "<li><b>" . $subfieldName . "</b>: " . htmlspecialchars($subfieldValue) . "</li>";
                 }
             }
         }
