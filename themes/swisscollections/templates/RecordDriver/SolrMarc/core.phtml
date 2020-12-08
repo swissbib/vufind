@@ -84,7 +84,11 @@ $linkSFX = $viewRecord->getLinkSFX();
                 echo "\t\t\t<span class='field-entry field-entry-" . $renderConfig->labelKey . "'>";
             }
             echo "\t\t<!-- marcInfo=" . $renderConfig->info() . " -->";
-            echo $this->escapeHtml($subMap['value']);
+            if ($subMap['escHtml']) {
+                echo $this->escapeHtml($subMap['value']);
+            } else {
+                echo $subMap['value'];
+            }
             if ($renderConfig->isLineRenderMode()) {
                 echo "\t\t</div>\n";
             } else if ($renderConfig->isInlineRenderMode()) {
