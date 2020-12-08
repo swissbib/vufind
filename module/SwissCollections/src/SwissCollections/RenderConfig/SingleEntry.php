@@ -25,9 +25,15 @@ class SingleEntry extends AbstractRenderConfigEntry {
         $this->subfieldName = $subfieldName;
     }
 
+    /**
+     * Returns empty array if no subfield name is set.
+     * @return array
+     */
     public function buildMap() {
         $result = [];
-        $result[$this->subfieldName] = "value";
+        if (!empty($this->subfieldName)) {
+            $result[$this->subfieldName] = "value";
+        }
         return $result;
     }
 

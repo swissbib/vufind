@@ -331,11 +331,22 @@ class SolrMarc extends SwissbibSolrMarc {
         try {
             $getIndicatorsAndSubfields = $field instanceof \File_MARC_Data_Field;
             if ($getIndicatorsAndSubfields) {
-                $subMap = $this->getMappedFieldData($field, $elem->buildMap(), $getIndicatorsAndSubfields);
-                $subMap['@ind1'] = $this->normalizeIndicator($subMap['@ind1']);
-                $subMap['@ind2'] = $this->normalizeIndicator($subMap['@ind2']);
+                $fieldMap = $elem->buildMap();
+                if (count($fieldMap) === 0) {
+                    $rawData = $this->getMarcSubfieldsRaw($elem->marcIndex);
+                    $subMap = ['value' => $this->mergeRawData($elem->marcIndex, $rawData),
+                        'escHtml' => FALSE,
+                        '@ind1' => AbstractRenderConfigEntry::$UNKNOWN_INDICATOR,
+                        '@ind2' => AbstractRenderConfigEntry::$UNKNOWN_INDICATOR];
+                } else {
+                    $subMap = $this->getMappedFieldData($field, $fieldMap, $getIndicatorsAndSubfields);
+                    $subMap['escHtml'] = TRUE;
+                    $subMap['@ind1'] = $this->normalizeIndicator($subMap['@ind1']);
+                    $subMap['@ind2'] = $this->normalizeIndicator($subMap['@ind2']);
+                }
             } else if ($field instanceof \File_MARC_Control_Field) {
                 $subMap = ['value' => $field->getData(),
+                    'escHtml' => TRUE,
                     '@ind1' => AbstractRenderConfigEntry::$UNKNOWN_INDICATOR,
                     '@ind2' => AbstractRenderConfigEntry::$UNKNOWN_INDICATOR];
             } else {
@@ -384,5 +395,19 @@ class SolrMarc extends SwissbibSolrMarc {
             }
         }
         return $groupIsEmpty;
+    }
+
+    protected function mergeRawData($marcIndex, $rawData) {
+        $result = "RAW $marcIndex <ul>";
+        foreach ($rawData as $entry) {
+            foreach ($entry as $innerEntry) {
+                $subfieldName = $innerEntry['tag'];
+                $subfieldValue = $innerEntry['data'];
+                if (!empty($subfieldValue)) {
+                    $result .= "<li><b>" . $subfieldName . "</b>: " . htmlspecialchars($subfieldValue) . ";</li>";
+                }
+            }
+        }
+        return $result . "</ul>";
     }
 }
