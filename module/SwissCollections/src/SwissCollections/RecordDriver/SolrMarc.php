@@ -6,6 +6,7 @@ namespace SwissCollections\RecordDriver;
 use Laminas\Log\Logger;
 use Swissbib\RecordDriver\SolrMarc as SwissbibSolrMarc;
 use SwissCollections\RenderConfig\CompoundEntry;
+use SwissCollections\RenderConfig\SequencesEntry;
 use SwissCollections\RenderConfig\RenderConfig;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 use SwissCollections\RenderConfig\RenderGroupConfig;
@@ -22,6 +23,9 @@ class SolrMarc extends SwissbibSolrMarc {
      */
     protected $renderConfig;
 
+    /**
+     * @var ViewFieldInfo
+     */
     protected $detailViewFieldInfo;
 
     protected $fieldMarcMapping;
@@ -34,11 +38,6 @@ class SolrMarc extends SwissbibSolrMarc {
     public static $MARC_MAPPING_MARC_IND2 = 'datafield ind2';
     public static $MARC_MAPPING_MARC_SUBFIELD = 'subfield code';
     public static $MARC_MAPPING_CONDITION = 'subfield match condition';
-
-    public static $RENDER_INFO_FIELD_TYPE = "type";
-    public static $RENDER_INFO_FIELD_MODE = "mode";
-    public static $RENDER_INFO_FIELD_REPEATED = "repeated";
-    public static $RENDER_INFO_FIELD_SUBFIELDS = "entries";
 
     public function __construct($mainConfig = null, $recordConfig = null,
                                 $searchSettings = null, $holdingsHelper = null, $solrDefaultAdapter = null,
@@ -57,8 +56,8 @@ class SolrMarc extends SwissbibSolrMarc {
 
     /**
      * @param int $marcIndex
-     * @param CompoundEntry|SingleEntry $rc
-     * @param Callable $renderer called with $subMap, $marcField, CompoundEntry|SingleEntry, $isFirst, $isLast, $firstListEntry, $lastListEntry
+     * @param AbstractRenderConfigEntry $rc
+     * @param Callable $renderer called with $subMap, $marcField, AbstractRenderConfigEntry, $isFirst, $isLast, $firstListEntry, $lastListEntry
      */
     public function applyRenderer($marcIndex, $rc, $renderer) {
         $fields = $this->getMarcFields($marcIndex);
@@ -69,33 +68,98 @@ class SolrMarc extends SwissbibSolrMarc {
                 $lastListEntry = ($fieldIndex + 1) === count($fields);
                 // echo "<!-- FIELD CLASS " . get_class($field) . " fl=$firstListEntry ll=$lastListEntry rc=$rc -->\n";
                 if ($rc instanceof SingleEntry) {
-                    $subMap = $this->renderField($field, $rc);
-                    if (!empty($subMap) && !$this->alreadyProcessed($processedSubMaps, $subMap)) {
-                        $renderer($subMap, $field, $rc, true, true, $firstListEntry, $lastListEntry);
-                        $processedSubMaps[] = $subMap;
-                    }
+                    $this->renderSingle($field, $rc, $renderer, $firstListEntry, $lastListEntry, $processedSubMaps);
+                } else if ($rc instanceof SequencesEntry) {
+                    $this->renderSequences($field, $rc, $renderer, $firstListEntry, $lastListEntry, $processedSubMaps);
                 } else if ($rc instanceof CompoundEntry) {
-                    $array = $rc->elements;
-                    $values = [];
-                    $subMaps = [];
-                    // filter out empty values
-                    foreach ($array as $elem) {
-                        $subMap = $this->renderField($field, $elem);
-                        if (!empty($subMap)) {
-                            $values[] = ['subMap' => $subMap, 'renderConfig' => $elem];
-                            $subMaps[] = $subMap;
-                        }
-                    }
-                    if (!$this->alreadyProcessed($processedSubMaps, $subMaps)) {
-                        foreach ($values as $key => $v) {
-                            $isFirst = $key === array_key_first($values);
-                            $isLast = $key === array_key_last($values);
-                            $renderer($v['subMap'], $field, $v['renderConfig'], $isFirst, $isLast, $firstListEntry, $lastListEntry);
-                        }
-                        $processedSubMaps[] = $subMaps;
-                    }
+                    $this->renderCompound($field, $rc, $renderer, $firstListEntry, $lastListEntry, $processedSubMaps);
                 }
             }
+        }
+    }
+
+    /**
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field
+     * @param SequencesEntry $rc
+     * @param Callable $renderer called with $subMap, $marcField, AbstractRenderConfigEntry, $isFirst, $isLast, $firstListEntry, $lastListEntry
+     * @param bool $firstListEntry
+     * @param bool $lastListEntry
+     */
+    protected function renderSequences($field, $rc, $renderer, $firstListEntry, $lastListEntry, &$processedSubMaps) {
+        $rawData = $this->getMarcSubfieldsRaw($rc->marcIndex);
+        foreach ($rawData as $entry) {
+            $entryLen = count($entry);
+            $index = 0;
+            while ($index < $entryLen) {
+                $matchedValues = $rc->matchesSubfieldSequence($entry, $index);
+                if (empty($matchedValues)) {
+                    // echo "<!-- ERROR WRONG SEQUENCE ELEMENT " . $rc->marcIndex . ": " . $entry[$index]['tag'] . ": "
+                    //     . $entry[$index]['data'] . " -->\n";
+                    $index++;
+                } else {
+                    $this->renderCompound($matchedValues, $rc, $renderer, $firstListEntry, $lastListEntry, $processedSubMaps);
+                    $index += count($matchedValues);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field
+     * @param SingleEntry $rc
+     * @param Callable $renderer called with $subMap, $marcField, AbstractRenderConfigEntry, $isFirst, $isLast, $firstListEntry, $lastListEntry
+     * @param bool $firstListEntry
+     * @param bool $lastListEntry
+     */
+    protected function renderSingle($field, $rc, $renderer, $firstListEntry, $lastListEntry, &$processedSubMaps) {
+        $subMap = $this->getRenderFieldData($field, $rc);
+        if (!empty($subMap) && !$this->alreadyProcessed($processedSubMaps, $subMap)) {
+            $renderer($subMap, $field, $rc, true, true, $firstListEntry, $lastListEntry);
+            $processedSubMaps[] = $subMap;
+        }
+    }
+
+    /**
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field|array $field - "array" contains raw data objects with
+     *  keys "data" and "tag"
+     * @param CompoundEntry $rc
+     * @param Callable $renderer called with $subMap, $marcField, AbstractRenderConfigEntry, $isFirst, $isLast, $firstListEntry, $lastListEntry
+     * @param bool $firstListEntry
+     * @param bool $lastListEntry
+     */
+    protected function renderCompound($field, $rc, $renderer, $firstListEntry, $lastListEntry, &$processedSubMaps) {
+        $array = $rc->elements;
+        $values = [];
+        $subMaps = [];
+        if ($rc instanceof SequencesEntry) {
+            // $field is an array of raw data objects
+            foreach ($array as $elem) {
+                $value = $rc->valueForSubfield($elem, $field);
+                if (!empty($value)) {
+                    $subMap = $this->buildGenericSubMap($value, TRUE);
+                    $values[] = ['subMap' => $subMap, 'renderConfig' => $elem];
+                    $subMaps[] = $subMap;
+                }
+            }
+        } else {
+            // CompoundEntry
+            // $field is a File_MARC_* object
+            // filter out empty values
+            foreach ($array as $elem) {
+                $subMap = $this->getRenderFieldData($field, $elem);
+                if (!empty($subMap)) {
+                    $values[] = ['subMap' => $subMap, 'renderConfig' => $elem];
+                    $subMaps[] = $subMap;
+                }
+            }
+        }
+        if (!$this->alreadyProcessed($processedSubMaps, $subMaps)) {
+            foreach ($values as $key => $v) {
+                $isFirst = $key === array_key_first($values);
+                $isLast = $key === array_key_last($values);
+                $renderer($v['subMap'], $field, $v['renderConfig'], $isFirst, $isLast, $firstListEntry, $lastListEntry);
+            }
+            $processedSubMaps[] = $subMaps;
         }
     }
 
@@ -106,7 +170,7 @@ class SolrMarc extends SwissbibSolrMarc {
     /**
      * Quite similar to applyRenderer() except final html creation.
      * @param $marcIndex
-     * @param (\SwissCollections\RenderConfig\CompoundEntry|\SwissCollections\RenderConfig\SingleEntry)[] $rc
+     * @param AbstractRenderConfigEntry $rc
      * @return bool
      */
     public function isEmptyField($marcIndex, $rc) {
@@ -115,10 +179,18 @@ class SolrMarc extends SwissbibSolrMarc {
         if (!empty($fields)) {
             foreach ($fields as $field) {
                 if ($rc instanceof SingleEntry) {
-                    $subMap = $this->renderField($field, $rc);
+                    $subMap = $this->getRenderFieldData($field, $rc);
                 } else if ($rc instanceof CompoundEntry) {
                     foreach ($rc->elements as $elem) {
-                        $sm = $this->renderField($field, $elem);
+                        $sm = $this->getRenderFieldData($field, $elem);
+                        if (!empty($sm)) {
+                            $subMap = $sm;
+                            break 2;
+                        }
+                    }
+                } else if ($rc instanceof SequencesEntry) {
+                    foreach ($rc->elements as $elem) {
+                        $sm = $this->getRenderFieldData($field, $elem);
                         if (!empty($sm)) {
                             $subMap = $sm;
                             break 2;
@@ -131,7 +203,7 @@ class SolrMarc extends SwissbibSolrMarc {
     }
 
     public function setDetailViewFieldInfo($detailViewFieldInfo) {
-        $this->detailViewFieldInfo = $detailViewFieldInfo;
+        $this->detailViewFieldInfo = new ViewFieldInfo($detailViewFieldInfo);
     }
 
     public function setFieldMarcMapping($fieldMarcMapping) {
@@ -149,7 +221,7 @@ class SolrMarc extends SwissbibSolrMarc {
          */
         $renderGroup = null;
         /**
-         * @var CompoundEntry|SingleEntry
+         * @var AbstractRenderConfigEntry
          */
         $renderGroupEntry = null;
         $lastGroupName = "";
@@ -191,44 +263,56 @@ class SolrMarc extends SwissbibSolrMarc {
                 $subFieldName = $lastSubfieldName . $lastSubfieldCount;
             }
 
-            // calculate render type and mode ...
-            $groupViewInfo = $this->detailViewFieldInfo['structure'][$groupName];
-            $renderType = 'single';
-            $renderMode = '';
-            $repeated = false;
-            if ($groupViewInfo) {
-                $fieldViewInfo = $groupViewInfo[$fieldName];
-                if ($fieldViewInfo) {
-                    if (array_key_exists(SolrMarc::$RENDER_INFO_FIELD_TYPE, $fieldViewInfo)) {
-                        $renderType = $fieldViewInfo[SolrMarc::$RENDER_INFO_FIELD_TYPE];
-                    }
-                    if (array_key_exists(SolrMarc::$RENDER_INFO_FIELD_MODE, $fieldViewInfo)) {
-                        $renderMode = $fieldViewInfo[SolrMarc::$RENDER_INFO_FIELD_MODE];
-                    }
-                    if (array_key_exists(SolrMarc::$RENDER_INFO_FIELD_REPEATED, $fieldViewInfo)) {
-                        $repeated = $fieldViewInfo[SolrMarc::$RENDER_INFO_FIELD_REPEATED];
-                    }
-                }
-            }
-            // echo "<!-- SPECIAL: $groupName > $fieldName: rt=$renderType rm=$renderMode rep=$repeated -->\n";
-
             $marcIndex = $field[SolrMarc::$MARC_MAPPING_MARC_INDEX];
-            $marcSubfieldName = $field[SolrMarc::$MARC_MAPPING_MARC_SUBFIELD];
-            $marcIndicator1 = $field[SolrMarc::$MARC_MAPPING_MARC_IND1];
-            $marcIndicator2 = $field[SolrMarc::$MARC_MAPPING_MARC_IND2];
-            // TODO handle condition
-
             if (!is_numeric($marcIndex)) {
                 echo "<!-- SKIPPING BAD MARC INDEX: $groupName > $fieldName > $subFieldName: '$marcIndex' -->\n";
                 continue;
             }
             $marcIndex = intval($marcIndex);
+            $marcSubfieldName = $field[SolrMarc::$MARC_MAPPING_MARC_SUBFIELD];
+            $marcIndicator1 = $field[SolrMarc::$MARC_MAPPING_MARC_IND1];
+            $marcIndicator2 = $field[SolrMarc::$MARC_MAPPING_MARC_IND2];
             $marcIndicator1 = $this->parseIndicator($marcIndicator1, $groupName, $fieldName);
             $marcIndicator2 = $this->parseIndicator($marcIndicator2, $groupName, $fieldName);
 
             // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex|$marcIndicator1|$marcIndicator2|$marcSubfieldName -->\n";
-            if (!$renderGroupEntry && $renderType === 'compound') {
-                $renderGroupEntry = new CompoundEntry($subFieldName, $marcIndex, $marcIndicator1, $marcIndicator2);
+
+            // calculate render type and mode ...
+            $groupViewInfo = $this->detailViewFieldInfo->getGroup($groupName);
+            $renderType = 'single';
+            $renderMode = '';
+            $repeated = false;
+            $fieldViewInfo = null;
+
+            if ($groupViewInfo) {
+                $fieldViewInfo = $this->detailViewFieldInfo->getField($groupViewInfo, $fieldName, $marcIndex);
+                if ($fieldViewInfo) {
+                    if ($this->detailViewFieldInfo->hasType($fieldViewInfo)) {
+                        $renderType = $this->detailViewFieldInfo->getType($fieldViewInfo);
+                    }
+                    if ($this->detailViewFieldInfo->hasMode($fieldViewInfo)) {
+                        $renderMode = $this->detailViewFieldInfo->getMode($fieldViewInfo);
+                    }
+                    if ($this->detailViewFieldInfo->hasRepeated($fieldViewInfo)) {
+                        $repeated = $this->detailViewFieldInfo->getRepeated($fieldViewInfo);
+                    }
+                }
+            }
+            // echo "<!-- SPECIAL: $groupName > $fieldName: rt=$renderType rm=$renderMode rep=$repeated -->\n";
+
+            if (!$renderGroupEntry && ($renderType === 'compound' || $renderType === 'sequences')) {
+                if ($renderType === 'compound') {
+                    $renderGroupEntry = new CompoundEntry($subFieldName, $marcIndex, $marcIndicator1, $marcIndicator2);
+                    if ($fieldViewInfo) {
+                        $renderGroupEntry->setEntryOrder($this->detailViewFieldInfo->getSubfieldEntries($fieldViewInfo));
+                    }
+                }
+                if ($renderType === 'sequences') {
+                    $renderGroupEntry = new SequencesEntry($subFieldName, $marcIndex, $marcIndicator1, $marcIndicator2);
+                    if ($fieldViewInfo) {
+                        $renderGroupEntry->setSequences($this->detailViewFieldInfo->getSubfieldSequences($fieldViewInfo));
+                    }
+                }
                 if ($renderMode === AbstractRenderConfigEntry::$RENDER_MODE_INLINE) {
                     $renderGroupEntry->setInlineRenderMode();
                 } else {
@@ -250,7 +334,7 @@ class SolrMarc extends SwissbibSolrMarc {
                 $renderGroupEntry->repeated = $repeated;
                 $renderGroup->addSingle($renderGroupEntry);
                 $renderGroupEntry = null;
-            } else if ($renderType === 'compound') {
+            } else if ($renderType === 'compound' || $renderType === 'sequences') {
                 // TODO add $marcIndicator1/2? different to compound entry?
                 $renderGroupEntry->addElement($subFieldName, $marcSubfieldName);
             }
@@ -263,30 +347,7 @@ class SolrMarc extends SwissbibSolrMarc {
     }
 
     protected function orderGroups() {
-        $groupOrder = array_keys($this->detailViewFieldInfo['structure']);
-        $fieldOrderProvider = function (String $groupName) {
-            $fields = $this->detailViewFieldInfo['structure'][$groupName];
-            if (empty($fields)) {
-                return [];
-            }
-            return array_keys($fields);
-        };
-        $subfieldOrderProvider = function (String $groupName, String $fieldName) {
-            $fields = $this->detailViewFieldInfo['structure'][$groupName];
-            if (empty($fields)) {
-                return [];
-            }
-            $subfield = $fields[$fieldName];
-            if (empty($subfield)) {
-                return [];
-            }
-            $entries = $subfield['entries'];
-            if (empty($subfield)) {
-                return [];
-            }
-            return $entries;
-        };
-        $this->renderConfig->orderGroups($groupOrder, $fieldOrderProvider, $subfieldOrderProvider);
+        $this->renderConfig->orderGroups($this->detailViewFieldInfo);
     }
 
     /**
@@ -327,17 +388,15 @@ class SolrMarc extends SwissbibSolrMarc {
      * @param SingleEntry $elem
      * @return null|array
      */
-    public function renderField($field, $elem) {
+    public function getRenderFieldData($field, $elem) {
         try {
             $getIndicatorsAndSubfields = $field instanceof \File_MARC_Data_Field;
             if ($getIndicatorsAndSubfields) {
                 $fieldMap = $elem->buildMap();
                 if (count($fieldMap) === 0) {
                     $rawData = $this->getMarcSubfieldsRaw($elem->marcIndex);
-                    $subMap = ['value' => $this->mergeRawData($elem->marcIndex, $rawData),
-                        'escHtml' => FALSE,
-                        '@ind1' => AbstractRenderConfigEntry::$UNKNOWN_INDICATOR,
-                        '@ind2' => AbstractRenderConfigEntry::$UNKNOWN_INDICATOR];
+                    // echo "<!-- RAW " . $elem->marcIndex . ": " . print_r($rawData, true) . " -->\n";
+                    $subMap = $this->buildGenericSubMap($this->mergeRawData($elem->marcIndex, $rawData), FALSE);
                 } else {
                     $subMap = $this->getMappedFieldData($field, $fieldMap, $getIndicatorsAndSubfields);
                     $subMap['escHtml'] = TRUE;
@@ -345,10 +404,7 @@ class SolrMarc extends SwissbibSolrMarc {
                     $subMap['@ind2'] = $this->normalizeIndicator($subMap['@ind2']);
                 }
             } else if ($field instanceof \File_MARC_Control_Field) {
-                $subMap = ['value' => $field->getData(),
-                    'escHtml' => TRUE,
-                    '@ind1' => AbstractRenderConfigEntry::$UNKNOWN_INDICATOR,
-                    '@ind2' => AbstractRenderConfigEntry::$UNKNOWN_INDICATOR];
+                $subMap = $this->buildGenericSubMap($field->getData(), TRUE);
             } else {
                 echo "<!-- UNKNOWN: Can't handle field type: " . get_class($field) . " of " . $elem . " -->\n";
                 $subMap = null;
@@ -365,6 +421,16 @@ class SolrMarc extends SwissbibSolrMarc {
             echo "<!-- FAIL: " . $exception->getMessage() . "\n" . $exception->getTraceAsString() . " -->\n";
         }
         return null;
+    }
+
+    protected function buildGenericSubMap($value, bool $escapeHtml) {
+        $subMap = [
+            'value' => $value,
+            'escHtml' => $escapeHtml,
+            '@ind1' => AbstractRenderConfigEntry::$UNKNOWN_INDICATOR,
+            '@ind2' => AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+        ];
+        return $subMap;
     }
 
     protected function normalizeIndicator(String $ind): int {

@@ -8,6 +8,8 @@
 
 namespace SwissCollections\RenderConfig;
 
+use SwissCollections\RecordDriver\ViewFieldInfo;
+
 class RenderGroupConfig {
     /**
      * @var AbstractRenderConfigEntry[]
@@ -35,11 +37,18 @@ class RenderGroupConfig {
         $this->info[$key] = $entry;
     }
 
+    public function addSequences(SequencesEntry &$entry) {
+        $key = $this->buildKey($entry->marcIndex, $entry->indicator1, $entry->indicator2);
+        $this->info[$key] = $entry;
+    }
+
     public function addEntry(AbstractRenderConfigEntry &$entry) {
         if ($entry instanceof CompoundEntry) {
             $this->addCompound($entry);
         } else if ($entry instanceof SingleEntry) {
             $this->addSingle($entry);
+        } else if ($entry instanceof SequencesEntry) {
+            $this->addSequences($entry);
         }
     }
 
@@ -75,35 +84,35 @@ class RenderGroupConfig {
 
     /**
      * @param String $name
-     * @return null|AbstractRenderConfigEntry
+     * @return AbstractRenderConfigEntry[]
      */
     public function getField(String $name) {
+        $fields = [];
         foreach ($this->info as $key => $field) {
             if ($name === $field->labelKey) {
-                return $field;
+                $fields[] = $field;
             }
         }
-        return null;
+        return $fields;
     }
 
     /**
-     * @param String[] $fieldOrder
-     * @param String $groupName
-     * @param Callable $subfieldOrderProvider with $groupName x $fieldName x $subfieldName
+     * @param ViewFieldInfo $viewFieldInfo
      */
-    public function orderFields($fieldOrder, $subfieldOrderProvider) {
+    public function orderFields($viewFieldInfo) {
         $newFields = [];
+        $fieldOrder = $viewFieldInfo->fieldNames($this->name);
         foreach ($fieldOrder as $key => $fieldName) {
-            $gc = $this->getField($fieldName);
-            if ($gc) {
+            $gcs = $this->getField($fieldName);
+            foreach ($gcs as $gc) {
                 $newFields[$key] = $gc;
-                $gc->orderEntries($subfieldOrderProvider($this->name, $fieldName));
+                $gc->orderEntries();
             }
         }
         foreach ($this->info as $key => $field) {
             if (!in_array($field->labelKey, $fieldOrder)) {
                 $newFields[$key] = $field;
-                $field->orderEntries($subfieldOrderProvider($this->name, $field->labelKey));
+                $field->orderEntries();
             }
         }
         $this->info = $newFields;

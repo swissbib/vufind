@@ -49,16 +49,12 @@ abstract class AbstractRenderConfigEntry {
         $this->repeated = false;
     }
 
-    public function info() {
-        return $this->labelKey . "[" . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2 . "]";
-    }
-
     public function setLineRenderMode() {
-        $this->renderMode = CompoundEntry::$RENDER_MODE_LINE;
+        $this->renderMode = AbstractRenderConfigEntry::$RENDER_MODE_LINE;
     }
 
     public function setInlineRenderMode() {
-        $this->renderMode = CompoundEntry::$RENDER_MODE_INLINE;
+        $this->renderMode = AbstractRenderConfigEntry::$RENDER_MODE_INLINE;
     }
 
     /**
@@ -66,7 +62,7 @@ abstract class AbstractRenderConfigEntry {
      * @return bool
      */
     public function isLineRenderMode() {
-        return $this->renderMode == CompoundEntry::$RENDER_MODE_LINE;
+        return $this->renderMode == AbstractRenderConfigEntry::$RENDER_MODE_LINE;
     }
 
     /**
@@ -74,7 +70,7 @@ abstract class AbstractRenderConfigEntry {
      * @return bool
      */
     public function isInlineRenderMode() {
-        return $this->renderMode == CompoundEntry::$RENDER_MODE_INLINE;
+        return $this->renderMode == AbstractRenderConfigEntry::$RENDER_MODE_INLINE;
     }
 
     public function __toString() {
@@ -83,10 +79,7 @@ abstract class AbstractRenderConfigEntry {
             . "," . $this->repeated . "}";
     }
 
-    /**
-     * @param String[] $entryOrder
-     */
-    public function orderEntries($entryOrder) {
+    public function orderEntries() {
         // NOP
     }
 }

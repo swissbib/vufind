@@ -37,12 +37,11 @@ class SingleEntry extends AbstractRenderConfigEntry {
         return $result;
     }
 
-    public function info() {
-        return $this->labelKey . "[" . $this->marcIndex
-            . "," . $this->indicator1 . "," . $this->indicator2 . "," . $this->subfieldName . "]";
-    }
-
     public function __toString() {
         return "SingleEntry{" . parent::__toString() . "," . $this->subfieldName . "}";
+    }
+
+    public function getSubfieldName(): String {
+        return $this->subfieldName;
     }
 }

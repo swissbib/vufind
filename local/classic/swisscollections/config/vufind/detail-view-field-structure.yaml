@@ -31,3 +31,14 @@ structure:
     "Alternativtitel":
     "Sachbegriff":
       repeated: true
+  "Inhalt und innere Ordnung":
+    "Inhalt-505":
+      type: sequences
+      sequences: # from Swissbib/RecordDriver/SolrMarc.php getTableOfContent()
+        - [ "g", "t", "r" ]
+        - [ "g", "t" ]
+        - [ "g", "r" ]
+        - [ "t", "r" ]
+        - [ "t" ]
+        - [ "r" ]
+        - [ "a" ]

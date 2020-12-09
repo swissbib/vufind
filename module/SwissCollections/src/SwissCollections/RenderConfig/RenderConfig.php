@@ -1,5 +1,7 @@
 <?php namespace SwissCollections\RenderConfig;
 
+use SwissCollections\RecordDriver\ViewFieldInfo;
+
 class RenderConfig {
     /**
      * @var RenderGroupConfig[]
@@ -39,23 +41,22 @@ class RenderConfig {
     }
 
     /**
-     * @param String[] $groupOrder
-     * @param Callable $fieldOrderProvider with $groupName
-     * @param Callable $subfieldOrderProvider with $groupName x $fieldName
+     * @param ViewFieldInfo $viewFieldInfo
      */
-    public function orderGroups($groupOrder, $fieldOrderProvider, $subfieldOrderProvider) {
+    public function orderGroups($viewFieldInfo) {
         $newGroups = [];
+        $groupOrder = $viewFieldInfo->groupNames();
         foreach ($groupOrder as $groupName) {
             $gc = $this->get($groupName);
             if ($gc) {
                 $newGroups[] = $gc;
-                $gc->orderFields($fieldOrderProvider($groupName), $subfieldOrderProvider);
+                $gc->orderFields($viewFieldInfo);
             }
         }
         foreach ($this->info as $renderGroupConfig) {
             if (!in_array($renderGroupConfig->getName(), $groupOrder)) {
                 $newGroups[] = $renderGroupConfig;
-                $renderGroupConfig->orderFields($fieldOrderProvider($groupName), $subfieldOrderProvider);
+                $renderGroupConfig->orderFields($viewFieldInfo);
             }
         }
         $this->info = $newGroups;

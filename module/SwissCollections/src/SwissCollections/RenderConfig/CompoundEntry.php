@@ -16,6 +16,11 @@ class CompoundEntry extends AbstractRenderConfigEntry {
     public $elements = [];
 
     /**
+     * @var String[]
+     */
+    protected $entryOrder;
+
+    /**
      * GroupEntry constructor.
      * @param String $labelKey
      * @param int $marcIndex
@@ -32,6 +37,13 @@ class CompoundEntry extends AbstractRenderConfigEntry {
         $singleEntry->renderMode = $this->renderMode;
         $singleEntry->repeated = $this->repeated;
         array_push($this->elements, $singleEntry);
+    }
+
+    /**
+     * @param String[] $order
+     */
+    public function setEntryOrder($order) {
+        $this->entryOrder = $order;
     }
 
     public function __toString() {
@@ -51,19 +63,16 @@ class CompoundEntry extends AbstractRenderConfigEntry {
         return null;
     }
 
-    /**
-     * @param String[] $entryOrder
-     */
-    public function orderEntries($entryOrder) {
+    public function orderEntries() {
         $newEntries = [];
-        foreach ($entryOrder as $fieldName) {
+        foreach ($this->entryOrder as $fieldName) {
             $e = $this->get($fieldName);
             if ($e) {
                 $newEntries[] = $e;
             }
         }
         foreach ($this->elements as $element) {
-            if (!in_array($element->labelKey, $entryOrder)) {
+            if (!in_array($element->labelKey, $this->entryOrder)) {
                 $newEntries[] = $element;
             }
         }

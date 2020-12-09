@@ -58,7 +58,7 @@ $linkSFX = $viewRecord->getLinkSFX();
         /**
          * @var array $subMap
          * @var File_MARC_Data_Field $field
-         * @var \SwissCollections\RenderConfig\CompoundEntry|\SwissCollections\RenderConfig\SingleEntry $renderConfig
+         * @var \SwissCollections\RenderConfig\AbstractRenderConfigEntry $renderConfig
          * @var bool $isFirst compound entry
          * @var bool $isLast compound entry
          * @var bool $firstListEntry
@@ -83,7 +83,7 @@ $linkSFX = $viewRecord->getLinkSFX();
                 }
                 echo "\t\t\t<span class='field-entry field-entry-" . $renderConfig->labelKey . "'>";
             }
-            echo "\t\t<!-- marcInfo=" . $renderConfig->info() . " -->";
+            echo "\t\t<!-- marcInfo=" . $renderConfig . " -->";
             if ($subMap['escHtml']) {
                 echo $this->escapeHtml($subMap['value']);
             } else {
@@ -113,7 +113,7 @@ $linkSFX = $viewRecord->getLinkSFX();
                 echo "<h2>" . $this->translate('page.detail.group.label.' . $groupName) . "</h2>";
                 echo "</a>";
                 /**
-                 * @var \SwissCollections\RenderConfig\CompoundEntry|\SwissCollections\RenderConfig\SingleEntry $renderElem
+                 * @var \SwissCollections\RenderConfig\AbstractRenderConfigEntry $renderElem
                  */
                 foreach ($renderGroupConfig->entries() as $renderElem) {
                     if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
