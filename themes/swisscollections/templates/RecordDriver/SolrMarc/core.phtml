@@ -57,26 +57,22 @@ $linkSFX = $viewRecord->getLinkSFX();
     if ($renderConfig) {
         /**
          * @var array $subMap
-         * @var File_MARC_Data_Field $field
          * @var \SwissCollections\RenderConfig\AbstractRenderConfigEntry $renderConfig
-         * @var bool $isFirst compound entry
-         * @var bool $isLast compound entry
-         * @var bool $firstListEntry
-         * @var bool $lastListEntry
+         * @var \SwissCollections\RecordDriver\FieldRenderContext $context
          */
-        $renderer = function ($subMap, $field, $renderConfig, $isFirst, $isLast, $firstListEntry, $lastListEntry) {
-            if ($renderConfig->repeated && $firstListEntry && $isFirst) {
+        $renderer = function ($subMap, $renderConfig, &$context) {
+            if ($renderConfig->repeated && $context->firstListEntry && $context->firstCompoundEntry) {
                 echo "\t\t<ul>\n";
                 echo "\t\t<li>\n";
             }
-            if ($renderConfig->repeated && !$firstListEntry && $isFirst) {
+            if ($renderConfig->repeated && !$context->firstListEntry && $context->firstCompoundEntry) {
                 echo "\t\t</li>\n";
                 echo "\t\t<li>\n";
             }
             if ($renderConfig->isLineRenderMode()) {
                 echo "\t\t<div class='field-value field-value-" . $renderConfig->labelKey . "'>";
             } else if ($renderConfig->isInlineRenderMode()) {
-                if ($isFirst) {
+                if ($context->firstCompoundEntry) {
                     echo "\t\t<div class='field-value field-value-compound field-value-" . $renderConfig->labelKey . "'>\n";
                 } else {
                     echo ",\n";
@@ -93,11 +89,11 @@ $linkSFX = $viewRecord->getLinkSFX();
                 echo "\t\t</div>\n";
             } else if ($renderConfig->isInlineRenderMode()) {
                 echo "</span>";
-                if ($isLast) {
+                if ($context->lastCompoundEntry) {
                     echo "\n\t\t</div>\n";
                 }
             }
-            if ($renderConfig->repeated && $lastListEntry && $isLast) {
+            if ($renderConfig->repeated && $context->lastListEntry && $context->lastCompoundEntry) {
                 echo "\t\t</li>\n";
                 echo "\t\t</ul>\n";
             }
@@ -122,7 +118,7 @@ $linkSFX = $viewRecord->getLinkSFX();
                         echo $this->translate('page.detail.field.label.' . $renderElem->labelKey);
                         echo "\t</div>\n";
                         echo "\t<div class='col-md-9'>\n";
-                        $record->applyRenderer($renderElem->marcIndex, $renderElem, $renderer);
+                        $record->applyRenderer($renderElem, $renderer);
                         echo "\t</div>\n";
                         echo "</div>\n";
                     }

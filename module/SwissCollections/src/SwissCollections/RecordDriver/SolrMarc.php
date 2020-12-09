@@ -55,80 +55,79 @@ class SolrMarc extends SwissbibSolrMarc {
     }
 
     /**
-     * @param int $marcIndex
      * @param AbstractRenderConfigEntry $rc
-     * @param Callable $renderer called with $subMap, $marcField, AbstractRenderConfigEntry, $isFirst, $isLast, $firstListEntry, $lastListEntry
+     * @param Callable $renderer called with $subMap, FieldRenderContext
      */
-    public function applyRenderer($marcIndex, $rc, $renderer) {
-        $fields = $this->getMarcFields($marcIndex);
+    public function applyRenderer($rc, $renderer) {
+        $fields = $this->getMarcFields($rc->marcIndex);
         if (!empty($fields)) {
-            $processedSubMaps = [];
+            $context = new FieldRenderContext(count($fields), $rc, $renderer);
             foreach ($fields as $fieldIndex => $field) {
-                $firstListEntry = $fieldIndex === 0;
-                $lastListEntry = ($fieldIndex + 1) === count($fields);
-                // echo "<!-- FIELD CLASS " . get_class($field) . " fl=$firstListEntry ll=$lastListEntry rc=$rc -->\n";
+                $context->update($field, $fieldIndex);
                 if ($rc instanceof SingleEntry) {
-                    $this->renderSingle($field, $rc, $renderer, $firstListEntry, $lastListEntry, $processedSubMaps);
+                    $this->renderSingle($context);
                 } else if ($rc instanceof SequencesEntry) {
-                    $this->renderSequences($field, $rc, $renderer, $firstListEntry, $lastListEntry, $processedSubMaps);
+                    $this->renderSequences($context);
                 } else if ($rc instanceof CompoundEntry) {
-                    $this->renderCompound($field, $rc, $renderer, $firstListEntry, $lastListEntry, $processedSubMaps);
+                    $this->renderCompound($context);
                 }
             }
         }
     }
 
     /**
-     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field
-     * @param SequencesEntry $rc
-     * @param Callable $renderer called with $subMap, $marcField, AbstractRenderConfigEntry, $isFirst, $isLast, $firstListEntry, $lastListEntry
-     * @param bool $firstListEntry
-     * @param bool $lastListEntry
+     * @param FieldRenderContext $context
      */
-    protected function renderSequences($field, $rc, $renderer, $firstListEntry, $lastListEntry, &$processedSubMaps) {
+    protected function renderSequences(&$context) {
+        /**
+         * @var SequencesEntry $rc
+         */
+        $rc = $context->rc;
         $rawData = $this->getMarcSubfieldsRaw($rc->marcIndex);
         foreach ($rawData as $entry) {
             $entryLen = count($entry);
             $index = 0;
             while ($index < $entryLen) {
                 $matchedValues = $rc->matchesSubfieldSequence($entry, $index);
-                if (empty($matchedValues)) {
-                    // echo "<!-- ERROR WRONG SEQUENCE ELEMENT " . $rc->marcIndex . ": " . $entry[$index]['tag'] . ": "
-                    //     . $entry[$index]['data'] . " -->\n";
-                    $index++;
-                } else {
-                    $this->renderCompound($matchedValues, $rc, $renderer, $firstListEntry, $lastListEntry, $processedSubMaps);
+                if (!empty($matchedValues)) {
+                    $context->field = $matchedValues;
+                    $this->renderCompound($context);
                     $index += count($matchedValues);
+                } else {
+                    $index++;
                 }
             }
         }
     }
 
     /**
-     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field
-     * @param SingleEntry $rc
-     * @param Callable $renderer called with $subMap, $marcField, AbstractRenderConfigEntry, $isFirst, $isLast, $firstListEntry, $lastListEntry
-     * @param bool $firstListEntry
-     * @param bool $lastListEntry
+     * @param FieldRenderContext $context
      */
-    protected function renderSingle($field, $rc, $renderer, $firstListEntry, $lastListEntry, &$processedSubMaps) {
-        $subMap = $this->getRenderFieldData($field, $rc);
-        if (!empty($subMap) && !$this->alreadyProcessed($processedSubMaps, $subMap)) {
-            $renderer($subMap, $field, $rc, true, true, $firstListEntry, $lastListEntry);
-            $processedSubMaps[] = $subMap;
+    protected function renderSingle(&$context) {
+        /**
+         * @var SingleEntry $rc
+         */
+        $rc = $context->rc;
+        $subMap = $this->getRenderFieldData($context->field, $rc);
+        if (!empty($subMap) && !$context->alreadyProcessed($subMap)) {
+            $context->updateCompoundState(true, true);
+            $renderer = $context->renderer;
+            $renderer($subMap, $rc, $context);
+            $context->addProcessed($subMap);
         }
     }
 
     /**
-     * @param \File_MARC_Data_Field|\File_MARC_Control_Field|array $field - "array" contains raw data objects with
-     *  keys "data" and "tag"
-     * @param CompoundEntry $rc
-     * @param Callable $renderer called with $subMap, $marcField, AbstractRenderConfigEntry, $isFirst, $isLast, $firstListEntry, $lastListEntry
-     * @param bool $firstListEntry
-     * @param bool $lastListEntry
+     * @param FieldRenderContext $context
      */
-    protected function renderCompound($field, $rc, $renderer, $firstListEntry, $lastListEntry, &$processedSubMaps) {
+    protected function renderCompound(&$context) {
+        /**
+         * @var CompoundEntry $rc
+         */
+        $rc = $context->rc;
         $array = $rc->elements;
+        $field = $context->field;
+        $renderer = $context->renderer;
         $values = [];
         $subMaps = [];
         if ($rc instanceof SequencesEntry) {
@@ -153,18 +152,15 @@ class SolrMarc extends SwissbibSolrMarc {
                 }
             }
         }
-        if (!$this->alreadyProcessed($processedSubMaps, $subMaps)) {
+        if (!$context->alreadyProcessed($subMaps)) {
             foreach ($values as $key => $v) {
                 $isFirst = $key === array_key_first($values);
                 $isLast = $key === array_key_last($values);
-                $renderer($v['subMap'], $field, $v['renderConfig'], $isFirst, $isLast, $firstListEntry, $lastListEntry);
+                $context->updateCompoundState($isFirst, $isLast);
+                $renderer($v['subMap'], $v['renderConfig'], $context);
             }
-            $processedSubMaps[] = $subMaps;
+            $context->addProcessed($subMaps);
         }
-    }
-
-    protected function alreadyProcessed(&$processed, $candidate): bool {
-        return in_array($candidate, $processed, true);
     }
 
     /**
