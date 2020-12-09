@@ -61,9 +61,12 @@ class SolrMarc extends SwissbibSolrMarc {
     public function applyRenderer($rc, $renderer) {
         $fields = $this->getMarcFields($rc->marcIndex);
         if (!empty($fields)) {
-            $context = new FieldRenderContext(count($fields), $rc, $renderer);
+            $marcFieldNumber = count($fields);
+            $context = new FieldRenderContext($rc, $renderer);
             foreach ($fields as $fieldIndex => $field) {
-                $context->update($field, $fieldIndex);
+                $isFirst = $fieldIndex === 0;
+                $isLast = ($fieldIndex + 1) === $marcFieldNumber;
+                $context->updateListState($field, $isFirst, $isLast);
                 if ($rc instanceof SingleEntry) {
                     $this->renderSingle($context);
                 } else if ($rc instanceof SequencesEntry) {
@@ -84,20 +87,34 @@ class SolrMarc extends SwissbibSolrMarc {
          */
         $rc = $context->rc;
         $rawData = $this->getMarcSubfieldsRaw($rc->marcIndex);
+
+        $sequences = [];
         foreach ($rawData as $entry) {
             $entryLen = count($entry);
             $index = 0;
             while ($index < $entryLen) {
                 $matchedValues = $rc->matchesSubfieldSequence($entry, $index);
                 if (!empty($matchedValues)) {
-                    $context->field = $matchedValues;
-                    $this->renderCompound($context);
+                    $sequences[] = $matchedValues;
                     $index += count($matchedValues);
                 } else {
                     $index++;
                 }
             }
         }
+
+        $oldFirstList = $context->firstListEntry;
+        $oldLastList = $context->lastListEntry;
+        $context->updateListState($context->field, false, false);
+
+        foreach ($sequences as $index => $matchedValues) {
+            $isFirst = $index === array_key_first($sequences);
+            $isLast = $index === array_key_last($sequences);
+            $context->updateSequenceState($matchedValues, $isFirst, $isLast);
+            $this->renderCompound($context);
+        }
+
+        $context->updateListState($context->field, $oldFirstList, $oldLastList);
     }
 
     /**
@@ -460,8 +477,9 @@ class SolrMarc extends SwissbibSolrMarc {
     }
 
     protected function mergeRawData($marcIndex, $rawData) {
-        $result = "RAW $marcIndex <ul>";
+        $result = "<b style='color: #ff888c;'>RAW</b> $marcIndex <ul style='list-style: disclosure-closed;'>";
         foreach ($rawData as $entry) {
+            $result .= "<li><ul style='padding-left: 10px;'>";
             foreach ($entry as $innerEntry) {
                 $subfieldName = $innerEntry['tag'];
                 $subfieldValue = $innerEntry['data'];
@@ -469,6 +487,7 @@ class SolrMarc extends SwissbibSolrMarc {
                     $result .= "<li><b>" . $subfieldName . "</b>: " . htmlspecialchars($subfieldValue) . "</li>";
                 }
             }
+            $result .= "</ul></li>";
         }
         return $result . "</ul>";
     }

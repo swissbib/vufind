@@ -25,6 +25,7 @@ class SequencesEntry extends CompoundEntry {
     public function __construct(String $labelKey, int $marcIndex, int $indicator1 = -1, int $indicator2 = -1) {
         parent::__construct($labelKey, $marcIndex, $indicator1, $indicator2);
         $this->setInlineRenderMode();
+        $this->repeated = TRUE;
     }
 
     public function __toString() {

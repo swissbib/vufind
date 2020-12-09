@@ -61,13 +61,15 @@ $linkSFX = $viewRecord->getLinkSFX();
          * @var \SwissCollections\RecordDriver\FieldRenderContext $context
          */
         $renderer = function ($subMap, $renderConfig, &$context) {
-            if ($renderConfig->repeated && $context->firstListEntry && $context->firstCompoundEntry) {
-                echo "\t\t<ul>\n";
-                echo "\t\t<li>\n";
-            }
-            if ($renderConfig->repeated && !$context->firstListEntry && $context->firstCompoundEntry) {
-                echo "\t\t</li>\n";
-                echo "\t\t<li>\n";
+            // firstListEntry and firstSequenceEntry are mutual exclusive
+            if ($renderConfig->repeated && $context->firstCompoundEntry) {
+                if ($context->firstListEntry || $context->firstSequenceEntry) {
+                    echo "\t\t<ul>\n";
+                    echo "\t\t<li>\n";
+                } else if (!$context->firstListEntry || !$context->firstSequenceEntry) {
+                    echo "\t\t</li>\n";
+                    echo "\t\t<li>\n";
+                }
             }
             if ($renderConfig->isLineRenderMode()) {
                 echo "\t\t<div class='field-value field-value-" . $renderConfig->labelKey . "'>";
@@ -93,7 +95,7 @@ $linkSFX = $viewRecord->getLinkSFX();
                     echo "\n\t\t</div>\n";
                 }
             }
-            if ($renderConfig->repeated && $context->lastListEntry && $context->lastCompoundEntry) {
+            if ($renderConfig->repeated && ($context->lastListEntry || $context->lastSequenceEntry) && $context->lastCompoundEntry) {
                 echo "\t\t</li>\n";
                 echo "\t\t</ul>\n";
             }
