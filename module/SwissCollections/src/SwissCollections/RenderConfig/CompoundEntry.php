@@ -8,6 +8,9 @@
 
 namespace SwissCollections\RenderConfig;
 
+use SwissCollections\RecordDriver\FieldRenderContext;
+use SwissCollections\RecordDriver\SolrMarc;
+
 class CompoundEntry extends AbstractRenderConfigEntry {
 
     /**
@@ -77,5 +80,39 @@ class CompoundEntry extends AbstractRenderConfigEntry {
             }
         }
         $this->elements = $newEntries;
+    }
+
+    /**
+     * @param SolrMarc $solrMarc
+     * @param array|\File_MARC_Control_Field|\File_MARC_Data_Field $field
+     * @param SingleEntry $elem
+     * @return null|\SwissCollections\RecordDriver\SubfieldRenderData
+     */
+    protected function getApplyRendererData(SolrMarc &$solrMarc, $field, SingleEntry $elem) {
+        return $solrMarc->getRenderFieldData($field, $elem);
+    }
+
+    public function applyRenderer(SolrMarc &$solrMarc, FieldRenderContext &$context) {
+        $array = $this->elements;
+        $field = $context->field;
+        $renderer = $context->renderer;
+        $values = [];
+        $lookupKey = "";
+        foreach ($array as $elem) {
+            $renderFieldData = $this->getApplyRendererData($solrMarc, $field, $elem);
+            if (!empty($renderFieldData) && !$renderFieldData->emptyValue()) {
+                $values[] = ['subMap' => $renderFieldData, 'renderConfig' => $elem];
+                $lookupKey .= "{}" . $renderFieldData->asLookupKey();
+            }
+        }
+        if (!$context->alreadyProcessed($lookupKey)) {
+            foreach ($values as $key => $v) {
+                $isFirst = $key === array_key_first($values);
+                $isLast = $key === array_key_last($values);
+                $context->updateCompoundState($isFirst, $isLast);
+                $renderer($v['subMap'], $v['renderConfig'], $context);
+            }
+            $context->addProcessed($lookupKey);
+        }
     }
 }

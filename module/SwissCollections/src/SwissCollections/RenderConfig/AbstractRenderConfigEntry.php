@@ -8,6 +8,9 @@
 
 namespace SwissCollections\RenderConfig;
 
+use SwissCollections\RecordDriver\FieldRenderContext;
+use SwissCollections\RecordDriver\SolrMarc;
+
 abstract class AbstractRenderConfigEntry {
     /**
      * @var String
@@ -82,4 +85,6 @@ abstract class AbstractRenderConfigEntry {
     public function orderEntries() {
         // NOP
     }
+
+    public abstract function applyRenderer(SolrMarc &$solrMarc, FieldRenderContext &$context);
 }

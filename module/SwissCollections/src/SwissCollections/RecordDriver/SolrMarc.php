@@ -67,111 +67,13 @@ class SolrMarc extends SwissbibSolrMarc {
                 $isFirst = $fieldIndex === 0;
                 $isLast = ($fieldIndex + 1) === $marcFieldNumber;
                 $context->updateListState($field, $isFirst, $isLast);
-                if ($rc instanceof SingleEntry) {
-                    $this->renderSingle($context);
-                } else if ($rc instanceof SequencesEntry) {
-                    $this->renderSequences($context);
-                } else if ($rc instanceof CompoundEntry) {
-                    $this->renderCompound($context);
-                }
+                $rc->applyRenderer($this, $context);
             }
         }
     }
 
-    /**
-     * @param FieldRenderContext $context
-     */
-    protected function renderSequences(&$context) {
-        /**
-         * @var SequencesEntry $rc
-         */
-        $rc = $context->rc;
-        $rawData = $this->getMarcSubfieldsRaw($rc->marcIndex);
-
-        $sequences = [];
-        foreach ($rawData as $entry) {
-            $entryLen = count($entry);
-            $index = 0;
-            while ($index < $entryLen) {
-                $matchedValues = $rc->matchesSubfieldSequence($entry, $index);
-                if (!empty($matchedValues)) {
-                    $sequences[] = $matchedValues;
-                    $index += count($matchedValues);
-                } else {
-                    $index++;
-                }
-            }
-        }
-
-        $oldFirstList = $context->firstListEntry;
-        $oldLastList = $context->lastListEntry;
-        $context->updateListState($context->field, false, false);
-
-        foreach ($sequences as $index => $matchedValues) {
-            $isFirst = $index === array_key_first($sequences);
-            $isLast = $index === array_key_last($sequences);
-            $context->updateSequenceState($matchedValues, $isFirst, $isLast);
-            $this->renderCompound($context);
-        }
-
-        $context->updateListState($context->field, $oldFirstList, $oldLastList);
-    }
-
-    /**
-     * @param FieldRenderContext $context
-     */
-    protected function renderSingle(&$context) {
-        /**
-         * @var SingleEntry $rc
-         */
-        $rc = $context->rc;
-        $renderFieldData = $this->getRenderFieldData($context->field, $rc);
-        if (!empty($renderFieldData)) {
-            $lookupKey = $renderFieldData->asLookupKey();
-            if (!$context->alreadyProcessed($lookupKey)) {
-                $context->updateCompoundState(true, true);
-                $renderer = $context->renderer;
-                $renderer($renderFieldData, $rc, $context);
-                $context->addProcessed($lookupKey);
-            }
-        }
-    }
-
-    /**
-     * @param FieldRenderContext $context
-     */
-    protected function renderCompound(&$context) {
-        /**
-         * @var CompoundEntry $rc
-         */
-        $rc = $context->rc;
-        $array = $rc->elements;
-        $field = $context->field;
-        $renderer = $context->renderer;
-        $values = [];
-        $lookupKey = "";
-        foreach ($array as $elem) {
-            if ($rc instanceof SequencesEntry) {
-                // $field is an array of raw data objects
-                $renderFieldData = $this->buildGenericSubMap($rc->valueForSubfield($elem, $field), TRUE);
-            } else {
-                // CompoundEntry $field is a File_MARC_* object
-                $renderFieldData = $this->getRenderFieldData($field, $elem);
-            }
-            if (!empty($renderFieldData) && !$renderFieldData->emptyValue()) {
-                $values[] = ['subMap' => $renderFieldData, 'renderConfig' => $elem];
-                $lookupKey .= "{}" . $renderFieldData->asLookupKey();
-            }
-        }
-        if (!$context->alreadyProcessed($lookupKey)) {
-            foreach ($values as $key => $v) {
-                $isFirst = $key === array_key_first($values);
-                $isLast = $key === array_key_last($values);
-                $context->updateCompoundState($isFirst, $isLast);
-                $renderer($v['subMap'], $v['renderConfig'], $context);
-            }
-            $context->addProcessed($lookupKey);
-        }
+    public function getMarcSubfieldsRaw($index) {
+        return parent::getMarcSubfieldsRaw($index);
     }
 
     /**
@@ -187,7 +89,8 @@ class SolrMarc extends SwissbibSolrMarc {
             foreach ($fields as $field) {
                 if ($rc instanceof SingleEntry) {
                     $renderFieldData = $this->getRenderFieldData($field, $rc);
-                } else if ($rc instanceof SequencesEntry) {
+                } else if ($rc instanceof CompoundEntry) {
+                    // includes SequencesEntry objects too
                     foreach ($rc->elements as $elem) {
                         $sm = $this->getRenderFieldData($field, $elem);
                         if (!empty($sm)) {
@@ -195,16 +98,7 @@ class SolrMarc extends SwissbibSolrMarc {
                             break 2;
                         }
                     }
-                } else
-                    if ($rc instanceof CompoundEntry) {
-                        foreach ($rc->elements as $elem) {
-                            $sm = $this->getRenderFieldData($field, $elem);
-                            if (!empty($sm)) {
-                                $renderFieldData = $sm;
-                                break 2;
-                            }
-                        }
-                    }
+                }
             }
         }
         return empty($renderFieldData);
@@ -441,7 +335,7 @@ class SolrMarc extends SwissbibSolrMarc {
         return null;
     }
 
-    protected function buildGenericSubMap($value, bool $escapeHtml): SubfieldRenderData {
+    public function buildGenericSubMap($value, bool $escapeHtml): SubfieldRenderData {
         return new SubfieldRenderData(
             $value,
             $escapeHtml,

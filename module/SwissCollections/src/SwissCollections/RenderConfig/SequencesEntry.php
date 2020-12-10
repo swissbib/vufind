@@ -8,6 +8,9 @@
 
 namespace SwissCollections\RenderConfig;
 
+use SwissCollections\RecordDriver\FieldRenderContext;
+use SwissCollections\RecordDriver\SolrMarc;
+
 class SequencesEntry extends CompoundEntry {
 
     /**
@@ -104,5 +107,47 @@ class SequencesEntry extends CompoundEntry {
                 }
             }
         }
+    }
+
+    /**
+     * @param SolrMarc $solrMarc
+     * @param array|\File_MARC_Control_Field|\File_MARC_Data_Field $field
+     * @param SingleEntry $elem
+     * @return null|\SwissCollections\RecordDriver\SubfieldRenderData
+     */
+    protected function getApplyRendererData(SolrMarc &$solrMarc, $field, SingleEntry $elem) {
+        return $solrMarc->buildGenericSubMap($this->valueForSubfield($elem, $field), TRUE);
+    }
+
+    public function applyRenderer(SolrMarc &$solrMarc, FieldRenderContext &$context) {
+        $rawData = $solrMarc->getMarcSubfieldsRaw($this->marcIndex);
+
+        $sequences = [];
+        foreach ($rawData as $entry) {
+            $entryLen = count($entry);
+            $index = 0;
+            while ($index < $entryLen) {
+                $matchedValues = $this->matchesSubfieldSequence($entry, $index);
+                if (!empty($matchedValues)) {
+                    $sequences[] = $matchedValues;
+                    $index += count($matchedValues);
+                } else {
+                    $index++;
+                }
+            }
+        }
+
+        $oldFirstList = $context->firstListEntry;
+        $oldLastList = $context->lastListEntry;
+        $context->updateListState($context->field, false, false);
+
+        foreach ($sequences as $index => $matchedValues) {
+            $isFirst = $index === array_key_first($sequences);
+            $isLast = $index === array_key_last($sequences);
+            $context->updateSequenceState($matchedValues, $isFirst, $isLast);
+            parent::applyRenderer($solrMarc, $context);
+        }
+
+        $context->updateListState($context->field, $oldFirstList, $oldLastList);
     }
 }

@@ -61,6 +61,11 @@ class FieldRenderContext {
         $this->lastCompoundEntry = $isLast;
     }
 
+    /**
+     * @param array|\File_MARC_Control_Field|\File_MARC_Data_Field $matchedValues
+     * @param bool $isFirst
+     * @param bool $isLast
+     */
     public function updateSequenceState($matchedValues, bool $isFirst, bool $isLast) {
         $this->field = $matchedValues;
         $this->firstSequenceEntry = $isFirst;

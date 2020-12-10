@@ -8,6 +8,9 @@
 
 namespace SwissCollections\RenderConfig;
 
+use SwissCollections\RecordDriver\FieldRenderContext;
+use SwissCollections\RecordDriver\SolrMarc;
+
 class SingleEntry extends AbstractRenderConfigEntry {
     protected $subfieldName;
 
@@ -43,5 +46,18 @@ class SingleEntry extends AbstractRenderConfigEntry {
 
     public function getSubfieldName(): String {
         return $this->subfieldName;
+    }
+
+    public function applyRenderer(SolrMarc &$solrMarc, FieldRenderContext &$context) {
+        $renderFieldData = $solrMarc->getRenderFieldData($context->field, $this);
+        if (!empty($renderFieldData)) {
+            $lookupKey = $renderFieldData->asLookupKey();
+            if (!$context->alreadyProcessed($lookupKey)) {
+                $context->updateCompoundState(true, true);
+                $renderer = $context->renderer;
+                $renderer($renderFieldData, $this, $context);
+                $context->addProcessed($lookupKey);
+            }
+        }
     }
 }
