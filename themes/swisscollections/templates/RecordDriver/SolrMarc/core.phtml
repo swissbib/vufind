@@ -56,11 +56,11 @@ $linkSFX = $viewRecord->getLinkSFX();
     <?php
     if ($renderConfig) {
         /**
-         * @var array $subMap
+         * @var \SwissCollections\RecordDriver\SubfieldRenderData $subfieldRenderData
          * @var \SwissCollections\RenderConfig\AbstractRenderConfigEntry $renderConfig
          * @var \SwissCollections\RecordDriver\FieldRenderContext $context
          */
-        $renderer = function ($subMap, $renderConfig, &$context) {
+        $renderer = function (&$subfieldRenderData, &$renderConfig, &$context) {
             // firstListEntry and firstSequenceEntry are mutual exclusive
             if ($renderConfig->repeated && $context->firstCompoundEntry) {
                 if ($context->firstListEntry || $context->firstSequenceEntry) {
@@ -82,10 +82,10 @@ $linkSFX = $viewRecord->getLinkSFX();
                 echo "\t\t\t<span class='field-entry field-entry-" . $renderConfig->labelKey . "'>";
             }
             echo "\t\t<!-- marcInfo=" . $renderConfig . " -->";
-            if ($subMap['escHtml']) {
-                echo $this->escapeHtml($subMap['value']);
+            if ($subfieldRenderData->escHtml) {
+                echo $this->escapeHtml($subfieldRenderData->value);
             } else {
-                echo $subMap['value'];
+                echo $subfieldRenderData->value;
             }
             if ($renderConfig->isLineRenderMode()) {
                 echo "\t\t</div>\n";

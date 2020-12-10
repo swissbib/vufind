@@ -21,7 +21,7 @@ class FieldRenderContext {
     public $rc;
 
     /**
-     * @var Callable $renderer called with $subMap, AbstractRenderConfigEntry, FieldRenderContext
+     * @var Callable $renderer called with SubfieldRenderData, AbstractRenderConfigEntry, FieldRenderContext
      */
     public $renderer;
 
@@ -38,7 +38,7 @@ class FieldRenderContext {
      * FieldRenderContext constructor.
      * @param int $marcFieldNumber
      * @param AbstractRenderConfigEntry $rc
-     * @param Callable $renderer called with $subMap, $marcField, FieldRenderContext
+     * @param Callable $renderer called with SubfieldRenderData, $marcField, FieldRenderContext
      */
     public function __construct(AbstractRenderConfigEntry $rc, Callable $renderer) {
         $this->rc = $rc;
@@ -67,11 +67,15 @@ class FieldRenderContext {
         $this->lastSequenceEntry = $isLast;
     }
 
-    public function alreadyProcessed(&$candidate): bool {
-        return in_array($candidate, $this->processedSubMaps, true);
+    /**
+     * @param String $candidate
+     * @return bool
+     */
+    public function alreadyProcessed(String $candidate): bool {
+        return $this->processedSubMaps[$candidate] === TRUE;
     }
 
-    public function addProcessed(&$candidate) {
-        $this->processedSubMaps[] = $candidate;
+    public function addProcessed(String $candidate) {
+        $this->processedSubMaps[$candidate] = TRUE;
     }
 }
