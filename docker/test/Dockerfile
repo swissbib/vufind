@@ -22,14 +22,17 @@ FROM node:10.18 as nodenpm
 RUN mkdir -p /app/public
 
 COPY package.json package-lock.json tsconfig.json webpack.config.js /app/
-COPY themes /app/
+COPY themes /app/themes
 
 
 WORKDIR /app
 
+RUN npm -v
+
 RUN npm install
-RUN npm run build
 RUN npm run test
+RUN npm run build
+
 
 
 
