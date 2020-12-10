@@ -1,10 +1,44 @@
-FROM node:10.18.1-alpine3.9-om
+#
+# PHP Dependencies Installation
+#
+FROM composer:1.10 as composer
+
+COPY composer.json composer.json
+COPY composer.lock composer.lock
+
+RUN composer install \
+    --ignore-platform-reqs \
+    --no-interaction \
+    --no-plugins \
+    --no-scripts \
+    --prefer-dist
+
+
+#
+# NodeNpm
+#
+FROM node:10.18 as nodenpm
+
+RUN mkdir -p /app/public
+
+COPY package.json package-lock.json tsconfig.json webpack.config.js /app/
+COPY themes /app/
+
+
+WORKDIR /app
+
+RUN npm install
+RUN npm run build
+RUN npm run test
 
 
 
-
+#
+# Application
+#
 FROM php:7.4-fpm-alpine
 VOLUME [ "/usr/local/vufind" ]
+COPY --from=composer /app/vendor/ /usr/local/vufind/vendor/
 ARG vufind_env=development
 ENV VUFIND_CACHE_DIR=/var/cache/vufind \
   VUFIND_APPLICATION_PATH=/usr/local/vufind \
@@ -25,10 +59,10 @@ COPY ./config ${VUFIND_APPLICATION_PATH}/config
 COPY ./languages ${VUFIND_APPLICATION_PATH}/languages
 COPY ./module ${VUFIND_APPLICATION_PATH}/module
 COPY ./public ${VUFIND_APPLICATION_PATH}/public
-COPY ./themes ${VUFIND_APPLICATION_PATH}/themes
 COPY ./util ${VUFIND_APPLICATION_PATH}/util
-COPY ./node_modules ${VUFIND_APPLICATION_PATH}/node_modules
-COPY ./vendor ${VUFIND_APPLICATION_PATH}/vendor
+COPY --from=nodenpm /app/themes ${VUFIND_APPLICATION_PATH}/themes
+COPY --from=nodenpm /app/node_modules ${VUFIND_APPLICATION_PATH}/node_modules
+#COPY ./vendor ${VUFIND_APPLICATION_PATH}/vendor
 # Required by Swissbib Logger. Rather log to stdout!
 COPY --chown=www-data:www-data ./log ${VUFIND_APPLICATION_PATH}/log
 

@@ -1,0 +1,53 @@
+stages:
+  - build
+  - publish
+
+variables:
+  DOCKER_TLS_CERTDIR: ""
+  SBT_OPTS: "-Dsbt.global.base=sbt-cache/sbtboot -Dsbt.boot.directory=sbt-cache/boot -Dsbt.ivy.home=sbt-cache/ivy"
+
+.build-image:                 # .-Präfix markiert ein job-template
+  stage: publish
+  image: docker:stable
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD" "$REGISTRY"
+    - docker build --pull -t "$IMAGE_TAG" -f "$DOCKERFILE" .
+    - docker push "$IMAGE_TAG"
+    - docker logout
+
+build-tagged-image:
+  extends: .build-image       # Implementiert das job-template .build-image
+  variables:
+    IMAGE_TAG: "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG"  # $CI_*-Variablen gehören zu einem set an vordefinierten Variablen
+    REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
+    REGISTRY_USER: "$CI_REGISTRY_USER"
+    REGISTRY: "$CI_REGISTRY"
+    DOCKERFILE: "Dockerfile"
+  only:                       # job wird nur in folgenden Branches verwendet, wobei tags = getaggte commits
+    - tags
+
+build-latest-image:
+  extends: .build-image
+  variables:
+    IMAGE_TAG: "$CI_REGISTRY_IMAGE:latest"
+    REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
+    REGISTRY_USER: "$CI_REGISTRY_USER"
+    REGISTRY: "$CI_REGISTRY"
+    DOCKERFILE: "Dockerfile"
+  only:
+    - master
+
+build-feature-branch-image:
+  extends: .build-image
+  variables:
+    IMAGE_TAG: "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
+    REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
+    REGISTRY_USER: "$CI_REGISTRY_USER"
+    REGISTRY: "$CI_REGISTRY"
+    DOCKERFILE: "Dockerfile"
+  except:                     # job wird in allen branches ausser den folgenden verwendet
+    - master
+    - tags
+
