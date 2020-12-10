@@ -477,14 +477,14 @@ class SolrMarc extends SwissbibSolrMarc {
     }
 
     protected function mergeRawData($marcIndex, $rawData) {
-        $result = "<b style='color: #ff888c;'>RAW</b> $marcIndex <ul style='list-style: disclosure-closed;'>";
+        $result = "<b style='color: #ff888c;'>RAW</b> $marcIndex <ul>";
         foreach ($rawData as $entry) {
-            $result .= "<li><ul style='padding-left: 10px;'>";
+            $result .= "<li style='list-style: none; background: url(\"/themes/bootprint3/images/icons/arrow_right.png\") no-repeat 0 2px; padding-left: 20px;'><ul style='padding-left: 10px;'>";
             foreach ($entry as $innerEntry) {
                 $subfieldName = $innerEntry['tag'];
                 $subfieldValue = $innerEntry['data'];
                 if (!empty($subfieldValue)) {
-                    $result .= "<li><b>" . $subfieldName . "</b>: " . htmlspecialchars($subfieldValue) . "</li>";
+                    $result .= "<li style='list-style: disc;'><b>" . $subfieldName . "</b>: " . htmlspecialchars($subfieldValue) . "</li>";
                 }
             }
             $result .= "</ul></li>";
