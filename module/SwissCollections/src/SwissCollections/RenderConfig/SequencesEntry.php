@@ -55,14 +55,6 @@ class SequencesEntry extends CompoundEntry {
      */
     public function setSequences($sequences) {
         $this->sequences = $sequences;
-        foreach ($sequences as $seq) {
-            foreach ($seq as $subfieldName) {
-                if (!$this->knowsSubfield($subfieldName)) {
-                    $this->addElement($this->labelKey, $subfieldName);
-                }
-            }
-        }
-        echo "<!-- SEQ " . $this->marcIndex . "\n" . $this . " -->\n";
     }
 
     /**
@@ -119,5 +111,15 @@ class SequencesEntry extends CompoundEntry {
 //            }
 //        }
 //        $this->elements = $newEntries;
+    }
+
+    public function addSubfieldsFromSequences(): void {
+        foreach ($this->sequences as $seq) {
+            foreach ($seq as $subfieldName) {
+                if (!$this->knowsSubfield($subfieldName)) {
+                    $this->addElement($this->labelKey, $subfieldName);
+                }
+            }
+        }
     }
 }

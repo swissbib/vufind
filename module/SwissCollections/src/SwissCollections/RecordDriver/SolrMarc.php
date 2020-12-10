@@ -193,14 +193,6 @@ class SolrMarc extends SwissbibSolrMarc {
             foreach ($fields as $field) {
                 if ($rc instanceof SingleEntry) {
                     $subMap = $this->getRenderFieldData($field, $rc);
-                } else if ($rc instanceof CompoundEntry) {
-                    foreach ($rc->elements as $elem) {
-                        $sm = $this->getRenderFieldData($field, $elem);
-                        if (!empty($sm)) {
-                            $subMap = $sm;
-                            break 2;
-                        }
-                    }
                 } else if ($rc instanceof SequencesEntry) {
                     foreach ($rc->elements as $elem) {
                         $sm = $this->getRenderFieldData($field, $elem);
@@ -209,7 +201,16 @@ class SolrMarc extends SwissbibSolrMarc {
                             break 2;
                         }
                     }
-                }
+                } else
+                    if ($rc instanceof CompoundEntry) {
+                        foreach ($rc->elements as $elem) {
+                            $sm = $this->getRenderFieldData($field, $elem);
+                            if (!empty($sm)) {
+                                $subMap = $sm;
+                                break 2;
+                            }
+                        }
+                    }
             }
         }
         return empty($subMap);
@@ -277,16 +278,16 @@ class SolrMarc extends SwissbibSolrMarc {
             }
 
             $marcIndex = $field[SolrMarc::$MARC_MAPPING_MARC_INDEX];
-            if (!is_numeric($marcIndex)) {
+            if (!ctype_digit($marcIndex)) {
                 echo "<!-- SKIPPING BAD MARC INDEX: $groupName > $fieldName > $subFieldName: '$marcIndex' -->\n";
                 continue;
             }
             $marcIndex = intval($marcIndex);
             $marcSubfieldName = $field[SolrMarc::$MARC_MAPPING_MARC_SUBFIELD];
-            $marcIndicator1 = $field[SolrMarc::$MARC_MAPPING_MARC_IND1];
-            $marcIndicator2 = $field[SolrMarc::$MARC_MAPPING_MARC_IND2];
-            $marcIndicator1 = $this->parseIndicator($marcIndicator1, $groupName, $fieldName);
-            $marcIndicator2 = $this->parseIndicator($marcIndicator2, $groupName, $fieldName);
+            $marcIndicator1Str = $field[SolrMarc::$MARC_MAPPING_MARC_IND1];
+            $marcIndicator2Str = $field[SolrMarc::$MARC_MAPPING_MARC_IND2];
+            $marcIndicator1 = $this->parseIndicator($marcIndicator1Str, $groupName, $fieldName);
+            $marcIndicator2 = $this->parseIndicator($marcIndicator2Str, $groupName, $fieldName);
 
             // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex|$marcIndicator1|$marcIndicator2|$marcSubfieldName -->\n";
 
@@ -319,20 +320,20 @@ class SolrMarc extends SwissbibSolrMarc {
                     if ($fieldViewInfo) {
                         $renderGroupEntry->setEntryOrder($this->detailViewFieldInfo->getSubfieldEntries($fieldViewInfo));
                     }
+                    if ($renderMode === AbstractRenderConfigEntry::$RENDER_MODE_INLINE) {
+                        $renderGroupEntry->setInlineRenderMode();
+                    }
+                    $renderGroupEntry->repeated = $repeated;
                 }
                 if ($renderType === 'sequences') {
                     $renderGroupEntry = new SequencesEntry($subFieldName, $marcIndex, $marcIndicator1, $marcIndicator2);
                     if ($fieldViewInfo) {
                         $renderGroupEntry->setSequences($this->detailViewFieldInfo->getSubfieldSequences($fieldViewInfo));
                     }
+                    if ($renderMode === AbstractRenderConfigEntry::$RENDER_MODE_LINE) {
+                        $renderGroupEntry->setLineRenderMode();
+                    }
                 }
-                if ($renderMode === AbstractRenderConfigEntry::$RENDER_MODE_INLINE) {
-                    $renderGroupEntry->setInlineRenderMode();
-                } else {
-                    // default render mode
-                    $renderGroupEntry->setLineRenderMode();
-                }
-                $renderGroupEntry->repeated = $repeated;
             }
             if ($renderType === 'single') {
                 if ($renderGroupEntry) {
@@ -348,8 +349,10 @@ class SolrMarc extends SwissbibSolrMarc {
                 $renderGroup->addSingle($renderGroupEntry);
                 $renderGroupEntry = null;
             } else if ($renderType === 'compound' || $renderType === 'sequences') {
-                // TODO add $marcIndicator1/2? different to compound entry?
-                $renderGroupEntry->addElement($subFieldName, $marcSubfieldName);
+                // TODO add $marcIndicator1/2? different to compound/sequences entry?
+                if ($renderType === 'compound' || !empty($marcSubfieldName)) {
+                    $renderGroupEntry->addElement($subFieldName, $marcSubfieldName);
+                }
             }
         }
         $this->finishGroup($renderGroup, $renderGroupEntry);
@@ -380,16 +383,21 @@ class SolrMarc extends SwissbibSolrMarc {
      */
     public function finishField(&$renderGroup, &$renderGroupEntry): void {
         if ($renderGroupEntry) {
+            if ($renderGroupEntry instanceof SequencesEntry) {
+                // perhaps the csv contained some subfields, at the remaining from the sequences
+                $renderGroupEntry->addSubfieldsFromSequences();
+            }
             $renderGroup->addEntry($renderGroupEntry);
             $renderGroupEntry = null;
         }
     }
 
     protected function parseIndicator(String $s, $groupName, $fieldName) {
-        if (empty($s)) {
+        $s = trim($s);
+        if (strlen($s) === 0) {
             return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
         }
-        if (!is_numeric($s)) {
+        if (!ctype_digit($s)) {
             echo "<!-- SKIPPING BAD MARC INDICATOR: $groupName > $fieldName: '$s' -->\n";
             return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
         }
@@ -409,7 +417,10 @@ class SolrMarc extends SwissbibSolrMarc {
                 if (count($fieldMap) === 0) {
                     $rawData = $this->getMarcSubfieldsRaw($elem->marcIndex);
                     // echo "<!-- RAW " . $elem->marcIndex . ": " . print_r($rawData, true) . " -->\n";
-                    $subMap = $this->buildGenericSubMap($this->mergeRawData($elem->marcIndex, $rawData), FALSE);
+                    // ignore indicators for raw output in $subMap
+                    $ind1 = $this->normalizeIndicator($field->getIndicator(1));
+                    $ind2 = $this->normalizeIndicator($field->getIndicator(2));
+                    $subMap = $this->buildGenericSubMap($this->mergeRawData($elem->marcIndex, $rawData, $ind1, $ind2), FALSE);
                 } else {
                     $subMap = $this->getMappedFieldData($field, $fieldMap, $getIndicatorsAndSubfields);
                     $subMap['escHtml'] = TRUE;
@@ -422,6 +433,7 @@ class SolrMarc extends SwissbibSolrMarc {
                 echo "<!-- UNKNOWN: Can't handle field type: " . get_class($field) . " of " . $elem . " -->\n";
                 $subMap = null;
             }
+            // echo "<!-- GRFD: " . $elem->marcIndex . " " . $elem->getSubfieldName() . " " . print_r($subMap, true) . " -->\n";
             if (!$this->isEmptyValue($subMap)) {
                 if ($subMap['@ind1'] === $elem->indicator1 && $subMap['@ind2'] === $elem->indicator2) {
                     return $subMap;
@@ -448,7 +460,7 @@ class SolrMarc extends SwissbibSolrMarc {
 
     protected function normalizeIndicator(String $ind): int {
         $ind = trim($ind);
-        if (strlen($ind) === 0 || !is_int($ind)) {
+        if (strlen($ind) === 0 || !ctype_digit($ind)) {
             return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
         }
         return intval($ind);
@@ -476,8 +488,16 @@ class SolrMarc extends SwissbibSolrMarc {
         return $groupIsEmpty;
     }
 
-    protected function mergeRawData($marcIndex, $rawData) {
-        $result = "<b style='color: #ff888c;'>RAW</b> $marcIndex <ul>";
+    protected function mergeRawData(int $marcIndex, $rawData, int $ind1, int $ind2) {
+        $ind1Str = "" . $ind1;
+        $ind2Str = "" . $ind2;
+        if ($ind1 < 0) {
+            $ind1Str = "";
+        }
+        if ($ind2 < 0) {
+            $ind2Str = "";
+        }
+        $result = "<b style='color: #ff888c;'>RAW</b> $marcIndex [$ind1Str|$ind2Str] <ul>";
         foreach ($rawData as $entry) {
             $result .= "<li style='list-style: none; background: url(\"/themes/bootprint3/images/icons/arrow_right.png\") no-repeat 0 2px; padding-left: 20px;'><ul style='padding-left: 10px;'>";
             foreach ($entry as $innerEntry) {
