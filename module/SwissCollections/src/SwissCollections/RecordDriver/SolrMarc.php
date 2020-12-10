@@ -411,21 +411,25 @@ class SolrMarc extends SwissbibSolrMarc {
      */
     public function getRenderFieldData($field, $elem) {
         try {
-            $getIndicatorsAndSubfields = $field instanceof \File_MARC_Data_Field;
-            if ($getIndicatorsAndSubfields) {
+            if ($field instanceof \File_MARC_Data_Field) {
+                $ind1 = $this->normalizeIndicator($field->getIndicator(1));
+                $ind2 = $this->normalizeIndicator($field->getIndicator(2));
+                if ($ind1 !== $elem->indicator1 || $ind2 !== $elem->indicator2) {
+                    echo "<!-- INDICATOR MISMATCH: $elem, $ind1/$ind2 -->\n";
+                    return null;
+                }
+
                 $fieldMap = $elem->buildMap();
                 if (count($fieldMap) === 0) {
                     $rawData = $this->getMarcSubfieldsRaw($elem->marcIndex);
                     // echo "<!-- RAW " . $elem->marcIndex . ": " . print_r($rawData, true) . " -->\n";
                     // ignore indicators for raw output in $subMap
-                    $ind1 = $this->normalizeIndicator($field->getIndicator(1));
-                    $ind2 = $this->normalizeIndicator($field->getIndicator(2));
                     $subMap = $this->buildGenericSubMap($this->mergeRawData($elem->marcIndex, $rawData, $ind1, $ind2), FALSE);
                 } else {
-                    $subMap = $this->getMappedFieldData($field, $fieldMap, $getIndicatorsAndSubfields);
+                    $subMap = $this->getMappedFieldData($field, $fieldMap, true);
                     $subMap['escHtml'] = TRUE;
-                    $subMap['@ind1'] = $this->normalizeIndicator($subMap['@ind1']);
-                    $subMap['@ind2'] = $this->normalizeIndicator($subMap['@ind2']);
+                    $subMap['@ind1'] = $ind1;
+                    $subMap['@ind2'] = $ind2;
                 }
             } else if ($field instanceof \File_MARC_Control_Field) {
                 $subMap = $this->buildGenericSubMap($field->getData(), TRUE);
@@ -435,11 +439,7 @@ class SolrMarc extends SwissbibSolrMarc {
             }
             // echo "<!-- GRFD: " . $elem->marcIndex . " " . $elem->getSubfieldName() . " " . print_r($subMap, true) . " -->\n";
             if (!$this->isEmptyValue($subMap)) {
-                if ($subMap['@ind1'] === $elem->indicator1 && $subMap['@ind2'] === $elem->indicator2) {
-                    return $subMap;
-                } else {
-                    echo "<!-- INDICATOR MISMATCH: $elem, " . $subMap['@ind1'] . "/" . $subMap['@ind2'] . " -->\n";
-                }
+                return $subMap;
             }
             return null;
         } catch (\Throwable $exception) {
