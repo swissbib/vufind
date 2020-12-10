@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swisscollections-test-front-end-deployment
+  namespace: memobase
+  labels:
+    app: swisscollections-test-app
+spec:
+  selector:
+    matchLabels:
+      app: swisscollections-test-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: swisscollections-test-app
+        tier: web
+    spec:
+      containers:
+        - name: swisscollections-test-container
+          image: cr.gitlab.switch.ch/memoriav/memobase-2020/services/import-process/import-api:latest
+          envFrom:
+            - configMapRef:
+                name: "swisscollections-test-config"
+            - secretRef:
+                name: drupal-api-credentials
+            - secretRef:
+                name: internal-sftp-config
+            - configMapRef:
+                name: "prod-kafka-bootstrap-servers"
+            - configMapRef:
+                name: "import-api-test-config"
+          ports:
+            - containerPort: 5000
+              name: http
+              protocol: TCP
+          imagePullPolicy: Always

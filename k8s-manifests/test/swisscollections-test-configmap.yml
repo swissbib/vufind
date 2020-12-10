@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: swisscollections-test-config
+  namespace: memobase
+data:
+  IMPORT_API_URL: 'https://test.swisscollections.memobase.k8s.unibas.ch'
