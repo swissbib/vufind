@@ -96,28 +96,11 @@ class SequencesEntry extends CompoundEntry {
         return null;
     }
 
-    public function orderEntries() {
-        // TODO
-//        $newEntries = [];
-//        foreach ($entryOrder as $fieldName) {
-//            $e = $this->get($fieldName);
-//            if ($e) {
-//                $newEntries[] = $e;
-//            }
-//        }
-//        foreach ($this->elements as $element) {
-//            if (!in_array($element->labelKey, $entryOrder)) {
-//                $newEntries[] = $element;
-//            }
-//        }
-//        $this->elements = $newEntries;
-    }
-
     public function addSubfieldsFromSequences(): void {
         foreach ($this->sequences as $seq) {
             foreach ($seq as $subfieldName) {
                 if (!$this->knowsSubfield($subfieldName)) {
-                    $this->addElement($this->labelKey, $subfieldName);
+                    $this->addElement($this->labelKey . "-" . $subfieldName, $subfieldName);
                 }
             }
         }

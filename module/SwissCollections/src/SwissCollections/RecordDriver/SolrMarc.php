@@ -322,6 +322,7 @@ class SolrMarc extends SwissbibSolrMarc {
                 if ($renderType === 'sequences') {
                     $renderGroupEntry = new SequencesEntry($subFieldName, $marcIndex, $marcIndicator1, $marcIndicator2);
                     if ($fieldViewInfo) {
+                        $renderGroupEntry->setEntryOrder($this->detailViewFieldInfo->getSubfieldEntries($fieldViewInfo));
                         $renderGroupEntry->setSequences($this->detailViewFieldInfo->getSubfieldSequences($fieldViewInfo));
                     }
                     if ($renderMode === AbstractRenderConfigEntry::$RENDER_MODE_LINE) {

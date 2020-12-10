@@ -18,7 +18,7 @@ class CompoundEntry extends AbstractRenderConfigEntry {
     /**
      * @var String[]
      */
-    protected $entryOrder;
+    protected $entryOrder = [];
 
     /**
      * GroupEntry constructor.

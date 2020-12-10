@@ -92,7 +92,11 @@ class ViewFieldInfo {
      * @return String[]
      */
     public function getSubfieldEntries($fieldViewInfo) {
-        return $fieldViewInfo[ViewFieldInfo::$RENDER_INFO_FIELD_SUBFIELDS];
+        $v = $fieldViewInfo[ViewFieldInfo::$RENDER_INFO_FIELD_SUBFIELDS];
+        if (empty($v)) {
+            return [];
+        }
+        return $v;
     }
 
     /**
