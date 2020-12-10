@@ -24,7 +24,7 @@ build-tagged-image:
     REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
     REGISTRY_USER: "$CI_REGISTRY_USER"
     REGISTRY: "$CI_REGISTRY"
-    DOCKERFILE: "Dockerfile"
+    DOCKERFILE: "docker/test/Dockerfile"
   only:                       # job wird nur in folgenden Branches verwendet, wobei tags = getaggte commits
     - tags
 
@@ -35,7 +35,7 @@ build-latest-image:
     REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
     REGISTRY_USER: "$CI_REGISTRY_USER"
     REGISTRY: "$CI_REGISTRY"
-    DOCKERFILE: "Dockerfile"
+    DOCKERFILE: "docker/test/Dockerfile"
   only:
     - master
 
@@ -46,7 +46,7 @@ build-feature-branch-image:
     REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
     REGISTRY_USER: "$CI_REGISTRY_USER"
     REGISTRY: "$CI_REGISTRY"
-    DOCKERFILE: "Dockerfile"
+    DOCKERFILE: "docker/test/Dockerfile"
   except:                     # job wird in allen branches ausser den folgenden verwendet
     - master
     - tags
