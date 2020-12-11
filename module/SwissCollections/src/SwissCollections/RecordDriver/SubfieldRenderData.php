@@ -47,4 +47,8 @@ class SubfieldRenderData {
     public function asLookupKey(): String {
         return "|" . $this->value . "|" . $this->ind1 . "|" . $this->ind2 . "|";
     }
+
+    public function __toString() {
+        return "SubfieldRenderData{" . $this->asLookupKey() . "|" . json_encode($this->escHtml) . "}";
+    }
 }

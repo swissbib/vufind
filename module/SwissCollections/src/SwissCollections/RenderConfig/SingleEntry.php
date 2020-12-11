@@ -8,8 +8,8 @@
 
 namespace SwissCollections\RenderConfig;
 
+use SwissCollections\Formatter\FieldFormatterData;
 use SwissCollections\RecordDriver\FieldRenderContext;
-use SwissCollections\RecordDriver\SolrMarc;
 
 class SingleEntry extends AbstractRenderConfigEntry {
     protected $subfieldName;
@@ -48,16 +48,19 @@ class SingleEntry extends AbstractRenderConfigEntry {
         return $this->subfieldName;
     }
 
-    public function applyRenderer(SolrMarc &$solrMarc, FieldRenderContext &$context) {
-        $renderFieldData = $solrMarc->getRenderFieldData($context->field, $this);
-        if (!empty($renderFieldData)) {
+    /**
+     * @param \File_MARC_Control_Field|\File_MARC_Field $field
+     * @param FieldRenderContext $context
+     * @return array with two elements: FieldFormatterData[] and lookup key
+     */
+    public function getAllRenderData(&$field, &$context): array {
+        $values = [];
+        $lookupKey = "";
+        $renderFieldData = $context->solrMarc->getRenderFieldData($field, $this);
+        if (!empty($renderFieldData) && !$renderFieldData->emptyValue()) {
             $lookupKey = $renderFieldData->asLookupKey();
-            if (!$context->alreadyProcessed($lookupKey)) {
-                $context->updateCompoundState(true, true);
-                $renderer = $context->renderer;
-                $renderer($renderFieldData, $this, $context);
-                $context->addProcessed($lookupKey);
-            }
+            $values = [new FieldFormatterData($this, $renderFieldData)];
         }
+        return array($values, $lookupKey);
     }
 }

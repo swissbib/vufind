@@ -54,26 +54,12 @@ class SolrMarc extends SwissbibSolrMarc {
         return $this->renderConfig->entries();
     }
 
-    /**
-     * @param AbstractRenderConfigEntry $rc
-     * @param Callable $renderer called with SubfieldRenderData, FieldRenderContext
-     */
-    public function applyRenderer($rc, $renderer) {
-        $fields = $this->getMarcFields($rc->marcIndex);
-        if (!empty($fields)) {
-            $marcFieldNumber = count($fields);
-            $context = new FieldRenderContext($rc, $renderer);
-            foreach ($fields as $fieldIndex => $field) {
-                $isFirst = $fieldIndex === 0;
-                $isLast = ($fieldIndex + 1) === $marcFieldNumber;
-                $context->updateListState($field, $isFirst, $isLast);
-                $rc->applyRenderer($this, $context);
-            }
-        }
-    }
-
     public function getMarcSubfieldsRaw($index) {
         return parent::getMarcSubfieldsRaw($index);
+    }
+
+    public function getMarcFields($index) {
+        return parent::getMarcFields($index);
     }
 
     /**
@@ -182,7 +168,6 @@ class SolrMarc extends SwissbibSolrMarc {
             // calculate render type and mode ...
             $groupViewInfo = $this->detailViewFieldInfo->getGroup($groupName);
             $renderType = 'single';
-            $renderMode = '';
             $repeated = false;
             $fieldViewInfo = null;
 
@@ -191,9 +176,6 @@ class SolrMarc extends SwissbibSolrMarc {
                 if ($fieldViewInfo) {
                     if ($this->detailViewFieldInfo->hasType($fieldViewInfo)) {
                         $renderType = $this->detailViewFieldInfo->getType($fieldViewInfo);
-                    }
-                    if ($this->detailViewFieldInfo->hasMode($fieldViewInfo)) {
-                        $renderMode = $this->detailViewFieldInfo->getMode($fieldViewInfo);
                     }
                     if ($this->detailViewFieldInfo->hasRepeated($fieldViewInfo)) {
                         $repeated = $this->detailViewFieldInfo->getRepeated($fieldViewInfo);
@@ -208,9 +190,7 @@ class SolrMarc extends SwissbibSolrMarc {
                     if ($fieldViewInfo) {
                         $renderGroupEntry->setEntryOrder($this->detailViewFieldInfo->getSubfieldEntries($fieldViewInfo));
                     }
-                    if ($renderMode === AbstractRenderConfigEntry::$RENDER_MODE_INLINE) {
-                        $renderGroupEntry->setInlineRenderMode();
-                    }
+                    $this->setLineMode($fieldViewInfo, $renderGroupEntry, 'line');
                     $renderGroupEntry->repeated = $repeated;
                 }
                 if ($renderType === 'sequences') {
@@ -219,9 +199,7 @@ class SolrMarc extends SwissbibSolrMarc {
                         $renderGroupEntry->setEntryOrder($this->detailViewFieldInfo->getSubfieldEntries($fieldViewInfo));
                         $renderGroupEntry->setSequences($this->detailViewFieldInfo->getSubfieldSequences($fieldViewInfo));
                     }
-                    if ($renderMode === AbstractRenderConfigEntry::$RENDER_MODE_LINE) {
-                        $renderGroupEntry->setLineRenderMode();
-                    }
+                    $this->setLineMode($fieldViewInfo, $renderGroupEntry, 'inline');
                 }
             }
             if ($renderType === 'single') {
@@ -235,6 +213,7 @@ class SolrMarc extends SwissbibSolrMarc {
                     $marcIndicator1,
                     $marcIndicator2);
                 $renderGroupEntry->repeated = $repeated;
+                $this->setLineMode($fieldViewInfo, $renderGroupEntry, 'line');
                 $renderGroup->addSingle($renderGroupEntry);
                 $renderGroupEntry = null;
             } else if ($renderType === 'compound' || $renderType === 'sequences') {
@@ -295,19 +274,37 @@ class SolrMarc extends SwissbibSolrMarc {
 
     /**
      * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field
+     * @param AbstractRenderConfigEntry $elem
+     * @return bool if OK
+     */
+    public function checkIndicators($field, $elem): bool {
+        try {
+            $ind1 = $this->normalizeIndicator($field->getIndicator(1));
+            $ind2 = $this->normalizeIndicator($field->getIndicator(2));
+            if ($ind1 !== $elem->indicator1 || $ind2 !== $elem->indicator2) {
+                echo "<!-- WARN: INDICATOR MISMATCH $elem, $ind1/$ind2 -->\n";
+                return FALSE;
+            }
+        } catch (\Throwable $exception) {
+            echo "<!-- ERROR: Exception " . $exception->getMessage() . "\n" . $exception->getTraceAsString() . " -->\n";
+            return FALSE;
+        }
+        return TRUE;
+    }
+
+    /**
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field
      * @param SingleEntry $elem
      * @return null|SubfieldRenderData
      */
     public function getRenderFieldData($field, $elem) {
         try {
             if ($field instanceof \File_MARC_Data_Field) {
-                $ind1 = $this->normalizeIndicator($field->getIndicator(1));
-                $ind2 = $this->normalizeIndicator($field->getIndicator(2));
-                if ($ind1 !== $elem->indicator1 || $ind2 !== $elem->indicator2) {
-                    echo "<!-- WARN: INDICATOR MISMATCH $elem, $ind1/$ind2 -->\n";
+                if (!$this->checkIndicators($field, $elem)) {
                     return null;
                 }
-
+                $ind1 = $this->normalizeIndicator($field->getIndicator(1));
+                $ind2 = $this->normalizeIndicator($field->getIndicator(2));
                 $fieldMap = $elem->buildMap();
                 if (count($fieldMap) === 0) {
                     $rawData = $this->getMarcSubfieldsRaw($elem->marcIndex);
@@ -392,5 +389,13 @@ class SolrMarc extends SwissbibSolrMarc {
             $result .= "</ul></li>";
         }
         return $result . "</ul>";
+    }
+
+    protected function setLineMode($fieldViewInfo, AbstractRenderConfigEntry $renderGroupEntry, String $default): void {
+        $renderMode = $default;
+        if ($fieldViewInfo && $this->detailViewFieldInfo->hasMode($fieldViewInfo)) {
+            $renderMode = $this->detailViewFieldInfo->getMode($fieldViewInfo);
+        }
+        $renderGroupEntry->setRenderMode($renderMode);
     }
 }

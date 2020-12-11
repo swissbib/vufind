@@ -8,8 +8,8 @@
 
 namespace SwissCollections\RenderConfig;
 
+use SwissCollections\Formatter\FieldFormatterData;
 use SwissCollections\RecordDriver\FieldRenderContext;
-use SwissCollections\RecordDriver\SolrMarc;
 
 abstract class AbstractRenderConfigEntry {
     /**
@@ -35,11 +35,9 @@ abstract class AbstractRenderConfigEntry {
     public $repeated;
 
     /**
-     * @var String $renderMode is either 'line' (default) or 'inline'
+     * @var String $renderMode is a FieldFormatter's name
      */
-    public $renderMode;
-    public static $RENDER_MODE_LINE = "line";
-    public static $RENDER_MODE_INLINE = "inline";
+    protected $renderMode;
 
     public static $UNKNOWN_INDICATOR = -1;
 
@@ -48,43 +46,61 @@ abstract class AbstractRenderConfigEntry {
         $this->marcIndex = $marcIndex;
         $this->indicator1 = $indicator1;
         $this->indicator2 = $indicator2;
-        $this->setLineRenderMode();
         $this->repeated = false;
     }
 
-    public function setLineRenderMode() {
-        $this->renderMode = AbstractRenderConfigEntry::$RENDER_MODE_LINE;
+    public function setRenderMode(String $name) {
+        $this->renderMode = $name;
     }
 
-    public function setInlineRenderMode() {
-        $this->renderMode = AbstractRenderConfigEntry::$RENDER_MODE_INLINE;
-    }
-
-    /**
-     * Render each group element in its own html container.
-     * @return bool
-     */
-    public function isLineRenderMode() {
-        return $this->renderMode == AbstractRenderConfigEntry::$RENDER_MODE_LINE;
-    }
-
-    /**
-     * Render all group elements in one line.
-     * @return bool
-     */
-    public function isInlineRenderMode() {
-        return $this->renderMode == AbstractRenderConfigEntry::$RENDER_MODE_INLINE;
+    public function getRenderMode(): String {
+        return $this->renderMode;
     }
 
     public function __toString() {
         return "RenderConfigEntry{" . $this->labelKey . ","
             . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2
-            . "," . $this->repeated . "}";
+            . "," . $this->repeated . "," . $this->renderMode . "}";
     }
 
     public function orderEntries() {
         // NOP
     }
 
-    public abstract function applyRenderer(SolrMarc &$solrMarc, FieldRenderContext &$context);
+    /**
+     * Not used in this class.
+     *
+     * @param \File_MARC_Control_Field|\File_MARC_Field $field
+     * @param FieldRenderContext $context
+     * @return array of 2 elements: FieldFormatterData[] and lookup key (String)
+     */
+    public function getAllRenderData(&$field, &$context): array {
+        return array([], "");
+    }
+
+    /**
+     * @param FieldFormatterData[] $values
+     * @param String $lookupKey
+     * @param FieldRenderContext $context
+     */
+    protected function renderImpl(&$values, $lookupKey, &$context) {
+        if (count($values) > 0 && !$context->alreadyProcessed($lookupKey)) {
+            if ($this->repeated) {
+                echo "\t\t<li>\n";
+            }
+            $context->applyFieldFormatter($lookupKey, $values, $this->renderMode, $this->labelKey);
+            if ($this->repeated) {
+                echo "\t\t</li>\n";
+            }
+        }
+    }
+
+    /**
+     * @param \File_MARC_Control_Field|\File_MARC $field
+     * @param FieldRenderContext $context
+     */
+    public function render(&$field, &$context) {
+        list($values, $lookupKey) = $this->getAllRenderData($field, $context);
+        $this->renderImpl($values, $lookupKey, $context);
+    }
 }

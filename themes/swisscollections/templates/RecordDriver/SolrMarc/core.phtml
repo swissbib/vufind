@@ -1,13 +1,18 @@
-<?php // Proof of Concept: Copied from themes/sbvfrd/templates/RecordDriver/DefaultRecord/core.phtml ?>
-<!--<h1>SwissCollections</h1>-->
-<!-- <?php echo APPLICATION_ENV; ?>-->
+<!-- <?php use SwissCollections\Formatter\FieldFormatterRegistry;
+use SwissCollections\RecordDriver\FieldRenderContext;
+use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
+use SwissCollections\RenderConfig\RenderGroupConfig;
+use SwissCollections\templates\RecordDriver\SolrMarc\InlineFormatter;
+use SwissCollections\templates\RecordDriver\SolrMarc\LineFormatter;
+
+echo APPLICATION_ENV; ?>-->
 <?php
 /** @var SwissCollections\RecordDriver\SolrMarc $record */
 $record = $this->driver;
 /** @var Swissbib\View\Helper\Record $viewRecord */
 $viewRecord = $this->record($record);
 /**
- * @var \SwissCollections\RenderConfig\RenderGroupConfig[]
+ * @var RenderGroupConfig[]
  */
 $renderConfig = $record->getRenderConfig();
 
@@ -48,6 +53,12 @@ if ($nl) {
 $link360 = $viewRecord->getLink360();
 $linkSFX = $viewRecord->getLinkSFX();
 
+$this->render('RecordDriver/SolrMarc/InlineFormatter');
+$this->render('RecordDriver/SolrMarc/LineFormatter');
+
+$fieldFormatterRegistry = new FieldFormatterRegistry();
+$fieldFormatterRegistry->register(new InlineFormatter($this));
+$fieldFormatterRegistry->register(new LineFormatter($this));
 ?>
 <div class="" vocab="http://schema.org/" resource="#record"
      typeof="<?= $this->driver->getSchemaOrgFormats() ?> Product">
@@ -56,52 +67,7 @@ $linkSFX = $viewRecord->getLinkSFX();
     <?php
     if ($renderConfig) {
         /**
-         * @var \SwissCollections\RecordDriver\SubfieldRenderData $subfieldRenderData
-         * @var \SwissCollections\RenderConfig\AbstractRenderConfigEntry $renderConfig
-         * @var \SwissCollections\RecordDriver\FieldRenderContext $context
-         */
-        $renderer = function (&$subfieldRenderData, &$renderConfig, &$context) {
-            // firstListEntry and firstSequenceEntry are mutual exclusive
-            if ($renderConfig->repeated && $context->firstCompoundEntry) {
-                if ($context->firstListEntry || $context->firstSequenceEntry) {
-                    echo "\t\t<ul>\n";
-                    echo "\t\t<li>\n";
-                } else if (!$context->firstListEntry || !$context->firstSequenceEntry) {
-                    echo "\t\t</li>\n";
-                    echo "\t\t<li>\n";
-                }
-            }
-            if ($renderConfig->isLineRenderMode()) {
-                echo "\t\t<div class='field-value field-value-" . $renderConfig->labelKey . "'>";
-            } else if ($renderConfig->isInlineRenderMode()) {
-                if ($context->firstCompoundEntry) {
-                    echo "\t\t<div class='field-value field-value-compound field-value-" . $renderConfig->labelKey . "'>\n";
-                } else {
-                    echo ",\n";
-                }
-                echo "\t\t\t<span class='field-entry field-entry-" . $renderConfig->labelKey . "'>";
-            }
-            echo "\t\t<!-- marcInfo=" . $renderConfig . " -->";
-            if ($subfieldRenderData->escHtml) {
-                echo $this->escapeHtml($subfieldRenderData->value);
-            } else {
-                echo $subfieldRenderData->value;
-            }
-            if ($renderConfig->isLineRenderMode()) {
-                echo "\t\t</div>\n";
-            } else if ($renderConfig->isInlineRenderMode()) {
-                echo "</span>";
-                if ($context->lastCompoundEntry) {
-                    echo "\n\t\t</div>\n";
-                }
-            }
-            if ($renderConfig->repeated && ($context->lastListEntry || $context->lastSequenceEntry) && $context->lastCompoundEntry) {
-                echo "\t\t</li>\n";
-                echo "\t\t</ul>\n";
-            }
-        };
-        /**
-         * @var \SwissCollections\RenderConfig\RenderGroupConfig $renderGroupConfig
+         * @var RenderGroupConfig $renderGroupConfig
          */
         foreach ($renderConfig as $renderGroupConfig) {
             if (!$record->isEmptyGroup($renderGroupConfig)) {
@@ -111,7 +77,7 @@ $linkSFX = $viewRecord->getLinkSFX();
                 echo "<h2>" . $this->translate('page.detail.group.label.' . $groupName) . "</h2>";
                 echo "</a>";
                 /**
-                 * @var \SwissCollections\RenderConfig\AbstractRenderConfigEntry $renderElem
+                 * @var AbstractRenderConfigEntry $renderElem
                  */
                 foreach ($renderGroupConfig->entries() as $renderElem) {
                     if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
@@ -120,7 +86,21 @@ $linkSFX = $viewRecord->getLinkSFX();
                         echo $this->translate('page.detail.field.label.' . $renderElem->labelKey);
                         echo "\t</div>\n";
                         echo "\t<div class='col-md-9'>\n";
-                        $record->applyRenderer($renderElem, $renderer);
+
+                        $fields = $record->getMarcFields($renderElem->marcIndex);
+                        if (!empty($fields)) {
+                            if ($renderElem->repeated) {
+                                echo "\t\t<ul class='field-values'>\n";
+                            }
+                            $context = new FieldRenderContext($fieldFormatterRegistry, $record);
+                            foreach ($fields as $field) {
+                                $renderElem->render($field, $context);
+                            }
+                            if ($renderElem->repeated) {
+                                echo "\t\t</ul>\n";
+                            }
+                        }
+
                         echo "\t</div>\n";
                         echo "</div>\n";
                     }

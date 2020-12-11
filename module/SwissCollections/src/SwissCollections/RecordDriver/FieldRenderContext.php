@@ -2,7 +2,8 @@
 
 namespace SwissCollections\RecordDriver;
 
-use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
+use SwissCollections\Formatter\FieldFormatterData;
+use SwissCollections\Formatter\FieldFormatterRegistry;
 
 class FieldRenderContext {
 
@@ -10,66 +11,24 @@ class FieldRenderContext {
     public $processedSubMaps;
 
     /**
-     * @var \File_MARC_Field | \File_MARC_Control_Field | array - "array" contains raw data objects with
-     *  keys "data" and "tag"
+     * @var FieldFormatterRegistry
      */
-    public $field;
+    protected $fieldFormatterRegistry;
 
     /**
-     * @var AbstractRenderConfigEntry
+     * @var SolrMarc
      */
-    public $rc;
-
-    /**
-     * @var Callable $renderer called with SubfieldRenderData, AbstractRenderConfigEntry, FieldRenderContext
-     */
-    public $renderer;
-
-    public $firstListEntry;
-    public $lastListEntry;
-
-    public $firstCompoundEntry;
-    public $lastCompoundEntry;
-
-    public $firstSequenceEntry;
-    public $lastSequenceEntry;
+    public $solrMarc;
 
     /**
      * FieldRenderContext constructor.
-     * @param int $marcFieldNumber
-     * @param AbstractRenderConfigEntry $rc
-     * @param Callable $renderer called with SubfieldRenderData, $marcField, FieldRenderContext
+     * @param FieldFormatterRegistry $fieldFormatterRegistry
+     * @param SolrMarc $solrMarc
      */
-    public function __construct(AbstractRenderConfigEntry $rc, Callable $renderer) {
-        $this->rc = $rc;
-        $this->renderer = $renderer;
+    public function __construct(FieldFormatterRegistry $fieldFormatterRegistry, SolrMarc $solrMarc) {
+        $this->solrMarc = $solrMarc;
+        $this->fieldFormatterRegistry = $fieldFormatterRegistry;
         $this->processedSubMaps = [];
-    }
-
-    /**
-     * @param \File_MARC_Field | \File_MARC_Control_Field $field
-     * @param int $fieldIndex
-     */
-    public function updateListState($field, bool $isFirst, bool $isLast) {
-        $this->field = $field;
-        $this->firstListEntry = $isFirst;
-        $this->lastListEntry = $isLast;
-    }
-
-    public function updateCompoundState(bool $isFirst, bool $isLast) {
-        $this->firstCompoundEntry = $isFirst;
-        $this->lastCompoundEntry = $isLast;
-    }
-
-    /**
-     * @param array|\File_MARC_Control_Field|\File_MARC_Data_Field $matchedValues
-     * @param bool $isFirst
-     * @param bool $isLast
-     */
-    public function updateSequenceState($matchedValues, bool $isFirst, bool $isLast) {
-        $this->field = $matchedValues;
-        $this->firstSequenceEntry = $isFirst;
-        $this->lastSequenceEntry = $isLast;
     }
 
     /**
@@ -82,5 +41,16 @@ class FieldRenderContext {
 
     public function addProcessed(String $candidate) {
         $this->processedSubMaps[$candidate] = TRUE;
+    }
+
+    /**
+     * @param String $lookupKey
+     * @param FieldFormatterData[] $data
+     * @param String $renderMode
+     * @param String $labelKey
+     */
+    public function applyFieldFormatter($lookupKey, &$data, $renderMode, $labelKey): void {
+        $this->fieldFormatterRegistry->applyFormatter($renderMode, $labelKey, $data, $context);
+        $this->addProcessed($lookupKey);
     }
 }
