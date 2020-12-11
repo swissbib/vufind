@@ -39,6 +39,16 @@ abstract class AbstractRenderConfigEntry {
      */
     protected $renderMode;
 
+    /**
+     * @var String
+     */
+    protected $listStartHml;
+
+    /**
+     * @var String
+     */
+    protected $listEndHml;
+
     public static $UNKNOWN_INDICATOR = -1;
 
     public function __construct(String $labelKey, int $marcIndex, int $indicator1, int $indicator2) {
@@ -78,6 +88,11 @@ abstract class AbstractRenderConfigEntry {
         return array([], "");
     }
 
+    public function setListHtml(String $start, String $end): void {
+        $this->listStartHml = $start;
+        $this->listEndHml = $end;
+    }
+
     /**
      * @param FieldFormatterData[] $values
      * @param String $lookupKey
@@ -86,11 +101,11 @@ abstract class AbstractRenderConfigEntry {
     protected function renderImpl(&$values, $lookupKey, &$context) {
         if (count($values) > 0 && !$context->alreadyProcessed($lookupKey)) {
             if ($this->repeated) {
-                echo "\t\t<li>\n";
+                echo $this->listStartHml;
             }
             $context->applyFieldFormatter($lookupKey, $values, $this->renderMode, $this->labelKey);
             if ($this->repeated) {
-                echo "\t\t</li>\n";
+                echo $this->listEndHml;
             }
         }
     }

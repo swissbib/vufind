@@ -87,6 +87,9 @@ $fieldFormatterRegistry->register(new LineFormatter($this));
                         echo "\t</div>\n";
                         echo "\t<div class='col-md-9'>\n";
 
+                        // sets list element tags for <ul class='field-values'> ...
+                        $renderElem->setListHtml("\t\t<li class='field-values-element'>\n", "\t\t</li>\n");
+
                         $fields = $record->getMarcFields($renderElem->marcIndex);
                         if (!empty($fields)) {
                             if ($renderElem->repeated) {
