@@ -45,6 +45,7 @@ class CompoundEntry extends AbstractRenderConfigEntry {
         $singleEntry = new SingleEntry($labelKey, $this->marcIndex, $subfieldName, $this->indicator1, $this->indicator2);
         $singleEntry->renderMode = $this->renderMode;
         $singleEntry->repeated = $this->repeated;
+        $singleEntry->fieldViewInfo = $this->fieldViewInfo;
         array_push($this->elements, $singleEntry);
     }
 

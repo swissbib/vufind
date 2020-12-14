@@ -35,6 +35,11 @@ abstract class AbstractRenderConfigEntry {
     public $repeated;
 
     /**
+     * @var mixed | null
+     */
+    protected $fieldViewInfo;
+
+    /**
      * @var String $renderMode is a FieldFormatter's name
      */
     protected $renderMode;
@@ -117,5 +122,22 @@ abstract class AbstractRenderConfigEntry {
     public function render(&$field, &$context) {
         list($values, $lookupKey) = $this->getAllRenderData($field, $context);
         $this->renderImpl($values, $lookupKey, $context);
+    }
+
+    /**
+     * Raw field view info for this marc field from "detail-view-field-structure.yaml".
+     * @param mixed|null $fieldViewInfo
+     */
+    public function setFieldViewInfo($fieldViewInfo) {
+        $this->fieldViewInfo = $fieldViewInfo;
+    }
+
+    /**
+     * Returns an associative array of config options from detail-view-field-structure.yaml for this
+     * marc field.
+     * @return mixed|null
+     */
+    public function getFieldViewInfo() {
+        return $this->fieldViewInfo;
     }
 }

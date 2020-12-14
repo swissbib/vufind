@@ -18,16 +18,21 @@ class InlineFormatter extends FieldFormatter {
      * @param FieldRenderContext $context
      */
     public function render($fieldName, $fieldDataList, $context): void {
+        $separatorKey = 'separator';
         echo "\t\t<div class='field-value field-value-compound field-value-" . $fieldName . "'>\n";
         foreach ($fieldDataList as $index => $fd) {
-            if ($index > 0) {
-                echo ",\n";
+            $separator = ", ";
+            if (key_exists($separatorKey, $fd->renderConfig->getFieldViewInfo())) {
+                $separator = $fd->renderConfig->getFieldViewInfo()[$separatorKey];
             }
-            echo "\t\t\t<!-- marcInfo=" . $fd->renderConfig . " -->";
-            echo "\t\t\t<span class='field-entry field-entry-" . $fd->renderConfig->labelKey . "'>";
+            if ($index > 0) {
+                echo $separator;
+            }
+            // echo "\n\t\t\t<!-- marcInfo=" . $fd->renderConfig . " -->\n";
+            echo "<span class='field-entry field-entry-" . $fd->renderConfig->labelKey . "'>";
             $this->outputValue($fd);
-            echo "</span>\n";
+            echo "</span>";
         }
-        echo "\t\t</div>\n";
+        echo "\n\t\t</div>\n";
     }
 }

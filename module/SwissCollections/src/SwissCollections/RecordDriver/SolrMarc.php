@@ -201,6 +201,7 @@ class SolrMarc extends SwissbibSolrMarc {
                     }
                     $this->setLineMode($fieldViewInfo, $renderGroupEntry, 'inline');
                 }
+                $renderGroupEntry->setFieldViewInfo($fieldViewInfo);
             }
             if ($renderType === 'single') {
                 if ($renderGroupEntry) {

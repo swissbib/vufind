@@ -17,6 +17,7 @@ structure:
       type: compound
       mode: inline
       repeated: true
+      separator: "; " # for inline formatter only
       entries:
         - "institution-code"
         - "standort code"

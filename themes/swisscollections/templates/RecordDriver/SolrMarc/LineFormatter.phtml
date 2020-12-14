@@ -20,8 +20,8 @@ class LineFormatter extends FieldFormatter {
     public function render($fieldName, $fieldDataList, $context): void {
         foreach ($fieldDataList as $fd) {
             echo "\t\t<div class='field-value field-value-" . $fieldName . "'>";
-            echo "\t\t\t<!-- marcInfo=" . $fd->renderConfig . " -->\n";
-            echo "\t\t\t<span class='field-entry field-entry-" . $fd->renderConfig->labelKey . "'>";
+            // echo "\n\t\t\t<!-- marcInfo=" . $fd->renderConfig . " -->\n";
+            echo "<span class='field-entry field-entry-" . $fd->renderConfig->labelKey . "'>";
             $this->outputValue($fd);
             echo "</span>\n";
             echo "\n\t\t</div>\n";
