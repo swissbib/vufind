@@ -18,5 +18,5 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: swisscollections-test-service
-              servicePort: 5000
+              serviceName: swisscollections-test-nginx-service
+              servicePort: 80

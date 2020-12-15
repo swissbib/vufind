@@ -18,20 +18,12 @@ spec:
     spec:
       containers:
         - name: swisscollections-test-container
-          image: cr.gitlab.switch.ch/memoriav/memobase-2020/services/import-process/import-api:latest
+          image: registry.gitlab.com/swissbib/classic/vufind:swisscollections-SC-59-Kubernetes
           envFrom:
             - configMapRef:
                 name: "swisscollections-test-config"
-            - secretRef:
-                name: drupal-api-credentials
-            - secretRef:
-                name: internal-sftp-config
-            - configMapRef:
-                name: "prod-kafka-bootstrap-servers"
-            - configMapRef:
-                name: "import-api-test-config"
           ports:
-            - containerPort: 5000
+            - containerPort: 9000
               name: http
               protocol: TCP
           imagePullPolicy: Always
