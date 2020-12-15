@@ -24,7 +24,7 @@ build-tagged-image:
     REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
     REGISTRY_USER: "$CI_REGISTRY_USER"
     REGISTRY: "$CI_REGISTRY"
-    DOCKERFILE: "docker/test/Dockerfile"
+    DOCKERFILE: "docker/test/php/Dockerfile"
   only:                       # job wird nur in folgenden Branches verwendet, wobei tags = getaggte commits
     - tags
 
@@ -35,7 +35,7 @@ build-latest-image:
     REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
     REGISTRY_USER: "$CI_REGISTRY_USER"
     REGISTRY: "$CI_REGISTRY"
-    DOCKERFILE: "docker/test/Dockerfile"
+    DOCKERFILE: "docker/test/php/Dockerfile"
   only:
     - master
 
@@ -46,7 +46,19 @@ build-feature-branch-image:
     REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
     REGISTRY_USER: "$CI_REGISTRY_USER"
     REGISTRY: "$CI_REGISTRY"
-    DOCKERFILE: "docker/test/Dockerfile"
+    DOCKERFILE: "docker/test/php/Dockerfile"
+  except:                     # job wird in allen branches ausser den folgenden verwendet
+    - master
+    - tags
+
+build-feature-branch-nginx-image:
+  extends: .build-image
+  variables:
+    IMAGE_TAG: "$CI_REGISTRY_IMAGE:nginx-$CI_COMMIT_REF_NAME"
+    REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
+    REGISTRY_USER: "$CI_REGISTRY_USER"
+    REGISTRY: "$CI_REGISTRY"
+    DOCKERFILE: "docker/test/nginx/Dockerfile"
   except:                     # job wird in allen branches ausser den folgenden verwendet
     - master
     - tags
