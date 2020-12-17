@@ -26,7 +26,9 @@ spec:
                 name: "swisscollections-vufind-test-config"
           ports:
             - containerPort: 9000
-
+          volumeMounts:
+            - name: swisscollections-test-secrets
+              mountPath: /usr/local/vufind/local/private_config_values
 
         # Our nginx container, which uses the configuration declared above,
         # along with the files shared with the PHP-FPM app.
@@ -34,3 +36,11 @@ spec:
           image: registry.gitlab.com/swissbib/classic/vufind:nginx-swisscollections-SC-59-Kubernetes
           ports:
             - containerPort: 80
+      volumes:
+        - name: swisscollections-test-secrets
+          secret:
+            # see https://rephelv.atlassian.net/wiki/spaces/RH/pages/354746383/Secrets+and+Passwords
+            secretName: swisscollections-test-credentials
+
+
+

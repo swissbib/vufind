@@ -54,8 +54,7 @@ RUN mkdir -p ${VUFIND_CACHE_DIR} \
   && apk add --no-cache --update libcurl curl-dev \
   && docker-php-ext-configure gd --with-freetype --with-jpeg \
   && docker-php-ext-install -j$(nproc) mbstring intl json mysqli pdo_mysql pdo gd xsl xml curl zip bz2  \
-  && apk del .build-deps \
-  && touch ${VUFIND_APPLICATION_PATH}/local/private_config_values/private_config_base_content.conf
+  && apk del .build-deps
 
 COPY ./local ${VUFIND_APPLICATION_PATH}/local
 COPY ./config ${VUFIND_APPLICATION_PATH}/config
