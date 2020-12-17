@@ -2,13 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: memobase
-  name: swisscollections-test-nginx-service
+  name: swisscollections-test-php-service
   labels:
-    app: swisscollections-test-nginx-app
+    app: swisscollections-test-php-app
 spec:
   ports:
-    - port: 80
+    - port: 9000
+      protocol: TCP
   selector:
-    app: swisscollections-test-nginx-app
+    app: swisscollections-test-php-app
     tier: web
   clusterIP: None

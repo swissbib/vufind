@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: swisscollections-test-nginx
 data:
-  defaultttt.conf: |
+  default.conf: |
     server {
         listen 80;
 
@@ -27,7 +27,7 @@ data:
         }
 
         location ~ \.php$ {
-            fastcgi_pass swisscollections-test-front-end-deployment:9000;
+            fastcgi_pass swisscollections-test-php-service:9000;
             fastcgi_index index.php;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME /usr/local/vufind/public/index.php;

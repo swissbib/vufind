@@ -17,14 +17,14 @@ spec:
         tier: web
     spec:
       containers:
+        # Our PHP-FPM application
+        - image: registry.gitlab.com/swissbib/classic/vufind:swisscollections-SC-59-Kubernetes
+          name: myapp
+
+
+        # Our nginx container, which uses the configuration declared above,
+        # along with the files shared with the PHP-FPM app.
         - name: nginx
           image: nginx:alpine
           ports:
             - containerPort: 80
-          volumeMounts:
-            - mountPath: /etc/nginx/conf.d
-              name: config-volume
-      volumes:
-        - name: config-volume
-          configMap:
-            name: swisscollections-test-nginx
