@@ -17,6 +17,7 @@ structure:
       type: compound
       mode: inline
       repeated: true
+      separator: "; " # for inline formatter only
       entries:
         - "institution-code"
         - "standort code"
@@ -31,3 +32,18 @@ structure:
     "Alternativtitel":
     "Sachbegriff":
       repeated: true
+  "Inhalt und innere Ordnung":
+    "Inhalt-505":
+      type: sequences
+      # without "entries:" the order of the applied sequence is used (see "sequences:" below)
+      entries: [ "Inhalt3-r", "Inhalt3-t", "Inhalt3-g", "Inhalt3-a" ]
+      # note that "sequences:" entries are sorted to guarantee the "longest" match
+      # use "entries:" (see above) for another order of sequences
+      sequences: # from Swissbib/RecordDriver/SolrMarc.php getTableOfContent()
+        - [ "g", "t", "r" ]
+        - [ "g", "t" ]
+        - [ "g", "r" ]
+        - [ "t", "r" ]
+        - [ "t" ]
+        - [ "r" ]
+        - [ "a" ]

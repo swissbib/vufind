@@ -8,6 +8,9 @@
 
 namespace SwissCollections\RenderConfig;
 
+use SwissCollections\Formatter\FieldFormatterData;
+use SwissCollections\RecordDriver\FieldRenderContext;
+
 abstract class AbstractRenderConfigEntry {
     /**
      * @var String
@@ -32,11 +35,24 @@ abstract class AbstractRenderConfigEntry {
     public $repeated;
 
     /**
-     * @var String $renderMode is either 'line' (default) or 'inline'
+     * @var mixed | null
      */
-    public $renderMode;
-    public static $RENDER_MODE_LINE = "line";
-    public static $RENDER_MODE_INLINE = "inline";
+    protected $fieldViewInfo;
+
+    /**
+     * @var String $renderMode is a FieldFormatter's name
+     */
+    protected $renderMode;
+
+    /**
+     * @var String
+     */
+    protected $listStartHml;
+
+    /**
+     * @var String
+     */
+    protected $listEndHml;
 
     public static $UNKNOWN_INDICATOR = -1;
 
@@ -45,48 +61,83 @@ abstract class AbstractRenderConfigEntry {
         $this->marcIndex = $marcIndex;
         $this->indicator1 = $indicator1;
         $this->indicator2 = $indicator2;
-        $this->setLineRenderMode();
         $this->repeated = false;
     }
 
-    public function info() {
-        return $this->labelKey . "[" . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2 . "]";
+    public function setRenderMode(String $name) {
+        $this->renderMode = $name;
     }
 
-    public function setLineRenderMode() {
-        $this->renderMode = CompoundEntry::$RENDER_MODE_LINE;
-    }
-
-    public function setInlineRenderMode() {
-        $this->renderMode = CompoundEntry::$RENDER_MODE_INLINE;
-    }
-
-    /**
-     * Render each group element in its own html container.
-     * @return bool
-     */
-    public function isLineRenderMode() {
-        return $this->renderMode == CompoundEntry::$RENDER_MODE_LINE;
-    }
-
-    /**
-     * Render all group elements in one line.
-     * @return bool
-     */
-    public function isInlineRenderMode() {
-        return $this->renderMode == CompoundEntry::$RENDER_MODE_INLINE;
+    public function getRenderMode(): String {
+        return $this->renderMode;
     }
 
     public function __toString() {
         return "RenderConfigEntry{" . $this->labelKey . ","
             . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2
-            . "," . $this->repeated . "}";
+            . "," . $this->repeated . "," . $this->renderMode . "}";
+    }
+
+    public function orderEntries() {
+        // NOP
     }
 
     /**
-     * @param String[] $entryOrder
+     * Not used in this class.
+     *
+     * @param \File_MARC_Control_Field|\File_MARC_Field $field
+     * @param FieldRenderContext $context
+     * @return array of 2 elements: FieldFormatterData[] and lookup key (String)
      */
-    public function orderEntries($entryOrder) {
-        // NOP
+    public function getAllRenderData(&$field, &$context): array {
+        return array([], "");
+    }
+
+    public function setListHtml(String $start, String $end): void {
+        $this->listStartHml = $start;
+        $this->listEndHml = $end;
+    }
+
+    /**
+     * @param FieldFormatterData[] $values
+     * @param String $lookupKey
+     * @param FieldRenderContext $context
+     */
+    protected function renderImpl(&$values, $lookupKey, &$context) {
+        if (count($values) > 0 && !$context->alreadyProcessed($lookupKey)) {
+            if ($this->repeated) {
+                echo $this->listStartHml;
+            }
+            $context->applyFieldFormatter($lookupKey, $values, $this->renderMode, $this->labelKey);
+            if ($this->repeated) {
+                echo $this->listEndHml;
+            }
+        }
+    }
+
+    /**
+     * @param \File_MARC_Control_Field|\File_MARC $field
+     * @param FieldRenderContext $context
+     */
+    public function render(&$field, &$context) {
+        list($values, $lookupKey) = $this->getAllRenderData($field, $context);
+        $this->renderImpl($values, $lookupKey, $context);
+    }
+
+    /**
+     * Raw field view info for this marc field from "detail-view-field-structure.yaml".
+     * @param mixed|null $fieldViewInfo
+     */
+    public function setFieldViewInfo($fieldViewInfo) {
+        $this->fieldViewInfo = $fieldViewInfo;
+    }
+
+    /**
+     * Returns an associative array of config options from detail-view-field-structure.yaml for this
+     * marc field.
+     * @return mixed|null
+     */
+    public function getFieldViewInfo() {
+        return $this->fieldViewInfo;
     }
 }

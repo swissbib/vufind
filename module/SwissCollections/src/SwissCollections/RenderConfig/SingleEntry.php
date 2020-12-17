@@ -8,6 +8,9 @@
 
 namespace SwissCollections\RenderConfig;
 
+use SwissCollections\Formatter\FieldFormatterData;
+use SwissCollections\RecordDriver\FieldRenderContext;
+
 class SingleEntry extends AbstractRenderConfigEntry {
     protected $subfieldName;
 
@@ -25,18 +28,39 @@ class SingleEntry extends AbstractRenderConfigEntry {
         $this->subfieldName = $subfieldName;
     }
 
+    /**
+     * Returns empty array if no subfield name is set.
+     * @return array
+     */
     public function buildMap() {
         $result = [];
-        $result[$this->subfieldName] = "value";
+        if (!empty($this->subfieldName)) {
+            $result[$this->subfieldName] = "value";
+        }
         return $result;
-    }
-
-    public function info() {
-        return $this->labelKey . "[" . $this->marcIndex
-            . "," . $this->indicator1 . "," . $this->indicator2 . "," . $this->subfieldName . "]";
     }
 
     public function __toString() {
         return "SingleEntry{" . parent::__toString() . "," . $this->subfieldName . "}";
+    }
+
+    public function getSubfieldName(): String {
+        return $this->subfieldName;
+    }
+
+    /**
+     * @param \File_MARC_Control_Field|\File_MARC_Field $field
+     * @param FieldRenderContext $context
+     * @return array with two elements: FieldFormatterData[] and lookup key
+     */
+    public function getAllRenderData(&$field, &$context): array {
+        $values = [];
+        $lookupKey = "";
+        $renderFieldData = $context->solrMarc->getRenderFieldData($field, $this);
+        if (!empty($renderFieldData) && !$renderFieldData->emptyValue()) {
+            $lookupKey = $renderFieldData->asLookupKey();
+            $values = [new FieldFormatterData($this, $renderFieldData)];
+        }
+        return array($values, $lookupKey);
     }
 }

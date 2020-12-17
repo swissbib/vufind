@@ -1,0 +1,38 @@
+<?php
+
+namespace SwissCollections\templates\RecordDriver\SolrMarc;
+
+use SwissCollections\Formatter\FieldFormatter;
+use SwissCollections\Formatter\FieldFormatterData;
+use SwissCollections\RecordDriver\FieldRenderContext;
+
+class InlineFormatter extends FieldFormatter {
+
+    public function getName(): String {
+        return "inline";
+    }
+
+    /**
+     * @param String $fieldName
+     * @param FieldFormatterData[] $fieldDataList
+     * @param FieldRenderContext $context
+     */
+    public function render($fieldName, $fieldDataList, $context): void {
+        $separatorKey = 'separator';
+        echo "\t\t<div class='field-value field-value-compound field-value-" . $fieldName . "'>\n";
+        foreach ($fieldDataList as $index => $fd) {
+            $separator = ", ";
+            if (key_exists($separatorKey, $fd->renderConfig->getFieldViewInfo())) {
+                $separator = $fd->renderConfig->getFieldViewInfo()[$separatorKey];
+            }
+            if ($index > 0) {
+                echo $separator;
+            }
+            // echo "\n\t\t\t<!-- marcInfo=" . $fd->renderConfig . " -->\n";
+            echo "<span class='field-entry field-entry-" . $fd->renderConfig->labelKey . "'>";
+            $this->outputValue($fd);
+            echo "</span>";
+        }
+        echo "\n\t\t</div>\n";
+    }
+}
