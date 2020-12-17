@@ -1,3 +1,8 @@
+# Multi-stage Docker Image Build
+# First composer dependencies
+# 2nd node dependencies
+# Finally VuFind build
+
 #
 # PHP Dependencies Installation
 #
@@ -13,7 +18,6 @@ RUN composer install \
     --no-scripts \
     --prefer-dist
 
-
 #
 # NodeNpm
 #
@@ -24,7 +28,6 @@ RUN mkdir -p /app/public
 COPY package.json package-lock.json tsconfig.json webpack.config.js /app/
 COPY themes /app/themes
 
-
 WORKDIR /app
 
 RUN npm -v
@@ -33,11 +36,8 @@ RUN npm install
 RUN npm run test
 RUN npm run build
 
-
-
-
 #
-# Application
+# VuFind
 #
 FROM php:7.4-fpm-alpine
 VOLUME [ "/usr/local/vufind" ]
@@ -64,7 +64,6 @@ COPY ./public ${VUFIND_APPLICATION_PATH}/public
 COPY ./util ${VUFIND_APPLICATION_PATH}/util
 COPY --from=nodenpm /app/themes ${VUFIND_APPLICATION_PATH}/themes
 COPY --from=nodenpm /app/node_modules ${VUFIND_APPLICATION_PATH}/node_modules
-#COPY ./vendor ${VUFIND_APPLICATION_PATH}/vendor
 # Required by Swissbib Logger. Rather log to stdout!
 COPY --chown=www-data:www-data ./log ${VUFIND_APPLICATION_PATH}/log
 
