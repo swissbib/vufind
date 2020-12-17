@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   namespace: memobase
-  name: swisscollections-test-ingress
+  name: swisscollections-vufind-test-ingress
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -10,13 +10,13 @@ metadata:
 spec:
   tls:
     - hosts:
-        - test2.swisscollections.memobase.k8s.unibas.ch
-      secretName: test2.swisscollections.memobase.k8s.unibas.ch-tls
+        - test.swisscollections.memobase.k8s.unibas.ch
+      secretName: test.swisscollections.memobase.k8s.unibas.ch-tls
   rules:
-    - host: test2.swisscollections.memobase.k8s.unibas.ch
+    - host: test.swisscollections.memobase.k8s.unibas.ch
       http:
         paths:
           - path: /
             backend:
-              serviceName: swisscollections2-test-frontend-service
+              serviceName: swisscollections-vufind-test-service
               servicePort: 80

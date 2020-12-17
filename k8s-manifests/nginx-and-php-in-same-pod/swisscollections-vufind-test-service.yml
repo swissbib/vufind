@@ -2,13 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: memobase
-  name: swisscollections2-test-frontend-service
+  name: swisscollections-vufind-test-service
   labels:
-    app: swisscollections2-test-nginx-app
+    app: swisscollections-vufind-test-app
 spec:
   ports:
     - port: 80
   selector:
-    app: swisscollections2-test-nginx-app
+    app: swisscollections-vufind-test-app
     tier: web
   clusterIP: None

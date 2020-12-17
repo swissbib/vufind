@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: swisscollections2-test-nginx-deployment
+  name: swisscollections-vufind-test-deployment
   namespace: memobase
   labels:
-    app: swisscollections2-test-nginx-app
+    app: swisscollections-vufind-test-app
 spec:
   selector:
     matchLabels:
-      app: swisscollections2-test-nginx-app
+      app: swisscollections-vufind-test-app
   replicas: 1
   template:
     metadata:
       labels:
-        app: swisscollections2-test-nginx-app
+        app: swisscollections-vufind-test-app
         tier: web
     spec:
       containers:
         # Our PHP-FPM application
         - image: registry.gitlab.com/swissbib/classic/vufind:swisscollections-SC-59-Kubernetes
-          name: myapp
+          name: vufind
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
-                name: "swisscollections-test-config"
+                name: "swisscollections-vufind-test-config"
           ports:
             - containerPort: 9000
 

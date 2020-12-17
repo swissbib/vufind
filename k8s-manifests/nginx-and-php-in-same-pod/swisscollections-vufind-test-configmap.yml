@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: swisscollections-test-config
+  name: swisscollections-vufind-test-config
   namespace: memobase
 data:
   VUFIND_ENV: development
   APPLICATION_ENV: development
   VUFIND_HOME: /usr/local/vufind
-  VUFIND_LOCAL_DIR: /usr/local/vufind/local/classic/swisscollections
+  VUFIND_LOCAL_DIR: /usr/local/vufind/local/classic/swisscollections-test
   VUFIND_LOCAL_MODULES: Swissbib,Libadmin,Jusbib,SwissCollections
