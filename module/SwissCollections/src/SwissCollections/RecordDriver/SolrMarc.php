@@ -282,7 +282,9 @@ class SolrMarc extends SwissbibSolrMarc {
         try {
             $ind1 = $this->normalizeIndicator($field->getIndicator(1));
             $ind2 = $this->normalizeIndicator($field->getIndicator(2));
-            if ($ind1 !== $elem->indicator1 || $ind2 !== $elem->indicator2) {
+            // match only if indicator was specified in csv file (-1 == undefined)
+            if (($elem->indicator1 >= 0 && $ind1 !== $elem->indicator1)
+                || ($elem->indicator2 >= 0 && $ind2 !== $elem->indicator2)) {
                 echo "<!-- WARN: INDICATOR MISMATCH $elem, $ind1/$ind2 -->\n";
                 return FALSE;
             }
