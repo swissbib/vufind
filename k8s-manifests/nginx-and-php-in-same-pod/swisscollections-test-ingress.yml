@@ -18,5 +18,5 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: swisscollections-test-frontend-service
+              serviceName: swisscollections2-test-frontend-service
               servicePort: 80
