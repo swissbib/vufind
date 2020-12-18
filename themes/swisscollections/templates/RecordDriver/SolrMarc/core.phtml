@@ -1,11 +1,13 @@
 <!-- <?php use SwissCollections\Formatter\FieldFormatterRegistry;
-use SwissCollections\RecordDriver\FieldRenderContext;
+use SwissCollections\Formatter\FieldGroupFormatterRegistry;
+use SwissCollections\RecordDriver\FieldGroupRenderContext;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 use SwissCollections\RenderConfig\RenderGroupConfig;
-use SwissCollections\templates\RecordDriver\SolrMarc\InlineFormatter;
-use SwissCollections\templates\RecordDriver\SolrMarc\LineFormatter;
-
-echo APPLICATION_ENV; ?>-->
+use SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter\Inline;
+use SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter\Line;
+use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\DefaultFormatter;
+use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\SucheinstiegePerson;
+?>-->
 <?php
 /** @var SwissCollections\RecordDriver\SolrMarc $record */
 $record = $this->driver;
@@ -53,12 +55,19 @@ if ($nl) {
 $link360 = $viewRecord->getLink360();
 $linkSFX = $viewRecord->getLinkSFX();
 
-$this->render('RecordDriver/SolrMarc/InlineFormatter');
-$this->render('RecordDriver/SolrMarc/LineFormatter');
+$this->render('RecordDriver/SolrMarc/FieldFormatter/Inline');
+$this->render('RecordDriver/SolrMarc/FieldFormatter/Line');
 
 $fieldFormatterRegistry = new FieldFormatterRegistry();
-$fieldFormatterRegistry->register(new InlineFormatter($this));
-$fieldFormatterRegistry->register(new LineFormatter($this));
+$fieldFormatterRegistry->register(new Inline($this));
+$fieldFormatterRegistry->register(new Line($this));
+
+$this->render('RecordDriver/SolrMarc/FieldGroupFormatter/Default');
+$this->render('RecordDriver/SolrMarc/FieldGroupFormatter/SucheinstiegePerson');
+
+$fieldGroupFormatterRegistry = new FieldGroupFormatterRegistry();
+$fieldGroupFormatterRegistry->register(new DefaultFormatter($this));
+$fieldGroupFormatterRegistry->register(new SucheinstiegePerson($this));
 ?>
 <div class="" vocab="http://schema.org/" resource="#record"
      typeof="<?= $this->driver->getSchemaOrgFormats() ?> Product">
@@ -66,6 +75,7 @@ $fieldFormatterRegistry->register(new LineFormatter($this));
     <div style="border-top: 1px solid #bbbbbb; margin-top: 1rem; margin-bottom: 1rem;"></div>
     <?php
     if ($renderConfig) {
+        $fieldGroupFormatterContext = new FieldGroupRenderContext($fieldFormatterRegistry, $record);
         /**
          * @var RenderGroupConfig $renderGroupConfig
          */
@@ -76,36 +86,42 @@ $fieldFormatterRegistry->register(new LineFormatter($this));
                 echo "<a name='$groupAnchor'>";
                 echo "<h2>" . $this->translate('page.detail.group.label.' . $groupName) . "</h2>";
                 echo "</a>";
-                /**
-                 * @var AbstractRenderConfigEntry $renderElem
-                 */
-                foreach ($renderGroupConfig->entries() as $renderElem) {
-                    if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
-                        echo "\n<div class='row'>\n";
-                        echo "\t<div class='field-label field-label-" . $renderElem->labelKey . " col-md-3'>\n";
-                        echo $this->translate('page.detail.field.label.' . $renderElem->labelKey);
-                        echo "\t</div>\n";
-                        echo "\t<div class='col-md-9'>\n";
-
-                        // sets list element tags for <ul class='field-values'> ...
-                        $renderElem->setListHtml("\t\t<li class='field-values-element'>\n", "\t\t</li>\n");
-
-                        $fields = $record->getMarcFields($renderElem->marcIndex);
-                        if (!empty($fields)) {
-                            if ($renderElem->repeated) {
-                                echo "\t\t<ul class='field-values'>\n";
+                // call field group formatter with a sequence of fields having the same name
+                $renderGroupEntries = $renderGroupConfig->entries();
+                $renderGroupKeys = array_keys($renderGroupEntries);
+                $renderGroupEntryCount = count($renderGroupKeys);
+                $renderElemIndex = 0;
+                while ($renderElemIndex < $renderGroupEntryCount) {
+                    $groupMembers = [];
+                    $fieldName = "";
+                    /**
+                     * @var AbstractRenderConfigEntry $renderElem
+                     */
+                    $renderElem = $renderGroupEntries[$renderGroupKeys[$renderElemIndex]];
+                    $fieldGroupFormatter = $renderElem->getFieldGroupFormatter();
+                    $fieldName = $renderElem->labelKey;
+                    if ($fieldGroupFormatter) {
+                        while ($renderElemIndex < $renderGroupEntryCount) {
+                            $renderElem = $renderGroupEntries[$renderGroupKeys[$renderElemIndex]];
+                            $nextFieldGroupFormatter = $renderElem->getFieldGroupFormatter();
+                            if ($fieldGroupFormatter !== $nextFieldGroupFormatter) {
+                                break;
                             }
-                            $context = new FieldRenderContext($fieldFormatterRegistry, $record);
-                            foreach ($fields as $field) {
-                                $renderElem->render($field, $context);
+                            if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
+                                $groupMembers[] = $renderElem;
                             }
-                            if ($renderElem->repeated) {
-                                echo "\t\t</ul>\n";
-                            }
+                            $renderElemIndex++;
                         }
-
-                        echo "\t</div>\n";
-                        echo "</div>\n";
+                    } else {
+                        if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
+                            $groupMembers[] = $renderElem;
+                            $fieldGroupFormatter = DefaultFormatter::$NAME;
+                        }
+                        $renderElemIndex++;
+                    }
+                    if (count($groupMembers) > 0) {
+                        $fieldGroupFormatterRegistry->applyFormatter($fieldGroupFormatter,
+                            $fieldName, $groupMembers, $fieldGroupFormatterContext);
                     }
                 }
                 echo "<div style=\"border-top: 1px solid #bbbbbb; margin-top: 1rem; margin-bottom: 1rem;\"></div>";

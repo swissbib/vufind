@@ -6,44 +6,49 @@
 
 structure:
   "Basisinformationen":
-    "Titel":
-      type: compound
-      mode: line
-      entries:
-        - "Titel"
-        - "Untertitel"
-        - "Autor"
-    "Signatur":
-      type: compound
-      mode: inline
-      repeated: true
-      separator: "; " # for inline formatter only
-      entries:
-        - "institution-code"
-        - "standort code"
-        - "Signatur1"
-        - "Signatur2"
+    fields:
+      "Titel":
+        type: compound
+        mode: line
+        entries:
+          - "Titel"
+          - "Untertitel"
+          - "Autor"
+      "Signatur":
+        type: compound
+        mode: inline
+        repeated: true
+        separator: "; " # for inline formatter only
+        entries:
+          - "institution-code"
+          - "standort code"
+          - "Signatur1"
+          - "Signatur2"
   "Sucheinstiege":
-    "Person1":
-    "Person2":
-    "Ort":
+    groups:
+      "Person": "sucheinstiege-person" # handle all fields "Person" with this formatter
+    fields:
+      "Person":
+      "Ort":
   "Thema":
-    "Formschlagwort":
-    "Alternativtitel":
-    "Sachbegriff":
-      repeated: true
+    fields:
+      "Formschlagwort":
+      "Alternativtitel":
+      "Sachbegriff":
+        repeated: true
   "Inhalt und innere Ordnung":
-    "Inhalt-505":
-      type: sequences
-      # without "entries:" the order of the applied sequence is used (see "sequences:" below)
-      entries: [ "Inhalt3-r", "Inhalt3-t", "Inhalt3-g", "Inhalt3-a" ]
-      # note that "sequences:" entries are sorted to guarantee the "longest" match
-      # use "entries:" (see above) for another order of sequences
-      sequences: # from Swissbib/RecordDriver/SolrMarc.php getTableOfContent()
-        - [ "g", "t", "r" ]
-        - [ "g", "t" ]
-        - [ "g", "r" ]
-        - [ "t", "r" ]
-        - [ "t" ]
-        - [ "r" ]
-        - [ "a" ]
+    fields:
+      "Inhalt-505":
+        type: sequences
+        # without "entries:" the order of the applied sequence is used (see "sequences:" below)
+        entries: [ "Inhalt3-r", "Inhalt3-t", "Inhalt3-g", "Inhalt3-a" ]
+        # note that "sequences:" entries are sorted to guarantee the "longest" match
+        # use "entries:" (see above) for another order of sequences
+        sequences: # from Swissbib/RecordDriver/SolrMarc.php getTableOfContent()
+          - [ "g", "t", "r" ]
+          - [ "g", "t" ]
+          - [ "g", "r" ]
+          - [ "t", "r" ]
+          - [ "t" ]
+          - [ "r" ]
+          - [ "a" ]

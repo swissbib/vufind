@@ -1,0 +1,45 @@
+<?php
+
+namespace SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter;
+
+use SwissCollections\Formatter\FieldGroupFormatter;
+use SwissCollections\RecordDriver\FieldGroupRenderContext;
+use SwissCollections\RecordDriver\FieldRenderContext;
+use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
+
+class SucheinstiegePerson extends FieldGroupFormatter {
+
+    public function getName(): String {
+        return "sucheinstiege-person";
+    }
+
+    /**
+     * @param String $fieldName
+     * @param AbstractRenderConfigEntry[] $fieldDataList
+     * @param FieldGroupRenderContext $context
+     */
+    public function render($fieldName, &$fieldDataList, &$context): void {
+        // TODO Die Personen möglichst nach ihren Funktionen gruppieren.
+        // 1xx/7xx$4: Urheber (aut, cmp, Rollen zu definieren, vgl. Primo, e-manuscripta)
+        // 7xx$4: Beteiligte (inkl. Rollen)
+        // 7xx$4rcp: AdressatIn
+        // z.B. http://127.0.0.1/Record/990115273800205508
+        echo "<!-- START SUCHEINSTIEGE-PERSON -->\n";
+        foreach ($fieldDataList as $renderElem) {
+            echo "\n<div class='row'>\n";
+            echo "\t<div class='field-label field-label-" . $renderElem->labelKey . " col-md-3'>\n";
+            echo $this->phpRenderer->translate('page.detail.field.label.' . $renderElem->labelKey);
+            echo "\t</div>\n";
+            echo "\t<div class='col-md-9'>\n";
+
+            // sets list element tags for repeated fields (see $this->outputField() call below)
+            $renderElem->setListHtml("\t\t<li class='field-values-element'>\n", "\t\t</li>\n");
+            $this->outputField($renderElem,
+                $context, "\t\t<ul class='field-values'>\n", "\t\t</ul>\n");
+
+            echo "\t</div>\n";
+            echo "</div>\n";
+        }
+        echo "<!-- END SUCHEINSTIEGE-PERSON -->\n";
+    }
+}

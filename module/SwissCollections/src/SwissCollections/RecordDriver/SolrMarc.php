@@ -170,6 +170,7 @@ class SolrMarc extends SwissbibSolrMarc {
             $renderType = 'single';
             $repeated = false;
             $fieldViewInfo = null;
+            $fieldGroupFormatter = null;
 
             if ($groupViewInfo) {
                 $fieldViewInfo = $this->detailViewFieldInfo->getField($groupViewInfo, $fieldName, $marcIndex);
@@ -181,6 +182,7 @@ class SolrMarc extends SwissbibSolrMarc {
                         $repeated = $this->detailViewFieldInfo->getRepeated($fieldViewInfo);
                     }
                 }
+                $fieldGroupFormatter = $this->detailViewFieldInfo->getFieldGroupFormatter($groupViewInfo, $fieldName);
             }
             // echo "<!-- SPECIAL: $groupName > $fieldName: rt=$renderType rm=$renderMode rep=$repeated -->\n";
 
@@ -202,6 +204,7 @@ class SolrMarc extends SwissbibSolrMarc {
                     $this->setLineMode($fieldViewInfo, $renderGroupEntry, 'inline');
                 }
                 $renderGroupEntry->setFieldViewInfo($fieldViewInfo);
+                $renderGroupEntry->setFieldGroupFormatter($fieldGroupFormatter);
             }
             if ($renderType === 'single') {
                 if ($renderGroupEntry) {
@@ -216,6 +219,7 @@ class SolrMarc extends SwissbibSolrMarc {
                 $renderGroupEntry->repeated = $repeated;
                 $this->setLineMode($fieldViewInfo, $renderGroupEntry, 'line');
                 $renderGroup->addSingle($renderGroupEntry);
+                $renderGroupEntry->setFieldGroupFormatter($fieldGroupFormatter);
                 $renderGroupEntry = null;
             } else if ($renderType === 'compound' || $renderType === 'sequences') {
                 // TODO add $marcIndicator1/2? different to compound/sequences entry?
