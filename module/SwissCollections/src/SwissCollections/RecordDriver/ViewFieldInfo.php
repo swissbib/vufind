@@ -5,6 +5,9 @@ namespace SwissCollections\RecordDriver;
 class ViewFieldInfo {
     protected $detailViewFieldInfo;
 
+    public static $RENDER_INFO_FIELDS = "fields";
+    public static $RENDER_INFO_GROUPS = "groups";
+
     public static $RENDER_INFO_FIELD_TYPE = "type";
     public static $RENDER_INFO_FIELD_MODE = "mode";
     public static $RENDER_INFO_FIELD_REPEATED = "repeated";
@@ -31,11 +34,26 @@ class ViewFieldInfo {
      * @return mixed | null
      */
     public function getField($groupViewInfo, $name, $marcIndex = -1) {
-        $fieldViewInfo = $groupViewInfo[$name . "-" . $marcIndex];
+        $fields = $groupViewInfo[ViewFieldInfo::$RENDER_INFO_FIELDS];
+        $fieldViewInfo = $fields[$name . "-" . $marcIndex];
         if (empty($fieldViewInfo)) {
-            $fieldViewInfo = $groupViewInfo[$name];
+            $fieldViewInfo = $fields[$name];
         }
         return $fieldViewInfo;
+    }
+
+    /**
+     * Returns a formatter's name or null.
+     * @param array $groupViewInfo - data returned by getGroup()
+     * @param $fieldName
+     * @return String | null
+     */
+    public function getFieldGroupFormatter($groupViewInfo, $fieldName) {
+        $fieldGroups = $groupViewInfo[ViewFieldInfo::$RENDER_INFO_GROUPS];
+        if ($fieldGroups) {
+            return $fieldGroups[$fieldName];
+        }
+        return null;
     }
 
     /**
@@ -125,7 +143,7 @@ class ViewFieldInfo {
         $fieldNames = [];
         $groupViewInfo = $this->getGroup($groupName);
         if ($groupViewInfo) {
-            $fieldNameCandidates = array_keys($groupViewInfo);
+            $fieldNameCandidates = array_keys($groupViewInfo[ViewFieldInfo::$RENDER_INFO_FIELDS]);
             if ($fieldNameCandidates) {
                 foreach ($fieldNameCandidates as $s) {
                     if (preg_match("/(.+)-[0-9]+$/", $s, $matches) === 1) {

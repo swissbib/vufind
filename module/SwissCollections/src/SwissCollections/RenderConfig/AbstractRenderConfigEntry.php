@@ -54,6 +54,11 @@ abstract class AbstractRenderConfigEntry {
      */
     protected $listEndHml;
 
+    /**
+     * @var String
+     */
+    protected $fieldGroupFormatter;
+
     public static $UNKNOWN_INDICATOR = -1;
 
     public function __construct(String $labelKey, int $marcIndex, int $indicator1, int $indicator2) {
@@ -139,5 +144,19 @@ abstract class AbstractRenderConfigEntry {
      */
     public function getFieldViewInfo() {
         return $this->fieldViewInfo;
+    }
+
+    /**
+     * @return String|null
+     */
+    public function getFieldGroupFormatter() {
+        return $this->fieldGroupFormatter;
+    }
+
+    /**
+     * @param String|null $fieldGroupFormatter
+     */
+    public function setFieldGroupFormatter($fieldGroupFormatter): void {
+        $this->fieldGroupFormatter = $fieldGroupFormatter;
     }
 }
