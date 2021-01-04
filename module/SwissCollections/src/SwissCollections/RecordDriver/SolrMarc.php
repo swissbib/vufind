@@ -62,6 +62,40 @@ class SolrMarc extends SwissbibSolrMarc {
         return parent::getMarcFields($index);
     }
 
+    public function getSimpleMarcSubFieldValue($index, $subFieldCode) {
+        return parent::getSimpleMarcSubFieldValue($index, $subFieldCode);
+    }
+
+    public function getMarcSubfieldsRawMap($index)
+    {
+        /**
+         * Fields
+         *
+         * @var \File_MARC_Data_Field[] $fields
+         */
+        $fields = $this->getMarcRecord()->getFields($index);
+        $fieldsData = [];
+
+        foreach ($fields as $field) {
+            $tempFieldData = [];
+
+            /**
+             * Subfields
+             *
+             * @var \File_MARC_Subfield[] $subfields
+             */
+            $subfields = $field->getSubfields();
+
+            foreach ($subfields as $subfield) {
+                $tempFieldData[$subfield->getCode()] = $subfield->getData();
+            }
+
+            $fieldsData[] = $tempFieldData;
+        }
+
+        return $fieldsData;
+    }
+
     /**
      * Quite similar to applyRenderer() except final html creation.
      * @param $marcIndex
