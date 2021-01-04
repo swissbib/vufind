@@ -92,21 +92,48 @@ class CompoundEntry extends AbstractRenderConfigEntry {
     /**
      * @param \File_MARC_Control_Field|\File_MARC_Field $field
      * @param FieldRenderContext $context
-     * @return array with two elements: FieldFormatterData[] and lookup key
+     * @return FieldFormatterData[]
      */
     public function getAllRenderData(&$field, &$context): array {
         /**
          * @var FieldFormatterData[]
          */
         $values = [];
-        $lookupKey = "";
         foreach ($this->elements as $elem) {
             $renderFieldData = $context->solrMarc->getRenderFieldData($field, $elem);
             if (!empty($renderFieldData) && !$renderFieldData->emptyValue()) {
                 $values[] = new FieldFormatterData($elem, $renderFieldData);
-                $lookupKey .= "{}" . $renderFieldData->asLookupKey();
             }
         }
-        return array($values, $lookupKey);
+        return $values;
+    }
+
+    public function knowsSubfield($name): bool {
+        return $this->findSubfield($name) !== null;
+    }
+
+    /**
+     * @param $name
+     * @return null | SingleEntry
+     */
+    protected function findSubfield($name) {
+        foreach ($this->elements as $element) {
+            if ($name === $element->getSubfieldName()) {
+                return $element;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param String $subfieldName
+     * @param String $text
+     * @param SolrMarc $solrMarc
+     * @return FieldFormatterData
+     */
+    public function buildFieldFormatterData($subfieldName, $text, &$solrMarc) {
+        $renderConfigEntry = $this->findSubfield($subfieldName);
+        $renderFieldData = $solrMarc->buildGenericSubMap($text, TRUE);
+        return new FieldFormatterData($renderConfigEntry, $renderFieldData);
     }
 }

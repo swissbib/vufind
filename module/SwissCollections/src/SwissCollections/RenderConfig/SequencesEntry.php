@@ -50,23 +50,6 @@ class SequencesEntry extends CompoundEntry {
         return "SequencesEntry{" . parent::__toString() . "," . $seqStr . "}";
     }
 
-    public function knowsSubfield($name): bool {
-        return $this->findSubfield($name) !== null;
-    }
-
-    /**
-     * @param $name
-     * @return null | SingleEntry
-     */
-    protected function findSubfield($name) {
-        foreach ($this->elements as $element) {
-            if ($name === $element->getSubfieldName()) {
-                return $element;
-            }
-        }
-        return null;
-    }
-
     /**
      * Calls addElement() for every not already added subfield.
      * @param String[][] $sequences
@@ -114,16 +97,14 @@ class SequencesEntry extends CompoundEntry {
      * @param array $rawDataArray - contains Objects with keys 'tag' and 'data'
      * @param int $index
      * @param SolrMarc $solrMarc
-     * @return array of 2 elements: FieldFormatterData[]|null and a lookup key (String)
+     * @return FieldFormatterData[]
      */
     public function matchesSubfieldSequence(&$rawDataArray, $index, &$solrMarc) {
         $len = count($rawDataArray);
         $values = [];
-        $lookupKey = "";
         foreach ($this->sequences as $seq) {
             $pos = $index;
             $values = [];
-            $lookupKey = "";
             foreach ($seq as $subfieldName) {
                 if ($pos >= $len) {
                     continue 2;
@@ -132,17 +113,15 @@ class SequencesEntry extends CompoundEntry {
                     continue 2;
                 }
                 $text = $rawDataArray[$pos]['data'];
-                $renderConfigEntry = $this->findSubfield($subfieldName);
-                $renderFieldData = $solrMarc->buildGenericSubMap($text, TRUE);
-                $values[] = new FieldFormatterData($renderConfigEntry, $renderFieldData);
-                $lookupKey .= "{}" . $renderFieldData->asLookupKey();
+                $fieldFormatterData = $this->buildFieldFormatterData($subfieldName, $text, $solrMarc);
+                $values[] = $fieldFormatterData;
                 $pos++;
             }
             break;
         }
         // $this->elements are already ordered, but the $values are built from "sequences:" which
         // has to use its own sorting! so, re-sort $values too ...
-        return array($this->orderValues($values), $lookupKey);
+        return $this->orderValues($values);
     }
 
     public function addSubfieldsFromSequences(): void {
@@ -168,7 +147,7 @@ class SequencesEntry extends CompoundEntry {
                 while ($index < $entryLen) {
                     list($matchedValues, $lookupKey) = $this->matchesSubfieldSequence($entry, $index, $context->solrMarc);
                     if (!empty($matchedValues)) {
-                        $this->renderImpl($matchedValues, $lookupKey, $context);
+                        $this->renderImpl($matchedValues, $context);
                         $index += count($matchedValues);
                     } else {
                         $index++;
@@ -177,4 +156,5 @@ class SequencesEntry extends CompoundEntry {
             }
         }
     }
+
 }

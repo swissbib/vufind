@@ -92,10 +92,22 @@ abstract class AbstractRenderConfigEntry {
      *
      * @param \File_MARC_Control_Field|\File_MARC_Field $field
      * @param FieldRenderContext $context
-     * @return array of 2 elements: FieldFormatterData[] and lookup key (String)
+     * @return FieldFormatterData[]
      */
     public function getAllRenderData(&$field, &$context): array {
-        return array([], "");
+        return [];
+    }
+
+    /**
+     * @param FieldFormatterData[] $fieldFormatterDataList
+     * @return string
+     */
+    public function calculateRenderDataLookupKey($fieldFormatterDataList) : string {
+        $key = "";
+        foreach ($fieldFormatterDataList as $ffd) {
+            $key = $key . "{}" . $ffd->subfieldRenderData->asLookupKey();
+        }
+        return $key;
     }
 
     public function setListHtml(String $start, String $end): void {
@@ -105,10 +117,10 @@ abstract class AbstractRenderConfigEntry {
 
     /**
      * @param FieldFormatterData[] $values
-     * @param String $lookupKey
      * @param FieldRenderContext $context
      */
-    protected function renderImpl(&$values, $lookupKey, &$context) {
+    public function renderImpl(&$values, &$context) {
+        $lookupKey = $this->calculateRenderDataLookupKey($values);
         if (count($values) > 0 && !$context->alreadyProcessed($lookupKey)) {
             if ($this->repeated) {
                 echo $this->listStartHml;
@@ -125,8 +137,8 @@ abstract class AbstractRenderConfigEntry {
      * @param FieldRenderContext $context
      */
     public function render(&$field, &$context) {
-        list($values, $lookupKey) = $this->getAllRenderData($field, $context);
-        $this->renderImpl($values, $lookupKey, $context);
+        $values = $this->getAllRenderData($field, $context);
+        $this->renderImpl($values, $context);
     }
 
     /**

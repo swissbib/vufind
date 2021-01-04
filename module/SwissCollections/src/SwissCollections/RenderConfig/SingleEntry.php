@@ -51,16 +51,14 @@ class SingleEntry extends AbstractRenderConfigEntry {
     /**
      * @param \File_MARC_Control_Field|\File_MARC_Field $field
      * @param FieldRenderContext $context
-     * @return array with two elements: FieldFormatterData[] and lookup key
+     * @return FieldFormatterData[]
      */
     public function getAllRenderData(&$field, &$context): array {
         $values = [];
-        $lookupKey = "";
         $renderFieldData = $context->solrMarc->getRenderFieldData($field, $this);
         if (!empty($renderFieldData) && !$renderFieldData->emptyValue()) {
-            $lookupKey = $renderFieldData->asLookupKey();
             $values = [new FieldFormatterData($this, $renderFieldData)];
         }
-        return array($values, $lookupKey);
+        return $values;
     }
 }
