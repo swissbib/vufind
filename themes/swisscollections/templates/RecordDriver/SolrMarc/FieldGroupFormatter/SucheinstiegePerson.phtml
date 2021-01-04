@@ -2,34 +2,63 @@
 
 namespace SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter;
 
+use SwissCollections\Formatter\FieldFormatterData;
 use SwissCollections\Formatter\FieldGroupFormatter;
 use SwissCollections\RecordDriver\FieldGroupRenderContext;
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
+use SwissCollections\RenderConfig\CompoundEntry;
 
 class SucheinstiegePerson extends FieldGroupFormatter {
+
+    public static $RENDER_CONFIG_PERSON_KEY = "Person";
+
+    protected static $RENDER_CONFIG_PERSON_ROLE_SUBFIELDS = ['4', '4rcp'];
+    protected static $RENDER_CONFIG_PERSON_ROLE_IGNORED_SUBFIELDS = ['4', '4rcp', 'e'];
 
     public function getName(): String {
         return "sucheinstiege-person";
     }
 
     /**
+     * Die Personen nach ihren Funktionen gruppiert ausgeben.
+     * 1xx/7xx$4: Urheber (aut, cmp, Rollen zu definieren, vgl. Primo, e-manuscripta)
+     * 7xx$4: Beteiligte (inkl. Rollen)
+     * 7xx$4rcp: AdressatIn
+     * z.B. http://127.0.0.1/Record/990115273800205508
      * @param String $fieldName
      * @param AbstractRenderConfigEntry[] $fieldDataList
      * @param FieldGroupRenderContext $context
      */
     public function render($fieldName, &$fieldDataList, &$context): void {
-        // TODO Die Personen möglichst nach ihren Funktionen gruppieren.
-        // 1xx/7xx$4: Urheber (aut, cmp, Rollen zu definieren, vgl. Primo, e-manuscripta)
-        // 7xx$4: Beteiligte (inkl. Rollen)
-        // 7xx$4rcp: AdressatIn
-        // z.B. http://127.0.0.1/Record/990115273800205508
         echo "<!-- START SUCHEINSTIEGE-PERSON -->\n";
-        $personsWithRole = [];
-        foreach ($fieldDataList as $renderElem) {
-            // TODO
-        }
 
+        // bucket sort by role ("unknown" if no role is assigned)
+        $personsWithRole = $this->fillRoleBuckets($fieldDataList, $context);
+
+        // render role buckets ...
+        echo "\n<div class='row'>\n";
+        echo "\t<div class='field-label field-label-" . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . " col-md-3'>\n";
+        echo $this->phpRenderer->translate('page.detail.field.label.' . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY);
+        echo "\t</div>\n";
+        echo "\t<div class='col-md-9'>\n";
+        $fieldContext = new FieldRenderContext($context->fieldFormatterRegistry, $context->solrMarc);
+        foreach ($personsWithRole as $role => $persons) {
+            echo "<h3 class='field-label field-label-" . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . "-role'>";
+            echo $context->solrMarc->getTranslator()->translate($role, 'CreatorRoles');
+            echo "</h3>\n";
+            /**
+             * @var CompoundEntry $renderElem
+             * @var FieldFormatterData[] $ffdList
+             */
+            foreach ($persons as list($renderElem, $ffdList)) {
+                $renderElem->renderImpl($ffdList, $fieldContext);
+            }
+        }
+        echo "\t</div>\n";
+        echo "</div>\n";
+
+        // TODO remove old block below which prints default values
         foreach ($fieldDataList as $renderElem) {
             echo "\n<div class='row'>\n";
             echo "\t<div class='field-label field-label-" . $renderElem->labelKey . " col-md-3'>\n";
@@ -46,5 +75,52 @@ class SucheinstiegePerson extends FieldGroupFormatter {
             echo "</div>\n";
         }
         echo "<!-- END SUCHEINSTIEGE-PERSON -->\n";
+    }
+
+    /**
+     * Sort persons into buckets of roles. If no role is present "unknown" is used.
+     *
+     * @param AbstractRenderConfigEntry[] $fieldDataList
+     * @param FieldGroupRenderContext $context
+     * @return array with role keys and a list of tuples. Each tuple consists of an CompoundEntry and
+     *          FieldFormatterData[] (= values)
+     */
+    protected function fillRoleBuckets(&$fieldDataList, &$context): array {
+        $personsWithRole = [];
+        foreach ($fieldDataList as $renderElem) {
+            $marcIndex = $renderElem->marcIndex;
+            $subfieldValues = $context->solrMarc->getMarcSubfieldsRawMap($marcIndex);
+            if (!empty($subfieldValues)) {
+                foreach ($subfieldValues as $sfv) {
+                    $role = "unknown";
+                    if (!empty($sfv['4'])) {
+                        $role = $sfv['4'];
+                    } else if (!empty($sfv['4rcp'])) {
+                        $role = $sfv['4rcp'];
+                    }
+                    $compoundEntry = new CompoundEntry(SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY,
+                        $marcIndex, $renderElem->indicator1, $renderElem->indicator2);
+                    $compoundEntry->setRenderMode($renderElem->getRenderMode());
+                    // $compoundEntry->setEntryOrder(??);
+                    $ffdList = [];
+                    foreach ($sfv as $subfieldName => $value) {
+                        $subfieldNameStr = "" . $subfieldName;
+                        if (in_array($subfieldNameStr, SucheinstiegePerson::$RENDER_CONFIG_PERSON_ROLE_IGNORED_SUBFIELDS)) {
+                            continue;
+                        }
+                        $labelKey = "page.detail.field.label." . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . "-" . $subfieldNameStr;
+                        $compoundEntry->addElement($labelKey, $subfieldNameStr);
+                        $ffdList[] = $compoundEntry->buildFieldFormatterData($subfieldNameStr, $value, $context->solrMarc);
+                    }
+                    $compoundEntry->orderEntries();
+                    if (!array_key_exists($role, $personsWithRole)) {
+                        $personsWithRole[$role] = [[$compoundEntry, $ffdList]];
+                    } else {
+                        $personsWithRole[$role][] = [$compoundEntry, $ffdList];
+                    }
+                }
+            }
+        }
+        return $personsWithRole;
     }
 }
