@@ -87,7 +87,7 @@ class SolrMarc extends SwissbibSolrMarc {
             $subfields = $field->getSubfields();
 
             foreach ($subfields as $subfield) {
-                $tempFieldData[$subfield->getCode()] = $subfield->getData();
+                $tempFieldData["" . $subfield->getCode()] = $subfield->getData();
             }
 
             $fieldsData[] = $tempFieldData;
@@ -260,6 +260,10 @@ class SolrMarc extends SwissbibSolrMarc {
                 if ($renderType === 'compound' || !empty($marcSubfieldName)) {
                     $renderGroupEntry->addElement($subFieldName, $marcSubfieldName);
                 }
+                // use all marc subfields ...
+                if (empty($marcSubfieldName)) {
+                    $this->finishField($renderGroup, $renderGroupEntry);
+                }
             }
         }
         $this->finishGroup($renderGroup, $renderGroupEntry);
@@ -291,7 +295,7 @@ class SolrMarc extends SwissbibSolrMarc {
     public function finishField(&$renderGroup, &$renderGroupEntry): void {
         if ($renderGroupEntry) {
             if ($renderGroupEntry instanceof SequencesEntry) {
-                // perhaps the csv contained some subfields, at the remaining from the sequences
+                // perhaps the csv contained some subfields, add the remaining from the sequences
                 $renderGroupEntry->addSubfieldsFromSequences();
             }
             $renderGroup->addEntry($renderGroupEntry);
