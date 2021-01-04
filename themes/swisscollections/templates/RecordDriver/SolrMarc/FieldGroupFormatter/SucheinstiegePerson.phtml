@@ -93,15 +93,15 @@ class SucheinstiegePerson extends FieldGroupFormatter {
             if (!empty($subfieldValues)) {
                 foreach ($subfieldValues as $sfv) {
                     $role = "unknown";
-                    if (!empty($sfv['4'])) {
-                        $role = $sfv['4'];
-                    } else if (!empty($sfv['4rcp'])) {
-                        $role = $sfv['4rcp'];
+                    foreach (SucheinstiegePerson::$RENDER_CONFIG_PERSON_ROLE_SUBFIELDS as $roleSubfieldName) {
+                        if (!empty($sfv[$roleSubfieldName])) {
+                            $role = $sfv[$roleSubfieldName];
+                            break;
+                        }
                     }
                     $compoundEntry = new CompoundEntry(SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY,
                         $marcIndex, $renderElem->indicator1, $renderElem->indicator2);
                     $compoundEntry->setRenderMode($renderElem->getRenderMode());
-                    // $compoundEntry->setEntryOrder(??);
                     $ffdList = [];
                     foreach ($sfv as $subfieldName => $value) {
                         $subfieldNameStr = "" . $subfieldName;
