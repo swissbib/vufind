@@ -56,6 +56,14 @@ class CompoundEntry extends AbstractRenderConfigEntry {
         $this->entryOrder = $order;
     }
 
+    /**
+     * @return String[]
+     */
+    public function getEntryOrder() {
+        return $this->entryOrder;
+    }
+
+
     public function __toString() {
         $s = "CompoundEntry{[\n";
         foreach ($this->elements as $e) {
@@ -133,7 +141,22 @@ class CompoundEntry extends AbstractRenderConfigEntry {
      */
     public function buildFieldFormatterData($subfieldName, $text, &$solrMarc) {
         $renderConfigEntry = $this->findSubfield($subfieldName);
+        if ($renderConfigEntry === null) {
+            throw new \Exception("Didn't find $subfieldName in " . $this);
+        }
         $renderFieldData = $solrMarc->buildGenericSubMap($text, TRUE);
         return new FieldFormatterData($renderConfigEntry, $renderFieldData);
+    }
+
+    /**
+     * @return CompoundEntry
+     */
+    public function flatCloneEntry() {
+        $compoundEntry = new CompoundEntry($this->labelKey, $this->marcIndex, $this->indicator1, $this->indicator2);
+        $compoundEntry->setRenderMode($this->getRenderMode());
+        $compoundEntry->setEntryOrder($this->getEntryOrder());
+        $compoundEntry->repeated = $this->repeated;
+        $compoundEntry->setFieldViewInfo($this->getFieldViewInfo());
+        return $compoundEntry;
     }
 }
