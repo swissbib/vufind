@@ -145,7 +145,7 @@ class SequencesEntry extends CompoundEntry {
                 $entryLen = count($entry);
                 $index = 0;
                 while ($index < $entryLen) {
-                    list($matchedValues, $lookupKey) = $this->matchesSubfieldSequence($entry, $index, $context->solrMarc);
+                    $matchedValues = $this->matchesSubfieldSequence($entry, $index, $context->solrMarc);
                     if (!empty($matchedValues)) {
                         $this->renderImpl($matchedValues, $context);
                         $index += count($matchedValues);
