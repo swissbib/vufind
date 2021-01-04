@@ -8,6 +8,8 @@ use SwissCollections\RecordDriver\FieldRenderContext;
 
 class Inline extends FieldFormatter {
 
+    public static $SEPARATOR_CONFIG_KEY = "separator";
+
     public function getName(): String {
         return "inline";
     }
@@ -18,13 +20,9 @@ class Inline extends FieldFormatter {
      * @param FieldRenderContext $context
      */
     public function render($fieldName, $fieldDataList, $context): void {
-        $separatorKey = 'separator';
         echo "\t\t<div class='field-value field-value-compound field-value-" . $fieldName . "'>\n";
         foreach ($fieldDataList as $index => $fd) {
-            $separator = ", ";
-            if (key_exists($separatorKey, $fd->renderConfig->getFieldViewInfo())) {
-                $separator = $fd->renderConfig->getFieldViewInfo()[$separatorKey];
-            }
+            $separator = $this->getSeparator($fd);
             if ($index > 0) {
                 echo $separator;
             }
@@ -34,5 +32,17 @@ class Inline extends FieldFormatter {
             echo "</span>";
         }
         echo "\n\t\t</div>\n";
+    }
+
+    /**
+     * @param FieldFormatterData $fd
+     * @return String
+     */
+    protected function getSeparator($fd): String {
+        $separator = ", ";
+        if (!empty($fd->renderConfig->getFieldViewInfo()) && key_exists(Inline::$SEPARATOR_CONFIG_KEY, $fd->renderConfig->getFieldViewInfo())) {
+            $separator = $fd->renderConfig->getFieldViewInfo()[Inline::$SEPARATOR_CONFIG_KEY];
+        }
+        return $separator;
     }
 }
