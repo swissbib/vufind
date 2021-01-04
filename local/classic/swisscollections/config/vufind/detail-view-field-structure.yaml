@@ -29,6 +29,15 @@ structure:
       "Person": "sucheinstiege-person" # handle all fields "Person" with this formatter
     fields:
       "Person":
+        type: compound # expected by "sucheinstiege-person" formatter, because "entries" are needed too
+        mode: inline
+        separator: " / "
+        entries:
+          - "Person-a"
+          - "Person-t"
+          - "Person-k"
+          - "Person-d"
+          - "Person-0"
       "Ort":
   "Thema":
     fields:

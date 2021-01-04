@@ -45,7 +45,11 @@ class SucheinstiegePerson extends FieldGroupFormatter {
         $fieldContext = new FieldRenderContext($context->fieldFormatterRegistry, $context->solrMarc);
         foreach ($personsWithRole as $role => $persons) {
             echo "<h3 class='field-label field-label-" . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . "-role'>";
-            echo $context->solrMarc->getTranslator()->translate($role, 'CreatorRoles');
+            if ($role === "unknown") {
+                echo $this->phpRenderer->translate('page.detail.field.label.' . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . ".unknown-role");
+            } else {
+                echo $context->solrMarc->getTranslator()->translate($role, 'CreatorRoles');
+            }
             echo "</h3>\n";
             /**
              * @var CompoundEntry $renderElem
@@ -87,6 +91,9 @@ class SucheinstiegePerson extends FieldGroupFormatter {
      */
     protected function fillRoleBuckets(&$fieldDataList, &$context): array {
         $personsWithRole = [];
+        /**
+         * @var CompoundEntry $renderElem
+         */
         foreach ($fieldDataList as $renderElem) {
             $marcIndex = $renderElem->marcIndex;
             $subfieldValues = $context->solrMarc->getMarcSubfieldsRawMap($marcIndex);
@@ -99,20 +106,20 @@ class SucheinstiegePerson extends FieldGroupFormatter {
                             break;
                         }
                     }
-                    $compoundEntry = new CompoundEntry(SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY,
-                        $marcIndex, $renderElem->indicator1, $renderElem->indicator2);
-                    $compoundEntry->setRenderMode($renderElem->getRenderMode());
-                    $ffdList = [];
-                    foreach ($sfv as $subfieldName => $value) {
-                        $subfieldNameStr = "" . $subfieldName;
+                    $compoundEntry = $renderElem->flatCloneEntry();
+                    foreach ($sfv as $subfieldNameStr => $value) {
                         if (in_array($subfieldNameStr, SucheinstiegePerson::$RENDER_CONFIG_PERSON_ROLE_IGNORED_SUBFIELDS)) {
                             continue;
                         }
-                        $labelKey = "page.detail.field.label." . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . "-" . $subfieldNameStr;
+                        $labelKey = SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . "-" . $subfieldNameStr;
                         $compoundEntry->addElement($labelKey, $subfieldNameStr);
-                        $ffdList[] = $compoundEntry->buildFieldFormatterData($subfieldNameStr, $value, $context->solrMarc);
                     }
                     $compoundEntry->orderEntries();
+                    $ffdList = [];
+                    foreach ($compoundEntry->elements as $singleEntry) {
+                        $subfieldNameStr = $singleEntry->getSubfieldName();
+                        $ffdList[] = $compoundEntry->buildFieldFormatterData($subfieldNameStr, $sfv[$subfieldNameStr], $context->solrMarc);
+                    }
                     if (!array_key_exists($role, $personsWithRole)) {
                         $personsWithRole[$role] = [[$compoundEntry, $ffdList]];
                     } else {
