@@ -2,6 +2,8 @@
 
 namespace SwissCollections\RecordDriver;
 
+use SwissCollections\RenderConfig\FormatterConfig;
+
 class ViewFieldInfo {
     protected $detailViewFieldInfo;
 
@@ -9,13 +11,27 @@ class ViewFieldInfo {
     public static $RENDER_INFO_GROUPS = "groups";
 
     public static $RENDER_INFO_FIELD_TYPE = "type";
-    public static $RENDER_INFO_FIELD_MODE = "mode";
-    public static $RENDER_INFO_FIELD_REPEATED = "repeated";
-    public static $RENDER_INFO_FIELD_SUBFIELDS = "entries";
+    public static $RENDER_INFO_FIELD_MODE = "formatter";
     public static $RENDER_INFO_FIELD_SUBFIELD_SEQUENCES = "sequences";
 
     public function __construct($detailViewFieldInfo) {
         $this->detailViewFieldInfo = $detailViewFieldInfo;
+    }
+
+    /**
+     * @param array $fieldViewInfo - data returned by getField()
+     * @return bool
+     */
+    public function hasType($fieldViewInfo): bool {
+        return array_key_exists(ViewFieldInfo::$RENDER_INFO_FIELD_TYPE, $fieldViewInfo);
+    }
+
+    /**
+     * @param array $fieldViewInfo - data returned by getField()
+     * @return String|null - either single | compound | sequences
+     */
+    public function getType($fieldViewInfo) {
+        return $fieldViewInfo[ViewFieldInfo::$RENDER_INFO_FIELD_TYPE];
     }
 
     /**
@@ -44,77 +60,35 @@ class ViewFieldInfo {
 
     /**
      * Returns a formatter's name or null.
-     * @param array $groupViewInfo - data returned by getGroup()
+     * @param array|null $groupViewInfo - data returned by getGroup()
      * @param $fieldName
-     * @return String | null
+     * @return FormatterConfig | null
      */
     public function getFieldGroupFormatter($groupViewInfo, $fieldName) {
-        $fieldGroups = $groupViewInfo[ViewFieldInfo::$RENDER_INFO_GROUPS];
-        if ($fieldGroups) {
-            return $fieldGroups[$fieldName];
+        $config = [];
+        if ($groupViewInfo) {
+            $fieldGroups = $groupViewInfo[ViewFieldInfo::$RENDER_INFO_GROUPS];
+            if ($fieldGroups) {
+                $cfg = $fieldGroups[$fieldName];
+                if (!empty($cfg) && array_key_exists(ViewFieldInfo::$RENDER_INFO_FIELD_MODE, $cfg)) {
+                    $config = $cfg[ViewFieldInfo::$RENDER_INFO_FIELD_MODE];
+                }
+            }
         }
-        return null;
+        return new FormatterConfig('default', $config);
     }
 
     /**
+     * @param String $defaultFormatterName
      * @param array $fieldViewInfo - data returned by getField()
-     * @return bool
+     * @return FormatterConfig
      */
-    public function hasType($fieldViewInfo): bool {
-        return array_key_exists(ViewFieldInfo::$RENDER_INFO_FIELD_TYPE, $fieldViewInfo);
-    }
-
-    /**
-     * @param array $fieldViewInfo - data returned by getField()
-     * @return bool
-     */
-    public function hasMode($fieldViewInfo): bool {
-        return array_key_exists(ViewFieldInfo::$RENDER_INFO_FIELD_MODE, $fieldViewInfo);
-    }
-
-    /**
-     * @param array $fieldViewInfo - data returned by getField()
-     * @return bool
-     */
-    public function hasRepeated($fieldViewInfo): bool {
-        return array_key_exists(ViewFieldInfo::$RENDER_INFO_FIELD_REPEATED, $fieldViewInfo);
-    }
-
-    /**
-     * @param array $fieldViewInfo - data returned by getField()
-     * @return String - either single | compound | sequences
-     */
-    public function getType($fieldViewInfo): String {
-        return $fieldViewInfo[ViewFieldInfo::$RENDER_INFO_FIELD_TYPE];
-    }
-
-    /**
-     * @param array $fieldViewInfo - data returned by getField()
-     * @return String - either line | inline
-     */
-    public function getMode($fieldViewInfo): String {
-        return $fieldViewInfo[ViewFieldInfo::$RENDER_INFO_FIELD_MODE];
-    }
-
-    /**
-     * @param array $fieldViewInfo - data returned by getField()
-     * @return String
-     */
-    public function getRepeated($fieldViewInfo): bool {
-        return $fieldViewInfo[ViewFieldInfo::$RENDER_INFO_FIELD_REPEATED];
-    }
-
-    /**
-     * Especially for compound view configs.
-     * @param array $fieldViewInfo - data returned by getField()
-     * @return String[]
-     */
-    public function getSubfieldEntries($fieldViewInfo) {
-        $v = $fieldViewInfo[ViewFieldInfo::$RENDER_INFO_FIELD_SUBFIELDS];
-        if (empty($v)) {
-            return [];
+    public function getFormatterConfig($defaultFormatterName, $fieldViewInfo): FormatterConfig {
+        $config = [];
+        if (array_key_exists(ViewFieldInfo::$RENDER_INFO_FIELD_MODE, $fieldViewInfo)) {
+            $config = $fieldViewInfo[ViewFieldInfo::$RENDER_INFO_FIELD_MODE];
         }
-        return $v;
+        return new FormatterConfig($defaultFormatterName, $config);
     }
 
     /**

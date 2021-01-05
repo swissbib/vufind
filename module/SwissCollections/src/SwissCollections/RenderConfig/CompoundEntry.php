@@ -26,41 +26,30 @@ class CompoundEntry extends AbstractRenderConfigEntry {
     public $elements = [];
 
     /**
-     * @var String[]
-     */
-    protected $entryOrder = [];
-
-    /**
      * GroupEntry constructor.
      * @param String $labelKey
      * @param int $marcIndex
+     * @param FormatterConfig $formatterConfig from "detail-view-field-structure.yaml"
      * @param int $indicator1 set to -1 if not relevant
      * @param int $indicator2 set to -1 if not relevant
      */
-    public function __construct(String $labelKey, int $marcIndex, int $indicator1 = -1, int $indicator2 = -1) {
-        parent::__construct($labelKey, $marcIndex, $indicator1, $indicator2);
+    public function __construct(String $labelKey, int $marcIndex, $formatterConfig, int $indicator1 = -1, int $indicator2 = -1) {
+        parent::__construct($labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
+        $this->formatterConfig->formatterNameDefault = "line";
     }
 
     public function addElement(String $labelKey, String $subfieldName) {
-        $singleEntry = new SingleEntry($labelKey, $this->marcIndex, $subfieldName, $this->indicator1, $this->indicator2);
-        $singleEntry->renderMode = $this->renderMode;
-        $singleEntry->repeated = $this->repeated;
-        $singleEntry->fieldViewInfo = $this->fieldViewInfo;
+        $singleEntry = new SingleEntry($labelKey, $this->marcIndex, $this->formatterConfig, $subfieldName, $this->indicator1, $this->indicator2);
+        $singleEntry->fieldGroupFormatter = $this->fieldGroupFormatter;
         array_push($this->elements, $singleEntry);
     }
 
     /**
-     * @param String[] $order
-     */
-    public function setEntryOrder($order) {
-        $this->entryOrder = $order;
-    }
-
-    /**
-     * @return String[]
+     * Uses "simple" as default marc subfield formatter.
+     * @return FieldFormatterConfig[]
      */
     public function getEntryOrder() {
-        return $this->entryOrder;
+        return $this->formatterConfig->getEntryOrder("simple");
     }
 
 
@@ -69,7 +58,7 @@ class CompoundEntry extends AbstractRenderConfigEntry {
         foreach ($this->elements as $e) {
             $s = $s . "\t\t\t" . $e . ",\n";
         }
-        return $s . "] ," . $this->repeated . "}";
+        return $s . "]}";
     }
 
     public function get(String $name) {
@@ -83,14 +72,18 @@ class CompoundEntry extends AbstractRenderConfigEntry {
 
     public function orderEntries() {
         $newEntries = [];
-        foreach ($this->entryOrder as $fieldName) {
+        $entryOrder = $this->getEntryOrder();
+        $fieldNames = [];
+        foreach ($entryOrder as $fieldFormatter) {
+            $fieldName = $fieldFormatter->fieldName;
+            $fieldNames[] = $fieldName;
             $e = $this->get($fieldName);
             if ($e) {
                 $newEntries[] = $e;
             }
         }
         foreach ($this->elements as $element) {
-            if (!in_array($element->labelKey, $this->entryOrder)) {
+            if (!in_array($element->labelKey, $fieldNames)) {
                 $newEntries[] = $element;
             }
         }
@@ -149,14 +142,10 @@ class CompoundEntry extends AbstractRenderConfigEntry {
     }
 
     /**
+     * Create copy without elements.
      * @return CompoundEntry
      */
     public function flatCloneEntry() {
-        $compoundEntry = new CompoundEntry($this->labelKey, $this->marcIndex, $this->indicator1, $this->indicator2);
-        $compoundEntry->setRenderMode($this->getRenderMode());
-        $compoundEntry->setEntryOrder($this->getEntryOrder());
-        $compoundEntry->repeated = $this->repeated;
-        $compoundEntry->setFieldViewInfo($this->getFieldViewInfo());
-        return $compoundEntry;
+        return new CompoundEntry($this->labelKey, $this->marcIndex, $this->formatterConfig, $this->indicator1, $this->indicator2);
     }
 }

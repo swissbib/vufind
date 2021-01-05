@@ -8,8 +8,6 @@ use SwissCollections\RecordDriver\FieldRenderContext;
 
 class Inline extends FieldFormatter {
 
-    public static $SEPARATOR_CONFIG_KEY = "separator";
-
     public function getName(): String {
         return "inline";
     }
@@ -39,10 +37,6 @@ class Inline extends FieldFormatter {
      * @return String
      */
     protected function getSeparator($fd): String {
-        $separator = ", ";
-        if (!empty($fd->renderConfig->getFieldViewInfo()) && key_exists(Inline::$SEPARATOR_CONFIG_KEY, $fd->renderConfig->getFieldViewInfo())) {
-            $separator = $fd->renderConfig->getFieldViewInfo()[Inline::$SEPARATOR_CONFIG_KEY];
-        }
-        return $separator;
+        return $fd->renderConfig->getFormatterConfig()->getSeparator();
     }
 }

@@ -2,11 +2,13 @@
 use SwissCollections\Formatter\FieldGroupFormatterRegistry;
 use SwissCollections\RecordDriver\FieldGroupRenderContext;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
+use SwissCollections\RenderConfig\FormatterConfig;
 use SwissCollections\RenderConfig\RenderGroupConfig;
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter\Inline;
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter\Line;
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\DefaultFormatter;
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\SucheinstiegePerson;
+
 ?>-->
 <?php
 /** @var SwissCollections\RecordDriver\SolrMarc $record */
@@ -98,13 +100,16 @@ $fieldGroupFormatterRegistry->register(new SucheinstiegePerson($this));
                      * @var AbstractRenderConfigEntry $renderElem
                      */
                     $renderElem = $renderGroupEntries[$renderGroupKeys[$renderElemIndex]];
+                    /**
+                     * @var FormatterConfig
+                     */
                     $fieldGroupFormatter = $renderElem->getFieldGroupFormatter();
                     $fieldName = $renderElem->labelKey;
-                    if ($fieldGroupFormatter) {
+                    if ($fieldGroupFormatter->getFormatterName() !== "default") {
                         while ($renderElemIndex < $renderGroupEntryCount) {
                             $renderElem = $renderGroupEntries[$renderGroupKeys[$renderElemIndex]];
                             $nextFieldGroupFormatter = $renderElem->getFieldGroupFormatter();
-                            if ($fieldGroupFormatter !== $nextFieldGroupFormatter) {
+                            if ($fieldGroupFormatter->getFormatterName() !== $nextFieldGroupFormatter->getFormatterName()) {
                                 break;
                             }
                             if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
@@ -115,10 +120,11 @@ $fieldGroupFormatterRegistry->register(new SucheinstiegePerson($this));
                     } else {
                         if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
                             $groupMembers[] = $renderElem;
-                            $fieldGroupFormatter = DefaultFormatter::$NAME;
+                            $fieldGroupFormatter = new FormatterConfig(DefaultFormatter::$NAME, []);
                         }
                         $renderElemIndex++;
                     }
+                    // echo "<!-- GROUP FORMATTER $groupName > $fieldName: " . $fieldGroupFormatter->getFormatterName() . " " . count($groupMembers) . " -->";
                     if (count($groupMembers) > 0) {
                         $fieldGroupFormatterRegistry->applyFormatter($fieldGroupFormatter,
                             $fieldName, $groupMembers, $fieldGroupFormatterContext);

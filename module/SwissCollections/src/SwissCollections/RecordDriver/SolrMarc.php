@@ -6,6 +6,7 @@ namespace SwissCollections\RecordDriver;
 use Laminas\Log\Logger;
 use Swissbib\RecordDriver\SolrMarc as SwissbibSolrMarc;
 use SwissCollections\RenderConfig\CompoundEntry;
+use SwissCollections\RenderConfig\FormatterConfig;
 use SwissCollections\RenderConfig\SequencesEntry;
 use SwissCollections\RenderConfig\RenderConfig;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
@@ -66,8 +67,7 @@ class SolrMarc extends SwissbibSolrMarc {
         return parent::getSimpleMarcSubFieldValue($index, $subFieldCode);
     }
 
-    public function getMarcSubfieldsRawMap($index)
-    {
+    public function getMarcSubfieldsRawMap($index) {
         /**
          * Fields
          *
@@ -200,44 +200,33 @@ class SolrMarc extends SwissbibSolrMarc {
             // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex|$marcIndicator1|$marcIndicator2|$marcSubfieldName -->\n";
 
             // calculate render type and mode ...
-            $groupViewInfo = $this->detailViewFieldInfo->getGroup($groupName);
             $renderType = 'single';
-            $repeated = false;
-            $fieldViewInfo = null;
+            $formatterConfig = new FormatterConfig($renderType, []);
+            $groupViewInfo = $this->detailViewFieldInfo->getGroup($groupName);
             $fieldGroupFormatter = null;
 
             if ($groupViewInfo) {
                 $fieldViewInfo = $this->detailViewFieldInfo->getField($groupViewInfo, $fieldName, $marcIndex);
                 if ($fieldViewInfo) {
+                    $formatterConfig = $this->detailViewFieldInfo->getFormatterConfig($renderType, $fieldViewInfo);
                     if ($this->detailViewFieldInfo->hasType($fieldViewInfo)) {
                         $renderType = $this->detailViewFieldInfo->getType($fieldViewInfo);
                     }
-                    if ($this->detailViewFieldInfo->hasRepeated($fieldViewInfo)) {
-                        $repeated = $this->detailViewFieldInfo->getRepeated($fieldViewInfo);
-                    }
                 }
-                $fieldGroupFormatter = $this->detailViewFieldInfo->getFieldGroupFormatter($groupViewInfo, $fieldName);
             }
-            // echo "<!-- SPECIAL: $groupName > $fieldName: rt=$renderType rm=$renderMode rep=$repeated -->\n";
+            $fieldGroupFormatter = $this->detailViewFieldInfo->getFieldGroupFormatter($groupViewInfo, $fieldName);
+            // echo "<!-- SPECIAL: $groupName > $fieldName: rt=$renderType fc=" . $formatterConfig . " gc=" . $fieldGroupFormatter . " -->\n";
 
             if (!$renderGroupEntry && ($renderType === 'compound' || $renderType === 'sequences')) {
                 if ($renderType === 'compound') {
-                    $renderGroupEntry = new CompoundEntry($subFieldName, $marcIndex, $marcIndicator1, $marcIndicator2);
-                    if ($fieldViewInfo) {
-                        $renderGroupEntry->setEntryOrder($this->detailViewFieldInfo->getSubfieldEntries($fieldViewInfo));
-                    }
-                    $this->setLineMode($fieldViewInfo, $renderGroupEntry, 'line');
-                    $renderGroupEntry->repeated = $repeated;
+                    $renderGroupEntry = new CompoundEntry($subFieldName, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2);
                 }
                 if ($renderType === 'sequences') {
-                    $renderGroupEntry = new SequencesEntry($subFieldName, $marcIndex, $marcIndicator1, $marcIndicator2);
+                    $renderGroupEntry = new SequencesEntry($subFieldName, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2);
                     if ($fieldViewInfo) {
-                        $renderGroupEntry->setEntryOrder($this->detailViewFieldInfo->getSubfieldEntries($fieldViewInfo));
                         $renderGroupEntry->setSequences($this->detailViewFieldInfo->getSubfieldSequences($fieldViewInfo));
                     }
-                    $this->setLineMode($fieldViewInfo, $renderGroupEntry, 'inline');
                 }
-                $renderGroupEntry->setFieldViewInfo($fieldViewInfo);
                 $renderGroupEntry->setFieldGroupFormatter($fieldGroupFormatter);
             }
             if ($renderType === 'single') {
@@ -247,11 +236,10 @@ class SolrMarc extends SwissbibSolrMarc {
                 $renderGroupEntry = new SingleEntry(
                     $subFieldName,
                     $marcIndex,
+                    $formatterConfig,
                     $marcSubfieldName,
                     $marcIndicator1,
                     $marcIndicator2);
-                $renderGroupEntry->repeated = $repeated;
-                $this->setLineMode($fieldViewInfo, $renderGroupEntry, 'line');
                 $renderGroup->addSingle($renderGroupEntry);
                 $renderGroupEntry->setFieldGroupFormatter($fieldGroupFormatter);
                 $renderGroupEntry = null;
@@ -411,6 +399,14 @@ class SolrMarc extends SwissbibSolrMarc {
         return $groupIsEmpty;
     }
 
+    /**
+     * Helper method to output raw marc field.
+     * @param int $marcIndex
+     * @param $rawData
+     * @param int $ind1
+     * @param int $ind2
+     * @return string
+     */
     protected function mergeRawData(int $marcIndex, $rawData, int $ind1, int $ind2) {
         $ind1Str = "" . $ind1;
         $ind2Str = "" . $ind2;
@@ -436,11 +432,4 @@ class SolrMarc extends SwissbibSolrMarc {
         return $result . "</ul>";
     }
 
-    protected function setLineMode($fieldViewInfo, AbstractRenderConfigEntry $renderGroupEntry, String $default): void {
-        $renderMode = $default;
-        if ($fieldViewInfo && $this->detailViewFieldInfo->hasMode($fieldViewInfo)) {
-            $renderMode = $this->detailViewFieldInfo->getMode($fieldViewInfo);
-        }
-        $renderGroupEntry->setRenderMode($renderMode);
-    }
 }

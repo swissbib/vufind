@@ -6,6 +6,7 @@ use Laminas\View\Renderer\PhpRenderer;
 use SwissCollections\RecordDriver\FieldGroupRenderContext;
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
+use SwissCollections\RenderConfig\FormatterConfig;
 
 abstract class FieldGroupFormatter {
 
@@ -73,17 +74,19 @@ class FieldGroupFormatterRegistry {
     }
 
     /**
-     * @param String $formatterKey
+     * @param FormatterConfig $groupFormatter
      * @param String $fieldName
      * @param AbstractRenderConfigEntry[] $data
      * @param FieldGroupRenderContext $context ;
      */
-    public function applyFormatter($formatterKey, $fieldName, &$data, &$context) {
-        $ff = $this->get($formatterKey);
+    public function applyFormatter($groupFormatter, $fieldName, &$data, &$context) {
+        $context->formatterConfig = null;
+        $ff = $this->get($groupFormatter->getFormatterName());
         if (!empty($ff)) {
+            $context->formatterConfig = $groupFormatter;
             $ff->render($fieldName, $data, $context);
         } else {
-            echo "<!-- ERROR: Unknown field group formatter: '$formatterKey' -->\n";
+            echo "<!-- ERROR: Unknown field group formatter: '" . $groupFormatter->getFormatterName() . "' -->\n";
         }
     }
 }

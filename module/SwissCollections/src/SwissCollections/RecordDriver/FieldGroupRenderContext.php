@@ -5,7 +5,7 @@ namespace SwissCollections\RecordDriver;
 use SwissCollections\Formatter\FieldFormatterRegistry;
 
 class FieldGroupRenderContext {
-        /**
+    /**
      * @var FieldFormatterRegistry
      */
     public $fieldFormatterRegistry;
@@ -15,7 +15,12 @@ class FieldGroupRenderContext {
      */
     public $solrMarc;
 
-        /**
+    /**
+     * @var FormatterConfig|null
+     */
+    public $formatterConfig;
+
+    /**
      * FieldRenderContext constructor.
      * @param FieldFormatterRegistry $fieldFormatterRegistry
      * @param SolrMarc $solrMarc

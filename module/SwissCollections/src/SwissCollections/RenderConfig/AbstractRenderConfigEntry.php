@@ -30,57 +30,41 @@ abstract class AbstractRenderConfigEntry {
     public $indicator2;
 
     /**
-     * @var bool
+     * @var FormatterConfig
      */
-    public $repeated;
+    protected $formatterConfig;
 
     /**
-     * @var mixed | null
-     */
-    protected $fieldViewInfo;
-
-    /**
-     * @var String $renderMode is a FieldFormatter's name
-     */
-    protected $renderMode;
-
-    /**
-     * @var String
-     */
-    protected $listStartHml;
-
-    /**
-     * @var String
-     */
-    protected $listEndHml;
-
-    /**
-     * @var String
+     * @var FormatterConfig
      */
     protected $fieldGroupFormatter;
 
     public static $UNKNOWN_INDICATOR = -1;
 
-    public function __construct(String $labelKey, int $marcIndex, int $indicator1, int $indicator2) {
+    /**
+     * AbstractRenderConfigEntry constructor.
+     * @param String $labelKey
+     * @param int $marcIndex
+     * @param FormatterConfig $formatterConfig from "detail-view-field-structure.yaml"
+     * @param int $indicator1
+     * @param int $indicator2
+     */
+    public function __construct(String $labelKey, int $marcIndex, $formatterConfig, int $indicator1, int $indicator2) {
         $this->labelKey = $labelKey;
         $this->marcIndex = $marcIndex;
         $this->indicator1 = $indicator1;
         $this->indicator2 = $indicator2;
-        $this->repeated = false;
-    }
-
-    public function setRenderMode(String $name) {
-        $this->renderMode = $name;
+        $this->formatterConfig = $formatterConfig;
     }
 
     public function getRenderMode(): String {
-        return $this->renderMode;
+        return $this->formatterConfig->getFormatterName();
     }
 
     public function __toString() {
         return "RenderConfigEntry{" . $this->labelKey . ","
-            . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2
-            . "," . $this->repeated . "," . $this->renderMode . "}";
+            . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2 . "," . $this->formatterConfig
+            . "," . $this->fieldGroupFormatter . "}";
     }
 
     public function orderEntries() {
@@ -102,7 +86,7 @@ abstract class AbstractRenderConfigEntry {
      * @param FieldFormatterData[] $fieldFormatterDataList
      * @return string
      */
-    public function calculateRenderDataLookupKey($fieldFormatterDataList) : string {
+    public function calculateRenderDataLookupKey($fieldFormatterDataList): string {
         $key = "";
         foreach ($fieldFormatterDataList as $ffd) {
             $key = $key . "{}" . $ffd->subfieldRenderData->asLookupKey();
@@ -111,8 +95,7 @@ abstract class AbstractRenderConfigEntry {
     }
 
     public function setListHtml(String $start, String $end): void {
-        $this->listStartHml = $start;
-        $this->listEndHml = $end;
+        $this->formatterConfig->setListHtml($start, $end);
     }
 
     /**
@@ -122,12 +105,12 @@ abstract class AbstractRenderConfigEntry {
     public function renderImpl(&$values, &$context) {
         $lookupKey = $this->calculateRenderDataLookupKey($values);
         if (count($values) > 0 && !$context->alreadyProcessed($lookupKey)) {
-            if ($this->repeated) {
-                echo $this->listStartHml;
+            if ($this->formatterConfig->isRepeated()) {
+                echo $this->formatterConfig->listStartHml;
             }
-            $context->applyFieldFormatter($lookupKey, $values, $this->renderMode, $this->labelKey);
-            if ($this->repeated) {
-                echo $this->listEndHml;
+            $context->applyFieldFormatter($lookupKey, $values, $this->getRenderMode(), $this->labelKey);
+            if ($this->formatterConfig->isRepeated()) {
+                echo $this->formatterConfig->listEndHml;
             }
         }
     }
@@ -142,33 +125,28 @@ abstract class AbstractRenderConfigEntry {
     }
 
     /**
-     * Raw field view info for this marc field from "detail-view-field-structure.yaml".
-     * @param mixed|null $fieldViewInfo
-     */
-    public function setFieldViewInfo($fieldViewInfo) {
-        $this->fieldViewInfo = $fieldViewInfo;
-    }
-
-    /**
-     * Returns an associative array of config options from detail-view-field-structure.yaml for this
+     * Returns an object of config options from detail-view-field-structure.yaml for this
      * marc field.
-     * @return mixed|null
+     * @return FormatterConfig
      */
-    public function getFieldViewInfo() {
-        return $this->fieldViewInfo;
+    public function getFormatterConfig() {
+        return $this->formatterConfig;
     }
 
     /**
-     * @return String|null
+     * @return FormatterConfig|null
      */
     public function getFieldGroupFormatter() {
         return $this->fieldGroupFormatter;
     }
 
     /**
-     * @param String|null $fieldGroupFormatter
+     * @param FormatterConfig|null $fieldGroupFormatter
      */
     public function setFieldGroupFormatter($fieldGroupFormatter): void {
-        $this->fieldGroupFormatter = $fieldGroupFormatter;
+        // keep default formatter object
+        if ($fieldGroupFormatter !== null) {
+            $this->fieldGroupFormatter = $fieldGroupFormatter;
+        }
     }
 }

@@ -9,48 +9,64 @@ structure:
     fields:
       "Titel":
         type: compound
-        mode: line
-        entries:
-          - "Titel"
-          - "Untertitel"
-          - "Autor"
+        formatter:
+          name: line
+          entries:
+            - name: "Titel"
+              # formatter: ...
+            - name: "Untertitel"
+            - name: "Autor"
       "Signatur":
         type: compound
-        mode: inline
-        repeated: true
-        separator: "; " # for inline formatter only
-        entries:
-          - "institution-code"
-          - "standort code"
-          - "Signatur1"
-          - "Signatur2"
+        formatter:
+          name: inline
+          separator: "; " # for inline formatter only
+          repeated: true
+          entries:
+            - name: "institution-code"
+            - name: "standort code"
+            - name: "Signatur1"
+            - name: "Signatur2"
   "Sucheinstiege":
     groups:
-      "Person": "sucheinstiege-person" # handle all fields "Person" with this formatter
+      "Person":
+        formatter:
+          name: "sucheinstiege-person" # handle all fields "Person" with this formatter
+          roleOrder: # all other roles are printed at the end
+            - "cmp"
+            - "wpr"
+            - "edt"
     fields:
       "Person":
         type: compound # expected by "sucheinstiege-person" formatter, because "entries" are needed too
-        mode: inline
-        separator: " / "
-        entries:
-          - "Person-a"
-          - "Person-t"
-          - "Person-k"
-          - "Person-d"
-          - "Person-0"
+        formatter:
+          name: inline
+          separator: " / "
+          entries:
+            - name: "Person-a"
+            - name: "Person-t"
+            - name: "Person-k"
+            - name: "Person-d"
+            - name: "Person-0"
       "Ort":
   "Thema":
     fields:
       "Formschlagwort":
       "Alternativtitel":
       "Sachbegriff":
-        repeated: true
+        formatter:
+          repeated: true
   "Inhalt und innere Ordnung":
     fields:
       "Inhalt-505":
         type: sequences
-        # without "entries:" the order of the applied sequence is used (see "sequences:" below)
-        entries: [ "Inhalt3-r", "Inhalt3-t", "Inhalt3-g", "Inhalt3-a" ]
+        formatter:
+          # without "entries:" the order of the applied sequence is used (see "sequences:" below)
+          entries:
+            - name: "Inhalt3-r"
+            - name: "Inhalt3-t"
+            - name: "Inhalt3-g"
+            - name: "Inhalt3-a"
         # note that "sequences:" entries are sorted to guarantee the "longest" match
         # use "entries:" (see above) for another order of sequences
         sequences: # from Swissbib/RecordDriver/SolrMarc.php getTableOfContent()
