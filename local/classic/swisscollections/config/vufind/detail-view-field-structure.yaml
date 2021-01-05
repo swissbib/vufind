@@ -36,6 +36,13 @@ structure:
             - "cmp"
             - "wpr"
             - "edt"
+          roleMarcSubfields: # specific for "sucheinstiege-person"
+            - "4"
+            - "4rcp"
+          hiddenMarcSubfields: # specific for "sucheinstiege-person"
+            - "4"
+            - "4rcp"
+            - "e"
     fields:
       "Person":
         type: compound # expected by "sucheinstiege-person" formatter, because "entries" are needed too

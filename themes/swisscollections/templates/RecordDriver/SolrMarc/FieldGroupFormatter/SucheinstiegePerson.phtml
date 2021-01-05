@@ -13,9 +13,6 @@ class SucheinstiegePerson extends FieldGroupFormatter {
 
     public static $RENDER_CONFIG_PERSON_KEY = "Person";
 
-    protected static $RENDER_CONFIG_PERSON_ROLE_SUBFIELDS = ['4', '4rcp'];
-    protected static $RENDER_CONFIG_PERSON_ROLE_IGNORED_SUBFIELDS = ['4', '4rcp', 'e'];
-
     public function getName(): String {
         return "sucheinstiege-person";
     }
@@ -35,6 +32,8 @@ class SucheinstiegePerson extends FieldGroupFormatter {
 
         // bucket sort by role ("unknown" if no role is assigned)
         $personsWithRole = $this->fillRoleBuckets($fieldDataList, $context);
+        $partialRoleOrder = $fieldDataList[0]->getFieldGroupFormatter()->getRoleOrder();
+        $roles = $this->sortRoles(array_keys($personsWithRole), $partialRoleOrder);
 
         // render role buckets ...
         echo "\n<div class='row'>\n";
@@ -43,7 +42,8 @@ class SucheinstiegePerson extends FieldGroupFormatter {
         echo "\t</div>\n";
         echo "\t<div class='col-md-9'>\n";
         $fieldContext = new FieldRenderContext($context->fieldFormatterRegistry, $context->solrMarc);
-        foreach ($personsWithRole as $role => $persons) {
+        foreach ($roles as $role) {
+            $persons = $personsWithRole[$role];
             echo "<h3 class='field-label field-label-" . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . "-role'>";
             if ($role === "unknown") {
                 echo $this->phpRenderer->translate('page.detail.field.label.' . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . ".unknown-role");
@@ -82,6 +82,21 @@ class SucheinstiegePerson extends FieldGroupFormatter {
     }
 
     /**
+     * @param String[] $roles
+     * @param String[] $partialOrder
+     */
+    protected function sortRoles($roles, $partialOrder) {
+        $newRoles = $partialOrder;
+        // add all missing roles too ...
+        foreach ($roles as $r) {
+            if (!in_array($r, $newRoles)) {
+                $newRoles[] = $r;
+            }
+        }
+        return $newRoles;
+    }
+
+    /**
      * Sort persons into buckets of roles. If no role is present "unknown" is used.
      *
      * @param AbstractRenderConfigEntry[] $fieldDataList
@@ -90,6 +105,9 @@ class SucheinstiegePerson extends FieldGroupFormatter {
      *          FieldFormatterData[] (= values)
      */
     protected function fillRoleBuckets(&$fieldDataList, &$context): array {
+        $roleMarcSubfields = $fieldDataList[0]->getFieldGroupFormatter()->getRoleMarcSubfields();
+        $hiddenMarcSubfields = $fieldDataList[0]->getFieldGroupFormatter()->getHiddenRoleMarcSubfields();
+
         $personsWithRole = [];
         /**
          * @var CompoundEntry $renderElem
@@ -100,7 +118,7 @@ class SucheinstiegePerson extends FieldGroupFormatter {
             if (!empty($subfieldValues)) {
                 foreach ($subfieldValues as $sfv) {
                     $role = "unknown";
-                    foreach (SucheinstiegePerson::$RENDER_CONFIG_PERSON_ROLE_SUBFIELDS as $roleSubfieldName) {
+                    foreach ($roleMarcSubfields as $roleSubfieldName) {
                         if (!empty($sfv[$roleSubfieldName])) {
                             $role = $sfv[$roleSubfieldName];
                             break;
@@ -108,7 +126,7 @@ class SucheinstiegePerson extends FieldGroupFormatter {
                     }
                     $compoundEntry = $renderElem->flatCloneEntry();
                     foreach ($sfv as $subfieldNameStr => $value) {
-                        if (in_array($subfieldNameStr, SucheinstiegePerson::$RENDER_CONFIG_PERSON_ROLE_IGNORED_SUBFIELDS)) {
+                        if (in_array($subfieldNameStr, $hiddenMarcSubfields)) {
                             continue;
                         }
                         $labelKey = SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . "-" . $subfieldNameStr;

@@ -56,24 +56,15 @@ class FormatterConfig {
      * @return String|null
      */
     public function getSeparator() {
-        if (array_key_exists("separator", $this->config)) {
-            return $this->config["separator"];
-        }
-        return $this->separatorDefault;
+        return $this->optionalConfigEntry("separator", $this->separatorDefault);
     }
 
     public function isRepeated(): bool {
-        if (array_key_exists("repeated", $this->config)) {
-            return $this->config["repeated"];
-        }
-        return $this->repeatedDefault;
+        return $this->optionalConfigEntry("repeated", $this->repeatedDefault);
     }
 
     public function getFormatterName(): String {
-        if (array_key_exists("name", $this->config)) {
-            return $this->config["name"];
-        }
-        return $this->formatterNameDefault;
+        return $this->optionalConfigEntry("name", $this->formatterNameDefault);
     }
 
     public function setRepeatedDefault(bool $flag) {
@@ -105,6 +96,43 @@ class FormatterConfig {
             }
         }
         return $order;
+    }
+
+    /**
+     * For $name: "sucheinstiege-person".
+     * @return String[]
+     */
+    public function getRoleOrder() {
+        return $this->optionalConfigEntry("roleOrder", []);
+    }
+
+    /**
+     * For $name: "sucheinstiege-person".
+     * @return String[]
+     */
+    public function getRoleMarcSubfields() {
+        return $this->optionalConfigEntry("roleMarcSubfields", []);
+    }
+
+    /**
+     * For $name: "sucheinstiege-person".
+     * @return String[]
+     */
+    public function getHiddenRoleMarcSubfields() {
+        return $this->optionalConfigEntry("hiddenMarcSubfields", []);
+    }
+
+    /**
+     * @param String $key
+     * @param mixed $defaultValue
+     * @return mixed
+     */
+    protected function optionalConfigEntry($key, $defaultValue) {
+        $value = $defaultValue;
+        if (array_key_exists($key, $this->config)) {
+            $value = $this->config[$key];
+        }
+        return $value;
     }
 }
 
