@@ -15,8 +15,6 @@ AllFields:
     - title_new^200
     - author^750                          # all entries main name forms
     - author_additional^100               # all entries additional fields
-    - author_additional_dsv11_txt_mv^100  # variants from dsv11
-    - title_additional_dsv11_txt_mv^100
     - author_additional_gnd_txt_mv^100    # variants from GND
     - title_additional_gnd_txt_mv^100
     - publplace_additional_gnd_txt_mv^100
@@ -29,6 +27,7 @@ AllFields:
     - fulltext                            # imported fulltext, i.e. TOC/Abstracts
     - callnumber_txt_mv^50                # callnumbers (works only when quoted) with low boost
     - ctrlnum^1000
+    - series_ctrlnum_str_mv
     - publishDate
     - isbn
     - cancisbn_isn_mv
@@ -36,8 +35,15 @@ AllFields:
     - issn
     - incoissn_isn_mv
     - ismn_isn_mv
+    - cancismn_isn_mv
     - doi_isn_mv
     - urn_isn_mv
+    - other_id_isn_mv
+    - publisher_id_isn_mv
+    - coordinate_str_mv
+    - from_gnd_isn_mv
+    - about_gnd_isn_mv
+    - classif_local
     - localcode_txt_mv              # local codes splitted at spaces
     - id_txt
   #add the new fields to AllFieldsAutosuggest as well
@@ -60,8 +66,6 @@ AllFieldsAutosuggest:
     - title_new^200
     - author^750                          # all entries main name forms
     - author_additional^100               # all entries additional fields
-    - author_additional_dsv11_txt_mv^100  # variants from dsv11
-    - title_additional_dsv11_txt_mv^100
     - author_additional_gnd_txt_mv^100    # variants from GND
     - title_additional_gnd_txt_mv^100
     - publplace_additional_gnd_txt_mv^100
@@ -74,6 +78,7 @@ AllFieldsAutosuggest:
     - fulltext                            # imported fulltext, i.e. TOC/Abstracts
     - callnumber_txt_mv^50                # callnumbers (works only when quoted) with low boost
     - ctrlnum^1000
+    - series_ctrlnum_str_mv
     - publishDate
     - isbn
     - cancisbn_isn_mv
@@ -81,8 +86,15 @@ AllFieldsAutosuggest:
     - issn
     - incoissn_isn_mv
     - ismn_isn_mv
+    - cancismn_isn_mv
     - doi_isn_mv
     - urn_isn_mv
+    - other_id_isn_mv
+    - publisher_id_isn_mv
+    - coordinate_str_mv
+    - from_gnd_isn_mv
+    - about_gnd_isn_mv
+    - classif_local
     - localcode_txt_mv              # local codes splitted at spaces
     - id_txt
   DismaxParams:
