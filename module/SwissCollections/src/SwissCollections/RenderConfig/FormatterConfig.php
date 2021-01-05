@@ -72,7 +72,10 @@ class FormatterConfig {
     }
 
     public function __toString() {
-        return "FormatterConfig{" . $this->formatterNameDefault . "," . print_r($this->config, true) . "}";
+        return "FormatterConfig{" . $this->formatterNameDefault
+            . ",'" . $this->separatorDefault . "'"
+            . "," . json_encode($this->repeatedDefault)
+            . "," . print_r($this->config, true) . "}";
     }
 
     public function setListHtml(String $start, String $end): void {
@@ -96,6 +99,34 @@ class FormatterConfig {
             }
         }
         return $order;
+    }
+
+    /**
+     * Retrieves formatter for a given marc subfield. Returns $defaultFormatterName if not specified.
+     * Inherits default separator and repeated flag from $defaultFormatterConfig.
+     * @param String $labelKey
+     * @param String $defaultFormatterName
+     * @param FormatterConfig $defaultFormatterConfig
+     * @return FormatterConfig
+     */
+    public function singleFormatter($labelKey, $defaultFormatterName, $defaultFormatterConfig) {
+        $config = [];
+        if (!empty($this->config["entries"])) {
+            foreach ($this->config["entries"] as $entry) {
+                if ($labelKey === $entry["name"] && !empty($entry["formatter"])) {
+                    $config = $entry["formatter"];
+                    break;
+                }
+            }
+        }
+        $r = new FormatterConfig($defaultFormatterName, $config);
+        if (!array_key_exists("separator", $config)) {
+            $r->separatorDefault = $defaultFormatterConfig->getSeparator();
+        }
+        if (!array_key_exists("repeated", $config)) {
+            $r->repeatedDefault = $defaultFormatterConfig->isRepeated();
+        }
+        return $r;
     }
 
     /**

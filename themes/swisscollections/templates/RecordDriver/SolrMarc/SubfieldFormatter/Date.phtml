@@ -1,0 +1,37 @@
+<?php
+
+namespace SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter;
+
+use SwissCollections\Formatter\FieldFormatter;
+use SwissCollections\Formatter\FieldFormatterData;
+use SwissCollections\Formatter\SubfieldFormatter;
+use SwissCollections\RecordDriver\FieldRenderContext;
+
+class Date extends SubfieldFormatter {
+
+    public function getName(): String {
+        return "date";
+    }
+
+    /**
+     * @param String $fieldName
+     * @param FieldFormatterData $data
+     * @param FieldRenderContext $context
+     */
+    public function render($fieldName, $data, $context): void {
+        echo "<span class='subfield-formatter-" . $this->getName() . "'>";
+        $text = $data->subfieldRenderData->value;
+        $text = trim($text);
+
+        // reformat "XXX-" to "XXX - …"
+        if (str_ends_with($text, "-")) {
+            $text = trim(substr($text, 0, strlen($text) - 1)) . " - …";
+        }
+        if ($data->subfieldRenderData->escHtml) {
+            echo $this->phpRenderer->escapeHtml($text);
+        } else {
+            echo $text;
+        }
+        echo "</span>";
+    }
+}

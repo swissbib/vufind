@@ -41,7 +41,8 @@ class SucheinstiegePerson extends FieldGroupFormatter {
         echo $this->phpRenderer->translate('page.detail.field.label.' . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY);
         echo "\t</div>\n";
         echo "\t<div class='col-md-9'>\n";
-        $fieldContext = new FieldRenderContext($context->fieldFormatterRegistry, $context->solrMarc);
+        $fieldContext = new FieldRenderContext($context->fieldFormatterRegistry, $context->solrMarc,
+            $context->subfieldFormatterRegistry);
         foreach ($roles as $role) {
             $persons = $personsWithRole[$role];
             if (!empty($persons)) {

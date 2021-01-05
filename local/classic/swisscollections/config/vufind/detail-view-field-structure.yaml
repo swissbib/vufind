@@ -13,7 +13,6 @@ structure:
           name: line
           entries:
             - name: "Titel"
-              # formatter: ...
             - name: "Untertitel"
             - name: "Autor"
       "Signatur":
@@ -54,6 +53,8 @@ structure:
             - name: "Person-t"
             - name: "Person-k"
             - name: "Person-d"
+              formatter:
+                name: "date"
             - name: "Person-0"
       "Ort":
   "Thema":

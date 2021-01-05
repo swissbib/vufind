@@ -27,7 +27,9 @@ class SingleEntry extends AbstractRenderConfigEntry {
                                 $indicator1 = -1, $indicator2 = -1) {
         parent::__construct($labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
         $this->subfieldName = $subfieldName;
-        $this->formatterConfig->formatterNameDefault = "line";
+        if (empty($this->formatterConfig->formatterNameDefault)) {
+            $this->formatterConfig->formatterNameDefault = "simple";
+        }
     }
 
     /**
@@ -62,5 +64,14 @@ class SingleEntry extends AbstractRenderConfigEntry {
             $values = [new FieldFormatterData($this, $renderFieldData)];
         }
         return $values;
+    }
+
+    /**
+     * @param String $lookupKey
+     * @param FieldFormatterData[] $values
+     * @param FieldRenderContext $context
+     */
+    public function applyFormatter($lookupKey, &$values, $context) {
+        $context->applySubfieldFormatter($lookupKey, $values[0], $this->getRenderMode(), $this->labelKey, $context);
     }
 }

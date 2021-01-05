@@ -37,7 +37,9 @@ class SequencesEntry extends CompoundEntry {
     public function __construct(String $labelKey, int $marcIndex, $formatterConfig, int $indicator1 = -1, int $indicator2 = -1) {
         parent::__construct($labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
         $this->formatterConfig->setRepeatedDefault(TRUE);
-        $this->formatterConfig->formatterNameDefault = "inline";
+        if (empty($this->formatterConfig->formatterNameDefault)) {
+            $this->formatterConfig->formatterNameDefault = "inline";
+        }
     }
 
     public function __toString() {
@@ -84,7 +86,7 @@ class SequencesEntry extends CompoundEntry {
         $entryOrder = $this->getEntryOrder();
         $fieldNames = [];
         foreach ($entryOrder as $fieldFormatter) {
-            $fieldName= $fieldFormatter->fieldName;
+            $fieldName = $fieldFormatter->fieldName;
             $fieldNames[] = $fieldName;
             $ffd = $this->inValues($fieldName, $values);
             if ($ffd) {

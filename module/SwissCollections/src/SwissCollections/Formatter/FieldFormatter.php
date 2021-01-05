@@ -57,12 +57,10 @@ abstract class FieldFormatter {
 
     public abstract function getName(): String;
 
-    public function outputValue(FieldFormatterData $fd): void {
-        if ($fd->subfieldRenderData->escHtml) {
-            echo $this->phpRenderer->escapeHtml($fd->subfieldRenderData->value);
-        } else {
-            echo $fd->subfieldRenderData->value;
-        }
+    public function outputValue(FieldFormatterData $fd, FieldRenderContext $context): void {
+        $formatterConfig = $fd->renderConfig->getFormatterConfig();
+        // TODO is "null" OK?
+        $context->applySubfieldFormatter(null, $fd, $formatterConfig->getFormatterName(), $fd->renderConfig->labelKey, $context);
     }
 }
 

@@ -201,14 +201,14 @@ class SolrMarc extends SwissbibSolrMarc {
 
             // calculate render type and mode ...
             $renderType = 'single';
-            $formatterConfig = new FormatterConfig($renderType, []);
+            $formatterConfig = new FormatterConfig(null, []);
             $groupViewInfo = $this->detailViewFieldInfo->getGroup($groupName);
             $fieldGroupFormatter = null;
 
             if ($groupViewInfo) {
                 $fieldViewInfo = $this->detailViewFieldInfo->getField($groupViewInfo, $fieldName, $marcIndex);
                 if ($fieldViewInfo) {
-                    $formatterConfig = $this->detailViewFieldInfo->getFormatterConfig($renderType, $fieldViewInfo);
+                    $formatterConfig = $this->detailViewFieldInfo->getFormatterConfig(null, $fieldViewInfo);
                     if ($this->detailViewFieldInfo->hasType($fieldViewInfo)) {
                         $renderType = $this->detailViewFieldInfo->getType($fieldViewInfo);
                     }

@@ -1,5 +1,6 @@
 <!-- <?php use SwissCollections\Formatter\FieldFormatterRegistry;
 use SwissCollections\Formatter\FieldGroupFormatterRegistry;
+use SwissCollections\Formatter\SubfieldFormatterRegistry;
 use SwissCollections\RecordDriver\FieldGroupRenderContext;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 use SwissCollections\RenderConfig\FormatterConfig;
@@ -8,6 +9,8 @@ use SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter\Inline;
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter\Line;
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\DefaultFormatter;
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\SucheinstiegePerson;
+use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Date;
+use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Simple;
 
 ?>-->
 <?php
@@ -57,6 +60,13 @@ if ($nl) {
 $link360 = $viewRecord->getLink360();
 $linkSFX = $viewRecord->getLinkSFX();
 
+$this->render('RecordDriver/SolrMarc/SubfieldFormatter/Simple');
+$this->render('RecordDriver/SolrMarc/SubfieldFormatter/Date');
+
+$subfieldFormatterRegistry = new SubfieldFormatterRegistry();
+$subfieldFormatterRegistry->register(new Simple($this));
+$subfieldFormatterRegistry->register(new Date($this));
+
 $this->render('RecordDriver/SolrMarc/FieldFormatter/Inline');
 $this->render('RecordDriver/SolrMarc/FieldFormatter/Line');
 
@@ -77,7 +87,7 @@ $fieldGroupFormatterRegistry->register(new SucheinstiegePerson($this));
     <div style="border-top: 1px solid #bbbbbb; margin-top: 1rem; margin-bottom: 1rem;"></div>
     <?php
     if ($renderConfig) {
-        $fieldGroupFormatterContext = new FieldGroupRenderContext($fieldFormatterRegistry, $record);
+        $fieldGroupFormatterContext = new FieldGroupRenderContext($fieldFormatterRegistry, $subfieldFormatterRegistry, $record);
         /**
          * @var RenderGroupConfig $renderGroupConfig
          */

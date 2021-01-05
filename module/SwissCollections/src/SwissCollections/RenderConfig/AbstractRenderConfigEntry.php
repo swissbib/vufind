@@ -62,7 +62,7 @@ abstract class AbstractRenderConfigEntry {
     }
 
     public function __toString() {
-        return "RenderConfigEntry{" . $this->labelKey . ","
+        return "AbstractRenderConfigEntry{" . $this->labelKey . ","
             . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2 . "," . $this->formatterConfig
             . "," . $this->fieldGroupFormatter . "}";
     }
@@ -108,11 +108,20 @@ abstract class AbstractRenderConfigEntry {
             if ($this->formatterConfig->isRepeated()) {
                 echo $this->formatterConfig->listStartHml;
             }
-            $context->applyFieldFormatter($lookupKey, $values, $this->getRenderMode(), $this->labelKey);
+            $this->applyFormatter($lookupKey, $values, $context);
             if ($this->formatterConfig->isRepeated()) {
                 echo $this->formatterConfig->listEndHml;
             }
         }
+    }
+
+    /**
+     * @param String $lookupKey
+     * @param FieldFormatterData[] $values
+     * @param FieldRenderContext $context
+     */
+    public function applyFormatter($lookupKey, &$values, $context) {
+        $context->applyFieldFormatter($lookupKey, $values, $this->getRenderMode(), $this->labelKey, $context);
     }
 
     /**

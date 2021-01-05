@@ -35,11 +35,14 @@ class CompoundEntry extends AbstractRenderConfigEntry {
      */
     public function __construct(String $labelKey, int $marcIndex, $formatterConfig, int $indicator1 = -1, int $indicator2 = -1) {
         parent::__construct($labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
-        $this->formatterConfig->formatterNameDefault = "line";
+        if (empty($this->formatterConfig->formatterNameDefault)) {
+            $this->formatterConfig->formatterNameDefault = "line";
+        }
     }
 
     public function addElement(String $labelKey, String $subfieldName) {
-        $singleEntry = new SingleEntry($labelKey, $this->marcIndex, $this->formatterConfig, $subfieldName, $this->indicator1, $this->indicator2);
+        $formatter = $this->formatterConfig->singleFormatter($labelKey, "simple", $this->formatterConfig);
+        $singleEntry = new SingleEntry($labelKey, $this->marcIndex, $formatter, $subfieldName, $this->indicator1, $this->indicator2);
         $singleEntry->fieldGroupFormatter = $this->fieldGroupFormatter;
         array_push($this->elements, $singleEntry);
     }
@@ -54,7 +57,7 @@ class CompoundEntry extends AbstractRenderConfigEntry {
 
 
     public function __toString() {
-        $s = "CompoundEntry{[\n";
+        $s = "CompoundEntry{" . parent::__toString() . ",[\n";
         foreach ($this->elements as $e) {
             $s = $s . "\t\t\t" . $e . ",\n";
         }

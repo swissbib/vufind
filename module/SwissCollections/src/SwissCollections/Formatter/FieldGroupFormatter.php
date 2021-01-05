@@ -41,14 +41,15 @@ abstract class FieldGroupFormatter {
     public function outputField(&$renderElem, &$context, $repeatStartHtml, $repeatEndHtml): void {
         $fields = $context->solrMarc->getMarcFields($renderElem->marcIndex);
         if (!empty($fields)) {
-            if ($renderElem->repeated) {
+            if ($renderElem->getFormatterConfig()->isRepeated()) {
                 echo $repeatStartHtml;
             }
-            $fieldContext = new FieldRenderContext($context->fieldFormatterRegistry, $context->solrMarc);
+            $fieldContext = new FieldRenderContext($context->fieldFormatterRegistry, $context->solrMarc,
+                $context->subfieldFormatterRegistry);
             foreach ($fields as $field) {
                 $renderElem->render($field, $fieldContext);
             }
-            if ($renderElem->repeated) {
+            if ($renderElem->getFormatterConfig()->isRepeated()) {
                 echo $repeatEndHtml;
             }
         }

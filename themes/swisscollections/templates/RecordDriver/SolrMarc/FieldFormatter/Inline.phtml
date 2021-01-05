@@ -26,7 +26,7 @@ class Inline extends FieldFormatter {
             }
             // echo "\n\t\t\t<!-- marcInfo=" . $fd->renderConfig . " -->\n";
             echo "<span class='field-entry field-entry-" . $fd->renderConfig->labelKey . "'>";
-            $this->outputValue($fd);
+            $this->outputValue($fd, $context);
             echo "</span>";
         }
         echo "\n\t\t</div>\n";

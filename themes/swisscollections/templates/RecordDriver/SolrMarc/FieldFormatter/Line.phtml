@@ -22,7 +22,7 @@ class Line extends FieldFormatter {
             echo "\t\t<div class='field-value field-value-" . $fieldName . "'>";
             // echo "\n\t\t\t<!-- marcInfo=" . $fd->renderConfig . " -->\n";
             echo "<span class='field-entry field-entry-" . $fd->renderConfig->labelKey . "'>";
-            $this->outputValue($fd);
+            $this->outputValue($fd, $context);
             echo "</span>\n";
             echo "\n\t\t</div>\n";
         }
