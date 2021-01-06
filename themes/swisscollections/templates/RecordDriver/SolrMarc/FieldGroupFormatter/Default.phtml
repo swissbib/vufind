@@ -23,8 +23,8 @@ class DefaultFormatter extends FieldGroupFormatter {
     public function render($fieldName, &$fieldDataList, &$context): void {
         foreach ($fieldDataList as $renderElem) {
             echo "\n<div class='row'>\n";
-            echo "\t<div class='field-label field-label-" . $renderElem->labelKey . " col-md-3'>\n";
-            echo $this->phpRenderer->translate('page.detail.field.label.' . $renderElem->labelKey);
+            echo "\t<div class='field-label field-label-" . $this->labelKeyAsCssClass($renderElem->labelKey) . " col-md-3'>\n";
+            echo $this->translateLabelKey($renderElem->labelKey);
             echo "\t</div>\n";
             echo "\t<div class='col-md-9'>\n";
 

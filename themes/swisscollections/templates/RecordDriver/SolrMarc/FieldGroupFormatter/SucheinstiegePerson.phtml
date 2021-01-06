@@ -11,6 +11,7 @@ use SwissCollections\RenderConfig\CompoundEntry;
 
 class SucheinstiegePerson extends FieldGroupFormatter {
 
+    public static $GROUP_NAME = "Sucheinstiege";
     public static $RENDER_CONFIG_PERSON_KEY = "Person";
 
     public function getName(): String {
@@ -34,11 +35,13 @@ class SucheinstiegePerson extends FieldGroupFormatter {
         $personsWithRole = $this->fillRoleBuckets($fieldDataList, $context);
         $partialRoleOrder = $fieldDataList[0]->getFieldGroupFormatter()->getRoleOrder();
         $roles = $this->sortRoles(array_keys($personsWithRole), $partialRoleOrder);
+        $personLabelKey = SucheinstiegePerson::$GROUP_NAME . "." . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY;
+        $unknownRoleLabelKey = $personLabelKey . ".unknown-role";
 
         // render role buckets ...
-        echo "\n<div class='row'>\n";
+        echo "\n<div class='row row-sucheinstiege-person'>\n";
         echo "\t<div class='field-label field-label-" . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . " col-md-3'>\n";
-        echo $this->phpRenderer->translate('page.detail.field.label.' . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY);
+        echo $this->translateLabelKey($personLabelKey);
         echo "\t</div>\n";
         echo "\t<div class='col-md-9'>\n";
         $fieldContext = new FieldRenderContext($context->fieldFormatterRegistry, $context->solrMarc,
@@ -46,9 +49,10 @@ class SucheinstiegePerson extends FieldGroupFormatter {
         foreach ($roles as $role) {
             $persons = $personsWithRole[$role];
             if (!empty($persons)) {
+                echo "<div class='row-sucheinstiege-person__role-container'>\n";
                 echo "<h3 class='field-label field-label-" . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . "-role'>";
                 if ($role === "unknown") {
-                    echo $this->phpRenderer->translate('page.detail.field.label.' . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . ".unknown-role");
+                    echo $this->translateLabelKey($unknownRoleLabelKey);
                 } else {
                     echo $context->solrMarc->getTranslator()->translate($role, 'CreatorRoles');
                 }
@@ -60,6 +64,7 @@ class SucheinstiegePerson extends FieldGroupFormatter {
                 foreach ($persons as list($renderElem, $ffdList)) {
                     $renderElem->renderImpl($ffdList, $fieldContext);
                 }
+                echo "</div>\n";
             }
         }
         echo "\t</div>\n";
@@ -68,8 +73,8 @@ class SucheinstiegePerson extends FieldGroupFormatter {
         // TODO remove old block below which prints default values
         foreach ($fieldDataList as $renderElem) {
             echo "\n<div class='row'>\n";
-            echo "\t<div class='field-label field-label-" . $renderElem->labelKey . " col-md-3'>\n";
-            echo $this->phpRenderer->translate('page.detail.field.label.' . $renderElem->labelKey);
+            echo "\t<div class='field-label field-label-" . $this->labelKeyAsCssClass($renderElem->labelKey) . " col-md-3'>\n";
+            echo $this->translateLabelKey($renderElem->labelKey);
             echo "\t</div>\n";
             echo "\t<div class='col-md-9'>\n";
 

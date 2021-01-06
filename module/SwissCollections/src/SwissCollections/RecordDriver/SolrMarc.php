@@ -184,6 +184,7 @@ class SolrMarc extends SwissbibSolrMarc {
                 $lastSubfieldCount++;
                 $subFieldName = $lastSubfieldName . $lastSubfieldCount;
             }
+            $labelKey = $groupName . "." . $subFieldName;
 
             $marcIndex = $field[SolrMarc::$MARC_MAPPING_MARC_INDEX];
             if (!ctype_digit($marcIndex)) {
@@ -219,10 +220,10 @@ class SolrMarc extends SwissbibSolrMarc {
 
             if (!$renderGroupEntry && ($renderType === 'compound' || $renderType === 'sequences')) {
                 if ($renderType === 'compound') {
-                    $renderGroupEntry = new CompoundEntry($subFieldName, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2);
+                    $renderGroupEntry = new CompoundEntry($labelKey, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2);
                 }
                 if ($renderType === 'sequences') {
-                    $renderGroupEntry = new SequencesEntry($subFieldName, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2);
+                    $renderGroupEntry = new SequencesEntry($labelKey, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2);
                     if ($fieldViewInfo) {
                         $renderGroupEntry->setSequences($this->detailViewFieldInfo->getSubfieldSequences($fieldViewInfo));
                     }
@@ -234,7 +235,7 @@ class SolrMarc extends SwissbibSolrMarc {
                     $this->finishField($renderGroup, $renderGroupEntry);
                 }
                 $renderGroupEntry = new SingleEntry(
-                    $subFieldName,
+                    $labelKey,
                     $marcIndex,
                     $formatterConfig,
                     $marcSubfieldName,
@@ -246,7 +247,7 @@ class SolrMarc extends SwissbibSolrMarc {
             } else if ($renderType === 'compound' || $renderType === 'sequences') {
                 // TODO add $marcIndicator1/2? different to compound/sequences entry?
                 if ($renderType === 'compound' || !empty($marcSubfieldName)) {
-                    $renderGroupEntry->addElement($subFieldName, $marcSubfieldName);
+                    $renderGroupEntry->addElement($labelKey, $marcSubfieldName);
                 }
                 // use all marc subfields ...
                 if (empty($marcSubfieldName)) {

@@ -54,6 +54,18 @@ abstract class FieldGroupFormatter {
             }
         }
     }
+
+    public function labelKeyAsCssClass(String $labelKey): String {
+        return preg_replace('/[. \/"§$%&()!=?+*~#\':,;]/',"_", $labelKey);
+    }
+
+    public function translateLabelKey(String $labelKey): String {
+        $label = $this->phpRenderer->translate('page.detail.field.label.' . $labelKey);
+        if (strpos($label, "page.detail.") !== FALSE) {
+            $label = preg_replace("/[.]/","-", $label);
+        }
+        return $label;
+    }
 }
 
 class FieldGroupFormatterRegistry {
