@@ -12,22 +12,23 @@ use SwissCollections\Formatter\FieldFormatterData;
 use SwissCollections\RecordDriver\FieldRenderContext;
 
 class SingleEntry extends AbstractRenderConfigEntry {
-    protected $subfieldName;
+    protected $marcSubfieldName;
 
     /**
      * SingleEntry constructor.
      * @param String $fieldName
+     * @param String $subfieldName
      * @param String $labelKey
      * @param int $marcIndex
      * @param FormatterConfig $formatterConfig
-     * @param String $subfieldName
+     * @param String $marcSubfieldName
      * @param int $indicator1 set to -1 if not relevant
      * @param int $indicator2 set to -1 if not relevant
      */
-    public function __construct(String $fieldName, $labelKey, $marcIndex, $formatterConfig, $subfieldName = null,
+    public function __construct($fieldName, $subfieldName, $labelKey, $marcIndex, $formatterConfig, $marcSubfieldName = null,
                                 $indicator1 = -1, $indicator2 = -1) {
-        parent::__construct($fieldName, $labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
-        $this->subfieldName = $subfieldName;
+        parent::__construct($fieldName, $subfieldName, $labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
+        $this->marcSubfieldName = $marcSubfieldName;
         if (empty($this->formatterConfig->formatterNameDefault)) {
             $this->formatterConfig->formatterNameDefault = "simple";
         }
@@ -39,18 +40,18 @@ class SingleEntry extends AbstractRenderConfigEntry {
      */
     public function buildMap() {
         $result = [];
-        if (!empty($this->subfieldName)) {
-            $result[$this->subfieldName] = "value";
+        if (!empty($this->marcSubfieldName)) {
+            $result[$this->marcSubfieldName] = "value";
         }
         return $result;
     }
 
     public function __toString() {
-        return "SingleEntry{" . parent::__toString() . "," . $this->subfieldName . "}";
+        return "SingleEntry{" . parent::__toString() . "," . $this->marcSubfieldName . "}";
     }
 
-    public function getSubfieldName(): String {
-        return $this->subfieldName;
+    public function getMarcSubfieldName(): String {
+        return $this->marcSubfieldName;
     }
 
     /**
@@ -75,7 +76,7 @@ class SingleEntry extends AbstractRenderConfigEntry {
     public function applyFormatter($lookupKey, &$values, $context) {
         $renderMode = $this->getRenderMode();
         // if repeated and no special formatting is used, print the values line-by-line
-        if ($renderMode === "simple" && !empty($this->getSubfieldName())) {
+        if ($renderMode === "simple" && !empty($this->getMarcSubfieldName())) {
             $renderMode = "simple-line";
         }
         $context->applySubfieldFormatter($lookupKey, $values[0], $renderMode, $this->labelKey, $context);

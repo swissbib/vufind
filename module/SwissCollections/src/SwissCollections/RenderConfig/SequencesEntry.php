@@ -29,14 +29,16 @@ class SequencesEntry extends CompoundEntry {
     /**
      * GroupEntry constructor.
      * @param String $fieldName
+     * @param String $subfieldName
      * @param String $labelKey
      * @param int $marcIndex
      * @param FormatterConfig $formatterConfig
      * @param int $indicator1 set to -1 if not relevant
      * @param int $indicator2 set to -1 if not relevant
      */
-    public function __construct(String $fieldName, String $labelKey, int $marcIndex, $formatterConfig, int $indicator1 = -1, int $indicator2 = -1) {
-        parent::__construct($fieldName, $labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
+    public function __construct(String $fieldName, String $subfieldName, String $labelKey, int $marcIndex,
+                                $formatterConfig, int $indicator1 = -1, int $indicator2 = -1) {
+        parent::__construct($fieldName, $subfieldName, $labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
         $this->formatterConfig->setRepeatedDefault(TRUE);
         if (empty($this->formatterConfig->formatterNameDefault)) {
             $this->formatterConfig->formatterNameDefault = "inline";
@@ -138,9 +140,9 @@ class SequencesEntry extends CompoundEntry {
      */
     public function addSubfieldsFromSequences(): void {
         foreach ($this->sequences as $seq) {
-            foreach ($seq as $subfieldName) {
-                if (!$this->knowsSubfield($subfieldName)) {
-                    $this->addElement($this->labelKey . "-" . $subfieldName, $subfieldName);
+            foreach ($seq as $marcSubfieldName) {
+                if (!$this->knowsSubfield($marcSubfieldName)) {
+                    $this->addElement($this->labelKey . "-" . $marcSubfieldName, $marcSubfieldName);
                 }
             }
         }

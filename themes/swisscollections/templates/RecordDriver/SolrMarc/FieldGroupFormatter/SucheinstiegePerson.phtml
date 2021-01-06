@@ -102,18 +102,19 @@ class SucheinstiegePerson extends FieldGroupFormatter {
                         }
                     }
                     $compoundEntry = $renderElem->flatCloneEntry();
-                    foreach ($sfv as $subfieldNameStr => $value) {
-                        if (in_array($subfieldNameStr, $hiddenMarcSubfields)) {
+                    foreach ($sfv as $marcSubfieldNameStr => $value) {
+                        if (in_array($marcSubfieldNameStr, $hiddenMarcSubfields)) {
                             continue;
                         }
-                        $labelKey = SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . "-" . $subfieldNameStr;
-                        $compoundEntry->addElement($labelKey, $subfieldNameStr);
+                        $labelKey = SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . "-" . $marcSubfieldNameStr;
+                        $compoundEntry->addElement($labelKey, $marcSubfieldNameStr);
                     }
                     $compoundEntry->orderEntries();
                     $ffdList = [];
                     foreach ($compoundEntry->elements as $singleEntry) {
-                        $subfieldNameStr = $singleEntry->getSubfieldName();
-                        $ffdList[] = $compoundEntry->buildFieldFormatterData($subfieldNameStr, $sfv[$subfieldNameStr], $context->solrMarc);
+                        $marcSubfieldNameStr = $singleEntry->getMarcSubfieldName();
+                        $ffdList[] = $compoundEntry->buildFieldFormatterData($marcSubfieldNameStr,
+                            $sfv[$marcSubfieldNameStr], $context->solrMarc);
                     }
                     if (!array_key_exists($role, $personsWithRole)) {
                         $personsWithRole[$role] = [[$compoundEntry, $ffdList]];

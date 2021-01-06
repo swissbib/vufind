@@ -86,7 +86,7 @@ class RenderGroupConfig {
      * @param String $name
      * @return AbstractRenderConfigEntry[]
      */
-    public function getField(String $name) {
+    protected function getField(String $name) {
         $fields = [];
         foreach ($this->info as $key => $field) {
             if ($name === $field->fieldName) {

@@ -19,6 +19,10 @@ abstract class AbstractRenderConfigEntry {
     /**
      * @var String
      */
+    public $subfieldName;
+    /**
+     * @var String
+     */
     public $labelKey;
     /**
      * @var int
@@ -54,8 +58,10 @@ abstract class AbstractRenderConfigEntry {
      * @param int $indicator1
      * @param int $indicator2
      */
-    public function __construct(String $fieldName, String $labelKey, int $marcIndex, $formatterConfig, int $indicator1, int $indicator2) {
+    public function __construct(String $fieldName, String $subfieldName, String $labelKey, int $marcIndex,
+                                $formatterConfig, int $indicator1, int $indicator2) {
         $this->fieldName = $fieldName;
+        $this->subfieldName = $subfieldName;
         $this->labelKey = $labelKey;
         $this->marcIndex = $marcIndex;
         $this->indicator1 = $indicator1;
@@ -68,9 +74,13 @@ abstract class AbstractRenderConfigEntry {
     }
 
     public function __toString() {
-        return "AbstractRenderConfigEntry{" . $this->labelKey . ","
-            . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2 . "," . $this->formatterConfig
-            . "," . $this->fieldGroupFormatter . "}";
+        return "AbstractRenderConfigEntry{"
+            . $this->labelKey . ","
+            . $this->fieldName . ","
+            . $this->subfieldName . ","
+            . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2 . ","
+            . $this->formatterConfig . ","
+            . $this->fieldGroupFormatter . "}";
     }
 
     public function orderEntries() {

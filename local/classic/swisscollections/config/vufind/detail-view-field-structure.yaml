@@ -7,14 +7,6 @@
 structure:
   "Basisinformationen":
     fields:
-      "Titel":
-        type: compound
-        formatter:
-          name: line
-          entries:
-            - name: "Titel"
-            - name: "Untertitel"
-            - name: "Autor"
       "Signatur":
         type: compound
         formatter:
@@ -26,6 +18,29 @@ structure:
             - name: "standort code"
             - name: "Signatur1"
             - name: "Signatur2"
+      "Dokumenttyp":
+      "Art der Ressource":
+      "Digitalisat":
+      "Titel":
+        type: compound
+        formatter:
+          name: line
+          entries:
+            - name: "Titel"
+            - name: "Untertitel"
+            - name: "Autor"
+      "Entstehungsangaben":
+      "Erscheinungsangaben":
+      "Vertriebsangabe":
+      "Herstellungsangaben":
+      "Copyrightjahr":
+      "Verzeichnungsstufe":
+      "Auflage / Ausgabenvermerk /Entstehungsstufe":
+      "Kartendaten und Karteninformationen":
+      "Physische Beschreibung":
+      "Physische Beschaffenheit":
+      "Serie":
+      "Enthalten in:":
   "Inhalt und innere Ordnung":
     fields:
       "Inhalt-505":
@@ -47,18 +62,82 @@ structure:
           - [ "t" ]
           - [ "r" ]
           - [ "a" ]
+      "Ordnung":
+      "Begleitmaterial":
+      "Lokale Sacherschliessung Bibliographie / Fachcodes":
+      "Lokale Sacherschliessung Bibliographie":
   "Anmerkungen":
+    fields:
+      "Allgemeine Anmerkung":
+      "Sprache, Schrift, Notation":
+      "Anmerkung Musik":
+      "Originalausgabe":
+      "Anmerkung zur Reproduktion":
+      "Mitwirkende Film":
+      "Darsteller":
+      "Datum und Ort der Aufzeichnung":
+      "Identifikation des Exemplars":
+      "Identifikator":
+      "Fingerprint Identifikator":
+      "Verlagsbestellnummer":
+      "ISBN":
+      "Bibliographischer Nachweis":
   "Geschichte":
+    fields:
+      "Entstehungs-, Besitz- und Sammlungsgeschichte":
+      "Neuzugänge":
+      "Akzession":
+      "Geschichte des Aktenbildners":
+      "Ausstellungen":
+      "Ehemalige Signatur":
   "Angaben zum Objekt":
+    fields:
+      "Anmerkungen zum Exemplar":
   "Einband":
+    fields:
+      "Einband":
   "Buchblock":
+    fields:
+      "Beschreibstoff":
+      "Lagen":
+      "Zählungen":
   "Ausstattung":
+    fields:
+      "Rubrizierungen":
+      "Initialen":
+      "Miniaturen / Zeichnungen":
+      "Einrichtung":
+      "Schrift":
+      "Zusätze":
   "Hinweise":
+    fields:
+      "Bibliographischer Nachweis":
+      "Literatur":
+      "Verwandte Ressource":
+      "Verwandtes Material":
+      "Zusätzliche Publikationsformen":
   "Bearbeitungsstand":
+    fields:
+      "Interne Bearbeitung":
   "Klassifikationen":
+    fields:
+      "Klassifikation":
   "Code":
+    fields:
+      "Code Bibliographie":
   "Identifikatoren":
+    fields:
+      "Systemnummer":
+      "alte Systemnummer":
+      "alte Inventarnummer":
   "Zugriffs- und Benutzungsbestimmungen":
+    fields:
+      "Zugangsbestimmungen":
+      "Schutz- und Sperrfristen":
+      "Hinweise auf Findmittel":
+      "Gesetzliche Bestimmungen":
+      "Urheberrecht Objekt":
+      "Urheberrecht Metadaten":
   "Sucheinstiege":
     groups:
       "Person":
@@ -89,12 +168,34 @@ structure:
               formatter:
                 name: "date"
             - name: "Person-0"
+      "Körperschaft":
+      "Kongress":
+      "Werktitel":
+      "Eintragung Ort":
       "Ort":
   "Thema":
     fields:
-      "Formschlagwort":
-      "Alternativtitel":
+      "Person":
+      "Körperschaft":
+      "Kongress":
       "Sachbegriff":
         formatter:
           repeated: true
+      "Geografikum":
+      "Werktitel":
+      "Zeit / Zeitspanne als Schlagwort":
+      "Formschlagwort":
+      "Form des Werks":
+      "Besetzung":
+      "Schlagwort Musik":
+      "Alternativtitel":
+      "Früherer Titel":
+      "Bevorzugter Titel / Zitiertitel":
+      "Einheitstitel":
+      "Originaltitel":
   "Spezialsucheinstiege Handschriften":
+    fields:
+      "Initien":
+      "Gebetsinitien (dt.)":
+      "Ikonografie":
+      "Repertorien":
