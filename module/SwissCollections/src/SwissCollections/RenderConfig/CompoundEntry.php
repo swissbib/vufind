@@ -27,22 +27,28 @@ class CompoundEntry extends AbstractRenderConfigEntry {
 
     /**
      * GroupEntry constructor.
+     * @param String $fieldName
      * @param String $labelKey
      * @param int $marcIndex
      * @param FormatterConfig $formatterConfig from "detail-view-field-structure.yaml"
      * @param int $indicator1 set to -1 if not relevant
      * @param int $indicator2 set to -1 if not relevant
      */
-    public function __construct(String $labelKey, int $marcIndex, $formatterConfig, int $indicator1 = -1, int $indicator2 = -1) {
-        parent::__construct($labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
+    public function __construct(String $fieldName, String $labelKey, int $marcIndex, $formatterConfig, int $indicator1 = -1, int $indicator2 = -1) {
+        parent::__construct($fieldName, $labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
         if (empty($this->formatterConfig->formatterNameDefault)) {
             $this->formatterConfig->formatterNameDefault = "line";
         }
     }
 
+    /**
+     * @param String $labelKey
+     * @param String $subfieldName - a marc subfield name (e.g. 'a')
+     */
     public function addElement(String $labelKey, String $subfieldName) {
         $formatter = $this->formatterConfig->singleFormatter($labelKey, "simple", $this->formatterConfig);
-        $singleEntry = new SingleEntry($labelKey, $this->marcIndex, $formatter, $subfieldName, $this->indicator1, $this->indicator2);
+        $singleEntry = new SingleEntry($this->fieldName . "-" . $this->marcIndex, $labelKey, $this->marcIndex,
+            $formatter, $subfieldName, $this->indicator1, $this->indicator2);
         $singleEntry->fieldGroupFormatter = $this->fieldGroupFormatter;
         array_push($this->elements, $singleEntry);
     }
@@ -149,6 +155,7 @@ class CompoundEntry extends AbstractRenderConfigEntry {
      * @return CompoundEntry
      */
     public function flatCloneEntry() {
-        return new CompoundEntry($this->labelKey, $this->marcIndex, $this->formatterConfig, $this->indicator1, $this->indicator2);
+        return new CompoundEntry($this->fieldName, $this->labelKey, $this->marcIndex, $this->formatterConfig,
+            $this->indicator1, $this->indicator2);
     }
 }

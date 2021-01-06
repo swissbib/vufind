@@ -220,10 +220,10 @@ class SolrMarc extends SwissbibSolrMarc {
 
             if (!$renderGroupEntry && ($renderType === 'compound' || $renderType === 'sequences')) {
                 if ($renderType === 'compound') {
-                    $renderGroupEntry = new CompoundEntry($labelKey, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2);
+                    $renderGroupEntry = new CompoundEntry($subFieldName, $labelKey, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2);
                 }
                 if ($renderType === 'sequences') {
-                    $renderGroupEntry = new SequencesEntry($labelKey, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2);
+                    $renderGroupEntry = new SequencesEntry($subFieldName, $labelKey, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2);
                     if ($fieldViewInfo) {
                         $renderGroupEntry->setSequences($this->detailViewFieldInfo->getSubfieldSequences($fieldViewInfo));
                     }
@@ -235,6 +235,7 @@ class SolrMarc extends SwissbibSolrMarc {
                     $this->finishField($renderGroup, $renderGroupEntry);
                 }
                 $renderGroupEntry = new SingleEntry(
+                    $subFieldName,
                     $labelKey,
                     $marcIndex,
                     $formatterConfig,

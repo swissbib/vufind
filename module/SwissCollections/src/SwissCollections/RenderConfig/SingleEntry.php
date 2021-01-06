@@ -16,6 +16,7 @@ class SingleEntry extends AbstractRenderConfigEntry {
 
     /**
      * SingleEntry constructor.
+     * @param String $fieldName
      * @param String $labelKey
      * @param int $marcIndex
      * @param FormatterConfig $formatterConfig
@@ -23,9 +24,9 @@ class SingleEntry extends AbstractRenderConfigEntry {
      * @param int $indicator1 set to -1 if not relevant
      * @param int $indicator2 set to -1 if not relevant
      */
-    public function __construct($labelKey, $marcIndex, $formatterConfig, $subfieldName = null,
+    public function __construct(String $fieldName, $labelKey, $marcIndex, $formatterConfig, $subfieldName = null,
                                 $indicator1 = -1, $indicator2 = -1) {
-        parent::__construct($labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
+        parent::__construct($fieldName, $labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
         $this->subfieldName = $subfieldName;
         if (empty($this->formatterConfig->formatterNameDefault)) {
             $this->formatterConfig->formatterNameDefault = "simple";

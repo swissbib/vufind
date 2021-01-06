@@ -89,7 +89,7 @@ class RenderGroupConfig {
     public function getField(String $name) {
         $fields = [];
         foreach ($this->info as $key => $field) {
-            if ($name === $field->labelKey) {
+            if ($name === $field->fieldName) {
                 $fields[] = $field;
             }
         }
@@ -105,7 +105,7 @@ class RenderGroupConfig {
         foreach ($fieldOrder as $key => $fieldName) {
             $gcs = $this->getField($fieldName);
             foreach ($gcs as $gc) {
-                $newFields[$key] = $gc;
+                $newFields[$this->buildKey($gc->marcIndex, $gc->indicator1, $gc->indicator2)] = $gc;
                 $gc->orderEntries();
             }
         }

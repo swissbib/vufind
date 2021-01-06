@@ -15,6 +15,10 @@ abstract class AbstractRenderConfigEntry {
     /**
      * @var String
      */
+    public $fieldName;
+    /**
+     * @var String
+     */
     public $labelKey;
     /**
      * @var int
@@ -43,13 +47,15 @@ abstract class AbstractRenderConfigEntry {
 
     /**
      * AbstractRenderConfigEntry constructor.
+     * @param String $fieldName
      * @param String $labelKey
      * @param int $marcIndex
      * @param FormatterConfig $formatterConfig from "detail-view-field-structure.yaml"
      * @param int $indicator1
      * @param int $indicator2
      */
-    public function __construct(String $labelKey, int $marcIndex, $formatterConfig, int $indicator1, int $indicator2) {
+    public function __construct(String $fieldName, String $labelKey, int $marcIndex, $formatterConfig, int $indicator1, int $indicator2) {
+        $this->fieldName = $fieldName;
         $this->labelKey = $labelKey;
         $this->marcIndex = $marcIndex;
         $this->indicator1 = $indicator1;
