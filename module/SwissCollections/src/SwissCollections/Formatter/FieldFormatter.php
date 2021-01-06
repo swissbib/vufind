@@ -59,7 +59,7 @@ abstract class FieldFormatter {
 
     public function outputValue(FieldFormatterData $fd, FieldRenderContext $context): void {
         $formatterConfig = $fd->renderConfig->getFormatterConfig();
-        // TODO is "null" OK?
+        // "null" for lookupKey should be OK, because non-sequence fields (see SequencesEntry) should not contain duplicates
         $context->applySubfieldFormatter(null, $fd, $formatterConfig->getFormatterName(), $fd->renderConfig->labelKey, $context);
     }
 }
