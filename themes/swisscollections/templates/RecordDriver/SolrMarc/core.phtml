@@ -11,6 +11,7 @@ use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\Default
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\SucheinstiegePerson;
 use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Date;
 use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Simple;
+use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\SimpleLine;
 
 ?>-->
 <?php
@@ -61,10 +62,12 @@ $link360 = $viewRecord->getLink360();
 $linkSFX = $viewRecord->getLinkSFX();
 
 $this->render('RecordDriver/SolrMarc/SubfieldFormatter/Simple');
+$this->render('RecordDriver/SolrMarc/SubfieldFormatter/SimpleLine');
 $this->render('RecordDriver/SolrMarc/SubfieldFormatter/Date');
 
 $subfieldFormatterRegistry = new SubfieldFormatterRegistry();
 $subfieldFormatterRegistry->register(new Simple($this));
+$subfieldFormatterRegistry->register(new SimpleLine($this));
 $subfieldFormatterRegistry->register(new Date($this));
 
 $this->render('RecordDriver/SolrMarc/FieldFormatter/Inline');
