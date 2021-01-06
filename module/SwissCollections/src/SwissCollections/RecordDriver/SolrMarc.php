@@ -67,7 +67,13 @@ class SolrMarc extends SwissbibSolrMarc {
         return parent::getSimpleMarcSubFieldValue($index, $subFieldCode);
     }
 
-    public function getMarcSubfieldsRawMap($index) {
+    /**
+     * @param int $index
+     * @param AbstractRenderConfigEntry $elem
+     * @return array of maps of marc subfield names to values
+     * @throws \File_MARC_Exception
+     */
+    public function getMarcSubfieldsRawMap(int $index, AbstractRenderConfigEntry $elem) {
         /**
          * Fields
          *
@@ -80,23 +86,31 @@ class SolrMarc extends SwissbibSolrMarc {
             $tempFieldData = [];
 
             if ($field instanceof \File_MARC_Data_Field) {
-                /**
-                 * Subfields
-                 *
-                 * @var \File_MARC_Subfield[] $subfields
-                 */
-                $subfields = $field->getSubfields();
+                if ($this->checkIndicators($field, $elem)) {
+                    /**
+                     * Subfields
+                     *
+                     * @var \File_MARC_Subfield[] $subfields
+                     */
+                    $subfields = $field->getSubfields();
 
-                foreach ($subfields as $subfield) {
-                    $tempFieldData["" . $subfield->getCode()] = $subfield->getData();
+                    foreach ($subfields as $subfield) {
+                        $tempFieldData["" . $subfield->getCode()] = $subfield->getData();
+                    }
                 }
             } else if ($field instanceof \File_MARC_Control_Field) {
-                $tempFieldData["a"] = $field->getData();
+                // only if no indicator limitation is expected ...
+                if ($elem->indicator1 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                    && $elem->indicator2 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR) {
+                    $tempFieldData["a"] = $field->getData();
+                }
             } else {
                 echo "<!-- WARN (getMarcSubfieldsRawMap): Can't handle field type: " . get_class($field) . " -->\n";
             }
 
-            $fieldsData[] = $tempFieldData;
+            if (count($tempFieldData) > 0) {
+                $fieldsData[] = $tempFieldData;
+            }
         }
 
         return $fieldsData;
