@@ -79,15 +79,21 @@ class SolrMarc extends SwissbibSolrMarc {
         foreach ($fields as $field) {
             $tempFieldData = [];
 
-            /**
-             * Subfields
-             *
-             * @var \File_MARC_Subfield[] $subfields
-             */
-            $subfields = $field->getSubfields();
+            if ($field instanceof \File_MARC_Data_Field) {
+                /**
+                 * Subfields
+                 *
+                 * @var \File_MARC_Subfield[] $subfields
+                 */
+                $subfields = $field->getSubfields();
 
-            foreach ($subfields as $subfield) {
-                $tempFieldData["" . $subfield->getCode()] = $subfield->getData();
+                foreach ($subfields as $subfield) {
+                    $tempFieldData["" . $subfield->getCode()] = $subfield->getData();
+                }
+            } else if ($field instanceof \File_MARC_Control_Field) {
+                $tempFieldData["a"] = $field->getData();
+            } else {
+                echo "<!-- WARN (getMarcSubfieldsRawMap): Can't handle field type: " . get_class($field) . " -->\n";
             }
 
             $fieldsData[] = $tempFieldData;
