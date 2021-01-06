@@ -47,26 +47,11 @@ class SucheinstiegePerson extends FieldGroupFormatter {
         $fieldContext = new FieldRenderContext($context->fieldFormatterRegistry, $context->solrMarc,
             $context->subfieldFormatterRegistry);
         foreach ($roles as $role) {
-            $persons = $personsWithRole[$role];
-            if (!empty($persons)) {
-                echo "<div class='row-sucheinstiege-person__role-container'>\n";
-                echo "<h3 class='field-label field-label-" . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . "-role'>";
-                if ($role === "unknown") {
-                    echo $this->translateLabelKey($unknownRoleLabelKey);
-                } else {
-                    echo $context->solrMarc->getTranslator()->translate($role, 'CreatorRoles');
-                }
-                echo "</h3>\n";
-                /**
-                 * @var CompoundEntry $renderElem
-                 * @var FieldFormatterData[] $ffdList
-                 */
-                foreach ($persons as list($renderElem, $ffdList)) {
-                    $renderElem->renderImpl($ffdList, $fieldContext);
-                }
-                echo "</div>\n";
+            if ($role !== "unknown") {
+                $this->renderRole($role, $personsWithRole, $unknownRoleLabelKey, $fieldContext);
             }
         }
+        $this->renderRole("unknown", $personsWithRole, $unknownRoleLabelKey, $fieldContext);
         echo "\t</div>\n";
         echo "</div>\n";
 
@@ -155,5 +140,33 @@ class SucheinstiegePerson extends FieldGroupFormatter {
             }
         }
         return $personsWithRole;
+    }
+
+    /**
+     * @param String $role
+     * @param $personsWithRole
+     * @param String $unknownRoleLabelKey
+     * @param FieldRenderContext $context
+     */
+    protected function renderRole($role, &$personsWithRole, $unknownRoleLabelKey, &$context) {
+        $persons = $personsWithRole[$role];
+        if (!empty($persons)) {
+            echo "<div class='row-sucheinstiege-person__role-container'>\n";
+            echo "<h3 class='field-label field-label-" . SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY . "-role'>";
+            if ($role === "unknown") {
+                echo $this->translateLabelKey($unknownRoleLabelKey);
+            } else {
+                echo $context->solrMarc->getTranslator()->translate($role, 'CreatorRoles');
+            }
+            echo "</h3>\n";
+            /**
+             * @var CompoundEntry $renderElem
+             * @var FieldFormatterData[] $ffdList
+             */
+            foreach ($persons as list($renderElem, $ffdList)) {
+                $renderElem->renderImpl($ffdList, $context);
+            }
+            echo "</div>\n";
+        }
     }
 }
