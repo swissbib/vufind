@@ -26,6 +26,39 @@ structure:
             - name: "standort code"
             - name: "Signatur1"
             - name: "Signatur2"
+  "Inhalt und innere Ordnung":
+    fields:
+      "Inhalt-505":
+        type: sequences
+        formatter:
+          # without "entries:" the order of the applied sequence is used (see "sequences:" below)
+          entries:
+            - name: "Inhalt3-r"
+            - name: "Inhalt3-t"
+            - name: "Inhalt3-g"
+            - name: "Inhalt3-a"
+        # note that "sequences:" entries are sorted to guarantee the "longest" match
+        # use "entries:" (see above) for another order of sequences
+        sequences: # from Swissbib/RecordDriver/SolrMarc.php getTableOfContent()
+          - [ "g", "t", "r" ]
+          - [ "g", "t" ]
+          - [ "g", "r" ]
+          - [ "t", "r" ]
+          - [ "t" ]
+          - [ "r" ]
+          - [ "a" ]
+  "Anmerkungen":
+  "Geschichte":
+  "Angaben zum Objekt":
+  "Einband":
+  "Buchblock":
+  "Ausstattung":
+  "Hinweise":
+  "Bearbeitungsstand":
+  "Klassifikationen":
+  "Code":
+  "Identifikatoren":
+  "Zugriffs- und Benutzungsbestimmungen":
   "Sucheinstiege":
     groups:
       "Person":
@@ -64,24 +97,4 @@ structure:
       "Sachbegriff":
         formatter:
           repeated: true
-  "Inhalt und innere Ordnung":
-    fields:
-      "Inhalt-505":
-        type: sequences
-        formatter:
-          # without "entries:" the order of the applied sequence is used (see "sequences:" below)
-          entries:
-            - name: "Inhalt3-r"
-            - name: "Inhalt3-t"
-            - name: "Inhalt3-g"
-            - name: "Inhalt3-a"
-        # note that "sequences:" entries are sorted to guarantee the "longest" match
-        # use "entries:" (see above) for another order of sequences
-        sequences: # from Swissbib/RecordDriver/SolrMarc.php getTableOfContent()
-          - [ "g", "t", "r" ]
-          - [ "g", "t" ]
-          - [ "g", "r" ]
-          - [ "t", "r" ]
-          - [ "t" ]
-          - [ "r" ]
-          - [ "a" ]
+  "Spezialsucheinstiege Handschriften":
