@@ -75,10 +75,6 @@ class SingleEntry extends AbstractRenderConfigEntry {
      */
     public function applyFormatter($lookupKey, &$values, $context) {
         $renderMode = $this->getRenderMode();
-        // if repeated and no special formatting is used, print the values line-by-line
-        if ($renderMode === "simple" && !empty($this->getMarcSubfieldName())) {
-            $renderMode = "simple-line";
-        }
         $context->applySubfieldFormatter($lookupKey, $values[0], $renderMode, $this->labelKey, $context);
     }
 }

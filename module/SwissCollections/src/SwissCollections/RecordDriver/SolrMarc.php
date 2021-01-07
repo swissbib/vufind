@@ -254,6 +254,11 @@ class SolrMarc extends SwissbibSolrMarc {
                 if ($renderGroupEntry) {
                     $this->finishField($renderGroup, $renderGroupEntry);
                 }
+                // field simply prints one value; do it line-by-line if multiple values exist
+                $hadNoDefaultFormatter = $formatterConfig->formatterNameDefault === null;
+                if ($hadNoDefaultFormatter) {
+                    $formatterConfig->formatterNameDefault = "simple-line";
+                }
                 $renderGroupEntry = new SingleEntry(
                     $fieldName,
                     $subFieldName,
