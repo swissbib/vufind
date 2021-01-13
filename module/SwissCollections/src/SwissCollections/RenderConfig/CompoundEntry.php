@@ -11,6 +11,7 @@ namespace SwissCollections\RenderConfig;
 use SwissCollections\Formatter\FieldFormatterData;
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RecordDriver\SolrMarc;
+use SwissCollections\RecordDriver\SubfieldRenderData;
 
 /**
  * Class CompoundEntry
@@ -48,10 +49,7 @@ class CompoundEntry extends AbstractRenderConfigEntry {
      * @param String $marcSubfieldName - a marc subfield name (e.g. 'a')
      */
     public function addElement(String $labelKey, String $marcSubfieldName) {
-        $formatter = $this->formatterConfig->singleFormatter($labelKey, "simple", $this->formatterConfig);
-        $singleEntry = new SingleEntry($this->fieldName, $this->subfieldName, $labelKey, $this->marcIndex,
-            $formatter, $marcSubfieldName, $this->indicator1, $this->indicator2);
-        $singleEntry->fieldGroupFormatter = $this->fieldGroupFormatter;
+        $singleEntry = $this->buildElement($labelKey, $marcSubfieldName);
         array_push($this->elements, $singleEntry);
     }
 
@@ -111,13 +109,54 @@ class CompoundEntry extends AbstractRenderConfigEntry {
          * @var FieldFormatterData[]
          */
         $values = [];
-        foreach ($this->elements as $elem) {
-            $renderFieldData = $context->solrMarc->getRenderFieldData($field, $elem);
-            if (!empty($renderFieldData) && !$renderFieldData->emptyValue()) {
-                $values[] = new FieldFormatterData($elem, $renderFieldData);
+        // if no subfields are specified, get all
+        if (empty($this->elements)) {
+            $rawData = $context->solrMarc->getMarcSubfieldsRawMap($this->marcIndex, $this->indicator1, $this->indicator2);
+            $ind1 = AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
+            $ind2 = AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
+            if ($field instanceof \File_MARC_Data_Field) {
+                $ind1 = $context->solrMarc->normalizeIndicator($field->getIndicator(1));
+                $ind2 = $context->solrMarc->normalizeIndicator($field->getIndicator(2));
+            }
+            foreach ($rawData as $fieldValueMap) {
+                foreach ($fieldValueMap as $marcSubfieldName => $value) {
+                    $elem = $this->buildElement($this->labelKey . "." . $marcSubfieldName, $marcSubfieldName);
+                    $renderFieldData = new SubfieldRenderData($value, true, $ind1, $ind2);
+                    $values[] = new FieldFormatterData($elem, $renderFieldData);
+                }
+            }
+        } else {
+            // get only values for the specified fields
+            foreach ($this->elements as $elem) {
+                $renderFieldData = $context->solrMarc->getRenderFieldData($field, $elem);
+                if (!empty($renderFieldData) && !$renderFieldData->emptyValue()) {
+                    $values[] = new FieldFormatterData($elem, $renderFieldData);
+                }
             }
         }
         return $values;
+    }
+
+    /**
+     *
+     * @param \File_MARC_Control_Field|\File_MARC_Field $field
+     * @param SolrMarc $solrMarc
+     * @return bool
+     */
+    public function hasRenderData(&$field, $solrMarc): bool {
+        // all values matching the required indicators are shown if no subfields are specified
+        if (empty($this->elements)) {
+            $rawData = $solrMarc->getMarcSubfieldsRawMap($this->marcIndex, $this->indicator1, $this->indicator2);
+            return !empty($rawData);
+        } else {
+            // show only the specified subfields
+            foreach ($this->elements as $elem) {
+                if ($elem->hasRenderData($field, $solrMarc)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     public function knowsSubfield($name): bool {
@@ -159,5 +198,18 @@ class CompoundEntry extends AbstractRenderConfigEntry {
     public function flatCloneEntry() {
         return new CompoundEntry($this->fieldName, $this->subfieldName, $this->labelKey, $this->marcIndex,
             $this->formatterConfig, $this->indicator1, $this->indicator2);
+    }
+
+    /**
+     * @param String $labelKey
+     * @param String $marcSubfieldName
+     * @return SingleEntry
+     */
+    protected function buildElement(String $labelKey, String $marcSubfieldName): SingleEntry {
+        $formatter = $this->formatterConfig->singleFormatter($labelKey, "simple", $this->formatterConfig);
+        $singleEntry = new SingleEntry($this->fieldName, $this->subfieldName, $labelKey, $this->marcIndex,
+            $formatter, $marcSubfieldName, $this->indicator1, $this->indicator2);
+        $singleEntry->fieldGroupFormatter = $this->fieldGroupFormatter;
+        return $singleEntry;
     }
 }

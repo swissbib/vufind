@@ -87,18 +87,22 @@ class SequencesEntry extends CompoundEntry {
     protected function orderValues($values) {
         $newEntries = [];
         $entryOrder = $this->getEntryOrder();
-        $fieldNames = [];
-        foreach ($entryOrder as $fieldFormatter) {
-            $fieldName = $fieldFormatter->fieldName;
-            $fieldNames[] = $fieldName;
-            $ffd = $this->inValues($fieldName, $values);
-            if ($ffd) {
-                $newEntries[] = $ffd;
+        if (empty($entryOrder)) {
+            $newEntries = $values;
+        } else {
+            $fieldNames = [];
+            foreach ($entryOrder as $fieldFormatter) {
+                $fieldName = $fieldFormatter->fieldName;
+                $fieldNames[] = $fieldName;
+                $ffd = $this->inValues($fieldName, $values);
+                if ($ffd) {
+                    $newEntries[] = $ffd;
+                }
             }
-        }
-        foreach ($values as $v) {
-            if (!in_array($v->renderConfig->labelKey, $fieldNames)) {
-                $newEntries[] = $v;
+            foreach ($values as $v) {
+                if (!in_array($v->renderConfig->labelKey, $fieldNames)) {
+                    $newEntries[] = $v;
+                }
             }
         }
         return $newEntries;
@@ -113,22 +117,29 @@ class SequencesEntry extends CompoundEntry {
     public function matchesSubfieldSequence(&$rawDataArray, $index, &$solrMarc) {
         $len = count($rawDataArray);
         $values = [];
-        foreach ($this->sequences as $seq) {
-            $pos = $index;
-            $values = [];
-            foreach ($seq as $subfieldName) {
-                if ($pos >= $len) {
-                    continue 2;
+        if (empty($this->sequences)) {
+            $subfieldName = $rawDataArray[$index]['tag'];
+            $text = $rawDataArray[$index]['data'];
+            $fieldFormatterData = $this->buildFieldFormatterData($subfieldName, $text, $solrMarc);
+            $values[] = $fieldFormatterData;
+        } else {
+            foreach ($this->sequences as $seq) {
+                $pos = $index;
+                $values = [];
+                foreach ($seq as $subfieldName) {
+                    if ($pos >= $len) {
+                        continue 2;
+                    }
+                    if ($rawDataArray[$pos]['tag'] !== $subfieldName) {
+                        continue 2;
+                    }
+                    $text = $rawDataArray[$pos]['data'];
+                    $fieldFormatterData = $this->buildFieldFormatterData($subfieldName, $text, $solrMarc);
+                    $values[] = $fieldFormatterData;
+                    $pos++;
                 }
-                if ($rawDataArray[$pos]['tag'] !== $subfieldName) {
-                    continue 2;
-                }
-                $text = $rawDataArray[$pos]['data'];
-                $fieldFormatterData = $this->buildFieldFormatterData($subfieldName, $text, $solrMarc);
-                $values[] = $fieldFormatterData;
-                $pos++;
+                break;
             }
-            break;
         }
         // $this->elements are already ordered, but the $values are built from "sequences:" which
         // has to use its own sorting! so, re-sort $values too ...
@@ -153,7 +164,7 @@ class SequencesEntry extends CompoundEntry {
      * @param FieldRenderContext $context
      */
     public function render(&$field, &$context) {
-        if ($context->solrMarc->checkIndicators($field, $this)) {
+        if ($context->solrMarc->checkIndicators($field, $this->indicator1, $this->indicator2)) {
             $rawData = $context->solrMarc->getMarcSubfieldsRaw($this->marcIndex);
             foreach ($rawData as $entry) {
                 $entryLen = count($entry);

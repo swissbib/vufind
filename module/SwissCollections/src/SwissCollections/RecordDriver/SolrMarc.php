@@ -69,11 +69,12 @@ class SolrMarc extends SwissbibSolrMarc {
 
     /**
      * @param int $index
-     * @param AbstractRenderConfigEntry $elem
-     * @return array of maps of marc subfield names to values
+     * @param int $indicator1 - required indicator
+     * @param int $indicator2 - required indicator
+     * @return array array of maps of marc subfield names to values
      * @throws \File_MARC_Exception
      */
-    public function getMarcSubfieldsRawMap(int $index, AbstractRenderConfigEntry $elem) {
+    public function getMarcSubfieldsRawMap(int $index, int $indicator1, int $indicator2) {
         /**
          * Fields
          *
@@ -86,7 +87,7 @@ class SolrMarc extends SwissbibSolrMarc {
             $tempFieldData = [];
 
             if ($field instanceof \File_MARC_Data_Field) {
-                if ($this->checkIndicators($field, $elem)) {
+                if ($this->checkIndicators($field, $indicator1, $indicator2)) {
                     /**
                      * Subfields
                      *
@@ -100,8 +101,8 @@ class SolrMarc extends SwissbibSolrMarc {
                 }
             } else if ($field instanceof \File_MARC_Control_Field) {
                 // only if no indicator limitation is expected ...
-                if ($elem->indicator1 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
-                    && $elem->indicator2 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR) {
+                if ($indicator1 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                    && $indicator2 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR) {
                     $tempFieldData["a"] = $field->getData();
                 }
             } else {
@@ -124,24 +125,14 @@ class SolrMarc extends SwissbibSolrMarc {
      */
     public function isEmptyField($marcIndex, $rc) {
         $fields = $this->getMarcFields($marcIndex);
-        $renderFieldData = null;
         if (!empty($fields)) {
             foreach ($fields as $field) {
-                if ($rc instanceof SingleEntry) {
-                    $renderFieldData = $this->getRenderFieldData($field, $rc);
-                } else if ($rc instanceof CompoundEntry) {
-                    // includes SequencesEntry objects too
-                    foreach ($rc->elements as $elem) {
-                        $sm = $this->getRenderFieldData($field, $elem);
-                        if (!empty($sm)) {
-                            $renderFieldData = $sm;
-                            break 2;
-                        }
-                    }
+                if ($rc->hasRenderData($field, $this)) {
+                    return false;
                 }
             }
         }
-        return empty($renderFieldData);
+        return true;
     }
 
     public function setDetailViewFieldInfo($detailViewFieldInfo) {
@@ -256,21 +247,39 @@ class SolrMarc extends SwissbibSolrMarc {
                 }
                 // field simply prints one value; do it line-by-line if multiple values exist
                 $hadNoDefaultFormatter = $formatterConfig->formatterNameDefault === null;
-                if ($hadNoDefaultFormatter) {
-                    $formatterConfig->formatterNameDefault = "simple-line";
+                if (empty($marcSubfieldName)) {
+                    if ($hadNoDefaultFormatter) {
+                        $formatterConfig->formatterNameDefault = "inline";
+                    }
+                    $renderGroupEntry = new CompoundEntry(
+                        $fieldName,
+                        $subFieldName,
+                        $labelKey,
+                        $marcIndex,
+                        $formatterConfig,
+                        $marcIndicator1,
+                        $marcIndicator2);
+                    $renderGroupEntry->getFormatterConfig()->repeatedDefault = true;
+                    $renderGroup->addCompound($renderGroupEntry);
+                    $renderGroupEntry->setFieldGroupFormatter($fieldGroupFormatter);
+                    $this->finishField($renderGroup, $renderGroupEntry);
+                } else {
+                    if ($hadNoDefaultFormatter) {
+                        $formatterConfig->formatterNameDefault = "simple-line";
+                    }
+                    $renderGroupEntry = new SingleEntry(
+                        $fieldName,
+                        $subFieldName,
+                        $labelKey,
+                        $marcIndex,
+                        $formatterConfig,
+                        $marcSubfieldName,
+                        $marcIndicator1,
+                        $marcIndicator2);
+                    $renderGroup->addSingle($renderGroupEntry);
+                    $renderGroupEntry->setFieldGroupFormatter($fieldGroupFormatter);
+                    $renderGroupEntry = null;
                 }
-                $renderGroupEntry = new SingleEntry(
-                    $fieldName,
-                    $subFieldName,
-                    $labelKey,
-                    $marcIndex,
-                    $formatterConfig,
-                    $marcSubfieldName,
-                    $marcIndicator1,
-                    $marcIndicator2);
-                $renderGroup->addSingle($renderGroupEntry);
-                $renderGroupEntry->setFieldGroupFormatter($fieldGroupFormatter);
-                $renderGroupEntry = null;
             } else if ($renderType === 'compound' || $renderType === 'sequences') {
                 // TODO add $marcIndicator1/2? different to compound/sequences entry?
                 if ($renderType === 'compound' || !empty($marcSubfieldName)) {
@@ -333,17 +342,18 @@ class SolrMarc extends SwissbibSolrMarc {
 
     /**
      * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field
-     * @param AbstractRenderConfigEntry $elem
+     * @param int $indicator1 required indicator
+     * @param int $indicator2 required indicator
      * @return bool if OK
      */
-    public function checkIndicators($field, $elem): bool {
+    public function checkIndicators($field, $indicator1, $indicator2): bool {
         try {
             $ind1 = $this->normalizeIndicator($field->getIndicator(1));
             $ind2 = $this->normalizeIndicator($field->getIndicator(2));
             // match only if indicator was specified in csv file (-1 == undefined)
-            if (($elem->indicator1 >= 0 && $ind1 !== $elem->indicator1)
-                || ($elem->indicator2 >= 0 && $ind2 !== $elem->indicator2)) {
-                echo "<!-- WARN: INDICATOR MISMATCH $elem, $ind1/$ind2 -->\n";
+            if (($indicator1 >= 0 && $ind1 !== $indicator1)
+                || ($indicator2 >= 0 && $ind2 !== $indicator2)) {
+                echo "<!-- WARN: INDICATOR MISMATCH needed: $indicator1|$indicator2, got: $ind1|$ind2 -->\n";
                 return FALSE;
             }
         } catch (\Throwable $exception) {
@@ -361,21 +371,14 @@ class SolrMarc extends SwissbibSolrMarc {
     public function getRenderFieldData($field, $elem) {
         try {
             if ($field instanceof \File_MARC_Data_Field) {
-                if (!$this->checkIndicators($field, $elem)) {
+                if (!$this->checkIndicators($field, $elem->indicator1, $elem->indicator2)) {
                     return null;
                 }
                 $ind1 = $this->normalizeIndicator($field->getIndicator(1));
                 $ind2 = $this->normalizeIndicator($field->getIndicator(2));
                 $fieldMap = $elem->buildMap();
-                if (count($fieldMap) === 0) {
-                    $rawData = $this->getMarcSubfieldsRaw($elem->marcIndex);
-                    // echo "<!-- RAW " . $elem->marcIndex . ": " . print_r($rawData, true) . " -->\n";
-                    // ignore indicators for raw output in $subfieldRenderData
-                    $subfieldRenderData = $this->buildGenericSubMap($this->mergeRawData($elem->marcIndex, $rawData, $ind1, $ind2), FALSE);
-                } else {
-                    $fieldData = $this->getMappedFieldData($field, $fieldMap, TRUE);
-                    $subfieldRenderData = new SubfieldRenderData($fieldData['value'], TRUE, $ind1, $ind2);
-                }
+                $fieldData = $this->getMappedFieldData($field, $fieldMap, TRUE);
+                $subfieldRenderData = new SubfieldRenderData($fieldData['value'], TRUE, $ind1, $ind2);
             } else if ($field instanceof \File_MARC_Control_Field) {
                 $subfieldRenderData = $this->buildGenericSubMap($field->getData(), TRUE);
             } else {
@@ -401,7 +404,7 @@ class SolrMarc extends SwissbibSolrMarc {
             AbstractRenderConfigEntry::$UNKNOWN_INDICATOR);
     }
 
-    protected function normalizeIndicator(String $ind): int {
+    public function normalizeIndicator(String $ind): int {
         $ind = trim($ind);
         if (strlen($ind) === 0 || !ctype_digit($ind)) {
             return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;

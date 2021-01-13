@@ -10,6 +10,7 @@ namespace SwissCollections\RenderConfig;
 
 use SwissCollections\Formatter\FieldFormatterData;
 use SwissCollections\RecordDriver\FieldRenderContext;
+use SwissCollections\RecordDriver\SolrMarc;
 
 abstract class AbstractRenderConfigEntry {
     /**
@@ -96,6 +97,17 @@ abstract class AbstractRenderConfigEntry {
      */
     public function getAllRenderData(&$field, &$context): array {
         return [];
+    }
+
+    /**
+     * Not used in this class.
+     *
+     * @param \File_MARC_Control_Field|\File_MARC_Field $field
+     * @param SolrMarc $solrMarc
+     * @return bool
+     */
+    public function hasRenderData(&$field, $solrMarc): bool {
+        return true;
     }
 
     /**

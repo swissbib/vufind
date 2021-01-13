@@ -10,6 +10,7 @@ namespace SwissCollections\RenderConfig;
 
 use SwissCollections\Formatter\FieldFormatterData;
 use SwissCollections\RecordDriver\FieldRenderContext;
+use SwissCollections\RecordDriver\SolrMarc;
 
 class SingleEntry extends AbstractRenderConfigEntry {
     protected $marcSubfieldName;
@@ -66,6 +67,16 @@ class SingleEntry extends AbstractRenderConfigEntry {
             $values = [new FieldFormatterData($this, $renderFieldData)];
         }
         return $values;
+    }
+
+    /**
+     * @param \File_MARC_Control_Field|\File_MARC_Field $field
+     * @param SolrMarc $solrMarc
+     * @return bool
+     */
+    public function hasRenderData(&$field, $solrMarc): bool {
+        $renderFieldData = $solrMarc->getRenderFieldData($field, $this);
+        return !empty($renderFieldData) && !$renderFieldData->emptyValue();
     }
 
     /**
