@@ -46,6 +46,8 @@ structure:
       "Inhalt-505":
         type: sequences
         formatter:
+          name: inline
+          separator: " / "
           # without "entries:" the order of the applied sequence is used (see "sequences:" below)
           entries:
             - name: "Inhalt3-r"

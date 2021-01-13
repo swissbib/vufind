@@ -357,6 +357,10 @@ class SolrMarc extends SwissbibSolrMarc {
                 $fieldData = $this->getMappedFieldData($field, $fieldMap, TRUE);
                 $subfieldRenderData = new SubfieldRenderData($fieldData['value'], TRUE, $ind1, $ind2);
             } else if ($field instanceof \File_MARC_Control_Field) {
+                if (!($elem->indicator1 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                    && $elem->indicator2 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR)) {
+                    return null;
+                }
                 $subfieldRenderData = $this->buildGenericSubMap($field->getData(), TRUE);
             } else {
                 echo "<!-- ERROR: Can't handle field type: " . get_class($field) . " of " . $elem . " -->\n";

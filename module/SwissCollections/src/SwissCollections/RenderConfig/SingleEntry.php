@@ -75,8 +75,12 @@ class SingleEntry extends AbstractRenderConfigEntry {
      * @return bool
      */
     public function hasRenderData(&$field, $solrMarc): bool {
-        $renderFieldData = $solrMarc->getRenderFieldData($field, $this);
-        return !empty($renderFieldData) && !$renderFieldData->emptyValue();
+        if (empty($this->marcSubfieldName)) {
+            return $solrMarc->checkIndicators($field, $this->indicator1, $this->indicator2);
+        } else {
+            $renderFieldData = $solrMarc->getRenderFieldData($field, $this);
+            return !empty($renderFieldData) && !$renderFieldData->emptyValue();
+        }
     }
 
     /**
