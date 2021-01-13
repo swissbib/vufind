@@ -37,6 +37,10 @@ abstract class AbstractRenderConfigEntry {
      * @var int
      */
     public $indicator2;
+    /**
+     * @var String
+     */
+    public $subfieldCondition;
 
     /**
      * @var FormatterConfig
@@ -53,14 +57,16 @@ abstract class AbstractRenderConfigEntry {
     /**
      * AbstractRenderConfigEntry constructor.
      * @param String $fieldName
+     * @param String $subfieldName
      * @param String $labelKey
      * @param int $marcIndex
      * @param FormatterConfig $formatterConfig from "detail-view-field-structure.yaml"
      * @param int $indicator1
      * @param int $indicator2
+     * @param String $condition
      */
     public function __construct(String $fieldName, String $subfieldName, String $labelKey, int $marcIndex,
-                                $formatterConfig, int $indicator1, int $indicator2) {
+                                $formatterConfig, int $indicator1, int $indicator2, $condition) {
         $this->fieldName = $fieldName;
         $this->subfieldName = $subfieldName;
         $this->labelKey = $labelKey;
@@ -68,6 +74,7 @@ abstract class AbstractRenderConfigEntry {
         $this->indicator1 = $indicator1;
         $this->indicator2 = $indicator2;
         $this->formatterConfig = $formatterConfig;
+        $this->subfieldCondition = $condition;
     }
 
     public function getRenderMode(): String {

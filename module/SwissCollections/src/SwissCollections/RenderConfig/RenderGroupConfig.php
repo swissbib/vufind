@@ -23,22 +23,26 @@ class RenderGroupConfig {
         $this->name = $name;
     }
 
-    protected function buildKey(int $marcIndex, int $indicator1, int $indicator2) {
-        return $marcIndex . "-" . $indicator1 . "-" . $indicator2;
+    protected function buildKey(AbstractRenderConfigEntry $entry) {
+        return $entry->fieldName
+            . "-" . $entry->marcIndex
+            . "-" . $entry->indicator1
+            . "-" . $entry->indicator2
+            . "-" . $entry->subfieldCondition;
     }
 
     public function addCompound(CompoundEntry &$groupEntry) {
-        $key = $this->buildKey($groupEntry->marcIndex, $groupEntry->indicator1, $groupEntry->indicator2);
+        $key = $this->buildKey($groupEntry);
         $this->info[$key] = $groupEntry;
     }
 
     public function addSingle(SingleEntry &$entry) {
-        $key = $this->buildKey($entry->marcIndex, $entry->indicator1, $entry->indicator2);
+        $key = $this->buildKey($entry);
         $this->info[$key] = $entry;
     }
 
     public function addSequences(SequencesEntry &$entry) {
-        $key = $this->buildKey($entry->marcIndex, $entry->indicator1, $entry->indicator2);
+        $key = $this->buildKey($entry);
         $this->info[$key] = $entry;
     }
 
@@ -50,17 +54,6 @@ class RenderGroupConfig {
         } else if ($entry instanceof SequencesEntry) {
             $this->addSequences($entry);
         }
-    }
-
-    /**
-     * @param int $marcIndex
-     * @param int $indicator1 set to -1 if not relevant
-     * @param int $indicator2 set to -1 if not relevant
-     * @return AbstractRenderConfigEntry
-     */
-    public function getEntry(int $marcIndex, int $indicator1 = -1, int $indicator2 = -1) {
-        $key = $this->buildKey($marcIndex, $indicator1, $indicator2);
-        return $this->info[$key];
     }
 
     /**
@@ -105,7 +98,7 @@ class RenderGroupConfig {
         foreach ($fieldOrder as $key => $fieldName) {
             $gcs = $this->getField($fieldName);
             foreach ($gcs as $gc) {
-                $newFields[$this->buildKey($gc->marcIndex, $gc->indicator1, $gc->indicator2)] = $gc;
+                $newFields[$this->buildKey($gc)] = $gc;
                 $gc->orderEntries();
             }
         }

@@ -138,7 +138,7 @@ class SolrMarc extends SwissbibSolrMarc {
         $lastSubfieldName = "";
         $lastSubfieldCount = 0;
         foreach ($this->fieldMarcMapping as $field) {
-            $groupName = $field[SolrMarc::$MARC_MAPPING_GROUP_KEY]; // always non empty
+            $groupName = trim($field[SolrMarc::$MARC_MAPPING_GROUP_KEY]); // always non empty
             if (!empty($groupName) && $groupName !== $lastGroupName) {
                 $this->finishGroup($renderGroup, $renderGroupEntry);
                 $renderGroup = new RenderGroupConfig($groupName);
@@ -151,7 +151,7 @@ class SolrMarc extends SwissbibSolrMarc {
                 $groupName = $lastGroupName;
             }
 
-            $fieldName = $field[SolrMarc::$MARC_MAPPING_FIELD_KEY]; // always non empty
+            $fieldName = trim($field[SolrMarc::$MARC_MAPPING_FIELD_KEY]); // always non empty
             if ($fieldName !== $lastFieldName) {
                 $lastSubfieldName = "";
                 $lastSubfieldCount = 0;
@@ -162,7 +162,7 @@ class SolrMarc extends SwissbibSolrMarc {
             }
 
             // calculate sub field name (may be missing)
-            $subFieldName = $field[SolrMarc::$MARC_MAPPING_SUBFIELD_KEY];
+            $subFieldName = trim($field[SolrMarc::$MARC_MAPPING_SUBFIELD_KEY]);
             if (empty($subFieldName)) {
                 if (empty($lastSubfieldName)) {
                     $lastSubfieldName = $fieldName;
@@ -173,17 +173,18 @@ class SolrMarc extends SwissbibSolrMarc {
             }
             $labelKey = $groupName . "." . $subFieldName;
 
-            $marcIndex = $field[SolrMarc::$MARC_MAPPING_MARC_INDEX];
+            $marcIndex = trim($field[SolrMarc::$MARC_MAPPING_MARC_INDEX]);
             if (!ctype_digit($marcIndex)) {
                 echo "<!-- ERROR: SKIPPING BAD MARC INDEX $groupName > $fieldName > $subFieldName: '$marcIndex' -->\n";
                 continue;
             }
             $marcIndex = intval($marcIndex);
-            $marcSubfieldName = $field[SolrMarc::$MARC_MAPPING_MARC_SUBFIELD];
-            $marcIndicator1Str = $field[SolrMarc::$MARC_MAPPING_MARC_IND1];
-            $marcIndicator2Str = $field[SolrMarc::$MARC_MAPPING_MARC_IND2];
+            $marcSubfieldName = trim($field[SolrMarc::$MARC_MAPPING_MARC_SUBFIELD]);
+            $marcIndicator1Str = trim($field[SolrMarc::$MARC_MAPPING_MARC_IND1]);
+            $marcIndicator2Str = trim($field[SolrMarc::$MARC_MAPPING_MARC_IND2]);
             $marcIndicator1 = $this->parseIndicator($marcIndicator1Str, $groupName, $fieldName);
             $marcIndicator2 = $this->parseIndicator($marcIndicator2Str, $groupName, $fieldName);
+            $subfieldMatchCondition = trim($field[SolrMarc::$MARC_MAPPING_CONDITION]);
 
             // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex|$marcIndicator1|$marcIndicator2|$marcSubfieldName -->\n";
 
@@ -207,10 +208,10 @@ class SolrMarc extends SwissbibSolrMarc {
 
             if (!$renderGroupEntry && ($renderType === 'compound' || $renderType === 'sequences')) {
                 if ($renderType === 'compound') {
-                    $renderGroupEntry = new CompoundEntry($fieldName, $subFieldName, $labelKey, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2);
+                    $renderGroupEntry = new CompoundEntry($fieldName, $subFieldName, $labelKey, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2, $subfieldMatchCondition);
                 }
                 if ($renderType === 'sequences') {
-                    $renderGroupEntry = new SequencesEntry($fieldName, $subFieldName, $labelKey, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2);
+                    $renderGroupEntry = new SequencesEntry($fieldName, $subFieldName, $labelKey, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2, $subfieldMatchCondition);
                     if ($fieldViewInfo) {
                         $renderGroupEntry->setSequences($this->detailViewFieldInfo->getSubfieldSequences($fieldViewInfo));
                     }
@@ -236,7 +237,8 @@ class SolrMarc extends SwissbibSolrMarc {
                         $marcIndex,
                         $formatterConfig,
                         $marcIndicator1,
-                        $marcIndicator2);
+                        $marcIndicator2,
+                        $subfieldMatchCondition);
                     $renderGroup->addCompound($renderGroupEntry);
                     $renderGroupEntry->setFieldGroupFormatter($fieldGroupFormatter);
                     $this->finishField($renderGroup, $renderGroupEntry);
@@ -252,7 +254,8 @@ class SolrMarc extends SwissbibSolrMarc {
                         $formatterConfig,
                         $marcSubfieldName,
                         $marcIndicator1,
-                        $marcIndicator2);
+                        $marcIndicator2,
+                        $subfieldMatchCondition);
                     $renderGroup->addSingle($renderGroupEntry);
                     $renderGroupEntry->setFieldGroupFormatter($fieldGroupFormatter);
                     $renderGroupEntry = null;
@@ -270,7 +273,11 @@ class SolrMarc extends SwissbibSolrMarc {
         }
         $this->finishGroup($renderGroup, $renderGroupEntry);
 
-        $this->orderGroups();
+        // uncomment this line in order to sort groups/fields by the order
+        // defined in detail-view-field-structure.yaml; otherwise the order
+        // in detail-fields.csv is used
+        // $this->orderGroups();
+
         // $this->logger->log(Logger::ERR, "RC: " . $this->renderConfig);
         // echo "<!-- RC:\n " . $this->renderConfig . "-->\n";
     }

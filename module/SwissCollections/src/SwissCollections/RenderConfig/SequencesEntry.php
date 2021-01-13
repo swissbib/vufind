@@ -35,10 +35,12 @@ class SequencesEntry extends CompoundEntry {
      * @param FormatterConfig $formatterConfig
      * @param int $indicator1 set to -1 if not relevant
      * @param int $indicator2 set to -1 if not relevant
+     * @param String $condition
      */
     public function __construct(String $fieldName, String $subfieldName, String $labelKey, int $marcIndex,
-                                $formatterConfig, int $indicator1 = -1, int $indicator2 = -1) {
-        parent::__construct($fieldName, $subfieldName, $labelKey, $marcIndex, $formatterConfig, $indicator1, $indicator2);
+                                $formatterConfig, int $indicator1 = -1, int $indicator2 = -1, $condition = "") {
+        parent::__construct($fieldName, $subfieldName, $labelKey, $marcIndex, $formatterConfig, $indicator1,
+            $indicator2, $condition);
         $this->formatterConfig->setRepeatedDefault(TRUE);
         if (empty($this->formatterConfig->formatterNameDefault)) {
             $this->formatterConfig->formatterNameDefault = "inline";
