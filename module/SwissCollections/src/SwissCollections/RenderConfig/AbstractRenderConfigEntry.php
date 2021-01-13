@@ -147,6 +147,10 @@ abstract class AbstractRenderConfigEntry {
             if ($this->formatterConfig->isRepeated()) {
                 echo $this->formatterConfig->listEndHml;
             }
+        } else {
+            if (count($values) > 0 && $context->alreadyProcessed($lookupKey)) {
+                echo "<!-- DEDUP: " . print_r($values, true) . " -->\n";
+            }
         }
     }
 
