@@ -91,7 +91,7 @@ class SucheinstiegePerson extends FieldGroupFormatter {
          */
         foreach ($fieldDataList as $renderElem) {
             $marcIndex = $renderElem->marcIndex;
-            $subfieldValues = $context->solrMarc->getMarcSubfieldsRawMap($marcIndex, $renderElem->indicator1, $renderElem->indicator2);
+            $subfieldValues = $context->solrMarc->getMarcFieldsRawMap($marcIndex, $renderElem->indicator1, $renderElem->indicator2);
             if (!empty($subfieldValues)) {
                 foreach ($subfieldValues as $sfv) {
                     $role = "unknown";

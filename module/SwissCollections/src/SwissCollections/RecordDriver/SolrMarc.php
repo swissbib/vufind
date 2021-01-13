@@ -74,7 +74,7 @@ class SolrMarc extends SwissbibSolrMarc {
      * @return array array of maps of marc subfield names to values
      * @throws \File_MARC_Exception
      */
-    public function getMarcSubfieldsRawMap(int $index, int $indicator1, int $indicator2) {
+    public function getMarcFieldsRawMap(int $index, int $indicator1, int $indicator2) {
         /**
          * Fields
          *
@@ -84,31 +84,7 @@ class SolrMarc extends SwissbibSolrMarc {
         $fieldsData = [];
 
         foreach ($fields as $field) {
-            $tempFieldData = [];
-
-            if ($field instanceof \File_MARC_Data_Field) {
-                if ($this->checkIndicators($field, $indicator1, $indicator2)) {
-                    /**
-                     * Subfields
-                     *
-                     * @var \File_MARC_Subfield[] $subfields
-                     */
-                    $subfields = $field->getSubfields();
-
-                    foreach ($subfields as $subfield) {
-                        $tempFieldData["" . $subfield->getCode()] = $subfield->getData();
-                    }
-                }
-            } else if ($field instanceof \File_MARC_Control_Field) {
-                // only if no indicator limitation is expected ...
-                if ($indicator1 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
-                    && $indicator2 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR) {
-                    $tempFieldData["a"] = $field->getData();
-                }
-            } else {
-                echo "<!-- WARN (getMarcSubfieldsRawMap): Can't handle field type: " . get_class($field) . " -->\n";
-            }
-
+            $tempFieldData = $this->getMarcFieldRawMap($field, $indicator1, $indicator2);
             if (count($tempFieldData) > 0) {
                 $fieldsData[] = $tempFieldData;
             }
@@ -251,6 +227,8 @@ class SolrMarc extends SwissbibSolrMarc {
                     if ($hadNoDefaultFormatter) {
                         $formatterConfig->formatterNameDefault = "inline";
                     }
+                    $formatterConfig->repeatedDefault = true;
+                    $formatterConfig->separatorDefault = "; ";
                     $renderGroupEntry = new CompoundEntry(
                         $fieldName,
                         $subFieldName,
@@ -259,7 +237,6 @@ class SolrMarc extends SwissbibSolrMarc {
                         $formatterConfig,
                         $marcIndicator1,
                         $marcIndicator2);
-                    $renderGroupEntry->getFormatterConfig()->repeatedDefault = true;
                     $renderGroup->addCompound($renderGroupEntry);
                     $renderGroupEntry->setFieldGroupFormatter($fieldGroupFormatter);
                     $this->finishField($renderGroup, $renderGroupEntry);
@@ -428,6 +405,39 @@ class SolrMarc extends SwissbibSolrMarc {
             }
         }
         return $groupIsEmpty;
+    }
+
+    /**
+     * @param $field
+     * @param int $indicator1
+     * @param int $indicator2
+     * @return array
+     */
+    public function getMarcFieldRawMap($field, int $indicator1, int $indicator2): array {
+        $tempFieldData = [];
+
+        if ($field instanceof \File_MARC_Data_Field) {
+            if ($this->checkIndicators($field, $indicator1, $indicator2)) {
+                /**
+                 * Subfields
+                 *
+                 * @var \File_MARC_Subfield[] $subfields
+                 */
+                $subfields = $field->getSubfields();
+                foreach ($subfields as $subfield) {
+                    $tempFieldData["" . $subfield->getCode()] = $subfield->getData();
+                }
+            }
+        } else if ($field instanceof \File_MARC_Control_Field) {
+            // only if no indicator limitation is expected ...
+            if ($indicator1 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                && $indicator2 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR) {
+                $tempFieldData["a"] = $field->getData();
+            }
+        } else {
+            echo "<!-- WARN (getMarcSubfieldsRawMap): Can't handle field type: " . get_class($field) . " -->\n";
+        }
+        return $tempFieldData;
     }
 
     /**

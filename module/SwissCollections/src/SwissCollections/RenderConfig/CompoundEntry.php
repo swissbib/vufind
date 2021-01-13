@@ -111,19 +111,17 @@ class CompoundEntry extends AbstractRenderConfigEntry {
         $values = [];
         // if no subfields are specified, get all
         if (empty($this->elements)) {
-            $rawData = $context->solrMarc->getMarcSubfieldsRawMap($this->marcIndex, $this->indicator1, $this->indicator2);
+            $fieldValueMap = $context->solrMarc->getMarcFieldRawMap($field, $this->indicator1, $this->indicator2);
             $ind1 = AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
             $ind2 = AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
             if ($field instanceof \File_MARC_Data_Field) {
                 $ind1 = $context->solrMarc->normalizeIndicator($field->getIndicator(1));
                 $ind2 = $context->solrMarc->normalizeIndicator($field->getIndicator(2));
             }
-            foreach ($rawData as $fieldValueMap) {
-                foreach ($fieldValueMap as $marcSubfieldName => $value) {
-                    $elem = $this->buildElement($this->labelKey . "." . $marcSubfieldName, $marcSubfieldName);
-                    $renderFieldData = new SubfieldRenderData($value, true, $ind1, $ind2);
-                    $values[] = new FieldFormatterData($elem, $renderFieldData);
-                }
+            foreach ($fieldValueMap as $marcSubfieldName => $value) {
+                $elem = $this->buildElement($this->labelKey . "." . $marcSubfieldName, $marcSubfieldName);
+                $renderFieldData = new SubfieldRenderData($value, true, $ind1, $ind2);
+                $values[] = new FieldFormatterData($elem, $renderFieldData);
             }
         } else {
             // get only values for the specified fields
@@ -146,7 +144,7 @@ class CompoundEntry extends AbstractRenderConfigEntry {
     public function hasRenderData(&$field, $solrMarc): bool {
         // all values matching the required indicators are shown if no subfields are specified
         if (empty($this->elements)) {
-            $rawData = $solrMarc->getMarcSubfieldsRawMap($this->marcIndex, $this->indicator1, $this->indicator2);
+            $rawData = $solrMarc->getMarcFieldRawMap($field, $this->indicator1, $this->indicator2);
             return !empty($rawData);
         } else {
             // show only the specified subfields
