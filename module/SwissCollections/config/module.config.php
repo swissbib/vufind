@@ -6,60 +6,61 @@ use SwissCollections\Controller\BrowseController;
 use VuFind\Controller\AbstractBaseWithConfigFactory;
 
 $config = [
-  'router' => [
-    'routes' => [
-      'abc-search' => [
-        'type' => 'Laminas\Router\Http\Segment',
-        'options' => [
-          'route' => '/AbcSuche/Home',
-          'defaults' => [
-            'controller' => 'abc-search',
-            'action' => 'home',
-          ]
-        ],
-      ],
-      'tektonik' => [
-        'type' => 'Laminas\Router\Http\Segment',
-        'options' => [
-          'route' => '/Tektonik/Home',
-          'defaults' => [
-            'controller' => 'tektonik',
-            'action' => 'home',
-          ]
-        ],
-      ],
-      'bibliographies' => [
-        'type' => 'Laminas\Router\Http\Segment',
-        'options' => [
-          'route' => '/Bibliographien/Home',
-          'defaults' => [
-            'controller' => 'bibliographies',
-            'action' => 'home',
-          ]
-        ],
-      ],
-      'browse-action' => [
-        'type' => 'Laminas\Router\Http\Literal',
-        'options' => [
-          'route' => '/Browse/Action',
-          'defaults' => [
-            'controller' => 'Browse',
-            'action' => 'Browse',
-          ],
-        ],
-      ],
-    ]
-  ],
-  'controllers' => [
-    'factories' => [
-      'abc-search' => 'SwissCollections\Controller\Factory::getAbcSearchController',
-      'tektonik' => 'SwissCollections\Controller\Factory::getTektonikController',
-      'bibliographies' => 'SwissCollections\Controller\Factory::getBibliographiesController',
-      BrowseController::class => AbstractBaseWithConfigFactory::class,
+    'router' => [
+        'routes' => [
+            'abc-search' => [
+                'type' => 'Laminas\Router\Http\Segment',
+                'options' => [
+                    'route' => '/AbcSuche/Home',
+                    'defaults' => [
+                        'controller' => 'abc-search',
+                        'action' => 'home',
+                    ]
+                ],
+            ],
+            'tektonik' => [
+                'type' => 'Laminas\Router\Http\Segment',
+                'options' => [
+                    'route' => '/Tektonik/Home',
+                    'defaults' => [
+                        'controller' => 'tektonik',
+                        'action' => 'home',
+                    ]
+                ],
+            ],
+            'bibliographies' => [
+                'type' => 'Laminas\Router\Http\Segment',
+                'options' => [
+                    'route' => '/Bibliographien/Home',
+                    'defaults' => [
+                        'controller' => 'bibliographies',
+                        'action' => 'home',
+                    ]
+                ],
+            ],
+            'browse-action' => [
+                'type' => 'Laminas\Router\Http\Literal',
+                'options' => [
+                    'route' => '/Browse/Action',
+                    'defaults' => [
+                        'controller' => 'Browse',
+                        'action' => 'Browse',
+                    ],
+                ],
+            ],
+        ]
     ],
-    'aliases' => [
-      'Browse' => BrowseController::class,
-      'browse' => BrowseController::class,
+    'controllers' => [
+        'factories' => [
+            'abc-search' => 'SwissCollections\Controller\Factory::getAbcSearchController',
+            'tektonik' => 'SwissCollections\Controller\Factory::getTektonikController',
+            'bibliographies' => 'SwissCollections\Controller\Factory::getBibliographiesController',
+            BrowseController::class => AbstractBaseWithConfigFactory::class,
+        ],
+        'aliases' => [
+            'Browse' => BrowseController::class,
+            'browse' => BrowseController::class,
+        ]
     ],
     'vufind' => [
         'recorddriver_tabs' => [
