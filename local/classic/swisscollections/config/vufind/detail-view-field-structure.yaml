@@ -131,6 +131,8 @@ structure:
     fields:
       "Systemnummer":
       "alte Systemnummer":
+        formatter:
+          repeated: true
       "alte Inventarnummer":
   "Zugriffs- und Benutzungsbestimmungen":
     fields:

@@ -227,7 +227,7 @@ class SolrMarc extends SwissbibSolrMarc {
                     if ($hadNoDefaultFormatter) {
                         $formatterConfig->formatterNameDefault = "inline";
                     }
-                    $formatterConfig->repeatedDefault = true;
+                    // $formatterConfig->repeatedDefault = true;
                     $formatterConfig->separatorDefault = "; ";
                     $renderGroupEntry = new CompoundEntry(
                         $fieldName,
