@@ -95,7 +95,7 @@ $fieldGroupFormatterRegistry->register(new SucheinstiegePerson($this));
          * @var RenderGroupConfig $renderGroupConfig
          */
         foreach ($renderConfig as $renderGroupConfig) {
-            if (!$record->isEmptyGroup($renderGroupConfig)) {
+            if (!$renderGroupConfig->isEmpty($record)) {
                 $groupName = $renderGroupConfig->getName();
                 $groupAnchor = str_replace(' ', '_', $groupName);
                 echo "<a name='$groupAnchor'>";
@@ -108,39 +108,40 @@ $fieldGroupFormatterRegistry->register(new SucheinstiegePerson($this));
                 $renderElemIndex = 0;
                 while ($renderElemIndex < $renderGroupEntryCount) {
                     $groupMembers = [];
-                    $fieldName = "";
                     /**
                      * @var AbstractRenderConfigEntry $renderElem
                      */
                     $renderElem = $renderGroupEntries[$renderGroupKeys[$renderElemIndex]];
+                    $fieldName = $renderElem->fieldName;
                     /**
                      * @var FormatterConfig
                      */
                     $fieldGroupFormatter = $renderElem->getFieldGroupFormatter();
-                    $fieldName = $renderElem->labelKey;
-                    if ($fieldGroupFormatter->getFormatterName() !== "default") {
+                    if (empty($fieldGroupFormatter)) {
+                        $fieldGroupFormatter = new FormatterConfig(DefaultFormatter::$NAME, []);
+                    }
+                    $isMultiMarcField = $record->isMultiMarcField($groupName, $fieldName);
+                    if ($isMultiMarcField) {
                         while ($renderElemIndex < $renderGroupEntryCount) {
                             $renderElem = $renderGroupEntries[$renderGroupKeys[$renderElemIndex]];
-                            $nextFieldGroupFormatter = $renderElem->getFieldGroupFormatter();
-                            if ($fieldGroupFormatter->getFormatterName() !== $nextFieldGroupFormatter->getFormatterName()) {
+                            if ($fieldName !== $renderElem->fieldName) {
                                 break;
                             }
-                            if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
+                            if (!$renderElem->isEmpty($record)) {
                                 $groupMembers[] = $renderElem;
                             }
                             $renderElemIndex++;
                         }
                     } else {
-                        if (!$record->isEmptyField($renderElem->marcIndex, $renderElem)) {
+                        if (!$renderElem->isEmpty($record)) {
                             $groupMembers[] = $renderElem;
-                            $fieldGroupFormatter = new FormatterConfig(DefaultFormatter::$NAME, []);
                         }
                         $renderElemIndex++;
                     }
-                    // echo "<!-- GROUP FORMATTER $groupName > $fieldName: " . $fieldGroupFormatter->getFormatterName() . " " . count($groupMembers) . " -->";
+                    // echo "<!-- GF: $groupName > $fieldName [" . ($isMultiMarcField ? "M" : "S") . "]: " . $fieldGroupFormatter->getFormatterName() . " " . count($groupMembers) . " -->";
                     if (count($groupMembers) > 0) {
                         $fieldGroupFormatterRegistry->applyFormatter($fieldGroupFormatter,
-                            $fieldName, $groupMembers, $fieldGroupFormatterContext);
+                            $groupMembers, $fieldGroupFormatterContext);
                     }
                 }
                 echo "<div style=\"border-top: 1px solid #bbbbbb; margin-top: 1rem; margin-bottom: 1rem;\"></div>";

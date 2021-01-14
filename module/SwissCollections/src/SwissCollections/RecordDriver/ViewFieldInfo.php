@@ -66,16 +66,49 @@ class ViewFieldInfo {
      */
     public function getFieldGroupFormatter($groupViewInfo, $fieldName) {
         $config = [];
+        $cfg = $this->groupInfo($groupViewInfo, $fieldName);
+        if (!empty($cfg)) {
+            $config = $cfg[ViewFieldInfo::$RENDER_INFO_FIELD_MODE];
+        }
+        return new FormatterConfig('default', $config);
+    }
+
+    /**
+     * Returns a group's view config..
+     * @param array|null $groupViewInfo - data returned by getGroup()
+     * @param $fieldName
+     * @return mixed | null
+     */
+    protected function groupInfo($groupViewInfo, $fieldName) {
+        $config = [];
         if ($groupViewInfo) {
             $fieldGroups = $groupViewInfo[ViewFieldInfo::$RENDER_INFO_GROUPS];
             if ($fieldGroups) {
                 $cfg = $fieldGroups[$fieldName];
-                if (!empty($cfg) && array_key_exists(ViewFieldInfo::$RENDER_INFO_FIELD_MODE, $cfg)) {
-                    $config = $cfg[ViewFieldInfo::$RENDER_INFO_FIELD_MODE];
+                if (empty($cfg)) {
+                    $cfg = [];
                 }
+                return $cfg;
             }
         }
-        return new FormatterConfig('default', $config);
+        return $config;
+    }
+
+    /**
+     * Belongs a field to group of fields (with different conditions, marc indexes)?
+     * @param String $groupName
+     * @param String $fieldName
+     * @return bool
+     */
+    public function isMultiMarcField($groupName, $fieldName) {
+        $groupViewInfo = $this->getGroup($groupName);
+        if ($groupViewInfo) {
+            $fieldGroups = $groupViewInfo[ViewFieldInfo::$RENDER_INFO_GROUPS];
+            if ($fieldGroups) {
+                return key_exists($fieldName, $fieldGroups);
+            }
+        }
+        return false;
     }
 
     /**

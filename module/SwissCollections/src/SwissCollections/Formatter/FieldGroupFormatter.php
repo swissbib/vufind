@@ -24,11 +24,10 @@ abstract class FieldGroupFormatter {
     }
 
     /**
-     * @param String $fieldName
      * @param AbstractRenderConfigEntry[] $fieldDataList
      * @param FieldGroupRenderContext $context ;
      */
-    public abstract function render($fieldName, &$fieldDataList, &$context): void;
+    public abstract function render(&$fieldDataList, &$context): void;
 
     public abstract function getName(): String;
 
@@ -88,16 +87,15 @@ class FieldGroupFormatterRegistry {
 
     /**
      * @param FormatterConfig $groupFormatter
-     * @param String $fieldName
      * @param AbstractRenderConfigEntry[] $data
      * @param FieldGroupRenderContext $context ;
      */
-    public function applyFormatter($groupFormatter, $fieldName, &$data, &$context) {
+    public function applyFormatter($groupFormatter, &$data, &$context) {
         $context->formatterConfig = null;
         $ff = $this->get($groupFormatter->getFormatterName());
         if (!empty($ff)) {
             $context->formatterConfig = $groupFormatter;
-            $ff->render($fieldName, $data, $context);
+            $ff->render($data, $context);
         } else {
             echo "<!-- ERROR: Unknown field group formatter: '" . $groupFormatter->getFormatterName() . "' -->\n";
         }

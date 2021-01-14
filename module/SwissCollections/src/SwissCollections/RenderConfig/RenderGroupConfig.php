@@ -8,6 +8,7 @@
 
 namespace SwissCollections\RenderConfig;
 
+use SwissCollections\RecordDriver\SolrMarc;
 use SwissCollections\RecordDriver\ViewFieldInfo;
 
 class RenderGroupConfig {
@@ -109,5 +110,16 @@ class RenderGroupConfig {
             }
         }
         $this->info = $newFields;
+    }
+
+    public function isEmpty(SolrMarc $solrMarc): bool {
+        $groupIsEmpty = true;
+        foreach ($this->entries() as $renderElem) {
+            if (!$renderElem->isEmpty($solrMarc)) {
+                $groupIsEmpty = false;
+                break;
+            }
+        }
+        return $groupIsEmpty;
     }
 }

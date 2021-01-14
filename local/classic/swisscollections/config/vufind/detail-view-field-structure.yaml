@@ -6,6 +6,9 @@
 
 structure:
   "Basisinformationen":
+    groups:
+      "Serie":
+      "Digitalisat":
     fields:
       "Signatur":
         type: compound
@@ -22,6 +25,8 @@ structure:
         formatter:
           name: line
   "Inhalt und innere Ordnung":
+    groups:
+      "Inhalt":
     fields:
       "Inhalt-505":
         type: sequences
@@ -65,6 +70,9 @@ structure:
             - "4"
             - "4rcp"
             - "e"
+      "Körperschaft":
+      "Kongress":
+      "Werktitel":
     fields:
       "Person":
         type: compound # expected by "sucheinstiege-person" formatter, because "entries" are needed too
@@ -80,7 +88,19 @@ structure:
                 name: "date"
             - name: "Person-0"
   "Thema":
+    groups:
+      "Formschlagwort":
+      "Schlagwort Musik":
     fields:
       "Sachbegriff":
         formatter:
           repeated: true
+  "Anmerkungen":
+    groups:
+      "Sprache, Schrift, Notation":
+  "Code":
+    groups:
+      "Code Bibliographie":
+  "Klassifikationen":
+    groups:
+      "Klassifikation":

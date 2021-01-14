@@ -16,6 +16,10 @@ abstract class AbstractRenderConfigEntry {
     /**
      * @var String
      */
+    public $groupName;
+    /**
+     * @var String
+     */
     public $fieldName;
     /**
      * @var String
@@ -56,25 +60,30 @@ abstract class AbstractRenderConfigEntry {
 
     /**
      * AbstractRenderConfigEntry constructor.
+     * @param String $groupName
      * @param String $fieldName
      * @param String $subfieldName
-     * @param String $labelKey
      * @param int $marcIndex
      * @param FormatterConfig $formatterConfig from "detail-view-field-structure.yaml"
      * @param int $indicator1
      * @param int $indicator2
      * @param String $condition
      */
-    public function __construct(String $fieldName, String $subfieldName, String $labelKey, int $marcIndex,
-                                $formatterConfig, int $indicator1, int $indicator2, $condition) {
+    public function __construct($groupName, $fieldName, $subfieldName, $marcIndex,
+                                $formatterConfig, $indicator1, $indicator2, $condition) {
+        $this->groupName = $groupName;
         $this->fieldName = $fieldName;
         $this->subfieldName = $subfieldName;
-        $this->labelKey = $labelKey;
         $this->marcIndex = $marcIndex;
         $this->indicator1 = $indicator1;
         $this->indicator2 = $indicator2;
         $this->formatterConfig = $formatterConfig;
         $this->subfieldCondition = $condition;
+        $this->labelKey = AbstractRenderConfigEntry::buildLabelKey($groupName, $subfieldName);
+    }
+
+    public static function buildLabelKey(String $groupName, String $subfieldName): String {
+        return $groupName . "." . $subfieldName;
     }
 
     public function getRenderMode(): String {
@@ -114,6 +123,22 @@ abstract class AbstractRenderConfigEntry {
      * @return bool
      */
     public function hasRenderData(&$field, $solrMarc): bool {
+        return true;
+    }
+
+    /**
+     * @param SolrMarc $solrMarc
+     * @return bool
+     */
+    public function isEmpty(SolrMarc $solrMarc): bool {
+        $fields = $solrMarc->getMarcFields($this->marcIndex);
+        if (!empty($fields)) {
+            foreach ($fields as $field) {
+                if ($this->hasRenderData($field, $solrMarc)) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 

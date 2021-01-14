@@ -28,18 +28,18 @@ class CompoundEntry extends AbstractRenderConfigEntry {
 
     /**
      * GroupEntry constructor.
+     * @param String $groupName
      * @param String $fieldName
      * @param String $subfieldName
-     * @param String $labelKey
      * @param int $marcIndex
      * @param FormatterConfig $formatterConfig from "detail-view-field-structure.yaml"
      * @param int $indicator1 set to -1 if not relevant
      * @param int $indicator2 set to -1 if not relevant
      * @param String $condition
      */
-    public function __construct(String $fieldName, String $subfieldName, String $labelKey, int $marcIndex,
-                                $formatterConfig, int $indicator1 = -1, int $indicator2 = -1, $condition = "") {
-        parent::__construct($fieldName, $subfieldName, $labelKey, $marcIndex, $formatterConfig, $indicator1,
+    public function __construct($groupName, $fieldName, $subfieldName, $marcIndex,
+                                $formatterConfig, $indicator1 = -1, $indicator2 = -1, $condition = "") {
+        parent::__construct($groupName, $fieldName, $subfieldName, $marcIndex, $formatterConfig, $indicator1,
             $indicator2, $condition);
         if (empty($this->formatterConfig->formatterNameDefault)) {
             $this->formatterConfig->formatterNameDefault = "line";
@@ -196,7 +196,7 @@ class CompoundEntry extends AbstractRenderConfigEntry {
      * @return CompoundEntry
      */
     public function flatCloneEntry() {
-        return new CompoundEntry($this->fieldName, $this->subfieldName, $this->labelKey, $this->marcIndex,
+        return new CompoundEntry($this->groupName, $this->fieldName, $this->subfieldName, $this->marcIndex,
             $this->formatterConfig, $this->indicator1, $this->indicator2, $this->subfieldCondition);
     }
 
@@ -207,7 +207,7 @@ class CompoundEntry extends AbstractRenderConfigEntry {
      */
     protected function buildElement(String $labelKey, String $marcSubfieldName): SingleEntry {
         $formatter = $this->formatterConfig->singleFormatter($labelKey, "simple", $this->formatterConfig);
-        $singleEntry = new SingleEntry($this->fieldName, $this->subfieldName, $labelKey, $this->marcIndex,
+        $singleEntry = new SingleEntry($this->groupName, $this->fieldName, $this->subfieldName, $this->marcIndex,
             $formatter, $marcSubfieldName, $this->indicator1, $this->indicator2, $this->subfieldCondition);
         $singleEntry->fieldGroupFormatter = $this->fieldGroupFormatter;
         return $singleEntry;

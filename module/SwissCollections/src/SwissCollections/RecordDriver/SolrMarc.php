@@ -93,24 +93,6 @@ class SolrMarc extends SwissbibSolrMarc {
         return $fieldsData;
     }
 
-    /**
-     * Quite similar to applyRenderer() except final html creation.
-     * @param $marcIndex
-     * @param AbstractRenderConfigEntry $rc
-     * @return bool
-     */
-    public function isEmptyField($marcIndex, $rc) {
-        $fields = $this->getMarcFields($marcIndex);
-        if (!empty($fields)) {
-            foreach ($fields as $field) {
-                if ($rc->hasRenderData($field, $this)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     public function setDetailViewFieldInfo($detailViewFieldInfo) {
         $this->detailViewFieldInfo = new ViewFieldInfo($detailViewFieldInfo);
     }
@@ -171,7 +153,7 @@ class SolrMarc extends SwissbibSolrMarc {
                 $lastSubfieldCount++;
                 $subFieldName = $lastSubfieldName . $lastSubfieldCount;
             }
-            $labelKey = $groupName . "." . $subFieldName;
+            $labelKey = AbstractRenderConfigEntry::buildLabelKey($groupName, $subFieldName);
 
             $marcIndex = trim($field[SolrMarc::$MARC_MAPPING_MARC_INDEX]);
             if (!ctype_digit($marcIndex)) {
@@ -208,10 +190,10 @@ class SolrMarc extends SwissbibSolrMarc {
 
             if (!$renderGroupEntry && ($renderType === 'compound' || $renderType === 'sequences')) {
                 if ($renderType === 'compound') {
-                    $renderGroupEntry = new CompoundEntry($fieldName, $subFieldName, $labelKey, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2, $subfieldMatchCondition);
+                    $renderGroupEntry = new CompoundEntry($groupName, $fieldName, $subFieldName, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2, $subfieldMatchCondition);
                 }
                 if ($renderType === 'sequences') {
-                    $renderGroupEntry = new SequencesEntry($fieldName, $subFieldName, $labelKey, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2, $subfieldMatchCondition);
+                    $renderGroupEntry = new SequencesEntry($groupName, $fieldName, $subFieldName, $marcIndex, $formatterConfig, $marcIndicator1, $marcIndicator2, $subfieldMatchCondition);
                     if ($fieldViewInfo) {
                         $renderGroupEntry->setSequences($this->detailViewFieldInfo->getSubfieldSequences($fieldViewInfo));
                     }
@@ -231,9 +213,9 @@ class SolrMarc extends SwissbibSolrMarc {
                     // $formatterConfig->repeatedDefault = true;
                     $formatterConfig->separatorDefault = "; ";
                     $renderGroupEntry = new CompoundEntry(
+                        $groupName,
                         $fieldName,
                         $subFieldName,
-                        $labelKey,
                         $marcIndex,
                         $formatterConfig,
                         $marcIndicator1,
@@ -247,9 +229,9 @@ class SolrMarc extends SwissbibSolrMarc {
                         $formatterConfig->formatterNameDefault = "simple-line";
                     }
                     $renderGroupEntry = new SingleEntry(
+                        $groupName,
                         $fieldName,
                         $subFieldName,
-                        $labelKey,
                         $marcIndex,
                         $formatterConfig,
                         $marcSubfieldName,
@@ -284,6 +266,16 @@ class SolrMarc extends SwissbibSolrMarc {
 
     protected function orderGroups() {
         $this->renderConfig->orderGroups($this->detailViewFieldInfo);
+    }
+
+    /**
+     * Belongs a field to group of fields (with different conditions, marc indexes)?
+     * @param String $groupName
+     * @param String $fieldName
+     * @return bool
+     */
+    public function isMultiMarcField($groupName, $fieldName) {
+        return $this->detailViewFieldInfo->isMultiMarcField($groupName, $fieldName);
     }
 
     /**
@@ -405,17 +397,6 @@ class SolrMarc extends SwissbibSolrMarc {
             return false;
         }
         return $subfieldRenderData->emptyValue();
-    }
-
-    public function isEmptyGroup(RenderGroupConfig $renderGroupConfig): bool {
-        $groupIsEmpty = true;
-        foreach ($renderGroupConfig->entries() as $renderElem) {
-            if (!$this->isEmptyField($renderElem->marcIndex, $renderElem)) {
-                $groupIsEmpty = false;
-                break;
-            }
-        }
-        return $groupIsEmpty;
     }
 
     /**

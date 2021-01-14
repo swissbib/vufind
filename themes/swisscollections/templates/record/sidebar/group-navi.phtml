@@ -12,7 +12,7 @@ $renderConfig = $record->getRenderConfig();
  * @var \SwissCollections\RenderConfig\RenderGroupConfig $renderGroupConfig
  */
 foreach ($renderConfig as $renderGroupConfig) {
-    if (!$record->isEmptyGroup($renderGroupConfig)) {
+    if (!$renderGroupConfig->isEmpty($record)) {
         $groupName = $renderGroupConfig->getName();
         $groupAnchor = str_replace(' ', '_', $groupName);
         echo "<div class='anchor'>";

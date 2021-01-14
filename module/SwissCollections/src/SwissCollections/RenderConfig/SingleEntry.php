@@ -17,9 +17,9 @@ class SingleEntry extends AbstractRenderConfigEntry {
 
     /**
      * SingleEntry constructor.
+     * @param String $groupName
      * @param String $fieldName
      * @param String $subfieldName
-     * @param String $labelKey
      * @param int $marcIndex
      * @param FormatterConfig $formatterConfig
      * @param String $marcSubfieldName
@@ -27,9 +27,9 @@ class SingleEntry extends AbstractRenderConfigEntry {
      * @param int $indicator2 set to -1 if not relevant
      * @param String $condition
      */
-    public function __construct($fieldName, $subfieldName, $labelKey, $marcIndex, $formatterConfig, $marcSubfieldName = null,
+    public function __construct($groupName, $fieldName, $subfieldName, $marcIndex, $formatterConfig, $marcSubfieldName = null,
                                 $indicator1 = -1, $indicator2 = -1, $condition = "") {
-        parent::__construct($fieldName, $subfieldName, $labelKey, $marcIndex, $formatterConfig, $indicator1,
+        parent::__construct($groupName, $fieldName, $subfieldName, $marcIndex, $formatterConfig, $indicator1,
             $indicator2, $condition);
         $this->marcSubfieldName = $marcSubfieldName;
         if (empty($this->formatterConfig->formatterNameDefault)) {

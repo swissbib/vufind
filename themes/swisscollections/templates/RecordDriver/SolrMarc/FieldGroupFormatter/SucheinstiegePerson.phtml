@@ -24,11 +24,10 @@ class SucheinstiegePerson extends FieldGroupFormatter {
      * 7xx$4: Beteiligte (inkl. Rollen)
      * 7xx$4rcp: AdressatIn
      * z.B. http://127.0.0.1/Record/990115273800205508
-     * @param String $fieldName
      * @param AbstractRenderConfigEntry[] $fieldDataList
      * @param FieldGroupRenderContext $context
      */
-    public function render($fieldName, &$fieldDataList, &$context): void {
+    public function render(&$fieldDataList, &$context): void {
         echo "<!-- START SUCHEINSTIEGE-PERSON -->\n";
 
         // bucket sort by role ("unknown" if no role is assigned)
