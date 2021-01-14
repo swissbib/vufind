@@ -1,4 +1,32 @@
 <?php
+/**
+ * SwissCollections: FieldGroupFormatter.php
+ *
+ * PHP version 7
+ *
+ * Copyright (C) project swissbib, University Library Basel, Switzerland
+ * http://www.swisscollections.org  / http://www.swisscollections.ch / http://www.ub.unibas.ch
+ *
+ * Date: 1/12/20
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * @category SwissCollections_VuFind
+ * @package  SwissCollections\Formatter
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.swisscollections.org Project Wiki
+ */
 
 namespace SwissCollections\Formatter;
 
@@ -8,43 +36,74 @@ use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 use SwissCollections\RenderConfig\FormatterConfig;
 
-abstract class FieldGroupFormatter {
+/**
+ * Abstract top class of all field group formatters.
+ *
+ * @category SwissCollections_VuFind
+ * @package  SwissCollections\Formatter
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     https://vufind.org/wiki/development Wiki
+ */
+abstract class FieldGroupFormatter
+{
 
     /**
+     * "vufind"'s renderer.
+     *
      * @var PhpRenderer
      */
     protected $phpRenderer;
 
     /**
      * FieldFormatter constructor.
-     * @param PhpRenderer $phpRenderer
+     *
+     * @param PhpRenderer $phpRenderer vufind's renderer
      */
-    public function __construct(PhpRenderer $phpRenderer) {
+    public function __construct(PhpRenderer $phpRenderer)
+    {
         $this->phpRenderer = $phpRenderer;
     }
 
     /**
-     * @param AbstractRenderConfigEntry[] $fieldDataList
-     * @param FieldGroupRenderContext $context ;
+     * Renders given values to html.
+     *
+     * @param AbstractRenderConfigEntry[] $fieldDataList the values to render
+     * @param FieldGroupRenderContext     $context       the render context
+     *
+     * @return void
      */
     public abstract function render(&$fieldDataList, &$context): void;
 
-    public abstract function getName(): String;
+    /**
+     * Returns the formatter's name.
+     *
+     * @return string
+     */
+    public abstract function getName(): string;
 
     /**
-     * @param AbstractRenderConfigEntry $renderElem
-     * @param FieldGroupRenderContext $context
-     * @param String $repeatStartHtml
-     * @param String $repeatEndHtml
+     * Helper method to render one field to html.
+     *
+     * @param AbstractRenderConfigEntry $renderElem      the field's render configuration
+     * @param FieldGroupRenderContext   $context         the render context
+     * @param String                    $repeatStartHtml html to be output before list items
+     * @param String                    $repeatEndHtml   html to be output after list items
+     *
+     * @return void
      */
-    public function outputField(&$renderElem, &$context, $repeatStartHtml, $repeatEndHtml): void {
+    public function outputField(
+        &$renderElem, &$context, $repeatStartHtml, $repeatEndHtml
+    ): void {
         $fields = $context->solrMarc->getMarcFields($renderElem->marcIndex);
         if (!empty($fields)) {
             if ($renderElem->getFormatterConfig()->isRepeated()) {
                 echo $repeatStartHtml;
             }
-            $fieldContext = new FieldRenderContext($context->fieldFormatterRegistry, $context->solrMarc,
-                $context->subfieldFormatterRegistry);
+            $fieldContext = new FieldRenderContext(
+                $context->fieldFormatterRegistry, $context->solrMarc,
+                $context->subfieldFormatterRegistry
+            );
             foreach ($fields as $field) {
                 $renderElem->render($field, $fieldContext);
             }
@@ -54,50 +113,100 @@ abstract class FieldGroupFormatter {
         }
     }
 
-    public function labelKeyAsCssClass(String $labelKey): String {
+    /**
+     * Converts a translate key to a well formed css class.
+     *
+     * @param String $labelKey the key to convert
+     *
+     * @return string
+     */
+    public function labelKeyAsCssClass(String $labelKey): string
+    {
         return preg_replace('/[. \/"§$%&()!=?+*~#\':,;]/', "_", $labelKey);
     }
 
-    public function translateLabelKey(String $labelKey): String {
-        $label = $this->phpRenderer->translate('page.detail.field.label.' . $labelKey);
-        if (strpos($label, "page.detail.") !== FALSE) {
+    /**
+     * Returns translated text for a given key. If no translation exists, the
+     * key is returned, where all "." are replaced with "-" (allows html to
+     * wrap).
+     *
+     * @param String $labelKey the key to translate
+     *
+     * @return string
+     */
+    public function translateLabelKey(String $labelKey): string
+    {
+        $label = $this->phpRenderer->translate(
+            'page.detail.field.label.' . $labelKey
+        );
+        if (strpos($label, "page.detail.") !== false) {
             $label = preg_replace("/[.]/", "-", $label);
         }
         return $label;
     }
 }
 
-class FieldGroupFormatterRegistry {
+/**
+ * Registry of all field group formatters.
+ *
+ * @category SwissCollections_VuFind
+ * @package  SwissCollections\Formatter
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     https://vufind.org/wiki/development Wiki
+ */
+class FieldGroupFormatterRegistry
+{
     /**
-     * @var array<String,FieldGroupFormatter>
+     * The map of field group formatters.
+     *
+     * @var array<string,FieldGroupFormatter>
      */
     protected $registry;
 
-    public function register(FieldGroupFormatter $ff) {
+    /**
+     * Register a given field group formatter.
+     *
+     * @param FieldGroupFormatter $ff the formatter to register
+     *
+     * @return void
+     */
+    public function register(FieldGroupFormatter $ff)
+    {
         $this->registry[$ff->getName()] = $ff;
     }
 
     /**
-     * @param String $name
+     * Get a field group formatter by name.
+     *
+     * @param string $name the formatter's name
+     *
      * @return null|FieldGroupFormatter
      */
-    public function get(String $name) {
+    public function get(String $name)
+    {
         return $this->registry[$name];
     }
 
     /**
-     * @param FormatterConfig $groupFormatter
-     * @param AbstractRenderConfigEntry[] $data
-     * @param FieldGroupRenderContext $context ;
+     * Apply a field group formatter.
+     *
+     * @param FormatterConfig             $groupFormatter the formatter to apply
+     * @param AbstractRenderConfigEntry[] $data           the values to render
+     * @param FieldGroupRenderContext     $context        the render context
+     *
+     * @return void
      */
-    public function applyFormatter($groupFormatter, &$data, &$context) {
+    public function applyFormatter($groupFormatter, &$data, &$context)
+    {
         $context->formatterConfig = null;
         $ff = $this->get($groupFormatter->getFormatterName());
         if (!empty($ff)) {
             $context->formatterConfig = $groupFormatter;
             $ff->render($data, $context);
         } else {
-            echo "<!-- ERROR: Unknown field group formatter: '" . $groupFormatter->getFormatterName() . "' -->\n";
+            echo "<!-- ERROR: Unknown field group formatter: '"
+                . $groupFormatter->getFormatterName() . "' -->\n";
         }
     }
 }

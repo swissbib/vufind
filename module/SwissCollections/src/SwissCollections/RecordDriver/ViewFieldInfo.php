@@ -4,7 +4,8 @@ namespace SwissCollections\RecordDriver;
 
 use SwissCollections\RenderConfig\FormatterConfig;
 
-class ViewFieldInfo {
+class ViewFieldInfo
+{
     protected $detailViewFieldInfo;
 
     public static $RENDER_INFO_FIELDS = "fields";
@@ -14,42 +15,48 @@ class ViewFieldInfo {
     public static $RENDER_INFO_FIELD_MODE = "formatter";
     public static $RENDER_INFO_FIELD_SUBFIELD_SEQUENCES = "sequences";
 
-    public function __construct($detailViewFieldInfo) {
+    public function __construct($detailViewFieldInfo)
+    {
         $this->detailViewFieldInfo = $detailViewFieldInfo;
     }
 
     /**
-     * @param array $fieldViewInfo - data returned by getField()
+     * @param  array $fieldViewInfo - data returned by getField()
      * @return bool
      */
-    public function hasType($fieldViewInfo): bool {
+    public function hasType($fieldViewInfo): bool
+    {
         return array_key_exists(ViewFieldInfo::$RENDER_INFO_FIELD_TYPE, $fieldViewInfo);
     }
 
     /**
-     * @param array $fieldViewInfo - data returned by getField()
+     * @param  array $fieldViewInfo - data returned by getField()
      * @return String|null - either single | compound | sequences
      */
-    public function getType($fieldViewInfo) {
+    public function getType($fieldViewInfo)
+    {
         return $fieldViewInfo[ViewFieldInfo::$RENDER_INFO_FIELD_TYPE];
     }
 
     /**
-     * @param String $name
+     * @param  String $name
      * @return mixed | null
      */
-    public function getGroup(String $name) {
+    public function getGroup(String $name)
+    {
         return $this->detailViewFieldInfo['structure'][$name];
     }
 
     /**
      * Field info with marc index postfix is preferred to info without.
-     * @param array $groupViewInfo - data returned by getGroup()
-     * @param $name
-     * @param int $marcIndex - optional marc index
+     *
+     * @param  array $groupViewInfo - data returned by getGroup()
+     * @param  $name
+     * @param  int   $marcIndex     - optional marc index
      * @return mixed | null
      */
-    public function getField($groupViewInfo, $name, $marcIndex = -1) {
+    public function getField($groupViewInfo, $name, $marcIndex = -1)
+    {
         $fields = $groupViewInfo[ViewFieldInfo::$RENDER_INFO_FIELDS];
         $fieldViewInfo = $fields[$name . "-" . $marcIndex];
         if (empty($fieldViewInfo)) {
@@ -60,11 +67,13 @@ class ViewFieldInfo {
 
     /**
      * Returns a formatter's name or null.
-     * @param array|null $groupViewInfo - data returned by getGroup()
-     * @param $fieldName
+     *
+     * @param  array|null $groupViewInfo - data returned by getGroup()
+     * @param  $fieldName
      * @return FormatterConfig | null
      */
-    public function getFieldGroupFormatter($groupViewInfo, $fieldName) {
+    public function getFieldGroupFormatter($groupViewInfo, $fieldName)
+    {
         $config = [];
         $cfg = $this->groupInfo($groupViewInfo, $fieldName);
         if (!empty($cfg)) {
@@ -75,11 +84,13 @@ class ViewFieldInfo {
 
     /**
      * Returns a group's view config..
-     * @param array|null $groupViewInfo - data returned by getGroup()
-     * @param $fieldName
+     *
+     * @param  array|null $groupViewInfo - data returned by getGroup()
+     * @param  $fieldName
      * @return mixed | null
      */
-    protected function groupInfo($groupViewInfo, $fieldName) {
+    protected function groupInfo($groupViewInfo, $fieldName)
+    {
         $config = [];
         if ($groupViewInfo) {
             $fieldGroups = $groupViewInfo[ViewFieldInfo::$RENDER_INFO_GROUPS];
@@ -96,11 +107,13 @@ class ViewFieldInfo {
 
     /**
      * Belongs a field to group of fields (with different conditions, marc indexes)?
-     * @param String $groupName
-     * @param String $fieldName
+     *
+     * @param  String $groupName
+     * @param  String $fieldName
      * @return bool
      */
-    public function isMultiMarcField($groupName, $fieldName) {
+    public function isMultiMarcField($groupName, $fieldName)
+    {
         $groupViewInfo = $this->getGroup($groupName);
         if ($groupViewInfo) {
             $fieldGroups = $groupViewInfo[ViewFieldInfo::$RENDER_INFO_GROUPS];
@@ -112,11 +125,12 @@ class ViewFieldInfo {
     }
 
     /**
-     * @param String $defaultFormatterName
-     * @param array $fieldViewInfo - data returned by getField()
+     * @param  String $defaultFormatterName
+     * @param  array  $fieldViewInfo        - data returned by getField()
      * @return FormatterConfig
      */
-    public function getFormatterConfig($defaultFormatterName, $fieldViewInfo): FormatterConfig {
+    public function getFormatterConfig($defaultFormatterName, $fieldViewInfo): FormatterConfig
+    {
         $config = [];
         if (array_key_exists(ViewFieldInfo::$RENDER_INFO_FIELD_MODE, $fieldViewInfo)) {
             $config = $fieldViewInfo[ViewFieldInfo::$RENDER_INFO_FIELD_MODE];
@@ -126,27 +140,32 @@ class ViewFieldInfo {
 
     /**
      * Especially for sequence view configs.
-     * @param array $fieldViewInfo - data returned by getField()
+     *
+     * @param  array $fieldViewInfo - data returned by getField()
      * @return String[][]
      */
-    public function getSubfieldSequences($fieldViewInfo) {
+    public function getSubfieldSequences($fieldViewInfo)
+    {
         return $fieldViewInfo[ViewFieldInfo::$RENDER_INFO_FIELD_SUBFIELD_SEQUENCES];
     }
 
     /**
      * @return String[]
      */
-    public function groupNames() {
+    public function groupNames()
+    {
         return array_keys($this->detailViewFieldInfo['structure']);
     }
 
     /**
      * Removes optional marc index postfix from field names infos and
      * prevents duplicates (first occurrence is used).
-     * @param String $groupName
+     *
+     * @param  String $groupName
      * @return String[]
      */
-    public function fieldNames($groupName) {
+    public function fieldNames($groupName)
+    {
         $fieldNames = [];
         $groupViewInfo = $this->getGroup($groupName);
         if ($groupViewInfo) {

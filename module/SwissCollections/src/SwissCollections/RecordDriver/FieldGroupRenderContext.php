@@ -5,7 +5,8 @@ namespace SwissCollections\RecordDriver;
 use SwissCollections\Formatter\FieldFormatterRegistry;
 use SwissCollections\Formatter\SubfieldFormatterRegistry;
 
-class FieldGroupRenderContext {
+class FieldGroupRenderContext
+{
     /**
      * @var FieldFormatterRegistry
      */
@@ -28,11 +29,13 @@ class FieldGroupRenderContext {
 
     /**
      * FieldRenderContext constructor.
-     * @param FieldFormatterRegistry $fieldFormatterRegistry
+     *
+     * @param FieldFormatterRegistry    $fieldFormatterRegistry
      * @param SubfieldFormatterRegistry $subfieldFormatterRegistry
-     * @param SolrMarc $solrMarc
+     * @param SolrMarc                  $solrMarc
      */
-    public function __construct($fieldFormatterRegistry, $subfieldFormatterRegistry, SolrMarc $solrMarc) {
+    public function __construct($fieldFormatterRegistry, $subfieldFormatterRegistry, SolrMarc $solrMarc)
+    {
         $this->solrMarc = $solrMarc;
         $this->fieldFormatterRegistry = $fieldFormatterRegistry;
         $this->subfieldFormatterRegistry = $subfieldFormatterRegistry;
