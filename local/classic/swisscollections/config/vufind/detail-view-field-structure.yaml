@@ -34,7 +34,7 @@ structure:
           name: inline
           separator: " / "
           # without "entries:" the order of the applied sequence is used (see "sequences:" below)
-          # without "Unterbezeichnung" for each marc subfield, use the marc subfield names instead
+          # note that "sequences" expect a structured "name:" in "entries:": <"Unterbezeichnung">-<marc subfield>
 #          entries:
 #            - name: "Inhalt3-r"
 #            - name: "Inhalt3-t"
