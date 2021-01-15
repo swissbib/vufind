@@ -57,14 +57,14 @@ class CompoundEntry extends AbstractRenderConfigEntry
     /**
      * CompoundEntry constructor.
      *
-     * @param string          $groupName       the group's name from detail-fields.csv, column "Gruppierungsname / Oberbegriff"
-     * @param string          $fieldName       the field's name from detail-fields.csv, column "Bezeichnung"
-     * @param string          $subfieldName    the subfield's name from detail-fields.csv, column "Unterbezeichnung"
-     * @param int             $marcIndex       the marc index from from detail-fields.csv, column "datafield tag"
-     * @param FormatterConfig $formatterConfig from "detail-view-field-structure.yaml"
-     * @param int             $indicator1      the first indicator from from detail-fields.csv, column "datafield ind1"; set to -1 if not relevant
-     * @param int             $indicator2      the second indicator from from detail-fields.csv, column "datafield ind2"; set to -1 if not relevant
-     * @param string          $condition       the condition  from from detail-fields.csv, column "subfield match condition"
+     * @param string                      $groupName       the group's name from detail-fields.csv, column "Gruppierungsname / Oberbegriff"
+     * @param string                      $fieldName       the field's name from detail-fields.csv, column "Bezeichnung"
+     * @param string                      $subfieldName    the subfield's name from detail-fields.csv, column "Unterbezeichnung"
+     * @param int                         $marcIndex       the marc index from from detail-fields.csv, column "datafield tag"
+     * @param FormatterConfig             $formatterConfig from "detail-view-field-structure.yaml"
+     * @param int                         $indicator1      the first indicator from from detail-fields.csv, column "datafield ind1"; set to -1 if not relevant
+     * @param int                         $indicator2      the second indicator from from detail-fields.csv, column "datafield ind2"; set to -1 if not relevant
+     * @param AbstractFieldCondition|null $condition       the condition  from from detail-fields.csv, column "subfield match condition"
      */
     public function __construct(
         $groupName, $fieldName, $subfieldName, $marcIndex,

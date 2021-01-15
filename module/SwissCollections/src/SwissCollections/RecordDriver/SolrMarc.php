@@ -34,6 +34,7 @@ namespace SwissCollections\RecordDriver;
 use Laminas\Log\Logger;
 use Swissbib\RecordDriver\SolrMarc as SwissbibSolrMarc;
 use SwissCollections\RenderConfig\CompoundEntry;
+use SwissCollections\RenderConfig\ConstSubfieldCondition;
 use SwissCollections\RenderConfig\FormatterConfig;
 use SwissCollections\RenderConfig\SequencesEntry;
 use SwissCollections\RenderConfig\RenderConfig;
@@ -298,11 +299,13 @@ class SolrMarc extends SwissbibSolrMarc
             $marcIndicator2 = $this->parseIndicator(
                 $marcIndicator2Str, $groupName, $fieldName
             );
-            $subfieldMatchCondition = trim(
-                $field[SolrMarc::$MARC_MAPPING_CONDITION]
+            $subfieldMatchCondition = ConstSubfieldCondition::parse(
+                trim(
+                    $field[SolrMarc::$MARC_MAPPING_CONDITION]
+                )
             );
 
-            // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex|$marcIndicator1|$marcIndicator2|$marcSubfieldName -->\n";
+            // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex|$marcIndicator1|$marcIndicator2|$marcSubfieldName|$subfieldMatchCondition -->\n";
 
             // calculate render type and mode ...
             $renderType = 'single';
@@ -317,20 +320,20 @@ class SolrMarc extends SwissbibSolrMarc
                 if ($fieldViewInfo) {
                     $formatterConfig
                         = $this->detailViewFieldInfo->getFormatterConfig(
-                            null, $fieldViewInfo
-                        );
+                        null, $fieldViewInfo
+                    );
                     if ($this->detailViewFieldInfo->hasType($fieldViewInfo)) {
                         $renderType
                             = $this->detailViewFieldInfo->getType(
-                                $fieldViewInfo
-                            );
+                            $fieldViewInfo
+                        );
                     }
                 }
             }
             $fieldGroupFormatter
                 = $this->detailViewFieldInfo->getFieldGroupFormatter(
-                    $groupViewInfo, $fieldName
-                );
+                $groupViewInfo, $fieldName
+            );
             // echo "<!-- SPECIAL: $groupName > $fieldName: rt=$renderType fc=" . $formatterConfig . " gc=" . $fieldGroupFormatter . " -->\n";
 
             if (!$renderGroupEntry
@@ -581,8 +584,10 @@ class SolrMarc extends SwissbibSolrMarc
                 );
             } else {
                 if ($field instanceof \File_MARC_Control_Field) {
-                    if (!($elem->indicator1 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
-                        && $elem->indicator2 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR)
+                    if (!($elem->indicator1
+                        === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                        && $elem->indicator2
+                        === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR)
                     ) {
                         return null;
                     }
@@ -591,8 +596,8 @@ class SolrMarc extends SwissbibSolrMarc
                     );
                 } else {
                     echo "<!-- ERROR: Can't handle field type: " . get_class(
-                        $field
-                    ) . " of " . $elem . " -->\n";
+                            $field
+                        ) . " of " . $elem . " -->\n";
                     $subfieldRenderData = null;
                 }
             }
@@ -688,8 +693,10 @@ class SolrMarc extends SwissbibSolrMarc
         } else {
             if ($field instanceof \File_MARC_Control_Field) {
                 // only if no indicator limitation is expected ...
-                if ($indicator1 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
-                    && $indicator2 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                if ($indicator1
+                    === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                    && $indicator2
+                    === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
                 ) {
                     $tempFieldData["a"] = $field->getData();
                 }
