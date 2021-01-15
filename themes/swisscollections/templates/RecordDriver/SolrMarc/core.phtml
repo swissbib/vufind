@@ -15,9 +15,13 @@ use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\SimpleLin
 
 ?>-->
 <?php
-/** @var SwissCollections\RecordDriver\SolrMarc $record */
+/**
+ * @var SwissCollections\RecordDriver\SolrMarc $record 
+ */
 $record = $this->driver;
-/** @var Swissbib\View\Helper\Record $viewRecord */
+/**
+ * @var Swissbib\View\Helper\Record $viewRecord 
+*/
 $viewRecord = $this->record($record);
 /**
  * @var RenderGroupConfig[]
@@ -85,7 +89,7 @@ $fieldGroupFormatterRegistry->register(new DefaultFormatter($this));
 $fieldGroupFormatterRegistry->register(new SucheinstiegePerson($this));
 ?>
 <div class="" vocab="http://schema.org/" resource="#record"
-     typeof="<?= $this->driver->getSchemaOrgFormats() ?> Product">
+     typeof="<?php echo $this->driver->getSchemaOrgFormats() ?> Product">
 
     <div style="border-top: 1px solid #bbbbbb; margin-top: 1rem; margin-bottom: 1rem;"></div>
     <?php
@@ -140,8 +144,10 @@ $fieldGroupFormatterRegistry->register(new SucheinstiegePerson($this));
                     }
                     // echo "<!-- GF: $groupName > $fieldName [" . ($isMultiMarcField ? "M" : "S") . "]: " . $fieldGroupFormatter->getFormatterName() . " " . count($groupMembers) . " -->";
                     if (count($groupMembers) > 0) {
-                        $fieldGroupFormatterRegistry->applyFormatter($fieldGroupFormatter,
-                            $groupMembers, $fieldGroupFormatterContext);
+                        $fieldGroupFormatterRegistry->applyFormatter(
+                            $fieldGroupFormatter,
+                            $groupMembers, $fieldGroupFormatterContext
+                        );
                     }
                 }
                 echo "<div style=\"border-top: 1px solid #bbbbbb; margin-top: 1rem; margin-bottom: 1rem;\"></div>";

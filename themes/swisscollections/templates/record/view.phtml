@@ -8,9 +8,9 @@
   $this->headScript()->appendFile("check_save_statuses.js");
 
   // Add RDF header link if applicable:
-  if ($this->export()->recordSupportsFormat($this->driver, 'RDF')) {
-      $this->headLink()->appendAlternate($this->recordLink()->getActionUrl($this->driver, 'RDF'), 'application/rdf+xml', 'RDF Representation');
-  }
+if ($this->export()->recordSupportsFormat($this->driver, 'RDF')) {
+    $this->headLink()->appendAlternate($this->recordLink()->getActionUrl($this->driver, 'RDF'), 'application/rdf+xml', 'RDF Representation');
+}
 
   $lastSearchUrl = $this->getextendedlastsearchlink()->getEscapedLinkOnly(); //@todo necessary?
 
@@ -23,55 +23,59 @@
   $sidebarContentWithoutComments = preg_replace('/<!--(.*)-->|\\n/Us', '', $sidebarContent);
   $showSidebar = !empty($sidebarContentWithoutComments);
 
-  /** @var SwissCollections\RecordDriver\SolrMarc $record */
+  /**
+ * @var SwissCollections\RecordDriver\SolrMarc $record 
+*/
   $record = $this->driver;
-  /** @var Swissbib\View\Helper\Record $viewRecord */
+  /**
+ * @var Swissbib\View\Helper\Record $viewRecord 
+*/
   $viewRecord = $this->record($record);
 ?>
-<div class="<?=$this->layoutClass('mainbody')?>">
+<div class="<?php echo $this->layoutClass('mainbody')?>">
    <?php $col = '12'; $colSM = '12' ?>
   <div class="row detailToolbar">
-    <?php if (isset($this->scrollData) && ($this->scrollData['previousRecord'] || $this->scrollData['nextRecord'])): ?>
+    <?php if (isset($this->scrollData) && ($this->scrollData['previousRecord'] || $this->scrollData['nextRecord'])) : ?>
         <?php $col = '4'; $colSM = '3' ?>
 
         <div class="pagination-container col-md-8 col-sm-9">
           <ul class="pagination hidden-print">
             <li class="page">
               <a>
-                <?= $this->transEsc('Results') ?>:
+                <?php echo $this->transEsc('Results') ?>:
               </a>
             </li>
-            <?php if ($this->scrollData['previousRecord']): ?>
+            <?php if ($this->scrollData['previousRecord']) : ?>
               <li>
-                <a href="<?=$this->recordLink()->getUrl($this->scrollData['previousRecord'])?>" title="<?=$this->transEsc('Previous Search Result')?>"><i class="fa fa-caret-left"></i></a>
+                <a href="<?php echo $this->recordLink()->getUrl($this->scrollData['previousRecord'])?>" title="<?php echo $this->transEsc('Previous Search Result')?>"><i class="fa fa-caret-left"></i></a>
               </li>
             <?php else: ?>
               <li class="disabled"><a href="#"><i class="fa fa-caret-left"></i></a></li>
             <?php endif; ?>
               <li class="page-numbers">
                 <a>
-                  <span class="<?= $this->scrollData['previousRecord'] ? 'standard' : 'marked' ?>">
-                    <?=$this->localizedNumber($this->scrollData['currentPosition']) ?>
+                  <span class="<?php echo $this->scrollData['previousRecord'] ? 'standard' : 'marked' ?>">
+                    <?php echo $this->localizedNumber($this->scrollData['currentPosition']) ?>
                   </span>
-                  <?= $this->transEsc('of') ?>
-                  <span class="<?= $this->scrollData['nextRecord'] ? 'standard': 'marked' ?>">
-                    <?=$this->localizedNumber($this->scrollData['resultTotal']) ?>
+                  <?php echo $this->transEsc('of') ?>
+                  <span class="<?php echo $this->scrollData['nextRecord'] ? 'standard': 'marked' ?>">
+                    <?php echo $this->localizedNumber($this->scrollData['resultTotal']) ?>
                   </span>
                 </a>
               </li>
-            <?php if ($this->scrollData['nextRecord']): ?>
+            <?php if ($this->scrollData['nextRecord']) : ?>
               <li>
-                <a href="<?=$this->recordLink()->getUrl($this->scrollData['nextRecord'])?>" title="<?=$this->transEsc('Next Search Result')?>"><i class="fa fa-caret-right"></i></a>
+                <a href="<?php echo $this->recordLink()->getUrl($this->scrollData['nextRecord'])?>" title="<?php echo $this->transEsc('Next Search Result')?>"><i class="fa fa-caret-right"></i></a>
               </li>
             <?php else: ?>
               <li class="disabled"><a href="#"><i class="fa fa-caret-right"></i></a></li>
             <?php endif; ?>
           </ul>
         </div>
-      <?php endif; ?>
+    <?php endif; ?>
 
-      <div class="col-md-<?= $col ?> col-sm-<?= $colSM ?>">
-        <?=$this->record($this->driver)->getToolbar()?>
+      <div class="col-md-<?php echo $col ?> col-sm-<?php echo $colSM ?>">
+        <?php echo $this->record($this->driver)->getToolbar()?>
       </div>
   </div>
 
@@ -82,15 +86,15 @@
         <div class="thumbDetailView hidden-print">
             <?php /* Display thumbnail if appropriate: */ ?>
             <?php $mediumThumb = $viewRecord->getThumbnail('medium'); ?>
-            <img alt="<?= $this->transEsc('Cover Image') ?>" class="recordcover"
-                 src="<?= $this->escapeHtmlAttr($mediumThumb); ?>"/>
+            <img alt="<?php echo $this->transEsc('Cover Image') ?>" class="recordcover"
+                 src="<?php echo $this->escapeHtmlAttr($mediumThumb); ?>"/>
 
             <?php /* Display qrcode if appropriate: */ ?>
             <?php $QRCode = $viewRecord->getQRCode("core"); ?>
-            <?php if ($QRCode): ?>
+            <?php if ($QRCode) : ?>
                 <span class="hidden-xs">
-          <br/><img alt="<?= $this->transEsc('QR Code') ?>" class="qrcode"
-                    src="<?= $this->escapeHtmlAttr($QRCode); ?>"/>
+          <br/><img alt="<?php echo $this->transEsc('QR Code') ?>" class="qrcode"
+                    src="<?php echo $this->escapeHtmlAttr($QRCode); ?>"/>
         </span>
             <?php endif; ?>
         </div>
@@ -99,59 +103,61 @@
         // from this area of the record view, this can be split into
         // getPreviewData() (should stay here) and
         // getPreviewLink() (can go in your desired tab) ?>
-        <?= $viewRecord->getPreviews() ?>
+        <?php echo $viewRecord->getPreviews() ?>
     </div>
 
   <div class="row">
-  <?php if (count($this->tabs) > 0): ?>
+  <?php if (count($this->tabs) > 0) : ?>
     <a name="tabnav"></a>
     <ul class="recordTabs nav nav-tabs">
-      <?php foreach ($this->tabs as $tab => $obj): ?>
-      <?php // add current tab to breadcrumbs if applicable:
-        $desc = $obj->getDescription();
-        $isCurrent = (strtolower($this->activeTab) == strtolower($tab));
-        if ($isCurrent) {
-          $this->layout()->breadcrumbs .= '<li class="active">' . $this->transEsc($desc) . '</li>';
-          $activeTabObj = $obj;
-        }
+        <?php foreach ($this->tabs as $tab => $obj): ?>
+            <?php // add current tab to breadcrumbs if applicable:
+            $desc = $obj->getDescription();
+            $isCurrent = (strtolower($this->activeTab) == strtolower($tab));
+            if ($isCurrent) {
+                $this->layout()->breadcrumbs .= '<li class="active">' . $this->transEsc($desc) . '</li>';
+                $activeTabObj = $obj;
+            }
 
-        $tab_classes = [];
-        if ($isCurrent) $tab_classes[] = 'active';
-        if (!$obj->isVisible()) $tab_classes[] = 'hidden';
-        $tab_classes[] = $this->record($this->driver)->getTabVisibility($tab);
-      ?>
+            $tab_classes = [];
+            if ($isCurrent) { $tab_classes[] = 'active';
+            }
+            if (!$obj->isVisible()) { $tab_classes[] = 'hidden';
+            }
+            $tab_classes[] = $this->record($this->driver)->getTabVisibility($tab);
+            ?>
 
-      <li<?=count($tab_classes) > 0 ? ' class="' . implode(' ', $tab_classes) . '"' : ''?>>
-        <a id="<?=strtolower($tab) ?>" href="<?=$this->recordLink()->getTabUrl($this->driver, $tab)?>#tabnav"><?=$this->transEsc($desc)?></a>
+      <li<?php echo count($tab_classes) > 0 ? ' class="' . implode(' ', $tab_classes) . '"' : ''?>>
+        <a id="<?php echo strtolower($tab) ?>" href="<?php echo $this->recordLink()->getTabUrl($this->driver, $tab)?>#tabnav"><?php echo $this->transEsc($desc)?></a>
       </li>
-      <?php endforeach; ?>
+        <?php endforeach; ?>
     </ul>
   <?php endif; ?>
 
     <div class="tab-content" id="record-tabs">
-      <div class="tab-pane active" id="<?=$this->activeTab ?>-tab">
-        <?=isset($activeTabObj) ? $this->record($this->driver)->getTab($activeTabObj) : '' ?>
+      <div class="tab-pane active" id="<?php echo $this->activeTab ?>-tab">
+        <?php echo isset($activeTabObj) ? $this->record($this->driver)->getTab($activeTabObj) : '' ?>
       </div>
     </div>
   </div>
 
-    <div class="record recordId source<?= $this->escapeHtmlAttr($this->driver->getSourceIdentifier()) ?>" id="record">
-        <input type="hidden" value="<?= $this->escapeHtmlAttr($this->driver->getUniqueId()) ?>" class="hiddenId"
+    <div class="record recordId source<?php echo $this->escapeHtmlAttr($this->driver->getSourceIdentifier()) ?>" id="record">
+        <input type="hidden" value="<?php echo $this->escapeHtmlAttr($this->driver->getUniqueId()) ?>" class="hiddenId"
                id="record_id"/>
-        <input type="hidden" value="<?= $this->escapeHtmlAttr($this->driver->getSourceIdentifier()) ?>"
+        <input type="hidden" value="<?php echo $this->escapeHtmlAttr($this->driver->getSourceIdentifier()) ?>"
                class="hiddenSource"/>
-        <?= $this->flashmessages() ?>
-        <?= $this->record($this->driver)->getCoreMetadata() ?>
+        <?php echo $this->flashmessages() ?>
+        <?php echo $this->record($this->driver)->getCoreMetadata() ?>
     </div>
 
-    <span class="Z3988" title="<?=$this->escapeHtmlAttr($this->driver->getOpenURL())?>"></span>
+    <span class="Z3988" title="<?php echo $this->escapeHtmlAttr($this->driver->getOpenURL())?>"></span>
 </div>
 
-<?php if ($showSidebar): ?>
-    <div class="<?=$this->layoutClass('sidebar') ?>">
-        <?= $sidebarContent;?>
+<?php if ($showSidebar) : ?>
+    <div class="<?php echo $this->layoutClass('sidebar') ?>">
+        <?php echo $sidebarContent;?>
     </div>
 <?php else: ?>
-    <div class="<?=$this->layoutClass('sidebar') . ' invisible' ?>"></div>
+    <div class="<?php echo $this->layoutClass('sidebar') . ' invisible' ?>"></div>
     <script>OffCanvas.isActive = false;</script>
 <?php endif; ?>
