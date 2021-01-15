@@ -1,4 +1,32 @@
 <?php
+/**
+ * SwissCollections: SolrMarc.php
+ *
+ * PHP version 7
+ *
+ * Copyright (C) project swissbib, University Library Basel, Switzerland
+ * http://www.swisscollections.org  / http://www.swisscollections.ch / http://www.ub.unibas.ch
+ *
+ * Date: 1/12/20
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * @category SwissCollections_VuFind
+ * @package  SwissCollections\RecordDriver
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.swisscollections.org Project Wiki
+ */
 
 
 namespace SwissCollections\RecordDriver;
@@ -15,18 +43,26 @@ use SwissCollections\RenderConfig\SingleEntry;
 
 
 /**
- * Class SolrMarc
+ * Enhanced record driver which parses "detail-fields.csv".
  *
- * @package SwissCollections\RecordDriver
+ * @category SwissCollections_VuFind
+ * @package  SwissCollections\RecordDriver
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     https://vufind.org/wiki/development Wiki
  */
 class SolrMarc extends SwissbibSolrMarc
 {
     /**
+     * The information parsed from "detail-fields.csv".
+     *
      * @var RenderConfig
      */
     protected $renderConfig;
 
     /**
+     * The information read from "detail-view-field-structure.yaml".
+     *
      * @var ViewFieldInfo
      */
     protected $detailViewFieldInfo;
@@ -42,6 +78,18 @@ class SolrMarc extends SwissbibSolrMarc
     public static $MARC_MAPPING_MARC_SUBFIELD = 'subfield code';
     public static $MARC_MAPPING_CONDITION = 'subfield match condition';
 
+    /**
+     * SolrMarc constructor.
+     *
+     * @param mixed $mainConfig           the main config
+     * @param mixed $recordConfig         the record config
+     * @param mixed $searchSettings       the search settings
+     * @param mixed $holdingsHelper       the holdings helper
+     * @param mixed $solrDefaultAdapter   the solr adapter
+     * @param mixed $availabilityHelper   the availability helper
+     * @param mixed $libraryNetworkLookup the network helper
+     * @param mixed $logger               the logger
+     */
     public function __construct(
         $mainConfig = null, $recordConfig = null,
         $searchSettings = null, $holdingsHelper = null,
@@ -56,6 +104,8 @@ class SolrMarc extends SwissbibSolrMarc
     }
 
     /**
+     * Get the information from "detail-fields.csv".
+     *
      * @return RenderGroupConfig[]
      */
     public function getRenderConfig()
@@ -63,25 +113,49 @@ class SolrMarc extends SwissbibSolrMarc
         return $this->renderConfig->entries();
     }
 
+    /**
+     * Delegates to parent's method.
+     *
+     * @param int $index the marc index
+     *
+     * @return \Swissbib\RecordDriver\Array[]
+     */
     public function getMarcSubfieldsRaw($index)
     {
         return parent::getMarcSubfieldsRaw($index);
     }
 
+    /**
+     * Delegates to parent's method.
+     *
+     * @param int $index the marc index
+     *
+     * @return \File_MARC_Data_Field[]|\File_MARC_List
+     */
     public function getMarcFields($index)
     {
         return parent::getMarcFields($index);
     }
 
+    /**
+     * Delegates to parent's method.
+     *
+     * @param int    $index        the marc index
+     * @param string $subFieldCode the name of the subfield
+     *
+     * @return bool|String
+     */
     public function getSimpleMarcSubFieldValue($index, $subFieldCode)
     {
         return parent::getSimpleMarcSubFieldValue($index, $subFieldCode);
     }
 
     /**
-     * @param int $index
-     * @param int $indicator1 - required indicator
-     * @param int $indicator2 - required indicator
+     * Returns a map of subfield values.
+     *
+     * @param int $index      the marc index
+     * @param int $indicator1 required indicator (use -1 for no check)
+     * @param int $indicator2 required indicator (use -1 for no check)
      *
      * @return array array of maps of marc subfield names to values
      * @throws \File_MARC_Exception
@@ -109,16 +183,35 @@ class SolrMarc extends SwissbibSolrMarc
         return $fieldsData;
     }
 
+    /**
+     * Sets the information from "detail-view-field-structure.yaml".
+     *
+     * @param mixed $detailViewFieldInfo the data to set
+     *
+     * @return void
+     */
     public function setDetailViewFieldInfo($detailViewFieldInfo)
     {
         $this->detailViewFieldInfo = new ViewFieldInfo($detailViewFieldInfo);
     }
 
+    /**
+     * Sets the information parsed from "detail-fields.csv".
+     *
+     * @param mixed $fieldMarcMapping the csv's lines
+     *
+     * @return void
+     */
     public function setFieldMarcMapping($fieldMarcMapping)
     {
         $this->fieldMarcMapping = $fieldMarcMapping;
     }
 
+    /**
+     * Parse data read from "detail-fields.csv".
+     *
+     * @return void
+     */
     public function buildRenderInfo()
     {
         //        echo "<!-- CSV:\n " . print_r($this->fieldMarcMapping, true) . "-->\n";
@@ -127,10 +220,14 @@ class SolrMarc extends SwissbibSolrMarc
         $this->renderConfig = new RenderConfig();
 
         /**
+         * Contains the parsed data.
+         *
          * @var RenderGroupConfig
          */
         $renderGroup = null;
         /**
+         * The current field.
+         *
          * @var AbstractRenderConfigEntry
          */
         $renderGroupEntry = null;
@@ -223,9 +320,10 @@ class SolrMarc extends SwissbibSolrMarc
                             null, $fieldViewInfo
                         );
                     if ($this->detailViewFieldInfo->hasType($fieldViewInfo)) {
-                        $renderType = $this->detailViewFieldInfo->getType(
-                            $fieldViewInfo
-                        );
+                        $renderType
+                            = $this->detailViewFieldInfo->getType(
+                                $fieldViewInfo
+                            );
                     }
                 }
             }
@@ -236,8 +334,7 @@ class SolrMarc extends SwissbibSolrMarc
             // echo "<!-- SPECIAL: $groupName > $fieldName: rt=$renderType fc=" . $formatterConfig . " gc=" . $fieldGroupFormatter . " -->\n";
 
             if (!$renderGroupEntry
-                && ($renderType === 'compound'
-                || $renderType === 'sequences')
+                && ($renderType === 'compound' || $renderType === 'sequences')
             ) {
                 if ($renderType === 'compound') {
                     $renderGroupEntry = new CompoundEntry(
@@ -339,6 +436,11 @@ class SolrMarc extends SwissbibSolrMarc
         // echo "<!-- RC:\n " . $this->renderConfig . "-->\n";
     }
 
+    /**
+     * Sort groups by the order defined in "detail-view-field-structure.yaml".
+     *
+     * @return void
+     */
     protected function orderGroups()
     {
         $this->renderConfig->orderGroups($this->detailViewFieldInfo);
@@ -347,8 +449,8 @@ class SolrMarc extends SwissbibSolrMarc
     /**
      * Belongs a field to group of fields (with different conditions, marc indexes)?
      *
-     * @param String $groupName
-     * @param String $fieldName
+     * @param string $groupName the group's name
+     * @param string $fieldName the field's name
      *
      * @return bool
      */
@@ -360,8 +462,12 @@ class SolrMarc extends SwissbibSolrMarc
     }
 
     /**
-     * @param RenderGroupConfig|null         $renderGroup
-     * @param AbstractRenderConfigEntry|null $renderGroupEntry
+     * Helper method to finish the parsing of group of fields.
+     *
+     * @param RenderGroupConfig|null         $renderGroup      the group to "finish"
+     * @param AbstractRenderConfigEntry|null $renderGroupEntry the field to "finish"
+     *
+     * @return void
      */
     public function finishGroup(&$renderGroup, &$renderGroupEntry): void
     {
@@ -372,8 +478,12 @@ class SolrMarc extends SwissbibSolrMarc
     }
 
     /**
-     * @param RenderGroupConfig              $renderGroup
-     * @param AbstractRenderConfigEntry|null $renderGroupEntry
+     * Helper method to finish the parsing of one field.
+     *
+     * @param RenderGroupConfig              $renderGroup      the field's group
+     * @param AbstractRenderConfigEntry|null $renderGroupEntry the field to "finish"
+     *
+     * @return void
      */
     public function finishField(&$renderGroup, &$renderGroupEntry): void
     {
@@ -387,6 +497,15 @@ class SolrMarc extends SwissbibSolrMarc
         }
     }
 
+    /**
+     * Parses an indicator value. Writes html comments for failures.
+     *
+     * @param string $s         the indicator's value
+     * @param string $groupName the group's name of the indicator (for logging only)
+     * @param string $fieldName the fields's name of the indicator (for logging only)
+     *
+     * @return int
+     */
     protected function parseIndicator(String $s, $groupName, $fieldName)
     {
         $s = trim($s);
@@ -401,7 +520,11 @@ class SolrMarc extends SwissbibSolrMarc
     }
 
     /**
-     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field
+     * Check that the required indicators match the field's indicators. "-1"
+     * for a required indicator means to accept any field's indicator.
+     * Mismatches are logged to html with comments.
+     *
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field      the marc field
      * @param int                                            $indicator1 required indicator
      * @param int                                            $indicator2 required indicator
      *
@@ -428,8 +551,14 @@ class SolrMarc extends SwissbibSolrMarc
     }
 
     /**
-     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field
-     * @param SingleEntry                                    $elem
+     * Get the required data from the given marc field. Values are only used
+     * if the indicators match.
+     *
+     * Be aware that this method may return a list of values if the marc field
+     * contains several values.
+     *
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field the marc field
+     * @param SingleEntry                                    $elem  contains the required field names
      *
      * @return null|SubfieldRenderData
      */
@@ -452,8 +581,8 @@ class SolrMarc extends SwissbibSolrMarc
                 );
             } else {
                 if ($field instanceof \File_MARC_Control_Field) {
-                    if (!($elem->indicator1=== AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
-                        && $elem->indicator2=== AbstractRenderConfigEntry::$UNKNOWN_INDICATOR)
+                    if (!($elem->indicator1 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                        && $elem->indicator2 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR)
                     ) {
                         return null;
                     }
@@ -479,6 +608,15 @@ class SolrMarc extends SwissbibSolrMarc
         return null;
     }
 
+    /**
+     * Factory method to build a new {@link SubfieldRenderData} instance
+     * without indicator limitations.
+     *
+     * @param string $value      a subfield's value
+     * @param bool   $escapeHtml if html escaping is required (if false the value is already html escaped)
+     *
+     * @return SubfieldRenderData
+     */
     public function buildGenericSubMap($value, bool $escapeHtml
     ): SubfieldRenderData {
         return new SubfieldRenderData(
@@ -489,7 +627,15 @@ class SolrMarc extends SwissbibSolrMarc
         );
     }
 
-    public function normalizeIndicator(String $ind): int
+    /**
+     * Parse an indicator from text to number. Returns -1 if the text is empty
+     * or not a number.
+     *
+     * @param string $ind the indicator
+     *
+     * @return int
+     */
+    public function normalizeIndicator(string $ind): int
     {
         $ind = trim($ind);
         if (strlen($ind) === 0 || !ctype_digit($ind)) {
@@ -498,6 +644,13 @@ class SolrMarc extends SwissbibSolrMarc
         return intval($ind);
     }
 
+    /**
+     * Checks if the given "value" is empty.
+     *
+     * @param SubfieldRenderData $subfieldRenderData the value to check
+     *
+     * @return bool
+     */
     protected function isEmptyValue(SubfieldRenderData $subfieldRenderData
     ): bool {
         if (empty($subfieldRenderData)) {
@@ -507,11 +660,13 @@ class SolrMarc extends SwissbibSolrMarc
     }
 
     /**
-     * @param $field
-     * @param int $indicator1
-     * @param int $indicator2
+     * Returns a map of subfield names to their values.
      *
-     * @return array
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field      the marc field
+     * @param int                                            $indicator1 the required first indicator (-1 for any)
+     * @param int                                            $indicator2 the required second indicator (-1 for any)
+     *
+     * @return array array of subfield names to values
      */
     public function getMarcFieldRawMap($field, int $indicator1, int $indicator2
     ): array {
@@ -533,8 +688,8 @@ class SolrMarc extends SwissbibSolrMarc
         } else {
             if ($field instanceof \File_MARC_Control_Field) {
                 // only if no indicator limitation is expected ...
-                if ($indicator1=== AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
-                    && $indicator2=== AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                if ($indicator1 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                    && $indicator2 === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
                 ) {
                     $tempFieldData["a"] = $field->getData();
                 }
@@ -549,10 +704,10 @@ class SolrMarc extends SwissbibSolrMarc
     /**
      * Helper method to output raw marc field.
      *
-     * @param int $marcIndex
-     * @param $rawData
-     * @param int $ind1
-     * @param int $ind2
+     * @param int   $marcIndex the marc index
+     * @param mixed $rawData   a list of mixed
+     * @param int   $ind1      the field's first indicator
+     * @param int   $ind2      the field's second indicator
      *
      * @return string
      */
@@ -570,9 +725,7 @@ class SolrMarc extends SwissbibSolrMarc
         $result
             = "<b style='color: #ff888c;'>RAW</b> $marcIndex [$ind1Str|$ind2Str] <ul>";
         foreach ($rawData as $entry) {
-            /**
- * @noinspection CssUnknownTarget 
-*/
+            // @noinspection CssUnknownTarget
             $result .= "<li style='list-style: none; background: url(\"/themes/bootprint3/images/icons/arrow_right.png\") no-repeat 0 2px; padding-left: 20px;'><ul style='padding-left: 10px;'>";
             foreach ($entry as $innerEntry) {
                 $subfieldName = $innerEntry['tag'];
