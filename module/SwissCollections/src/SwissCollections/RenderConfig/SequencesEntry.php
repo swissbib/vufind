@@ -113,6 +113,19 @@ class SequencesEntry extends CompoundEntry
     }
 
     /**
+     * Build a lookup key.
+     *
+     * @param string $fieldSubfieldName the fields subfield name (column "Unterbezeichnung" in detail-fields.csv)
+     * @param string $marcSubfieldName  the marc subfield name (e.g. "a")
+     *
+     * @return string
+     */
+    protected function buildSubfieldName($fieldSubfieldName, $marcSubfieldName
+    ): string {
+        return $fieldSubfieldName . "-" . $marcSubfieldName;
+    }
+
+    /**
      * Searches a given subfield name in the given values and returns the containing value or null.
      *
      * @param String               $subfieldName the subfield's name to find
@@ -123,7 +136,11 @@ class SequencesEntry extends CompoundEntry
     protected function inValues($subfieldName, $values)
     {
         foreach ($values as $ffd) {
-            if ($ffd->renderConfig->labelKey === $subfieldName) {
+            $sn = $this->buildSubfieldName(
+                $ffd->renderConfig->subfieldName,
+                $ffd->renderConfig->getMarcSubfieldName()
+            );
+            if ($sn === $subfieldName) {
                 return $ffd;
             }
         }
@@ -135,7 +152,7 @@ class SequencesEntry extends CompoundEntry
      *
      * @param FieldFormatterData[] $values sort values by the values returned by {@link SequencesEntry::getEntryOrder}
      *
-     * @return void
+     * @return FieldFormatterData[]
      */
     protected function orderValues($values)
     {
@@ -154,7 +171,11 @@ class SequencesEntry extends CompoundEntry
                 }
             }
             foreach ($values as $v) {
-                if (!in_array($v->renderConfig->labelKey, $fieldNames)) {
+                $sn = $this->buildSubfieldName(
+                    $v->renderConfig->subfieldName,
+                    $v->renderConfig->getMarcSubfieldName()
+                );
+                if (!in_array($sn, $fieldNames)) {
                     $newEntries[] = $v;
                 }
             }
@@ -163,46 +184,37 @@ class SequencesEntry extends CompoundEntry
     }
 
     /**
-     * Checks whether a subfield sequence matches the current position in the
-     * subfield's value stream.
+     * Checks whether a subfield sequence matches the current field values.
      *
-     * @param array    $rawDataArray contains Objects with keys 'tag' and 'data'
-     * @param int      $index        the position in the subfield's value stream
-     * @param SolrMarc $solrMarc     the marc record
+     * @param array    $rawData  maps marc subfield names to their value
+     * @param SolrMarc $solrMarc the marc record
      *
      * @return FieldFormatterData[]
      */
-    public function matchesSubfieldSequence(&$rawDataArray, $index, &$solrMarc)
+    public function matchesSubfieldSequence(&$rawData, &$solrMarc)
     {
-        $len = count($rawDataArray);
+        $rawDataSubfieldNames = array_keys($rawData);
+        $rawDataSubfieldNamesLen = count($rawDataSubfieldNames);
         $values = [];
-        if (empty($this->sequences)) {
-            $subfieldName = $rawDataArray[$index]['tag'];
-            $text = $rawDataArray[$index]['data'];
-            $fieldFormatterData = $this->buildFieldFormatterData(
-                $subfieldName, $text, $solrMarc
-            );
-            $values[] = $fieldFormatterData;
-        } else {
-            foreach ($this->sequences as $seq) {
-                $pos = $index;
-                $values = [];
-                foreach ($seq as $subfieldName) {
-                    if ($pos >= $len) {
-                        continue 2;
-                    }
-                    if ($rawDataArray[$pos]['tag'] !== $subfieldName) {
-                        continue 2;
-                    }
-                    $text = $rawDataArray[$pos]['data'];
-                    $fieldFormatterData = $this->buildFieldFormatterData(
-                        $subfieldName, $text, $solrMarc
-                    );
-                    $values[] = $fieldFormatterData;
-                    $pos++;
+        foreach ($this->sequences as $seq) {
+            $pos = 0;
+            $values = [];
+            foreach ($seq as $subfieldName) {
+                if ($pos >= $rawDataSubfieldNamesLen) {
+                    continue 2;
                 }
-                break;
+                if ($rawDataSubfieldNames[$pos] !== $subfieldName) {
+                    continue 2;
+                }
+                $text = $rawData[$rawDataSubfieldNames[$pos]];
+                $fieldFormatterData = $this->buildFieldFormatterData(
+                    $subfieldName, $text, $solrMarc
+                );
+                $values[] = $fieldFormatterData;
+                $pos++;
             }
+            // echo "<!-- MATSEQ: " . implode("-", $seq) . " -->";
+            break;
         }
         // $this->elements are already ordered, but the $values are built from "sequences:" which
         // has to use its own sorting! so, re-sort $values too ...
@@ -220,8 +232,9 @@ class SequencesEntry extends CompoundEntry
             foreach ($seq as $marcSubfieldName) {
                 if (!$this->knowsSubfield($marcSubfieldName)) {
                     $this->addElement(
-                        $this->labelKey . "-" . $marcSubfieldName,
-                        $marcSubfieldName
+                        $this->buildSubfieldName(
+                            $this->subfieldName, $marcSubfieldName
+                        ), $marcSubfieldName
                     );
                 }
             }
@@ -239,28 +252,14 @@ class SequencesEntry extends CompoundEntry
      */
     public function render(&$field, &$context)
     {
-        if ($context->solrMarc->checkIndicators(
+        $rawData = $context->solrMarc->getMarcFieldRawMap(
             $field, $this->indicator1, $this->indicator2
-        )
-        ) {
-            $rawData = $context->solrMarc->getMarcSubfieldsRaw(
-                $this->marcIndex
-            );
-            foreach ($rawData as $entry) {
-                $entryLen = count($entry);
-                $index = 0;
-                while ($index < $entryLen) {
-                    $matchedValues = $this->matchesSubfieldSequence(
-                        $entry, $index, $context->solrMarc
-                    );
-                    if (!empty($matchedValues)) {
-                        $this->renderImpl($matchedValues, $context);
-                        $index += count($matchedValues);
-                    } else {
-                        $index++;
-                    }
-                }
-            }
+        );
+        $matchedValues = $this->matchesSubfieldSequence(
+            $rawData, $context->solrMarc
+        );
+        if (!empty($matchedValues)) {
+            $this->renderImpl($matchedValues, $context);
         }
     }
 

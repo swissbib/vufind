@@ -28,19 +28,20 @@ structure:
     groups:
       "Inhalt":
     fields:
-      "Inhalt-505":
+      "Inhalt-505": # multiple "Inhalt" are defined; use the one with marc index 505
         type: sequences
         formatter:
           name: inline
           separator: " / "
           # without "entries:" the order of the applied sequence is used (see "sequences:" below)
-          entries:
-            - name: "Inhalt3-r"
-            - name: "Inhalt3-t"
-            - name: "Inhalt3-g"
-            - name: "Inhalt3-a"
+          # without "Unterbezeichnung" for each marc subfield, use the marc subfield names instead
+#          entries:
+#            - name: "Inhalt3-r"
+#            - name: "Inhalt3-t"
+#            - name: "Inhalt3-g"
+#            - name: "Inhalt3-a"
         # note that "sequences:" entries are sorted to guarantee the "longest" match
-        # use "entries:" (see above) for another order of sequences
+        # use "entries:" (see above) for a different order of marc subfields
         sequences: # from Swissbib/RecordDriver/SolrMarc.php getTableOfContent()
           - [ "g", "t", "r" ]
           - [ "g", "t" ]
