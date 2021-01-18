@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         # Our PHP-FPM application
-        - image: registry.gitlab.com/swissbib/classic/vufind:swisscollections-SC-59-Kubernetes
+        - image: registry.gitlab.com/swissbib/classic/vufind:swisscollections
           name: vufind
           imagePullPolicy: Always
           envFrom:
