@@ -44,6 +44,13 @@ use SwissCollections\RecordDriver\SolrMarc;
 abstract class AbstractFieldCondition
 {
     /**
+     * Another condition.
+     *
+     * @var AbstractFieldCondition | null
+     */
+    protected $andCondition;
+
+    /**
      * Checks the given field. Returns true if the condition is fulfilled.
      *
      * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field    the marc field
@@ -51,7 +58,29 @@ abstract class AbstractFieldCondition
      *
      * @return bool
      */
-    public abstract function check($field, $solrMarc): bool;
+    protected abstract function check($field, $solrMarc): bool;
+
+    /**
+     * Checks the given field and all and'ed conditions. Returns true if all
+     * conditions are fulfilled.
+     *
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field    the marc field
+     * @param SolrMarc                                       $solrMarc the marc record
+     *
+     * @return bool
+     */
+    public function assertTrue($field, $solrMarc): bool
+    {
+        if (!$this->check($field, $solrMarc)) {
+            return false;
+        }
+        if (!empty($this->andCondition)) {
+            if (!$this->andCondition->assertTrue($field, $solrMarc)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Returns a string representation.
@@ -59,4 +88,45 @@ abstract class AbstractFieldCondition
      * @return string
      */
     public abstract function __toString();
+
+    /**
+     * Set another condition to test.
+     *
+     * @param AbstractFieldCondition $condition the condition to "and"
+     *
+     * @return void
+     */
+    public function setAndCondition(AbstractFieldCondition $condition)
+    {
+        if (empty($this->andCondition)) {
+            $this->andCondition = $condition;
+        } else {
+            if (empty($condition->andCondition)) {
+                $oldCondition = $this->andCondition;
+                $this->andCondition = $condition;
+                $condition->andCondition = $oldCondition;
+            } else {
+                $this->andCondition->setAndCondition($condition);
+            }
+        }
+    }
+
+    /**
+     * Connect conditions with "and".
+     *
+     * @param AbstractFieldCondition|null $condition1 first condition
+     * @param AbstractFieldCondition      $condition2 second condition
+     *
+     * @return AbstractFieldCondition|null
+     */
+    public static function buildAndCondition($condition1, $condition2)
+    {
+        if (empty($condition1)) {
+            return $condition2;
+        }
+        if (!empty($condition2)) {
+            $condition1->setAndCondition($condition2);
+        }
+        return $condition1;
+    }
 }

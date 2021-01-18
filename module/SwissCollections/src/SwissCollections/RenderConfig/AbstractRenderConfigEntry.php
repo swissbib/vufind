@@ -177,8 +177,10 @@ abstract class AbstractRenderConfigEntry
             . $this->labelKey . ","
             . $this->fieldName . ","
             . $this->subfieldName . ","
-            . $this->marcIndex . "," . $this->indicator1 . ","
+            . $this->marcIndex . ","
+            . $this->indicator1 . ","
             . $this->indicator2 . ","
+            . $this->subfieldCondition . ","
             . $this->formatterConfig . ","
             . $this->fieldGroupFormatter . "}";
     }
@@ -360,5 +362,22 @@ abstract class AbstractRenderConfigEntry
         if ($fieldGroupFormatter !== null) {
             $this->fieldGroupFormatter = $fieldGroupFormatter;
         }
+    }
+
+    /**
+     * Checks the given field and all and'ed conditions. Returns true if all
+     * conditions are fulfilled.
+     *
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field    the marc field
+     * @param SolrMarc                                       $solrMarc the marc record
+     *
+     * @return bool
+     */
+    public function checkCondition($field, $solrMarc): bool
+    {
+        if (empty($this->subfieldCondition)) {
+            return true;
+        }
+        return $this->subfieldCondition->assertTrue($field, $solrMarc);
     }
 }

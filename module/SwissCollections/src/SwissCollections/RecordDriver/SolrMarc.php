@@ -33,9 +33,11 @@ namespace SwissCollections\RecordDriver;
 
 use Laminas\Log\Logger;
 use Swissbib\RecordDriver\SolrMarc as SwissbibSolrMarc;
+use SwissCollections\RenderConfig\AbstractFieldCondition;
 use SwissCollections\RenderConfig\CompoundEntry;
 use SwissCollections\RenderConfig\ConstSubfieldCondition;
 use SwissCollections\RenderConfig\FormatterConfig;
+use SwissCollections\RenderConfig\IndicatorCondition;
 use SwissCollections\RenderConfig\SequencesEntry;
 use SwissCollections\RenderConfig\RenderConfig;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
@@ -154,16 +156,14 @@ class SolrMarc extends SwissbibSolrMarc
     /**
      * Returns a map of subfield values.
      *
-     * @param int $index      the marc index
-     * @param int $indicator1 required indicator (use -1 for no check)
-     * @param int $indicator2 required indicator (use -1 for no check)
+     * @param int                         $index          the marc index
+     * @param AbstractFieldCondition|null $fieldCondition field's condition
      *
      * @return array array of maps of marc subfield names to values
      * @throws \File_MARC_Exception
      */
-    public function getMarcFieldsRawMap(
-        int $index, int $indicator1, int $indicator2
-    ) {
+    public function getMarcFieldsRawMap(int $index, $fieldCondition)
+    {
         /**
          * Fields
          *
@@ -174,7 +174,7 @@ class SolrMarc extends SwissbibSolrMarc
 
         foreach ($fields as $field) {
             $tempFieldData = $this->getMarcFieldRawMap(
-                $field, $indicator1, $indicator2
+                $field, $fieldCondition
             );
             if (count($tempFieldData) > 0) {
                 $fieldsData[] = $tempFieldData;
@@ -287,25 +287,33 @@ class SolrMarc extends SwissbibSolrMarc
             $marcSubfieldName = trim(
                 $field[SolrMarc::$MARC_MAPPING_MARC_SUBFIELD]
             );
-            $marcIndicator1Str = trim(
+
+            $indicator1Condition = IndicatorCondition::buildIndicator1Condition(
                 $field[SolrMarc::$MARC_MAPPING_MARC_IND1]
             );
-            $marcIndicator2Str = trim(
+            $marcIndicator1 = empty($indicator1Condition)
+                ? AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                : $indicator1Condition->expectedValue;
+
+            $indicator2Condition = IndicatorCondition::buildIndicator2Condition(
                 $field[SolrMarc::$MARC_MAPPING_MARC_IND2]
             );
-            $marcIndicator1 = $this->parseIndicator(
-                $marcIndicator1Str, $groupName, $fieldName
+            $marcIndicator2 = empty($indicator2Condition)
+                ? AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                : $indicator2Condition->expectedValue;
+
+            $subfieldMatchCondition = AbstractFieldCondition::buildAndCondition(
+                $indicator1Condition, $indicator2Condition
             );
-            $marcIndicator2 = $this->parseIndicator(
-                $marcIndicator2Str, $groupName, $fieldName
-            );
-            $subfieldMatchCondition = ConstSubfieldCondition::parse(
-                trim(
-                    $field[SolrMarc::$MARC_MAPPING_CONDITION]
+            $subfieldMatchCondition = AbstractFieldCondition::buildAndCondition(
+                $subfieldMatchCondition,
+                ConstSubfieldCondition::parse(
+                    $field[SolrMarc::$MARC_MAPPING_CONDITION], $marcIndicator1,
+                    $marcIndicator2
                 )
             );
 
-            // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex|$marcIndicator1|$marcIndicator2|$marcSubfieldName|$subfieldMatchCondition -->\n";
+            echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex|$marcSubfieldName|$subfieldMatchCondition -->\n";
 
             // calculate render type and mode ...
             $renderType = 'single';
@@ -501,59 +509,6 @@ class SolrMarc extends SwissbibSolrMarc
     }
 
     /**
-     * Parses an indicator value. Writes html comments for failures.
-     *
-     * @param string $s         the indicator's value
-     * @param string $groupName the group's name of the indicator (for logging only)
-     * @param string $fieldName the fields's name of the indicator (for logging only)
-     *
-     * @return int
-     */
-    protected function parseIndicator(String $s, $groupName, $fieldName)
-    {
-        $s = trim($s);
-        if (strlen($s) === 0) {
-            return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
-        }
-        if (!ctype_digit($s)) {
-            echo "<!-- ERROR: SKIPPING BAD MARC INDICATOR $groupName > $fieldName: '$s' -->\n";
-            return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
-        }
-        return intval($s);
-    }
-
-    /**
-     * Check that the required indicators match the field's indicators. "-1"
-     * for a required indicator means to accept any field's indicator.
-     * Mismatches are logged to html with comments.
-     *
-     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field      the marc field
-     * @param int                                            $indicator1 required indicator
-     * @param int                                            $indicator2 required indicator
-     *
-     * @return bool if OK
-     */
-    public function checkIndicators($field, $indicator1, $indicator2): bool
-    {
-        try {
-            $ind1 = $this->normalizeIndicator($field->getIndicator(1));
-            $ind2 = $this->normalizeIndicator($field->getIndicator(2));
-            // match only if indicator was specified in csv file (-1 == undefined)
-            if (($indicator1 >= 0 && $ind1 !== $indicator1)
-                || ($indicator2 >= 0 && $ind2 !== $indicator2)
-            ) {
-                echo "<!-- WARN: INDICATOR MISMATCH needed: $indicator1|$indicator2, got: $ind1|$ind2 -->\n";
-                return false;
-            }
-        } catch (\Throwable $exception) {
-            echo "<!-- ERROR: Exception " . $exception->getMessage() . "\n"
-                . $exception->getTraceAsString() . " -->\n";
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Get the required data from the given marc field. Values are only used
      * if the indicators match.
      *
@@ -569,14 +524,11 @@ class SolrMarc extends SwissbibSolrMarc
     {
         try {
             if ($field instanceof \File_MARC_Data_Field) {
-                if (!$this->checkIndicators(
-                    $field, $elem->indicator1, $elem->indicator2
-                )
-                ) {
+                if (!$elem->checkCondition($field, $this)) {
                     return null;
                 }
-                $ind1 = $this->normalizeIndicator($field->getIndicator(1));
-                $ind2 = $this->normalizeIndicator($field->getIndicator(2));
+                $ind1 = IndicatorCondition::parse($field->getIndicator(1));
+                $ind2 = IndicatorCondition::parse($field->getIndicator(2));
                 $fieldMap = $elem->buildMap();
                 $fieldData = $this->getMappedFieldData($field, $fieldMap, true);
                 $subfieldRenderData = new SubfieldRenderData(
@@ -633,23 +585,6 @@ class SolrMarc extends SwissbibSolrMarc
     }
 
     /**
-     * Parse an indicator from text to number. Returns -1 if the text is empty
-     * or not a number.
-     *
-     * @param string $ind the indicator
-     *
-     * @return int
-     */
-    public function normalizeIndicator(string $ind): int
-    {
-        $ind = trim($ind);
-        if (strlen($ind) === 0 || !ctype_digit($ind)) {
-            return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
-        }
-        return intval($ind);
-    }
-
-    /**
      * Checks if the given "value" is empty.
      *
      * @param SubfieldRenderData $subfieldRenderData the value to check
@@ -667,18 +602,19 @@ class SolrMarc extends SwissbibSolrMarc
     /**
      * Returns a map of subfield names to their values.
      *
-     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field      the marc field
-     * @param int                                            $indicator1 the required first indicator (-1 for any)
-     * @param int                                            $indicator2 the required second indicator (-1 for any)
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field          the marc field
+     * @param AbstractFieldCondition|null                    $fieldCondition the field's conditions
      *
      * @return array array of subfield names to values
      */
-    public function getMarcFieldRawMap($field, int $indicator1, int $indicator2
-    ): array {
+    public function getMarcFieldRawMap($field, $fieldCondition): array
+    {
         $tempFieldData = [];
 
-        if ($field instanceof \File_MARC_Data_Field) {
-            if ($this->checkIndicators($field, $indicator1, $indicator2)) {
+        if (empty($fieldCondition)
+            || $fieldCondition->assertTrue($field, $this)
+        ) {
+            if ($field instanceof \File_MARC_Data_Field) {
                 /**
                  * Subfields
                  *
@@ -689,64 +625,15 @@ class SolrMarc extends SwissbibSolrMarc
                     $tempFieldData["" . $subfield->getCode()]
                         = $subfield->getData();
                 }
-            }
-        } else {
-            if ($field instanceof \File_MARC_Control_Field) {
-                // only if no indicator limitation is expected ...
-                if ($indicator1
-                    === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
-                    && $indicator2
-                    === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
-                ) {
-                    $tempFieldData["a"] = $field->getData();
-                }
             } else {
-                echo "<!-- WARN (getMarcSubfieldsRawMap): Can't handle field type: "
-                    . get_class($field) . " -->\n";
+                if ($field instanceof \File_MARC_Control_Field) {
+                    $tempFieldData["a"] = $field->getData();
+                } else {
+                    echo "<!-- WARN (getMarcSubfieldsRawMap): Can't handle field type: "
+                        . get_class($field) . " -->\n";
+                }
             }
         }
         return $tempFieldData;
     }
-
-    /**
-     * Helper method to output raw marc field.
-     *
-     * @param int   $marcIndex the marc index
-     * @param mixed $rawData   a list of mixed
-     * @param int   $ind1      the field's first indicator
-     * @param int   $ind2      the field's second indicator
-     *
-     * @return string
-     */
-    protected function mergeRawData(
-        int $marcIndex, $rawData, int $ind1, int $ind2
-    ) {
-        $ind1Str = "" . $ind1;
-        $ind2Str = "" . $ind2;
-        if ($ind1 < 0) {
-            $ind1Str = "";
-        }
-        if ($ind2 < 0) {
-            $ind2Str = "";
-        }
-        $result
-            = "<b style='color: #ff888c;'>RAW</b> $marcIndex [$ind1Str|$ind2Str] <ul>";
-        foreach ($rawData as $entry) {
-            // @noinspection CssUnknownTarget
-            $result .= "<li style='list-style: none; background: url(\"/themes/bootprint3/images/icons/arrow_right.png\") no-repeat 0 2px; padding-left: 20px;'><ul style='padding-left: 10px;'>";
-            foreach ($entry as $innerEntry) {
-                $subfieldName = $innerEntry['tag'];
-                $subfieldValue = $innerEntry['data'];
-                if (!empty($subfieldValue)) {
-                    $result .= "<li style='list-style: disc;'><b>"
-                        . $subfieldName . "</b>: " . htmlspecialchars(
-                            $subfieldValue
-                        ) . "</li>";
-                }
-            }
-            $result .= "</ul></li>";
-        }
-        return $result . "</ul>";
-    }
-
 }

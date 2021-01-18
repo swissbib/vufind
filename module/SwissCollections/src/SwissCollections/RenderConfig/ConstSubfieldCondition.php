@@ -33,7 +33,7 @@ namespace SwissCollections\RenderConfig;
 use SwissCollections\RecordDriver\SolrMarc;
 
 /**
- * Special field condition to compare a given marc subfield' value to a given
+ * Special field condition to compare a given marc subfield's value to a given
  * string.
  *
  * @category SwissCollections_VuFind
@@ -59,15 +59,37 @@ class ConstSubfieldCondition extends AbstractFieldCondition
     protected $expectedValue;
 
     /**
-     * SubfieldCondition constructor.
+     * Expected value of indicator 1
+     * ({@link AbstractRenderConfigEntry::$UNKNOWN_INDICATOR} if unset)
      *
-     * @param string $subfieldName
-     * @param string $expectedValue
+     * @var int
      */
-    public function __construct(string $subfieldName, string $expectedValue)
-    {
+    protected $expectedIndicator1;
+
+    /**
+     * Expected value of indicator 2
+     * ({@link AbstractRenderConfigEntry::$UNKNOWN_INDICATOR} if unset)
+     *
+     * @var int
+     */
+    protected $expectedIndicator2;
+
+    /**
+     * ConstSubfieldCondition constructor.
+     *
+     * @param string $subfieldName       the subfield's name to check
+     * @param string $expectedValue      the expected value
+     * @param int    $expectedIndicator1 the expected first indicator
+     * @param int    $expectedIndicator2 the expected second indicator
+     */
+    public function __construct(
+        string $subfieldName, string $expectedValue, $expectedIndicator1,
+        $expectedIndicator2
+    ) {
         $this->subfieldName = $subfieldName;
         $this->expectedValue = $expectedValue;
+        $this->expectedIndicator1 = $expectedIndicator1;
+        $this->expectedIndicator2 = $expectedIndicator2;
     }
 
 
@@ -79,10 +101,10 @@ class ConstSubfieldCondition extends AbstractFieldCondition
      *
      * @return bool
      */
-    public function check($field, $solrMarc): bool
+    protected function check($field, $solrMarc): bool
     {
-        $anyInd = AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
-        $subfieldMap = $solrMarc->getMarcFieldRawMap($field, $anyInd, $anyInd);
+        // indicators are checked too, so no need to do it twice
+        $subfieldMap = $solrMarc->getMarcFieldRawMap($field, null);
         $subfieldValue = $subfieldMap[$this->subfieldName];
         if (!empty($subfieldValue)) {
             $subfieldValue = trim($subfieldValue);
@@ -90,18 +112,24 @@ class ConstSubfieldCondition extends AbstractFieldCondition
                 return true;
             }
         }
+        echo "<!-- " . $field->getTag()
+            . " CONDITION FAILED: Constant $this, got " . $subfieldValue
+            . " -->";
         return false;
     }
 
     /**
      * Creates a new instance from the given text.
      *
-     * @param string $text the text has the format: $SubfieldName=text
+     * @param string $text               the text has the format: $SubfieldName=text
+     * @param int    $expectedIndicator1 the expected first indicator
+     * @param int    $expectedIndicator2 the expected second indicator
      *
      * @return ConstSubfieldCondition|null
      */
-    public static function parse(string $text)
-    {
+    public static function parse(
+        string $text, int $expectedIndicator1, int $expectedIndicator2
+    ) {
         $text = trim($text);
         if (preg_match("/[$]([^=]+)=(.+)/", $text, $matches) === 1) {
             $subfieldName = trim($matches[1]);
@@ -110,7 +138,8 @@ class ConstSubfieldCondition extends AbstractFieldCondition
                 // "???" is used in csv to mark unknown subfield in condition
                 if (strpos($subfieldName, "?") === false) {
                     return new ConstSubfieldCondition(
-                        $subfieldName, $expectedValue
+                        $subfieldName, $expectedValue, $expectedIndicator1,
+                        $expectedIndicator2
                     );
                 }
             }

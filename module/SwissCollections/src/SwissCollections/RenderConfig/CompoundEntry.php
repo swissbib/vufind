@@ -181,17 +181,15 @@ class CompoundEntry extends AbstractRenderConfigEntry
         // if no subfields are specified, get all
         if (empty($this->elements)) {
             $fieldValueMap = $context->solrMarc->getMarcFieldRawMap(
-                $field, $this->indicator1, $this->indicator2
+                $field, $this->subfieldCondition
             );
             $ind1 = AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
             $ind2 = AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
             if ($field instanceof \File_MARC_Data_Field) {
-                // @noinspection PhpUnhandledExceptionInspection
-                $ind1 = $context->solrMarc->normalizeIndicator(
+                $ind1 = IndicatorCondition::parse(
                     $field->getIndicator(1)
                 );
-                // @noinspection PhpUnhandledExceptionInspection
-                $ind2 = $context->solrMarc->normalizeIndicator(
+                $ind2 = IndicatorCondition::parse(
                     $field->getIndicator(2)
                 );
             }
@@ -233,7 +231,7 @@ class CompoundEntry extends AbstractRenderConfigEntry
         // all values matching the required indicators are shown if no subfields are specified
         if (empty($this->elements)) {
             $rawData = $solrMarc->getMarcFieldRawMap(
-                $field, $this->indicator1, $this->indicator2
+                $field, $this->subfieldCondition
             );
             return !empty($rawData);
         } else {
