@@ -640,7 +640,7 @@ class SolrMarc extends SwissbibSolrMarc
                  */
                 $subfields = $field->getSubfields();
                 foreach ($subfields as $marcSubfield) {
-                    if (!in_array($marcSubfield, $hiddenMarcSubfields)) {
+                    if (!in_array($marcSubfield->getCode(), $hiddenMarcSubfields)) {
                         $tempFieldData["" . $marcSubfield->getCode()]
                             = $marcSubfield->getData();
                     }
