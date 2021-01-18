@@ -4,7 +4,7 @@ $this->headTitle("swissbib : " . $this->translate('Search Home') . " | " . $this
 
 // Set default value if necessary:
 if (!isset($this->searchClassId)) {
-  $this->searchClassId = 'Solr';
+    $this->searchClassId = 'Solr';
 }
 
 /*
@@ -17,19 +17,19 @@ $advSearch = $options->getAdvancedSearchAction();
 $this->layout()->breadcrumbs = false;
 
 if (!isset($this->layout()->searchbox)) {
-  $this->layout()->searchbox = $this->render('search/searchbox.phtml');
+    $this->layout()->searchbox = $this->render('search/searchbox.phtml');
 }
 ?>
-<?php if ($this->ils()->getOfflineMode() == "ils-offline"): ?>
+<?php if ($this->ils()->getOfflineMode() == "ils-offline") : ?>
   <div class="searchHomeContent">
     <div class="alert alert-warning">
-      <h2><?= $this->transEsc('ils_offline_title') ?></h2>
+      <h2><?php echo $this->transEsc('ils_offline_title') ?></h2>
 
-      <p><strong><?= $this->transEsc('ils_offline_status') ?></strong></p>
+      <p><strong><?php echo $this->transEsc('ils_offline_status') ?></strong></p>
 
-      <p><?= $this->transEsc('ils_offline_home_message') ?></p>
+      <p><?php echo $this->transEsc('ils_offline_home_message') ?></p>
       <?php $supportEmail = $this->escapeHtmlAttr($this->systemEmail()); ?>
-      <p><a href="mailto:<?= $supportEmail ?>"><?= $supportEmail ?></a></p>
+      <p><a href="mailto:<?php echo $supportEmail ?>"><?php echo $supportEmail ?></a></p>
     </div>
   </div>
 <?php endif; ?>
@@ -39,17 +39,17 @@ if (!isset($this->layout()->searchbox)) {
     <div class="row searchHomeContent">
       <div class="col-sm-6 col-md-4 swissbibCustom">
         <div class="row">
-        <?= $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_1'); ?>
+        <?php echo $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_1'); ?>
         </div>
       </div>
       <div class="col-sm-6 col-md-4 swissbibCustom">
         <div class="row">
-          <?= $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_2'); ?>
+          <?php echo $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_2'); ?>
         </div>
       </div>
         <div class="col-sm-6 col-md-4 swissbibCustom">
             <div class="row">
-                <?= $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_3'); ?>
+                <?php echo $this->render('search/homeElements/' . $this->layout()->userLang . '/swissbib_content_3'); ?>
             </div>
         </div>
     </div>

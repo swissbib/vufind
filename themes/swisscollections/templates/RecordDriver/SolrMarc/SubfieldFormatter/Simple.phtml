@@ -1,6 +1,6 @@
 <?php
 /**
- * SwissCollections: Inline.phtml
+ * SwissCollections: Simple.phtml
  *
  * PHP version 7
  *
@@ -22,28 +22,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category SwissCollections_VuFind
- * @package  SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter
+ * @package  SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter
  * @author   Lionel Walter <lionel.walter@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swisscollections.org Project Wiki
  */
 
-namespace SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter;
+namespace SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter;
 
 use SwissCollections\Formatter\FieldFormatter;
 use SwissCollections\Formatter\FieldFormatterData;
+use SwissCollections\Formatter\SubfieldFormatter;
 use SwissCollections\RecordDriver\FieldRenderContext;
 
 /**
- * Render subfield values inline to html.
+ * Render subfield value as inline html.
  *
  * @category SwissCollections_VuFind
- * @package  SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter
+ * @package  SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter
  * @author   Lionel Walter <lionel.walter@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class Inline extends FieldFormatter
+class Simple extends SubfieldFormatter
 {
     /**
      * Get the formatter's name.
@@ -52,45 +53,28 @@ class Inline extends FieldFormatter
      */
     public function getName(): string
     {
-        return "inline";
+        return "simple";
     }
 
     /**
-     * Render subfields values to html.
+     * Render a subfield value to html.
      *
-     * @param string             $fieldName     the field's name
-     * @param FieldFormatterData $fieldDataList the field's values
-     * @param FieldRenderContext $context       the render context
+     * @param string             $fieldName the field's name
+     * @param FieldFormatterData $data      the subfield's value
+     * @param FieldRenderContext $context   the render context
      *
      * @return void
      */
-    public function render($fieldName, $fieldDataList, $context): void
+    public function render($fieldName, $data, $context): void
     {
-        echo "\t\t<div class='field-value field-value-compound field-value-"
-            . $fieldName . "'>\n";
-        foreach ($fieldDataList as $index => $fd) {
-            $separator = $this->getSeparator($fd);
-            if ($index > 0) {
-                echo $separator;
-            }
-            // echo "\n\t\t\t<!-- marcInfo=" . $fd->renderConfig . " -->\n";
-            echo "<span class='field-entry field-entry-"
-                . $fd->renderConfig->labelKey . "'>";
-            $this->outputValue($fd, $context);
-            echo "</span>";
+        echo "<span class='subfield-formatter-" . $this->getName() . "'>";
+        if ($data->subfieldRenderData->escHtml) {
+            echo $this->phpRenderer->escapeHtml(
+                $data->subfieldRenderData->value
+            );
+        } else {
+            echo $data->subfieldRenderData->value;
         }
-        echo "\n\t\t</div>\n";
-    }
-
-    /**
-     * Get the configured subfield value separator from the render config.
-     *
-     * @param FieldFormatterData $fd the field's values and render config
-     *
-     * @return string
-     */
-    protected function getSeparator($fd): string
-    {
-        return $fd->renderConfig->getFormatterConfig()->getSeparator();
+        echo "</span>";
     }
 }

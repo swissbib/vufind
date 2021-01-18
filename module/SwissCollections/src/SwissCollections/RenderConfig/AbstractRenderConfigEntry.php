@@ -1,162 +1,364 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: ballmann
- * Date: 12/4/20
- * Time: 8:24 AM
+ * SwissCollections: AbstractRenderConfigEntry.php
+ *
+ * PHP version 7
+ *
+ * Copyright (C) project swissbib, University Library Basel, Switzerland
+ * http://www.swisscollections.org  / http://www.swisscollections.ch / http://www.ub.unibas.ch
+ *
+ * Date: 1/12/20
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * @category SwissCollections_VuFind
+ * @package  SwissCollections\RenderConfig
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://www.swisscollections.org Project Wiki
  */
 
 namespace SwissCollections\RenderConfig;
 
 use SwissCollections\Formatter\FieldFormatterData;
 use SwissCollections\RecordDriver\FieldRenderContext;
+use SwissCollections\RecordDriver\SolrMarc;
 
-abstract class AbstractRenderConfigEntry {
+/**
+ * Class AbstractRenderConfigEntry.
+ *
+ * This class represents all common configuration options of
+ * a marc field. The class fields correspond to the columns in
+ * detail-fields.csv.
+ *
+ * @category SwissCollections_VuFind
+ * @package  SwissCollections\RenderConfig
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
+ */
+abstract class AbstractRenderConfigEntry
+{
     /**
+     * The group's name from detail-fields.csv, column "Gruppierungsname / Oberbegriff".
+     *
+     * @var String
+     */
+    public $groupName;
+    /**
+     * The field's name from detail-fields.csv, column "Bezeichnung".
+     *
+     * @var String
+     */
+    public $fieldName;
+    /**
+     * The subfield's name from detail-fields.csv, column "Unterbezeichnung".
+     *
+     * @var String
+     */
+    public $subfieldName;
+    /**
+     * A synthetic key used especially for translations of this field's name.
+     *
      * @var String
      */
     public $labelKey;
     /**
+     * The marc index from from detail-fields.csv, column "datafield tag".
+     *
      * @var int
      */
     public $marcIndex;
     /**
+     * The first indicator from from detail-fields.csv, column "datafield ind1".
+     *
      * @var int
      */
     public $indicator1;
     /**
+     * The second indicator from from detail-fields.csv, column "datafield ind2".
+     *
      * @var int
      */
     public $indicator2;
-
     /**
-     * @var bool
+     * The condition  from from detail-fields.csv, column "subfield match condition".
+     *
+     * @var AbstractFieldCondition|null
      */
-    public $repeated;
+    public $subfieldCondition;
 
     /**
-     * @var mixed | null
+     * The field formatter to apply.
+     *
+     * @var FormatterConfig
      */
-    protected $fieldViewInfo;
+    protected $formatterConfig;
 
     /**
-     * @var String $renderMode is a FieldFormatter's name
-     */
-    protected $renderMode;
-
-    /**
-     * @var String
-     */
-    protected $listStartHml;
-
-    /**
-     * @var String
-     */
-    protected $listEndHml;
-
-    /**
-     * @var String
+     * The group formater to apply.
+     *
+     * @var FormatterConfig
      */
     protected $fieldGroupFormatter;
 
     public static $UNKNOWN_INDICATOR = -1;
 
-    public function __construct(String $labelKey, int $marcIndex, int $indicator1, int $indicator2) {
-        $this->labelKey = $labelKey;
+    /**
+     * AbstractRenderConfigEntry constructor.
+     *
+     * @param string                      $groupName       the group's name from detail-fields.csv, column "Gruppierungsname / Oberbegriff"
+     * @param string                      $fieldName       the field's name from detail-fields.csv, column "Bezeichnung"
+     * @param string                      $subfieldName    the subfield's name from detail-fields.csv, column "Unterbezeichnung"
+     * @param int                         $marcIndex       the marc index from from detail-fields.csv, column "datafield tag"
+     * @param FormatterConfig             $formatterConfig the formatter to apply
+     * @param int                         $indicator1      the first indicator from from detail-fields.csv, column "datafield ind1"
+     * @param int                         $indicator2      the second indicator from from detail-fields.csv, column "datafield ind2"
+     * @param AbstractFieldCondition|null $condition       the condition  from from detail-fields.csv, column "subfield match condition"
+     */
+    public function __construct(
+        $groupName, $fieldName, $subfieldName, $marcIndex,
+        $formatterConfig, $indicator1, $indicator2, $condition
+    ) {
+        $this->groupName = $groupName;
+        $this->fieldName = $fieldName;
+        $this->subfieldName = $subfieldName;
         $this->marcIndex = $marcIndex;
         $this->indicator1 = $indicator1;
         $this->indicator2 = $indicator2;
-        $this->repeated = false;
+        $this->formatterConfig = $formatterConfig;
+        $this->subfieldCondition = $condition;
+        $this->labelKey = AbstractRenderConfigEntry::buildLabelKey(
+            $groupName, $subfieldName
+        );
     }
 
-    public function setRenderMode(String $name) {
-        $this->renderMode = $name;
+    /**
+     * Build the translation lookup key.
+     *
+     * @param string $groupName    the group's name
+     * @param string $subfieldName the subfield's name
+     *
+     * @return string
+     */
+    public static function buildLabelKey(string $groupName, string $subfieldName
+    ): string {
+        return $groupName . "." . $subfieldName;
     }
 
-    public function getRenderMode(): String {
-        return $this->renderMode;
+    /**
+     * Returns the formatter's name.
+     *
+     * @return string
+     */
+    public function getRenderMode(): string
+    {
+        return $this->formatterConfig->getFormatterName();
     }
 
-    public function __toString() {
-        return "RenderConfigEntry{" . $this->labelKey . ","
-            . $this->marcIndex . "," . $this->indicator1 . "," . $this->indicator2
-            . "," . $this->repeated . "," . $this->renderMode . "}";
+    /**
+     * Returns a string represenation.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return "AbstractRenderConfigEntry{"
+            . $this->labelKey . ","
+            . $this->fieldName . ","
+            . $this->subfieldName . ","
+            . $this->marcIndex . "," . $this->indicator1 . ","
+            . $this->indicator2 . ","
+            . $this->formatterConfig . ","
+            . $this->fieldGroupFormatter . "}";
     }
 
-    public function orderEntries() {
+    /**
+     * Sort "elements".
+     *
+     * @return void
+     */
+    public function orderEntries()
+    {
         // NOP
     }
 
     /**
-     * Not used in this class.
+     * Returns all subfield values to render to html which fit this field
+     * configuration.
      *
-     * @param \File_MARC_Control_Field|\File_MARC_Field $field
-     * @param FieldRenderContext $context
-     * @return array of 2 elements: FieldFormatterData[] and lookup key (String)
+     * @param \File_MARC_Control_Field|\File_MARC_Field $field   all available marc subfield values
+     * @param FieldRenderContext                        $context the render context
+     *
+     * @return FieldFormatterData[]
      */
-    public function getAllRenderData(&$field, &$context): array {
-        return array([], "");
-    }
-
-    public function setListHtml(String $start, String $end): void {
-        $this->listStartHml = $start;
-        $this->listEndHml = $end;
+    public function getAllRenderData(&$field, &$context): array
+    {
+        return [];
     }
 
     /**
-     * @param FieldFormatterData[] $values
-     * @param String $lookupKey
-     * @param FieldRenderContext $context
+     * Contains the given marc field subfields to render to html?
+     *
+     * @param \File_MARC_Control_Field|\File_MARC_Field $field    the marc field
+     * @param SolrMarc                                  $solrMarc the marc record
+     *
+     * @return bool
      */
-    protected function renderImpl(&$values, $lookupKey, &$context) {
-        if (count($values) > 0 && !$context->alreadyProcessed($lookupKey)) {
-            if ($this->repeated) {
-                echo $this->listStartHml;
+    public function hasRenderData(&$field, $solrMarc): bool
+    {
+        return true;
+    }
+
+    /**
+     * Exist values to render to html for this configuration?
+     *
+     * @param SolrMarc $solrMarc the marc record
+     *
+     * @return bool
+     */
+    public function isEmpty(SolrMarc $solrMarc): bool
+    {
+        $fields = $solrMarc->getMarcFields($this->marcIndex);
+        if (!empty($fields)) {
+            foreach ($fields as $field) {
+                if ($this->hasRenderData($field, $solrMarc)) {
+                    return false;
+                }
             }
-            $context->applyFieldFormatter($lookupKey, $values, $this->renderMode, $this->labelKey);
-            if ($this->repeated) {
-                echo $this->listEndHml;
+        }
+        return true;
+    }
+
+    /**
+     * Create a lookup key to avoid the output of duplicate values to html.
+     *
+     * @param FieldFormatterData[] $fieldFormatterDataList the values to render to html
+     *
+     * @return string
+     */
+    public function calculateRenderDataLookupKey($fieldFormatterDataList
+    ): string {
+        $key = "";
+        foreach ($fieldFormatterDataList as $ffd) {
+            $key = $key . "{}" . $ffd->subfieldRenderData->asLookupKey();
+        }
+        return $key;
+    }
+
+    /**
+     * Set the html code to output around all list items.
+     *
+     * @param string $start contains the html to render before all list items
+     * @param string $end   contains the html to render after all list items
+     *
+     * @return void
+     */
+    public function setListHtml(string $start, string $end): void
+    {
+        $this->formatterConfig->setListHtml($start, $end);
+    }
+
+    /**
+     * Render the given field values to html.
+     *
+     * @param FieldFormatterData[] $values  the field values to rendern
+     * @param FieldRenderContext   $context the render context
+     *
+     * @return void
+     */
+    public function renderImpl(&$values, &$context)
+    {
+        $lookupKey = $this->calculateRenderDataLookupKey($values);
+        if (count($values) > 0 && !$context->alreadyProcessed($lookupKey)) {
+            if ($this->formatterConfig->isRepeated()) {
+                echo $this->formatterConfig->listStartHml;
+            }
+            $this->applyFormatter($lookupKey, $values, $context);
+            if ($this->formatterConfig->isRepeated()) {
+                echo $this->formatterConfig->listEndHml;
+            }
+        } else {
+            if (count($values) > 0 && $context->alreadyProcessed($lookupKey)) {
+                echo "<!-- DEDUP: " . print_r($values, true) . " -->\n";
             }
         }
     }
 
     /**
-     * @param \File_MARC_Control_Field|\File_MARC $field
-     * @param FieldRenderContext $context
+     * Apply the configured formatter to given field values.
+     *
+     * @param String               $lookupKey a hash key of the values for quick lookup
+     * @param FieldFormatterData[] $values    the field values to render to html
+     * @param FieldRenderContext   $context   the render context
+     *
+     * @return void
      */
-    public function render(&$field, &$context) {
-        list($values, $lookupKey) = $this->getAllRenderData($field, $context);
-        $this->renderImpl($values, $lookupKey, $context);
+    public function applyFormatter($lookupKey, &$values, $context)
+    {
+        $context->applyFieldFormatter(
+            $lookupKey, $values, $this->getRenderMode(), $this->labelKey,
+            $context
+        );
     }
 
     /**
-     * Raw field view info for this marc field from "detail-view-field-structure.yaml".
-     * @param mixed|null $fieldViewInfo
+     * Render the given field values to html.
+     *
+     * @param \File_MARC_Control_Field|\File_MARC $field   the marc field to render
+     * @param FieldRenderContext                  $context the render context
+     *
+     * @return void
      */
-    public function setFieldViewInfo($fieldViewInfo) {
-        $this->fieldViewInfo = $fieldViewInfo;
+    public function render(&$field, &$context)
+    {
+        $values = $this->getAllRenderData($field, $context);
+        $this->renderImpl($values, $context);
     }
 
     /**
-     * Returns an associative array of config options from detail-view-field-structure.yaml for this
+     * Returns an object of config options from detail-view-field-structure.yaml for this
      * marc field.
-     * @return mixed|null
+     *
+     * @return FormatterConfig
      */
-    public function getFieldViewInfo() {
-        return $this->fieldViewInfo;
+    public function getFormatterConfig()
+    {
+        return $this->formatterConfig;
     }
 
     /**
-     * @return String|null
+     * Get the configured field group formatter.
+     *
+     * @return FormatterConfig|null
      */
-    public function getFieldGroupFormatter() {
+    public function getFieldGroupFormatter()
+    {
         return $this->fieldGroupFormatter;
     }
 
     /**
-     * @param String|null $fieldGroupFormatter
+     * Set the field group formatter.
+     *
+     * @param FormatterConfig|null $fieldGroupFormatter an instance
+     *
+     * @return void
      */
-    public function setFieldGroupFormatter($fieldGroupFormatter): void {
-        $this->fieldGroupFormatter = $fieldGroupFormatter;
+    public function setFieldGroupFormatter($fieldGroupFormatter): void
+    {
+        // keep default formatter object
+        if ($fieldGroupFormatter !== null) {
+            $this->fieldGroupFormatter = $fieldGroupFormatter;
+        }
     }
 }

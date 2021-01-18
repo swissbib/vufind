@@ -3,24 +3,25 @@
     <?php $user = $this->auth()->isLoggedIn(); ?>
     <?php $displayTestSystem = $this->configAccess()->Site->displayTestSystem; ?>
     <?php $displayTestSystem = !empty($displayTestSystem) && ($displayTestSystem == "true" || $displayTestSystem == "1") ? "1" : 0; ?>
-    <?php if (!isset($this->layout()->renderingError)): ?>
+    <?php if (!isset($this->layout()->renderingError)) : ?>
         <div class="col-md-12">
-            <?php if (isset($this->configAccess()->Survey)): ?>
+            <?php if (isset($this->configAccess()->Survey)) : ?>
                 <?php
-                if ($this->layout()->userLang == "en") $surveyUrl = $this->configAccess()->Survey->url_en;
-                elseif ($this->layout()->userLang == "de") $surveyUrl = $this->configAccess()->Survey->url_de;
-                elseif ($this->layout()->userLang == "fr") $surveyUrl = $this->configAccess()->Survey->url_fr;
-                elseif ($this->layout()->userLang == "it") $surveyUrl = $this->configAccess()->Survey->url_it;
+                if ($this->layout()->userLang == "en") { $surveyUrl = $this->configAccess()->Survey->url_en;
+                } elseif ($this->layout()->userLang == "de") { $surveyUrl = $this->configAccess()->Survey->url_de;
+                } elseif ($this->layout()->userLang == "fr") { $surveyUrl = $this->configAccess()->Survey->url_fr;
+                } elseif ($this->layout()->userLang == "it") { $surveyUrl = $this->configAccess()->Survey->url_it;
+                }
                 ?>
                 <?php $cookieName = $this->configAccess()->Survey->cookieName; ?>
                 <?php $cookiePersistenceInDays = $this->configAccess()->Survey->cookiePersistenceInDays; ?>
-                <?php if (isset($surveyUrl) && !isset($_COOKIE[$cookieName])): ?>
+                <?php if (isset($surveyUrl) && !isset($_COOKIE[$cookieName])) : ?>
                     <?php $expires = date("D, d M Y H:i:s", strtotime("+" . $cookiePersistenceInDays . "days")); ?>
                     <div class="row">
                         <div style="background-color:#fdeb18;padding:5px;text-align:center;border-radius:3px">
-                            <a style="color:green;" href="<?= $surveyUrl ?>" target="_blank"
-                               onclick="document.cookie='<?= $cookieName ?>=clicked; expires=<?= $expires ?>; path=/'">
-                                <?= $this->transEsc("survey.notification") ?>
+                            <a style="color:green;" href="<?php echo $surveyUrl ?>" target="_blank"
+                               onclick="document.cookie='<?php echo $cookieName ?>=clicked; expires=<?php echo $expires ?>; path=/'">
+                                <?php echo $this->transEsc("survey.notification") ?>
                             </a>
                         </div>
                     </div>
@@ -28,78 +29,81 @@
             <?php endif; ?>
             <div class="collapse navbar-collapse" id="header-collapse">
                 <ul role="navigation" class="nav navbar-nav navbar-right">
-                    <?php if ($displayTestSystem): ?>
+                    <?php if ($displayTestSystem) : ?>
                         <li class="alert alert-danger">Testsystem!!!</li>
                     <?php endif; ?>
 
                     <?php $cart = $this->cart();
-                    if ($cart->isActive()): ?>
+                    if ($cart->isActive()) : ?>
                         <li id="cartSummary">
-                            <a id="cartItems" class="modal-link" title="<?= $this->transEsc('View Book Bag') ?>"
-                               href="<?= $this->url('cart-home') ?>"><i class="fa fa-suitcase"></i>
-                                <strong><?= count($cart->getItems()) ?></strong> <?= $this->transEsc('items') ?><?= $cart->isFull() ? ' (' . $this->transEsc('bookbag_full') . ')' : '' ?>
+                            <a id="cartItems" class="modal-link" title="<?php echo $this->transEsc('View Book Bag') ?>"
+                               href="<?php echo $this->url('cart-home') ?>"><i class="fa fa-suitcase"></i>
+                                <strong><?php echo count($cart->getItems()) ?></strong> <?php echo $this->transEsc('items') ?><?php echo $cart->isFull() ? ' (' . $this->transEsc('bookbag_full') . ')' : '' ?>
                             </a>
                         </li>
                     <?php endif; ?>
-                    <?php if (is_object($account) && $account->loginEnabled()): // hide login/logout if unavailable ?>
-                        <li class="logoutOptions<?php if (!$account->isLoggedIn()): ?> hidden<?php endif ?>">
-                            <a href="<?= $this->url('myresearch-home', [], ['query' => ['redirect' => 0]]) ?>"
-                               class="modal-link" title="<?= $this->transEsc("Your Account") ?>"><i
-                                        class="fa fa-user"></i><?= $this->transEsc("Your Account") ?>
-                                : <?= $user ? $this->escapeHtml($user->firstname . ' ' . $user->lastname) : ''; ?>
+                    <?php if (is_object($account) && $account->loginEnabled()) : // hide login/logout if unavailable ?>
+                        <li class="logoutOptions<?php if (!$account->isLoggedIn()) : ?> hidden<?php 
+                       endif ?>">
+                            <a href="<?php echo $this->url('myresearch-home', [], ['query' => ['redirect' => 0]]) ?>"
+                               class="modal-link" title="<?php echo $this->transEsc("Your Account") ?>"><i
+                                        class="fa fa-user"></i><?php echo $this->transEsc("Your Account") ?>
+                                : <?php echo $user ? $this->escapeHtml($user->firstname . ' ' . $user->lastname) : ''; ?>
                             </a>
                         </li>
-                        <li class="logoutOptions<?php if (!$account->isLoggedIn()): ?> hidden<?php endif ?>">
-                            <a href="<?= $this->url('myresearch-logout') ?>" class="modal-link"
-                               title="<?= $this->transEsc("Log Out") ?>"><i
-                                        class="fa fa-sign-out"></i><?= $this->transEsc("Log Out") ?></a>
+                        <li class="logoutOptions<?php if (!$account->isLoggedIn()) : ?> hidden<?php 
+                       endif ?>">
+                            <a href="<?php echo $this->url('myresearch-logout') ?>" class="modal-link"
+                               title="<?php echo $this->transEsc("Log Out") ?>"><i
+                                        class="fa fa-sign-out"></i><?php echo $this->transEsc("Log Out") ?></a>
                         </li>
-                        <li id="loginOptions"<?php if ($account->isLoggedIn()): ?> class="hidden"<?php endif ?>>
-                            <?php if ($sessionInitiator = $account->getSessionInitiator($this->serverUrl($this->url('myresearch-home')))): ?>
-                                <a href="<?= $this->escapeHtmlAttr($sessionInitiator) ?>"><i
-                                            class="fa fa-sign-in"></i><?= $this->transEsc("Login") ?></a>
+                        <li id="loginOptions"<?php if ($account->isLoggedIn()) : ?> class="hidden"<?php 
+                       endif ?>>
+                            <?php if ($sessionInitiator = $account->getSessionInitiator($this->serverUrl($this->url('myresearch-home')))) : ?>
+                                <a href="<?php echo $this->escapeHtmlAttr($sessionInitiator) ?>"><i
+                                            class="fa fa-sign-in"></i><?php echo $this->transEsc("Login") ?></a>
                             <?php else: ?>
                                 <?php $useModalPopupClass = $this->auth()->isAjaxLoginAllowed() ? 'class="modal-link"' : '' ?>
-                                <a href="<?= $this->url('myresearch-userlogin') ?>" <?= $useModalPopupClass ?>
-                                   title="<?= $this->transEsc("Login") ?>"><i
-                                            class="fa fa-sign-in"></i><?= $this->transEsc("Login") ?></a>
+                                <a href="<?php echo $this->url('myresearch-userlogin') ?>" <?php echo $useModalPopupClass ?>
+                                   title="<?php echo $this->transEsc("Login") ?>"><i
+                                            class="fa fa-sign-in"></i><?php echo $this->transEsc("Login") ?></a>
                             <?php endif; ?>
                         </li>
                     <?php endif; ?>
 
-                    <?php if (isset($this->layout()->themeOptions) && count($this->layout()->themeOptions) > 1): ?>
+                    <?php if (isset($this->layout()->themeOptions) && count($this->layout()->themeOptions) > 1) : ?>
                         <li class="dropdown">
                             <form method="post" name="themeForm" action="" id="themeForm">
                                 <input type="hidden" name="ui"/>
                             </form>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= $this->transEsc("Theme") ?>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $this->transEsc("Theme") ?>
                                 <b
                                         class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <?php foreach ($this->layout()->themeOptions as $current): ?>
-                                    <li<?= $current['selected'] ? ' class="active"' : '' ?>><a href="#"
-                                                                                               onClick="document.themeForm.ui.value='<?= $this->escapeHtmlAttr($current['name']) ?>';document.themeForm.submit()"><?= $this->transEsc($current['desc']) ?></a>
+                                    <li<?php echo $current['selected'] ? ' class="active"' : '' ?>><a href="#"
+                                                                                               onClick="document.themeForm.ui.value='<?php echo $this->escapeHtmlAttr($current['name']) ?>';document.themeForm.submit()"><?php echo $this->transEsc($current['desc']) ?></a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
                         </li>
                     <?php endif; ?>
 
-                    <?php if (isset($this->layout()->allLangs) && count($this->layout()->allLangs) > 1): ?>
+                    <?php if (isset($this->layout()->allLangs) && count($this->layout()->allLangs) > 1) : ?>
                         <li class="dropdown">
                             <form method="post" name="langForm" action="" id="langForm">
                                 <input type="hidden" name="mylang"/>
                             </form>
                             <a href="#" class="dropdown-toggle"
-                               data-toggle="dropdown"><?= $this->transEsc("Language") ?> <b
+                               data-toggle="dropdown"><?php echo $this->transEsc("Language") ?> <b
                                         class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <?php foreach ($this->layout()->allLangs as $langCode => $langName): ?>
-                                    <li<?= $this->layout()->userLang == $langCode ? ' class="active"' : '' ?>>
+                                    <li<?php echo $this->layout()->userLang == $langCode ? ' class="active"' : '' ?>>
                                         <a href="#"
-                                           onClick="document.langForm.mylang.value='<?= $langCode ?>';document.langForm.submit()">
-                                            <span class="visible-xs"><?= $this->displayLanguageOption($langName) ?></span>
-                                            <span class="hidden-xs"><?= strtoupper(trim($langCode)) ?></span>
+                                           onClick="document.langForm.mylang.value='<?php echo $langCode ?>';document.langForm.submit()">
+                                            <span class="visible-xs"><?php echo $this->displayLanguageOption($langName) ?></span>
+                                            <span class="hidden-xs"><?php echo strtoupper(trim($langCode)) ?></span>
                                         </a>
                                     </li>
                                 <?php endforeach; ?>
@@ -112,7 +116,7 @@
     <?php endif; ?>
     <div class="navbar-header col-sm-4 col-xs-10 col-lg-3">
         <div class="row">
-            <a role="logo" class="navbar-brand" href="<?= $this->url('home') ?>">Swisscollections</a>
+            <a role="logo" class="navbar-brand" href="<?php echo $this->url('home') ?>">Swisscollections</a>
         </div>
     </div>
     <div class="col-xs-2">
@@ -123,27 +127,27 @@
             </button>
         </div>
     </div>
-    <?php if ($this->layout()->searchbox !== false): ?>
+    <?php if ($this->layout()->searchbox !== false) : ?>
         <section class="col-sm-8 col-xs-12 col-lg-9">
             <div class="main-menu">
-                <a class="main-menu__entry" href="<?= $this->url('home') ?>">
-                    <?= $this->transEsc('Stichwortsuche') ?>
+                <a class="main-menu__entry" href="<?php echo $this->url('home') ?>">
+                    <?php echo $this->transEsc('Stichwortsuche') ?>
                 </a>
-                <a class="main-menu__entry" href="<?= $this->url('abc-search') ?>">
-                    <?= $this->transEsc('Alphabetische Indexsuche') ?>
+                <a class="main-menu__entry" href="<?php echo $this->url('abc-search') ?>">
+                    <?php echo $this->transEsc('Alphabetische Indexsuche') ?>
                 </a>
-                <a class="main-menu__entry" href="<?= $this->url('tektonik') ?>">
-                    <?= $this->transEsc('Tektonik') ?>
+                <a class="main-menu__entry" href="<?php echo $this->url('tektonik') ?>">
+                    <?php echo $this->transEsc('Tektonik') ?>
                 </a>
-                <a class="main-menu__entry" href="<?= $this->url('bibliographies') ?>">
-                    <?= $this->transEsc('Bibliographien') ?>
+                <a class="main-menu__entry" href="<?php echo $this->url('bibliographies') ?>">
+                    <?php echo $this->transEsc('Bibliographien') ?>
                 </a>
-                <a class="main-menu__entry" href="<?= $this->url('browse-home') ?>">
-                    <?= $this->transEsc('Stöbern') ?>
+                <a class="main-menu__entry" href="<?php echo $this->url('browse-home') ?>">
+                    <?php echo $this->transEsc('Stöbern') ?>
                 </a>
             </div>
             <div class="row">
-                <?= $this->layout()->searchbox ?>
+                <?php echo $this->layout()->searchbox ?>
             </div>
         </section>
     <?php endif; ?>

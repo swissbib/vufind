@@ -1,4 +1,4 @@
-<?php
+<?PHP
 
 namespace SwissCollections\Module\Configuration;
 
@@ -38,15 +38,15 @@ $config = [
                     ]
                 ],
             ],
-            'browse-author' => [
-              'type' => 'Laminas\Router\Http\Literal',
-              'options' => [
-                'route' => '/Browse/Author',
-                'defaults' => [
-                  'controller' => 'Browse',
-                  'action' => 'Author',
+            'browse-action' => [
+                'type' => 'Laminas\Router\Http\Literal',
+                'options' => [
+                    'route' => '/Browse/Action',
+                    'defaults' => [
+                        'controller' => 'Browse',
+                        'action' => 'Browse',
+                    ],
                 ],
-              ],
             ],
         ]
     ],
@@ -55,11 +55,11 @@ $config = [
             'abc-search' => 'SwissCollections\Controller\Factory::getAbcSearchController',
             'tektonik' => 'SwissCollections\Controller\Factory::getTektonikController',
             'bibliographies' => 'SwissCollections\Controller\Factory::getBibliographiesController',
-             BrowseController::class => AbstractBaseWithConfigFactory::class,
+            BrowseController::class => AbstractBaseWithConfigFactory::class,
         ],
         'aliases' => [
-          'Browse' => BrowseController::class,
-          'browse' => BrowseController::class,
+            'Browse' => BrowseController::class,
+            'browse' => BrowseController::class,
         ]
     ],
     'vufind' => [

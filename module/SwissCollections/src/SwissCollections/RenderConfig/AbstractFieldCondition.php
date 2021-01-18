@@ -1,6 +1,6 @@
 <?php
 /**
- * SwissCollections: TektonikController.php
+ * SwissCollections: FieldCondition.php
  *
  * PHP version 7
  *
@@ -22,39 +22,41 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category SwissCollections_VuFind
- * @package  SwissCollections\Controller
+ * @package  SwissCollections\RenderConfig
  * @author   Lionel Walter <lionel.walter@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swisscollections.org Project Wiki
  */
 
-namespace SwissCollections\Controller;
+namespace SwissCollections\RenderConfig;
 
-use Laminas\View\Model\ViewModel;
-use Swissbib\Controller\BaseController;
+use SwissCollections\RecordDriver\SolrMarc;
 
 /**
- * Class TektonikController. Dummy implementation.
+ * Abstract top class of field conditions.
  *
  * @category SwissCollections_VuFind
- * @package  SwissCollections\Controller
+ * @package  SwissCollections\RenderConfig
  * @author   Lionel Walter <lionel.walter@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://vufind.org/wiki/vufind2:developer_manual Wiki
  */
-class TektonikController extends BaseController
+abstract class AbstractFieldCondition
 {
+    /**
+     * Checks the given field. Returns true if the condition is fulfilled.
+     *
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field    the marc field
+     * @param SolrMarc                                       $solrMarc the marc record
+     *
+     * @return bool
+     */
+    public abstract function check($field, $solrMarc): bool;
 
     /**
-     * Implementation of home action.
+     * Returns a string representation.
      *
-     * @return ViewModel
+     * @return string
      */
-    public function homeAction()
-    {
-        $data = [];
-        $viewModel = new ViewModel($data);
-        $viewModel->setTemplate('tektonik/home');
-        return $viewModel;
-    }
+    public abstract function __toString();
 }
