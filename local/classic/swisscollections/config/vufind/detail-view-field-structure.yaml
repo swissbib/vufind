@@ -36,12 +36,15 @@ structure:
           name: inline
           separator: " / "
           # without "entries:" the order of the applied sequence is used (see "sequences:" below)
-          # note that "sequences" expect a structured "name:" in "entries:": <"Unterbezeichnung">-<marc subfield>
-#          entries:
-#            - name: "Inhalt3-r"
-#            - name: "Inhalt3-t"
-#            - name: "Inhalt3-g"
-#            - name: "Inhalt3-a"
+          # note that "sequences" expect a structured "name:" in "entries:" from detail-fields.csv:
+          #     <"Unterbezeichnung">-<"subfield code">
+          entries:
+            - name: "Inhalt3-g"
+            - name: "Inhalt3-t"
+            - name: "Inhalt3-r"
+              formatter:
+                name: "brackets"
+            - name: "Inhalt3-a"
         # note that "sequences:" entries are sorted to guarantee the "longest" match
         # use "entries:" (see above) for a different order of marc subfields
         sequences: # from Swissbib/RecordDriver/SolrMarc.php getTableOfContent()
@@ -82,6 +85,8 @@ structure:
         formatter:
           name: inline
           separator: " / "
+          # note that "sequences" expect a structured "name:" in "entries:" from detail-fields.csv:
+          #   <"Bezeichnung">-<marc subfield>
           entries:
             - name: "Person-a"
             - name: "Person-t"

@@ -9,6 +9,7 @@ use SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter\Inline;
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter\Line;
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\DefaultFormatter;
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\SucheinstiegePerson;
+use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Brackets;
 use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Date;
 use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Institution;
 use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Simple;
@@ -17,12 +18,12 @@ use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\SimpleLin
 ?>-->
 <?php
 /**
- * @var SwissCollections\RecordDriver\SolrMarc $record 
+ * @var SwissCollections\RecordDriver\SolrMarc $record
  */
 $record = $this->driver;
 /**
- * @var Swissbib\View\Helper\Record $viewRecord 
-*/
+ * @var Swissbib\View\Helper\Record $viewRecord
+ */
 $viewRecord = $this->record($record);
 /**
  * @var RenderGroupConfig[]
@@ -60,7 +61,9 @@ if ($searchClassId != "Summon") {
     }
 }
 if ($nl) {
-    $linkNL = ['url' => $nl['url'], 'desc' => "Get it Online (National Licence)"];
+    $linkNL = [
+        'url' => $nl['url'], 'desc' => "Get it Online (National Licence)"
+    ];
     array_push($urls, $linkNL);
 }
 $link360 = $viewRecord->getLink360();
@@ -70,12 +73,14 @@ $this->render('RecordDriver/SolrMarc/SubfieldFormatter/Simple');
 $this->render('RecordDriver/SolrMarc/SubfieldFormatter/SimpleLine');
 $this->render('RecordDriver/SolrMarc/SubfieldFormatter/Date');
 $this->render('RecordDriver/SolrMarc/SubfieldFormatter/Institution');
+$this->render('RecordDriver/SolrMarc/SubfieldFormatter/Brackets');
 
 $subfieldFormatterRegistry = new SubfieldFormatterRegistry();
 $subfieldFormatterRegistry->register(new Simple($this));
 $subfieldFormatterRegistry->register(new SimpleLine($this));
 $subfieldFormatterRegistry->register(new Date($this));
 $subfieldFormatterRegistry->register(new Institution($this));
+$subfieldFormatterRegistry->register(new Brackets($this));
 
 $this->render('RecordDriver/SolrMarc/FieldFormatter/Inline');
 $this->render('RecordDriver/SolrMarc/FieldFormatter/Line');
@@ -97,7 +102,9 @@ $fieldGroupFormatterRegistry->register(new SucheinstiegePerson($this));
     <div style="border-top: 1px solid #bbbbbb; margin-top: 1rem; margin-bottom: 1rem;"></div>
     <?php
     if ($renderConfig) {
-        $fieldGroupFormatterContext = new FieldGroupRenderContext($fieldFormatterRegistry, $subfieldFormatterRegistry, $record);
+        $fieldGroupFormatterContext = new FieldGroupRenderContext(
+            $fieldFormatterRegistry, $subfieldFormatterRegistry, $record
+        );
         /**
          * @var RenderGroupConfig $renderGroupConfig
          */
@@ -106,7 +113,9 @@ $fieldGroupFormatterRegistry->register(new SucheinstiegePerson($this));
                 $groupName = $renderGroupConfig->getName();
                 $groupAnchor = str_replace(' ', '_', $groupName);
                 echo "<a name='$groupAnchor'>";
-                echo "<h2>" . $this->translate('page.detail.group.label.' . $groupName) . "</h2>";
+                echo "<h2>" . $this->translate(
+                        'page.detail.group.label.' . $groupName
+                    ) . "</h2>";
                 echo "</a>";
                 // call field group formatter with a sequence of fields having the same name
                 $renderGroupEntries = $renderGroupConfig->entries();
@@ -118,19 +127,26 @@ $fieldGroupFormatterRegistry->register(new SucheinstiegePerson($this));
                     /**
                      * @var AbstractRenderConfigEntry $renderElem
                      */
-                    $renderElem = $renderGroupEntries[$renderGroupKeys[$renderElemIndex]];
+                    $renderElem
+                        = $renderGroupEntries[$renderGroupKeys[$renderElemIndex]];
                     $fieldName = $renderElem->fieldName;
                     /**
                      * @var FormatterConfig
                      */
-                    $fieldGroupFormatter = $renderElem->getFieldGroupFormatter();
+                    $fieldGroupFormatter = $renderElem->getFieldGroupFormatter(
+                    );
                     if (empty($fieldGroupFormatter)) {
-                        $fieldGroupFormatter = new FormatterConfig(DefaultFormatter::$NAME, []);
+                        $fieldGroupFormatter = new FormatterConfig(
+                            DefaultFormatter::$NAME, []
+                        );
                     }
-                    $isMultiMarcField = $record->isMultiMarcField($groupName, $fieldName);
+                    $isMultiMarcField = $record->isMultiMarcField(
+                        $groupName, $fieldName
+                    );
                     if ($isMultiMarcField) {
                         while ($renderElemIndex < $renderGroupEntryCount) {
-                            $renderElem = $renderGroupEntries[$renderGroupKeys[$renderElemIndex]];
+                            $renderElem
+                                = $renderGroupEntries[$renderGroupKeys[$renderElemIndex]];
                             if ($fieldName !== $renderElem->fieldName) {
                                 break;
                             }
