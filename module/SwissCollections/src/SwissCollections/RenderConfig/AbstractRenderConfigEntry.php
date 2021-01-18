@@ -112,8 +112,6 @@ abstract class AbstractRenderConfigEntry
      */
     protected $fieldGroupFormatter;
 
-    public static $UNKNOWN_INDICATOR = -1;
-
     /**
      * AbstractRenderConfigEntry constructor.
      *

@@ -60,7 +60,7 @@ class ConstSubfieldCondition extends AbstractFieldCondition
 
     /**
      * Expected value of indicator 1
-     * ({@link AbstractRenderConfigEntry::$UNKNOWN_INDICATOR} if unset)
+     * ({@link IndicatorCondition::$UNKNOWN_INDICATOR} if unset)
      *
      * @var int
      */
@@ -68,7 +68,7 @@ class ConstSubfieldCondition extends AbstractFieldCondition
 
     /**
      * Expected value of indicator 2
-     * ({@link AbstractRenderConfigEntry::$UNKNOWN_INDICATOR} if unset)
+     * ({@link IndicatorCondition::$UNKNOWN_INDICATOR} if unset)
      *
      * @var int
      */

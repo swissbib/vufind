@@ -183,8 +183,8 @@ class CompoundEntry extends AbstractRenderConfigEntry
             $fieldValueMap = $context->solrMarc->getMarcFieldRawMap(
                 $field, $this->subfieldCondition
             );
-            $ind1 = AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
-            $ind2 = AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
+            $ind1 = IndicatorCondition::$UNKNOWN_INDICATOR;
+            $ind2 = IndicatorCondition::$UNKNOWN_INDICATOR;
             if ($field instanceof \File_MARC_Data_Field) {
                 $ind1 = IndicatorCondition::parse(
                     $field->getIndicator(1)

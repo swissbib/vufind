@@ -292,14 +292,14 @@ class SolrMarc extends SwissbibSolrMarc
                 $field[SolrMarc::$MARC_MAPPING_MARC_IND1]
             );
             $marcIndicator1 = empty($indicator1Condition)
-                ? AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                ? IndicatorCondition::$UNKNOWN_INDICATOR
                 : $indicator1Condition->expectedValue;
 
             $indicator2Condition = IndicatorCondition::buildIndicator2Condition(
                 $field[SolrMarc::$MARC_MAPPING_MARC_IND2]
             );
             $marcIndicator2 = empty($indicator2Condition)
-                ? AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+                ? IndicatorCondition::$UNKNOWN_INDICATOR
                 : $indicator2Condition->expectedValue;
 
             $subfieldMatchCondition = AbstractFieldCondition::buildAndCondition(
@@ -523,39 +523,34 @@ class SolrMarc extends SwissbibSolrMarc
     public function getRenderFieldData($field, $elem)
     {
         try {
-            if ($field instanceof \File_MARC_Data_Field) {
-                if (!$elem->checkCondition($field, $this)) {
-                    return null;
-                }
-                $ind1 = IndicatorCondition::parse($field->getIndicator(1));
-                $ind2 = IndicatorCondition::parse($field->getIndicator(2));
-                $fieldMap = $elem->buildMap();
-                $fieldData = $this->getMappedFieldData($field, $fieldMap, true);
-                $subfieldRenderData = new SubfieldRenderData(
-                    $fieldData['value'], true, $ind1, $ind2
-                );
-            } else {
-                if ($field instanceof \File_MARC_Control_Field) {
-                    if (!($elem->indicator1
-                        === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
-                        && $elem->indicator2
-                        === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR)
-                    ) {
-                        return null;
-                    }
-                    $subfieldRenderData = $this->buildGenericSubMap(
-                        $field->getData(), true
+            if ($elem->checkCondition($field, $this)) {
+                if ($field instanceof \File_MARC_Data_Field) {
+                    $ind1 = IndicatorCondition::parse($field->getIndicator(1));
+                    $ind2 = IndicatorCondition::parse($field->getIndicator(2));
+                    $fieldMap = $elem->buildMap();
+                    $fieldData = $this->getMappedFieldData(
+                        $field, $fieldMap, true
+                    );
+                    $subfieldRenderData = new SubfieldRenderData(
+                        $fieldData['value'], true, $ind1, $ind2
                     );
                 } else {
-                    echo "<!-- ERROR: Can't handle field type: " . get_class(
-                            $field
-                        ) . " of " . $elem . " -->\n";
-                    $subfieldRenderData = null;
+                    if ($field instanceof \File_MARC_Control_Field) {
+                        $subfieldRenderData = $this->buildGenericSubMap(
+                            $field->getData(), true
+                        );
+                    } else {
+                        echo "<!-- ERROR: Can't handle field type: "
+                            . get_class(
+                                $field
+                            ) . " of " . $elem . " -->\n";
+                        $subfieldRenderData = null;
+                    }
                 }
-            }
-            // echo "<!-- GRFD: " . $elem->marcIndex . " " . $elem->getSubfieldName() . " " . print_r($subfieldRenderData, true) . " -->\n";
-            if (!$this->isEmptyValue($subfieldRenderData)) {
-                return $subfieldRenderData;
+                // echo "<!-- GRFD: " . $elem->marcIndex . " " . $elem->getSubfieldName() . " " . print_r($subfieldRenderData, true) . " -->\n";
+                if (!$this->isEmptyValue($subfieldRenderData)) {
+                    return $subfieldRenderData;
+                }
             }
             return null;
         } catch (\Throwable $exception) {
@@ -579,8 +574,8 @@ class SolrMarc extends SwissbibSolrMarc
         return new SubfieldRenderData(
             $value,
             $escapeHtml,
-            AbstractRenderConfigEntry::$UNKNOWN_INDICATOR,
-            AbstractRenderConfigEntry::$UNKNOWN_INDICATOR
+            IndicatorCondition::$UNKNOWN_INDICATOR,
+            IndicatorCondition::$UNKNOWN_INDICATOR
         );
     }
 

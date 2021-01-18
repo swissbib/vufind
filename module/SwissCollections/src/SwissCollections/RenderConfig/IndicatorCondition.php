@@ -44,6 +44,7 @@ use SwissCollections\RecordDriver\SolrMarc;
  */
 class IndicatorCondition extends AbstractFieldCondition
 {
+    public static $UNKNOWN_INDICATOR = -1;
     /**
      * The indicator to check. Either 1 or 2.
      *
@@ -82,7 +83,7 @@ class IndicatorCondition extends AbstractFieldCondition
     protected static function buildIndicatorCondition($indicatorId, $text)
     {
         $ind = IndicatorCondition::parse($text);
-        if ($ind === AbstractRenderConfigEntry::$UNKNOWN_INDICATOR) {
+        if ($ind === self::$UNKNOWN_INDICATOR) {
             return null;
         }
         return new IndicatorCondition($indicatorId, $ind);
@@ -116,7 +117,7 @@ class IndicatorCondition extends AbstractFieldCondition
 
     /**
      * Parses indicator from text. Returns
-     * {@link AbstractRenderConfigEntry::$UNKNOWN_INDICATOR} for unknown/bad
+     * {@link IndicatorCondition::$UNKNOWN_INDICATOR} for unknown/bad
      * indicator value.
      *
      * @param string $text a positive int or empty string
@@ -126,14 +127,14 @@ class IndicatorCondition extends AbstractFieldCondition
     public static function parse(string $text): int
     {
         if (empty($text)) {
-            return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
+            return self::$UNKNOWN_INDICATOR;
         }
         $text = trim($text);
         if (empty($text)) {
-            return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
+            return self::$UNKNOWN_INDICATOR;
         }
         if (!ctype_digit($text)) {
-            return AbstractRenderConfigEntry::$UNKNOWN_INDICATOR;
+            return self::$UNKNOWN_INDICATOR;
         }
         return intval($text);
     }
