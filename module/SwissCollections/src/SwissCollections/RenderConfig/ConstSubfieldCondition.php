@@ -45,11 +45,11 @@ use SwissCollections\RecordDriver\SolrMarc;
 class ConstSubfieldCondition extends AbstractFieldCondition
 {
     /**
-     * This subfield contains the expected value.
+     * This marc subfield contains the expected value.
      *
      * @var string
      */
-    protected $subfieldName;
+    public $marcSubfieldName;
 
     /**
      * The expected value.
@@ -77,21 +77,20 @@ class ConstSubfieldCondition extends AbstractFieldCondition
     /**
      * ConstSubfieldCondition constructor.
      *
-     * @param string $subfieldName       the subfield's name to check
+     * @param string $marcSubfieldName   the subfield's name to check
      * @param string $expectedValue      the expected value
      * @param int    $expectedIndicator1 the expected first indicator
      * @param int    $expectedIndicator2 the expected second indicator
      */
     public function __construct(
-        string $subfieldName, string $expectedValue, $expectedIndicator1,
+        string $marcSubfieldName, string $expectedValue, $expectedIndicator1,
         $expectedIndicator2
     ) {
-        $this->subfieldName = $subfieldName;
+        $this->marcSubfieldName = $marcSubfieldName;
         $this->expectedValue = $expectedValue;
         $this->expectedIndicator1 = $expectedIndicator1;
         $this->expectedIndicator2 = $expectedIndicator2;
     }
-
 
     /**
      * Checks the given field. Returns true if the condition is fulfilled.
@@ -104,16 +103,16 @@ class ConstSubfieldCondition extends AbstractFieldCondition
     protected function check($field, $solrMarc): bool
     {
         // indicators are checked too, so no need to do it twice
-        $subfieldMap = $solrMarc->getMarcFieldRawMap($field, null);
-        $subfieldValue = $subfieldMap[$this->subfieldName];
-        if (!empty($subfieldValue)) {
-            $subfieldValue = trim($subfieldValue);
-            if ($subfieldValue === $this->expectedValue) {
-                return true;
-            }
+        $marcSubfieldMap = $solrMarc->getMarcFieldRawMap($field, null, []);
+        $marcSubfieldValue = $marcSubfieldMap[$this->marcSubfieldName];
+        if (!empty($marcSubfieldValue)) {
+            $marcSubfieldValue = trim($marcSubfieldValue);
+        }
+        if ($marcSubfieldValue === $this->expectedValue) {
+            return true;
         }
         echo "<!-- " . $field->getTag()
-            . " CONDITION FAILED: Constant $this, got " . $subfieldValue
+            . " CONDITION FAILED: Constant $this, got " . $marcSubfieldValue
             . " -->";
         return false;
     }
@@ -157,6 +156,6 @@ class ConstSubfieldCondition extends AbstractFieldCondition
      */
     public function __toString()
     {
-        return "$" . $this->subfieldName . "=" . $this->expectedValue;
+        return "$" . $this->marcSubfieldName . "=" . $this->expectedValue;
     }
 }

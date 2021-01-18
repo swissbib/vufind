@@ -55,6 +55,13 @@ class CompoundEntry extends AbstractRenderConfigEntry
     public $elements = [];
 
     /**
+     * All hidden marc subfields.
+     *
+     * @var string[]
+     */
+    protected $hiddenMarcSubfields = [];
+
+    /**
      * CompoundEntry constructor.
      *
      * @param string                      $groupName       the group's name from detail-fields.csv, column "Gruppierungsname / Oberbegriff"
@@ -115,7 +122,9 @@ class CompoundEntry extends AbstractRenderConfigEntry
         foreach ($this->elements as $e) {
             $s = $s . "\t\t\t" . $e . ",\n";
         }
-        return $s . "]}";
+        return $s . "],"
+            . "hidden=" . implode(",", $this->hiddenMarcSubfields)
+            . "}";
     }
 
     /**
@@ -181,7 +190,8 @@ class CompoundEntry extends AbstractRenderConfigEntry
         // if no subfields are specified, get all
         if (empty($this->elements)) {
             $fieldValueMap = $context->solrMarc->getMarcFieldRawMap(
-                $field, $this->subfieldCondition
+                $field, $this->subfieldCondition,
+                $this->hiddenMarcSubfields
             );
             $ind1 = IndicatorCondition::$UNKNOWN_INDICATOR;
             $ind2 = IndicatorCondition::$UNKNOWN_INDICATOR;
@@ -205,13 +215,20 @@ class CompoundEntry extends AbstractRenderConfigEntry
         } else {
             // get only values for the specified fields
             foreach ($this->elements as $elem) {
-                $renderFieldData = $context->solrMarc->getRenderFieldData(
-                    $field, $elem
-                );
-                if (!empty($renderFieldData)
-                    && !$renderFieldData->emptyValue()
+                if (!in_array(
+                    $elem->getMarcSubfieldName(), $this->hiddenMarcSubfields
+                )
                 ) {
-                    $values[] = new FieldFormatterData($elem, $renderFieldData);
+                    $renderFieldData = $context->solrMarc->getRenderFieldData(
+                        $field, $elem
+                    );
+                    if (!empty($renderFieldData)
+                        && !$renderFieldData->emptyValue()
+                    ) {
+                        $values[] = new FieldFormatterData(
+                            $elem, $renderFieldData
+                        );
+                    }
                 }
             }
         }
@@ -231,7 +248,8 @@ class CompoundEntry extends AbstractRenderConfigEntry
         // all values matching the required indicators are shown if no subfields are specified
         if (empty($this->elements)) {
             $rawData = $solrMarc->getMarcFieldRawMap(
-                $field, $this->subfieldCondition
+                $field, $this->subfieldCondition,
+                $this->getHiddenMarcSubfields()
             );
             return !empty($rawData);
         } else {
@@ -283,8 +301,8 @@ class CompoundEntry extends AbstractRenderConfigEntry
      *
      * @return FieldFormatterData
      */
-    public function buildFieldFormatterData($marcSubfieldName, $text, &$solrMarc)
-    {
+    public function buildFieldFormatterData($marcSubfieldName, $text, &$solrMarc
+    ) {
         $renderConfigEntry = $this->findSubfield($marcSubfieldName);
         if ($renderConfigEntry === null) {
             throw new \Exception("Didn't find $marcSubfieldName in " . $this);
@@ -332,5 +350,29 @@ class CompoundEntry extends AbstractRenderConfigEntry
         );
         $singleEntry->fieldGroupFormatter = $this->fieldGroupFormatter;
         return $singleEntry;
+    }
+
+    /**
+     * Gets the hidden marc subfields.
+     *
+     * @return string[]
+     */
+    public function getHiddenMarcSubfields(): array
+    {
+        return $this->hiddenMarcSubfields;
+    }
+
+    /**
+     * Hide a marc subfield name.
+     *
+     * @param string $name the marc subfield's name to add
+     *
+     * @return void
+     */
+    public function addHiddenMarcSubfield(string $name): void
+    {
+        if (!in_array($name, $this->hiddenMarcSubfields)) {
+            $this->hiddenMarcSubfields[] = $name;
+        }
     }
 }

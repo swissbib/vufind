@@ -249,7 +249,7 @@ class SequencesEntry extends CompoundEntry
     public function render(&$field, &$context)
     {
         $rawData = $context->solrMarc->getMarcFieldRawMap(
-            $field, $this->subfieldCondition
+            $field, $this->subfieldCondition, $this->getHiddenMarcSubfields()
         );
         $matchedValues = $this->matchesSubfieldSequence(
             $rawData, $context->solrMarc

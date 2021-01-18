@@ -156,14 +156,16 @@ class SolrMarc extends SwissbibSolrMarc
     /**
      * Returns a map of subfield values.
      *
-     * @param int                         $index          the marc index
-     * @param AbstractFieldCondition|null $fieldCondition field's condition
+     * @param int                         $index               the marc index
+     * @param AbstractFieldCondition|null $fieldCondition      field's condition
+     * @param string[]                    $hiddenMarcSubfields all hidden marc subfields
      *
      * @return array array of maps of marc subfield names to values
      * @throws \File_MARC_Exception
      */
-    public function getMarcFieldsRawMap(int $index, $fieldCondition)
-    {
+    public function getMarcFieldsRawMap(
+        int $index, $fieldCondition, $hiddenMarcSubfields
+    ) {
         /**
          * Fields
          *
@@ -174,7 +176,7 @@ class SolrMarc extends SwissbibSolrMarc
 
         foreach ($fields as $field) {
             $tempFieldData = $this->getMarcFieldRawMap(
-                $field, $fieldCondition
+                $field, $fieldCondition, $hiddenMarcSubfields
             );
             if (count($tempFieldData) > 0) {
                 $fieldsData[] = $tempFieldData;
@@ -299,21 +301,29 @@ class SolrMarc extends SwissbibSolrMarc
                 ? IndicatorCondition::$UNKNOWN_INDICATOR
                 : $indicator2Condition->expectedValue;
 
-            $subfieldMatchCondition = AbstractFieldCondition::buildAndCondition(
+            $allFieldConditions = AbstractFieldCondition::buildAndCondition(
                 $indicator1Condition, $indicator2Condition
             );
-            $subfieldMatchCondition = AbstractFieldCondition::buildAndCondition(
-                $subfieldMatchCondition,
-                ConstSubfieldCondition::parse(
-                    $field[SolrMarc::$MARC_MAPPING_CONDITION], $marcIndicator1,
-                    $marcIndicator2
-                )
+            $fieldCondition = ConstSubfieldCondition::parse(
+                $field[SolrMarc::$MARC_MAPPING_CONDITION], $marcIndicator1,
+                $marcIndicator2
+            );
+            $hiddenMarcSubfield = null;
+            // hide the condition marc subfield only if a user doesn't want to
+            // render the condition marc subfield
+            if (!empty($fieldCondition)
+                && $subFieldName !== $fieldCondition->marcSubfieldName
+            ) {
+                $hiddenMarcSubfield = $fieldCondition->marcSubfieldName;
+            }
+            $allFieldConditions = AbstractFieldCondition::buildAndCondition(
+                $allFieldConditions, $fieldCondition
             );
 
             // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex/$marcSubfieldName/"
-            //     . (empty($subfieldMatchCondition) ? "TRUE"
-            //         : $subfieldMatchCondition->allConditionsToString())
-            //     . " -->\n";
+            //     . (empty($allFieldConditions) ? "TRUE"
+            //         : $allFieldConditions->allConditionsToString())
+            //     . "/$hiddenMarcSubfield -->\n";
 
             // calculate render type and mode ...
             $renderType = 'single';
@@ -351,14 +361,14 @@ class SolrMarc extends SwissbibSolrMarc
                     $renderGroupEntry = new CompoundEntry(
                         $groupName, $fieldName, $subFieldName, $marcIndex,
                         $formatterConfig, $marcIndicator1, $marcIndicator2,
-                        $subfieldMatchCondition
+                        $allFieldConditions
                     );
                 }
                 if ($renderType === 'sequences') {
                     $renderGroupEntry = new SequencesEntry(
                         $groupName, $fieldName, $subFieldName, $marcIndex,
                         $formatterConfig, $marcIndicator1, $marcIndicator2,
-                        $subfieldMatchCondition
+                        $allFieldConditions
                     );
                     if ($fieldViewInfo) {
                         $renderGroupEntry->setSequences(
@@ -391,8 +401,13 @@ class SolrMarc extends SwissbibSolrMarc
                         $formatterConfig,
                         $marcIndicator1,
                         $marcIndicator2,
-                        $subfieldMatchCondition
+                        $allFieldConditions
                     );
+                    if ($hiddenMarcSubfield !== null) {
+                        $renderGroupEntry->addHiddenMarcSubfield(
+                            $hiddenMarcSubfield
+                        );
+                    }
                     $renderGroup->addCompound($renderGroupEntry);
                     $renderGroupEntry->setFieldGroupFormatter(
                         $fieldGroupFormatter
@@ -411,7 +426,7 @@ class SolrMarc extends SwissbibSolrMarc
                         $marcSubfieldName,
                         $marcIndicator1,
                         $marcIndicator2,
-                        $subfieldMatchCondition
+                        $allFieldConditions
                     );
                     $renderGroup->addSingle($renderGroupEntry);
                     $renderGroupEntry->setFieldGroupFormatter(
@@ -428,6 +443,11 @@ class SolrMarc extends SwissbibSolrMarc
                         $renderGroupEntry->addElement(
                             $subFieldName, $marcSubfieldName
                         );
+                        if ($hiddenMarcSubfield !== null) {
+                            $renderGroupEntry->addHiddenMarcSubfield(
+                                $hiddenMarcSubfield
+                            );
+                        }
                     }
                     // use all marc subfields ...
                     if (empty($marcSubfieldName)) {
@@ -598,13 +618,15 @@ class SolrMarc extends SwissbibSolrMarc
      * Returns a map of subfield names to their values if the condition is
      * fulfilled.
      *
-     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field          the marc field
-     * @param AbstractFieldCondition|null                    $fieldCondition the field's conditions
+     * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field               the marc field
+     * @param AbstractFieldCondition|null                    $fieldCondition      the field's conditions
+     * @param string[]                                       $hiddenMarcSubfields hidden marc subfields
      *
      * @return array array of subfield names to values
      */
-    public function getMarcFieldRawMap($field, $fieldCondition): array
-    {
+    public function getMarcFieldRawMap(
+        $field, $fieldCondition, $hiddenMarcSubfields
+    ): array {
         $tempFieldData = [];
 
         if (empty($fieldCondition)
@@ -617,9 +639,11 @@ class SolrMarc extends SwissbibSolrMarc
                  * @var \File_MARC_Subfield[] $subfields
                  */
                 $subfields = $field->getSubfields();
-                foreach ($subfields as $subfield) {
-                    $tempFieldData["" . $subfield->getCode()]
-                        = $subfield->getData();
+                foreach ($subfields as $marcSubfield) {
+                    if (!in_array($marcSubfield, $hiddenMarcSubfields)) {
+                        $tempFieldData["" . $marcSubfield->getCode()]
+                            = $marcSubfield->getData();
+                    }
                 }
             } else {
                 if ($field instanceof \File_MARC_Control_Field) {
