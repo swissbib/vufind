@@ -1,1 +1,107 @@
-'@parent_yaml': "local/swisscollections/development/config/vufind/detail-view-field-structure.yaml"
+#'@parent_yaml': "local/config/vufind/detail-view-field-structure.yaml"
+
+# "name" matches "Gruppierungsname / Oberbegriff"
+# "labelKey" matches "Bezeichnung"
+# "entries" matches "Unterbezeichnung"
+
+structure:
+  "Basisinformationen":
+    groups:
+      "Serie":
+      "Digitalisat":
+    fields:
+      "Signatur":
+        type: compound
+        formatter:
+          name: inline
+          separator: "; " # for inline formatter only
+          repeated: true
+          entries:
+            - name: "institution-code"
+            - name: "standort code"
+            - name: "Signatur1"
+            - name: "Signatur2"
+      "Titel":
+        formatter:
+          name: line
+  "Inhalt und innere Ordnung":
+    groups:
+      "Inhalt":
+    fields:
+      "Inhalt-505": # multiple "Inhalt" are defined; use the one with marc index 505
+        type: sequences
+        formatter:
+          name: inline
+          separator: " / "
+          # without "entries:" the order of the applied sequence is used (see "sequences:" below)
+          # note that "sequences" expect a structured "name:" in "entries:": <"Unterbezeichnung">-<marc subfield>
+#          entries:
+#            - name: "Inhalt3-r"
+#            - name: "Inhalt3-t"
+#            - name: "Inhalt3-g"
+#            - name: "Inhalt3-a"
+        # note that "sequences:" entries are sorted to guarantee the "longest" match
+        # use "entries:" (see above) for a different order of marc subfields
+        sequences: # from Swissbib/RecordDriver/SolrMarc.php getTableOfContent()
+          - [ "g", "t", "r" ]
+          - [ "g", "t" ]
+          - [ "g", "r" ]
+          - [ "t", "r" ]
+          - [ "t" ]
+          - [ "r" ]
+          - [ "a" ]
+  "Identifikatoren":
+    fields:
+      "alte Systemnummer":
+        formatter:
+          repeated: true
+  "Sucheinstiege":
+    groups:
+      "Person":
+        formatter:
+          name: "sucheinstiege-person" # handle all fields "Person" with this formatter
+          roleOrder: # all other roles are printed at the end
+            - "cmp"
+            - "wpr"
+            - "edt"
+          roleMarcSubfields: # specific for "sucheinstiege-person"
+            - "4"
+            - "4rcp"
+          hiddenMarcSubfields: # specific for "sucheinstiege-person"
+            - "4"
+            - "4rcp"
+            - "e"
+      "Körperschaft":
+      "Kongress":
+      "Werktitel":
+    fields:
+      "Person":
+        type: compound # expected by "sucheinstiege-person" formatter, because "entries" are needed too
+        formatter:
+          name: inline
+          separator: " / "
+          entries:
+            - name: "Person-a"
+            - name: "Person-t"
+            - name: "Person-k"
+            - name: "Person-d"
+              formatter:
+                name: "date"
+            - name: "Person-0"
+  "Thema":
+    groups:
+      "Formschlagwort":
+      "Schlagwort Musik":
+    fields:
+      "Sachbegriff":
+        formatter:
+          repeated: true
+  "Anmerkungen":
+    groups:
+      "Sprache, Schrift, Notation":
+  "Code":
+    groups:
+      "Code Bibliographie":
+  "Klassifikationen":
+    groups:
+      "Klassifikation":
