@@ -79,6 +79,7 @@ abstract class AbstractFieldCondition
                 return false;
             }
         }
+        // echo "<!-- " . $field->getTag() . " CONDITION OK: " . $this->allConditionsToString() . " -->";
         return true;
     }
 
@@ -88,6 +89,22 @@ abstract class AbstractFieldCondition
      * @return string
      */
     public abstract function __toString();
+
+    /**
+     * Returns all conditions as string.
+     *
+     * @return string
+     */
+    public function allConditionsToString(): string
+    {
+        $allConditions = "" . $this;
+        $c = $this;
+        while ($c->andCondition) {
+            $allConditions = $allConditions . "&&" . $c->andCondition;
+            $c = $c->andCondition;
+        }
+        return $allConditions;
+    }
 
     /**
      * Set another condition to test.

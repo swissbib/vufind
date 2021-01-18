@@ -120,17 +120,18 @@ class IndicatorCondition extends AbstractFieldCondition
      * {@link IndicatorCondition::$UNKNOWN_INDICATOR} for unknown/bad
      * indicator value.
      *
-     * @param string $text a positive int or empty string
+     * @param string|null $text a positive int or empty string or null
      *
      * @return int
      */
     public static function parse(string $text): int
     {
-        if (empty($text)) {
+        if ($text === null) {
             return self::$UNKNOWN_INDICATOR;
         }
         $text = trim($text);
-        if (empty($text)) {
+        // note: "0" is a valid indicator value, so don't use empty()!
+        if (strlen($text) === 0) {
             return self::$UNKNOWN_INDICATOR;
         }
         if (!ctype_digit($text)) {

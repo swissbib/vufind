@@ -313,7 +313,10 @@ class SolrMarc extends SwissbibSolrMarc
                 )
             );
 
-            // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex|$marcSubfieldName|$subfieldMatchCondition -->\n";
+            // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex/$marcSubfieldName/"
+            //     . (empty($subfieldMatchCondition) ? "TRUE"
+            //         : $subfieldMatchCondition->allConditionsToString())
+            //     . " -->\n";
 
             // calculate render type and mode ...
             $renderType = 'single';
