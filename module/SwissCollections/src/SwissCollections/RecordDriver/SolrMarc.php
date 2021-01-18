@@ -313,7 +313,7 @@ class SolrMarc extends SwissbibSolrMarc
                 )
             );
 
-            echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex|$marcSubfieldName|$subfieldMatchCondition -->\n";
+            // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex|$marcSubfieldName|$subfieldMatchCondition -->\n";
 
             // calculate render type and mode ...
             $renderType = 'single';
@@ -510,7 +510,7 @@ class SolrMarc extends SwissbibSolrMarc
 
     /**
      * Get the required data from the given marc field. Values are only used
-     * if the indicators match.
+     * if the element's condition is fulfilled.
      *
      * Be aware that this method may return a list of values if the marc field
      * contains several values.
@@ -595,7 +595,8 @@ class SolrMarc extends SwissbibSolrMarc
     }
 
     /**
-     * Returns a map of subfield names to their values.
+     * Returns a map of subfield names to their values if the condition is
+     * fulfilled.
      *
      * @param \File_MARC_Data_Field|\File_MARC_Control_Field $field          the marc field
      * @param AbstractFieldCondition|null                    $fieldCondition the field's conditions
