@@ -199,16 +199,16 @@ class SequencesEntry extends CompoundEntry
         foreach ($this->sequences as $seq) {
             $pos = 0;
             $values = [];
-            foreach ($seq as $subfieldName) {
+            foreach ($seq as $marcSubfieldName) {
                 if ($pos >= $rawDataSubfieldNamesLen) {
                     continue 2;
                 }
-                if ($rawDataSubfieldNames[$pos] !== $subfieldName) {
+                if ($rawDataSubfieldNames[$pos] !== $marcSubfieldName) {
                     continue 2;
                 }
                 $text = $rawData[$rawDataSubfieldNames[$pos]];
                 $fieldFormatterData = $this->buildFieldFormatterData(
-                    $subfieldName, $text, $solrMarc
+                    $marcSubfieldName, $text, $solrMarc
                 );
                 $values[] = $fieldFormatterData;
                 $pos++;
@@ -231,11 +231,7 @@ class SequencesEntry extends CompoundEntry
         foreach ($this->sequences as $seq) {
             foreach ($seq as $marcSubfieldName) {
                 if (!$this->knowsSubfield($marcSubfieldName)) {
-                    $this->addElement(
-                        $this->buildSubfieldName(
-                            $this->subfieldName, $marcSubfieldName
-                        ), $marcSubfieldName
-                    );
+                    $this->addElement($this->subfieldName, $marcSubfieldName);
                 }
             }
         }

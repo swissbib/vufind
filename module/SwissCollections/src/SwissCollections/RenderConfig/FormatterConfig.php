@@ -203,19 +203,19 @@ class FormatterConfig
      * $defaultFormatterName if not specified. Inherits default separator and
      * repeated flag from $defaultFormatterConfig.
      *
-     * @param string          $labelKey               should match a "name:" in "entries:"
+     * @param string          $entryName              should match a "name:" in "entries:"
      * @param string          $defaultFormatterName   the default formatter name
      * @param FormatterConfig $defaultFormatterConfig the default formatter
      *
      * @return FormatterConfig
      */
     public function singleFormatter(
-        $labelKey, $defaultFormatterName, $defaultFormatterConfig
+        $entryName, $defaultFormatterName, $defaultFormatterConfig
     ) {
         $config = [];
         if (!empty($this->config["entries"])) {
             foreach ($this->config["entries"] as $entry) {
-                if ($labelKey === $entry["name"]
+                if ($entryName === $entry["name"]
                     && !empty($entry["formatter"])
                 ) {
                     $config = $entry["formatter"];

@@ -274,9 +274,6 @@ class SolrMarc extends SwissbibSolrMarc
                 $lastSubfieldCount++;
                 $subFieldName = $lastSubfieldName . $lastSubfieldCount;
             }
-            $labelKey = AbstractRenderConfigEntry::buildLabelKey(
-                $groupName, $subFieldName
-            );
 
             $marcIndex = trim($field[SolrMarc::$MARC_MAPPING_MARC_INDEX]);
             if (!ctype_digit($marcIndex)) {
@@ -429,7 +426,7 @@ class SolrMarc extends SwissbibSolrMarc
                         || !empty($marcSubfieldName)
                     ) {
                         $renderGroupEntry->addElement(
-                            $labelKey, $marcSubfieldName
+                            $subFieldName, $marcSubfieldName
                         );
                     }
                     // use all marc subfields ...

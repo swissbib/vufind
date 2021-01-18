@@ -83,14 +83,14 @@ class CompoundEntry extends AbstractRenderConfigEntry
     /**
      * Add a new subfield.
      *
-     * @param String $labelKey         was constructed by a call to {@link AbstractRenderConfigEntry::buildLabelKey}
-     * @param String $marcSubfieldName a marc subfield name (e.g. 'a')
+     * @param string $subfieldName     was constructed by a call to {@link AbstractRenderConfigEntry::buildLabelKey}
+     * @param string $marcSubfieldName a marc subfield name (e.g. 'a')
      *
      * @return void
      */
-    public function addElement(String $labelKey, String $marcSubfieldName)
+    public function addElement(string $subfieldName, string $marcSubfieldName)
     {
-        $singleEntry = $this->buildElement($labelKey, $marcSubfieldName);
+        $singleEntry = $this->buildElement($subfieldName, $marcSubfieldName);
         array_push($this->elements, $singleEntry);
     }
 
@@ -195,7 +195,7 @@ class CompoundEntry extends AbstractRenderConfigEntry
             }
             foreach ($fieldValueMap as $marcSubfieldName => $value) {
                 $elem = $this->buildElement(
-                    $this->labelKey . "." . $marcSubfieldName, $marcSubfieldName
+                    $this->subfieldName, $marcSubfieldName
                 );
                 $renderFieldData = new SubfieldRenderData(
                     $value, true, $ind1, $ind2
@@ -248,7 +248,7 @@ class CompoundEntry extends AbstractRenderConfigEntry
     /**
      * Contains this configuration the given subfield's name?
      *
-     * @param string $name the subfield's name to check
+     * @param string $name the marc subfield's name to check
      *
      * @return bool
      */
@@ -260,7 +260,7 @@ class CompoundEntry extends AbstractRenderConfigEntry
     /**
      * Searches a subfield's configuration by name.
      *
-     * @param string $name the subfield's name to find
+     * @param string $name the marc subfield's name to find
      *
      * @return null | SingleEntry
      */
@@ -277,17 +277,17 @@ class CompoundEntry extends AbstractRenderConfigEntry
     /**
      * Creates a new {@link FieldFormatterData} instance.
      *
-     * @param string   $subfieldName the subfield's name
-     * @param string   $text         the subfield's value
-     * @param SolrMarc $solrMarc     the marc record
+     * @param string   $marcSubfieldName the subfield's name
+     * @param string   $text             the subfield's value
+     * @param SolrMarc $solrMarc         the marc record
      *
      * @return FieldFormatterData
      */
-    public function buildFieldFormatterData($subfieldName, $text, &$solrMarc)
+    public function buildFieldFormatterData($marcSubfieldName, $text, &$solrMarc)
     {
-        $renderConfigEntry = $this->findSubfield($subfieldName);
+        $renderConfigEntry = $this->findSubfield($marcSubfieldName);
         if ($renderConfigEntry === null) {
-            throw new \Exception("Didn't find $subfieldName in " . $this);
+            throw new \Exception("Didn't find $marcSubfieldName in " . $this);
         }
         $renderFieldData = $solrMarc->buildGenericSubMap($text, true);
         return new FieldFormatterData($renderConfigEntry, $renderFieldData);
@@ -312,15 +312,17 @@ class CompoundEntry extends AbstractRenderConfigEntry
      * Helper method to build a new subfield config instance
      * (@link SingleEntry).
      *
-     * @param string $labelKey         the translation key build by {@link AbstractRenderConfigEntry::buildLabelKey}
+     * @param string $subfieldName     the translation key build by {@link AbstractRenderConfigEntry::buildLabelKey}
      * @param string $marcSubfieldName the marc subfield's name
      *
      * @return SingleEntry
      */
-    protected function buildElement(string $labelKey, string $marcSubfieldName
+    protected function buildElement(
+        string $subfieldName, string $marcSubfieldName
     ): SingleEntry {
         $formatter = $this->formatterConfig->singleFormatter(
-            $labelKey, "simple", $this->formatterConfig
+            $subfieldName . "-" . $marcSubfieldName, "simple",
+            $this->formatterConfig
         );
         $singleEntry = new SingleEntry(
             $this->groupName, $this->fieldName, $this->subfieldName,

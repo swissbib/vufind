@@ -181,11 +181,9 @@ class SucheinstiegePerson extends FieldGroupFormatter
                         ) {
                             continue;
                         }
-                        $labelKey
-                            = SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY
-                            . "-" . $marcSubfieldNameStr;
                         $compoundEntry->addElement(
-                            $labelKey, $marcSubfieldNameStr
+                            SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY,
+                            $marcSubfieldNameStr
                         );
                     }
                     $compoundEntry->orderEntries();

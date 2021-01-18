@@ -10,6 +10,7 @@ use SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter\Line;
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\DefaultFormatter;
 use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\SucheinstiegePerson;
 use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Date;
+use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Institution;
 use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Simple;
 use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\SimpleLine;
 
@@ -68,11 +69,13 @@ $linkSFX = $viewRecord->getLinkSFX();
 $this->render('RecordDriver/SolrMarc/SubfieldFormatter/Simple');
 $this->render('RecordDriver/SolrMarc/SubfieldFormatter/SimpleLine');
 $this->render('RecordDriver/SolrMarc/SubfieldFormatter/Date');
+$this->render('RecordDriver/SolrMarc/SubfieldFormatter/Institution');
 
 $subfieldFormatterRegistry = new SubfieldFormatterRegistry();
 $subfieldFormatterRegistry->register(new Simple($this));
 $subfieldFormatterRegistry->register(new SimpleLine($this));
 $subfieldFormatterRegistry->register(new Date($this));
+$subfieldFormatterRegistry->register(new Institution($this));
 
 $this->render('RecordDriver/SolrMarc/FieldFormatter/Inline');
 $this->render('RecordDriver/SolrMarc/FieldFormatter/Line');

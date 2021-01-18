@@ -16,11 +16,13 @@ structure:
           name: inline
           separator: "; " # for inline formatter only
           repeated: true
-          entries:
-            - name: "institution-code"
-            - name: "standort code"
-            - name: "Signatur1"
-            - name: "Signatur2"
+          entries: # all members (order is taken from csv!)
+            - name: "Signatur1-j"
+            - name: "Signatur2-h"
+            - name: "institution-code-b"
+              formatter:
+                name: "institution"
+            - name: "standort code-c"
       "Titel":
         formatter:
           name: line
