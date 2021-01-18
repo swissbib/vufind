@@ -1,5 +1,6 @@
 # Installation
 ## Docker
+In root directory : 
 ```
 docker-compose -f docker/development/docker-compose-custom-node.yml build
 touch local/private_config_values/private_config_base_content.conf
@@ -10,7 +11,7 @@ docker-compose up -d node
 docker-compose down
 # composer install
 docker-compose -f docker/development/docker-compose-php.yml up
-docker-compose up -d 
+docker-compose -f docker/docker-compose.yml up -d 
 ```
 
 http://127.0.0.1

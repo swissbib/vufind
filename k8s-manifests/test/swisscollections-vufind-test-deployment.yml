@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swisscollections-vufind-test-deployment
+  namespace: memobase
+  labels:
+    app: swisscollections-vufind-test-app
+spec:
+  selector:
+    matchLabels:
+      app: swisscollections-vufind-test-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: swisscollections-vufind-test-app
+        tier: web
+    spec:
+      containers:
+        # Our PHP-FPM application
+        - image: registry.gitlab.com/swissbib/classic/vufind:swisscollections-SC-59-Kubernetes
+          name: vufind
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: "swisscollections-vufind-test-config"
+          ports:
+            - containerPort: 9000
+          volumeMounts:
+            - name: swisscollections-test-secrets
+              mountPath: /usr/local/vufind/local/private_config_values
+
+        # Our nginx container, which uses the configuration declared above,
+        # along with the files shared with the PHP-FPM app.
+        - name: nginx
+          image: registry.gitlab.com/swissbib/classic/vufind:nginx-swisscollections-SC-59-Kubernetes
+          ports:
+            - containerPort: 80
+      volumes:
+        - name: swisscollections-test-secrets
+          secret:
+            # see https://rephelv.atlassian.net/wiki/spaces/RH/pages/354746383/Secrets+and+Passwords
+            secretName: swisscollections-test-credentials
+
+
+
