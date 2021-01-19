@@ -1,6 +1,6 @@
 <?php
 /**
- * SwissCollections: Date.phtml
+ * SwissCollections: Translate.phtml
  *
  * PHP version 7
  *
@@ -34,7 +34,7 @@ use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\FormatterConfig;
 
 /**
- * Translates institution codes to human readable strings.
+ * Translates a constant.
  *
  * @category SwissCollections_VuFind
  * @package  SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter
@@ -42,7 +42,7 @@ use SwissCollections\RenderConfig\FormatterConfig;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class Institution extends Simple
+class Translate extends Simple
 {
     /**
      * Get the text for html.
@@ -55,8 +55,12 @@ class Institution extends Simple
      */
     protected function getHtml($text, $formatterConfig, $context): string
     {
+        // textDomain is required!
+        $textDomain = $formatterConfig->optionalConfigEntry(
+            "textDomain", "xxxx"
+        );
         $text = $context->solrMarc->getTranslator()->translate(
-            $text, 'institution'
+            $text, $textDomain
         );
         return parent::getHtml($text, $formatterConfig, $context);
     }

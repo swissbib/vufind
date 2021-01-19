@@ -14,6 +14,7 @@ use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Date;
 use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Institution;
 use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Simple;
 use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\SimpleLine;
+use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Translate;
 
 ?>-->
 <?php
@@ -74,6 +75,7 @@ $this->render('RecordDriver/SolrMarc/SubfieldFormatter/SimpleLine');
 $this->render('RecordDriver/SolrMarc/SubfieldFormatter/Date');
 $this->render('RecordDriver/SolrMarc/SubfieldFormatter/Institution');
 $this->render('RecordDriver/SolrMarc/SubfieldFormatter/Brackets');
+$this->render('RecordDriver/SolrMarc/SubfieldFormatter/Translate');
 
 $subfieldFormatterRegistry = new SubfieldFormatterRegistry();
 $subfieldFormatterRegistry->register("simple", new Simple($this));
@@ -81,6 +83,7 @@ $subfieldFormatterRegistry->register("simple-line", new SimpleLine($this));
 $subfieldFormatterRegistry->register("date", new Date($this));
 $subfieldFormatterRegistry->register("institution", new Institution($this));
 $subfieldFormatterRegistry->register("brackets", new Brackets($this));
+$subfieldFormatterRegistry->register("translate", new Translate($this));
 
 $this->render('RecordDriver/SolrMarc/FieldFormatter/Inline');
 $this->render('RecordDriver/SolrMarc/FieldFormatter/Line');

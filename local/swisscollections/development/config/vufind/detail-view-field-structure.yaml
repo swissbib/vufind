@@ -27,8 +27,14 @@ structure:
         formatter:
           name: line
       "Dokumenttyp": # INTERNAL field
-        # the field's value is returned by this static php method:
+        # the field's value is returned by this static php method and sets marc subfield "a"
         provider: \SwissCollections\RecordDriver\SolrMarc::documentTypeProvider
+        formatter:
+          entries:
+            - name: "Dokumenttyp1-a"
+              formatter:
+                name: "translate"
+                textDomain: "formats"
   "Inhalt und innere Ordnung":
     groups:
       "Inhalt":

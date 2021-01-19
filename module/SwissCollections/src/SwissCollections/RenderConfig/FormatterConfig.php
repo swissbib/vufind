@@ -271,7 +271,7 @@ class FormatterConfig
      *
      * @return mixed
      */
-    protected function optionalConfigEntry($key, $defaultValue)
+    public function optionalConfigEntry($key, $defaultValue)
     {
         $value = $defaultValue;
         if (array_key_exists($key, $this->config)) {

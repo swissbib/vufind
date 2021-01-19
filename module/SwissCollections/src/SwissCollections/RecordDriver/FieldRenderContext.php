@@ -30,9 +30,11 @@
 
 namespace SwissCollections\RecordDriver;
 
+use SwissCollections\Formatter\FieldFormatter;
 use SwissCollections\Formatter\FieldFormatterData;
 use SwissCollections\Formatter\FieldFormatterRegistry;
 use SwissCollections\Formatter\SubfieldFormatterRegistry;
+use SwissCollections\RenderConfig\FormatterConfig;
 
 /**
  * Context for field formatters.
@@ -133,19 +135,18 @@ class FieldRenderContext
     /**
      * Apply a subfield formatter.
      *
-     * @param String             $lookupKey  a value's lookup key
-     * @param FieldFormatterData $data       the value to render
-     * @param String             $renderMode the field formatter's name
-     * @param String             $labelKey   the field's translation key
-     * @param FieldRenderContext $context    the render context
+     * @param String             $lookupKey       a value's lookup key
+     * @param FieldFormatterData $data            the value to render
+     * @param FormatterConfig    $formatterConfig the field formatter's config
+     * @param String             $labelKey        the field's translation key
      *
      * @return void
      */
     public function applySubfieldFormatter(
-        $lookupKey, &$data, $renderMode, $labelKey, $context
+        $lookupKey, &$data, $formatterConfig, $labelKey
     ) {
         $this->subfieldFormatterRegistry->applyFormatter(
-            $renderMode, $labelKey, $data, $context
+            $formatterConfig, $labelKey, $data, $this
         );
         if (!empty($lookupKey)) {
             $this->addProcessed($lookupKey);

@@ -31,6 +31,7 @@
 namespace SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter;
 
 use SwissCollections\RecordDriver\FieldRenderContext;
+use SwissCollections\RenderConfig\FormatterConfig;
 
 /**
  * Formatter surrounds text with square brackets.
@@ -46,13 +47,14 @@ class Brackets extends Simple
     /**
      * Get the text for html.
      *
-     * @param string             $text    plain text for output
-     * @param FieldRenderContext $context the render context
+     * @param string             $text            plain text for output
+     * @param FormatterConfig    $formatterConfig the formatter config to apply
+     * @param FieldRenderContext $context         the render context
      *
      * @return string
      */
-    protected function getHtml($text, $context): string
+    protected function getHtml($text, $formatterConfig, $context): string
     {
-        return parent::getHtml("[" . $text . "]", $context);
+        return parent::getHtml("[" . $text . "]", $formatterConfig, $context);
     }
 }

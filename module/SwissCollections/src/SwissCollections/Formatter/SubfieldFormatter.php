@@ -33,6 +33,7 @@ namespace SwissCollections\Formatter;
 use Laminas\View\Renderer\PhpRenderer;
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RecordDriver\SubfieldRenderData;
+use SwissCollections\RenderConfig\FormatterConfig;
 use SwissCollections\RenderConfig\SingleEntry;
 
 /**
@@ -66,13 +67,16 @@ abstract class SubfieldFormatter
     /**
      * Renders given values to html.
      *
-     * @param String             $fieldName the field's name (not the name of the marc subfield!)
-     * @param FieldFormatterData $fieldData the value to render
-     * @param FieldRenderContext $context   the render context
+     * @param String             $fieldName       the field's name (not the name of the marc subfield!)
+     * @param FieldFormatterData $fieldData       the value to render
+     * @param FormatterConfig    $formatterConfig the formatter config to apply
+     * @param FieldRenderContext $context         the render context
      *
      * @return void
      */
-    public abstract function render($fieldName, $fieldData, $context): void;
+    public abstract function render(
+        $fieldName, $fieldData, $formatterConfig, $context
+    ): void;
 }
 
 /**
@@ -121,19 +125,20 @@ class SubfieldFormatterRegistry
     /**
      * Apply a field formatter.
      *
-     * @param string             $formatterKey the formatter to apply
-     * @param string             $fieldName    the field's name (not the name of the marc subfield)
-     * @param FieldFormatterData $fieldData    the value to render
-     * @param FieldRenderContext $context      the render context
+     * @param FormatterConfig    $formatterConfig the formatter to apply
+     * @param string             $fieldName       the field's name (not the name of the marc subfield)
+     * @param FieldFormatterData $fieldData       the value to render
+     * @param FieldRenderContext $context         the render context
      *
      * @return void
      */
     public function applyFormatter(
-        $formatterKey, $fieldName, $fieldData, &$context
+        $formatterConfig, $fieldName, $fieldData, &$context
     ) {
+        $formatterKey = $formatterConfig->getFormatterName();
         $ff = $this->get($formatterKey);
         if (!empty($ff)) {
-            $ff->render($fieldName, $fieldData, $context);
+            $ff->render($fieldName, $fieldData, $formatterConfig, $context);
         } else {
             echo "<!-- ERROR: Unknown subfield formatter: '$formatterKey' -->\n";
         }

@@ -146,8 +146,7 @@ abstract class FieldFormatter
         $formatterConfig = $fd->renderConfig->getFormatterConfig();
         // "null" for lookupKey should be OK, because non-sequence fields (see SequencesEntry) should not contain duplicates
         $context->applySubfieldFormatter(
-            null, $fd, $formatterConfig->getFormatterName(),
-            $fd->renderConfig->labelKey, $context
+            null, $fd, $formatterConfig, $fd->renderConfig->labelKey
         );
     }
 }

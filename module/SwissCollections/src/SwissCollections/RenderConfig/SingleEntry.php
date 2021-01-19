@@ -169,9 +169,8 @@ class SingleEntry extends AbstractRenderConfigEntry
      */
     public function applyFormatter($lookupKey, &$values, $context)
     {
-        $renderMode = $this->getRenderMode();
         $context->applySubfieldFormatter(
-            $lookupKey, $values[0], $renderMode, $this->labelKey, $context
+            $lookupKey, $values[0], $this->formatterConfig, $this->labelKey
         );
     }
 }
