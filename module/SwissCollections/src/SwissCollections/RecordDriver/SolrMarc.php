@@ -338,20 +338,20 @@ class SolrMarc extends SwissbibSolrMarc
                 if ($fieldViewInfo) {
                     $formatterConfig
                         = $this->detailViewFieldInfo->getFormatterConfig(
-                        null, $fieldViewInfo
-                    );
+                            null, $fieldViewInfo
+                        );
                     if ($this->detailViewFieldInfo->hasType($fieldViewInfo)) {
                         $renderType
                             = $this->detailViewFieldInfo->getType(
-                            $fieldViewInfo
-                        );
+                                $fieldViewInfo
+                            );
                     }
                 }
             }
             $fieldGroupFormatter
                 = $this->detailViewFieldInfo->getFieldGroupFormatter(
-                $groupViewInfo, $fieldName
-            );
+                    $groupViewInfo, $fieldName
+                );
             // echo "<!-- SPECIAL: $groupName > $fieldName: rt=$renderType fc=" . $formatterConfig . " gc=" . $fieldGroupFormatter . " -->\n";
 
             if (!$renderGroupEntry
