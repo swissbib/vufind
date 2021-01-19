@@ -47,14 +47,11 @@ use SwissCollections\RecordDriver\FieldRenderContext;
 class Simple extends SubfieldFormatter
 {
     /**
-     * Get the formatter's name.
+     * Html tag to render.
      *
-     * @return string
+     * @string
      */
-    public function getName(): string
-    {
-        return "simple";
-    }
+    protected $tag = "span";
 
     /**
      * Render a subfield value to html.
@@ -67,14 +64,27 @@ class Simple extends SubfieldFormatter
      */
     public function render($fieldName, $data, $context): void
     {
-        echo "<span class='subfield-formatter-" . $this->getName() . "'>";
+        $shortClassName = (new \ReflectionClass($this))->getShortName();
+        echo "<{$this->tag} class='subfield-formatter-" . $shortClassName
+            . "'>";
+        $text = $data->subfieldRenderData->value;
         if ($data->subfieldRenderData->escHtml) {
-            echo $this->phpRenderer->escapeHtml(
-                $data->subfieldRenderData->value
-            );
-        } else {
-            echo $data->subfieldRenderData->value;
+            $text = $this->getHtml($text, $context);
         }
-        echo "</span>";
+        echo $text;
+        echo "</{$this->tag}>";
+    }
+
+    /**
+     * Get text html escaped.
+     *
+     * @param string             $text    the plain text for html output
+     * @param FieldRenderContext $context the render context
+     *
+     * @return string
+     */
+    protected function getHtml($text, $context): string
+    {
+        return $this->phpRenderer->escapeHtml($text);
     }
 }

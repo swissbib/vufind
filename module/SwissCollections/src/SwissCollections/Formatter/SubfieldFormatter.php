@@ -73,13 +73,6 @@ abstract class SubfieldFormatter
      * @return void
      */
     public abstract function render($fieldName, $fieldData, $context): void;
-
-    /**
-     * Returns the formatter's name.
-     *
-     * @return string
-     */
-    public abstract function getName(): String;
 }
 
 /**
@@ -103,13 +96,14 @@ class SubfieldFormatterRegistry
     /**
      * Register a given subfield formatter.
      *
-     * @param SubfieldFormatter $ff the formatter to register
+     * @param string            $name the formatter's name in detail-view-field-structure.yaml
+     * @param SubfieldFormatter $ff   the formatter to register
      *
      * @return void
      */
-    public function register(SubfieldFormatter $ff)
+    public function register(string $name, SubfieldFormatter $ff)
     {
-        $this->registry[$ff->getName()] = $ff;
+        $this->registry[$name] = $ff;
     }
 
     /**

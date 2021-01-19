@@ -76,11 +76,11 @@ $this->render('RecordDriver/SolrMarc/SubfieldFormatter/Institution');
 $this->render('RecordDriver/SolrMarc/SubfieldFormatter/Brackets');
 
 $subfieldFormatterRegistry = new SubfieldFormatterRegistry();
-$subfieldFormatterRegistry->register(new Simple($this));
-$subfieldFormatterRegistry->register(new SimpleLine($this));
-$subfieldFormatterRegistry->register(new Date($this));
-$subfieldFormatterRegistry->register(new Institution($this));
-$subfieldFormatterRegistry->register(new Brackets($this));
+$subfieldFormatterRegistry->register("simple", new Simple($this));
+$subfieldFormatterRegistry->register("simple-line", new SimpleLine($this));
+$subfieldFormatterRegistry->register("date", new Date($this));
+$subfieldFormatterRegistry->register("institution", new Institution($this));
+$subfieldFormatterRegistry->register("brackets", new Brackets($this));
 
 $this->render('RecordDriver/SolrMarc/FieldFormatter/Inline');
 $this->render('RecordDriver/SolrMarc/FieldFormatter/Line');

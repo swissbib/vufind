@@ -30,13 +30,10 @@
 
 namespace SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter;
 
-use SwissCollections\Formatter\FieldFormatter;
-use SwissCollections\Formatter\FieldFormatterData;
-use SwissCollections\Formatter\SubfieldFormatter;
 use SwissCollections\RecordDriver\FieldRenderContext;
 
 /**
- * Translates institution codes to human readable strings.
+ * Formatter surrounds text with square brackets.
  *
  * @category SwissCollections_VuFind
  * @package  SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter
@@ -44,37 +41,18 @@ use SwissCollections\RecordDriver\FieldRenderContext;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class Brackets extends SubfieldFormatter
+class Brackets extends Simple
 {
     /**
-     * Get the formatter's name.
+     * Get the text for html.
+     *
+     * @param string             $text    plain text for output
+     * @param FieldRenderContext $context the render context
      *
      * @return string
      */
-    public function getName(): string
+    protected function getHtml($text, $context): string
     {
-        return "brackets";
-    }
-
-    /**
-     * Render a subfield value to html.
-     *
-     * @param string $fieldName           the field's name
-     * @param FieldFormatterData $data    the subfield's value
-     * @param FieldRenderContext $context the render context
-     *
-     * @return void
-     */
-    public function render($fieldName, $data, $context): void
-    {
-        echo "<span class='subfield-formatter-" . $this->getName() . "'>[";
-        $text = $data->subfieldRenderData->value;
-        $text = trim($text);
-        if ($data->subfieldRenderData->escHtml) {
-            echo $this->phpRenderer->escapeHtml($text);
-        } else {
-            echo $text;
-        }
-        echo "]</span>";
+        return parent::getHtml("[" . $text . "]", $context);
     }
 }
