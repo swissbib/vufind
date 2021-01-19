@@ -26,6 +26,9 @@ structure:
       "Titel":
         formatter:
           name: line
+      "Dokumenttyp": # INTERNAL field
+        # the field's value is returned by this static php method:
+        provider: \SwissCollections\RecordDriver\SolrMarc::documentTypeProvider
   "Inhalt und innere Ordnung":
     groups:
       "Inhalt":

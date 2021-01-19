@@ -279,10 +279,15 @@ class SolrMarc extends SwissbibSolrMarc
 
             $marcIndex = trim($field[SolrMarc::$MARC_MAPPING_MARC_INDEX]);
             if (!ctype_digit($marcIndex)) {
-                echo "<!-- ERROR: SKIPPING BAD MARC INDEX $groupName > $fieldName > $subFieldName: '$marcIndex' -->\n";
-                continue;
+                if ($marcIndex === 'INTERNAL') {
+                    $marcIndex = -1;
+                } else {
+                    echo "<!-- ERROR: SKIPPING BAD MARC INDEX $groupName > $fieldName > $subFieldName: '$marcIndex' -->\n";
+                    continue;
+                }
+            } else {
+                $marcIndex = intval($marcIndex);
             }
-            $marcIndex = intval($marcIndex);
             $marcSubfieldName = trim(
                 $field[SolrMarc::$MARC_MAPPING_MARC_SUBFIELD]
             );
@@ -338,20 +343,20 @@ class SolrMarc extends SwissbibSolrMarc
                 if ($fieldViewInfo) {
                     $formatterConfig
                         = $this->detailViewFieldInfo->getFormatterConfig(
-                            null, $fieldViewInfo
-                        );
+                        null, $fieldViewInfo
+                    );
                     if ($this->detailViewFieldInfo->hasType($fieldViewInfo)) {
                         $renderType
                             = $this->detailViewFieldInfo->getType(
-                                $fieldViewInfo
-                            );
+                            $fieldViewInfo
+                        );
                     }
                 }
             }
             $fieldGroupFormatter
                 = $this->detailViewFieldInfo->getFieldGroupFormatter(
-                    $groupViewInfo, $fieldName
-                );
+                $groupViewInfo, $fieldName
+            );
             // echo "<!-- SPECIAL: $groupName > $fieldName: rt=$renderType fc=" . $formatterConfig . " gc=" . $fieldGroupFormatter . " -->\n";
 
             if (!$renderGroupEntry
@@ -640,7 +645,10 @@ class SolrMarc extends SwissbibSolrMarc
                  */
                 $subfields = $field->getSubfields();
                 foreach ($subfields as $marcSubfield) {
-                    if (!in_array($marcSubfield->getCode(), $hiddenMarcSubfields)) {
+                    if (!in_array(
+                        $marcSubfield->getCode(), $hiddenMarcSubfields
+                    )
+                    ) {
                         $tempFieldData["" . $marcSubfield->getCode()]
                             = $marcSubfield->getData();
                     }
@@ -655,5 +663,76 @@ class SolrMarc extends SwissbibSolrMarc
             }
         }
         return $tempFieldData;
+    }
+
+    /**
+     * Get all types of the document.
+     *
+     * @return string[]
+     */
+    protected function getDocumentTypes()
+    {
+        return $this->fields["format_str_mv"];
+    }
+
+    /**
+     * Get a field's value provider.
+     *
+     * @param string $groupName a field group's name
+     * @param string $fieldName a field's name
+     *
+     * @return null|string
+     */
+    protected function getValueProvider($groupName, $fieldName)
+    {
+        $groupView = $this->detailViewFieldInfo->getGroup($groupName);
+        return $this->detailViewFieldInfo->getFieldValueProvider(
+            $groupView, $fieldName
+        );
+    }
+
+    /**
+     * Abstract method to get field values for marc fields and other value
+     * providers.
+     *
+     * @param AbstractRenderConfigEntry $renderElem the render element
+     *
+     * @return \File_MARC_Data_Field[]|\File_MARC_List
+     */
+    public function getFieldValues($renderElem)
+    {
+        $valueProvider = $this->getValueProvider(
+            $renderElem->groupName, $renderElem->fieldName
+        );
+        if (empty($valueProvider)) {
+            $fields = $this->getMarcFields($renderElem->marcIndex);
+        } else {
+            $fields = call_user_func_array(
+                $valueProvider, array(&$renderElem, &$this)
+            );
+        }
+        return $fields;
+    }
+
+    /**
+     * Get the document type of a given render element. Fakes a marc field
+     * with a marc subfield "a".
+     *
+     * @param AbstractRenderConfigEntry $renderElem the render element
+     * @param SolrMarc                  $solrMarc   the render context
+     *
+     * @return \File_MARC_Data_Field[]|\File_MARC_List
+     */
+    public static function documentTypeProvider($renderElem, $solrMarc)
+    {
+        $docTypes = [];
+        $types = $solrMarc->getDocumentTypes();
+        if (!empty($types)) {
+            foreach ($types as $t) {
+                $subfield = new \File_MARC_Subfield('a', $t);
+                $docTypes[] = new \File_MARC_Data_Field("000", [$subfield]);
+            }
+        }
+        return $docTypes;
     }
 }

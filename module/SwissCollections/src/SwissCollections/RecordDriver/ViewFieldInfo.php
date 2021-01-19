@@ -51,6 +51,7 @@ class ViewFieldInfo
     public static $RENDER_INFO_FIELD_TYPE = "type";
     public static $RENDER_INFO_FIELD_MODE = "formatter";
     public static $RENDER_INFO_FIELD_SUBFIELD_SEQUENCES = "sequences";
+    public static $RENDER_INFO_FIELD_VALUE_PROVIDER = "provider";
 
     /**
      * ViewFieldInfo constructor.
@@ -137,6 +138,25 @@ class ViewFieldInfo
             $config = $cfg[ViewFieldInfo::$RENDER_INFO_FIELD_MODE];
         }
         return new FormatterConfig('default', $config);
+    }
+
+    /**
+     * Returns a value provider's name or null (from
+     * {@link ViewFieldInfo::$RENDER_INFO_FIELD_VALUE_PROVIDER}).
+     *
+     * @param array|null $groupViewInfo data returned by getGroup()
+     * @param string     $fieldName     the field's name
+     *
+     * @return string | null
+     */
+    public function getFieldValueProvider($groupViewInfo, $fieldName)
+    {
+        $provider = null;
+        $cfg = $this->getField($groupViewInfo, $fieldName);
+        if (!empty($cfg)) {
+            $provider = $cfg[ViewFieldInfo::$RENDER_INFO_FIELD_VALUE_PROVIDER];
+        }
+        return $provider;
     }
 
     /**

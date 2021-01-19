@@ -173,6 +173,7 @@ abstract class AbstractRenderConfigEntry
     {
         return "AbstractRenderConfigEntry{"
             . $this->labelKey . ","
+            . $this->groupName . ","
             . $this->fieldName . ","
             . $this->subfieldName . ","
             . $this->marcIndex . ","
@@ -229,7 +230,7 @@ abstract class AbstractRenderConfigEntry
      */
     public function isEmpty(SolrMarc $solrMarc): bool
     {
-        $fields = $solrMarc->getMarcFields($this->marcIndex);
+        $fields = $solrMarc->getFieldValues($this);
         if (!empty($fields)) {
             foreach ($fields as $field) {
                 if ($this->hasRenderData($field, $solrMarc)) {
