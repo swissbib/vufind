@@ -627,7 +627,7 @@ class SolrMarc extends SwissbibSolrMarc
      * @param AbstractFieldCondition|null                    $fieldCondition      the field's conditions
      * @param string[]                                       $hiddenMarcSubfields hidden marc subfields
      *
-     * @return array array of subfield names to values
+     * @return array array of subfield names to array of values
      */
     public function getMarcFieldRawMap(
         $field, $fieldCondition, $hiddenMarcSubfields
@@ -649,13 +649,18 @@ class SolrMarc extends SwissbibSolrMarc
                         $marcSubfield->getCode(), $hiddenMarcSubfields
                     )
                     ) {
-                        $tempFieldData["" . $marcSubfield->getCode()]
-                            = $marcSubfield->getData();
+                        $v = trim($marcSubfield->getData());
+                        $k = "" . $marcSubfield->getCode();
+                        if (key_exists($k, $tempFieldData)) {
+                            $tempFieldData[$k][] = $v;
+                        } else {
+                            $tempFieldData[$k] = [$v];
+                        }
                     }
                 }
             } else {
                 if ($field instanceof \File_MARC_Control_Field) {
-                    $tempFieldData["a"] = $field->getData();
+                    $tempFieldData["a"] = [$field->getData()];
                 } else {
                     echo "<!-- WARN (getMarcSubfieldsRawMap): Can't handle field type: "
                         . get_class($field) . " -->\n";

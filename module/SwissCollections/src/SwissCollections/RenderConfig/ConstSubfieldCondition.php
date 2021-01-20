@@ -104,15 +104,14 @@ class ConstSubfieldCondition extends AbstractFieldCondition
     {
         // indicators are checked too, so no need to do it twice
         $marcSubfieldMap = $solrMarc->getMarcFieldRawMap($field, null, []);
-        $marcSubfieldValue = $marcSubfieldMap[$this->marcSubfieldName];
-        if (!empty($marcSubfieldValue)) {
-            $marcSubfieldValue = trim($marcSubfieldValue);
-        }
-        if ($marcSubfieldValue === $this->expectedValue) {
-            return true;
+        $marcSubfieldValues = $marcSubfieldMap[$this->marcSubfieldName];
+        if (!empty($marcSubfieldValues)) {
+            if (in_array($this->expectedValue, $marcSubfieldValues)) {
+                return true;
+            }
         }
         echo "<!-- " . $field->getTag()
-            . " CONDITION FAILED: Constant $this, got " . $marcSubfieldValue
+            . " CONDITION FAILED: Constant $this, got " . $marcSubfieldValues
             . " -->";
         return false;
     }

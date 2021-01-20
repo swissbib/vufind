@@ -120,7 +120,7 @@ abstract class FieldGroupFormatter
      *
      * @return string
      */
-    public function labelKeyAsCssClass(String $labelKey): string
+    public static function labelKeyAsCssClass(String $labelKey): string
     {
         return preg_replace('/[. \/"§$%&()!=?+*~#\':,;]/', "_", $labelKey);
     }

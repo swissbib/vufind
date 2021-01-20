@@ -140,17 +140,17 @@ class SucheinstiegePerson extends FieldGroupFormatter
     /**
      * Sort persons into buckets of roles. If no role is present "unknown" is used.
      *
-     * @param AbstractRenderConfigEntry[] $fieldDataList the field's render configuration
-     * @param FieldGroupRenderContext     $context       the render context
+     * @param AbstractRenderConfigEntry[] $renderConfigEntries the field's render configuration
+     * @param FieldGroupRenderContext     $context             the render context
      *
      * @return array array with role keys and a list of tuples. Each tuple consists of an CompoundEntry and
      *          FieldFormatterData[] (= values)
      */
-    protected function fillRoleBuckets(&$fieldDataList, &$context): array
+    protected function fillRoleBuckets(&$renderConfigEntries, &$context): array
     {
-        $roleMarcSubfields = $fieldDataList[0]->getFieldGroupFormatter()
+        $roleMarcSubfields = $renderConfigEntries[0]->getFieldGroupFormatter()
             ->getRoleMarcSubfields();
-        $hiddenMarcSubfields = $fieldDataList[0]->getFieldGroupFormatter()
+        $hiddenMarcSubfields = $renderConfigEntries[0]->getFieldGroupFormatter()
             ->getHiddenRoleMarcSubfields();
 
         $personsWithRole = [];
@@ -159,17 +159,18 @@ class SucheinstiegePerson extends FieldGroupFormatter
          *
          * @var CompoundEntry $renderElem
          */
-        foreach ($fieldDataList as $renderElem) {
+        foreach ($renderConfigEntries as $renderElem) {
             $marcIndex = $renderElem->marcIndex;
             $subfieldValues = $context->solrMarc->getMarcFieldsRawMap(
-                $marcIndex, $renderElem->subfieldCondition, $renderElem->getHiddenMarcSubfields()
+                $marcIndex, $renderElem->subfieldCondition,
+                $renderElem->getHiddenMarcSubfields()
             );
             if (!empty($subfieldValues)) {
                 foreach ($subfieldValues as $sfv) {
                     $role = "unknown";
                     foreach ($roleMarcSubfields as $roleSubfieldName) {
                         if (!empty($sfv[$roleSubfieldName])) {
-                            $role = $sfv[$roleSubfieldName];
+                            $role = $sfv[$roleSubfieldName][0];
                             break;
                         }
                     }
@@ -193,7 +194,7 @@ class SucheinstiegePerson extends FieldGroupFormatter
                             = $singleEntry->getMarcSubfieldName();
                         $ffdList[] = $compoundEntry->buildFieldFormatterData(
                             $marcSubfieldNameStr,
-                            $sfv[$marcSubfieldNameStr], $context->solrMarc
+                            $sfv[$marcSubfieldNameStr][0], $context->solrMarc
                         );
                     }
                     if (!array_key_exists($role, $personsWithRole)) {

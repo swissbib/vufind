@@ -186,12 +186,12 @@ class SequencesEntry extends CompoundEntry
     /**
      * Checks whether a subfield sequence matches the current field values.
      *
-     * @param array    $rawData  maps marc subfield names to their value
+     * @param array    $rawData  maps marc subfield names to their value (returned by {@link SolrMarc::getMarcFieldRawMap})
      * @param SolrMarc $solrMarc the marc record
      *
      * @return FieldFormatterData[]
      */
-    public function matchesSubfieldSequence(&$rawData, &$solrMarc)
+    protected function matchesSubfieldSequence(&$rawData, &$solrMarc)
     {
         $rawDataSubfieldNames = array_keys($rawData);
         $rawDataSubfieldNamesLen = count($rawDataSubfieldNames);
@@ -206,11 +206,13 @@ class SequencesEntry extends CompoundEntry
                 if ($rawDataSubfieldNames[$pos] !== $marcSubfieldName) {
                     continue 2;
                 }
-                $text = $rawData[$rawDataSubfieldNames[$pos]];
-                $fieldFormatterData = $this->buildFieldFormatterData(
-                    $marcSubfieldName, $text, $solrMarc
-                );
-                $values[] = $fieldFormatterData;
+                $texts = $rawData[$rawDataSubfieldNames[$pos]];
+                foreach ($texts as $text) {
+                    $fieldFormatterData = $this->buildFieldFormatterData(
+                        $marcSubfieldName, $text, $solrMarc
+                    );
+                    $values[] = $fieldFormatterData;
+                }
                 $pos++;
             }
             // echo "<!-- MATSEQ: " . implode("-", $seq) . " -->";

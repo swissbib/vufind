@@ -71,7 +71,9 @@ class DefaultFormatter extends FieldGroupFormatter
     {
         echo "\n<div class='row'>\n";
         echo "\t<div class='field-label field-label-"
-            . $this->labelKeyAsCssClass($fieldDataList[0]->labelKey)
+            . FieldGroupFormatter::labelKeyAsCssClass(
+                $fieldDataList[0]->labelKey
+            )
             . " col-md-3'>\n";
         echo $this->translateLabelKey($fieldDataList[0]->labelKey);
         echo "\t</div>\n";

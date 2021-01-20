@@ -32,6 +32,7 @@ namespace SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter;
 
 use SwissCollections\Formatter\FieldFormatter;
 use SwissCollections\Formatter\FieldFormatterData;
+use SwissCollections\Formatter\FieldGroupFormatter;
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\FormatterConfig;
 
@@ -59,10 +60,10 @@ class Inline extends FieldFormatter
     /**
      * Render subfields values to html.
      *
-     * @param string             $fieldName       the field's name
-     * @param FieldFormatterData $fieldDataList   the field's values
-     * @param FormatterConfig    $formatterConfig the field formatter's config
-     * @param FieldRenderContext $context         the render context
+     * @param string               $fieldName       the field's name
+     * @param FieldFormatterData[] $fieldDataList   the field's values
+     * @param FormatterConfig      $formatterConfig the field formatter's config
+     * @param FieldRenderContext   $context         the render context
      *
      * @return void
      */
@@ -78,7 +79,9 @@ class Inline extends FieldFormatter
             }
             // echo "\n\t\t\t<!-- marcInfo=" . $fd->renderConfig . " -->\n";
             echo "<span class='field-entry field-entry-"
-                . $fd->renderConfig->labelKey . "'>";
+                . FieldGroupFormatter::labelKeyAsCssClass(
+                    $fd->renderConfig->labelKey
+                ) . "-" . $fd->renderConfig->getMarcSubfieldName() . "'>";
             $this->outputValue($fd, $context);
             echo "</span>";
         }
