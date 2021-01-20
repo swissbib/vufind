@@ -21,7 +21,8 @@ structure:
             - name: "Signatur2-h"
             - name: "institution-code-b"
               formatter:
-                name: "institution"
+                name: "translate"
+                textDomain: "institution"
             - name: "standort code-c"
       "Titel":
         formatter:
