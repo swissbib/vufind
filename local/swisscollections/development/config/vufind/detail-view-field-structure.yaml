@@ -75,10 +75,6 @@ structure:
             - name: "Inhalt1-g"
               formatter:
                 name: "brackets"
-            - name: "Inhalt1-t"
-            - name: "Inhalt1-r"
-            - name: "Inhalt1-v"
-            - name: "Inhalt1-s"
             - name: "Inhalt2-g" # example that it is possible to add entries for different csv rows with same marc index
               formatter:
                 name: "brackets"
