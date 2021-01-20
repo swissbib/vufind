@@ -159,7 +159,9 @@ class SingleEntry extends AbstractRenderConfigEntry
     }
 
     /**
-     * Apply the formatter.
+     * Apply the formatter. A single render config entry allways targets a
+     * single marc subfield. So apply the subfield formatter instead of the
+     * field formatter.
      *
      * @param String               $lookupKey a hash key of the values for quick lookup
      * @param FieldFormatterData[] $values    the subfield's value (array has length of 1)
