@@ -171,6 +171,11 @@ abstract class AbstractRenderConfigEntry
      */
     public function __toString()
     {
+        $allConditionsStr = "";
+        if (!empty($this->subfieldCondition)) {
+            $allConditionsStr = $this->subfieldCondition->allConditionsToString(
+            );
+        }
         return "AbstractRenderConfigEntry{"
             . $this->labelKey . ","
             . $this->groupName . ","
@@ -179,7 +184,7 @@ abstract class AbstractRenderConfigEntry
             . $this->marcIndex . ","
             . $this->indicator1 . ","
             . $this->indicator2 . ","
-            . $this->subfieldCondition . ","
+            . $allConditionsStr . ","
             . $this->formatterConfig . ","
             . $this->fieldGroupFormatter . "}";
     }
