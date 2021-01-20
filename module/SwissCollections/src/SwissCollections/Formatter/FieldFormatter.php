@@ -33,6 +33,7 @@ namespace SwissCollections\Formatter;
 use Laminas\View\Renderer\PhpRenderer;
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RecordDriver\SubfieldRenderData;
+use SwissCollections\RenderConfig\FormatterConfig;
 use SwissCollections\RenderConfig\SingleEntry;
 
 /**
@@ -117,13 +118,16 @@ abstract class FieldFormatter
     /**
      * Renders given values to html.
      *
-     * @param String               $fieldName     the field's name
-     * @param FieldFormatterData[] $fieldDataList the field's values
-     * @param FieldRenderContext   $context       the render context
+     * @param string               $fieldName       the field's name
+     * @param FieldFormatterData[] $fieldDataList   the field's values
+     * @param FormatterConfig      $formatterConfig the field formatter's config
+     * @param FieldRenderContext   $context         the render context
      *
      * @return void
      */
-    public abstract function render($fieldName, $fieldDataList, $context): void;
+    public abstract function render(
+        $fieldName, $fieldDataList, $formatterConfig, $context
+    ): void;
 
     /**
      * Returns the formatter's name.
@@ -196,18 +200,20 @@ class FieldFormatterRegistry
     /**
      * Apply a field formatter.
      *
-     * @param String               $formatterKey the formatter to apply
-     * @param String               $fieldName    the field's name to render
-     * @param FieldFormatterData[] $data         the field's values
-     * @param FieldRenderContext   $context      the render context
+     * @param FormatterConfig      $formatterConfig the formatter's config
+     * @param string               $fieldName       the field's name to render
+     * @param FieldFormatterData[] $data            the field's values
+     * @param FieldRenderContext   $context         the render context
      *
      * @return void
      */
-    public function applyFormatter($formatterKey, $fieldName, $data, &$context)
-    {
+    public function applyFormatter(
+        $formatterConfig, $fieldName, $data, &$context
+    ) {
+        $formatterKey = $formatterConfig->getFormatterName();
         $ff = $this->get($formatterKey);
         if (!empty($ff)) {
-            $ff->render($fieldName, $data, $context);
+            $ff->render($fieldName, $data, $formatterConfig, $context);
         } else {
             echo "<!-- ERROR: Unknown field formatter: '$formatterKey' -->\n";
         }

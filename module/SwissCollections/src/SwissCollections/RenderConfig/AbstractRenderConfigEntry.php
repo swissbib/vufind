@@ -285,7 +285,9 @@ abstract class AbstractRenderConfigEntry
             if ($this->formatterConfig->isRepeated()) {
                 echo $this->formatterConfig->listStartHml;
             }
-            $this->applyFormatter($lookupKey, $values, $context);
+            $context->applyFieldFormatter(
+                $lookupKey, $values, $this->formatterConfig, $this->labelKey
+            );
             if ($this->formatterConfig->isRepeated()) {
                 echo $this->formatterConfig->listEndHml;
             }
@@ -294,23 +296,6 @@ abstract class AbstractRenderConfigEntry
                 echo "<!-- DEDUP: " . print_r($values, true) . " -->\n";
             }
         }
-    }
-
-    /**
-     * Apply the configured formatter to given field values.
-     *
-     * @param String               $lookupKey a hash key of the values for quick lookup
-     * @param FieldFormatterData[] $values    the field values to render to html
-     * @param FieldRenderContext   $context   the render context
-     *
-     * @return void
-     */
-    public function applyFormatter($lookupKey, &$values, $context)
-    {
-        $context->applyFieldFormatter(
-            $lookupKey, $values, $this->getRenderMode(), $this->labelKey,
-            $context
-        );
     }
 
     /**

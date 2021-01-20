@@ -115,19 +115,18 @@ class FieldRenderContext
     /**
      * Apply a field formatter.
      *
-     * @param string               $lookupKey  a value's lookup key
-     * @param FieldFormatterData[] $data       the values to render
-     * @param string               $renderMode the field formatter's name
-     * @param string               $labelKey   the field's translation key
-     * @param FieldRenderContext   $context    the render context
+     * @param string               $lookupKey       a value's lookup key
+     * @param FieldFormatterData[] $data            the values to render
+     * @param FormatterConfig      $formatterConfig the field formatter's config
+     * @param string               $labelKey        the field's translation key
      *
      * @return void
      */
     public function applyFieldFormatter(
-        $lookupKey, &$data, $renderMode, $labelKey, $context
+        $lookupKey, &$data, $formatterConfig, $labelKey
     ): void {
         $this->fieldFormatterRegistry->applyFormatter(
-            $renderMode, $labelKey, $data, $context
+            $formatterConfig, $labelKey, $data, $this
         );
         $this->addProcessed($lookupKey);
     }
