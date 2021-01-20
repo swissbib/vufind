@@ -254,7 +254,7 @@ class FormatterConfig
     }
 
     /**
-     * For $name: "sucheinstiege-person".
+     * For $name: "sucheinstiege-person" and CompoundEntry instances.
      *
      * @return String[]
      */
