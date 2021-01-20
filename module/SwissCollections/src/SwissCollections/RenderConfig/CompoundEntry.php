@@ -203,14 +203,18 @@ class CompoundEntry extends AbstractRenderConfigEntry
                     $field->getIndicator(2)
                 );
             }
+            $hiddenMarcSubfields
+                = $this->formatterConfig->getHiddenRoleMarcSubfields();
             foreach ($fieldValueMap as $marcSubfieldName => $value) {
-                $elem = $this->buildElement(
-                    $this->subfieldName, $marcSubfieldName
-                );
-                $renderFieldData = new SubfieldRenderData(
-                    $value, true, $ind1, $ind2
-                );
-                $values[] = new FieldFormatterData($elem, $renderFieldData);
+                if (!in_array($marcSubfieldName, $hiddenMarcSubfields)) {
+                    $elem = $this->buildElement(
+                        $this->subfieldName, $marcSubfieldName
+                    );
+                    $renderFieldData = new SubfieldRenderData(
+                        $value, true, $ind1, $ind2
+                    );
+                    $values[] = new FieldFormatterData($elem, $renderFieldData);
+                }
             }
         } else {
             // get only values for the specified fields
