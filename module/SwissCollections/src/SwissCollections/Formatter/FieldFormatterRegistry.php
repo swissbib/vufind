@@ -1,6 +1,6 @@
 <?php
 /**
- * SwissCollections: FieldFormatter.php
+ * SwissCollections: FieldFormatterRegistry.php
  *
  * PHP version 7
  *
@@ -30,12 +30,11 @@
 
 namespace SwissCollections\Formatter;
 
-use Laminas\View\Renderer\PhpRenderer;
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\FormatterConfig;
 
 /**
- * Abstract top class of all field formatters.
+ * Registry of all field formatters.
  *
  * @category SwissCollections_VuFind
  * @package  SwissCollections\Formatter
@@ -43,63 +42,58 @@ use SwissCollections\RenderConfig\FormatterConfig;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-abstract class FieldFormatter
+class FieldFormatterRegistry
 {
+    /**
+     * The map of field formatters.
+     *
+     * @var array<string,FieldFormatter>
+     */
+    protected $registry;
 
     /**
-     * "vufind"'s renderer.
+     * Register a given field formatter.
      *
-     * @var PhpRenderer
-     */
-    protected $phpRenderer;
-
-    /**
-     * FieldFormatter constructor.
+     * @param FieldFormatter $ff the formatter to register
      *
-     * @param PhpRenderer $phpRenderer vufind's renderer
+     * @return void
      */
-    public function __construct(PhpRenderer $phpRenderer)
+    public function register(FieldFormatter $ff)
     {
-        $this->phpRenderer = $phpRenderer;
+        $this->registry[$ff->getName()] = $ff;
     }
 
     /**
-     * Renders given values to html.
+     * Get a field formatter by name.
      *
-     * @param string               $fieldName       the field's name
-     * @param FieldFormatterData[] $fieldDataList   the field's values
-     * @param FormatterConfig      $formatterConfig the field formatter's config
+     * @param string $name a formatter's name
+     *
+     * @return null|FieldFormatter
+     */
+    public function get(string $name)
+    {
+        return $this->registry[$name];
+    }
+
+    /**
+     * Apply a field formatter.
+     *
+     * @param FormatterConfig      $formatterConfig the formatter's config
+     * @param string               $fieldName       the field's name to render
+     * @param FieldFormatterData[] $data            the field's values
      * @param FieldRenderContext   $context         the render context
      *
      * @return void
      */
-    public abstract function render(
-        $fieldName, $fieldDataList, $formatterConfig, $context
-    ): void;
-
-    /**
-     * Returns the formatter's name.
-     *
-     * @return string
-     */
-    public abstract function getName(): string;
-
-    /**
-     * Helper method to render one subfield to html.
-     *
-     * @param FieldFormatterData $fd      the information to render
-     * @param FieldRenderContext $context the render context
-     *
-     * @return void
-     */
-    public function outputValue(
-        FieldFormatterData $fd, FieldRenderContext $context
-    ): void {
-        $formatterConfig = $fd->renderConfig->getFormatterConfig();
-        // "null" for lookupKey should be OK, because non-sequence fields (see SequencesEntry) should not contain duplicates
-        $context->applySubfieldFormatter(
-            null, $fd, $formatterConfig, $fd->renderConfig->labelKey
-        );
+    public function applyFormatter(
+        $formatterConfig, $fieldName, $data, &$context
+    ) {
+        $formatterKey = $formatterConfig->getFormatterName();
+        $ff = $this->get($formatterKey);
+        if (!empty($ff)) {
+            $ff->render($fieldName, $data, $formatterConfig, $context);
+        } else {
+            echo "<!-- ERROR: Unknown field formatter: '$formatterKey' -->\n";
+        }
     }
 }
-
