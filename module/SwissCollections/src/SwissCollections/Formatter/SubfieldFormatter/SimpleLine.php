@@ -30,8 +30,6 @@
 
 namespace SwissCollections\Formatter\SubfieldFormatter;
 
-use Laminas\View\Renderer\PhpRenderer;
-
 /**
  * Render subfield value as single line html.
  *
@@ -43,9 +41,8 @@ use Laminas\View\Renderer\PhpRenderer;
  */
 class SimpleLine extends Simple
 {
-    public function __construct(PhpRenderer $phpRenderer)
+    public function __construct()
     {
-        parent::__construct($phpRenderer);
         $this->tag = "div";
     }
 }

@@ -46,24 +46,6 @@ use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
  */
 abstract class FieldGroupFormatter
 {
-
-    /**
-     * "vufind"'s renderer.
-     *
-     * @var PhpRenderer
-     */
-    protected $phpRenderer;
-
-    /**
-     * FieldFormatter constructor.
-     *
-     * @param PhpRenderer $phpRenderer vufind's renderer
-     */
-    public function __construct(PhpRenderer $phpRenderer)
-    {
-        $this->phpRenderer = $phpRenderer;
-    }
-
     /**
      * Renders given values to html.
      *
@@ -94,7 +76,8 @@ abstract class FieldGroupFormatter
             }
             $fieldContext = new FieldRenderContext(
                 $context->fieldFormatterRegistry, $context->solrMarc,
-                $context->subfieldFormatterRegistry
+                $context->subfieldFormatterRegistry,
+                $context->phpRenderer
             );
             foreach ($fields as $field) {
                 $renderElem->render($field, $fieldContext);
@@ -122,13 +105,14 @@ abstract class FieldGroupFormatter
      * key is returned, where all "." are replaced with "-" (allows html to
      * wrap).
      *
-     * @param String $labelKey the key to translate
+     * @param string      $labelKey    the key to translate
+     * @param PhpRenderer $phpRenderer vufind's renderer
      *
      * @return string
      */
-    public function translateLabelKey(String $labelKey): string
+    public function translateLabelKey($labelKey, $phpRenderer): string
     {
-        $label = $this->phpRenderer->translate(
+        $label = $phpRenderer->translate(
             'page.detail.field.label.' . $labelKey
         );
         if (strpos($label, "page.detail.") !== false) {

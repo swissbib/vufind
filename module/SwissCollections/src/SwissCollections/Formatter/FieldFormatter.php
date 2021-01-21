@@ -45,24 +45,6 @@ use SwissCollections\RenderConfig\FormatterConfig;
  */
 abstract class FieldFormatter
 {
-
-    /**
-     * "vufind"'s renderer.
-     *
-     * @var PhpRenderer
-     */
-    protected $phpRenderer;
-
-    /**
-     * FieldFormatter constructor.
-     *
-     * @param PhpRenderer $phpRenderer vufind's renderer
-     */
-    public function __construct(PhpRenderer $phpRenderer)
-    {
-        $this->phpRenderer = $phpRenderer;
-    }
-
     /**
      * Renders given values to html.
      *

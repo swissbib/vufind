@@ -59,7 +59,7 @@ class Inline extends FieldFormatter
     public function render(
         $fieldName, $fieldDataList, $formatterConfig, $context
     ): void {
-        echo $this->phpRenderer->render(
+        echo $context->phpRenderer->render(
             '/RecordDriver/SolrMarc/FieldFormatter/Inline',
             [
                 'fieldDataList' => &$fieldDataList,

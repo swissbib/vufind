@@ -30,7 +30,7 @@
 
 namespace SwissCollections\RecordDriver;
 
-use SwissCollections\Formatter\FieldFormatter;
+use Laminas\View\Renderer\PhpRenderer;
 use SwissCollections\Formatter\FieldFormatterData;
 use SwissCollections\Formatter\FieldFormatterRegistry;
 use SwissCollections\Formatter\SubfieldFormatterRegistry;
@@ -47,6 +47,12 @@ use SwissCollections\RenderConfig\FormatterConfig;
  */
 class FieldRenderContext
 {
+    /**
+     * "vufind"'s renderer.
+     *
+     * @var PhpRenderer
+     */
+    public $phpRenderer;
 
     // any already processed values
     public $processedSubMaps;
@@ -78,14 +84,17 @@ class FieldRenderContext
      * @param FieldFormatterRegistry    $fieldFormatterRegistry    the field formatter registry
      * @param SolrMarc                  $solrMarc                  the marc record
      * @param SubfieldFormatterRegistry $subfieldFormatterRegistry the subfield formatter registry
+     * @param PhpRenderer               $phpRenderer               vufind's renderer
      */
     public function __construct(
-        $fieldFormatterRegistry, $solrMarc, $subfieldFormatterRegistry
+        $fieldFormatterRegistry, $solrMarc, $subfieldFormatterRegistry,
+        $phpRenderer
     ) {
         $this->solrMarc = $solrMarc;
         $this->fieldFormatterRegistry = $fieldFormatterRegistry;
         $this->subfieldFormatterRegistry = $subfieldFormatterRegistry;
         $this->processedSubMaps = [];
+        $this->phpRenderer = $phpRenderer;
     }
 
     /**

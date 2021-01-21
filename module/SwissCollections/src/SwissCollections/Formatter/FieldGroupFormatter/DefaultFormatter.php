@@ -57,7 +57,7 @@ class DefaultFormatter extends FieldGroupFormatter
      */
     public function render(&$fieldDataList, &$context): void
     {
-        echo $this->phpRenderer->render(
+        echo $context->phpRenderer->render(
             '/RecordDriver/SolrMarc/FieldGroupFormatter/Default',
             [
                 'fieldDataList' => &$fieldDataList,

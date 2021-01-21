@@ -69,23 +69,21 @@ if ($nl) {
 $link360 = $viewRecord->getLink360();
 $linkSFX = $viewRecord->getLinkSFX();
 
-$subfieldFormatterRegistry = new SubfieldFormatterRegistry();
-$subfieldFormatterRegistry->register("simple", new Simple($this));
-$subfieldFormatterRegistry->register("simple-line", new SimpleLine($this));
-$subfieldFormatterRegistry->register("date", new Date($this));
-$subfieldFormatterRegistry->register("brackets", new Brackets($this));
-$subfieldFormatterRegistry->register("translate", new Translate($this));
+/**
+ * @var SubfieldFormatterRegistry $subfieldFormatterRegistry
+ */
+$subfieldFormatterRegistry = $this->subfieldFormatterRegistry();
 
 $fieldFormatterRegistry = new FieldFormatterRegistry();
-$fieldFormatterRegistry->register("inline", new Inline($this));
-$fieldFormatterRegistry->register("line", new Line($this));
+$fieldFormatterRegistry->register("inline", new Inline());
+$fieldFormatterRegistry->register("line", new Line());
 
 $fieldGroupFormatterRegistry = new FieldGroupFormatterRegistry();
 $fieldGroupFormatterRegistry->register(
-    DefaultFormatter::$NAME, new DefaultFormatter($this)
+    DefaultFormatter::$NAME, new DefaultFormatter()
 );
 $fieldGroupFormatterRegistry->register(
-    "sucheinstiege-person", new SucheinstiegePerson($this)
+    "sucheinstiege-person", new SucheinstiegePerson()
 );
 ?>
 <div class="" vocab="http://schema.org/" resource="#record"
@@ -95,7 +93,7 @@ $fieldGroupFormatterRegistry->register(
     <?php
     if ($renderConfig) {
         $fieldGroupFormatterContext = new FieldGroupRenderContext(
-            $fieldFormatterRegistry, $subfieldFormatterRegistry, $record
+            $fieldFormatterRegistry, $subfieldFormatterRegistry, $record, $this
         );
         /**
          * @var RenderGroupConfig $renderGroupConfig

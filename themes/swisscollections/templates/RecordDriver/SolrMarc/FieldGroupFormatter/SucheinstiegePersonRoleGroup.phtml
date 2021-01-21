@@ -16,7 +16,7 @@ use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
         <h3 class='field-label field-label-<?php echo SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY; ?>-role'>
             <?php
             if ($role === "unknown") {
-                echo $formatter->translateLabelKey($unknownRoleLabelKey);
+                echo $formatter->translateLabelKey($unknownRoleLabelKey, $this);
             } else {
                 echo $context->solrMarc->getTranslator()->translate(
                     $role, 'CreatorRoles'

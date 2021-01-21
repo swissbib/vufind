@@ -78,10 +78,11 @@ class SucheinstiegePerson extends FieldGroupFormatter
         $unknownRoleLabelKey = $personLabelKey . ".unknown-role";
         $fieldContext = new FieldRenderContext(
             $context->fieldFormatterRegistry, $context->solrMarc,
-            $context->subfieldFormatterRegistry
+            $context->subfieldFormatterRegistry,
+            $context->phpRenderer
         );
 
-        echo $this->phpRenderer->render(
+        echo $context->phpRenderer->render(
             '/RecordDriver/SolrMarc/FieldGroupFormatter/SucheinstiegePerson',
             [
                 'fieldDataList' => &$fieldDataList,

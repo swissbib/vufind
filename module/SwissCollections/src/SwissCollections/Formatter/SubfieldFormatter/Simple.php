@@ -65,7 +65,7 @@ class Simple extends SubfieldFormatter
      */
     public function render($fieldName, $data, $formatterConfig, $context): void
     {
-        echo $this->phpRenderer->render(
+        echo $context->phpRenderer->render(
             '/RecordDriver/SolrMarc/SubfieldFormatter/Simple',
             [
                 'fieldData' => &$data,
@@ -88,7 +88,7 @@ class Simple extends SubfieldFormatter
      */
     public function getHtml($text, $formatterConfig, $context): string
     {
-        return $this->phpRenderer->escapeHtml($text);
+        return $context->phpRenderer->escapeHtml($text);
     }
 
     /**
