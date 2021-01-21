@@ -77,9 +77,6 @@
         <th class="<?=$this->source ?>">
           <?=$this->transEsc("browse_" . $this->source) ?>
         </th>
-        <?php foreach ($this->extras as $e): ?>
-          <th><?=$this->transEsc("browse_" . $e) ?></th>
-        <?php endforeach; ?>
         <th class="titles"><?=$this->transEsc("alphabrowse_matches") ?></th>
       </tr>
     </thead>
@@ -137,18 +134,6 @@
               </div>
             <?php endif; ?>
           </td>
-
-          <?php foreach ($this->extras as $extraName): ?>
-            <td>
-              <?php
-                $extraDisplayArray = [];
-                foreach ($item['extras'][$extraName] as $j => $e):
-                  $extraDisplayArray = array_unique(array_merge($extraDisplayArray, $e));
-                endforeach;
-                echo empty($extraDisplayArray) ? '&nbsp;' : implode('<br />', $extraDisplayArray);
-              ?>
-            </td>
-          <?php endforeach; ?>
 
           <td class="titles">
             <?php if ($item['frequency'] > 0): ?>
