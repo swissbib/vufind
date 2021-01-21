@@ -30,6 +30,7 @@
 
 namespace SwissCollections\Formatter;
 
+use Laminas\View\Helper\AbstractHelper;
 use SwissCollections\RecordDriver\FieldGroupRenderContext;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 use SwissCollections\RenderConfig\FormatterConfig;
@@ -43,7 +44,7 @@ use SwissCollections\RenderConfig\FormatterConfig;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class FieldGroupFormatterRegistry
+class FieldGroupFormatterRegistry extends AbstractHelper
 {
     /**
      * The map of field group formatters.

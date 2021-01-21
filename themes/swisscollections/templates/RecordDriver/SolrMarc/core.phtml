@@ -77,14 +77,10 @@ $subfieldFormatterRegistry = $this->subfieldFormatterRegistry();
  * @var FieldFormatterRegistry $fieldFormatterRegistry
  */
 $fieldFormatterRegistry = $this->fieldFormatterRegistry();
-
-$fieldGroupFormatterRegistry = new FieldGroupFormatterRegistry();
-$fieldGroupFormatterRegistry->register(
-    DefaultFormatter::$NAME, new DefaultFormatter()
-);
-$fieldGroupFormatterRegistry->register(
-    "sucheinstiege-person", new SucheinstiegePerson()
-);
+/**
+ * @var FieldGroupFormatterRegistry $fieldGroupFormatterRegistry
+ */
+$fieldGroupFormatterRegistry = $this->fieldGroupFormatterRegistry();
 ?>
 <div class="" vocab="http://schema.org/" resource="#record"
      typeof="<?php echo $this->driver->getSchemaOrgFormats() ?> Product">
