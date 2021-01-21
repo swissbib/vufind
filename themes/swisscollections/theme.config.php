@@ -1,9 +1,11 @@
 <?php
 
+use SwissCollections\Formatter\FieldFormatterRegistry;
 use SwissCollections\Formatter\SubfieldFormatterRegistry;
 use SwissCollections\RecordDriver\ResultListViewFieldInfo;
 use SwissCollections\View\Helper\Root\Browse;
 use SwissCollections\View\Helper\Root\BrowseFactory;
+use SwissCollections\View\Helper\Root\FieldFormatterRegistryFactory;
 use SwissCollections\View\Helper\Root\ResultListViewConfigFactory;
 use SwissCollections\View\Helper\Root\SubfieldFormatterRegistryFactory;
 
@@ -13,12 +15,14 @@ return [
         'factories' => [
             Browse::class => BrowseFactory::class,
             ResultListViewFieldInfo::class => ResultListViewConfigFactory::class,
-            SubfieldFormatterRegistry::class => SubfieldFormatterRegistryFactory::class
+            SubfieldFormatterRegistry::class => SubfieldFormatterRegistryFactory::class,
+            FieldFormatterRegistry::class => FieldFormatterRegistryFactory::class,
         ],
         'aliases' => [
             'browse' => Browse::class,
             'resultListViewConfig' => ResultListViewFieldInfo::class,
-            'subfieldFormatterRegistry' => SubfieldFormatterRegistry::class
+            'subfieldFormatterRegistry' => SubfieldFormatterRegistry::class,
+            'fieldFormatterRegistry' => FieldFormatterRegistry::class,
         ]
     ]
 ];

@@ -73,10 +73,10 @@ $linkSFX = $viewRecord->getLinkSFX();
  * @var SubfieldFormatterRegistry $subfieldFormatterRegistry
  */
 $subfieldFormatterRegistry = $this->subfieldFormatterRegistry();
-
-$fieldFormatterRegistry = new FieldFormatterRegistry();
-$fieldFormatterRegistry->register("inline", new Inline());
-$fieldFormatterRegistry->register("line", new Line());
+/**
+ * @var FieldFormatterRegistry $fieldFormatterRegistry
+ */
+$fieldFormatterRegistry = $this->fieldFormatterRegistry();
 
 $fieldGroupFormatterRegistry = new FieldGroupFormatterRegistry();
 $fieldGroupFormatterRegistry->register(
