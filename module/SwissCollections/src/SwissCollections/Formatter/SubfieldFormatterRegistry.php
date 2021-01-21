@@ -1,6 +1,6 @@
 <?php
 /**
- * SwissCollections: SubfieldFormatter.php
+ * SwissCollections: SubfieldFormatterRegistry.php
  *
  * PHP version 7
  *
@@ -30,12 +30,11 @@
 
 namespace SwissCollections\Formatter;
 
-use Laminas\View\Renderer\PhpRenderer;
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\FormatterConfig;
 
 /**
- * Abstract top class of all subfield formatters.
+ * Registry of all subfield formatters.
  *
  * @category SwissCollections_VuFind
  * @package  SwissCollections\Formatter
@@ -43,37 +42,59 @@ use SwissCollections\RenderConfig\FormatterConfig;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-abstract class SubfieldFormatter
+class SubfieldFormatterRegistry
 {
     /**
-     * "vufind"'s renderer.
+     * The map of subfield formatters.
      *
-     * @var PhpRenderer
+     * @var array<string,SubfieldFormatter>
      */
-    protected $phpRenderer;
+    protected $registry;
 
     /**
-     * FieldFormatter constructor.
+     * Register a given subfield formatter.
      *
-     * @param PhpRenderer $phpRenderer "vufind"'s renderer.
+     * @param string            $name the formatter's name in detail-view-field-structure.yaml
+     * @param SubfieldFormatter $ff   the formatter to register
+     *
+     * @return void
      */
-    public function __construct(PhpRenderer $phpRenderer)
+    public function register(string $name, SubfieldFormatter $ff)
     {
-        $this->phpRenderer = $phpRenderer;
+        $this->registry[$name] = $ff;
     }
 
     /**
-     * Renders given values to html.
+     * Get a subfield formatter by name.
      *
-     * @param String             $fieldName       the field's name (not the name of the marc subfield!)
+     * @param string $name the formatter's name
+     *
+     * @return null|SubfieldFormatter
+     */
+    public function get(string $name)
+    {
+        return $this->registry[$name];
+    }
+
+    /**
+     * Apply a field formatter.
+     *
+     * @param FormatterConfig    $formatterConfig the formatter to apply
+     * @param string             $fieldName       the field's name (not the name of the marc subfield)
      * @param FieldFormatterData $fieldData       the value to render
-     * @param FormatterConfig    $formatterConfig the formatter config to apply
      * @param FieldRenderContext $context         the render context
      *
      * @return void
      */
-    public abstract function render(
-        $fieldName, $fieldData, $formatterConfig, $context
-    ): void;
+    public function applyFormatter(
+        $formatterConfig, $fieldName, $fieldData, &$context
+    ) {
+        $formatterKey = $formatterConfig->getFormatterName();
+        $ff = $this->get($formatterKey);
+        if (!empty($ff)) {
+            $ff->render($fieldName, $fieldData, $formatterConfig, $context);
+        } else {
+            echo "<!-- ERROR: Unknown subfield formatter: '$formatterKey' -->\n";
+        }
+    }
 }
-
