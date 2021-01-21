@@ -75,7 +75,7 @@ class CompoundEntry extends AbstractRenderConfigEntry
      */
     public function __construct(
         $groupName, $fieldName, $subfieldName, $marcIndex,
-        $formatterConfig, $indicator1 = -1, $indicator2 = -1, $condition = ""
+        $formatterConfig, $indicator1 = -1, $indicator2 = -1, $condition = null
     ) {
         parent::__construct(
             $groupName, $fieldName, $subfieldName, $marcIndex, $formatterConfig,
