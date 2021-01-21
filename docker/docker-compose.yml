@@ -17,7 +17,7 @@ services:
     volumes:
       - "../themes/swisscollections:/usr/local/vufind/themes/swisscollections"
       - "../module/SwissCollections:/usr/local/vufind/module/SwissCollections"
-      - "../local/classic/swisscollections:/usr/local/vufind/local/classic/swisscollections"
+      - "../local/swisscollections:/usr/local/vufind/local/swisscollections"
     extra_hosts:
     # IP of the Docker host. Required for xdebug: ip route | grep docker0 | awk '{print $9}'
       - host.docker.internal:$DOCKER_HOST_IP
