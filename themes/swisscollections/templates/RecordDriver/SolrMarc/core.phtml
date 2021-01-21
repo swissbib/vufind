@@ -1,21 +1,21 @@
-<!-- <?php use SwissCollections\Formatter\FieldFormatterRegistry;
+<!-- <?php use SwissCollections\Formatter\FieldFormatter\Inline;
+use SwissCollections\Formatter\FieldFormatter\Line;
+use SwissCollections\Formatter\FieldFormatterRegistry;
+use SwissCollections\Formatter\FieldGroupFormatter\DefaultFormatter;
+use SwissCollections\Formatter\FieldGroupFormatter\SucheinstiegePerson;
 use SwissCollections\Formatter\FieldGroupFormatterRegistry;
+use SwissCollections\Formatter\SubfieldFormatter\Brackets;
+use SwissCollections\Formatter\SubfieldFormatter\Date;
+use SwissCollections\Formatter\SubfieldFormatter\Simple;
+use SwissCollections\Formatter\SubfieldFormatter\SimpleLine;
+use SwissCollections\Formatter\SubfieldFormatter\Translate;
 use SwissCollections\Formatter\SubfieldFormatterRegistry;
 use SwissCollections\RecordDriver\FieldGroupRenderContext;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 use SwissCollections\RenderConfig\FormatterConfig;
 use SwissCollections\RenderConfig\RenderGroupConfig;
-use SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter\Inline;
-use SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter\Line;
-use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\DefaultFormatter;
-use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\SucheinstiegePerson;
-use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Brackets;
-use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Date;
-use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Simple;
-use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\SimpleLine;
-use SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter\Translate;
 
-?>-->
+?> -->
 <?php
 /**
  * @var SwissCollections\RecordDriver\SolrMarc $record
@@ -69,12 +69,6 @@ if ($nl) {
 $link360 = $viewRecord->getLink360();
 $linkSFX = $viewRecord->getLinkSFX();
 
-$this->render('RecordDriver/SolrMarc/SubfieldFormatter/Simple');
-$this->render('RecordDriver/SolrMarc/SubfieldFormatter/SimpleLine');
-$this->render('RecordDriver/SolrMarc/SubfieldFormatter/Date');
-$this->render('RecordDriver/SolrMarc/SubfieldFormatter/Brackets');
-$this->render('RecordDriver/SolrMarc/SubfieldFormatter/Translate');
-
 $subfieldFormatterRegistry = new SubfieldFormatterRegistry();
 $subfieldFormatterRegistry->register("simple", new Simple($this));
 $subfieldFormatterRegistry->register("simple-line", new SimpleLine($this));
@@ -82,19 +76,17 @@ $subfieldFormatterRegistry->register("date", new Date($this));
 $subfieldFormatterRegistry->register("brackets", new Brackets($this));
 $subfieldFormatterRegistry->register("translate", new Translate($this));
 
-$this->render('RecordDriver/SolrMarc/FieldFormatter/Inline');
-$this->render('RecordDriver/SolrMarc/FieldFormatter/Line');
-
 $fieldFormatterRegistry = new FieldFormatterRegistry();
-$fieldFormatterRegistry->register(new Inline($this));
-$fieldFormatterRegistry->register(new Line($this));
-
-$this->render('RecordDriver/SolrMarc/FieldGroupFormatter/Default');
-$this->render('RecordDriver/SolrMarc/FieldGroupFormatter/SucheinstiegePerson');
+$fieldFormatterRegistry->register("inline", new Inline($this));
+$fieldFormatterRegistry->register("line", new Line($this));
 
 $fieldGroupFormatterRegistry = new FieldGroupFormatterRegistry();
-$fieldGroupFormatterRegistry->register(new DefaultFormatter($this));
-$fieldGroupFormatterRegistry->register(new SucheinstiegePerson($this));
+$fieldGroupFormatterRegistry->register(
+    DefaultFormatter::$NAME, new DefaultFormatter($this)
+);
+$fieldGroupFormatterRegistry->register(
+    "sucheinstiege-person", new SucheinstiegePerson($this)
+);
 ?>
 <div class="" vocab="http://schema.org/" resource="#record"
      typeof="<?php echo $this->driver->getSchemaOrgFormats() ?> Product">

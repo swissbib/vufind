@@ -54,13 +54,14 @@ class FieldFormatterRegistry
     /**
      * Register a given field formatter.
      *
-     * @param FieldFormatter $ff the formatter to register
+     * @param string         $name the formatter's name
+     * @param FieldFormatter $ff   the formatter to register
      *
      * @return void
      */
-    public function register(FieldFormatter $ff)
+    public function register($name, FieldFormatter $ff)
     {
-        $this->registry[$ff->getName()] = $ff;
+        $this->registry[$name] = $ff;
     }
 
     /**

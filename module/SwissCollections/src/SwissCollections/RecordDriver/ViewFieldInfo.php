@@ -33,7 +33,8 @@ namespace SwissCollections\RecordDriver;
 use SwissCollections\RenderConfig\FormatterConfig;
 
 /**
- * Represents all information read from "detail-view-field-structure.yaml".
+ * Represents all information read from "detail-view-field-structure.yaml"
+ * which is used in the detail view.
  *
  * @category SwissCollections_VuFind
  * @package  SwissCollections\RecordDriver
@@ -122,13 +123,13 @@ class ViewFieldInfo
     }
 
     /**
-     * Returns a formatter's name or null (from
+     * Returns a formatter's config (from
      * {@link ViewFieldInfo::$RENDER_INFO_FIELD_MODE}).
      *
      * @param array|null $groupViewInfo data returned by getGroup()
      * @param string     $fieldName     the field's name
      *
-     * @return FormatterConfig | null
+     * @return FormatterConfig
      */
     public function getFieldGroupFormatter($groupViewInfo, $fieldName)
     {

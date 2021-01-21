@@ -1,0 +1,35 @@
+<!-- <?php
+
+use SwissCollections\Formatter\FieldGroupFormatter\SucheinstiegePerson;
+use SwissCollections\RecordDriver\FieldRenderContext;
+use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
+
+/** @var FieldRenderContext $context */
+/** @var string $unknownRoleLabelKey */
+/** @var string $role */
+/** @var array $personsWithRole */
+/** @var SucheinstiegePerson $formatter */
+?> -->
+<?php $persons = $personsWithRole[$role]; ?>
+<?php if (!empty($persons)) { ?>
+    <div class='row-sucheinstiege-person__role-container'>
+        <h3 class='field-label field-label-<?php echo SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY; ?>-role'>
+            <?php
+            if ($role === "unknown") {
+                echo $formatter->translateLabelKey($unknownRoleLabelKey);
+            } else {
+                echo $context->solrMarc->getTranslator()->translate(
+                    $role, 'CreatorRoles'
+                );
+            }
+            ?>
+        </h3>
+        <?php foreach ($persons as list($renderElem, $ffdList)) {
+            /**
+             * @var AbstractRenderConfigEntry $renderElem
+             */
+            $renderElem->renderImpl($ffdList, $context);
+        }
+        ?>
+    </div>
+<?php } ?>

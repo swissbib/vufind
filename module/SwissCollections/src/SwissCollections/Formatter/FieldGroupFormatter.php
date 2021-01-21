@@ -75,13 +75,6 @@ abstract class FieldGroupFormatter
     public abstract function render(&$fieldDataList, &$context): void;
 
     /**
-     * Returns the formatter's name.
-     *
-     * @return string
-     */
-    public abstract function getName(): string;
-
-    /**
      * Helper method to render one field to html.
      *
      * @param AbstractRenderConfigEntry $renderElem      the field's render configuration

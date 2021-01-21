@@ -1,93 +1,23 @@
-<?php
-/**
- * SwissCollections: Simple.phtml
- *
- * PHP version 7
- *
- * Copyright (C) project swissbib, University Library Basel, Switzerland
- * http://www.swisscollections.org  / http://www.swisscollections.ch / http://www.ub.unibas.ch
- *
- * Date: 1/12/20
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @category SwissCollections_VuFind
- * @package  SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter
- * @author   Lionel Walter <lionel.walter@unibas.ch>
- * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.swisscollections.org Project Wiki
- */
+<!-- <?php
 
-namespace SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter;
-
-use SwissCollections\Formatter\FieldFormatter;
 use SwissCollections\Formatter\FieldFormatterData;
-use SwissCollections\Formatter\SubfieldFormatter;
+use SwissCollections\Formatter\SubfieldFormatter\Simple;
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\FormatterConfig;
 
-/**
- * Render subfield value as inline html.
- *
- * @category SwissCollections_VuFind
- * @package  SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter
- * @author   Lionel Walter <lionel.walter@unibas.ch>
- * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     https://vufind.org/wiki/development Wiki
- */
-class Simple extends SubfieldFormatter
-{
-    /**
-     * Html tag to render.
-     *
-     * @string
-     */
-    protected $tag = "span";
-
-    /**
-     * Render a subfield value to html.
-     *
-     * @param string             $fieldName       the field's name
-     * @param FieldFormatterData $data            the subfield's value
-     * @param FormatterConfig    $formatterConfig the formatter config to apply
-     * @param FieldRenderContext $context         the render context
-     *
-     * @return void
-     */
-    public function render($fieldName, $data, $formatterConfig, $context): void
-    {
-        $shortClassName = (new \ReflectionClass($this))->getShortName();
-        echo "<{$this->tag} class='subfield-formatter-" . $shortClassName
-            . "'>";
-        $text = $data->subfieldRenderData->value;
-        if ($data->subfieldRenderData->escHtml) {
-            $text = $this->getHtml($text, $formatterConfig, $context);
-        }
-        echo $text;
-        echo "</{$this->tag}>";
-    }
-
-    /**
-     * Get text html escaped.
-     *
-     * @param string             $text            the plain text for html output
-     * @param FormatterConfig    $formatterConfig the formatter config to apply
-     * @param FieldRenderContext $context         the render context
-     *
-     * @return string
-     */
-    protected function getHtml($text, $formatterConfig, $context): string
-    {
-        return $this->phpRenderer->escapeHtml($text);
-    }
+/** @var FieldFormatterData $fieldData */
+/** @var string $fieldName */
+/** @var Simple $formatter */
+/** @var FieldRenderContext $context */
+/** @var FormatterConfig $formatterConfig */
+?> -->
+<?php $shortClassName = (new \ReflectionClass($formatter))->getShortName(); ?>
+<<?php echo $formatter->getTag() ?> class='subfield-formatter-<?php echo $shortClassName; ?>'>
+<?php
+$text = $fieldData->subfieldRenderData->value;
+if ($fieldData->subfieldRenderData->escHtml) {
+    $text = $formatter->getHtml($text, $formatterConfig, $context);
 }
+echo $text;
+?>
+</<?php echo $formatter->getTag(); ?>>

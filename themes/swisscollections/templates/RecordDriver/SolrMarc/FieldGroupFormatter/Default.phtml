@@ -1,94 +1,35 @@
-<?php
-/**
- * SwissCollections: Default.phtml
- *
- * PHP version 7
- *
- * Copyright (C) project swissbib, University Library Basel, Switzerland
- * http://www.swisscollections.org  / http://www.swisscollections.ch / http://www.ub.unibas.ch
- *
- * Date: 1/12/20
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @category SwissCollections_VuFind
- * @package  SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter
- * @author   Lionel Walter <lionel.walter@unibas.ch>
- * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     http://www.swisscollections.org Project Wiki
- */
-
-namespace SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter;
+<!-- <?php
 
 use SwissCollections\Formatter\FieldGroupFormatter;
+use SwissCollections\Formatter\FieldGroupFormatter\DefaultFormatter;
 use SwissCollections\RecordDriver\FieldGroupRenderContext;
-use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 
-/**
- * The default formatter to render a group of fields.
- *
- * @category SwissCollections_VuFind
- * @package  SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter
- * @author   Lionel Walter <lionel.walter@unibas.ch>
- * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @link     https://vufind.org/wiki/development Wiki
- */
-class DefaultFormatter extends FieldGroupFormatter
-{
-
-    public static $NAME = "default";
-
-    /**
-     * Get the formatter's name.
-     *
-     * @return string
-     */
-    public function getName(): string
-    {
-        return DefaultFormatter::$NAME;
-    }
-
-    /**
-     * Render all fields to html.
-     *
-     * @param AbstractRenderConfigEntry[] $fieldDataList the field's render configuration
-     * @param FieldGroupRenderContext     $context       the render context
-     *
-     * @return void
-     */
-    public function render(&$fieldDataList, &$context): void
-    {
-        echo "\n<div class='row'>\n";
-        echo "\t<div class='field-label field-label-"
-            . FieldGroupFormatter::labelKeyAsCssClass(
-                $fieldDataList[0]->labelKey
-            )
-            . " col-md-3'>\n";
-        echo $this->translateLabelKey($fieldDataList[0]->labelKey);
-        echo "\t</div>\n";
-        echo "\t<div class='col-md-9'>\n";
-        foreach ($fieldDataList as $renderElem) {
-            // sets list element tags for repeated fields (see $this->outputField() call below)
+/** @var AbstractRenderConfigEntry[] $fieldDataList */
+/** @var DefaultFormatter $formatter */
+/** @var FieldGroupRenderContext $context */
+?> -->
+<div class='row'>
+    <div class='field-label field-label-"
+            <?php echo FieldGroupFormatter::labelKeyAsCssClass(
+        $fieldDataList[0]->labelKey
+    ); ?> " col-md-3'>
+        <?php echo $formatter->translateLabelKey(
+            $fieldDataList[0]->labelKey
+        ); ?>
+    </div>
+    <div class='col-md-9'>
+        <?php foreach ($fieldDataList as $renderElem) { ?>
+            <?php
             $renderElem->setListHtml(
                 "\t\t<li class='field-values-element'>\n", "\t\t</li>\n"
             );
-            $this->outputField(
+            $formatter->outputField(
                 $renderElem,
                 $context, "\t\t<ul class='field-values'>\n", "\t\t</ul>\n"
             );
-        }
-        echo "\t</div>\n";
-        echo "</div>\n";
-    }
-}
+            ?>
+        <?php } ?>
+    </div>
+</div>
+

@@ -1,6 +1,6 @@
 <?php
 /**
- * SwissCollections: FieldFormatter.php
+ * SwissCollections: Line.php
  *
  * PHP version 7
  *
@@ -22,49 +22,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @category SwissCollections_VuFind
- * @package  SwissCollections\Formatter
+ * @package  SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter
  * @author   Lionel Walter <lionel.walter@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     http://www.swisscollections.org Project Wiki
  */
 
-namespace SwissCollections\Formatter;
+namespace SwissCollections\Formatter\FieldFormatter;
 
-use Laminas\View\Renderer\PhpRenderer;
+use SwissCollections\Formatter\FieldFormatter;
+use SwissCollections\Formatter\FieldFormatterData;
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\FormatterConfig;
 
 /**
- * Abstract top class of all field formatters.
+ * Render subfield values line by line to html.
  *
  * @category SwissCollections_VuFind
- * @package  SwissCollections\Formatter
+ * @package  SwissCollections\templates\RecordDriver\SolrMarc\FieldFormatter
  * @author   Lionel Walter <lionel.walter@unibas.ch>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-abstract class FieldFormatter
+class Line extends FieldFormatter
 {
-
     /**
-     * "vufind"'s renderer.
-     *
-     * @var PhpRenderer
-     */
-    protected $phpRenderer;
-
-    /**
-     * FieldFormatter constructor.
-     *
-     * @param PhpRenderer $phpRenderer vufind's renderer
-     */
-    public function __construct(PhpRenderer $phpRenderer)
-    {
-        $this->phpRenderer = $phpRenderer;
-    }
-
-    /**
-     * Renders given values to html.
+     * Render subfield values to html.
      *
      * @param string               $fieldName       the field's name
      * @param FieldFormatterData[] $fieldDataList   the field's values
@@ -73,36 +56,18 @@ abstract class FieldFormatter
      *
      * @return void
      */
-    public abstract function render(
+    public function render(
         $fieldName, $fieldDataList, $formatterConfig, $context
-    ): void;
-
-    /**
-     * Helper method to render one subfield to html.
-     *
-     * @param FieldFormatterData $fd      the information to render
-     * @param FieldRenderContext $context the render context
-     *
-     * @return void
-     */
-    public function outputValue(
-        FieldFormatterData $fd, FieldRenderContext $context
     ): void {
-        $formatterConfig = $fd->renderConfig->getFormatterConfig();
-        // "null" for lookupKey should be OK, because non-sequence fields (see SequencesEntry) should not contain duplicates
-        $context->applySubfieldFormatter(
-            null, $fd, $formatterConfig, $fd->renderConfig->labelKey
+        echo $this->phpRenderer->render(
+            '/RecordDriver/SolrMarc/FieldFormatter/Line',
+            [
+                'fieldDataList' => &$fieldDataList,
+                'fieldName' => $fieldName,
+                'formatter' => $this,
+                'context' => $context,
+                'formatterConfig' => $formatterConfig,
+            ]
         );
     }
-
-    /**
-     * Returns a formatter's name.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return (new \ReflectionClass($this))->getShortName();
-    }
 }
-

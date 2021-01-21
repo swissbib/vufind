@@ -70,6 +70,11 @@ class SolrMarc extends SwissbibSolrMarc
      */
     protected $detailViewFieldInfo;
 
+    /**
+     * The raw data from "detail-fields.csv".
+     *
+     * @var mixed
+     */
     protected $fieldMarcMapping;
 
     public static $MARC_MAPPING_GROUP_KEY = 'Gruppierungsname / Oberbegriff';
@@ -343,13 +348,13 @@ class SolrMarc extends SwissbibSolrMarc
                 if ($fieldViewInfo) {
                     $formatterConfig
                         = $this->detailViewFieldInfo->getFormatterConfig(
-                            null, $fieldViewInfo
-                        );
+                        null, $fieldViewInfo
+                    );
                     if ($this->detailViewFieldInfo->hasType($fieldViewInfo)) {
                         $renderType
                             = $this->detailViewFieldInfo->getType(
-                                $fieldViewInfo
-                            );
+                            $fieldViewInfo
+                        );
                     }
                 }
             }

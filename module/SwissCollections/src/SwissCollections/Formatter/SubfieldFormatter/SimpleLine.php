@@ -1,6 +1,6 @@
 <?php
 /**
- * SwissCollections: SimpleLine.phtml
+ * SwissCollections: SimpleLine.php
  *
  * PHP version 7
  *
@@ -28,7 +28,7 @@
  * @link     http://www.swisscollections.org Project Wiki
  */
 
-namespace SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter;
+namespace SwissCollections\Formatter\SubfieldFormatter;
 
 use Laminas\View\Renderer\PhpRenderer;
 

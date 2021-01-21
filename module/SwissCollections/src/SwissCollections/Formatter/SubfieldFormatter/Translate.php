@@ -1,6 +1,6 @@
 <?php
 /**
- * SwissCollections: Translate.phtml
+ * SwissCollections: Translate.php
  *
  * PHP version 7
  *
@@ -28,7 +28,7 @@
  * @link     http://www.swisscollections.org Project Wiki
  */
 
-namespace SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter;
+namespace SwissCollections\Formatter\SubfieldFormatter;
 
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\FormatterConfig;
@@ -53,7 +53,7 @@ class Translate extends Simple
      *
      * @return string
      */
-    protected function getHtml($text, $formatterConfig, $context): string
+    public function getHtml($text, $formatterConfig, $context): string
     {
         // textDomain is required!
         $textDomain = $formatterConfig->optionalConfigEntry(

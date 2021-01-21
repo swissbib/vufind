@@ -1,6 +1,6 @@
 <?php
 /**
- * SwissCollections: Date.phtml
+ * SwissCollections: Brackets.php
  *
  * PHP version 7
  *
@@ -28,13 +28,13 @@
  * @link     http://www.swisscollections.org Project Wiki
  */
 
-namespace SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter;
+namespace SwissCollections\Formatter\SubfieldFormatter;
 
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\FormatterConfig;
 
 /**
- * Formats Dates (a little bit).
+ * Formatter surrounds text with square brackets.
  *
  * @category SwissCollections_VuFind
  * @package  SwissCollections\templates\RecordDriver\SolrMarc\SubfieldFormatter
@@ -42,7 +42,7 @@ use SwissCollections\RenderConfig\FormatterConfig;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class Date extends Simple
+class Brackets extends Simple
 {
     /**
      * Get the text for html.
@@ -53,12 +53,8 @@ class Date extends Simple
      *
      * @return string
      */
-    protected function getHtml($text, $formatterConfig, $context): string
+    public function getHtml($text, $formatterConfig, $context): string
     {
-        // reformat "XXX-" to "XXX - …"
-        if (str_ends_with($text, "-")) {
-            $text = trim(substr($text, 0, strlen($text) - 1)) . " - …";
-        }
-        return parent::getHtml($text, $formatterConfig, $context);
+        return parent::getHtml("[" . $text . "]", $formatterConfig, $context);
     }
 }
