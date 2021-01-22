@@ -33,6 +33,7 @@ namespace SwissCollections\RecordDriver;
 use Laminas\View\Helper\AbstractHelper;
 use SwissCollections\RenderConfig\CompoundEntry;
 use SwissCollections\RenderConfig\FormatterConfig;
+use SwissCollections\RenderConfig\RenderGroupConfig;
 
 /**
  * Represents all information read from "result-list-entry-fields.yaml"
@@ -56,7 +57,7 @@ class ResultListViewFieldInfo extends AbstractHelper
     /**
      * The parsed info from {@link ResultListViewFieldInfo::$resultListViewFieldInfo}
      *
-     * @var array array of doc type string to grouped render elements {@link AbstractRenderConfigEntry}[][]
+     * @var array array of doc type string to {@link RenderGroupConfig}[]
      */
     protected $renderInfo;
 
@@ -142,7 +143,7 @@ class ResultListViewFieldInfo extends AbstractHelper
         if (empty($config)) {
             $config = [];
         }
-        $fc = new FormatterConfig('default', $config);
+        $fc = new FormatterConfig('inline', $config);
         return $fc;
     }
 
@@ -175,7 +176,7 @@ class ResultListViewFieldInfo extends AbstractHelper
      * Parse the yaml file to groups of render config entries suitable for a
      * call to {@link FieldGroupFormatterRegistry::applyFormatter}
      *
-     * @return array array of doc type to {@link AbstractRenderConfigEntry}[]
+     * @return array array of doc type to {@link RenderGroupConfig}[]
      */
     protected function parse()
     {
@@ -183,7 +184,7 @@ class ResultListViewFieldInfo extends AbstractHelper
         foreach ($this->getDocumentTypesInfo() as $docType => $dtInfo) {
             $renderGroups = [];
             foreach ($dtInfo as $fieldName => $fieldConfig) {
-                $renderConfigList = [];
+                $renderGroupConfig = new RenderGroupConfig($fieldName);
                 $marcFieldsInfo = $fieldConfig[self::$RENDER_INFO_MARC];
                 if (!empty($marcFieldsInfo)) {
                     foreach ($marcFieldsInfo as $marcInfo) {
@@ -207,10 +208,10 @@ class ResultListViewFieldInfo extends AbstractHelper
                                 $fieldName, $sc->fieldName
                             );
                         }
-                        $renderConfigList[] = $renderConfig;
+                        $renderGroupConfig->addCompound($renderConfig);
                     }
                 }
-                $renderGroups[] = $renderConfigList;
+                $renderGroups[] = $renderGroupConfig;
             }
             $docTypeRenderGroupMap[$docType] = $renderGroups;
         }

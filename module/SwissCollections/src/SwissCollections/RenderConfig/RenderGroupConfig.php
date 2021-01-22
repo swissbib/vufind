@@ -149,13 +149,23 @@ class RenderGroupConfig
     }
 
     /**
-     * Returns all group members.
+     * Returns all group members as a map of internal key to render config element.
      *
      * @return (SingleEntry|CompoundEntry)[]
      */
     public function entries()
     {
         return $this->info;
+    }
+
+    /**
+     * Get the stored render elements as simple list.
+     *
+     * @return array the contained render config elements
+     */
+    public function entryList()
+    {
+        return array_values($this->entries());
     }
 
     /**
