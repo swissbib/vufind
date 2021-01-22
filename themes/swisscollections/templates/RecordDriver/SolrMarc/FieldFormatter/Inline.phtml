@@ -18,7 +18,7 @@ use SwissCollections\RenderConfig\FormatterConfig;
         <?php if ($index > 0) {
             echo $separator;
         } ?>
-        <span class='field-entry field-entry-"<?php
+        <span class='field-entry field-entry-<?php
         echo FieldGroupFormatter::labelKeyAsCssClass(
                 $fd->renderConfig->labelKey
             ) . "-" . $fd->renderConfig->getMarcSubfieldName(); ?>'>

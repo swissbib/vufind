@@ -10,12 +10,11 @@ use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 /** @var FieldGroupRenderContext $context */
 ?> -->
 <div class='row'>
-    <div class='field-label field-label-"
-            <?php echo FieldGroupFormatter::labelKeyAsCssClass(
+    <div class='field-label field-label-<?php echo FieldGroupFormatter::labelKeyAsCssClass(
         $fieldDataList[0]->labelKey
-    ); ?> " col-md-3'>
+    ); ?> col-md-3'>
         <?php echo $formatter->translateLabelKey(
-            $fieldDataList[0]->labelKey, $this
+                $fieldDataList[0]->labelKey, $this
         ); ?>
     </div>
     <div class='col-md-9'>

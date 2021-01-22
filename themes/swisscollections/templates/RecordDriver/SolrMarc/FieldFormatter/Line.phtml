@@ -14,7 +14,7 @@ use SwissCollections\RenderConfig\FormatterConfig;
 ?> -->
 <?php foreach ($fieldDataList as $fd) { ?>
     <div class='field-value field-value-<?php echo $fieldName; ?>'>
-        <span class='field-entry field-entry-"<?php
+        <span class='field-entry field-entry-<?php
         echo FieldGroupFormatter::labelKeyAsCssClass(
                 $fd->renderConfig->labelKey
             ) . "-" . $fd->renderConfig->getMarcSubfieldName(); ?>'>
