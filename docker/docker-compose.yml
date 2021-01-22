@@ -4,7 +4,7 @@ services:
   swisscollections-php:
     container_name: swisscollections-php
     build:
-      context: .
+      context: ..
       dockerfile: docker/development/Dockerfile
     depends_on:
       - swisscollections-db
@@ -15,9 +15,9 @@ services:
       VUFIND_LOCAL_DIR: /usr/local/vufind/local/swisscollections/development
       VUFIND_LOCAL_MODULES: Swissbib,Libadmin,Jusbib,SwissCollections
     volumes:
-      - "./themes/swisscollections:/usr/local/vufind/themes/swisscollections"
-      - "./module/SwissCollections:/usr/local/vufind/module/SwissCollections"
-      - "./local/classic/swisscollections:/usr/local/vufind/local/classic/swisscollections"
+      - "../themes/swisscollections:/usr/local/vufind/themes/swisscollections"
+      - "../module/SwissCollections:/usr/local/vufind/module/SwissCollections"
+      - "../local/swisscollections:/usr/local/vufind/local/swisscollections"
     extra_hosts:
     # IP of the Docker host. Required for xdebug: ip route | grep docker0 | awk '{print $9}'
       - host.docker.internal:$DOCKER_HOST_IP
@@ -32,7 +32,7 @@ services:
       MYSQL_DATABASE: vufind
     volumes:
       - "swisscollections-db:/var/lib/mysql"
-      - "./module/Swissbib/sql/mysql.sql:/docker-entrypoint-initdb.d/init.sql"
+      - "../module/Swissbib/sql/mysql.sql:/docker-entrypoint-initdb.d/init.sql"
 
   swisscollections-http:
     container_name: swisscollections-http
@@ -40,7 +40,7 @@ services:
     depends_on:
       - swisscollections-php
     volumes:
-      - ./docker/conf/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf
     volumes_from:
       - swisscollections-php
     ports:
