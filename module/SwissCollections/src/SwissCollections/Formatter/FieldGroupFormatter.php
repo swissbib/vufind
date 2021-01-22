@@ -105,17 +105,17 @@ abstract class FieldGroupFormatter
      * key is returned, where all "." are replaced with "-" (allows html to
      * wrap).
      *
-     * @param string      $labelKey    the key to translate
-     * @param PhpRenderer $phpRenderer vufind's renderer
+     * @param string                  $labelKey the key to translate
+     * @param FieldGroupRenderContext $context  the render context
      *
      * @return string
      */
-    public function translateLabelKey($labelKey, $phpRenderer): string
+    public function translateLabelKey($labelKey, $context): string
     {
-        $label = $phpRenderer->translate(
-            'page.detail.field.label.' . $labelKey
+        $label = $context->phpRenderer->translate(
+            $context->i18nKeyPrefix . '.' . $labelKey
         );
-        if (strpos($label, "page.detail.") !== false) {
+        if (strpos($label, $context->i18nKeyPrefix) !== false) {
             $label = preg_replace("/[.]/", "-", $label);
         }
         return $label;

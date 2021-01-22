@@ -1,6 +1,7 @@
 <!-- <?php
 
 use SwissCollections\Formatter\FieldGroupFormatter\SucheinstiegePerson;
+use SwissCollections\RecordDriver\FieldGroupRenderContext;
 use SwissCollections\RecordDriver\FieldRenderContext;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 
@@ -9,6 +10,7 @@ use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 /** @var string $role */
 /** @var array $personsWithRole */
 /** @var SucheinstiegePerson $formatter */
+/** @var FieldGroupRenderContext $groupContext */
 ?> -->
 <?php $persons = $personsWithRole[$role]; ?>
 <?php if (!empty($persons)) { ?>
@@ -16,7 +18,7 @@ use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
         <h3 class='field-label field-label-<?php echo SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY; ?>-role'>
             <?php
             if ($role === "unknown") {
-                echo $formatter->translateLabelKey($unknownRoleLabelKey, $this);
+                echo $formatter->translateLabelKey($unknownRoleLabelKey, $groupContext);
             } else {
                 echo $context->solrMarc->getTranslator()->translate(
                     $role, 'CreatorRoles'

@@ -47,6 +47,13 @@ use SwissCollections\RenderConfig\FormatterConfig;
 class FieldGroupRenderContext
 {
     /**
+     * The prefix to use for translations.
+     *
+     * @var string
+     */
+    public $i18nKeyPrefix;
+
+    /**
      * "vufind"'s renderer.
      *
      * @var PhpRenderer
@@ -88,15 +95,17 @@ class FieldGroupRenderContext
      * @param SubfieldFormatterRegistry $subfieldFormatterRegistry the subfield registry
      * @param SolrMarc                  $solrMarc                  the marc record
      * @param PhpRenderer               $phpRenderer               vufind's renderer
+     * @param string                    $i18nKeyPrefix             the key prefix for translations
      */
     public function __construct(
         $fieldFormatterRegistry, $subfieldFormatterRegistry, $solrMarc,
-        $phpRenderer
+        $phpRenderer, $i18nKeyPrefix
     ) {
         $this->solrMarc = $solrMarc;
         $this->fieldFormatterRegistry = $fieldFormatterRegistry;
         $this->subfieldFormatterRegistry = $subfieldFormatterRegistry;
         $this->processedSubMaps = [];
         $this->phpRenderer = $phpRenderer;
+        $this->i18nKeyPrefix = $i18nKeyPrefix;
     }
 }

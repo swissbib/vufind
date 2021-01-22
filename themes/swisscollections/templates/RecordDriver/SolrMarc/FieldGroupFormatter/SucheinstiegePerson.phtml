@@ -17,7 +17,7 @@ use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 ?> -->
 <div class='row row-sucheinstiege-person'>
     <div class='field-label field-label-<?php echo SucheinstiegePerson::$RENDER_CONFIG_PERSON_KEY; ?> col-md-3'>
-        <?php echo $formatter->translateLabelKey($personLabelKey, $this); ?>
+        <?php echo $formatter->translateLabelKey($personLabelKey, $context); ?>
     </div>
     <div class='col-md-9'>
         <?php
@@ -31,6 +31,7 @@ use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
                         'role' => $role,
                         'personsWithRole' => $personsWithRole,
                         'formatter' => $formatter,
+                        'groupContext' => $context
                     ]
                 );
             }
@@ -43,6 +44,7 @@ use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
                 'role' => "unknown",
                 'personsWithRole' => $personsWithRole,
                 'formatter' => $formatter,
+                'groupContext' => $context
             ]
         );
         ?>

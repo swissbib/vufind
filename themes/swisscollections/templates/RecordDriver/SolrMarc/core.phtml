@@ -89,7 +89,8 @@ $fieldGroupFormatterRegistry = $this->fieldGroupFormatterRegistry();
     <?php
     if ($renderConfig) {
         $fieldGroupFormatterContext = new FieldGroupRenderContext(
-            $fieldFormatterRegistry, $subfieldFormatterRegistry, $record, $this
+            $fieldFormatterRegistry, $subfieldFormatterRegistry, $record, $this,
+            'page.detail.field.label'
         );
         /**
          * @var RenderGroupConfig $renderGroupConfig

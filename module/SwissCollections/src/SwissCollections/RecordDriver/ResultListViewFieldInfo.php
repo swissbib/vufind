@@ -167,7 +167,7 @@ class ResultListViewFieldInfo extends AbstractHelper
     public function __toString()
     {
         return "ResultListViewFieldInfo{" . print_r(
-                $this->resultListViewFieldInfo, true
+                $this->renderInfo, true
             ) . "}";
     }
 
