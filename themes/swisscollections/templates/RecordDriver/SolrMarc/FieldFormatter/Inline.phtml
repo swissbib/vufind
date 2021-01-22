@@ -13,16 +13,12 @@ use SwissCollections\RenderConfig\FormatterConfig;
 /** @var FormatterConfig $formatterConfig */
 ?> -->
 <div class='field-value field-value-compound field-value-<?php echo $fieldName; ?>'>
-    <?php foreach ($fieldDataList as $index => $fd) { ?>
-        <?php $separator = $formatter->getSeparator($fd); ?>
-        <?php if ($index > 0) {
-            echo $separator;
-        } ?>
-        <span class='field-entry field-entry-<?php
+    <?php foreach ($fieldDataList as $index => $fd) {
+        $separator = $formatter->getSeparator($fd);
+        if ($index > 0) {
+            echo "<span class='field-value-compound__separator'>".$separator."</span>";
+        } ?><span class='field-entry field-entry-<?php
         echo FieldGroupFormatter::labelKeyAsCssClass(
                 $fd->renderConfig->labelKey
-            ) . "-" . $fd->renderConfig->getMarcSubfieldName(); ?>'>
-            <?php $formatter->outputValue($fd, $context); ?>
-        </span>
-    <?php } ?>
+            ) . "-" . $fd->renderConfig->getMarcSubfieldName(); ?>'><?php $formatter->outputValue($fd, $context); ?></span><?php } ?>
 </div>
