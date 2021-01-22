@@ -56,7 +56,7 @@ class ResultListViewFieldInfo extends AbstractHelper
     /**
      * The parsed info from {@link ResultListViewFieldInfo::$resultListViewFieldInfo}
      *
-     * @var array array of doc type string to {@link AbstractRenderConfigEntry}[]
+     * @var array array of doc type string to grouped render elements {@link AbstractRenderConfigEntry}[][]
      */
     protected $renderInfo;
 
@@ -193,7 +193,10 @@ class ResultListViewFieldInfo extends AbstractHelper
                         // echo "<!-- SFCL1: " . print_r($marcInfo, true) . " -->";
                         $marcIndex = $this->getMarcFieldIndex($marcInfo);
                         $renderConfig = new CompoundEntry(
-                            "ResultList", $fieldName, "", $marcIndex,
+                            "ResultList",
+                            $fieldName,
+                            $fieldName . "1",
+                            $marcIndex,
                             $fieldFormatter
                         );
                         $subfieldFormatterConfigList
@@ -227,7 +230,7 @@ class ResultListViewFieldInfo extends AbstractHelper
     /**
      * Get the parsed render info.
      *
-     * @return array array array of doc type string to {@link AbstractRenderConfigEntry}[]
+     * @return array array array of doc type string to grouped render elements {@link AbstractRenderConfigEntry}[][]
      */
     public function getRenderInfo(): array
     {
