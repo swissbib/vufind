@@ -1,0 +1,27 @@
+<!-- <?php
+
+use SwissCollections\Formatter\FieldGroupFormatter;
+use SwissCollections\Formatter\FieldGroupFormatter\DefaultFormatter;
+use SwissCollections\RecordDriver\FieldGroupRenderContext;
+use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
+
+/** @var AbstractRenderConfigEntry[] $fieldDataList */
+/** @var DefaultFormatter $formatter */
+/** @var FieldGroupRenderContext $context */
+?> -->
+<div class='row'>
+    <div class='col-md-12'>
+        <?php foreach ($fieldDataList as $renderElem) { ?>
+            <?php
+            $renderElem->setListHtml(
+                "\t\t<li class='field-values-element'>\n", "\t\t</li>\n"
+            );
+            $formatter->outputField(
+                $renderElem,
+                $context, "\t\t<ul class='field-values'>\n", "\t\t</ul>\n"
+            );
+            ?>
+        <?php } ?>
+    </div>
+</div>
+

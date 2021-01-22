@@ -1,9 +1,14 @@
 <?php
 /** @var    SwissCollections\RecordDriver\SolrMarc $record */
 
+use SwissCollections\Formatter\FieldGroupFormatter\DefaultNoLabelFormatter;
+use SwissCollections\Formatter\FieldGroupFormatterRegistry;
+use SwissCollections\RecordDriver\DocTypeCategories;
 use SwissCollections\RecordDriver\FieldGroupRenderContext;
 use SwissCollections\RecordDriver\ResultListViewFieldInfo;
-use SwissCollections\RenderConfig\CompoundEntry;
+use SwissCollections\RenderConfig\FormatterConfig;
+use SwissCollections\RenderConfig\RenderGroupConfig;
+
 // use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\DefaultFormatter;
 
 /** @var SwissCollections\RecordDriver\SolrMarc $record */
@@ -26,17 +31,34 @@ $showFRBR = $this->configAccess()->Site->displayFrbr;
 $memorizeLink = $this->recordLink()->getActionUrl($this->driver, 'Save');
 $formats = $viewRecord->getFormatList();
 
-// TEST START
+/**
+ * @var DocTypeCategories $docTypeCategories
+ */
+$docTypeCategories = $this->docTypeCategories();
 /**
  * @var ResultListViewFieldInfo $resultListViewConfig
  */
 $resultListViewConfig = $this->resultListViewConfig();
-// $this->render('RecordDriver/SolrMarc/FieldGroupFormatter/Default');
-// $groupFormatter = new DefaultFormatter($this);
-//$fieldGroupFormatterContext = new FieldGroupRenderContext(
-//    $fieldFormatterRegistry, $subfieldFormatterRegistry, $record
-//);
-// TEST END
+/**
+ * @var FieldGroupFormatterRegistry $fieldGroupFormatterRegistry
+ */
+$fieldGroupFormatterRegistry = $this->fieldGroupFormatterRegistry();
+$fieldGroupFormatterContext = new FieldGroupRenderContext(
+    $this->fieldFormatterRegistry(),
+    $this->subfieldFormatterRegistry(),
+    $record,
+    $this,
+    'page.resultlist.field.label'
+);
+// TODO "Handschriften" OK as default?
+$docCat = $docTypeCategories->categoryOfDocType(
+    $record->getDocumentTypes(), "Handschriften"
+);
+/**
+ * @var RenderGroupConfig[] $renderConfigGroups
+ */
+$renderConfigGroups = $resultListViewConfig->getRenderInfo()[$docCat];
+$fieldGroupFormatter = new FormatterConfig(DefaultNoLabelFormatter::$NAME, []);
 ?>
 <div class="<?= $this->driver->supportsAjaxStatus() ? 'ajaxItem '
     : '' ?>col-xs-11 gutter-1">
@@ -56,7 +78,18 @@ $resultListViewConfig = $this->resultListViewConfig();
     </div>
 
     <div class="col-xs-10 col-sm-6 col-md-7">
-
+        <?php
+        foreach ($renderConfigGroups as $renderGroupConfig) {
+            if (!$renderGroupConfig->isEmpty($record)) {
+                $fieldGroupFormatterRegistry->applyFormatter(
+                    $fieldGroupFormatter,
+                    $renderGroupConfig->entryList(),
+                    $fieldGroupFormatterContext
+                );
+            }
+        }
+        ?>
+        <hr style="border: 1px dashed #c0c0c0;" />
         <!-- Kurztitel -->
         <div class="item-info">
 

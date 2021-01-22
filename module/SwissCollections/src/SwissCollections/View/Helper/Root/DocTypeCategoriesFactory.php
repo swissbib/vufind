@@ -1,6 +1,6 @@
 <?php
 /**
- * SwissCollections: FieldFormatterRegistryFactory.php
+ * SwissCollections: DocTypeCategoriesFactory.php
  *
  * PHP version 7
  *
@@ -34,12 +34,11 @@ use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use SwissCollections\Formatter\FieldFormatter\Inline;
-use SwissCollections\Formatter\FieldFormatter\Line;
-use SwissCollections\Formatter\FieldFormatterRegistry;
+use ParseCsv;
+use SwissCollections\RecordDriver\DocTypeCategories;
 
 /**
- * FieldFormatterRegistry helper factory.
+ * DocTypeCategories helper factory.
  *
  * @category VuFind
  * @package  View_Helpers
@@ -47,7 +46,7 @@ use SwissCollections\Formatter\FieldFormatterRegistry;
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org/wiki/development Wiki
  */
-class FieldFormatterRegistryFactory implements FactoryInterface
+class DocTypeCategoriesFactory implements FactoryInterface
 {
     /**
      * Create an object
@@ -56,7 +55,7 @@ class FieldFormatterRegistryFactory implements FactoryInterface
      * @param string             $requestedName Service being created
      * @param null|array         $options       Extra options (optional)
      *
-     * @return FieldFormatterRegistry
+     * @return DocTypeCategories
      *
      * @throws ServiceNotFoundException if unable to resolve the service.
      * @throws ServiceNotCreatedException if an exception is raised when
@@ -70,16 +69,15 @@ class FieldFormatterRegistryFactory implements FactoryInterface
         if (!empty($options)) {
             throw new \Exception('Unexpected options sent to factory.');
         }
-
-        /**
-         * @var FieldFormatterRegistry $registry
-         */
-        $registry = new $requestedName();
-
-        // TODO use data from $options to register all subfield formatters
-        $registry->register("inline", new Inline());
-        $registry->register("line", new Line());
-
-        return $registry;
+        // TODO put csv path to config!?
+        $config = $container->get(\VuFind\Config\PluginManager::class)->get(
+            'config'
+        );
+        $csvFile = __DIR__
+            . '/../../../../../../../local/swisscollections/development/config/vufind/doc-categories.csv';
+        $csvMapping = new ParseCsv\Csv($csvFile);
+        // echo "<!-- DCTF: " . print_r($csvMapping, true) . " -->";
+        $helper = new $requestedName($csvMapping->data);
+        return $helper;
     }
 }

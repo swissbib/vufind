@@ -680,7 +680,7 @@ class SolrMarc extends SwissbibSolrMarc
      *
      * @return string[]
      */
-    protected function getDocumentTypes()
+    public function getDocumentTypes()
     {
         return $this->fields["format_str_mv"];
     }

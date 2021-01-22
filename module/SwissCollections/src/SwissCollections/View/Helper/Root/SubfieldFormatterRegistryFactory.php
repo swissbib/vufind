@@ -41,6 +41,15 @@ use SwissCollections\Formatter\SubfieldFormatter\SimpleLine;
 use SwissCollections\Formatter\SubfieldFormatter\Translate;
 use SwissCollections\Formatter\SubfieldFormatterRegistry;
 
+/**
+ * SubfieldFormatterRegistry helper factory.
+ *
+ * @category VuFind
+ * @package  View_Helpers
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     https://vufind.org/wiki/development Wiki
+ */
 class SubfieldFormatterRegistryFactory implements FactoryInterface
 {
     /**

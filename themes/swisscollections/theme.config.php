@@ -3,11 +3,13 @@
 use SwissCollections\Formatter\FieldFormatterRegistry;
 use SwissCollections\Formatter\FieldGroupFormatterRegistry;
 use SwissCollections\Formatter\SubfieldFormatterRegistry;
+use SwissCollections\RecordDriver\DocTypeCategories;
 use SwissCollections\RecordDriver\ResultListViewFieldInfo;
 use SwissCollections\View\Helper\Root\AlphaBrowse;
 use SwissCollections\View\Helper\Root\AlphaBrowseFactory;
 use SwissCollections\View\Helper\Root\Browse;
 use SwissCollections\View\Helper\Root\BrowseFactory;
+use SwissCollections\View\Helper\Root\DocTypeCategoriesFactory;
 use SwissCollections\View\Helper\Root\FieldFormatterRegistryFactory;
 use SwissCollections\View\Helper\Root\FieldGroupFormatterRegistryFactory;
 use SwissCollections\View\Helper\Root\ResultListViewConfigFactory;
@@ -23,6 +25,7 @@ return [
             SubfieldFormatterRegistry::class => SubfieldFormatterRegistryFactory::class,
             FieldFormatterRegistry::class => FieldFormatterRegistryFactory::class,
             FieldGroupFormatterRegistry::class => FieldGroupFormatterRegistryFactory::class,
+            DocTypeCategories::class => DocTypeCategoriesFactory::class,
         ],
         'aliases' => [
             'browse' => Browse::class,
@@ -31,6 +34,7 @@ return [
             'subfieldFormatterRegistry' => SubfieldFormatterRegistry::class,
             'fieldFormatterRegistry' => FieldFormatterRegistry::class,
             'fieldGroupFormatterRegistry' => FieldGroupFormatterRegistry::class,
+            'docTypeCategories' => DocTypeCategories::class,
         ]
     ]
 ];

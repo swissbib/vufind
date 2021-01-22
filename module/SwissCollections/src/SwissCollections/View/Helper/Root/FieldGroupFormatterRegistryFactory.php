@@ -38,6 +38,7 @@ use SwissCollections\Formatter\FieldFormatter\Inline;
 use SwissCollections\Formatter\FieldFormatter\Line;
 use SwissCollections\Formatter\FieldFormatterRegistry;
 use SwissCollections\Formatter\FieldGroupFormatter\DefaultFormatter;
+use SwissCollections\Formatter\FieldGroupFormatter\DefaultNoLabelFormatter;
 use SwissCollections\Formatter\FieldGroupFormatter\SucheinstiegePerson;
 use SwissCollections\Formatter\FieldGroupFormatterRegistry;
 use SwissCollections\Formatter\SubfieldFormatter\Brackets;
@@ -47,6 +48,15 @@ use SwissCollections\Formatter\SubfieldFormatter\SimpleLine;
 use SwissCollections\Formatter\SubfieldFormatter\Translate;
 use SwissCollections\Formatter\SubfieldFormatterRegistry;
 
+/**
+ * FieldGroupFormatterRegistry helper factory.
+ *
+ * @category VuFind
+ * @package  View_Helpers
+ * @author   Lionel Walter <lionel.walter@unibas.ch>
+ * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @link     https://vufind.org/wiki/development Wiki
+ */
 class FieldGroupFormatterRegistryFactory implements FactoryInterface
 {
     /**
@@ -78,6 +88,7 @@ class FieldGroupFormatterRegistryFactory implements FactoryInterface
 
         // TODO use data from $options to register all subfield formatters
         $registry->register(DefaultFormatter::$NAME, new DefaultFormatter());
+        $registry->register(DefaultNoLabelFormatter::$NAME, new DefaultNoLabelFormatter());
         $registry->register("sucheinstiege-person", new SucheinstiegePerson());
 
         return $registry;
