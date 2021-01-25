@@ -11,19 +11,31 @@ structure:
       "Digitalisat":
     fields:
       "Signatur":
-        type: compound
+        type: compound # csv contains marc subfield lines
         formatter:
           name: inline
           separator: "; " # for inline formatter only
           repeated: true
-          entries:
-            - name: "institution-code"
-            - name: "standort code"
-            - name: "Signatur1"
-            - name: "Signatur2"
+          entries: # all members (order is taken from csv!)
+            - name: "Signatur1-j"
+            - name: "Signatur2-h"
+            - name: "institution-code-b"
+              formatter:
+                name: "translate"
+                textDomain: "institution"
+            - name: "standort code-c"
       "Titel":
         formatter:
           name: line
+      "Dokumenttyp": # INTERNAL field
+        # the field's value is returned by this static php method and sets marc subfield "a"
+        provider: \SwissCollections\RecordDriver\SolrMarc::documentTypeProvider
+        formatter:
+          entries:
+            - name: "Dokumenttyp1-a"
+              formatter:
+                name: "translate"
+                textDomain: "formats"
   "Inhalt und innere Ordnung":
     groups:
       "Inhalt":
@@ -34,12 +46,15 @@ structure:
           name: inline
           separator: " / "
           # without "entries:" the order of the applied sequence is used (see "sequences:" below)
-          # note that "sequences" expect a structured "name:" in "entries:": <"Unterbezeichnung">-<marc subfield>
-#          entries:
-#            - name: "Inhalt3-r"
-#            - name: "Inhalt3-t"
-#            - name: "Inhalt3-g"
-#            - name: "Inhalt3-a"
+          # note that "sequences" expect a structured "name:" in "entries:" from detail-fields.csv:
+          #     <"Unterbezeichnung">-<"subfield code">
+          entries:
+            - name: "Inhalt3-g"
+            - name: "Inhalt3-t"
+            - name: "Inhalt3-r"
+              formatter:
+                name: "brackets"
+            - name: "Inhalt3-a"
         # note that "sequences:" entries are sorted to guarantee the "longest" match
         # use "entries:" (see above) for a different order of marc subfields
         sequences: # from Swissbib/RecordDriver/SolrMarc.php getTableOfContent()
@@ -50,6 +65,19 @@ structure:
           - [ "t" ]
           - [ "r" ]
           - [ "a" ]
+      "Inhalt-596": # because csv contains no marc subfield lines, don't use "type: compound"
+        formatter:
+          name: inline
+          separator: " / "
+          repeated: true
+          hiddenMarcSubfields: ["i"]
+          entries:
+            - name: "Inhalt1-g"
+              formatter:
+                name: "brackets"
+            - name: "Inhalt2-g" # example that it is possible to add entries for different csv rows with same marc index
+              formatter:
+                name: "brackets"
   "Identifikatoren":
     fields:
       "alte Systemnummer":
@@ -80,6 +108,8 @@ structure:
         formatter:
           name: inline
           separator: " / "
+          # note that "sequences" expect a structured "name:" in "entries:" from detail-fields.csv:
+          #   <"Bezeichnung">-<marc subfield>
           entries:
             - name: "Person-a"
             - name: "Person-t"
