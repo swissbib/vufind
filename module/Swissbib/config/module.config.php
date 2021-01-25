@@ -777,7 +777,7 @@ $config = [
 
 //legacy column in resource table, for lists with removed records
 $recordRoutes = [
-    'vufindrecord' => 'Record',
+    'vufindrecord' => RecordController::class,
 ];
 
 $routeGenerator = new RouteGenerator();
