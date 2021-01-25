@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: memobase
+  name: swisscollections-vufind-staging-service
+  labels:
+    app: swisscollections-vufind-staging-app
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: swisscollections-vufind-staging-app
+    tier: web
+  clusterIP: None

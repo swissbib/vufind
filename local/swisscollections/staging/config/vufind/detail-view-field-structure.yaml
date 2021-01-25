@@ -1,0 +1,137 @@
+#'@parent_yaml': "local/config/vufind/detail-view-field-structure.yaml"
+
+# "name" matches "Gruppierungsname / Oberbegriff"
+# "labelKey" matches "Bezeichnung"
+# "entries" matches "Unterbezeichnung"
+
+structure:
+  "Basisinformationen":
+    groups:
+      "Serie":
+      "Digitalisat":
+    fields:
+      "Signatur":
+        type: compound # csv contains marc subfield lines
+        formatter:
+          name: inline
+          separator: "; " # for inline formatter only
+          repeated: true
+          entries: # all members (order is taken from csv!)
+            - name: "Signatur1-j"
+            - name: "Signatur2-h"
+            - name: "institution-code-b"
+              formatter:
+                name: "translate"
+                textDomain: "institution"
+            - name: "standort code-c"
+      "Titel":
+        formatter:
+          name: line
+      "Dokumenttyp": # INTERNAL field
+        # the field's value is returned by this static php method and sets marc subfield "a"
+        provider: \SwissCollections\RecordDriver\SolrMarc::documentTypeProvider
+        formatter:
+          entries:
+            - name: "Dokumenttyp1-a"
+              formatter:
+                name: "translate"
+                textDomain: "formats"
+  "Inhalt und innere Ordnung":
+    groups:
+      "Inhalt":
+    fields:
+      "Inhalt-505": # multiple "Inhalt" are defined; use the one with marc index 505
+        type: sequences
+        formatter:
+          name: inline
+          separator: " / "
+          # without "entries:" the order of the applied sequence is used (see "sequences:" below)
+          # note that "sequences" expect a structured "name:" in "entries:" from detail-fields.csv:
+          #     <"Unterbezeichnung">-<"subfield code">
+          entries:
+            - name: "Inhalt3-g"
+            - name: "Inhalt3-t"
+            - name: "Inhalt3-r"
+              formatter:
+                name: "brackets"
+            - name: "Inhalt3-a"
+        # note that "sequences:" entries are sorted to guarantee the "longest" match
+        # use "entries:" (see above) for a different order of marc subfields
+        sequences: # from Swissbib/RecordDriver/SolrMarc.php getTableOfContent()
+          - [ "g", "t", "r" ]
+          - [ "g", "t" ]
+          - [ "g", "r" ]
+          - [ "t", "r" ]
+          - [ "t" ]
+          - [ "r" ]
+          - [ "a" ]
+      "Inhalt-596": # because csv contains no marc subfield lines, don't use "type: compound"
+        formatter:
+          name: inline
+          separator: " / "
+          repeated: true
+          hiddenMarcSubfields: ["i"]
+          entries:
+            - name: "Inhalt1-g"
+              formatter:
+                name: "brackets"
+            - name: "Inhalt2-g" # example that it is possible to add entries for different csv rows with same marc index
+              formatter:
+                name: "brackets"
+  "Identifikatoren":
+    fields:
+      "alte Systemnummer":
+        formatter:
+          repeated: true
+  "Sucheinstiege":
+    groups:
+      "Person":
+        formatter:
+          name: "sucheinstiege-person" # handle all fields "Person" with this formatter
+          roleOrder: # all other roles are printed at the end
+            - "cmp"
+            - "wpr"
+            - "edt"
+          roleMarcSubfields: # specific for "sucheinstiege-person"
+            - "4"
+            - "4rcp"
+          hiddenMarcSubfields: # specific for "sucheinstiege-person"
+            - "4"
+            - "4rcp"
+            - "e"
+      "Körperschaft":
+      "Kongress":
+      "Werktitel":
+    fields:
+      "Person":
+        type: compound # expected by "sucheinstiege-person" formatter, because "entries" are needed too
+        formatter:
+          name: inline
+          separator: " / "
+          # note that "sequences" expect a structured "name:" in "entries:" from detail-fields.csv:
+          #   <"Bezeichnung">-<marc subfield>
+          entries:
+            - name: "Person-a"
+            - name: "Person-t"
+            - name: "Person-k"
+            - name: "Person-d"
+              formatter:
+                name: "date"
+            - name: "Person-0"
+  "Thema":
+    groups:
+      "Formschlagwort":
+      "Schlagwort Musik":
+    fields:
+      "Sachbegriff":
+        formatter:
+          repeated: true
+  "Anmerkungen":
+    groups:
+      "Sprache, Schrift, Notation":
+  "Code":
+    groups:
+      "Code Bibliographie":
+  "Klassifikationen":
+    groups:
+      "Klassifikation":

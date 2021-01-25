@@ -1,0 +1,326 @@
+
+document-types:
+  "Handschriften":
+    Titel:
+      marc:
+        - index: 245
+          formatter:
+            name: line
+            entries:
+              - name: "a"
+              - name: "b"
+    Personen:
+      marc: # show all marc subfields
+        - index: 100
+        - index: 110
+        - index: 111
+    Zeiten:
+      marc:
+        - index: 264
+          formatter:
+            entries:
+              - name: "c"
+    Wichtig:
+      marc:
+        - index: 264
+          labelKey: page.detail.field.label.Sucheinstiege.Ort1
+          formatter:
+            entries:
+              - name: "a"
+    Signatur:
+      marc:
+        - index: 949
+          formatter:
+            name: inline
+            separator: "; "
+            repeated: true
+            entries:
+              - name: "b"
+                formatter:
+                  name: "translate"
+                  textDomain: "institution"
+              - name: "c"
+              - name: "j"
+              - name: "h"
+  "Archivalien":
+    Titel:
+      marc:
+        - index: 245
+          formatter:
+            name: line
+    Personen:
+      marc:
+        - index: 100
+        - index: 110
+        - index: 111
+    Zeiten:
+      marc:
+        - index: 264
+          formatter:
+            entries:
+              - name: "c"
+    Wichtig:
+      marc:
+        - index: 351
+          labelKey: page.detail.field.label.Basisinformationen.Verzeichnungsstufe1
+          formatter:
+            entries:
+              - name: "c"
+    Signatur:
+      marc:
+        - index: 949
+          formatter:
+            name: inline
+            separator: "; "
+            repeated: true
+            entries:
+              - name: "b"
+                formatter:
+                  name: "translate"
+                  textDomain: "institution"
+              - name: "c"
+              - name: "j"
+              - name: "h"
+  "Drucke/Rara":
+    Titel:
+      marc:
+        - index: 245
+          formatter:
+            name: line
+            hiddenMarcSubfields: ["c"]
+    Personen:
+      marc:
+        - index: 245
+          formatter:
+            entries:
+              - name: "c"
+    Zeiten:
+      marc:
+        - index: 250
+        - index: 264
+          formatter:
+            entries:
+              - name: "c"
+#    Wichtig: spezifischer Dokumenttyp - muss Wert aus solr-Feldern format_str_mv, format_hierarchy_str_mv gelesen werden?
+    Signatur:
+      marc:
+        - index: 949
+          formatter:
+            name: inline
+            separator: "; "
+            repeated: true
+            entries:
+              - name: "b"
+                formatter:
+                  name: "translate"
+                  textDomain: "institution"
+              - name: "c"
+              - name: "j"
+              - name: "h"
+  "Musikalien":
+    Titel:
+      marc:
+        - index: 245
+          formatter:
+            name: line
+            hiddenMarcSubfields: ["c"]
+    Personen:
+      marc:
+        - index: 100
+        - index: 110
+        - index: 111
+    Zeiten:
+      marc:
+        - index: 264
+          formatter:
+            entries:
+              - name: "c"
+    Wichtig:
+      marc:
+        - index: 264
+          labelKey: page.detail.field.label.Sucheinstiege.Ort1
+          formatter:
+            separator: ": "
+            name: inline
+            entries:
+              - name: "a"
+              - name: "c"
+    Signatur:
+      marc:
+        - index: 949
+          formatter:
+            name: inline
+            separator: "; "
+            repeated: true
+            entries:
+              - name: "b"
+                formatter:
+                  name: "translate"
+                  textDomain: "institution"
+              - name: "c"
+              - name: "j"
+              - name: "h"
+  "Karten":
+    Titel:
+      marc:
+        - index: 245
+          formatter:
+            name: line
+            hiddenMarcSubfields: ["c"]
+    Personen:
+      marc:
+        - index: 100
+        - index: 110
+        - index: 111
+    Zeiten:
+      marc:
+        - index: 264
+          formatter:
+            entries:
+              - name: "c"
+    Wichtig:
+      marc:
+        - index: 300
+          labelKey: page.detail.field.label.Basisinformationen.Physische Beschreibung1
+          formatter:
+            entries:
+              - name: "a"
+        - index: 255
+          labelKey: page.detail.field.label.Basisinformationen.Kartendaten und Karteninformationen1
+          formatter:
+            entries:
+              - name: "a"
+              - name: "c"
+              - name: "b"
+    Signatur:
+      marc:
+        - index: 949
+          formatter:
+            name: inline
+            separator: "; "
+            repeated: true
+            entries:
+              - name: "b"
+                formatter:
+                  name: "translate"
+                  textDomain: "institution"
+              - name: "c"
+              - name: "j"
+              - name: "h"
+  "Bilder":
+    Titel:
+      marc:
+        - index: 245
+          formatter:
+            name: line
+            hiddenMarcSubfields: ["c"]
+    Personen:
+      marc:
+        - index: 100
+        - index: 110
+        - index: 111
+    Zeiten:
+      marc:
+        - index: 8
+    Wichtig:
+      marc:
+        - index: 300
+          labelKey: page.detail.field.label.Basisinformationen.Physische Beschreibung1
+          formatter:
+            separator: ": "
+            name: inline
+            entries:
+              - name: "a"
+    Signatur:
+      marc:
+        - index: 949
+          formatter:
+            name: inline
+            separator: "; "
+            repeated: true
+            entries:
+              - name: "b"
+                formatter:
+                  name: "translate"
+                  textDomain: "institution"
+              - name: "c"
+              - name: "j"
+              - name: "h"
+  "Film/Video":
+    Titel:
+      marc:
+        - index: 245
+    Personen:
+      marc:
+        - index: 100
+        - index: 110
+        - index: 111
+    Zeiten:
+      marc:
+        - index: 264
+          formatter:
+            entries:
+              - name: "c"
+    Signatur:
+      marc:
+        - index: 949
+          formatter:
+            name: inline
+            separator: "; "
+            repeated: true
+            entries:
+              - name: "b"
+                formatter:
+                  name: "translate"
+                  textDomain: "institution"
+              - name: "c"
+              - name: "j"
+              - name: "h"
+  "Dokumentensammlung":
+    Titel:
+      marc:
+        - index: 245
+          formatter:
+            name: line
+            entries:
+              - name: "a"
+              - name: "p"
+    Zeiten:
+      marc:
+        - index: 264
+          formatter:
+            entries:
+              - name: "c"
+    Signatur:
+      marc:
+        - index: 949
+          formatter:
+            name: inline
+            separator: "; "
+            repeated: true
+            entries:
+              - name: "b"
+                formatter:
+                  name: "translate"
+                  textDomain: "institution"
+              - name: "c"
+              - name: "j"
+              - name: "h"
+  "Bibliographien":
+    Titel:
+      marc:
+        - index: 245
+          formatter:
+            name: line
+            entries:
+              - name: "a"
+    Personen:
+      marc:
+        - index: 100
+        - index: 110
+        - index: 111
+    Zeiten:
+      marc:
+        - index: 8
+#    Signatur: Unklare Definition
+
