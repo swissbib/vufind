@@ -33,7 +33,7 @@ spec:
         # Our nginx container, which uses the configuration declared above,
         # along with the files shared with the PHP-FPM app.
         - name: nginx
-          image: registry.gitlab.com/swissbib/classic/vufind:nginx-swisscollections-SC-59-Kubernetes
+          image: registry.gitlab.com/swissbib/classic/vufind:nginx-swisscollections
           ports:
             - containerPort: 80
       volumes:
