@@ -233,9 +233,9 @@ abstract class AbstractRenderConfigEntry
      *
      * @return bool
      */
-    public function isEmpty(SolrMarc $solrMarc): bool
-    {
-        $fields = $solrMarc->getFieldValues($this);
+    public function isEmpty(SolrMarc $solrMarc, RenderConfig $renderConfig
+    ): bool {
+        $fields = $solrMarc->getFieldValues($this, $renderConfig);
         if (!empty($fields)) {
             foreach ($fields as $field) {
                 if ($this->hasRenderData($field, $solrMarc)) {

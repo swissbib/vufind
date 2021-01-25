@@ -7,6 +7,7 @@ use SwissCollections\RecordDriver\DocTypeCategories;
 use SwissCollections\RecordDriver\FieldGroupRenderContext;
 use SwissCollections\RecordDriver\ResultListViewFieldInfo;
 use SwissCollections\RenderConfig\FormatterConfig;
+use SwissCollections\RenderConfig\RenderConfig;
 use SwissCollections\RenderConfig\RenderGroupConfig;
 
 // use SwissCollections\templates\RecordDriver\SolrMarc\FieldGroupFormatter\DefaultFormatter;
@@ -43,17 +44,21 @@ $resultListViewConfig = $this->resultListViewConfig();
  * @var FieldGroupFormatterRegistry $fieldGroupFormatterRegistry
  */
 $fieldGroupFormatterRegistry = $this->fieldGroupFormatterRegistry();
+/**
+ * @var RenderConfig $renderConfig
+ */
+$renderConfig = $this->renderConfig();
 $fieldGroupFormatterContext = new FieldGroupRenderContext(
     $this->fieldFormatterRegistry(),
     $this->subfieldFormatterRegistry(),
     $record,
     $this,
-    'page.resultlist.field.label'
+    'page.resultlist.field.label',
+    $renderConfig
 );
 // TODO "Handschriften" OK as default?
-$docCat = $docTypeCategories->categoryOfDocType(
-    $record->getDocumentTypes(), "Handschriften"
-);
+$docTypes = $record->getDocumentTypes();
+$docCat = $docTypeCategories->categoryOfDocType($docTypes, "Handschriften");
 /**
  * @var RenderGroupConfig[] $renderConfigGroups
  */
@@ -72,7 +77,9 @@ $fieldGroupFormatter = new FormatterConfig(DefaultNoLabelFormatter::$NAME, []);
     <div class="hidden-xs col-sm-2 col-md-2 no-gutter hidden-print">
         <a href="<?= $this->recordLink()->getUrl($this->driver) ?>"
            class="img-responsive">
-            <img alt="<?= $this->escapeHtml($shortTitle) ?>" class="recordcover"
+            <img alt="<?= $this->escapeHtml($shortTitle) ?>"
+                 class="recordcover"
+                 title="<?= $this->escapeHtml($shortTitle) . " (" . implode(",", $docTypes) . ")" ?>"
                  src="<?= $thumbnail ?>"/>
         </a>
     </div>
@@ -80,7 +87,7 @@ $fieldGroupFormatter = new FormatterConfig(DefaultNoLabelFormatter::$NAME, []);
     <div class="col-xs-10 col-sm-6 col-md-7">
         <?php
         foreach ($renderConfigGroups as $renderGroupConfig) {
-            if (!$renderGroupConfig->isEmpty($record)) {
+            if (!$renderGroupConfig->isEmpty($record, $renderConfig)) {
                 $fieldGroupFormatterRegistry->applyFormatter(
                     $fieldGroupFormatter,
                     $renderGroupConfig->entryList(),

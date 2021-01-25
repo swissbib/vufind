@@ -69,7 +69,9 @@ abstract class FieldGroupFormatter
     public function outputField(
         &$renderElem, &$context, $repeatStartHtml, $repeatEndHtml
     ): void {
-        $fields = $context->solrMarc->getFieldValues($renderElem);
+        $fields = $context->solrMarc->getFieldValues(
+            $renderElem, $context->renderConfig
+        );
         if (!empty($fields)) {
             if ($renderElem->getFormatterConfig()->isRepeated()) {
                 echo $repeatStartHtml;

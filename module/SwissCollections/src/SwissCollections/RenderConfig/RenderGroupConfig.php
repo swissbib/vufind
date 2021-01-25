@@ -245,11 +245,11 @@ class RenderGroupConfig
      *
      * @return bool
      */
-    public function isEmpty(SolrMarc $solrMarc): bool
-    {
+    public function isEmpty(SolrMarc $solrMarc, RenderConfig $renderConfig
+    ): bool {
         $groupIsEmpty = true;
         foreach ($this->entries() as $renderElem) {
-            if (!$renderElem->isEmpty($solrMarc)) {
+            if (!$renderElem->isEmpty($solrMarc, $renderConfig)) {
                 $groupIsEmpty = false;
                 break;
             }

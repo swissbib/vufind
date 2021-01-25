@@ -2,19 +2,26 @@
 /**
  * @var SwissCollections\RecordDriver\SolrMarc $record 
  */
+
+use SwissCollections\RenderConfig\RenderConfig;
+
 $record = $this->driver;
+/**
+ * @var RenderConfig $renderConfig
+ */
+$renderConfig = $this->renderConfig();
 /**
  * @var \SwissCollections\RenderConfig\RenderGroupConfig[]
  */
-$renderConfig = $record->getRenderConfig();
+$renderConfigGroups = $renderConfig->entries();
 ?>
     <h2><?php echo $this->translate('page.detail.group') ?></h2>
 <?php
 /**
  * @var \SwissCollections\RenderConfig\RenderGroupConfig $renderGroupConfig
  */
-foreach ($renderConfig as $renderGroupConfig) {
-    if (!$renderGroupConfig->isEmpty($record)) {
+foreach ($renderConfigGroups as $renderGroupConfig) {
+    if (!$renderGroupConfig->isEmpty($record, $renderConfig)) {
         $groupName = $renderGroupConfig->getName();
         $groupAnchor = str_replace(' ', '_', $groupName);
         echo "<div class='anchor'>";

@@ -54,14 +54,6 @@ class Factory extends SwissbibFactory
      */
     public static function getSolrMarcRecordDriver(ServiceManager $sm)
     {
-        // TODO needs own subclass, because of caching or
-        // use $yamlReader->get('detail-view-field-structure',true, true) instead of ->get('...')
-        $yamlReader = $sm->get('VuFind\Config\YamlReader');
-        $detailViewFieldInfo = $yamlReader->get('detail-view-field-structure.yaml', true, true);
-
-        $csvFile = __DIR__ . '/../../../../../local/swisscollections/development/config/vufind/detail-fields.csv';
-        $fieldMarcMapping = new ParseCsv\Csv($csvFile);
-
         $driver = new SolrMarc(
             $sm->get('VuFind\Config\PluginManager')->get('config'),
             null,
@@ -78,10 +70,6 @@ class Factory extends SwissbibFactory
             $sm->get('VuFind\ILS\Logic\Holds'),
             $sm->get('VuFind\ILS\Logic\TitleHolds')
         );
-        $driver->setDetailViewFieldInfo($detailViewFieldInfo);
-        $driver->setFieldMarcMapping($fieldMarcMapping->data);
-        $driver->buildRenderInfo();
-
         return $driver;
     }
 }

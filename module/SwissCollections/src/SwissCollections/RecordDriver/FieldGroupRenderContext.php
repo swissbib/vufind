@@ -34,6 +34,7 @@ use Laminas\View\Renderer\PhpRenderer;
 use SwissCollections\Formatter\FieldFormatterRegistry;
 use SwissCollections\Formatter\SubfieldFormatterRegistry;
 use SwissCollections\RenderConfig\FormatterConfig;
+use SwissCollections\RenderConfig\RenderConfig;
 
 /**
  * Render context for field groups.
@@ -89,6 +90,13 @@ class FieldGroupRenderContext
     public $formatterConfig;
 
     /**
+     * The render configuration.
+     *
+     * @var RenderConfig
+     */
+    public $renderConfig;
+
+    /**
      * FieldRenderContext constructor.
      *
      * @param FieldFormatterRegistry    $fieldFormatterRegistry    the field registry
@@ -96,10 +104,11 @@ class FieldGroupRenderContext
      * @param SolrMarc                  $solrMarc                  the marc record
      * @param PhpRenderer               $phpRenderer               vufind's renderer
      * @param string                    $i18nKeyPrefix             the key prefix for translations
+     * @param RenderConfig              $renderConfig              the field render configuration
      */
     public function __construct(
         $fieldFormatterRegistry, $subfieldFormatterRegistry, $solrMarc,
-        $phpRenderer, $i18nKeyPrefix
+        $phpRenderer, $i18nKeyPrefix, $renderConfig
     ) {
         $this->solrMarc = $solrMarc;
         $this->fieldFormatterRegistry = $fieldFormatterRegistry;
@@ -107,5 +116,6 @@ class FieldGroupRenderContext
         $this->processedSubMaps = [];
         $this->phpRenderer = $phpRenderer;
         $this->i18nKeyPrefix = $i18nKeyPrefix;
+        $this->renderConfig = $renderConfig;
     }
 }

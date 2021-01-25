@@ -1,18 +1,11 @@
-<!-- <?php use SwissCollections\Formatter\FieldFormatter\Inline;
-use SwissCollections\Formatter\FieldFormatter\Line;
-use SwissCollections\Formatter\FieldFormatterRegistry;
+<!-- <?php use SwissCollections\Formatter\FieldFormatterRegistry;
 use SwissCollections\Formatter\FieldGroupFormatter\DefaultFormatter;
-use SwissCollections\Formatter\FieldGroupFormatter\SucheinstiegePerson;
 use SwissCollections\Formatter\FieldGroupFormatterRegistry;
-use SwissCollections\Formatter\SubfieldFormatter\Brackets;
-use SwissCollections\Formatter\SubfieldFormatter\Date;
-use SwissCollections\Formatter\SubfieldFormatter\Simple;
-use SwissCollections\Formatter\SubfieldFormatter\SimpleLine;
-use SwissCollections\Formatter\SubfieldFormatter\Translate;
 use SwissCollections\Formatter\SubfieldFormatterRegistry;
 use SwissCollections\RecordDriver\FieldGroupRenderContext;
 use SwissCollections\RenderConfig\AbstractRenderConfigEntry;
 use SwissCollections\RenderConfig\FormatterConfig;
+use SwissCollections\RenderConfig\RenderConfig;
 use SwissCollections\RenderConfig\RenderGroupConfig;
 
 ?> -->
@@ -25,10 +18,6 @@ $record = $this->driver;
  * @var Swissbib\View\Helper\Record $viewRecord
  */
 $viewRecord = $this->record($record);
-/**
- * @var RenderGroupConfig[]
- */
-$renderConfig = $record->getRenderConfig();
 
 $id = $record->getUniqueId();
 $shortTitle = $record->getShortTitle();
@@ -81,6 +70,14 @@ $fieldFormatterRegistry = $this->fieldFormatterRegistry();
  * @var FieldGroupFormatterRegistry $fieldGroupFormatterRegistry
  */
 $fieldGroupFormatterRegistry = $this->fieldGroupFormatterRegistry();
+/**
+ * @var RenderConfig $renderConfig
+ */
+$renderConfig = $this->renderConfig();
+/**
+ * @var RenderGroupConfig[]
+ */
+$renderConfigGroups = $renderConfig->entries();
 ?>
 <div class="" vocab="http://schema.org/" resource="#record"
      typeof="<?php echo $this->driver->getSchemaOrgFormats() ?> Product">
@@ -90,13 +87,13 @@ $fieldGroupFormatterRegistry = $this->fieldGroupFormatterRegistry();
     if ($renderConfig) {
         $fieldGroupFormatterContext = new FieldGroupRenderContext(
             $fieldFormatterRegistry, $subfieldFormatterRegistry, $record, $this,
-            'page.detail.field.label'
+            'page.detail.field.label', $renderConfig
         );
         /**
          * @var RenderGroupConfig $renderGroupConfig
          */
-        foreach ($renderConfig as $renderGroupConfig) {
-            if (!$renderGroupConfig->isEmpty($record)) {
+        foreach ($renderConfigGroups as $renderGroupConfig) {
+            if (!$renderGroupConfig->isEmpty($record, $renderConfig)) {
                 $groupName = $renderGroupConfig->getName();
                 $groupAnchor = str_replace(' ', '_', $groupName);
                 echo "<a name='$groupAnchor'>";
@@ -127,7 +124,7 @@ $fieldGroupFormatterRegistry = $this->fieldGroupFormatterRegistry();
                             DefaultFormatter::$NAME, []
                         );
                     }
-                    $isMultiMarcField = $record->isMultiMarcField(
+                    $isMultiMarcField = $renderConfig->isMultiMarcField(
                         $groupName, $fieldName
                     );
                     if ($isMultiMarcField) {
@@ -137,13 +134,13 @@ $fieldGroupFormatterRegistry = $this->fieldGroupFormatterRegistry();
                             if ($fieldName !== $renderElem->fieldName) {
                                 break;
                             }
-                            if (!$renderElem->isEmpty($record)) {
+                            if (!$renderElem->isEmpty($record, $renderConfig)) {
                                 $groupMembers[] = $renderElem;
                             }
                             $renderElemIndex++;
                         }
                     } else {
-                        if (!$renderElem->isEmpty($record)) {
+                        if (!$renderElem->isEmpty($record, $renderConfig)) {
                             $groupMembers[] = $renderElem;
                         }
                         $renderElemIndex++;

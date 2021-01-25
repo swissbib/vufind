@@ -46,7 +46,7 @@ use SwissCollections\RenderConfig\SingleEntry;
 
 
 /**
- * Enhanced record driver which parses "detail-fields.csv".
+ * Enhanced record driver.
  *
  * @category SwissCollections_VuFind
  * @package  SwissCollections\RecordDriver
@@ -56,36 +56,6 @@ use SwissCollections\RenderConfig\SingleEntry;
  */
 class SolrMarc extends SwissbibSolrMarc
 {
-    /**
-     * The information parsed from "detail-fields.csv".
-     *
-     * @var RenderConfig
-     */
-    protected $renderConfig;
-
-    /**
-     * The information read from "detail-view-field-structure.yaml".
-     *
-     * @var ViewFieldInfo
-     */
-    protected $detailViewFieldInfo;
-
-    /**
-     * The raw data from "detail-fields.csv".
-     *
-     * @var mixed
-     */
-    protected $fieldMarcMapping;
-
-    public static $MARC_MAPPING_GROUP_KEY = 'Gruppierungsname / Oberbegriff';
-    public static $MARC_MAPPING_FIELD_KEY = 'Bezeichnung';
-    public static $MARC_MAPPING_SUBFIELD_KEY = 'Unterbezeichnung';
-    public static $MARC_MAPPING_MARC_INDEX = 'datafield tag';
-    public static $MARC_MAPPING_MARC_IND1 = 'datafield ind1';
-    public static $MARC_MAPPING_MARC_IND2 = 'datafield ind2';
-    public static $MARC_MAPPING_MARC_SUBFIELD = 'subfield code';
-    public static $MARC_MAPPING_CONDITION = 'subfield match condition';
-
     /**
      * SolrMarc constructor.
      *
@@ -109,16 +79,6 @@ class SolrMarc extends SwissbibSolrMarc
             $solrDefaultAdapter,
             $availabilityHelper, $libraryNetworkLookup, $logger
         );
-    }
-
-    /**
-     * Get the information from "detail-fields.csv".
-     *
-     * @return RenderGroupConfig[]
-     */
-    public function getRenderConfig()
-    {
-        return $this->renderConfig->entries();
     }
 
     /**
@@ -189,353 +149,6 @@ class SolrMarc extends SwissbibSolrMarc
         }
 
         return $fieldsData;
-    }
-
-    /**
-     * Sets the information from "detail-view-field-structure.yaml".
-     *
-     * @param mixed $detailViewFieldInfo the data to set
-     *
-     * @return void
-     */
-    public function setDetailViewFieldInfo($detailViewFieldInfo)
-    {
-        $this->detailViewFieldInfo = new ViewFieldInfo($detailViewFieldInfo);
-    }
-
-    /**
-     * Sets the information parsed from "detail-fields.csv".
-     *
-     * @param mixed $fieldMarcMapping the csv's lines
-     *
-     * @return void
-     */
-    public function setFieldMarcMapping($fieldMarcMapping)
-    {
-        $this->fieldMarcMapping = $fieldMarcMapping;
-    }
-
-    /**
-     * Parse data read from "detail-fields.csv".
-     *
-     * @return void
-     */
-    public function buildRenderInfo()
-    {
-        //        echo "<!-- CSV:\n " . print_r($this->fieldMarcMapping, true) . "-->\n";
-        //        echo "<!-- DI:\n " . print_r($this->detailViewFieldInfo, true) . "-->\n";
-
-        $this->renderConfig = new RenderConfig();
-
-        /**
-         * Contains the parsed data.
-         *
-         * @var RenderGroupConfig
-         */
-        $renderGroup = null;
-        /**
-         * The current field.
-         *
-         * @var AbstractRenderConfigEntry
-         */
-        $renderGroupEntry = null;
-        $lastGroupName = "";
-        $lastFieldName = "";
-        $lastSubfieldName = "";
-        $lastSubfieldCount = 0;
-        foreach ($this->fieldMarcMapping as $field) {
-            $groupName = trim(
-                $field[SolrMarc::$MARC_MAPPING_GROUP_KEY]
-            ); // always non empty
-            if (!empty($groupName) && $groupName !== $lastGroupName) {
-                $this->finishGroup($renderGroup, $renderGroupEntry);
-                $renderGroup = new RenderGroupConfig($groupName);
-                $lastGroupName = $groupName;
-                $lastFieldName = "";
-                $lastSubfieldName = "";
-                $lastSubfieldCount = 0;
-            }
-            if (empty($groupName)) {
-                $groupName = $lastGroupName;
-            }
-
-            $fieldName = trim(
-                $field[SolrMarc::$MARC_MAPPING_FIELD_KEY]
-            ); // always non empty
-            if ($fieldName !== $lastFieldName) {
-                $lastSubfieldName = "";
-                $lastSubfieldCount = 0;
-                if (!empty($lastFieldName)) {
-                    $this->finishField($renderGroup, $renderGroupEntry);
-                }
-                $lastFieldName = $fieldName;
-            }
-
-            // calculate sub field name (may be missing)
-            $subFieldName = trim($field[SolrMarc::$MARC_MAPPING_SUBFIELD_KEY]);
-            if (empty($subFieldName)) {
-                if (empty($lastSubfieldName)) {
-                    $lastSubfieldName = $fieldName;
-                    $lastSubfieldCount = 0;
-                }
-                $lastSubfieldCount++;
-                $subFieldName = $lastSubfieldName . $lastSubfieldCount;
-            }
-
-            $marcIndex = trim($field[SolrMarc::$MARC_MAPPING_MARC_INDEX]);
-            if (!ctype_digit($marcIndex)) {
-                if ($marcIndex === 'INTERNAL') {
-                    $marcIndex = -1;
-                } else {
-                    echo "<!-- ERROR: SKIPPING BAD MARC INDEX $groupName > $fieldName > $subFieldName: '$marcIndex' -->\n";
-                    continue;
-                }
-            } else {
-                $marcIndex = intval($marcIndex);
-            }
-            $marcSubfieldName = trim(
-                $field[SolrMarc::$MARC_MAPPING_MARC_SUBFIELD]
-            );
-
-            $indicator1Condition = IndicatorCondition::buildIndicator1Condition(
-                $field[SolrMarc::$MARC_MAPPING_MARC_IND1]
-            );
-            $marcIndicator1 = empty($indicator1Condition)
-                ? IndicatorCondition::$UNKNOWN_INDICATOR
-                : $indicator1Condition->expectedValue;
-
-            $indicator2Condition = IndicatorCondition::buildIndicator2Condition(
-                $field[SolrMarc::$MARC_MAPPING_MARC_IND2]
-            );
-            $marcIndicator2 = empty($indicator2Condition)
-                ? IndicatorCondition::$UNKNOWN_INDICATOR
-                : $indicator2Condition->expectedValue;
-
-            $allFieldConditions = AbstractFieldCondition::buildAndCondition(
-                $indicator1Condition, $indicator2Condition
-            );
-            $fieldCondition = ConstSubfieldCondition::parse(
-                $field[SolrMarc::$MARC_MAPPING_CONDITION], $marcIndicator1,
-                $marcIndicator2
-            );
-            $hiddenMarcSubfield = null;
-            // hide the condition marc subfield only if a user doesn't want to
-            // render the condition marc subfield
-            if (!empty($fieldCondition)
-                && $subFieldName !== $fieldCondition->marcSubfieldName
-            ) {
-                $hiddenMarcSubfield = $fieldCondition->marcSubfieldName;
-            }
-            $allFieldConditions = AbstractFieldCondition::buildAndCondition(
-                $allFieldConditions, $fieldCondition
-            );
-
-            // echo "<!-- MARC: $groupName > $fieldName > $subFieldName: $marcIndex/$marcSubfieldName/"
-            //     . (empty($allFieldConditions) ? "TRUE"
-            //         : $allFieldConditions->allConditionsToString())
-            //     . "/$hiddenMarcSubfield -->\n";
-
-            // calculate render type and mode ...
-            $renderType = 'single';
-            $formatterConfig = new FormatterConfig(null, []);
-            $groupViewInfo = $this->detailViewFieldInfo->getGroup($groupName);
-            $fieldGroupFormatter = null;
-
-            if ($groupViewInfo) {
-                $fieldViewInfo = $this->detailViewFieldInfo->getField(
-                    $groupViewInfo, $fieldName, $marcIndex
-                );
-                if ($fieldViewInfo) {
-                    $formatterConfig
-                        = $this->detailViewFieldInfo->getFormatterConfig(
-                        null, $fieldViewInfo
-                    );
-                    if ($this->detailViewFieldInfo->hasType($fieldViewInfo)) {
-                        $renderType
-                            = $this->detailViewFieldInfo->getType(
-                            $fieldViewInfo
-                        );
-                    }
-                }
-            }
-            $fieldGroupFormatter
-                = $this->detailViewFieldInfo->getFieldGroupFormatter(
-                    $groupViewInfo, $fieldName
-                );
-            // echo "<!-- SPECIAL: $groupName > $fieldName: rt=$renderType fc=" . $formatterConfig . " gc=" . $fieldGroupFormatter . " -->\n";
-
-            if (!$renderGroupEntry
-                && ($renderType === 'compound' || $renderType === 'sequences')
-            ) {
-                if ($renderType === 'compound') {
-                    $renderGroupEntry = new CompoundEntry(
-                        $groupName, $fieldName, $subFieldName, $marcIndex,
-                        $formatterConfig, $marcIndicator1, $marcIndicator2,
-                        $allFieldConditions
-                    );
-                }
-                if ($renderType === 'sequences') {
-                    $renderGroupEntry = new SequencesEntry(
-                        $groupName, $fieldName, $subFieldName, $marcIndex,
-                        $formatterConfig, $marcIndicator1, $marcIndicator2,
-                        $allFieldConditions
-                    );
-                    if ($fieldViewInfo) {
-                        $renderGroupEntry->setSequences(
-                            $this->detailViewFieldInfo->getSubfieldSequences(
-                                $fieldViewInfo
-                            )
-                        );
-                    }
-                }
-                $renderGroupEntry->setFieldGroupFormatter($fieldGroupFormatter);
-            }
-            if ($renderType === 'single') {
-                if ($renderGroupEntry) {
-                    $this->finishField($renderGroup, $renderGroupEntry);
-                }
-                // field simply prints one value; do it line-by-line if multiple values exist
-                $hadNoDefaultFormatter = $formatterConfig->formatterNameDefault
-                    === null;
-                if (empty($marcSubfieldName)) {
-                    if ($hadNoDefaultFormatter) {
-                        $formatterConfig->formatterNameDefault = "inline";
-                    }
-                    // $formatterConfig->repeatedDefault = true;
-                    $formatterConfig->separatorDefault = "; ";
-                    $renderGroupEntry = new CompoundEntry(
-                        $groupName,
-                        $fieldName,
-                        $subFieldName,
-                        $marcIndex,
-                        $formatterConfig,
-                        $marcIndicator1,
-                        $marcIndicator2,
-                        $allFieldConditions
-                    );
-                    if ($hiddenMarcSubfield !== null) {
-                        $renderGroupEntry->addHiddenMarcSubfield(
-                            $hiddenMarcSubfield
-                        );
-                    }
-                    $renderGroup->addCompound($renderGroupEntry);
-                    $renderGroupEntry->setFieldGroupFormatter(
-                        $fieldGroupFormatter
-                    );
-                    $this->finishField($renderGroup, $renderGroupEntry);
-                } else {
-                    if ($hadNoDefaultFormatter) {
-                        $formatterConfig->formatterNameDefault = "simple-line";
-                    }
-                    $renderGroupEntry = new SingleEntry(
-                        $groupName,
-                        $fieldName,
-                        $subFieldName,
-                        $marcIndex,
-                        $formatterConfig,
-                        $marcSubfieldName,
-                        $marcIndicator1,
-                        $marcIndicator2,
-                        $allFieldConditions
-                    );
-                    $renderGroup->addSingle($renderGroupEntry);
-                    $renderGroupEntry->setFieldGroupFormatter(
-                        $fieldGroupFormatter
-                    );
-                    $renderGroupEntry = null;
-                }
-            } else {
-                if ($renderType === 'compound' || $renderType === 'sequences') {
-                    // TODO add $marcIndicator1/2? different to compound/sequences entry?
-                    if ($renderType === 'compound'
-                        || !empty($marcSubfieldName)
-                    ) {
-                        $renderGroupEntry->addElement(
-                            $subFieldName, $marcSubfieldName
-                        );
-                        if ($hiddenMarcSubfield !== null) {
-                            $renderGroupEntry->addHiddenMarcSubfield(
-                                $hiddenMarcSubfield
-                            );
-                        }
-                    }
-                    // use all marc subfields ...
-                    if (empty($marcSubfieldName)) {
-                        $this->finishField($renderGroup, $renderGroupEntry);
-                    }
-                }
-            }
-        }
-        $this->finishGroup($renderGroup, $renderGroupEntry);
-
-        // uncomment this line in order to sort groups/fields by the order
-        // defined in detail-view-field-structure.yaml; otherwise the order
-        // in detail-fields.csv is used
-        // $this->orderGroups();
-
-        // $this->logger->log(Logger::ERR, "RC: " . $this->renderConfig);
-        // echo "<!-- RC:\n " . $this->renderConfig . "-->\n";
-    }
-
-    /**
-     * Sort groups by the order defined in "detail-view-field-structure.yaml".
-     *
-     * @return void
-     */
-    protected function orderGroups()
-    {
-        $this->renderConfig->orderGroups($this->detailViewFieldInfo);
-    }
-
-    /**
-     * Belongs a field to group of fields (with different conditions, marc indexes)?
-     *
-     * @param string $groupName the group's name
-     * @param string $fieldName the field's name
-     *
-     * @return bool
-     */
-    public function isMultiMarcField($groupName, $fieldName)
-    {
-        return $this->detailViewFieldInfo->isMultiMarcField(
-            $groupName, $fieldName
-        );
-    }
-
-    /**
-     * Helper method to finish the parsing of group of fields.
-     *
-     * @param RenderGroupConfig|null         $renderGroup      the group to "finish"
-     * @param AbstractRenderConfigEntry|null $renderGroupEntry the field to "finish"
-     *
-     * @return void
-     */
-    public function finishGroup(&$renderGroup, &$renderGroupEntry): void
-    {
-        if ($renderGroup) {
-            $this->renderConfig->add($renderGroup);
-            $this->finishField($renderGroup, $renderGroupEntry);
-        }
-    }
-
-    /**
-     * Helper method to finish the parsing of one field.
-     *
-     * @param RenderGroupConfig              $renderGroup      the field's group
-     * @param AbstractRenderConfigEntry|null $renderGroupEntry the field to "finish"
-     *
-     * @return void
-     */
-    public function finishField(&$renderGroup, &$renderGroupEntry): void
-    {
-        if ($renderGroupEntry) {
-            if ($renderGroupEntry instanceof SequencesEntry) {
-                // perhaps the csv contained some subfields, add the remaining from the sequences
-                $renderGroupEntry->addSubfieldsFromSequences();
-            }
-            $renderGroup->addEntry($renderGroupEntry);
-            $renderGroupEntry = null;
-        }
     }
 
     /**
@@ -686,32 +299,17 @@ class SolrMarc extends SwissbibSolrMarc
     }
 
     /**
-     * Get a field's value provider.
-     *
-     * @param string $groupName a field group's name
-     * @param string $fieldName a field's name
-     *
-     * @return null|string
-     */
-    protected function getValueProvider($groupName, $fieldName)
-    {
-        $groupView = $this->detailViewFieldInfo->getGroup($groupName);
-        return $this->detailViewFieldInfo->getFieldValueProvider(
-            $groupView, $fieldName
-        );
-    }
-
-    /**
      * Abstract method to get field values for marc fields and other value
      * providers.
      *
-     * @param AbstractRenderConfigEntry $renderElem the render element
+     * @param AbstractRenderConfigEntry $renderElem   the render element
+     * @param RenderConfig              $renderConfig contains the provider information
      *
      * @return \File_MARC_Data_Field[]|\File_MARC_List
      */
-    public function getFieldValues($renderElem)
+    public function getFieldValues($renderElem, $renderConfig)
     {
-        $valueProvider = $this->getValueProvider(
+        $valueProvider = $renderConfig->getValueProvider(
             $renderElem->groupName, $renderElem->fieldName
         );
         if (empty($valueProvider)) {
